@@ -10,17 +10,33 @@ public class LobbyManager : MonoBehaviour
 {
     [SerializeField] UnityClient client;
 
-    public RoomData actualRoomIn;
-    public List<RoomData> rooms = new List<RoomData>();
-    public bool isInRoom = false;
-
     public GameObject roomPanel;
+    public GameObject roomListPanel;
     public GameObject mainMenu;
-
     public RoomPanelControl roomPanelControl;
+    public RoomListPanelControl roomListPanelControl;
+    public PlayerData localPlayer;
 
-    public void Awake()
+
+    public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
+    private RoomData actualRoomIn;
+
+
+    private static LobbyManager _instance;
+    public static LobbyManager Instance { get { return _instance; } }
+
+
+    private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
         DontDestroyOnLoad(this);
 
         client.MessageReceived += MessageReceived;
@@ -32,12 +48,10 @@ public class LobbyManager : MonoBehaviour
         {
             if (message.Tag == Tags.PlayerConnected)
             {
-                if (isInRoom)
+                using (DarkRiftReader reader = message.GetReader())
                 {
-                    using (DarkRiftReader reader = message.GetReader())
-                    {
-                        ushort id = reader.ReadUInt16();
-                    }
+                    PlayerData _localPlayer = reader.ReadSerializable<PlayerData>();
+                    localPlayer = _localPlayer;
                 }
             }
 
@@ -51,6 +65,32 @@ public class LobbyManager : MonoBehaviour
                 JoinRoomInServer(sender, e);
             }
 
+            if (message.Tag == Tags.PlayerJoinedRoom)
+            {
+                PlayerJoinedActualRoom(sender, e);
+            }            
+            
+            if (message.Tag == Tags.SendAllRooms)
+            {
+                GetAllRooms(sender, e);
+            }
+        }
+    }
+
+    private void GetAllRooms(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                int roomNumber = reader.ReadInt32();
+
+                for (int i = 0; i < roomNumber; i++)
+                {
+                    RoomData room = reader.ReadSerializable<RoomData>();
+                    rooms.Add(room.ID,room);
+                }
+            }
         }
     }
 
@@ -67,6 +107,7 @@ public class LobbyManager : MonoBehaviour
 
     public void JoinRoom(ushort roomID)
     {
+
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write(false);
@@ -77,19 +118,48 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public void JoinRoomInServer(object sender, MessageReceivedEventArgs e)
+    private void JoinRoomInServer(object sender, MessageReceivedEventArgs e)
     {
         // Quand le joueur à recu la réponse de sa requete JOIN ROOM
-        ushort roomID;
 
+        mainMenu.SetActive(false);
+        roomPanel.SetActive(true);
+
+        ushort roomID;
+        List<PlayerData> _playerList = new List<PlayerData>();
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
                 roomID = reader.ReadUInt16();
+                int playerNumber = reader.ReadInt32();
+
+                for (int i = 0; i < playerNumber; i++)
+                {
+
+                    PlayerData player = reader.ReadSerializable<PlayerData>();
+                    _playerList.Add(player);
+                }
             }
         }
+        rooms[roomID].playerList = _playerList;
 
+        roomPanelControl.InitRoom(rooms[roomID]);
+
+    }
+
+    private void PlayerJoinedActualRoom(object sender, MessageReceivedEventArgs e)
+    {
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                PlayerData player = reader.ReadSerializable<PlayerData>();
+                actualRoomIn.playerList.Add(player);
+                roomPanelControl.AddPlayer(player);
+            }
+        }
     }
 
     public void CreateRoom()
@@ -104,7 +174,7 @@ public class LobbyManager : MonoBehaviour
     }
 
 
-    public void RoomCreatedInServer(object sender, MessageReceivedEventArgs e)
+    private void RoomCreatedInServer(object sender, MessageReceivedEventArgs e)
     {
         ushort hostID;
         RoomData room = new RoomData();
@@ -117,7 +187,7 @@ public class LobbyManager : MonoBehaviour
                 room.Name = reader.ReadString();
                 hostID = reader.ReadUInt16();
 
-                rooms.Add(room);
+                rooms.Add(room.ID, room);
             }
         }
 
@@ -130,24 +200,28 @@ public class LobbyManager : MonoBehaviour
 
         print("ROOM CREE");
 
-
-
         actualRoomIn = room;
 
         PlayerData hostPlayerData = new PlayerData(
          hostID,
          true,
-         "HostTestName"
+         localPlayer.Name,
+         0, 0, 0
           );
         actualRoomIn.playerList.Add(hostPlayerData);
-
-        isInRoom = true;
 
         mainMenu.SetActive(false);
         roomPanel.SetActive(true);
 
         roomPanelControl.InitRoom(actualRoomIn);
 
+    }
+
+
+    public void DisplayRoomList()
+    {
+        roomListPanel.SetActive(true);
+        roomListPanelControl.Init();
     }
 
 }

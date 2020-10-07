@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tags 
 {
     public static readonly ushort PlayerConnected = 0;
+    public static readonly ushort SendAllRooms = 5;
     public static readonly ushort CreateRoom = 10;
     public static readonly ushort DeleteRoom = 20;
     public static readonly ushort JoinRoom = 30;
