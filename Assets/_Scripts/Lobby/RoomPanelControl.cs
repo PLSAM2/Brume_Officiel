@@ -16,16 +16,20 @@ public class RoomPanelControl : MonoBehaviour
 
         foreach (PlayerData p in roomData.playerList)
         {
-            GameObject tempPlayerListObj = Instantiate(playerListObj, playerList.transform);
+            AddPlayer(p);
+        }
+    }
 
-            PlayerListObj obj = tempPlayerListObj.GetComponent<PlayerListObj>();
-            obj.playerName.text = p.Name;
+    public void AddPlayer(PlayerData player)
+    {
+        GameObject tempPlayerListObj = Instantiate(playerListObj, playerList.transform);
 
-            if (p.IsHost == true)
-            {
-                obj.host.SetActive(true);
-            }
+        PlayerListObj obj = tempPlayerListObj.GetComponent<PlayerListObj>();
+        obj.playerName.text = player.Name;
 
+        if (player.IsHost == true)
+        {
+            obj.host.SetActive(true);
         }
     }
 }
