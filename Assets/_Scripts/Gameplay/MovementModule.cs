@@ -10,6 +10,16 @@ public class MovementModule : MonoBehaviour
 	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
 	[SerializeField] LayerMask allBlockingLayer;
 
+	public void OnEnable ()
+	{
+		PlayerModule.DirectionInputedUpdate += Move;
+	}
+
+	void OnDisable()
+	{
+		PlayerModule.DirectionInputedUpdate -= Move;
+	}
+
 	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )
 	{
 		parameters = _newParameters;
@@ -18,42 +28,47 @@ public class MovementModule : MonoBehaviour
 
 	void Update ()
 	{
-		Move();
+		//TEMP
+		if(Input.GetKeyDown(KeyCode.K))
+		{
+			ForcedMovement _moveToAdd = new ForcedMovement();
+			_moveToAdd.direction = new Vector3(1, 0, 0);
+			_moveToAdd.duration = .1f;
+			_moveToAdd.strength = 10;
+			AddDash(_moveToAdd);
+		}
 	}
 
-	void Move ()
+	void Move (Vector3 _directionInputed)
 	{
 		if (ForcedMovement() != Vector3.zero)
 		{
-			transform.position += ForcedMovement() * parameters.movementSpeed * Time.deltaTime;
+			if (isFree(ForcedMovement()))
+				transform.position += ForcedMovement() * parameters.movementSpeed * Time.deltaTime;
+			else
+				ForcedMovementTouchObstacle();
 		}
 		else
 		{
-			if (!isFree(InputMovement()))
+			if (!isFree(_directionInputed))
 			{
-				Debug.Log("Slide");
-
-				transform.position += SlideVector(Direction()) * parameters.movementSpeed * Time.deltaTime;
+				transform.position += SlideVector(_directionInputed) * parameters.movementSpeed * Time.deltaTime;
 			}
 			else
 			{
-				Debug.Log("Not Sliding");
-
-				transform.position += InputMovement() * parameters.movementSpeed * Time.deltaTime;
+				transform.position += _directionInputed * parameters.movementSpeed * Time.deltaTime;
 			}
-
 		}
+	}
+
+	void ForcedMovementTouchObstacle()
+	{
+		allForcedMovement.Clear();
 	}
 
 	//MOVEMENT VECTOR
 	#region
-	Vector3 InputMovement ()
-	{
-		if (canMove())
-			return Direction();
-		else
-			return Vector3.zero;
-	}
+
 
 	Vector3 ForcedMovement ()
 	{
@@ -88,7 +103,6 @@ public class MovementModule : MonoBehaviour
 
 		if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
 		{
-			Debug.DrawRay(transform.position, _aVector, Color.blue, 10);
 			if (isFree(_aVector))
 				return _aVector;
 			else
@@ -98,9 +112,7 @@ public class MovementModule : MonoBehaviour
 		{
 			if (isFree(_bVector))
 			{
-				Debug.DrawRay(transform.position, _bVector, Color.green, 10);
 				return _bVector;
-
 			}
 			else
 				return Vector3.zero;
@@ -139,29 +151,15 @@ public class MovementModule : MonoBehaviour
 
 		return _returnList;
 	}
-
 	bool canMove ()
 	{
 		return true;
 	}
 
-	//Inputs
-	#region
-	float xAxisInput ()
+	void AddDash (ForcedMovement infos)
 	{
-		return Input.GetAxis("Horizontal");
+		allForcedMovement.Add(infos);
 	}
-
-	float zAxisInput ()
-	{
-		return Input.GetAxis("Vertical");
-	}
-
-	Vector3 Direction ()
-	{
-		return new Vector3(xAxisInput(), 0, zAxisInput());
-	}
-	#endregion
 }
 
 [System.Serializable]
