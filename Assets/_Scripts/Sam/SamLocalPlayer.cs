@@ -9,7 +9,7 @@ public class SamLocalPlayer : MonoBehaviour
     public ushort myPlayerId;
     public bool isOwer = false;
 
-    public ThirdPersonUserControl myControlScript;
+    public PlayerModule myPlayerModule;
 
     Vector3 lastPosition;
     Vector3 lastRotation;
@@ -31,7 +31,7 @@ public class SamLocalPlayer : MonoBehaviour
         if (isOwer)
         {
             SamGameManager.Instance.myCam.m_Follow = transform;
-            myControlScript.enabled = true;
+            myPlayerModule.enabled = true;
         }
     }
 
