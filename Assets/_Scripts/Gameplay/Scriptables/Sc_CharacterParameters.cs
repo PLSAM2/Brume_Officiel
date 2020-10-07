@@ -6,8 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "CreateNewCharacter", fileName ="NewCharaParameters")]
 public class Sc_CharacterParameters : ScriptableObject
 {
-    void Update()
-    {
-        
-    }
+	public St_MovementParameters movementParameters;
 }
+
+[System.Serializable]
+public struct St_MovementParameters
+{
+	public float movementSpeed;
+}
+

@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class PlayerModule : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("GameplayInfos")]
+    public Sc_CharacterParameters characterParameters;
+    public int teamIndex { get; set; }
+
+    [Header("CharacterBuilder")]
+    [SerializeField] MovementModule movementPart;
+    [SerializeField] CapsuleCollider coll;
+
+    void Start ()
     {
-        
+        movementPart.SetupComponent(characterParameters.movementParameters,coll);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update ()
     {
-        
+
     }
 }
