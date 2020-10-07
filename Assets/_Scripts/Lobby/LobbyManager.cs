@@ -17,7 +17,6 @@ public class LobbyManager : MonoBehaviour
     public RoomListPanelControl roomListPanelControl;
     public PlayerData localPlayer;
 
-
     public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
     private RoomData actualRoomIn;
 
@@ -59,7 +58,10 @@ public class LobbyManager : MonoBehaviour
             {
                 RoomCreatedInServer(sender, e);
             }
-
+            if (message.Tag == Tags.DeleteRoom)
+            {
+                RoomDeletedInServer(sender, e);
+            }
             if (message.Tag == Tags.JoinRoom)
             {
                 JoinRoomInServer(sender, e);
@@ -68,11 +70,40 @@ public class LobbyManager : MonoBehaviour
             if (message.Tag == Tags.PlayerJoinedRoom)
             {
                 PlayerJoinedActualRoom(sender, e);
-            }            
-            
+            }
+
             if (message.Tag == Tags.SendAllRooms)
             {
                 GetAllRooms(sender, e);
+            }
+
+            if (message.Tag == Tags.QuitRoom)
+            {
+                QuitActualRoomInServer(sender, e);
+            }
+
+            if (message.Tag == Tags.SwapHostRoom)
+            {
+                SwapHost(sender, e);
+            }
+
+            if (message.Tag == Tags.PlayerQuitRoom)
+            {
+                PlayerQuitActualRoom(sender, e);
+            }
+
+        }
+    }
+
+    private void RoomDeletedInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort roomID = reader.ReadUInt16();
+                rooms.Remove(roomID);
+
             }
         }
     }
@@ -88,7 +119,7 @@ public class LobbyManager : MonoBehaviour
                 for (int i = 0; i < roomNumber; i++)
                 {
                     RoomData room = reader.ReadSerializable<RoomData>();
-                    rooms.Add(room.ID,room);
+                    rooms.Add(room.ID, room);
                 }
             }
         }
@@ -103,6 +134,27 @@ public class LobbyManager : MonoBehaviour
             using (Message message = Message.Create(Tags.JoinRoom, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
+    }
+
+    private void SwapHost(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort playerID = reader.ReadUInt16();
+
+                PlayerData player = actualRoomIn.playerList[playerID];
+
+                roomPanelControl.SetHost(player, true);
+
+                if (localPlayer.ID == player.ID)
+                {
+                    localPlayer.IsHost = true;
+                }
+            }
+        }
+
     }
 
     public void JoinRoom(ushort roomID)
@@ -123,10 +175,11 @@ public class LobbyManager : MonoBehaviour
         // Quand le joueur à recu la réponse de sa requete JOIN ROOM
 
         mainMenu.SetActive(false);
+        roomListPanel.SetActive(false);
         roomPanel.SetActive(true);
 
         ushort roomID;
-        List<PlayerData> _playerList = new List<PlayerData>();
+        Dictionary<ushort, PlayerData> _playerList = new Dictionary<ushort, PlayerData>();
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -138,10 +191,12 @@ public class LobbyManager : MonoBehaviour
                 {
 
                     PlayerData player = reader.ReadSerializable<PlayerData>();
-                    _playerList.Add(player);
+                    _playerList.Add(player.ID ,player);
                 }
             }
         }
+
+        actualRoomIn = rooms[roomID];
         rooms[roomID].playerList = _playerList;
 
         roomPanelControl.InitRoom(rooms[roomID]);
@@ -156,8 +211,23 @@ public class LobbyManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 PlayerData player = reader.ReadSerializable<PlayerData>();
-                actualRoomIn.playerList.Add(player);
+                actualRoomIn.playerList.Add(player.ID, player);
+
                 roomPanelControl.AddPlayer(player);
+            }
+        }
+    }
+
+    private void PlayerQuitActualRoom(object sender, MessageReceivedEventArgs e)
+    {
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                PlayerData player = reader.ReadSerializable<PlayerData>();
+                roomPanelControl.RemovePlayer(actualRoomIn.playerList[player.ID]);
+                actualRoomIn.playerList.Remove(player.ID);
             }
         }
     }
@@ -198,8 +268,6 @@ public class LobbyManager : MonoBehaviour
 
         // SI CREATEUR DE LA ROOM >>
 
-        print("ROOM CREE");
-
         actualRoomIn = room;
 
         PlayerData hostPlayerData = new PlayerData(
@@ -208,7 +276,7 @@ public class LobbyManager : MonoBehaviour
          localPlayer.Name,
          0, 0, 0
           );
-        actualRoomIn.playerList.Add(hostPlayerData);
+        actualRoomIn.playerList.Add(hostPlayerData.ID, hostPlayerData);;
 
         mainMenu.SetActive(false);
         roomPanel.SetActive(true);
@@ -217,10 +285,36 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    public void QuitActualRoom()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(actualRoomIn.ID);
+
+            using (Message message = Message.Create(Tags.QuitRoom, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    private void QuitActualRoomInServer(object sender, MessageReceivedEventArgs e)
+    {
+        actualRoomIn = null;
+        localPlayer.IsHost = false;
+        DisplayMainMenu();
+    }
+
+    public void DisplayMainMenu()
+    {
+        mainMenu.SetActive(true);
+        roomPanel.SetActive(false);
+        roomListPanel.SetActive(false);
+    }
 
     public void DisplayRoomList()
     {
         roomListPanel.SetActive(true);
+        mainMenu.SetActive(false);
+        roomPanel.SetActive(false);
         roomListPanelControl.Init();
     }
 
