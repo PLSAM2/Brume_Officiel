@@ -7,8 +7,9 @@ public class PlayerModule : MonoBehaviour
 {
     [Header("GameplayInfos")]
     public Sc_CharacterParameters characterParameters;
+    public ushort myId;
     public int teamIndex { get; set; }
-    public static Action<Vector3> DirectionInputedUpdate;
+    public static Action<Vector3, ushort> DirectionInputedUpdate;
 
     [Header("CharacterBuilder")]
     [SerializeField] MovementModule movementPart;
@@ -21,7 +22,7 @@ public class PlayerModule : MonoBehaviour
 
     void Update ()
     {
-        DirectionInputedUpdate.Invoke(DirectionInputed());
+        DirectionInputedUpdate.Invoke(DirectionInputed(), myId);
     }
 
     Vector3 DirectionInputed ()
