@@ -16,6 +16,6 @@ public class Tags
     public static readonly ushort SpawnObjPlayer = 60;
     public static readonly ushort MovePlayerTag = 70;
     public static readonly ushort SupprObjPlayer = 80;
-
-
+    public static readonly ushort StartGame = 90;
+    public static readonly ushort QuitGame = 100;
 }

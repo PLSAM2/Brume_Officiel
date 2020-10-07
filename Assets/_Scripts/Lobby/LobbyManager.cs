@@ -18,8 +18,6 @@ public class LobbyManager : MonoBehaviour
     public PlayerData localPlayer;
 
     public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
-    private RoomData actualRoomIn;
-
 
     private static LobbyManager _instance;
     public static LobbyManager Instance { get { return _instance; } }
@@ -35,8 +33,6 @@ public class LobbyManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        DontDestroyOnLoad(this);
 
         client.MessageReceived += MessageReceived;
     }
@@ -144,7 +140,7 @@ public class LobbyManager : MonoBehaviour
             {
                 ushort playerID = reader.ReadUInt16();
 
-                PlayerData player = actualRoomIn.playerList[playerID];
+                PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
 
                 roomPanelControl.SetHost(player, true);
 
@@ -196,7 +192,7 @@ public class LobbyManager : MonoBehaviour
             }
         }
 
-        actualRoomIn = rooms[roomID];
+        RoomManager.Instance.actualRoom = rooms[roomID];
         rooms[roomID].playerList = _playerList;
 
         roomPanelControl.InitRoom(rooms[roomID]);
@@ -211,7 +207,7 @@ public class LobbyManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 PlayerData player = reader.ReadSerializable<PlayerData>();
-                actualRoomIn.playerList.Add(player.ID, player);
+                RoomManager.Instance.actualRoom.playerList.Add(player.ID, player);
 
                 roomPanelControl.AddPlayer(player);
             }
@@ -226,8 +222,8 @@ public class LobbyManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 PlayerData player = reader.ReadSerializable<PlayerData>();
-                roomPanelControl.RemovePlayer(actualRoomIn.playerList[player.ID]);
-                actualRoomIn.playerList.Remove(player.ID);
+                roomPanelControl.RemovePlayer(RoomManager.Instance.actualRoom.playerList[player.ID]);
+                RoomManager.Instance.actualRoom.playerList.Remove(player.ID);
             }
         }
     }
@@ -268,7 +264,7 @@ public class LobbyManager : MonoBehaviour
 
         // SI CREATEUR DE LA ROOM >>
 
-        actualRoomIn = room;
+        RoomManager.Instance.actualRoom = room;
 
         PlayerData hostPlayerData = new PlayerData(
          hostID,
@@ -276,12 +272,12 @@ public class LobbyManager : MonoBehaviour
          localPlayer.Name,
          0, 0, 0
           );
-        actualRoomIn.playerList.Add(hostPlayerData.ID, hostPlayerData);;
+        RoomManager.Instance.actualRoom.playerList.Add(hostPlayerData.ID, hostPlayerData);;
 
         mainMenu.SetActive(false);
         roomPanel.SetActive(true);
 
-        roomPanelControl.InitRoom(actualRoomIn);
+        roomPanelControl.InitRoom(RoomManager.Instance.actualRoom);
 
     }
 
@@ -289,7 +285,7 @@ public class LobbyManager : MonoBehaviour
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            writer.Write(actualRoomIn.ID);
+            writer.Write(RoomManager.Instance.actualRoom.ID);
 
             using (Message message = Message.Create(Tags.QuitRoom, writer))
                 client.SendMessage(message, SendMode.Reliable);
@@ -298,7 +294,7 @@ public class LobbyManager : MonoBehaviour
 
     private void QuitActualRoomInServer(object sender, MessageReceivedEventArgs e)
     {
-        actualRoomIn = null;
+        RoomManager.Instance.actualRoom = null;
         localPlayer.IsHost = false;
         DisplayMainMenu();
     }
