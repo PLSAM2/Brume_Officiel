@@ -7,52 +7,74 @@ using Sirenix.OdinInspector;
 public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
-	public KeyCode firstSpellKey = KeyCode.A, secondSpellKey = KeyCode.E, thirdSpellKey= KeyCode.R;
+	public KeyCode firstSpellKey = KeyCode.A;
+	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R;
+
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-	public En_CharacterState state;
+	[ReadOnly] public En_CharacterState state = En_CharacterState.None;
 
 	[ReadOnly] public ushort myId;
 	[HideInInspector] public int teamIndex { get; set; }
+	[SerializeField] Camera mainCam;
+	[SerializeField] LayerMask groundLayer;
 
 
 	[Header("CharacterBuilder")]
 	[SerializeField] MovementModule movementPart;
-	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell;
+	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick;
 	[SerializeField] CapsuleCollider coll;
 
 	//ALL ACTION 
-	public static Action<Vector3, ushort> DirectionInputedUpdate;
+	public static Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public static Action firstSpellInput, secondSpellInput, thirdSpellInput;
+	public static Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
 
 	void Start ()
 	{
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
+
+		firstSpell?.SetupComponent();
+		secondSpell?.SetupComponent();
+		thirdSpell?.SetupComponent();
+		leftClick?.SetupComponent();
 	}
 
 	void Update ()
 	{
-		DirectionInputedUpdate.Invoke(directionInputed(), myId);
+		DirectionInputedUpdate.Invoke(directionInputed());
+
+		LookAtMouse();
 
 		if (canCast())
 		{
 			if (Input.GetKeyDown(firstSpellKey))
-				firstSpellInput?.Invoke();
+				firstSpellInput?.Invoke(mousePos());
+
 			else if (Input.GetKeyDown(secondSpellKey))
-				secondSpellInput?.Invoke();
+				secondSpellInput?.Invoke(mousePos());
+
 			else if (Input.GetKeyDown(thirdSpellKey))
-				thirdSpellInput?.Invoke();
+				thirdSpellInput?.Invoke(mousePos());
+
+			else if (Input.GetAxis("Fire1") > 0)
+				leftClickInput?.Invoke(mousePos());
 		}
 	}
 
+	void LookAtMouse()
+	{
+		transform.LookAt(new Vector3(mousePos().x, transform.position.y, mousePos().z));
+	}
+	//Vars 
+	#region 
 	bool canCast ()
 	{
-		if ((~state & En_CharacterState.Canalysing) == 0 && (~state & En_CharacterState.Stunned) == 0)
-			return true;
-		else
-			return false;
+		//	if ((~state & En_CharacterState.Canalysing) == 0 && (~state & En_CharacterState.Stunned) == 0)
+		return true;
+		//else
+		//	return false;
 
 	}
 
@@ -60,6 +82,21 @@ public class PlayerModule : MonoBehaviour
 	{
 		return Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 	}
+	Vector3 mousePos ()
+	{
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+		{
+			return hit.point;
+		}
+		else
+		{
+			return Vector3.zero;
+		}
+	}
+	#endregion
 }
 
 [System.Flags]

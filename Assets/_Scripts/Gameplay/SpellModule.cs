@@ -6,20 +6,49 @@ using Sirenix.OdinInspector;
 
 public class SpellModule : MonoBehaviour
 {
-	Action actionLinkedToTheSpell;
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
 	[ReadOnly] bool isUsed = false;
+	[SerializeField] string debug;
+	public En_SpellInput actionLinked;
 
-	public void SetupComponent(Action _actionToSubscribe)
+	public void SetupComponent()
 	{
-		_actionToSubscribe += StartCanalysing;
 
-		actionLinkedToTheSpell = _actionToSubscribe;
+		switch(actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				PlayerModule.firstSpellInput += StartCanalysing;
+				break;
+			case En_SpellInput.SecondSpell:
+				PlayerModule.secondSpellInput += StartCanalysing;
+				break;
+			case En_SpellInput.ThirdSpell:
+				PlayerModule.thirdSpellInput += StartCanalysing;
+				break;
+			case En_SpellInput.Click:
+				PlayerModule.leftClickInput += StartCanalysing;
+				break;
+		}
+
 	}
 
 	void OnDisable()
 	{
-		actionLinkedToTheSpell -= StartCanalysing;
+		switch (actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				PlayerModule.firstSpellInput -= StartCanalysing;
+				break;
+			case En_SpellInput.SecondSpell:
+				PlayerModule.secondSpellInput -= StartCanalysing;
+				break;
+			case En_SpellInput.ThirdSpell:
+				PlayerModule.thirdSpellInput -= StartCanalysing;
+				break;
+			case En_SpellInput.Click:
+				PlayerModule.leftClickInput -= StartCanalysing;
+				break;
+		}
 	}
 
 	void Update()
@@ -34,9 +63,9 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public void StartCanalysing()
-	{ 
-	
+	public void StartCanalysing ( Vector3 _BaseMousePos)
+	{
+		Debug.Log("I start Canalysing" + debug);
 	}
 
 	public void Interrupt ()
@@ -49,4 +78,12 @@ public class SpellModule : MonoBehaviour
 	}
 
 
+}
+
+public enum En_SpellInput
+{
+	FirstSpell,
+	SecondSpell,
+	ThirdSpell,
+	Click
 }
