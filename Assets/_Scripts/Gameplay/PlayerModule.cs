@@ -69,7 +69,9 @@ public class PlayerModule : MonoBehaviour
 	void LookAtMouse()
 	{
 		Vector3 _currentMousePos = mousePos();
-		transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
+
+		Quaternion lookOnLook = Quaternion.LookRotation(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
+		transform.rotation = Quaternion.Lerp(transform.rotation, lookOnLook, Time.deltaTime * 15);
 	}
 	//Vars 
 	#region 
