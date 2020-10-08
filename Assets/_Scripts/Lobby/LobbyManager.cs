@@ -5,23 +5,26 @@ using DarkRift.Client;
 using DarkRift.Client.Unity;
 using DarkRift;
 using System;
+using UnityEngine.UI;
+using TMPro;
 
 public class LobbyManager : MonoBehaviour
 {
-    [SerializeField] UnityClient client;
-
-    public GameObject roomPanel;
-    public GameObject roomListPanel;
-    public GameObject mainMenu;
-    public RoomPanelControl roomPanelControl;
-    public RoomListPanelControl roomListPanelControl;
-    public PlayerData localPlayer;
-
-    public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
-
     private static LobbyManager _instance;
     public static LobbyManager Instance { get { return _instance; } }
 
+    public RoomPanelControl roomPanelControl;
+    public RoomListPanelControl roomListPanelControl;
+    public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
+
+    [HideInInspector] public PlayerData localPlayer;
+
+    [SerializeField] UnityClient client;
+    [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private GameObject loginMenu;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject roomPanel;
+    [SerializeField] private GameObject roomListPanel;
 
     private void Awake()
     {
@@ -48,6 +51,9 @@ public class LobbyManager : MonoBehaviour
                     PlayerData _localPlayer = reader.ReadSerializable<PlayerData>();
                     localPlayer = _localPlayer;
                 }
+
+                loginMenu.SetActive(false);
+                DisplayMainMenu();
             }
 
             if (message.Tag == Tags.CreateRoom)
@@ -87,7 +93,57 @@ public class LobbyManager : MonoBehaviour
             {
                 PlayerQuitActualRoom(sender, e);
             }
+            if (message.Tag == Tags.ChangeName)
+            {
+                ChangeNameInServer(sender, e);
+            }
+        }
+    }
 
+
+    public void ChangeName()
+    {
+        string name = nameInputField.text;
+        CheckName(ref name);
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(name);
+
+            using (Message message = Message.Create(Tags.ChangeName, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    public void CheckName(ref string name)
+    {
+        if (name.Trim(' ') == "")
+        {
+            name = "Player" + UnityEngine.Random.Range(0, 1000);
+        }
+    }
+
+    private void ChangeNameInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                localPlayer.Name = reader.ReadString();
+            }
+        }
+    }
+
+    public void Login(string name)
+    {
+        client.Connect(client.Address, client.Port, true);
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(name);
+
+            using (Message message = Message.Create(Tags.ChangeName, writer))
+                client.SendMessage(message, SendMode.Reliable);
         }
     }
 
@@ -187,7 +243,7 @@ public class LobbyManager : MonoBehaviour
                 {
 
                     PlayerData player = reader.ReadSerializable<PlayerData>();
-                    _playerList.Add(player.ID ,player);
+                    _playerList.Add(player.ID, player);
                 }
             }
         }
@@ -232,8 +288,6 @@ public class LobbyManager : MonoBehaviour
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            writer.Write("TESTROOM");
-
             using (Message message = Message.Create(Tags.CreateRoom, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
@@ -249,8 +303,7 @@ public class LobbyManager : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                room.ID = reader.ReadUInt16();
-                room.Name = reader.ReadString();
+                room = reader.ReadSerializable<RoomData>();
                 hostID = reader.ReadUInt16();
 
                 rooms.Add(room.ID, room);
@@ -272,7 +325,9 @@ public class LobbyManager : MonoBehaviour
          localPlayer.Name,
          0, 0, 0
           );
-        RoomManager.Instance.actualRoom.playerList.Add(hostPlayerData.ID, hostPlayerData);;
+
+        localPlayer.IsHost = true;
+        RoomManager.Instance.actualRoom.playerList.Add(hostPlayerData.ID, hostPlayerData); ;
 
         mainMenu.SetActive(false);
         roomPanel.SetActive(true);
