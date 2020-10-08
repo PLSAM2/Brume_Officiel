@@ -33,6 +33,4 @@ public class CharacterManager : MonoBehaviour
 	{
 		return playerList[_playerIndex];
 	}
-
-
 }
