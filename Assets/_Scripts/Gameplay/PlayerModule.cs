@@ -61,7 +61,8 @@ public class PlayerModule : MonoBehaviour
 
 			else if (Input.GetAxis("Fire1") > 0)
 				leftClickInput?.Invoke(mousePos());
-			else if (Input.GetKey(KeyCode.LeftShift))
+
+			else if (Input.GetKeyDown(KeyCode.LeftShift))
 				ToggleRunning?.Invoke();
 		}
 	}

@@ -7,7 +7,8 @@ using UnityEngine;
 public class MovementModule : MonoBehaviour
 {
 	St_MovementParameters parameters;
-	float timeSpentRunning;
+	[SerializeField] bool usingStamina;
+	float timeSpentRunning, stamina, timeSpentNotRunning;
 	bool running;
 	CapsuleCollider collider;
 	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
