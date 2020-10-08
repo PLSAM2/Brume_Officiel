@@ -17,12 +17,15 @@ public class MovementModule : MonoBehaviour
 	public void OnEnable ()
 	{
 		PlayerModule.DirectionInputedUpdate += Move;
-		PlayerModule.ToggleRunning +=
+		PlayerModule.ToggleRunning += ToggleRunning;
+		PlayerModule.StopRunning += StopRunning;
 	}
 
 	void OnDisable()
 	{
-		PlayerModule.DirectionInputedUpdate -= Move;
+		PlayerModule.DirectionInputedUpdate -= Move; 
+		PlayerModule.ToggleRunning -= ToggleRunning;
+		PlayerModule.StopRunning -= StopRunning;
 	}
 
 	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )
@@ -58,7 +61,7 @@ public class MovementModule : MonoBehaviour
 		}
 		else
 		{
-
+			StopRunning();
 		}
 	}
 
@@ -70,7 +73,7 @@ public class MovementModule : MonoBehaviour
 	{
 		allForcedMovement.Add(infos);
 	}
-	void EndRunning()
+	void StopRunning()
 	{
 		timeSpentRunning = 0;
 		running = false;
@@ -84,7 +87,7 @@ public class MovementModule : MonoBehaviour
 	void ToggleRunning()
 	{
 		if (running)
-			EndRunning();
+			StopRunning();
 		else
 			StartRunning();
 	}
