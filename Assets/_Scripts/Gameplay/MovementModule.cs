@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MovementModule : ModuleBase
+public class MovementModule : MonoBehaviour
 {
 	St_MovementParameters parameters;
 	CapsuleCollider collider;
 	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
 	[SerializeField] LayerMask allBlockingLayer;
 
-	public override void Start ()
+	public void OnEnable ()
 	{
 		PlayerModule.DirectionInputedUpdate += Move;
 	}
 
-	void OnDestroy()
+	void OnDisable()
 	{
 		PlayerModule.DirectionInputedUpdate -= Move;
 	}
@@ -39,27 +39,24 @@ public class MovementModule : ModuleBase
 		}
 	}
 
-	void Move (Vector3 _directionInputed, ushort _idSent)
+	void Move (Vector3 _directionInputed)
 	{
-		if(_idSent == myId)
+		if (ForcedMovement() != Vector3.zero)
 		{
-			if (ForcedMovement() != Vector3.zero)
+			if (isFree(ForcedMovement()))
+				transform.position += ForcedMovement() * parameters.movementSpeed * Time.deltaTime;
+			else
+				ForcedMovementTouchObstacle();
+		}
+		else
+		{
+			if (!isFree(_directionInputed))
 			{
-				if (isFree(ForcedMovement()))
-					transform.position += ForcedMovement() * parameters.movementSpeed * Time.deltaTime;
-				else
-					ForcedMovementTouchObstacle();
+				transform.position += SlideVector(_directionInputed) * parameters.movementSpeed * Time.deltaTime;
 			}
 			else
 			{
-				if (!isFree(_directionInputed))
-				{
-					transform.position += SlideVector(_directionInputed) * parameters.movementSpeed * Time.deltaTime;
-				}
-				else
-				{
-					transform.position += _directionInputed * parameters.movementSpeed * Time.deltaTime;
-				}
+				transform.position += _directionInputed * parameters.movementSpeed * Time.deltaTime;
 			}
 		}
 	}

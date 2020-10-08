@@ -13,7 +13,7 @@ public class RoomData : IDarkRiftSerializable
 
     // Uniquement rempli si à l'intérieur de celle-ci >>
 
-    public List<PlayerData> playerList = new List<PlayerData>();
+    public Dictionary<ushort, PlayerData> playerList = new Dictionary<ushort, PlayerData>();
 
     public RoomData(ushort iD, string name)
     {

@@ -10,13 +10,21 @@ public class RoomPanelControl : MonoBehaviour
     public GameObject playerList;
     public GameObject playerListObj;
 
+    public Dictionary<PlayerData, PlayerListObj> PlayerObjDict = new Dictionary<PlayerData, PlayerListObj>();
     public void InitRoom(RoomData roomData)
     {
         roomName.text = roomData.Name;
 
-        foreach (PlayerData p in roomData.playerList)
+        foreach (Transform item in playerList.transform)
         {
-            AddPlayer(p);
+            Destroy(item.gameObject);
+        }
+
+        PlayerObjDict.Clear();
+
+        foreach (KeyValuePair<ushort, PlayerData> p in roomData.playerList)
+        {
+            AddPlayer(p.Value);
         }
     }
 
@@ -26,10 +34,23 @@ public class RoomPanelControl : MonoBehaviour
 
         PlayerListObj obj = tempPlayerListObj.GetComponent<PlayerListObj>();
         obj.playerName.text = player.Name;
+        PlayerObjDict.Add(player, obj);
 
         if (player.IsHost == true)
         {
             obj.host.SetActive(true);
         }
+    }
+
+    public void RemovePlayer(PlayerData player)
+    {
+        SetHost(player, false);
+        Destroy(PlayerObjDict[player].gameObject);
+        PlayerObjDict.Remove(player);
+    }
+
+    public void SetHost(PlayerData player, bool value)
+    {
+        PlayerObjDict[player].host.SetActive(value);
     }
 }
