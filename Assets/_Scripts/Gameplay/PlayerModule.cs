@@ -66,7 +66,8 @@ public class PlayerModule : MonoBehaviour
 
 	void LookAtMouse()
 	{
-		transform.LookAt(new Vector3(mousePos().x, transform.position.y, mousePos().z));
+		Vector3 _currentMousePos = mousePos();
+		transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 	}
 	//Vars 
 	#region 

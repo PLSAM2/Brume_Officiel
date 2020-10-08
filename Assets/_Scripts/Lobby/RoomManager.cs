@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
@@ -12,11 +13,13 @@ public class RoomManager : MonoBehaviour
     private static RoomManager _instance;
     public static RoomManager Instance { get { return _instance; } }
 
-    [SerializeField] UnityClient client;
-
-    public RoomData actualRoom;
     public string gameScene;
     public string menuScene;
+
+    [HideInInspector] public RoomData actualRoom;
+
+    [SerializeField] UnityClient client;
+
 
     private void Awake()
     {
@@ -82,18 +85,26 @@ public class RoomManager : MonoBehaviour
     }
 
 
-    public List<PlayerData> GetAllPlayerInActualRoom()
+    public List<PlayerData> GetAllPlayerInActualRoom(bool includeLocalPlayer = true)
     {
         List<PlayerData> _playerList = new List<PlayerData>();
 
         foreach (KeyValuePair<ushort, PlayerData> player in actualRoom.playerList)
         {
+            if (!includeLocalPlayer && player.Key == client.ID)
+            {
+                continue;
+            }
+
             _playerList.Add(player.Value);
         }
 
         return _playerList;
     }
 
-
+    public PlayerData GetLocalPlayer()
+    {
+        return actualRoom.playerList[client.ID];
+    }
 
 }

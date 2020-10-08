@@ -9,10 +9,10 @@ public class RoomListObj : MonoBehaviour
     public TextMeshProUGUI playerNumber;
     public ushort roomID;
 
-    public void Init(string roomName, ushort playerNumber, ushort ID)
+    public void Init(RoomData room, ushort playerNumber, ushort ID)
     {
-        this.roomName.text = roomName;
-        this.playerNumber.text = playerNumber + "/" + "MAXPLAYER";
+        this.roomName.text = room.Name;
+        this.playerNumber.text = playerNumber + "/" + room.MaxPlayers;
         roomID = ID;
     }
 

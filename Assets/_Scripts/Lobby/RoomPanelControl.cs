@@ -9,7 +9,7 @@ public class RoomPanelControl : MonoBehaviour
 
     public GameObject playerList;
     public GameObject playerListObj;
-
+    public GameObject startGameButton;
     public Dictionary<PlayerData, PlayerListObj> PlayerObjDict = new Dictionary<PlayerData, PlayerListObj>();
     public void InitRoom(RoomData roomData)
     {
@@ -26,6 +26,7 @@ public class RoomPanelControl : MonoBehaviour
         {
             AddPlayer(p.Value);
         }
+
     }
 
     public void AddPlayer(PlayerData player)
@@ -38,7 +39,7 @@ public class RoomPanelControl : MonoBehaviour
 
         if (player.IsHost == true)
         {
-            obj.host.SetActive(true);
+            SetHost(player, true);
         }
     }
 
@@ -52,5 +53,10 @@ public class RoomPanelControl : MonoBehaviour
     public void SetHost(PlayerData player, bool value)
     {
         PlayerObjDict[player].host.SetActive(value);
+
+        if (LobbyManager.Instance.localPlayer.IsHost)
+        {
+            startGameButton.SetActive(true);
+        }
     }
 }
