@@ -63,6 +63,8 @@ public class MovementModule : MonoBehaviour
 		{
 			StopRunning();
 		}
+
+		print(_directionInputed);
 	}
 
 	void ForcedMovementTouchObstacle()
