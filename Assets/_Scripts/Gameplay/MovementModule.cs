@@ -15,18 +15,22 @@ public class MovementModule : MonoBehaviour
 
 	[SerializeField] LayerMask allBlockingLayer;
 
+	PlayerModule myPlayerModule;
+
 	public void OnEnable ()
 	{
-		PlayerModule.DirectionInputedUpdate += Move;
-		PlayerModule.ToggleRunning += ToggleRunning;
-		PlayerModule.StopRunning += StopRunning;
+		myPlayerModule = GetComponent<PlayerModule>();
+
+		myPlayerModule.DirectionInputedUpdate += Move;
+		myPlayerModule.ToggleRunning += ToggleRunning;
+		myPlayerModule.StopRunning += StopRunning;
 	}
 
 	void OnDisable()
 	{
-		PlayerModule.DirectionInputedUpdate -= Move; 
-		PlayerModule.ToggleRunning -= ToggleRunning;
-		PlayerModule.StopRunning -= StopRunning;
+		myPlayerModule.DirectionInputedUpdate -= Move;
+		myPlayerModule.ToggleRunning -= ToggleRunning;
+		myPlayerModule.StopRunning -= StopRunning;
 	}
 
 	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )

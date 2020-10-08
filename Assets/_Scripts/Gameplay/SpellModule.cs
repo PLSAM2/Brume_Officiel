@@ -11,22 +11,29 @@ public class SpellModule : MonoBehaviour
 	[SerializeField] string debug;
 	public En_SpellInput actionLinked;
 
-	public void SetupComponent()
+	PlayerModule myPlayerModule;
+
+    private void Start()
+    {
+		myPlayerModule = GetComponent<PlayerModule>();
+	}
+
+    public void SetupComponent()
 	{
 
 		switch(actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				PlayerModule.firstSpellInput += StartCanalysing;
+				myPlayerModule.firstSpellInput += StartCanalysing;
 				break;
 			case En_SpellInput.SecondSpell:
-				PlayerModule.secondSpellInput += StartCanalysing;
+				myPlayerModule.secondSpellInput += StartCanalysing;
 				break;
 			case En_SpellInput.ThirdSpell:
-				PlayerModule.thirdSpellInput += StartCanalysing;
+				myPlayerModule.thirdSpellInput += StartCanalysing;
 				break;
 			case En_SpellInput.Click:
-				PlayerModule.leftClickInput += StartCanalysing;
+				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
 		}
 
@@ -37,16 +44,16 @@ public class SpellModule : MonoBehaviour
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				PlayerModule.firstSpellInput -= StartCanalysing;
+				myPlayerModule.firstSpellInput -= StartCanalysing;
 				break;
 			case En_SpellInput.SecondSpell:
-				PlayerModule.secondSpellInput -= StartCanalysing;
+				myPlayerModule.secondSpellInput -= StartCanalysing;
 				break;
 			case En_SpellInput.ThirdSpell:
-				PlayerModule.thirdSpellInput -= StartCanalysing;
+				myPlayerModule.thirdSpellInput -= StartCanalysing;
 				break;
 			case En_SpellInput.Click:
-				PlayerModule.leftClickInput -= StartCanalysing;
+				myPlayerModule.leftClickInput -= StartCanalysing;
 				break;
 		}
 	}

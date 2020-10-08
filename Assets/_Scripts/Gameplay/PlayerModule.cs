@@ -27,10 +27,14 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 
 	//ALL ACTION 
-	public static Action<Vector3> DirectionInputedUpdate;
+	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public static Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
-	public static Action ToggleRunning, StopRunning;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
+	public Action ToggleRunning, StopRunning;
+
+	//Animation
+	public Action<Vector3> onSendMovement;
+
 
 	void Start ()
 	{
@@ -70,7 +74,9 @@ public class PlayerModule : MonoBehaviour
 	void LookAtMouse()
 	{
 		Vector3 _currentMousePos = mousePos();
-		transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
+
+		Quaternion lookOnLook = Quaternion.LookRotation(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
+		transform.rotation = Quaternion.Slerp(transform.rotation, lookOnLook, Time.deltaTime * 15);
 	}
 	//Vars 
 	#region 
