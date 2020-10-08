@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static GameData;
 
 public class RoomPanelControl : MonoBehaviour
 {
     public TextMeshProUGUI roomName;
 
-    public GameObject playerList;
+    public GameObject redPlayerList;
+    public GameObject bluePlayerList;
     public GameObject playerListObj;
     public GameObject startGameButton;
-    public Dictionary<PlayerData, PlayerListObj> PlayerObjDict = new Dictionary<PlayerData, PlayerListObj>();
+    public Dictionary<ushort, PlayerListObj> PlayerObjDict = new Dictionary<ushort, PlayerListObj>();
     public void InitRoom(RoomData roomData)
     {
         roomName.text = roomData.Name;
 
-        foreach (Transform item in playerList.transform)
+        foreach (Transform item in bluePlayerList.transform)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (Transform item in redPlayerList.transform)
         {
             Destroy(item.gameObject);
         }
@@ -31,11 +37,21 @@ public class RoomPanelControl : MonoBehaviour
 
     public void AddPlayer(PlayerData player)
     {
-        GameObject tempPlayerListObj = Instantiate(playerListObj, playerList.transform);
+        GameObject _PlayerListObj;
 
-        PlayerListObj obj = tempPlayerListObj.GetComponent<PlayerListObj>();
+        if (player.playerTeam == Team.red)
+        {
+            _PlayerListObj = Instantiate(playerListObj, redPlayerList.transform);
+        } else
+        {
+            _PlayerListObj = Instantiate(playerListObj, bluePlayerList.transform);
+        }
+
+        PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
+
         obj.playerName.text = player.Name;
-        PlayerObjDict.Add(player, obj);
+
+        PlayerObjDict.Add(player.ID, obj);
 
         if (player.IsHost == true)
         {
@@ -46,17 +62,59 @@ public class RoomPanelControl : MonoBehaviour
     public void RemovePlayer(PlayerData player)
     {
         SetHost(player, false);
-        Destroy(PlayerObjDict[player].gameObject);
-        PlayerObjDict.Remove(player);
+        Destroy(PlayerObjDict[player.ID].gameObject);
+        PlayerObjDict.Remove(player.ID);
     }
 
     public void SetHost(PlayerData player, bool value)
     {
-        PlayerObjDict[player].host.SetActive(value);
+        PlayerObjDict[player.ID].host.SetActive(value);
 
         if (LobbyManager.Instance.localPlayer.IsHost)
         {
             startGameButton.SetActive(true);
         }
     }
+
+    public void ChangeTeam(ushort playerID, Team team)
+    {
+        switch (team)
+        {
+            case Team.red:
+                PlayerObjDict[playerID].gameObject.transform.SetParent(redPlayerList.transform);
+                break;
+            case Team.blue:
+                PlayerObjDict[playerID].gameObject.transform.SetParent(bluePlayerList.transform);
+                break;
+            default:
+                print("Error");
+                break;
+        }
+
+
+    }
+
+    public void SwapTeam()
+    {
+
+        switch (LobbyManager.Instance.localPlayer.playerTeam)
+        {
+            case Team.red:
+                LobbyManager.Instance.ChangeTeam(Team.blue);
+                break;
+            case Team.blue:
+                LobbyManager.Instance.ChangeTeam(Team.red);
+                break;
+            default:
+                print("Error");
+                break;
+        }
+
+
+
+    }
+
+    
+
+
 }
