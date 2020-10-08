@@ -30,7 +30,7 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
-	public Action ToggleRunning, StopRunning;
+	public Action toggleRunning, stopRunning;
 
 	//Animation
 	public Action<Vector3> onSendMovement;
@@ -65,8 +65,9 @@ public class PlayerModule : MonoBehaviour
 
 			else if (Input.GetAxis("Fire1") > 0)
 				leftClickInput?.Invoke(mousePos());
-			else if (Input.GetKey(KeyCode.LeftShift))
-				ToggleRunning?.Invoke();
+
+			else if (Input.GetKeyDown(KeyCode.LeftShift))
+				toggleRunning?.Invoke();
 		}
 	}
 

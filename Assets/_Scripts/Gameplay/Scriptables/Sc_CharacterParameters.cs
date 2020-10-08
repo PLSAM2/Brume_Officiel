@@ -15,4 +15,5 @@ public struct St_MovementParameters
 	public float movementSpeed;
 	public float accelerationTime, bonusRunningSpeed;
 	public AnimationCurve accelerationCurve;
+	public float maxStamina, regenDelay, regenPerSecond;
 }

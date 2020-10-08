@@ -7,7 +7,8 @@ using UnityEngine;
 public class MovementModule : MonoBehaviour
 {
 	St_MovementParameters parameters;
-	float timeSpentRunning;
+	[SerializeField] bool usingStamina;
+	float timeSpentRunning, stamina, timeSpentNotRunning;
 	bool running;
 	CapsuleCollider collider;
 	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
@@ -21,21 +22,23 @@ public class MovementModule : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 
 		myPlayerModule.DirectionInputedUpdate += Move;
-		myPlayerModule.ToggleRunning += ToggleRunning;
-		myPlayerModule.StopRunning += StopRunning;
+		myPlayerModule.toggleRunning += ToggleRunning;
+		myPlayerModule.stopRunning += StopRunning;
 	}
 
 	void OnDisable()
 	{
 		myPlayerModule.DirectionInputedUpdate -= Move;
-		myPlayerModule.ToggleRunning -= ToggleRunning;
-		myPlayerModule.StopRunning -= StopRunning;
+		myPlayerModule.toggleRunning -= ToggleRunning;
+		myPlayerModule.stopRunning -= StopRunning;
 	}
 
 	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )
 	{
 		parameters = _newParameters;
 		collider = _colliderInfos;
+
+		stamina = parameters.maxStamina;
 	}
 
 	void Move (Vector3 _directionInputed)
@@ -60,7 +63,10 @@ public class MovementModule : MonoBehaviour
 
 			if(running == true)
 			{
-				timeSpentRunning += Time.deltaTime;
+				timeSpentRunning +=  Time.deltaTime;
+				stamina -= Time.deltaTime;
+				if (stamina <= 0 && usingStamina)
+					myPlayerModule.stopRunning.Invoke();
 			}
 
 			myPlayerModule.onSendMovement?.Invoke(_directionInputed);
@@ -69,6 +75,14 @@ public class MovementModule : MonoBehaviour
 		{
 			StopRunning();
 			myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
+		}
+
+		if(!running && usingStamina)
+		{
+			if (timeSpentNotRunning > parameters.regenDelay)
+				stamina = Mathf.Clamp(stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
+			else
+				timeSpentNotRunning += Time.deltaTime;
 		}
 	}
 
@@ -88,6 +102,7 @@ public class MovementModule : MonoBehaviour
 
 	void StartRunning()
 	{
+		timeSpentNotRunning = 0;
 		running = true;
 	}
 
@@ -164,7 +179,7 @@ public class MovementModule : MonoBehaviour
 	}
 	float liveMoveSpeed()
 	{
-		float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning) * parameters.bonusRunningSpeed;
+		float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;
 
 		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
 		return defspeed;
