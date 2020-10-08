@@ -32,7 +32,14 @@ public class SamLocalPlayer : MonoBehaviour
         {
             SamGameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
+
+            myPlayerModule.onSendMovement += OnPlayerMove;
         }
+    }
+
+    private void OnDisable()
+    {
+        myPlayerModule.onSendMovement -= OnPlayerMove;
     }
 
     void Update()
@@ -62,6 +69,12 @@ public class SamLocalPlayer : MonoBehaviour
 
         //myAnimator.SetFloat("RightVel", Vector3.Dot(transform.right, Direction()));
         //myAnimator.SetFloat("Forward", Vector3.Dot(transform.forward, Direction()));
+    }
+
+    void OnPlayerMove(Vector3 pos)
+    {
+        myAnimator.SetFloat("Forward", Vector3.Dot(transform.forward, pos));
+        myAnimator.SetFloat("Turn", Vector3.Dot(transform.right, pos));
     }
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)

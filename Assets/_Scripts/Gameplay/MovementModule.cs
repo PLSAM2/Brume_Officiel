@@ -62,10 +62,13 @@ public class MovementModule : MonoBehaviour
 			{
 				timeSpentRunning += Time.deltaTime;
 			}
+
+			myPlayerModule.onSendMovement?.Invoke(_directionInputed);
 		}
 		else
 		{
 			StopRunning();
+			myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
 		}
 	}
 
