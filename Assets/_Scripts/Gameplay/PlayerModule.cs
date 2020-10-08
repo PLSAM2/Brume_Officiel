@@ -27,10 +27,14 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 
 	//ALL ACTION 
-	public static Action<Vector3> DirectionInputedUpdate;
+	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public static Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
-	public static Action ToggleRunning, StopRunning;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
+	public Action ToggleRunning, StopRunning;
+
+	//Animation
+	public Action<Vector3> onSendMovement;
+
 
 	void Start ()
 	{

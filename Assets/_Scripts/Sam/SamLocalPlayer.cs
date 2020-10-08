@@ -59,6 +59,9 @@ public class SamLocalPlayer : MonoBehaviour
                 }
             }
         }
+
+        //myAnimator.SetFloat("RightVel", Vector3.Dot(transform.right, Direction()));
+        //myAnimator.SetFloat("Forward", Vector3.Dot(transform.forward, Direction()));
     }
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
