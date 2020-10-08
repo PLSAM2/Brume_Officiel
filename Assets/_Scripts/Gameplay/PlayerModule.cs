@@ -30,6 +30,7 @@ public class PlayerModule : MonoBehaviour
 	public static Action<Vector3> DirectionInputedUpdate;
 	//spell
 	public static Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
+	public static Action ToggleRunning, StopRunning;
 
 	void Start ()
 	{

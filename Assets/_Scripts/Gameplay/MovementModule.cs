@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,13 +7,17 @@ using UnityEngine;
 public class MovementModule : MonoBehaviour
 {
 	St_MovementParameters parameters;
+	float timeSpentRunning;
+	bool running;
 	CapsuleCollider collider;
 	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
+
 	[SerializeField] LayerMask allBlockingLayer;
 
 	public void OnEnable ()
 	{
 		PlayerModule.DirectionInputedUpdate += Move;
+		PlayerModule.ToggleRunning +=
 	}
 
 	void OnDisable()
@@ -26,19 +31,6 @@ public class MovementModule : MonoBehaviour
 		collider = _colliderInfos;
 	}
 
-	void Update ()
-	{
-		//TEMP
-		if(Input.GetKeyDown(KeyCode.K))
-		{
-			ForcedMovement _moveToAdd = new ForcedMovement();
-			_moveToAdd.direction = new Vector3(1, 0, 0);
-			_moveToAdd.duration = .1f;
-			_moveToAdd.strength = 10;
-			AddDash(_moveToAdd);
-		}
-	}
-
 	void Move (Vector3 _directionInputed)
 	{
 		if (ForcedMovement() != Vector3.zero)
@@ -48,16 +40,25 @@ public class MovementModule : MonoBehaviour
 			else
 				ForcedMovementTouchObstacle();
 		}
-		else
+		else if (_directionInputed != Vector3.zero)
 		{
 			if (!isFree(_directionInputed))
 			{
-				transform.position += SlideVector(_directionInputed) * parameters.movementSpeed * Time.deltaTime;
+				transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
 			}
 			else
 			{
-				transform.position += _directionInputed * parameters.movementSpeed * Time.deltaTime;
+				transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
 			}
+
+			if(running == true)
+			{
+				timeSpentRunning += Time.deltaTime;
+			}
+		}
+		else
+		{
+
 		}
 	}
 
@@ -65,11 +66,31 @@ public class MovementModule : MonoBehaviour
 	{
 		allForcedMovement.Clear();
 	}
+	void AddDash ( ForcedMovement infos )
+	{
+		allForcedMovement.Add(infos);
+	}
+	void EndRunning()
+	{
+		timeSpentRunning = 0;
+		running = false;
+	}
 
-	//MOVEMENT VECTOR
+	void StartRunning()
+	{
+		running = true;
+	}
+
+	void ToggleRunning()
+	{
+		if (running)
+			EndRunning();
+		else
+			StartRunning();
+	}
+
+	//Parameters
 	#region
-
-
 	Vector3 ForcedMovement ()
 	{
 		Vector3 _forceToApply = Vector3.zero;
@@ -92,7 +113,6 @@ public class MovementModule : MonoBehaviour
 
 		return _forceToApply;
 	}
-
 	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
 	{
 		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom)[0];
@@ -128,7 +148,17 @@ public class MovementModule : MonoBehaviour
 		else
 			return true;
 	}
-	#endregion
+	bool canMove ()
+	{
+		return true;
+	}
+	float liveMoveSpeed()
+	{
+		float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning) * parameters.bonusRunningSpeed;
+
+		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
+		return defspeed;
+	}
 
 	List<RaycastHit> CastCapsuleHit ( Vector3 _direction )
 	{
@@ -151,15 +181,9 @@ public class MovementModule : MonoBehaviour
 
 		return _returnList;
 	}
-	bool canMove ()
-	{
-		return true;
-	}
 
-	void AddDash (ForcedMovement infos)
-	{
-		allForcedMovement.Add(infos);
-	}
+	#endregion
+
 }
 
 [System.Serializable]
