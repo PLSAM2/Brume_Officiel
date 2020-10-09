@@ -14,10 +14,14 @@ public class Tags
     public static readonly ushort PlayerJoinedRoom = 40;
     public static readonly ushort PlayerQuitRoom = 45;
     public static readonly ushort QuitRoom = 50;
-    public static readonly ushort SpawnObjPlayer = 60;
-    public static readonly ushort MovePlayerTag = 70;
-    public static readonly ushort SupprObjPlayer = 80;
     public static readonly ushort StartGame = 90;
     public static readonly ushort QuitGame = 100;
     public static readonly ushort ChangeName = 110;
+
+
+    //Sam
+    public static readonly ushort SpawnObjPlayer = 1000;
+    public static readonly ushort MovePlayerTag = 1010;
+    public static readonly ushort SupprObjPlayer = 1020;
+    public static readonly ushort SendAnim = 1030;
 }
