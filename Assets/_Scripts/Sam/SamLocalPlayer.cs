@@ -19,6 +19,8 @@ public class SamLocalPlayer : MonoBehaviour
 
     [SerializeField] Animator myAnimator;
 
+    [SerializeField] GameObject circleDirection;
+
     private void Awake()
     {
         lastPosition = transform.position;
@@ -34,6 +36,8 @@ public class SamLocalPlayer : MonoBehaviour
             myPlayerModule.enabled = true;
 
             myPlayerModule.onSendMovement += OnPlayerMove;
+
+            circleDirection.SetActive(true);
         }
     }
 
@@ -66,15 +70,32 @@ public class SamLocalPlayer : MonoBehaviour
                 }
             }
         }
-
-        //myAnimator.SetFloat("RightVel", Vector3.Dot(transform.right, Direction()));
-        //myAnimator.SetFloat("Forward", Vector3.Dot(transform.forward, Direction()));
     }
 
     void OnPlayerMove(Vector3 pos)
     {
-        myAnimator.SetFloat("Forward", Vector3.Dot(transform.forward, pos));
-        myAnimator.SetFloat("Turn", Vector3.Dot(transform.right, pos));
+        float right = Vector3.Dot(transform.right, pos);
+        float forward = Vector3.Dot(transform.forward, pos);
+
+        myAnimator.SetFloat("Forward", forward);
+        myAnimator.SetFloat("Turn", right);
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(forward);
+            _writer.Write(right);
+
+            using (Message _message = Message.Create(Tags.SendAnim, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Unreliable);
+            }
+        }
+    }
+
+    public void SetAnim(float forward, float right)
+    {
+        myAnimator.SetFloat("Forward", forward);
+        myAnimator.SetFloat("Turn", right);
     }
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
