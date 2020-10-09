@@ -1,0 +1,120 @@
+﻿using DarkRift;
+using DarkRift.Client;
+using DarkRift.Client.Unity;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Video;
+using static GameData;
+
+public sealed class ChampSelectManager : MonoBehaviour
+{
+    private static ChampSelectManager _instance;
+    public static ChampSelectManager Instance { get { return _instance; } }
+
+    public List<CharacterListObj> redTeamCharacterList = new List<CharacterListObj>();
+    public List<CharacterListObj> blueTeamCharacterList = new List<CharacterListObj>();
+
+    public Dictionary<ushort, CharacterListObj> linkPlayerCharacterListObj = new Dictionary<ushort, CharacterListObj>();
+
+    UnityClient client;
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
+        if (RoomManager.Instance == null)
+        {
+            Debug.LogError("NO ROOM MANAGER");
+            return;
+        }
+
+        client = RoomManager.Instance.client;
+
+        client.MessageReceived += MessageReceived;
+    }
+
+    private void MessageReceived(object sender, MessageReceivedEventArgs e)
+    {
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            if (message.Tag == Tags.SetCharacter)
+            {
+                PickCharacterInServer(sender, e);
+            }
+        }
+    }
+
+    public void PickCharacter(GameData.Character character)
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write((ushort)character);
+
+            using (Message message = Message.Create(Tags.SetCharacter, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+
+    private void PickCharacterInServer(object sender, MessageReceivedEventArgs e)
+    {
+        ushort _playerID;
+        Character _character;
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                _playerID = reader.ReadUInt16();
+                _character = (Character)reader.ReadUInt16();
+            }
+        }
+
+        SetCharacter(_playerID, _character);
+    }
+
+    private void SetCharacter(ushort playerID, Character character)
+    {
+        PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
+        print("1");
+        player.playerCharacter = character;
+
+        if (linkPlayerCharacterListObj.ContainsKey(playerID))
+        {
+            linkPlayerCharacterListObj[playerID].playerNameText.text = "";
+            linkPlayerCharacterListObj.Remove(playerID);
+        }
+        print("2");
+        int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
+
+        CharacterListObj _listObj;
+
+        switch (player.playerTeam)
+        {
+            case Team.red:
+                _listObj = redTeamCharacterList[characterToInt];
+                break;
+            case Team.blue:
+                _listObj = blueTeamCharacterList[characterToInt];
+                break;
+            default:
+                print("ERROR");
+                return;
+        }
+        print("3");
+        _listObj.playerNameText.text = player.Name;
+        linkPlayerCharacterListObj.Add(playerID, _listObj);
+        print("4");
+    }
+
+}

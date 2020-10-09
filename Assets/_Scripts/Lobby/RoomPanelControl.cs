@@ -13,9 +13,11 @@ public class RoomPanelControl : MonoBehaviour
     public GameObject playerListObj;
     public GameObject startGameButton;
     public Dictionary<ushort, PlayerListObj> PlayerObjDict = new Dictionary<ushort, PlayerListObj>();
+
     public void InitRoom(RoomData roomData)
     {
         roomName.text = roomData.Name;
+        startGameButton.SetActive(false);
 
         foreach (Transform item in bluePlayerList.transform)
         {
@@ -42,7 +44,8 @@ public class RoomPanelControl : MonoBehaviour
         if (player.playerTeam == Team.red)
         {
             _PlayerListObj = Instantiate(playerListObj, redPlayerList.transform);
-        } else
+        }
+        else
         {
             _PlayerListObj = Instantiate(playerListObj, bluePlayerList.transform);
         }
@@ -52,6 +55,8 @@ public class RoomPanelControl : MonoBehaviour
         obj.playerName.text = player.Name;
 
         PlayerObjDict.Add(player.ID, obj);
+
+        SetReady(player.ID, player.IsReady);
 
         if (player.IsHost == true)
         {
@@ -69,11 +74,6 @@ public class RoomPanelControl : MonoBehaviour
     public void SetHost(PlayerData player, bool value)
     {
         PlayerObjDict[player.ID].host.SetActive(value);
-
-        if (LobbyManager.Instance.localPlayer.IsHost)
-        {
-            startGameButton.SetActive(true);
-        }
     }
 
     public void ChangeTeam(ushort playerID, Team team)
@@ -90,13 +90,10 @@ public class RoomPanelControl : MonoBehaviour
                 print("Error");
                 break;
         }
-
-
     }
 
     public void SwapTeam()
     {
-
         switch (LobbyManager.Instance.localPlayer.playerTeam)
         {
             case Team.red:
@@ -109,12 +106,36 @@ public class RoomPanelControl : MonoBehaviour
                 print("Error");
                 break;
         }
+    }
 
+    public void SetReady(ushort playerID, bool value)
+    {
+        PlayerObjDict[playerID].readyImg.SetActive(value);
 
+        if (LobbyManager.Instance.localPlayer.IsHost)
+        {
+            foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
+            {
+                if (!p.Value.IsReady)
+                {
+                    return;
+                }
+            }
+
+            startGameButton.SetActive(true);
+        }
 
     }
 
-    
-
-
+    public void SetReadyBtn()
+    {
+        if (LobbyManager.Instance.localPlayer.IsReady)
+        {
+            LobbyManager.Instance.SetReady(false);
+        }
+        else
+        {
+            LobbyManager.Instance.SetReady(true);
+        }
+    }
 }

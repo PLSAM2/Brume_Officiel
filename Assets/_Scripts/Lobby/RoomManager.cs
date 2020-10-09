@@ -18,7 +18,7 @@ public class RoomManager : MonoBehaviour
 
     [HideInInspector] public RoomData actualRoom;
 
-    [SerializeField] UnityClient client;
+    public UnityClient client;
 
 
     private void Awake()
