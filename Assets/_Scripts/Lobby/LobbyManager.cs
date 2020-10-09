@@ -7,6 +7,7 @@ using DarkRift;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using static GameData;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -97,6 +98,11 @@ public class LobbyManager : MonoBehaviour
             {
                 ChangeNameInServer(sender, e);
             }
+            if (message.Tag == Tags.ChangeTeam)
+            {
+                ChangeTeamInServer(sender, e);
+            }
+
         }
     }
 
@@ -306,6 +312,11 @@ public class LobbyManager : MonoBehaviour
                 room = reader.ReadSerializable<RoomData>();
                 hostID = reader.ReadUInt16();
 
+                if (hostID == client.ID)
+                {
+                    localPlayer.playerTeam = (Team)reader.ReadUInt16();
+                }
+
                 rooms.Add(room.ID, room);
             }
         }
@@ -319,15 +330,9 @@ public class LobbyManager : MonoBehaviour
 
         RoomManager.Instance.actualRoom = room;
 
-        PlayerData hostPlayerData = new PlayerData(
-         hostID,
-         true,
-         localPlayer.Name,
-         0, 0, 0
-          );
-
         localPlayer.IsHost = true;
-        RoomManager.Instance.actualRoom.playerList.Add(hostPlayerData.ID, hostPlayerData); ;
+
+        RoomManager.Instance.actualRoom.playerList.Add(localPlayer.ID, localPlayer); ;
 
         mainMenu.SetActive(false);
         roomPanel.SetActive(true);
@@ -353,6 +358,33 @@ public class LobbyManager : MonoBehaviour
         localPlayer.IsHost = false;
         DisplayMainMenu();
     }
+
+    public void ChangeTeam(Team team)
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write((ushort)team);
+
+            using (Message message = Message.Create(Tags.ChangeTeam, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    public void ChangeTeamInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort playerID = reader.ReadUInt16();
+                Team team = (Team)reader.ReadUInt16();
+
+                RoomManager.Instance.actualRoom.playerList[playerID].playerTeam = team;
+                roomPanelControl.ChangeTeam(playerID, team);
+            }
+        }
+    }
+
 
     public void DisplayMainMenu()
     {
