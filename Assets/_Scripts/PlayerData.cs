@@ -1,8 +1,7 @@
 ﻿using DarkRift;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
 
 [Serializable]
 public class PlayerData : IDarkRiftSerializable
@@ -10,22 +9,22 @@ public class PlayerData : IDarkRiftSerializable
    [SerializeField] public ushort ID { get; set; }
     public bool IsHost { get; set; }
     public string Name { get; set; }
-    public byte ColorR { get; set; }
-    public byte ColorG { get; set; }
-    public byte ColorB { get; set; }
 
-    public PlayerData(ushort ID, bool isHost, string name, byte colorR, byte colorG, byte colorB)
+    public Team playerTeam = Team.none;
+
+    public Character playerCharacter = Character.none;
+
+    public PlayerData()
+    {
+
+    }
+
+    public PlayerData(ushort ID, bool isHost, string name, Team team = Team.none)
     {
         this.ID = ID;
         this.IsHost = isHost;
         this.Name = name;
-        this.ColorR = colorR;
-        this.ColorG = colorG;
-        this.ColorB = colorB;
-    }
-    public PlayerData()
-    {
-
+        this.playerTeam = team;
     }
 
     public void Deserialize(DeserializeEvent e)
@@ -33,9 +32,8 @@ public class PlayerData : IDarkRiftSerializable
         this.ID = e.Reader.ReadUInt16();
         this.IsHost = e.Reader.ReadBoolean();
         this.Name = e.Reader.ReadString();
-        this.ColorR = e.Reader.ReadByte();
-        this.ColorG = e.Reader.ReadByte();
-        this.ColorB = e.Reader.ReadByte();
+        this.playerTeam = (Team)e.Reader.ReadUInt16();
+        this.playerCharacter = (Character)e.Reader.ReadUInt16();
     }
 
     public void Serialize(SerializeEvent e)
@@ -43,9 +41,8 @@ public class PlayerData : IDarkRiftSerializable
         e.Writer.Write(ID);
         e.Writer.Write(IsHost);
         e.Writer.Write(Name);
-        e.Writer.Write(ColorR);
-        e.Writer.Write(ColorG);
-        e.Writer.Write(ColorB);
+        e.Writer.Write((ushort)playerTeam);
+        e.Writer.Write((ushort)playerCharacter);
     }
 
 }

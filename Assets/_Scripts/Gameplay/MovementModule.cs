@@ -68,10 +68,13 @@ public class MovementModule : MonoBehaviour
 				if (stamina <= 0 && usingStamina)
 					myPlayerModule.stopRunning.Invoke();
 			}
+
+			myPlayerModule.onSendMovement?.Invoke(_directionInputed);
 		}
 		else
 		{
 			StopRunning();
+			myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
 		}
 
 		if(!running && usingStamina)
