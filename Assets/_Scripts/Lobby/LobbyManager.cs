@@ -102,6 +102,10 @@ public class LobbyManager : MonoBehaviour
             {
                 ChangeTeamInServer(sender, e);
             }
+            if (message.Tag == Tags.SetReady)
+            {
+                SetReadyInServer(sender, e);
+            }
 
         }
     }
@@ -243,6 +247,7 @@ public class LobbyManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 roomID = reader.ReadUInt16();
+                localPlayer.playerTeam = (Team)reader.ReadUInt16();
                 int playerNumber = reader.ReadInt32();
 
                 for (int i = 0; i < playerNumber; i++)
@@ -372,19 +377,59 @@ public class LobbyManager : MonoBehaviour
 
     public void ChangeTeamInServer(object sender, MessageReceivedEventArgs e)
     {
+        ushort playerID;
+        Team team;
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort playerID = reader.ReadUInt16();
-                Team team = (Team)reader.ReadUInt16();
+                playerID = reader.ReadUInt16();
+                team = (Team)reader.ReadUInt16();
 
                 RoomManager.Instance.actualRoom.playerList[playerID].playerTeam = team;
                 roomPanelControl.ChangeTeam(playerID, team);
             }
         }
+
+        if (playerID == client.ID)
+        {
+            localPlayer.playerTeam = team;
+        }
     }
 
+    public void SetReady(bool value)
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(value);
+
+            using (Message message = Message.Create(Tags.SetReady, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    private void SetReadyInServer(object sender, MessageReceivedEventArgs e)
+    {
+        ushort playerID;
+        bool value = false;
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                playerID = reader.ReadUInt16();
+                value = reader.ReadBoolean();
+
+                RoomManager.Instance.actualRoom.playerList[playerID].IsReady = value;
+                roomPanelControl.SetReady(playerID, value);
+            }
+        }
+
+        if (playerID == client.ID)
+        {
+            localPlayer.IsReady = value;
+        }
+    }
 
     public void DisplayMainMenu()
     {

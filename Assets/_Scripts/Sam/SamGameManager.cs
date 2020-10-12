@@ -51,7 +51,6 @@ public class SamGameManager : MonoBehaviour
 
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
     {
-        print("test");
         using (Message message = _e.GetMessage() as Message)
         {
             if (message.Tag == Tags.SpawnObjPlayer)
@@ -67,6 +66,11 @@ public class SamGameManager : MonoBehaviour
             if (message.Tag == Tags.SupprObjPlayer)
             {
                 SupprPlayer(_sender, _e);
+            }
+
+            if (message.Tag == Tags.SendAnim)
+            {
+                SendPlayerAnim(_sender, _e);
             }
         }
     }
@@ -113,7 +117,6 @@ public class SamGameManager : MonoBehaviour
                 if (message.Tag == Tags.MovePlayerTag)
                 {
                     ushort id = reader.ReadUInt16();
-                    print(id);
                     networkPlayers[id].SetMovePosition(
 
                         new Vector3( //Position
@@ -125,6 +128,24 @@ public class SamGameManager : MonoBehaviour
                         reader.ReadSingle(),
                         reader.ReadSingle(),
                         reader.ReadSingle())
+                        );
+                }
+            }
+        }
+    }
+
+    void SendPlayerAnim(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                if (message.Tag == Tags.SendAnim)
+                {
+                    ushort id = reader.ReadUInt16();
+                    networkPlayers[id].SetAnim(
+                        reader.ReadSingle(),
+                        reader.ReadSingle()
                         );
                 }
             }
