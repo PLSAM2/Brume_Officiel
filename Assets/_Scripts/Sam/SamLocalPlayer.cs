@@ -8,6 +8,7 @@ public class SamLocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
     public bool isOwer = false;
+    public ushort myRoomId;
 
     public PlayerModule myPlayerModule;
 
@@ -57,6 +58,8 @@ public class SamLocalPlayer : MonoBehaviour
 
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
+                _writer.Write(RoomManager.Instance.actualRoom.ID);
+
                 _writer.Write(transform.position.x);
                 _writer.Write(transform.position.z);
 
@@ -82,6 +85,8 @@ public class SamLocalPlayer : MonoBehaviour
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+
             _writer.Write(forward);
             _writer.Write(right);
 

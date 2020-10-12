@@ -32,7 +32,27 @@ public class SamGameManager : MonoBehaviour
             _instance = this;
         }
 
+        client = RoomManager.Instance.client;
         client.MessageReceived += OnMessageReceive;
+    }
+
+    private void Start()
+    {
+        SendSpawnChamp();
+    }
+
+    void SendSpawnChamp()
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+            _writer.Write(client.ID);
+
+            using (Message _message = Message.Create(Tags.SpawnObjPlayer, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
     }
 
     public bool debug = false;
@@ -55,7 +75,7 @@ public class SamGameManager : MonoBehaviour
         {
             if (message.Tag == Tags.SpawnObjPlayer)
             {
-                SpawnPlayer(_sender, _e);
+                SpawnPlayerObj(_sender, _e);
             }
 
             if (message.Tag == Tags.MovePlayerTag)
@@ -87,7 +107,7 @@ public class SamGameManager : MonoBehaviour
         }
     }
 
-    void SpawnPlayer(object _sender, MessageReceivedEventArgs _e)
+    void SpawnPlayerObj(object _sender, MessageReceivedEventArgs _e)
     {
         using (Message message = _e.GetMessage())
         {
