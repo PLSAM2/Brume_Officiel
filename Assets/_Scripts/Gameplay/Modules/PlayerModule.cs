@@ -13,7 +13,7 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-	[ReadOnly] public En_CharacterState state = En_CharacterState.None;
+	[ReadOnly] public En_CharacterState state;
 
 	[ReadOnly] public ushort myId;
 	[HideInInspector] public int teamIndex { get; set; }
@@ -40,6 +40,8 @@ public class PlayerModule : MonoBehaviour
 	{
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
 
+		UiManager.instance.myPlayerModule = this;
+
 		firstSpell?.SetupComponent();
 		secondSpell?.SetupComponent();
 		thirdSpell?.SetupComponent();
@@ -52,26 +54,25 @@ public class PlayerModule : MonoBehaviour
 
 		LookAtMouse();
 
-		if (canCast())
-		{
-			if (Input.GetKeyDown(firstSpellKey))
-				firstSpellInput?.Invoke(mousePos());
 
-			else if (Input.GetKeyDown(secondSpellKey))
-				secondSpellInput?.Invoke(mousePos());
+		if (Input.GetKeyDown(firstSpellKey))
+			firstSpellInput?.Invoke(mousePos());
 
-			else if (Input.GetKeyDown(thirdSpellKey))
-				thirdSpellInput?.Invoke(mousePos());
+		else if (Input.GetKeyDown(secondSpellKey))
+			secondSpellInput?.Invoke(mousePos());
 
-			else if (Input.GetAxis("Fire1") > 0)
-				leftClickInput?.Invoke(mousePos());
+		else if (Input.GetKeyDown(thirdSpellKey))
+			thirdSpellInput?.Invoke(mousePos());
 
-			else if (Input.GetKeyDown(KeyCode.LeftShift))
-				toggleRunning?.Invoke();
-		}
+		else if (Input.GetAxis("Fire1") > 0)
+			leftClickInput?.Invoke(mousePos());
+
+		else if (Input.GetKeyDown(KeyCode.LeftShift))
+			toggleRunning?.Invoke();
+
 	}
 
-	void LookAtMouse()
+	void LookAtMouse ()
 	{
 		Vector3 _currentMousePos = mousePos();
 
@@ -82,14 +83,6 @@ public class PlayerModule : MonoBehaviour
 	}
 	//Vars 
 	#region 
-	bool canCast ()
-	{
-		//	if ((~state & En_CharacterState.Canalysing) == 0 && (~state & En_CharacterState.Stunned) == 0)
-		return true;
-		//else
-		//	return false;
-
-	}
 
 	Vector3 directionInputed ()
 	{
@@ -115,9 +108,8 @@ public class PlayerModule : MonoBehaviour
 [System.Flags]
 public enum En_CharacterState
 {
-	None = 1 >> 0,
-	Slowed = 1 >> 1,
-	SpedUp = 1 >> 2,
-	Stunned = 1 >> 3,
-	Canalysing = 1 >> 4,
+	Slowed = 1 << 0,
+	SpedUp = 1 << 1,
+	Stunned = 1 << 2,
+	Canalysing = 1 << 3,
 }

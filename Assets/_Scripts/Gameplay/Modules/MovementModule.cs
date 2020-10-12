@@ -8,8 +8,13 @@ public class MovementModule : MonoBehaviour
 {
 	St_MovementParameters parameters;
 	[SerializeField] bool usingStamina;
-	float timeSpentRunning, stamina, timeSpentNotRunning;
-	bool running;
+	float timeSpentRunning,  timeSpentNotRunning, _stamina;
+	public float Stamina {	get => _stamina; 
+		set { 
+			_stamina = value;
+			UiManager.instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} }
+
+	bool running = false;
 	CapsuleCollider collider;
 	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
 
@@ -38,7 +43,8 @@ public class MovementModule : MonoBehaviour
 		parameters = _newParameters;
 		collider = _colliderInfos;
 
-		stamina = parameters.maxStamina;
+		_stamina = parameters.maxStamina;
+		Stamina = parameters.maxStamina;
 	}
 
 	void Move (Vector3 _directionInputed)
@@ -64,8 +70,8 @@ public class MovementModule : MonoBehaviour
 			if(running == true)
 			{
 				timeSpentRunning +=  Time.deltaTime;
-				stamina -= Time.deltaTime;
-				if (stamina <= 0 && usingStamina)
+				Stamina -= Time.deltaTime;
+				if (Stamina <= 0 && usingStamina)
 					myPlayerModule.stopRunning.Invoke();
 			}
 
@@ -80,7 +86,7 @@ public class MovementModule : MonoBehaviour
 		if(!running && usingStamina)
 		{
 			if (timeSpentNotRunning > parameters.regenDelay)
-				stamina = Mathf.Clamp(stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
+				Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
 			else
 				timeSpentNotRunning += Time.deltaTime;
 		}
