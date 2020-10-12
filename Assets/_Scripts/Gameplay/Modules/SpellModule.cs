@@ -7,9 +7,13 @@ using Sirenix.OdinInspector;
 public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
+	[ReadOnly] public float Cooldown { get => _cooldown; set { UiManager.instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown); } }
+	float _cooldown = 0;
 	[ReadOnly] bool isUsed = false;
-	[SerializeField] string debug;
+	[SerializeField] Sc_Spell spell;
+
 	public En_SpellInput actionLinked;
+	public Action<float> cooldownUpdatefirstSpell;
 
 	PlayerModule myPlayerModule;
 
@@ -20,7 +24,6 @@ public class SpellModule : MonoBehaviour
 
     public void SetupComponent()
 	{
-
 		switch(actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -36,7 +39,6 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
 		}
-
 	}
 
 	void OnDisable()
@@ -72,7 +74,7 @@ public class SpellModule : MonoBehaviour
 
 	public void StartCanalysing ( Vector3 _BaseMousePos)
 	{
-		Debug.Log("I start Canalysing" + debug);
+
 	}
 
 	public void Interrupt ()
@@ -82,9 +84,23 @@ public class SpellModule : MonoBehaviour
 	public virtual void ResolveSpell(Vector3 mousePosition)
 	{
 		Interrupt();
+		Cooldown = spell.cooldown;
+	}
+
+	public void DecreaseCooldown()
+	{
+		if (!isUsed)
+			Cooldown -= Time.deltaTime;
 	}
 
 
+	bool canBeCast()
+	{
+		if ((myPlayerModule.state | spell.StateAutorised) != spell.StateAutorised && Cooldown < spell.cooldown)
+			return false;
+		else 
+			return true;
+	}
 }
 
 public enum En_SpellInput
@@ -92,5 +108,6 @@ public enum En_SpellInput
 	FirstSpell,
 	SecondSpell,
 	ThirdSpell,
-	Click
+	Click,
+	Maj
 }
