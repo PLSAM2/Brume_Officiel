@@ -15,7 +15,8 @@ public class Tags
     public static readonly ushort PlayerJoinedRoom = 40;
     public static readonly ushort PlayerQuitRoom = 45;
     public static readonly ushort QuitRoom = 50;
-    public static readonly ushort StartGame = 90;
+    public static readonly ushort StartGame = 80;
+    public static readonly ushort LobbyStartGame = 90;
     public static readonly ushort QuitGame = 100;
     public static readonly ushort ChangeName = 110;
     public static readonly ushort ChangeTeam = 120;

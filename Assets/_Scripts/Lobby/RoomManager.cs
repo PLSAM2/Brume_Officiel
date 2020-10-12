@@ -14,6 +14,7 @@ public class RoomManager : MonoBehaviour
     public static RoomManager Instance { get { return _instance; } }
 
     public string gameScene;
+    public string champSelectScene;
     public string menuScene;
 
     [HideInInspector] public RoomData actualRoom;
@@ -41,26 +42,36 @@ public class RoomManager : MonoBehaviour
     {
         using (Message message = e.GetMessage() as Message)
         {
-            if (message.Tag == Tags.StartGame)
+            if (message.Tag == Tags.LobbyStartGame)
             {
-                StartGameInServer(sender, e);
+                StartChampSelectInServer(sender, e);
             }
             if (message.Tag == Tags.QuitGame)
             {
                 QuitGameInServer(sender, e);
             }
+
+            if (message.Tag == Tags.StartGame)
+            {
+                StartGameInServer(sender, e);
+            }
         }
     }
 
-    public void StartGame()
+    public void StartChampSelect()
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write(actualRoom.ID);
 
-            using (Message message = Message.Create(Tags.StartGame, writer))
+            using (Message message = Message.Create(Tags.LobbyStartGame, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
+    }
+
+    private void StartChampSelectInServer(object sender, MessageReceivedEventArgs e)
+    {
+        SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
     }
 
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)

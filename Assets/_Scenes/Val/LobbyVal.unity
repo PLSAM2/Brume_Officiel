@@ -204,7 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f5c2d631a836c479965e7a55f93a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameScene: ChampSelectVal
+  gameScene: MainVal
+  champSelectScene: ChampSelectVal
   menuScene: LobbyVal
   client: {fileID: 3067890}
 --- !u!1001 &9398621
@@ -3146,7 +3147,7 @@ PrefabInstance:
       objectReference: {fileID: 3067892}
     - target: {fileID: 2003721078633558947, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGame
+      value: StartChampSelect
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078633558947, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

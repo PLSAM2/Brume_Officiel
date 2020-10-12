@@ -1,12 +1,9 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Video;
+
 using static GameData;
 
 public sealed class ChampSelectManager : MonoBehaviour
@@ -16,7 +13,7 @@ public sealed class ChampSelectManager : MonoBehaviour
 
     public List<CharacterListObj> redTeamCharacterList = new List<CharacterListObj>();
     public List<CharacterListObj> blueTeamCharacterList = new List<CharacterListObj>();
-
+    public GameObject startButton;
     public Dictionary<ushort, CharacterListObj> linkPlayerCharacterListObj = new Dictionary<ushort, CharacterListObj>();
 
     UnityClient client;
@@ -81,12 +78,24 @@ public sealed class ChampSelectManager : MonoBehaviour
         }
 
         SetCharacter(_playerID, _character);
+
+        if (RoomManager.Instance.GetLocalPlayer().IsHost)
+        {
+            if (CheckIfPlayersAreReady())
+            {
+                startButton.SetActive(true);
+            } else
+            {
+                startButton.SetActive(false);
+            }
+            
+        }
     }
 
     private void SetCharacter(ushort playerID, Character character)
     {
         PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
-        print("1");
+
         player.playerCharacter = character;
 
         if (linkPlayerCharacterListObj.ContainsKey(playerID))
@@ -94,7 +103,7 @@ public sealed class ChampSelectManager : MonoBehaviour
             linkPlayerCharacterListObj[playerID].playerNameText.text = "";
             linkPlayerCharacterListObj.Remove(playerID);
         }
-        print("2");
+
         int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
 
         CharacterListObj _listObj;
@@ -111,10 +120,35 @@ public sealed class ChampSelectManager : MonoBehaviour
                 print("ERROR");
                 return;
         }
-        print("3");
+
         _listObj.playerNameText.text = player.Name;
         linkPlayerCharacterListObj.Add(playerID, _listObj);
-        print("4");
+
+    }
+
+
+    private bool CheckIfPlayersAreReady()
+    {
+        foreach (PlayerData p in RoomManager.Instance.GetAllPlayerInActualRoom())
+        {
+            if (!p.IsReady)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void StartGame()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(RoomManager.Instance.actualRoom.ID);
+
+            using (Message message = Message.Create(Tags.StartGame, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
     }
 
 }
