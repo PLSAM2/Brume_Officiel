@@ -6,20 +6,24 @@ using UnityEngine;
 
 public class MovementModule : MonoBehaviour
 {
+	[Header("Basic elements")]
 	St_MovementParameters parameters;
+	[SerializeField] LayerMask allBlockingLayer;
+	CapsuleCollider collider;
+
+	[Header("Running Stamina")]
 	[SerializeField] bool usingStamina;
 	float timeSpentRunning,  timeSpentNotRunning, _stamina;
 	public float Stamina {	get => _stamina; 
 		set { 
 			_stamina = value;
-			UiManager.instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} }
-
+			UiManager.instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} 
+	}
 	bool running = false;
-	CapsuleCollider collider;
-	List<ForcedMovement> allForcedMovement = new List<ForcedMovement>();
+	//DASH 
+	ForcedMovement currentForcedMovement = new ForcedMovement();
 
-	[SerializeField] LayerMask allBlockingLayer;
-
+	//recup des actions
 	PlayerModule myPlayerModule;
 
 	public void OnEnable ()
@@ -29,6 +33,7 @@ public class MovementModule : MonoBehaviour
 		myPlayerModule.DirectionInputedUpdate += Move;
 		myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;
+		myPlayerModule.dashAdded += AddDash;
 	}
 
 	void OnDisable()
@@ -49,10 +54,12 @@ public class MovementModule : MonoBehaviour
 
 	void Move (Vector3 _directionInputed)
 	{
-		if (ForcedMovement() != Vector3.zero)
+		if (currentForcedMovement.duration > 0)
 		{
-			if (isFree(ForcedMovement()))
-				transform.position += ForcedMovement() * parameters.movementSpeed * Time.deltaTime;
+			currentForcedMovement.duration -= Time.deltaTime;
+
+			if (isFree(currentForcedMovement.direction))
+				transform.position += currentForcedMovement.direction * currentForcedMovement.strength * Time.deltaTime;
 			else
 				ForcedMovementTouchObstacle();
 		}
@@ -94,12 +101,13 @@ public class MovementModule : MonoBehaviour
 
 	void ForcedMovementTouchObstacle()
 	{
-		allForcedMovement.Clear();
+		currentForcedMovement = new ForcedMovement();
 	}
-	void AddDash ( ForcedMovement infos )
+	public void AddDash ( ForcedMovement infos )
 	{
-		allForcedMovement.Add(infos);
+		currentForcedMovement = infos;
 	}
+
 	void StopRunning()
 	{
 		timeSpentRunning = 0;
@@ -122,6 +130,7 @@ public class MovementModule : MonoBehaviour
 
 	//Parameters
 	#region
+	/* si plusieurs mouvement forcé en même temps s additione;
 	Vector3 ForcedMovement ()
 	{
 		Vector3 _forceToApply = Vector3.zero;
@@ -132,9 +141,9 @@ public class MovementModule : MonoBehaviour
 
 			foreach (ForcedMovement _movement in allForcedMovement)
 			{
-				_forceToApply += (_movement.direction * _movement.strength);
-
+				_forceToApply += (Vector3.Normalize(_movement.direction) * _movement.strength);
 				_movement.duration -= Time.deltaTime;
+
 				if (_movement.duration > 0)
 					_movementToKeep.Add(_movement);
 			}
@@ -143,7 +152,7 @@ public class MovementModule : MonoBehaviour
 		}
 
 		return _forceToApply;
-	}
+	}*/
 	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
 	{
 		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom)[0];
@@ -214,13 +223,13 @@ public class MovementModule : MonoBehaviour
 	}
 
 	#endregion
-
 }
 
 [System.Serializable]
 public class ForcedMovement
 {
-	public float duration;
-	public Vector3 direction;
+	public float duration = 0;
+	Vector3 _direction;
+	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
 	public float strength;
 }
