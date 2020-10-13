@@ -7,24 +7,27 @@ using Sirenix.OdinInspector;
 public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
-	[ReadOnly] public float Cooldown { get => _cooldown; set { UiManager.instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown); } }
+	[ReadOnly] public float Cooldown { get => _cooldown; set {
+			_cooldown = value; UiManager.instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
+		} }
 	float _cooldown = 0;
-	[ReadOnly] bool isUsed = false;
-	[SerializeField] Sc_Spell spell;
+	[ReadOnly] public bool isUsed = false;
+	public Sc_Spell spell;
 
 	public En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
+	[HideInInspector] public Vector3 recordedMousePosOnInput;
+	[HideInInspector] public PlayerModule myPlayerModule;
+	public Action startCanalisation, endCanalisation;
 
-	PlayerModule myPlayerModule;
-
-    private void Start()
-    {
+	private void Start ()
+	{
 		myPlayerModule = GetComponent<PlayerModule>();
 	}
 
-    public void SetupComponent()
+	public virtual void SetupComponent ()
 	{
-		switch(actionLinked)
+		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput += StartCanalysing;
@@ -39,9 +42,11 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
 		}
+		UiManager.instance.SetupIcon(spell, actionLinked);
+		timeToResolveSpell = spell.canalisationTime;
 	}
 
-	void OnDisable()
+	public virtual void  OnDisable ()
 	{
 		switch (actionLinked)
 		{
@@ -60,45 +65,59 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	void Update()
+	public 	virtual void  Update ()
 	{
-		if(isUsed)
+		if (isUsed)
 		{
 			currentTimeCanalised += Time.deltaTime;
 			if (currentTimeCanalised >= timeToResolveSpell)
 			{
-			//	ResolveSpell();
+				if (spell.useLastRecordedMousePos)
+					ResolveSpell(recordedMousePosOnInput);
+				else
+					ResolveSpell(myPlayerModule.mousePos());
+				Interrupt();
 			}
 		}
+		else
+			DecreaseCooldown();
 	}
 
-	public void StartCanalysing ( Vector3 _BaseMousePos)
+	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
+		recordedMousePosOnInput = _BaseMousePos;
 
+		if (canBeCast())
+		{
+			startCanalisation?.Invoke();
+			Cooldown = spell.cooldown;
+			isUsed = true;
+		}
 	}
 
 	public void Interrupt ()
 	{
-
-	}
-	public virtual void ResolveSpell(Vector3 mousePosition)
-	{
-		Interrupt();
-		Cooldown = spell.cooldown;
+		isUsed = false;
+		currentTimeCanalised = 0;
 	}
 
-	public void DecreaseCooldown()
+	public virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
-		if (!isUsed)
+		endCanalisation?.Invoke();
+	}
+
+	public void DecreaseCooldown ()
+	{
+		if (Cooldown >= 0)
 			Cooldown -= Time.deltaTime;
 	}
 
-
-	bool canBeCast()
+	bool canBeCast ()
 	{
-		if ((myPlayerModule.state | spell.StateAutorised) != spell.StateAutorised && Cooldown < spell.cooldown)
+		if (/*(myPlayerModule.state | spell.StateAutorised) != spell.StateAutorised &&*/
+			Cooldown>0 || isUsed)
 			return false;
-		else 
+		else
 			return true;
 	}
 }

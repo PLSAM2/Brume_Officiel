@@ -113,11 +113,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
-  firstSpell: {fileID: 0}
-  secondSpell: {fileID: 0}
-  thirdSpell: {fileID: 0}
-  sprintIcon: {fileID: 0}
-  autoAttackIcon: {fileID: 0}
+  firstSpell: {fileID: 1309610158221809160}
+  secondSpell: {fileID: 671036548903423130}
+  thirdSpell: {fileID: 5738902664088499709}
+  sprintIcon: {fileID: 6181797919727576463}
+  autoAttackIcon: {fileID: 7913109519891289823}
 --- !u!1 &7489062001399995471
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +325,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
   m_PrefabInstance: {fileID: 3338231386051467793}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1309610158221809160 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 3338231386051467793}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3832401026746728579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -335,6 +346,10 @@ PrefabInstance:
     - target: {fileID: 3509583108425157762, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Name
       value: SpellIcon 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: typeOfSpell
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -427,6 +442,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
   m_PrefabInstance: {fileID: 3832401026746728579}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &671036548903423130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 3832401026746728579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5885764274902817478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -437,6 +463,10 @@ PrefabInstance:
     - target: {fileID: 3509583108425157762, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Name
       value: 'SpellIcon 4 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: typeOfSpell
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -541,6 +571,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
   m_PrefabInstance: {fileID: 5885764274902817478}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7913109519891289823 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 5885764274902817478}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7617069346744560022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -551,6 +592,10 @@ PrefabInstance:
     - target: {fileID: 3509583108425157762, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Name
       value: SprintIcon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: typeOfSpell
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -651,6 +696,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
   m_PrefabInstance: {fileID: 7617069346744560022}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6181797919727576463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 7617069346744560022}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8348479448142330340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -661,6 +717,10 @@ PrefabInstance:
     - target: {fileID: 3509583108425157762, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Name
       value: SpellIcon 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: typeOfSpell
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -753,3 +813,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
   m_PrefabInstance: {fileID: 8348479448142330340}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5738902664088499709 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 8348479448142330340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

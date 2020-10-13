@@ -23,17 +23,17 @@ public class UiManager : MonoBehaviour
 		{
 			case En_SpellInput.FirstSpell:
 				firstSpell.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, firstSpell, .2f);
+				CheckBeReady(_time, firstSpell, .2f);
 				break;
 
 			case En_SpellInput.SecondSpell:
 				secondSpell.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, secondSpell, .2f);
+				CheckBeReady(_time, secondSpell, .2f);
 				break;
 
 			case En_SpellInput.ThirdSpell:
 				thirdSpell.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, thirdSpell, .2f);
+				CheckBeReady(_time, thirdSpell, .2f);
 				break;
 
 			case En_SpellInput.Maj:
@@ -42,7 +42,7 @@ public class UiManager : MonoBehaviour
 
 			case En_SpellInput.Click:
 				autoAttackIcon.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, autoAttackIcon, 0.05f);
+				CheckBeReady(_time, autoAttackIcon, 0.05f);
 				break;
 		}		
 	}
@@ -72,11 +72,11 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	void CheckBeReady(float _actualTime, float _completeCd, IconUi _iconToPrep, float _timeToCheckShow)
+	void CheckBeReady(float _actualTime, IconUi _iconToPrep, float _timeToCheckShow)
 	{
-		if (_actualTime <= 0.1f)
+		if (_actualTime <= 0.2f)
 			_iconToPrep.BeReady(true, _timeToCheckShow);
-		else if (_completeCd - _actualTime <= _timeToCheckShow)
+		else  
 			_iconToPrep.BeReady(false, _timeToCheckShow);
 	}
 }

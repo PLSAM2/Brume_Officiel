@@ -10,10 +10,10 @@ public class IconUi : MonoBehaviour
 	[SerializeField] En_SpellInput typeOfSpell;
 	RectTransform myRectTransform;
 	[HideInInspector] public bool isMoving = false;
-
+	bool ishiding;
 	private void Start ()
 	{
-		myRectTransform = GetComponent<RectTransform>();
+		myRectTransform = icon.GetComponent<RectTransform>();
 	}
 
 	public void SetSprite(Sprite _icon)
@@ -26,14 +26,23 @@ public class IconUi : MonoBehaviour
 		fillAmount.fillAmount = _fill;
 	}
 
-	public void BeReady(bool hiding, float timeToWarmUp = .2f)
+	public void BeReady(bool _hiding, float _timeToWarmUp = .2f)
 	{
+		/* SACRE BORDEL A CORRIGER
 		if(isMoving == false)
 		{
-			if (hiding == true)
-				myRectTransform.DOMoveY(-30, timeToWarmUp).OnComplete(()=> isMoving = false);
+			if (_hiding == true)
+			{
+				isMoving = true;
+				print(_hiding);
+				myRectTransform.DOMoveY(60, _timeToWarmUp).OnComplete(() => isMoving = false);
+			}
 			else
-				myRectTransform.DOMoveY(0, timeToWarmUp).OnComplete(() => isMoving = false); 
+			{
+				isMoving = true;
+				myRectTransform.DOMoveY(20, _timeToWarmUp).OnComplete(() => isMoving = false);
+			}
 		}
+		*/
 	}
 }
