@@ -8,7 +8,7 @@ public class MovementModule : MonoBehaviour
 {
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
-	[SerializeField] LayerMask allBlockingLayer;
+	[SerializeField] LayerMask movementBlockingLayer, dashBlockingLayer ;
 	CapsuleCollider collider;
 
 	[Header("Running Stamina")]
@@ -33,7 +33,11 @@ public class MovementModule : MonoBehaviour
 		myPlayerModule.DirectionInputedUpdate += Move;
 		myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;
-		myPlayerModule.dashAdded += AddDash;
+		myPlayerModule.forcedMovementAdded += AddDash;
+
+		//IMPORTANT POUR LES CALLBACKS
+		currentForcedMovement.myModule = myPlayerModule;
+
 	}
 
 	void OnDisable()
@@ -58,14 +62,14 @@ public class MovementModule : MonoBehaviour
 		{
 			currentForcedMovement.duration -= Time.deltaTime;
 
-			if (isFree(currentForcedMovement.direction))
+			if (isFree(currentForcedMovement.direction, dashBlockingLayer))
 				transform.position += currentForcedMovement.direction * currentForcedMovement.strength * Time.deltaTime;
 			else
 				ForcedMovementTouchObstacle();
 		}
 		else if (_directionInputed != Vector3.zero)
 		{
-			if (!isFree(_directionInputed))
+			if (!isFree(_directionInputed, movementBlockingLayer))
 			{
 				transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
 			}
@@ -101,11 +105,17 @@ public class MovementModule : MonoBehaviour
 
 	void ForcedMovementTouchObstacle()
 	{
+		//juste pour caler le callback comme quoi le mouvement est bien fini;
+		currentForcedMovement.duration = 0;
 		currentForcedMovement = new ForcedMovement();
+		currentForcedMovement.myModule = myPlayerModule;
+
 	}
 	public void AddDash ( ForcedMovement infos )
 	{
+		PlayerModule _tempStock = myPlayerModule;
 		currentForcedMovement = infos;
+		currentForcedMovement.myModule = myPlayerModule;
 	}
 
 	void StopRunning()
@@ -155,7 +165,7 @@ public class MovementModule : MonoBehaviour
 	}*/
 	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
 	{
-		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom)[0];
+		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom, movementBlockingLayer)[0];
 
 
 		Vector3 _aVector = new Vector3(-_hitToRead.normal.z, 0, _hitToRead.normal.x);
@@ -163,14 +173,14 @@ public class MovementModule : MonoBehaviour
 
 		if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
 		{
-			if (isFree(_aVector))
+			if (isFree(_aVector, movementBlockingLayer))
 				return _aVector;
 			else
 				return Vector3.zero;
 		}
 		else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
 		{
-			if (isFree(_bVector))
+			if (isFree(_bVector, movementBlockingLayer))
 			{
 				return _bVector;
 			}
@@ -181,9 +191,9 @@ public class MovementModule : MonoBehaviour
 			return Vector3.zero;
 
 	}
-	public bool isFree ( Vector3 _direction )
+	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck )
 	{
-		if (CastCapsuleHit(_direction).Count > 0)
+		if (CastCapsuleHit(_direction, _layerTocheck).Count > 0)
 			return false;
 		else
 			return true;
@@ -200,14 +210,14 @@ public class MovementModule : MonoBehaviour
 		return defspeed;
 	}
 
-	List<RaycastHit> CastCapsuleHit ( Vector3 _direction )
+	List<RaycastHit> CastCapsuleHit ( Vector3 _direction , LayerMask _checkingLayer)
 	{
 		List<RaycastHit> _allHit = Physics.CapsuleCastAll(transform.position - new Vector3(0, collider.height / 2, 0),
 			transform.position + new Vector3(0, collider.height / 2, 0),
 			collider.radius,
 			_direction,
 			collider.radius,
-			allBlockingLayer).ToList<RaycastHit>();
+			_checkingLayer).ToList<RaycastHit>();
 
 		List<RaycastHit> _returnList = new List<RaycastHit>();
 
@@ -223,13 +233,4 @@ public class MovementModule : MonoBehaviour
 	}
 
 	#endregion
-}
-
-[System.Serializable]
-public class ForcedMovement
-{
-	public float duration = 0;
-	Vector3 _direction;
-	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
-	public float strength;
 }

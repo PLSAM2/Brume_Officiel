@@ -17,7 +17,7 @@ public class CharacterManager : MonoBehaviour
 			Destroy(this);
 	}
 
-	public List<PlayerModule> PlayersFromTeam (int _teamIndexAsked)
+	/*public List<PlayerModule> PlayersFromTeam (int _teamIndexAsked)
 	{
 		List<PlayerModule> tempList = new List<PlayerModule>();
 		
@@ -27,7 +27,7 @@ public class CharacterManager : MonoBehaviour
 				tempList.Add(playerList[i]);
 		}
 		return tempList;
-	}
+	}*/
 
 	public PlayerModule PlayerFromIndex (int _playerIndex)
 	{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
+using static GameData;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -13,19 +14,24 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-	[ReadOnly] public En_CharacterState state;
 
 	[ReadOnly] public ushort myId;
-	[HideInInspector] public int teamIndex { get; set; }
+	[ReadOnly] public string myName;
+	public Team teamIndex;
 	[SerializeField] Camera mainCam;
 	[SerializeField] LayerMask groundLayer;
+
+	[Header("DamagesPart")]
+	[ReadOnly] public En_CharacterState state;
+	private uint _liveHealth;
+	[ReadOnly] public uint liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+	List<DamagesInfos> allHitTaken = new List<DamagesInfos>(); 
 
 
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
 	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick;
 	[SerializeField] CapsuleCollider coll;
-	float lastFrameFireValue = 0;
 
 
 	//ALL ACTION 
@@ -34,8 +40,12 @@ public class PlayerModule : MonoBehaviour
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
 	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased;
+	//run
 	public Action toggleRunning, stopRunning;
-	public Action<ForcedMovement> dashAdded;
+	//otherMovements
+	public Action<ForcedMovement> forcedMovementAdded;
+	public Action forcedMovementInterrupted;
+	public Action<MovementModifier> addMovementModifier;
 
 	//Animation
 	public Action<Vector3> onSendMovement;
@@ -44,6 +54,7 @@ public class PlayerModule : MonoBehaviour
 	void Start ()
 	{
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
+		liveHealth = characterParameters.health;
 
 		UiManager.instance.myPlayerModule = this;
 
@@ -55,10 +66,9 @@ public class PlayerModule : MonoBehaviour
 
 	void Update ()
 	{
-		//inputs
 		//rot player
 		LookAtMouse();
-		//direction des fleches du clabier 
+		//direction des fleches du clavier 
 		DirectionInputedUpdate.Invoke(directionInputed());
 
 		//INPUT DETECTION SPELLS AND RUNNING
@@ -74,7 +84,6 @@ public class PlayerModule : MonoBehaviour
 		else if (Input.GetAxis("Fire1") > 0)
 		{
 			leftClickInput?.Invoke(mousePos());
-			lastFrameFireValue = Input.GetAxis("Fire1");
 		}
 		//RUNNING
 		else if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -87,6 +96,19 @@ public class PlayerModule : MonoBehaviour
 		else if (Input.GetKeyDown(thirdSpellKey))
 			thirdSpellInputRealeased?.Invoke(mousePos());
 		#endregion
+	}
+
+	// A METTER EN REZO
+	public void DealDamages ( DamagesInfos _damagesToDeal )
+	{
+		print("Dealer" + _damagesToDeal.playerName);
+		allHitTaken.Add(_damagesToDeal);
+		liveHealth -= _damagesToDeal.damages.damageHealth;
+	}
+
+	public void KillPlayer()
+	{
+
 	}
 
 	void LookAtMouse ()
@@ -125,3 +147,45 @@ public enum En_CharacterState
 	Stunned = 1 << 2,
 	Canalysing = 1 << 3,
 }
+
+
+[System.Serializable]
+public class ForcedMovement
+{
+	public PlayerModule myModule;
+	float _duration = 0;
+	public float duration
+	{
+		get => _duration; set
+		{
+			_duration = value; if (_duration <= 0) {  myModule.forcedMovementInterrupted.Invoke(); }
+		}
+	}
+	Vector3 _direction;
+	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
+	public float strength;
+}
+
+[System.Serializable]
+public class MovementModifier
+{
+	public float percentageOfTheModifier, duration;
+}
+
+
+[System.Serializable]
+public class DamagesInfos
+{
+	public DamagesParameters damages;
+	public string playerName;
+}
+
+
+[System.Serializable]
+public class DamagesParameters
+{
+	public uint damageHealth;
+}
+
+
+

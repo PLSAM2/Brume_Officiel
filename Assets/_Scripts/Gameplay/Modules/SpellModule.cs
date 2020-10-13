@@ -20,13 +20,12 @@ public class SpellModule : MonoBehaviour
 	[HideInInspector] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
 
-	private void Start ()
-	{
-		myPlayerModule = GetComponent<PlayerModule>();
-	}
 
 	public virtual void SetupComponent ()
 	{
+		myPlayerModule = GetComponent<PlayerModule>();
+
+
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:

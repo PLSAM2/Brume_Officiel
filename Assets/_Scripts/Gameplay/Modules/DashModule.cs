@@ -32,12 +32,12 @@ public class DashModule : SpellModule
 			dashInfos.direction = myPlayerModule.mousePos() - transform.position;
 		}
 
-		myPlayerModule.dashAdded(dashInfos);
+		myPlayerModule.forcedMovementAdded(dashInfos);
 		
 		base.ResolveSpell(_mousePosition);
 	}
 
-	void ShowPreview()
+	public virtual void ShowPreview ()
 	{
 		mylineRender.positionCount += 1;
 		if (spell.useLastRecordedMousePos)
@@ -52,7 +52,7 @@ public class DashModule : SpellModule
 		mylineRender.DOColor(new Color2(startColorPreview, startColorPreview), new Color2(endColorPreview, endColorPreview), spell.canalisationTime);
 	}
 
-	void ClearPreview()
+	public virtual void ClearPreview()
 	{
 		mylineRender.positionCount = 1;
 	}

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8281150123794309746}
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
+  - component: {fileID: 6674073701188791837}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -107,12 +108,12 @@ MonoBehaviour:
   secondSpellKey: 101
   thirdSpellKey: 114
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  state: 1
   myId: 0
   mainCam: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
+  state: 1
   movementPart: {fileID: 8281150123794309746}
   firstSpell: {fileID: 0}
   secondSpell: {fileID: 0}
@@ -129,10 +130,36 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.26045737
+  m_Radius: 0.3
   m_Height: 1.7721548
   m_Direction: 1
   m_Center: {x: 0, y: 0.8928008, z: -0.017817229}
+--- !u!114 &6674073701188791837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327ddf0e40e63304599be44252132c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
+  actionLinked: 1
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  mylineRender: {fileID: 2550331642934917765}
+  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
+  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  damageRadius: 0.6
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
