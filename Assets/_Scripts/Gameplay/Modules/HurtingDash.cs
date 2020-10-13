@@ -6,15 +6,17 @@ using UnityEngine;
 public class HurtingDash : DashModule
 {
 	[SerializeField] LayerMask characterLayer;
-	[SerializeField] float damageRadius;
 	bool damaging = false;
 	Vector3 directionToDamage;
 	List<GameObject> allPlayerTouched = new List<GameObject>();
+	float _width;
 	public override void SetupComponent ()
 	{
 		base.SetupComponent();
 		myPlayerModule.forcedMovementAdded += StartDamaging;
 		myPlayerModule.forcedMovementInterrupted += StopDamaging;
+		_width  = (spell as Sc_DashSpell).damagesRadius;
+		mylineRender.SetWidth(_width, _width);
 	}
 
 	public override void OnDisable ()
@@ -27,7 +29,7 @@ public class HurtingDash : DashModule
 		base.Update();
 		if (damaging)
 		{
-			List<RaycastHit> _allitemsTouched = Physics.CapsuleCastAll(transform.position - new Vector3(0, 0.5f, 0), transform.position + new Vector3(0, 0.5f, 0), damageRadius, directionToDamage, damageRadius / 2, characterLayer).ToList();
+			List<RaycastHit> _allitemsTouched = Physics.CapsuleCastAll(transform.position - new Vector3(0, 0.5f, 0), transform.position + new Vector3(0, 0.5f, 0), _width, directionToDamage, _width / 2, characterLayer).ToList();
 
 			foreach (RaycastHit _hit in _allitemsTouched)
 			{
@@ -49,6 +51,7 @@ public class HurtingDash : DashModule
 					{
 						DamagesInfos _infos = new DamagesInfos();
 						_infos.playerName = myPlayerModule.myName;
+						_infos.damages = spell.damagesToDeal;
 
 						_tempStack.DealDamages(_infos);
 						allPlayerTouched.Add(_hit.collider.gameObject);

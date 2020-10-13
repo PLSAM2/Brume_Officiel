@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DashModule : SpellModule
 {
-	[SerializeField] LineRenderer mylineRender;
+	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
 	public override void SetupComponent ()
 	{

@@ -6,4 +6,5 @@ using UnityEngine;
 public class Sc_DashSpell : Sc_Spell
 {
     public float timeToReachMaxRange;
+    public float damagesRadius;
 }
