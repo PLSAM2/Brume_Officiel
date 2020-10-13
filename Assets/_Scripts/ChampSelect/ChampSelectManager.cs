@@ -6,7 +6,7 @@ using UnityEngine;
 
 using static GameData;
 
-public sealed class ChampSelectManager : MonoBehaviour
+public class ChampSelectManager : MonoBehaviour
 {
     private static ChampSelectManager _instance;
     public static ChampSelectManager Instance { get { return _instance; } }
@@ -16,7 +16,6 @@ public sealed class ChampSelectManager : MonoBehaviour
     public GameObject startButton;
     public Dictionary<ushort, CharacterListObj> linkPlayerCharacterListObj = new Dictionary<ushort, CharacterListObj>();
 
-    UnityClient client;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -34,9 +33,12 @@ public sealed class ChampSelectManager : MonoBehaviour
             return;
         }
 
-        client = RoomManager.Instance.client;
+        RoomManager.Instance.client.MessageReceived += MessageReceived;
+    }
 
-        client.MessageReceived += MessageReceived;
+    private void OnDisable()
+    {
+        RoomManager.Instance.client.MessageReceived -= MessageReceived;
     }
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -58,7 +60,7 @@ public sealed class ChampSelectManager : MonoBehaviour
             writer.Write((ushort)character);
 
             using (Message message = Message.Create(Tags.SetCharacter, writer))
-                client.SendMessage(message, SendMode.Reliable);
+                RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
         }
     }
 
@@ -147,7 +149,7 @@ public sealed class ChampSelectManager : MonoBehaviour
             writer.Write(RoomManager.Instance.actualRoom.ID);
 
             using (Message message = Message.Create(Tags.StartGame, writer))
-                client.SendMessage(message, SendMode.Reliable);
+                RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
         }
     }
 

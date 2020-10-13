@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 public class UiManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class UiManager : MonoBehaviour
 	public PlayerModule myPlayerModule;
 	public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon;
 
+	public TextMeshProUGUI timer;
 	private void Awake ()
 	{
 		if (instance == null || instance == this)

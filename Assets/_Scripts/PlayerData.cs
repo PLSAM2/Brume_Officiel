@@ -10,6 +10,7 @@ public class PlayerData : IDarkRiftSerializable
     public bool IsHost { get; set; }
     public string Name { get; set; }
     public bool IsReady { get; set; }
+    public ushort score { get; set; }
 
     public Team playerTeam = Team.none;
 

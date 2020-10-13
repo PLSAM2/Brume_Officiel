@@ -25,11 +25,15 @@ public class Tags
     // <<
 
     // InGame >>   
+    public static readonly ushort StartTimer = 300;
+    public static readonly ushort StopGame = 310;
+    public static readonly ushort InstantiateObject = 500;
+    public static readonly ushort SynchroniseObject = 510;
+    public static readonly ushort AddPoints = 550;
+    public static readonly ushort KillCharacter = 560;
     public static readonly ushort SpawnObjPlayer = 1000;
     public static readonly ushort MovePlayerTag = 1010;
     public static readonly ushort SupprObjPlayer = 1020;
     public static readonly ushort SendAnim = 1030;
-    public static readonly ushort InstantiateObject = 500;
-    public static readonly ushort SynchroniseObject = 510;
     // <<
 }
