@@ -29,5 +29,7 @@ public class Tags
     public static readonly ushort MovePlayerTag = 1010;
     public static readonly ushort SupprObjPlayer = 1020;
     public static readonly ushort SendAnim = 1030;
+    public static readonly ushort InstantiateObject = 500;
+    public static readonly ushort SynchroniseObject = 510;
     // <<
 }
