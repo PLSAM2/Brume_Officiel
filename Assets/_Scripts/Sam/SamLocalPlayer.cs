@@ -8,7 +8,6 @@ public class SamLocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
     public bool isOwer = false;
-    public ushort myRoomId;
 
     public PlayerModule myPlayerModule;
 
@@ -63,9 +62,7 @@ public class SamLocalPlayer : MonoBehaviour
                 _writer.Write(transform.position.x);
                 _writer.Write(transform.position.z);
 
-                _writer.Write(transform.localEulerAngles.x);
                 _writer.Write(transform.localEulerAngles.y);
-                _writer.Write(transform.localEulerAngles.z);
 
                 using (Message _message = Message.Create(Tags.MovePlayerTag, _writer))
                 {
@@ -99,6 +96,9 @@ public class SamLocalPlayer : MonoBehaviour
 
     public void SetAnim(float forward, float right)
     {
+        print(forward);
+        print(right);
+
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
     }

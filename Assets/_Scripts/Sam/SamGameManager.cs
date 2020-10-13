@@ -116,6 +116,9 @@ public class SamGameManager : MonoBehaviour
                 if (message.Tag == Tags.SpawnObjPlayer)
                 {
                     ushort id = reader.ReadUInt16();
+
+                    if (networkPlayers.ContainsKey(id)) { return; }
+
                     GameObject obj = Instantiate(prefabPlayer, Vector3.zero, Quaternion.identity) as GameObject;
                     SamLocalPlayer myLocalPlayer = obj.GetComponent<SamLocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
@@ -137,6 +140,7 @@ public class SamGameManager : MonoBehaviour
                 if (message.Tag == Tags.MovePlayerTag)
                 {
                     ushort id = reader.ReadUInt16();
+
                     networkPlayers[id].SetMovePosition(
 
                         new Vector3( //Position
@@ -145,10 +149,10 @@ public class SamGameManager : MonoBehaviour
                         reader.ReadSingle()), 
                         
                         new Vector3( //Rotation
+                        0,
                         reader.ReadSingle(),
-                        reader.ReadSingle(),
-                        reader.ReadSingle())
-                        );
+                        0)
+                   );
                 }
             }
         }
