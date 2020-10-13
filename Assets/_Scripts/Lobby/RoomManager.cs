@@ -21,7 +21,7 @@ public class RoomManager : MonoBehaviour
 
     public UnityClient client;
 
-
+    public bool AlreadyInit = false;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -36,6 +36,11 @@ public class RoomManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         client.MessageReceived += MessageReceived;
+    }
+
+    private void OnDisable()
+    {
+        client.MessageReceived -= MessageReceived;
     }
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)

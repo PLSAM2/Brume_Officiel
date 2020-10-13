@@ -575,6 +575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6027871445288406058}
   - component: {fileID: 4200988163606663335}
+  - component: {fileID: 2046981127613973445}
   m_Layer: 11
   m_Name: FireBall
   m_TagString: Untagged
@@ -612,3 +613,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.05
+--- !u!114 &2046981127613973445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343025891164413653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf52840442d9f3042bf7abbbd23353da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isNetworked: 1
+  synchroniseRotation: 1
+  distanceRequiredBeforeSync: 0.02

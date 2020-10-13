@@ -13,7 +13,7 @@ public class NetworkObjectsManager : MonoBehaviour
     public static NetworkObjectsManager Instance { get { return _instance; } }
 
     public Sc_NetworkedObjects networkedObjectsList;
-    public Dictionary<ushort, GameObject> instantiatedObjectsList = new Dictionary<ushort, GameObject>();
+    public Dictionary<ushort, NetworkedObject> instantiatedObjectsList = new Dictionary<ushort, NetworkedObject>();
 
     UnityClient client;
 
@@ -37,6 +37,11 @@ public class NetworkObjectsManager : MonoBehaviour
         client = RoomManager.Instance.client;
 
         client.MessageReceived += MessageReceived;
+    }
+
+    private void OnDisable()
+    {
+        client.MessageReceived -= MessageReceived;
     }
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -69,6 +74,7 @@ public class NetworkObjectsManager : MonoBehaviour
         {
             writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
+            writer.Write(RoomManager.Instance.actualRoom.ID);
 
             writer.Write(position.x);
             writer.Write(position.y);
@@ -86,7 +92,6 @@ public class NetworkObjectsManager : MonoBehaviour
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
     {
-        // NON RECU PAR LE CREATEUR 
 
         ushort _ownerID;
         ushort _objectID;
@@ -117,10 +122,10 @@ public class NetworkObjectsManager : MonoBehaviour
         GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects[_objectID], _ObjectPos, Quaternion.Euler(_ObjectRotation));
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
         networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
-        NetworkedObjectAdded(_lastObjId, _tempObject);
+        NetworkedObjectAdded(_lastObjId, networkedObject);
     }
 
-    public void NetworkedObjectAdded(ushort lastObjId, GameObject obj)
+    public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)
     {
         instantiatedObjectsList.Add(lastObjId, obj);
     }

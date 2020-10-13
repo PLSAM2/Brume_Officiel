@@ -10,10 +10,5 @@ public class Ball : MonoBehaviour
     void Update()
     {
         transform.Translate(transform.forward * speed);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Destroy(gameObject);
-        }
     }
 }

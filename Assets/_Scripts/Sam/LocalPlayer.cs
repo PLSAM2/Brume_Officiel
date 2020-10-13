@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SamLocalPlayer : MonoBehaviour
+public class LocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
     public bool isOwer = false;
@@ -32,7 +32,7 @@ public class SamLocalPlayer : MonoBehaviour
         currentClient = newClient;
         if (isOwer)
         {
-            SamGameManager.Instance.myCam.m_Follow = transform;
+            GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
 
             myPlayerModule.onSendMovement += OnPlayerMove;
@@ -49,6 +49,12 @@ public class SamLocalPlayer : MonoBehaviour
     void Update()
     {
         if (!isOwer) { return; }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            NetworkObjectsManager.Instance.NetworkInstantiate(10, transform.position + Vector3.up, new Vector3(Random.Range(0, 360), 0, 0));
+        }
+
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
         {
