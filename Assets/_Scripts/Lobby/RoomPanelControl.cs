@@ -39,6 +39,8 @@ public class RoomPanelControl : MonoBehaviour
 
     public void AddPlayer(PlayerData player)
     {
+        startGameButton.SetActive(false);
+
         GameObject _PlayerListObj;
 
         if (player.playerTeam == Team.red)

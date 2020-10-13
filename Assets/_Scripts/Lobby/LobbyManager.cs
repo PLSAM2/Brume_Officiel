@@ -41,6 +41,11 @@ public class LobbyManager : MonoBehaviour
         client.MessageReceived += MessageReceived;
     }
 
+    private void Start()
+    {
+        nameInputField.text = localPlayer.Name;
+    }
+
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
@@ -52,9 +57,6 @@ public class LobbyManager : MonoBehaviour
                     PlayerData _localPlayer = reader.ReadSerializable<PlayerData>();
                     localPlayer = _localPlayer;
                 }
-
-                loginMenu.SetActive(false);
-                DisplayMainMenu();
             }
 
             if (message.Tag == Tags.CreateRoom)
@@ -123,6 +125,19 @@ public class LobbyManager : MonoBehaviour
             using (Message message = Message.Create(Tags.ChangeName, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
+
+
+    }
+
+    public void ChangeName(string name) // Login
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(name);
+
+            using (Message message = Message.Create(Tags.ChangeName, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
     }
 
     public void CheckName(ref string name)
@@ -142,20 +157,11 @@ public class LobbyManager : MonoBehaviour
                 localPlayer.Name = reader.ReadString();
             }
         }
+        PlayerPrefs.SetString("PlayerName", localPlayer.Name);
+        nameInputField.text = localPlayer.Name;
     }
 
-    public void Login(string name)
-    {
-        client.Connect(client.Address, client.Port, true);
 
-        using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        {
-            writer.Write(name);
-
-            using (Message message = Message.Create(Tags.ChangeName, writer))
-                client.SendMessage(message, SendMode.Reliable);
-        }
-    }
 
     private void RoomDeletedInServer(object sender, MessageReceivedEventArgs e)
     {

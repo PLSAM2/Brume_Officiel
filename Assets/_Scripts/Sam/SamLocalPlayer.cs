@@ -57,12 +57,12 @@ public class SamLocalPlayer : MonoBehaviour
 
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
+                _writer.Write(RoomManager.Instance.actualRoom.ID);
+
                 _writer.Write(transform.position.x);
                 _writer.Write(transform.position.z);
 
-                _writer.Write(transform.localEulerAngles.x);
                 _writer.Write(transform.localEulerAngles.y);
-                _writer.Write(transform.localEulerAngles.z);
 
                 using (Message _message = Message.Create(Tags.MovePlayerTag, _writer))
                 {
@@ -82,6 +82,8 @@ public class SamLocalPlayer : MonoBehaviour
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+
             _writer.Write(forward);
             _writer.Write(right);
 
@@ -94,6 +96,9 @@ public class SamLocalPlayer : MonoBehaviour
 
     public void SetAnim(float forward, float right)
     {
+        print(forward);
+        print(right);
+
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
     }

@@ -32,7 +32,27 @@ public class SamGameManager : MonoBehaviour
             _instance = this;
         }
 
+        client = RoomManager.Instance.client;
         client.MessageReceived += OnMessageReceive;
+    }
+
+    private void Start()
+    {
+        SendSpawnChamp();
+    }
+
+    void SendSpawnChamp()
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+            _writer.Write(client.ID);
+
+            using (Message _message = Message.Create(Tags.SpawnObjPlayer, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
     }
 
     public bool debug = false;
@@ -55,7 +75,7 @@ public class SamGameManager : MonoBehaviour
         {
             if (message.Tag == Tags.SpawnObjPlayer)
             {
-                SpawnPlayer(_sender, _e);
+                SpawnPlayerObj(_sender, _e);
             }
 
             if (message.Tag == Tags.MovePlayerTag)
@@ -87,7 +107,7 @@ public class SamGameManager : MonoBehaviour
         }
     }
 
-    void SpawnPlayer(object _sender, MessageReceivedEventArgs _e)
+    void SpawnPlayerObj(object _sender, MessageReceivedEventArgs _e)
     {
         using (Message message = _e.GetMessage())
         {
@@ -96,6 +116,9 @@ public class SamGameManager : MonoBehaviour
                 if (message.Tag == Tags.SpawnObjPlayer)
                 {
                     ushort id = reader.ReadUInt16();
+
+                    if (networkPlayers.ContainsKey(id)) { return; }
+
                     GameObject obj = Instantiate(prefabPlayer, Vector3.zero, Quaternion.identity) as GameObject;
                     SamLocalPlayer myLocalPlayer = obj.GetComponent<SamLocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
@@ -117,6 +140,7 @@ public class SamGameManager : MonoBehaviour
                 if (message.Tag == Tags.MovePlayerTag)
                 {
                     ushort id = reader.ReadUInt16();
+
                     networkPlayers[id].SetMovePosition(
 
                         new Vector3( //Position
@@ -125,10 +149,10 @@ public class SamGameManager : MonoBehaviour
                         reader.ReadSingle()), 
                         
                         new Vector3( //Rotation
+                        0,
                         reader.ReadSingle(),
-                        reader.ReadSingle(),
-                        reader.ReadSingle())
-                        );
+                        0)
+                   );
                 }
             }
         }
