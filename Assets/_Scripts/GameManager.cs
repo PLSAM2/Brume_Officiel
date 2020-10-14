@@ -329,7 +329,7 @@ public class GameManager : MonoBehaviour
 
                     if (networkPlayers.ContainsKey(id)) { return; }
 
-                    GameObject obj = Instantiate(prefabPlayer, Vector3.zero, Quaternion.identity) as GameObject;
+                    GameObject obj = Instantiate(prefabPlayer, new Vector3(0,0,90) , Quaternion.identity) as GameObject;
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
                     myLocalPlayer.isOwner = client.ID == id;

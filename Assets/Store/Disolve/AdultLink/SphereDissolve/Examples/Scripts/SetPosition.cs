@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace AdultLink {
-public class SetPosition : MonoBehaviour {
+	[ExecuteInEditMode]
+	public class SetPosition : MonoBehaviour {
 
 	public Material mat;
 	// Update is called once per frame
