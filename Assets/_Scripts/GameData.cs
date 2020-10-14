@@ -12,8 +12,8 @@ public class GameData
     {
         none = 0,
         shili = 10,
-        A = 20,
-        B = 30
+        researchers = 20,
+        hiddenOnes = 30
     }
 
 }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "CreateNewCharacter", fileName ="NewCharaParameters")]
+[CreateAssetMenu(fileName = "NewCharacter", menuName = "CreateCuston/NewCharacter")]
 public class Sc_CharacterParameters : ScriptableObject
 {
 	public St_MovementParameters movementParameters;
+	public uint health, visionRange;
 }
 
 [System.Serializable]

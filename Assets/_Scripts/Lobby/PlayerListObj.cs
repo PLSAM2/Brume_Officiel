@@ -7,4 +7,5 @@ public class PlayerListObj : MonoBehaviour
 {
     public TextMeshProUGUI playerName;
     public GameObject host;
+    public GameObject readyImg;
 }

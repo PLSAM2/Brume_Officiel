@@ -38,8 +38,31 @@ public class LobbyManager : MonoBehaviour
             _instance = this;
         }
 
+        //if (RoomManager.Instance.AlreadyInit)
+        //{
+        //    client = RoomManager.Instance.client;
+
+        //    mainMenu.SetActive(false);
+        //    loginMenu.SetActive(false);
+        //    roomPanel.SetActive(true);
+
+        //    roomPanelControl.InitRoom(RoomManager.Instance.actualRoom);
+        //}
+
         client.MessageReceived += MessageReceived;
+
+
     }
+    private void OnDisable()
+    {
+        client.MessageReceived -= MessageReceived;
+    }
+
+    private void Start()
+    {
+        nameInputField.text = localPlayer.Name;
+    }
+
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
@@ -52,9 +75,6 @@ public class LobbyManager : MonoBehaviour
                     PlayerData _localPlayer = reader.ReadSerializable<PlayerData>();
                     localPlayer = _localPlayer;
                 }
-
-                loginMenu.SetActive(false);
-                DisplayMainMenu();
             }
 
             if (message.Tag == Tags.CreateRoom)
@@ -102,6 +122,10 @@ public class LobbyManager : MonoBehaviour
             {
                 ChangeTeamInServer(sender, e);
             }
+            if (message.Tag == Tags.SetReady)
+            {
+                SetReadyInServer(sender, e);
+            }
 
         }
     }
@@ -112,6 +136,19 @@ public class LobbyManager : MonoBehaviour
         string name = nameInputField.text;
         CheckName(ref name);
 
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(name);
+
+            using (Message message = Message.Create(Tags.ChangeName, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+
+
+    }
+
+    public void ChangeName(string name) // Login
+    {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write(name);
@@ -138,20 +175,11 @@ public class LobbyManager : MonoBehaviour
                 localPlayer.Name = reader.ReadString();
             }
         }
+        PlayerPrefs.SetString("PlayerName", localPlayer.Name);
+        nameInputField.text = localPlayer.Name;
     }
 
-    public void Login(string name)
-    {
-        client.Connect(client.Address, client.Port, true);
 
-        using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        {
-            writer.Write(name);
-
-            using (Message message = Message.Create(Tags.ChangeName, writer))
-                client.SendMessage(message, SendMode.Reliable);
-        }
-    }
 
     private void RoomDeletedInServer(object sender, MessageReceivedEventArgs e)
     {
@@ -243,6 +271,7 @@ public class LobbyManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 roomID = reader.ReadUInt16();
+                localPlayer.playerTeam = (Team)reader.ReadUInt16();
                 int playerNumber = reader.ReadInt32();
 
                 for (int i = 0; i < playerNumber; i++)
@@ -372,19 +401,59 @@ public class LobbyManager : MonoBehaviour
 
     public void ChangeTeamInServer(object sender, MessageReceivedEventArgs e)
     {
+        ushort playerID;
+        Team team;
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort playerID = reader.ReadUInt16();
-                Team team = (Team)reader.ReadUInt16();
+                playerID = reader.ReadUInt16();
+                team = (Team)reader.ReadUInt16();
 
                 RoomManager.Instance.actualRoom.playerList[playerID].playerTeam = team;
                 roomPanelControl.ChangeTeam(playerID, team);
             }
         }
+
+        if (playerID == client.ID)
+        {
+            localPlayer.playerTeam = team;
+        }
     }
 
+    public void SetReady(bool value)
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(value);
+
+            using (Message message = Message.Create(Tags.SetReady, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    private void SetReadyInServer(object sender, MessageReceivedEventArgs e)
+    {
+        ushort playerID;
+        bool value = false;
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                playerID = reader.ReadUInt16();
+                value = reader.ReadBoolean();
+
+                RoomManager.Instance.actualRoom.playerList[playerID].IsReady = value;
+                roomPanelControl.SetReady(playerID, value);
+            }
+        }
+
+        if (playerID == client.ID)
+        {
+            localPlayer.IsReady = value;
+        }
+    }
 
     public void DisplayMainMenu()
     {
