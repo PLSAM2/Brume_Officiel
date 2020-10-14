@@ -7,7 +7,7 @@ using UnityEngine;
 public class LocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
-    public bool isOwer = false;
+    public bool isOwner = false;
 
     public PlayerModule myPlayerModule;
 
@@ -30,7 +30,8 @@ public class LocalPlayer : MonoBehaviour
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
-        if (isOwer)
+
+        if (isOwner)
         {
             GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
@@ -43,12 +44,15 @@ public class LocalPlayer : MonoBehaviour
 
     private void OnDisable()
     {
-        myPlayerModule.onSendMovement -= OnPlayerMove;
+        if (!isOwner)
+            return;
+        
+            myPlayerModule.onSendMovement -= OnPlayerMove;
     }
 
     void Update()
     {
-        if (!isOwer) { return; }
+        if (!isOwner) { return; }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -77,6 +81,8 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
+
+
 
     void OnPlayerMove(Vector3 pos)
     {
