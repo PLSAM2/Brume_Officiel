@@ -112,9 +112,6 @@ public class LocalPlayer : MonoBehaviour
 
     public void SetAnim(float forward, float right)
     {
-        print(forward);
-        print(right);
-
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
     }

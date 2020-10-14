@@ -76,6 +76,7 @@ MonoBehaviour:
   myPlayerModule: {fileID: 6667444453632817538}
   myAnimator: {fileID: 4705339813984825636}
   circleDirection: {fileID: 3531234986128592076}
+  teamIndex: 0
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,12 +114,13 @@ MonoBehaviour:
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   myId: 0
   myName: 
-  teamIndex: 0
   mainCam: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
+  myLocalPlayer: {fileID: 0}
   state: 1
+  allHitTaken: []
   movementPart: {fileID: 8281150123794309746}
   firstSpell: {fileID: 0}
   secondSpell: {fileID: 0}
@@ -165,6 +167,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   canalisationCircle: {fileID: 0}
+  canvasFeedBackCanalisation: {fileID: 0}
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
@@ -2587,7 +2590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &631214294440262028
 RectTransform:
   m_ObjectHideFlags: 0
