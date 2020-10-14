@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 0eb4419a161c539409c94325c8e86336, type: 3}
   m_ShaderKeywords: _DISSOLVEALPHASOURCE_CUSTOM_MAP _DISSOLVEEDGECOLORISSOLID_ON
     _DISSOLVEEDGEDISTORTIONSOURCE_CUTOUT_SOURCE _DISSOLVEGLOBALCONTROL_NONE _DISSOLVEMAPPINGTYPE_TRIPLANAR
-    _DISSOLVEMASKCOUNT_ONE _DISSOLVEMASK_CYLINDER _NORMALMAP
+    _DISSOLVEMASKCOUNT_ONE _DISSOLVEMASK_SPHERE _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -97,7 +97,7 @@ Material:
     - _DissolveEdgeShape: 1
     - _DissolveEdgeTextureAlphaOffset: 0
     - _DissolveEdgeTextureIsDynamic: 0
-    - _DissolveEdgeTextureMipmap: 0
+    - _DissolveEdgeTextureMipmap: 1
     - _DissolveEdgeTexturePhaseOffset: 0
     - _DissolveEdgeTextureReverse: 0
     - _DissolveEdgeTextureSource: 0
@@ -106,12 +106,12 @@ Material:
     - _DissolveGlobalControl: 0
     - _DissolveMainMapTiling: 1
     - _DissolveMappingType: 1
-    - _DissolveMask: 5
+    - _DissolveMask: 3
     - _DissolveMaskAxis: 1
     - _DissolveMaskCount: 0
     - _DissolveMaskInvert: -1
     - _DissolveMaskOffset: 1.5
-    - _DissolveMaskRadius: 1.5
+    - _DissolveMaskRadius: 2.5
     - _DissolveMaskSpace: 0
     - _DissolveNoiseStrength: 0
     - _DissolveSourceAlphaTexturesBlend: 0
@@ -119,7 +119,7 @@ Material:
     - _DissolveTriplanarMappingSpace: 0
     - _DstBlend: 0
     - _GlossMapScale: 0
-    - _Glossiness: 0.295
+    - _Glossiness: 0.397
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
@@ -134,14 +134,14 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DissolveEdgeColor: {r: 0, g: 1, b: 0, a: 1}
+    - _DissolveEdgeColor: {r: 0.0019999743, g: 1, b: 0, a: 1}
     - _DissolveEdgeColor1: {r: 1, g: 0, b: 0, a: 1}
     - _DissolveEdgeColor2: {r: 0, g: 1, b: 0, a: 1}
-    - _DissolveMap1_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _DissolveMap1_Scroll: {r: 0, g: -0.5, b: 0, a: 0}
     - _DissolveMap2_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveMap3_Scroll: {r: 0, g: 0, b: 0, a: 0}
-    - _DissolveMaskNormal: {r: 0.7071068, g: -0.00000008940697, b: -0.7071068, a: 0}
-    - _DissolveMaskPosition: {r: -1.4613204, g: 1.0000002, b: 2.7813206, a: 0}
+    - _DissolveMaskNormal: {r: 0.99742454, g: 0.013646126, b: -0.070414394, a: 0}
+    - _DissolveMaskPosition: {r: -0.89, g: 0.24, b: 0.53, a: 0}
     - _Dissolve_ObjectWorldPos: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.26794338, g: 0.26794338, b: 0.26794338, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

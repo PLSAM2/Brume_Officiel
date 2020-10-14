@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace AdvancedDissolve_Example
@@ -12,10 +13,7 @@ namespace AdvancedDissolve_Example
 
         public Material[] materials;
 
-        public GameObject cylinder1;
-        public GameObject cylinder2;
-        public GameObject cylinder3;
-        public GameObject cylinder4;
+        public List<GameObject> allbrumes = new List<GameObject>();
 
        
         [Space(10)]
@@ -32,10 +30,12 @@ namespace AdvancedDissolve_Example
 
         void Update()
         {
-            UpdateShaderData(1, cylinder1);
-            UpdateShaderData(2, cylinder2);
-            UpdateShaderData(3, cylinder3);
-            UpdateShaderData(4, cylinder4);
+            int i = 1;
+            foreach(GameObject obj in allbrumes)
+            {
+                UpdateShaderData(i, obj);
+                i++;
+            }
         }
 
 
