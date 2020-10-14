@@ -2,6 +2,7 @@
 using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,27 +11,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GameData;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SerializedMonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    public Dictionary<Team, List<SpawnPoint>> spawns = new Dictionary<Team, List<SpawnPoint>>();
+    public CinemachineVirtualCamera myCam;
+
     [SerializeField] GameObject prefabPlayer;
-
     [SerializeField] UnityClient client;
-
-    Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
-    Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
-
-    [SerializeField] private bool timeStart = false;
-    [SerializeField] private bool stopInit = false;
-    [SerializeField] private float timePerRound = 180; // seconds
-    [SerializeField] private float remainingTime = 0;
     [SerializeField] private float respawnTime = 15;
     [SerializeField] private bool debug = false;
-    [SerializeField] private bool isWaitingForRespawn = false;
-    //Camera
-    public CinemachineVirtualCamera myCam;
+    [SerializeField] private float timePerRound = 180; // seconds
+
+    private Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
+    private Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
+    private bool timeStart = false;
+    private bool stopInit = false;
+    private float remainingTime = 0;
+    private bool isWaitingForRespawn = false;
+
+
 
     private void Awake()
     {
@@ -329,7 +331,7 @@ public class GameManager : MonoBehaviour
 
                     if (networkPlayers.ContainsKey(id)) { return; }
 
-                    GameObject obj = Instantiate(prefabPlayer, Vector3.zero, Quaternion.identity) as GameObject;
+                    GameObject obj = Instantiate(prefabPlayer, new Vector3(0,0,90) , Quaternion.identity) as GameObject;
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
                     myLocalPlayer.isOwner = client.ID == id;
