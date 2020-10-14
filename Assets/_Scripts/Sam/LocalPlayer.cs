@@ -3,11 +3,13 @@ using DarkRift.Client.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using static GameData;
 
 public class LocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
-    public bool isOwner = false;
+    public bool isOwer = false;
 
     public PlayerModule myPlayerModule;
 
@@ -21,17 +23,24 @@ public class LocalPlayer : MonoBehaviour
 
     [SerializeField] GameObject circleDirection;
 
+    [Header("MultiGameplayParameters")]
+    private uint _liveHealth;
+    public Team teamIndex;
+
+    [ReadOnly] public uint liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+
+
     private void Awake()
     {
         lastPosition = transform.position;
         lastRotation = transform.localEulerAngles;
+        OnRespawn();
     }
 
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
-
-        if (isOwner)
+        if (isOwer)
         {
             GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
@@ -44,15 +53,12 @@ public class LocalPlayer : MonoBehaviour
 
     private void OnDisable()
     {
-        if (!isOwner)
-            return;
-        
-            myPlayerModule.onSendMovement -= OnPlayerMove;
+        myPlayerModule.onSendMovement -= OnPlayerMove;
     }
 
     void Update()
     {
-        if (!isOwner) { return; }
+        if (!isOwer) { return; }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -81,8 +87,6 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
-
-
 
     void OnPlayerMove(Vector3 pos)
     {
@@ -120,5 +124,21 @@ public class LocalPlayer : MonoBehaviour
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
         myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
+    }
+
+    public void OnRespawn()
+	{
+        liveHealth = myPlayerModule.characterParameters.health;
+	}
+
+    public void DealDamages ( DamagesInfos _damagesToDeal )
+    {
+        myPlayerModule.allHitTaken.Add(_damagesToDeal);
+        liveHealth -= _damagesToDeal.damages.damageHealth;
+    }
+
+    public void KillPlayer ()
+    {
+
     }
 }

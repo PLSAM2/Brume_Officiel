@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
-using static GameData;
+
 
 public class PlayerModule : MonoBehaviour
 {
@@ -17,15 +17,13 @@ public class PlayerModule : MonoBehaviour
 
 	[ReadOnly] public ushort myId;
 	[ReadOnly] public string myName;
-	public Team teamIndex;
 	[SerializeField] Camera mainCam;
 	[SerializeField] LayerMask groundLayer;
+	[HideInInspector] public LocalPlayer myLocalPlayer;
 
 	[Header("DamagesPart")]
 	[ReadOnly] public En_CharacterState state;
-	private uint _liveHealth;
-	[ReadOnly] public uint liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
-	List<DamagesInfos> allHitTaken = new List<DamagesInfos>(); 
+	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>(); 
 
 
 	[Header("CharacterBuilder")]
@@ -54,9 +52,10 @@ public class PlayerModule : MonoBehaviour
 	void Start ()
 	{
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
-		liveHealth = characterParameters.health;
 
 		UiManager.instance.myPlayerModule = this;
+
+		myLocalPlayer = GetComponent<LocalPlayer>();
 
 		firstSpell?.SetupComponent();
 		secondSpell?.SetupComponent();
@@ -98,18 +97,7 @@ public class PlayerModule : MonoBehaviour
 		#endregion
 	}
 
-	// A METTER EN REZO
-	public void DealDamages ( DamagesInfos _damagesToDeal )
-	{
-		print("Dealer" + _damagesToDeal.playerName);
-		allHitTaken.Add(_damagesToDeal);
-		liveHealth -= _damagesToDeal.damages.damageHealth;
-	}
-
-	public void KillPlayer()
-	{
-
-	}
+	
 
 	void LookAtMouse ()
 	{
