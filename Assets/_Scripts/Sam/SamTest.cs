@@ -4,9 +4,31 @@ using UnityEngine;
 
 public class SamTest : MonoBehaviour
 {
-    void Update()
+    [SerializeField] Renderer brumeRenderer;
+
+    [SerializeField] Camera cameraDefault;
+    [SerializeField] Camera cameraInBrume;
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        transform.position += move * Time.deltaTime * 10;
+        if(other.gameObject.layer == 8)
+        {
+            print("in");
+            brumeRenderer.enabled = false;
+            cameraDefault.gameObject.SetActive(false);
+            cameraInBrume.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 8)
+        {
+            print("out");
+            brumeRenderer.enabled = true;
+            cameraDefault.gameObject.SetActive(true);
+            cameraInBrume.gameObject.SetActive(false);
+        }
     }
 }

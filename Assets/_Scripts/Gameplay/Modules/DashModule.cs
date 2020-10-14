@@ -79,4 +79,14 @@ public class DashModule : SpellModule
 			UpdatePreview();
 		}
 	}
+
+	void StartDashFeedback()
+	{
+
+	}
+
+	void EndDashFeedback()
+	{
+
+	}
 }
