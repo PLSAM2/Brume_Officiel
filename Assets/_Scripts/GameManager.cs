@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
             if (message.Tag == Tags.SupprObjPlayer)
             {
-                SupprPlayer(_sender, _e);
+                SupprPlayerInServer(_sender, _e);
             }
 
             if (message.Tag == Tags.SendAnim)
@@ -126,6 +126,10 @@ public class GameManager : MonoBehaviour
             if (message.Tag == Tags.KillCharacter)
             {
                 KillCharacterInServer(_sender, _e);
+            }
+            if (message.Tag == Tags.Damages)
+            {
+                TakeDamagesInServer(_sender, _e);
             }
         }
     }
@@ -239,8 +243,6 @@ public class GameManager : MonoBehaviour
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(client.ID);
-
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
@@ -256,6 +258,8 @@ public class GameManager : MonoBehaviour
             {
                 ushort id = reader.ReadUInt16();
 
+                SupprPlayer(id);
+
                 if (RoomManager.Instance.GetLocalPlayer().ID == id)
                 {
                     if (!isWaitingForRespawn)
@@ -267,16 +271,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SupprPlayer(object _sender, MessageReceivedEventArgs _e)
+
+    private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                ushort _damages = reader.ReadUInt16();
+
+                LocalPlayer target = networkPlayers[_id];
+
+                target.liveHealth -= _damages;
+            }
+        }
+
+    }
+
+
+    void SupprPlayerInServer(object _sender, MessageReceivedEventArgs _e)
     {
         using (Message message = _e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort id = reader.ReadUInt16();
-                Destroy(networkPlayers[id].gameObject);
+                SupprPlayer(id);
             }
         }
+    }
+
+    void SupprPlayer(ushort ID)
+    {
+        Destroy(networkPlayers[ID].gameObject);
+        networkPlayers.Remove(ID);
     }
 
     void SpawnPlayerObj(object _sender, MessageReceivedEventArgs _e)
@@ -294,7 +323,7 @@ public class GameManager : MonoBehaviour
                     GameObject obj = Instantiate(prefabPlayer, Vector3.zero, Quaternion.identity) as GameObject;
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
-                    myLocalPlayer.isOwer = client.ID == id;
+                    myLocalPlayer.isOwner = client.ID == id;
                     myLocalPlayer.Init(client);
 
                     networkPlayers.Add(id, myLocalPlayer);
