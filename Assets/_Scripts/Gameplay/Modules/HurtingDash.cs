@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HurtingDash : DashModule
 {
 	[SerializeField] LayerMask characterLayer;
+	[SerializeField] RectTransform canalisationCircle, canvasFeedBackCanalisation;
+
 	bool damaging = false;
 	Vector3 directionToDamage;
 	List<GameObject> allPlayerTouched = new List<GameObject>();
@@ -16,7 +19,8 @@ public class HurtingDash : DashModule
 		myPlayerModule.forcedMovementAdded += StartDamaging;
 		myPlayerModule.forcedMovementInterrupted += StopDamaging;
 		_width  = (spell as Sc_DashSpell).damagesRadius;
-		mylineRender.SetWidth(_width, _width);
+		mylineRender.startWidth = _width;
+		mylineRender.endWidth = _width;
 	}
 
 	public override void OnDisable ()
@@ -27,6 +31,12 @@ public class HurtingDash : DashModule
 	public override void Update ()
 	{
 		base.Update();
+		
+		/*if(currentTimeCanalised <= spell.canalisationTime)
+		{
+			canalisationCircle.size
+		}
+		*/
 		if (damaging)
 		{
 			List<RaycastHit> _allitemsTouched = Physics.CapsuleCastAll(transform.position - new Vector3(0, 0.5f, 0), transform.position + new Vector3(0, 0.5f, 0), _width, directionToDamage, _width / 2, characterLayer).ToList();
@@ -61,6 +71,7 @@ public class HurtingDash : DashModule
 		}
 	}
 
+	
 
 	void StartDamaging ( ForcedMovement _forcedmvementInfos )
 	{

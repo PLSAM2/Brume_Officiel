@@ -3,6 +3,7 @@ using DarkRift.Client.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -21,10 +22,17 @@ public class LocalPlayer : MonoBehaviour
 
     [SerializeField] GameObject circleDirection;
 
+    [Header("MultiGameplayParameters")]
+    private uint _liveHealth;
+
+    [ReadOnly] public uint liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+
+
     private void Awake()
     {
         lastPosition = transform.position;
         lastRotation = transform.localEulerAngles;
+        OnRespawn();
     }
 
     public void Init(UnityClient newClient)
@@ -114,5 +122,21 @@ public class LocalPlayer : MonoBehaviour
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
         myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
+    }
+
+    public void OnRespawn()
+	{
+        liveHealth = myPlayerModule.characterParameters.health;
+	}
+
+    public void DealDamages ( DamagesInfos _damagesToDeal )
+    {
+        myPlayerModule.allHitTaken.Add(_damagesToDeal);
+        liveHealth -= _damagesToDeal.damages.damageHealth;
+    }
+
+    public void KillPlayer ()
+    {
+
     }
 }
