@@ -9,7 +9,7 @@ using static GameData;
 public class LocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
-    public bool isOwer = false;
+    public bool isOwner = false;
 
     public PlayerModule myPlayerModule;
 
@@ -40,7 +40,7 @@ public class LocalPlayer : MonoBehaviour
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
-        if (isOwer)
+        if (isOwner)
         {
             GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
@@ -48,17 +48,23 @@ public class LocalPlayer : MonoBehaviour
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
+            UiManager.instance.myPlayerModule = myPlayerModule;
         }
     }
 
+
+
     private void OnDisable()
     {
+        if (!isOwner)
+            return;
+
         myPlayerModule.onSendMovement -= OnPlayerMove;
     }
 
     void Update()
     {
-        if (!isOwer) { return; }
+        if (!isOwner) { return; }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -87,7 +93,7 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
-
+    
     void OnPlayerMove(Vector3 pos)
     {
         float right = Vector3.Dot(transform.right, pos);
@@ -131,14 +137,29 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.health;
 	}
 
-    public void DealDamages ( DamagesInfos _damagesToDeal )
+
+    public void DealDamages (DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damages.damageHealth;
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(myPlayerId);
+            _writer.Write(_damagesToDeal.damages.damageHealth);
+
+            using (Message _message = Message.Create(Tags.Damages, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
     }
 
     public void KillPlayer ()
     {
-
+        if (isOwner)
+        {
+            GameManager.Instance.KillCharacter();
+        }
     }
 }
