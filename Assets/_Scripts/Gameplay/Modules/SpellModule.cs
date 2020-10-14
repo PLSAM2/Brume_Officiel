@@ -16,8 +16,8 @@ public class SpellModule : MonoBehaviour
 
 	public En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
-	[HideInInspector] public Vector3 recordedMousePosOnInput;
-	[HideInInspector] public PlayerModule myPlayerModule;
+	[ReadOnly] public Vector3 recordedMousePosOnInput;
+	[ReadOnly] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
 
@@ -43,6 +43,10 @@ public class SpellModule : MonoBehaviour
 		}
 		UiManager.instance.SetupIcon(spell, actionLinked);
 		timeToResolveSpell = spell.canalisationTime;
+
+		startCanalisation += StartCanalysingFeedBack;
+		endCanalisation += ResolveSpellFeedback;
+
 	}
 
 	public virtual void  OnDisable ()
@@ -62,6 +66,8 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInput -= StartCanalysing;
 				break;
 		}
+		startCanalisation -= StartCanalysingFeedBack;
+		endCanalisation -= ResolveSpellFeedback;
 	}
 
 	public 	virtual void  Update ()
@@ -84,6 +90,7 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
+		StartCanalysingFeedBack();
 		canalisationParticle.Play();
 		recordedMousePosOnInput = _BaseMousePos;
 		myPlayerModule.state |= En_CharacterState.Canalysing;
@@ -121,6 +128,18 @@ public class SpellModule : MonoBehaviour
 			return false;
 		else
 			return true;
+	}
+
+
+	public void StartCanalysingFeedBack ()
+	{
+		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
+		canalisationParticle?.Play();
+	}
+	void ResolveSpellFeedback ()
+	{
+		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+		canalisationParticle?.Stop();
 	}
 }
 

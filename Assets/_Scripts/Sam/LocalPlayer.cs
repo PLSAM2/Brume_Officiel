@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 using static GameData;
 
 public class LocalPlayer : MonoBehaviour
@@ -28,6 +29,7 @@ public class LocalPlayer : MonoBehaviour
     public Team teamIndex;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+    public Action<string> triggerAnim;
 
 
     private void Awake()
@@ -37,10 +39,17 @@ public class LocalPlayer : MonoBehaviour
         OnRespawn();
     }
 
+	private void Start ()
+	{
+        triggerAnim += TriggerTheAnim;
+    }
+
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
         teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
+
+
         if (isOwner)
         {
             GameManager.Instance.myCam.m_Follow = transform;
@@ -61,6 +70,7 @@ public class LocalPlayer : MonoBehaviour
             return;
 
         myPlayerModule.onSendMovement -= OnPlayerMove;
+        triggerAnim -= TriggerTheAnim;
     }
 
     void Update()
@@ -167,5 +177,10 @@ public class LocalPlayer : MonoBehaviour
             }
 
         }
+    }
+
+    public void TriggerTheAnim ( string triggerName )
+    {
+        myAnimator.SetTrigger(triggerName);
     }
 }
