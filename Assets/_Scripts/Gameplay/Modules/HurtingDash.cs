@@ -56,8 +56,8 @@ public class HurtingDash : DashModule
 
 				if (isNew)
 				{
-					PlayerModule _tempStack = _hit.collider.GetComponent<PlayerModule>();
-					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.teamIndex)
+					LocalPlayer _tempStack = _hit.collider.GetComponent<LocalPlayer>();
+					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.myLocalPlayer.teamIndex)
 					{
 						DamagesInfos _infos = new DamagesInfos();
 						_infos.playerName = myPlayerModule.myName;

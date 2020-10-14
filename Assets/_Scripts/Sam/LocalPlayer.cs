@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using static GameData;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class LocalPlayer : MonoBehaviour
 
     [Header("MultiGameplayParameters")]
     private uint _liveHealth;
+    public Team teamIndex;
 
     [ReadOnly] public uint liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
 

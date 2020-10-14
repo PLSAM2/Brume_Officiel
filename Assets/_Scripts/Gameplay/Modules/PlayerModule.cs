@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
 
-using static GameData;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -18,9 +17,9 @@ public class PlayerModule : MonoBehaviour
 
 	[ReadOnly] public ushort myId;
 	[ReadOnly] public string myName;
-	public Team teamIndex;
 	[SerializeField] Camera mainCam;
 	[SerializeField] LayerMask groundLayer;
+	[HideInInspector] public LocalPlayer myLocalPlayer;
 
 	[Header("DamagesPart")]
 	[ReadOnly] public En_CharacterState state;
@@ -55,6 +54,8 @@ public class PlayerModule : MonoBehaviour
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
 
 		UiManager.instance.myPlayerModule = this;
+
+		myLocalPlayer = GetComponent<LocalPlayer>();
 
 		firstSpell?.SetupComponent();
 		secondSpell?.SetupComponent();
