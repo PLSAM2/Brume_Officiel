@@ -9,6 +9,7 @@ public class MovementModule : MonoBehaviour
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
 	[SerializeField] LayerMask movementBlockingLayer, dashBlockingLayer ;
+	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Canalysing | En_CharacterState.Stunned;
 	CapsuleCollider collider;
 
 	[Header("Running Stamina")]
@@ -67,7 +68,7 @@ public class MovementModule : MonoBehaviour
 			else
 				ForcedMovementTouchObstacle();
 		}
-		else if (_directionInputed != Vector3.zero)
+		else if (_directionInputed != Vector3.zero && canMove())
 		{
 			if (!isFree(_directionInputed, movementBlockingLayer))
 			{
@@ -200,7 +201,10 @@ public class MovementModule : MonoBehaviour
 	}
 	bool canMove ()
 	{
-		return true;
+		if ((myPlayerModule.state & forbidenWalkingState) != 0)
+			return false;
+		else
+			return true;
 	}
 	float liveMoveSpeed()
 	{

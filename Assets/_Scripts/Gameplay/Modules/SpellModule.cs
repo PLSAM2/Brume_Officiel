@@ -19,7 +19,7 @@ public class SpellModule : MonoBehaviour
 	[HideInInspector] public Vector3 recordedMousePosOnInput;
 	[HideInInspector] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
-
+	public ParticleSystem canalisationParticle;
 
 	public virtual void SetupComponent ()
 	{
@@ -84,8 +84,9 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
+		canalisationParticle.Play();
 		recordedMousePosOnInput = _BaseMousePos;
-
+		myPlayerModule.state |= En_CharacterState.Canalysing;
 		if (canBeCast())
 		{
 			startCanalisation?.Invoke();
@@ -102,6 +103,8 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
+		canalisationParticle.Stop();
+		myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
 		endCanalisation?.Invoke();
 	}
 
