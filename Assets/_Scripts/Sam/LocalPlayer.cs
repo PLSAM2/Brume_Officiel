@@ -24,10 +24,10 @@ public class LocalPlayer : MonoBehaviour
     [SerializeField] GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
-    private uint _liveHealth;
+    private ushort _liveHealth;
     public Team teamIndex;
 
-    [ReadOnly] public uint liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+    [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
 
 
     private void Awake()
@@ -40,6 +40,7 @@ public class LocalPlayer : MonoBehaviour
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
+        teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
         if (isOwner)
         {
             GameManager.Instance.myCam.m_Follow = transform;
@@ -65,12 +66,6 @@ public class LocalPlayer : MonoBehaviour
     void Update()
     {
         if (!isOwner) { return; }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            NetworkObjectsManager.Instance.NetworkInstantiate(10, transform.position + Vector3.up, new Vector3(Random.Range(0, 360), 0, 0));
-        }
-
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
         {
@@ -118,6 +113,7 @@ public class LocalPlayer : MonoBehaviour
 
     public void SetAnim(float forward, float right)
     {
+
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
     }
@@ -144,7 +140,6 @@ public class LocalPlayer : MonoBehaviour
         {
             _writer.Write(myPlayerId);
             _writer.Write(_damagesToDeal.damages.damageHealth);
-
             using (Message _message = Message.Create(Tags.Damages, _writer))
             {
                 currentClient.SendMessage(_message, SendMode.Reliable);
@@ -157,6 +152,20 @@ public class LocalPlayer : MonoBehaviour
         if (isOwner)
         {
             GameManager.Instance.KillCharacter();
+
+            switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                case Team.red:
+                    GameManager.Instance.AddPoints(Team.blue, 5);
+                    break;
+                case Team.blue:
+                    GameManager.Instance.AddPoints(Team.red, 5);
+                    break;
+                default:
+                    print("Error");
+                    break;
+            }
+
         }
     }
 }
