@@ -1,12 +1,31 @@
-﻿using System.Collections;
+﻿using AdvancedDissolve_Example;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SamTest : MonoBehaviour
 {
-    void Update()
+    [SerializeField] Renderer brumeRenderer;
+    [SerializeField] Controller_Mask_Sphere myScript;
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        transform.position += move * Time.deltaTime * 10;
+        if(other.gameObject.layer == 8)
+        {
+            print("in");
+            myScript.invert = true;
+            brumeRenderer.enabled = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 8)
+        {
+            print("out");
+            myScript.invert = false;
+            brumeRenderer.enabled = true;
+        }
     }
 }

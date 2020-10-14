@@ -16,9 +16,15 @@ namespace AdvancedDissolve_Example
         {
             maskController = GetComponent<Controller_Mask_Cylinder>();
 
-            maskController.cylinder2.SetActive(false);
-            maskController.cylinder3.SetActive(false);
-            maskController.cylinder4.SetActive(false);
+            int i = 1;
+            foreach (GameObject obj in maskController.allbrumes)
+            {
+                if(i > 1)
+                {
+                    obj.SetActive(false);
+                }
+                i++;
+            }
 
             UI_Count(0);
             UI_Invert(false);
@@ -34,9 +40,15 @@ namespace AdvancedDissolve_Example
 
             maskController.UpdateMaskCountKeyword(value);
 
-            maskController.cylinder2.SetActive(value > 1);
-            maskController.cylinder3.SetActive(value > 2);
-            maskController.cylinder4.SetActive(value > 3);
+            int i = 1;
+            foreach (GameObject obj in maskController.allbrumes)
+            {
+                if (i > 1)
+                {
+                    obj.SetActive(value > i-1);
+                }
+                i++;
+            }
         }
 
         public void UI_Invert(bool value)
