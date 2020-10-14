@@ -127,6 +127,10 @@ public class GameManager : MonoBehaviour
             {
                 KillCharacterInServer(_sender, _e);
             }
+            if (message.Tag == Tags.Damages)
+            {
+                TakeDamagesInServer(_sender, _e);
+            }
         }
     }
 
@@ -239,8 +243,6 @@ public class GameManager : MonoBehaviour
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(client.ID);
-
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
@@ -269,6 +271,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                ushort _damages = reader.ReadUInt16();
+
+                LocalPlayer target = networkPlayers[_id];
+
+                target.liveHealth -= _damages;
+            }
+        }
+
+    }
+
+
     void SupprPlayerInServer(object _sender, MessageReceivedEventArgs _e)
     {
         using (Message message = _e.GetMessage())
@@ -284,6 +305,7 @@ public class GameManager : MonoBehaviour
     void SupprPlayer(ushort ID)
     {
         Destroy(networkPlayers[ID].gameObject);
+        networkPlayers.Remove(ID);
     }
 
     void SpawnPlayerObj(object _sender, MessageReceivedEventArgs _e)

@@ -48,11 +48,17 @@ public class LocalPlayer : MonoBehaviour
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
+            UiManager.instance.myPlayerModule = myPlayerModule;
         }
     }
 
+
+
     private void OnDisable()
     {
+        if (!isOwner)
+            return;
+
         myPlayerModule.onSendMovement -= OnPlayerMove;
     }
 
@@ -87,7 +93,7 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
-
+    
     void OnPlayerMove(Vector3 pos)
     {
         float right = Vector3.Dot(transform.right, pos);
@@ -131,14 +137,29 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.health;
 	}
 
-    public void DealDamages ( DamagesInfos _damagesToDeal )
+
+    public void DealDamages (DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damages.damageHealth;
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(myPlayerId);
+            _writer.Write(_damagesToDeal.damages.damageHealth);
+
+            using (Message _message = Message.Create(Tags.Damages, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
     }
 
     public void KillPlayer ()
     {
-
+        if (isOwner)
+        {
+            GameManager.Instance.KillCharacter();
+        }
     }
 }
