@@ -7,7 +7,7 @@ using UnityEngine;
 public class Sc_CharacterParameters : ScriptableObject
 {
 	public St_MovementParameters movementParameters;
-	public uint health, visionRange;
+	public ushort health, visionRange;
 }
 
 [System.Serializable]
