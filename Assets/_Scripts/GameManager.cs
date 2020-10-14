@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static GameData;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,14 +20,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] UnityClient client;
 
     Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
+    Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
 
-    public bool timeStart = false;
-    public bool stopInit = false;
-    public float timePerRound = 180; // seconds
-    public float remainingTime = 0;
-    public float respawnTime = 15;
-    public bool debug = false;
-    public bool isWaitingForRespawn = false;
+    [SerializeField] private bool timeStart = false;
+    [SerializeField] private bool stopInit = false;
+    [SerializeField] private float timePerRound = 180; // seconds
+    [SerializeField] private float remainingTime = 0;
+    [SerializeField] private float respawnTime = 15;
+    [SerializeField] private bool debug = false;
+    [SerializeField] private bool isWaitingForRespawn = false;
     //Camera
     public CinemachineVirtualCamera myCam;
 
@@ -54,6 +56,10 @@ public class GameManager : MonoBehaviour
     {
         SendSpawnChamp();
 
+        // A refaire >>
+        scores.Add(Team.blue, 0);
+        scores.Add(Team.red, 0);
+        // <<
         remainingTime = timePerRound;
         int secondRemaining = (int)remainingTime % 60;
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
@@ -70,11 +76,6 @@ public class GameManager : MonoBehaviour
         if (timeStart)
         {
             UpdateTime();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddPoints(1, RoomManager.Instance.GetLocalPlayer().ID);
         }
 
         if (debug)
@@ -136,12 +137,12 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void AddPoints(ushort value, ushort targetID)
+    public void AddPoints(Team targetTeam, ushort value)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
+            _writer.Write((ushort)targetTeam);
             _writer.Write(value);
-            _writer.Write(targetID);
 
             using (Message _message = Message.Create(Tags.AddPoints, _writer))
             {
@@ -155,11 +156,18 @@ public class GameManager : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort id = reader.ReadUInt16();
-                ushort newScore = reader.ReadUInt16();
+                Team _team = (Team)reader.ReadUInt16();
+                ushort _score = reader.ReadUInt16();
 
-                RoomManager.Instance.actualRoom.playerList[id].score = newScore;
-                print(newScore);
+                scores[_team] += _score;
+
+                if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    UiManager.instance.allyScore.text = scores[_team].ToString();
+                } else
+                {
+                    UiManager.instance.ennemyScore.text = scores[_team].ToString();
+                }
             }
         }
     }
@@ -284,6 +292,7 @@ public class GameManager : MonoBehaviour
                 LocalPlayer target = networkPlayers[_id];
 
                 target.liveHealth -= _damages;
+
             }
         }
 

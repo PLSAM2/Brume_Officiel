@@ -172,7 +172,7 @@ public class DamagesInfos
 [System.Serializable]
 public class DamagesParameters
 {
-	public uint damageHealth;
+	public ushort damageHealth;
 }
 
 

@@ -9,6 +9,8 @@ public class UiManager : MonoBehaviour
 	public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon;
 
 	public TextMeshProUGUI timer;
+	public TextMeshProUGUI allyScore;
+	public TextMeshProUGUI ennemyScore;
 	private void Awake ()
 	{
 		if (instance == null || instance == this)
