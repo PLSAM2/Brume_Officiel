@@ -55,6 +55,21 @@ public class LocalPlayer : MonoBehaviour
 	private void Start ()
 	{
         triggerAnim += TriggerTheAnim;
+
+        nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
+
+        if (teamIndex == Team.blue)
+        {
+            nameText.color = Color.blue;
+            life.color = Color.blue;
+        }
+        else if (teamIndex == Team.red)
+        {
+            nameText.color = Color.red;
+            life.color = Color.red;
+        }
+
+
     }
 
     public void Init(UnityClient newClient)
@@ -95,6 +110,8 @@ public class LocalPlayer : MonoBehaviour
 
     void Update()
     {
+
+
         if (!isOwner) { return; }
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
@@ -118,7 +135,12 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
-    
+    private void LateUpdate()
+    {
+        canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
+        canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+    }
+
     void OnPlayerMove(Vector3 pos)
     {
         float right = Vector3.Dot(transform.right, pos);
@@ -158,7 +180,8 @@ public class LocalPlayer : MonoBehaviour
     public void OnRespawn()
 	{
         liveHealth = myPlayerModule.characterParameters.health;
-	}
+
+    }
 
 
     public void DealDamages (DamagesInfos _damagesToDeal)
