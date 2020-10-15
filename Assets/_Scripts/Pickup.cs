@@ -8,12 +8,11 @@ public class Pickup : MonoBehaviour
 
 	private void OnTriggerEnter ( Collider other )
 	{
-	/*	GameManager.Instance.AddPoints(other.GetComponent<LocalPlayer>().teamIndex, 1);*/
+		GameManager.Instance.AddPoints(other.GetComponent<LocalPlayer>().teamIndex, 1);
 
 
 		print("A caler une fois la fonction faite");
-		Destroy(gameObject);
-		//NetworkObjectsManager.Instance.Destroy()
+		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
 	}
 
 

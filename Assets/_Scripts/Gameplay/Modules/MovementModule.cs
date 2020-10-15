@@ -32,8 +32,8 @@ public class MovementModule : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 
 		myPlayerModule.DirectionInputedUpdate += Move;
-		myPlayerModule.toggleRunning += ToggleRunning;
-		myPlayerModule.stopRunning += StopRunning;
+		/*myPlayerModule.toggleRunning += ToggleRunning;
+		myPlayerModule.stopRunning += StopRunning;*/
 		myPlayerModule.forcedMovementAdded += AddDash;
 
 		//IMPORTANT POUR LES CALLBACKS
