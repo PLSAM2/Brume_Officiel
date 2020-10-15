@@ -12,13 +12,8 @@ public class Pickup : MonoBehaviour
 
 		if (playerTouched.isOwner)
 			GameManager.Instance.AddPoints(playerTouched.teamIndex, 1);
-		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID(), true);
-	}
-
-
-	private void OnDestroy ()
-	{
-	
+		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID(), true); 
 		Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
 	}
+	
 }
