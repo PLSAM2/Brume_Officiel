@@ -377,6 +377,11 @@ public class GameManager : SerializedMonoBehaviour
                 {
                     ushort id = reader.ReadUInt16();
 
+                    if (!networkPlayers.ContainsKey(id))
+                    {
+                        return;
+                    }
+
                     networkPlayers[id].SetMovePosition(
 
                         new Vector3( //Position
