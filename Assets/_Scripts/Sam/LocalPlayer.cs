@@ -35,6 +35,8 @@ public class LocalPlayer : MonoBehaviour
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
 
+    [SerializeField] List<Material> matInBrume = new List<Material>();
+
 
     private void Awake()
     {
@@ -53,9 +55,9 @@ public class LocalPlayer : MonoBehaviour
         currentClient = newClient;
         teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-
         if (isOwner)
         {
+            GameManager.Instance. ResetCam();
             GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
 
@@ -63,6 +65,12 @@ public class LocalPlayer : MonoBehaviour
 
             circleDirection.SetActive(true);
             UiManager.Instance.myPlayerModule = myPlayerModule;
+
+            foreach (Material mat in matInBrume)
+            {
+                mat.SetFloat("_Invert", 0);
+                mat.SetFloat("_Radius", 1);
+            }
         }
         visionObj.SetActive(isOwner);
     }
@@ -181,6 +189,7 @@ public class LocalPlayer : MonoBehaviour
                     break;
             }
 
+            GameManager.Instance.ResetCam();
         }
     }
 
