@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using static GameData;
 
@@ -36,6 +37,7 @@ public class GameManager : SerializedMonoBehaviour
 
     [SerializeField] Camera defaultCam;
     [SerializeField] Camera InBrumeCam;
+    [SerializeField] Animator volumeAnimator;
 
     private void Awake()
     {
@@ -181,6 +183,7 @@ public class GameManager : SerializedMonoBehaviour
     {
         defaultCam.gameObject.SetActive(true);
         InBrumeCam.gameObject.SetActive(false);
+        volumeAnimator.SetBool("InBrume", false);
     }
 
     void UpdateTime()

@@ -8,8 +8,6 @@ public class SamTest : MonoBehaviour
 {
     [SerializeField] List<Material> matInBrume = new List<Material>();
 
-    [SerializeField] Renderer brumeRenderer;
-
     [SerializeField] Camera cameraDefault;
     [SerializeField] Camera cameraInBrume;
 
@@ -35,8 +33,6 @@ public class SamTest : MonoBehaviour
         {
             if (other.GetComponent<LocalPlayer>().isOwner)
             {
-                print("in");
-                brumeRenderer.enabled = false;
                 cameraDefault.gameObject.SetActive(false);
                 cameraInBrume.gameObject.SetActive(true);
 
@@ -69,11 +65,6 @@ public class SamTest : MonoBehaviour
             if (other.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
             {
                 float distance = Vector3.Distance(other.transform.position, transform.position);
-
-                print(enterDistance);
-                print(distance);
-                print(enterDistance - distance);
-                print(curveAlpha.Evaluate(enterDistance - distance));
                 UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(enterDistance - distance));
             }
         }
@@ -85,8 +76,6 @@ public class SamTest : MonoBehaviour
         {
             if (other.GetComponent<LocalPlayer>().isOwner)
             {
-                print("out");
-                brumeRenderer.enabled = true;
                 cameraDefault.gameObject.SetActive(true);
                 cameraInBrume.gameObject.SetActive(false);
 

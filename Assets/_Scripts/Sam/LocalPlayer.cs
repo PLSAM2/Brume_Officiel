@@ -189,6 +189,7 @@ public class LocalPlayer : MonoBehaviour
                     break;
             }
 
+            GameManager.Instance.ResetCam();
         }
     }
 
