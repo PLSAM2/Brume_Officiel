@@ -18,7 +18,7 @@ public class MovementModule : MonoBehaviour
 	public float Stamina {	get => _stamina; 
 		set { 
 			_stamina = value;
-			UiManager.instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} 
+			UiManager.Instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} 
 	}
 	bool running = false;
 	//DASH 

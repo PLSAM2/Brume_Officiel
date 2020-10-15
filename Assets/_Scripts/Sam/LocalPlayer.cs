@@ -61,7 +61,7 @@ public class LocalPlayer : MonoBehaviour
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
-            UiManager.instance.myPlayerModule = myPlayerModule;
+            UiManager.Instance.myPlayerModule = myPlayerModule;
         }
         visionObj.SetActive(isOwner);
     }

@@ -12,7 +12,7 @@ public class SpellModule : MonoBehaviour
 	{
 		get => _cooldown; set
 		{
-			_cooldown = value; UiManager.instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
+			_cooldown = value; UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
 	float _cooldown = 0;
@@ -46,7 +46,7 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
 		}
-		UiManager.instance.SetupIcon(spell, actionLinked);
+		UiManager.Instance.SetupIcon(spell, actionLinked);
 		timeToResolveSpell = spell.canalisationTime;
 
 		startCanalisation += StartCanalysingFeedBack;

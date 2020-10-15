@@ -20,6 +20,8 @@ public class SamTest : MonoBehaviour
 
     [SerializeField] Animator myAnimator;
 
+    [SerializeField] AnimationCurve curveAlpha;
+
     private void Start()
     {
         foreach (Material mat in matSkin)
@@ -54,6 +56,19 @@ public class SamTest : MonoBehaviour
                 {
                     mat.SetFloat("_Invert", 1);
                 }
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == 8)
+        {
+            if (other.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
+            {
+                float distance = Vector3.Distance(other.transform.position, transform.position);
+
+
             }
         }
     }

@@ -1,22 +1,34 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 public class UiManager : MonoBehaviour
 {
-	public static UiManager instance;
+	private static UiManager _instance;
+	public static UiManager Instance { get { return _instance; } }
+
 	public PlayerModule myPlayerModule;
 	public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon;
 
 	public TextMeshProUGUI timer;
 	public TextMeshProUGUI allyScore;
 	public TextMeshProUGUI ennemyScore;
+
+	[SerializeField] Image brumeFilter;
+
 	private void Awake ()
 	{
-		if (instance == null || instance == this)
-			instance = this;
-		else
-			Destroy(this);
+		if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
 	}
 
 	public void UpdateUiCooldownSpell (En_SpellInput spell, float _time, float _completeCd)
@@ -82,5 +94,10 @@ public class UiManager : MonoBehaviour
 			_iconToPrep.BeReady(true, _timeToCheckShow);
 		else  
 			_iconToPrep.BeReady(false, _timeToCheckShow);
+	}
+
+	public void SetAlphaBrume(float value)
+    {
+		brumeFilter.color = new Color(brumeFilter.color.r, brumeFilter.color.g, brumeFilter.color.b, value);
 	}
 }

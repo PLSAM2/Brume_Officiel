@@ -66,7 +66,7 @@ public class GameManager : SerializedMonoBehaviour
         remainingTime = timePerRound;
         int secondRemaining = (int)remainingTime % 60;
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
-        UiManager.instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+        UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
         if (RoomManager.Instance.GetLocalPlayer().IsHost)
         {
@@ -166,10 +166,10 @@ public class GameManager : SerializedMonoBehaviour
 
                 if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
-                    UiManager.instance.allyScore.text = scores[_team].ToString();
+                    UiManager.Instance.allyScore.text = scores[_team].ToString();
                 } else
                 {
-                    UiManager.instance.ennemyScore.text = scores[_team].ToString();
+                    UiManager.Instance.ennemyScore.text = scores[_team].ToString();
                 }
             }
         }
@@ -192,7 +192,7 @@ public class GameManager : SerializedMonoBehaviour
         }
         int secondRemaining = (int)remainingTime % 60;
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
-        UiManager.instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+        UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
     }
 
