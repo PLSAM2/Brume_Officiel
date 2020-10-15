@@ -1581,6 +1581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1185153677}
+  - component: {fileID: 1185153678}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -1602,6 +1603,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1185153678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185153676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fccf9eaf6ab694c449e15612f80ab8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allCollectibleSpot: []
+  numberOfCollectible: 15
 --- !u!43 &1467489781
 Mesh:
   m_ObjectHideFlags: 0
