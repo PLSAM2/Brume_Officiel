@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2018274824535757923}
   - component: {fileID: 4705339813984825636}
   - component: {fileID: 1217320960498770133}
+  - component: {fileID: 299692086113737687}
   - component: {fileID: 8281150123794309746}
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
@@ -78,6 +79,19 @@ MonoBehaviour:
   myAnimator: {fileID: 4705339813984825636}
   circleDirection: {fileID: 3531234986128592076}
   teamIndex: 0
+--- !u!114 &299692086113737687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8598cbc373c19cc429a3cad5111916dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4705339813984825636}
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8455,7 +8469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3217975850073860810, guid: 98b998a7edcd60940bd4f932a72f6963, type: 3}
       propertyPath: visibleTargets.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3217975850073860810, guid: 98b998a7edcd60940bd4f932a72f6963, type: 3}
       propertyPath: fogProjector
