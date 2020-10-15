@@ -190,7 +190,7 @@ public class NetworkObjectsManager : MonoBehaviour
         }
     }
 
-    public void DestroyNetworkedObjectInServer(object sender, MessageReceivedEventArgs e)
+    private void DestroyNetworkedObjectInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
         {
