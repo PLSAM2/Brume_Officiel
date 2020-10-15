@@ -395,10 +395,15 @@ public class GameManager : SerializedMonoBehaviour
                 if (message.Tag == Tags.SendAnim)
                 {
                     ushort id = reader.ReadUInt16();
-                    networkPlayers[id].SetAnim(
-                        reader.ReadSingle(),
-                        reader.ReadSingle()
-                        );
+
+                    if (networkPlayers.ContainsKey(id))
+                    {
+                        networkPlayers[id].SetAnim(
+                            reader.ReadSingle(),
+                            reader.ReadSingle()
+                            );
+                    }
+
                 }
             }
         }

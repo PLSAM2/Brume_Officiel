@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2018274824535757923}
   - component: {fileID: 4705339813984825636}
   - component: {fileID: 1217320960498770133}
+  - component: {fileID: 6674073701188791837}
   - component: {fileID: 8281150123794309746}
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
-  - component: {fileID: 6674073701188791837}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -79,6 +79,32 @@ MonoBehaviour:
   circleDirection: {fileID: 3531234986128592076}
   teamIndex: 0
   visionObj: {fileID: 3873072820761486135}
+--- !u!114 &6674073701188791837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327ddf0e40e63304599be44252132c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
+  actionLinked: 1
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
+  mylineRender: {fileID: 2550331642934917765}
+  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
+  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,32 +168,6 @@ CapsuleCollider:
   m_Height: 1.7721548
   m_Direction: 1
   m_Center: {x: 0, y: 0.8928008, z: -0.017817229}
---- !u!114 &6674073701188791837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327ddf0e40e63304599be44252132c60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
-  actionLinked: 1
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  mylineRender: {fileID: 2550331642934917765}
-  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
-  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
-  characterLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
