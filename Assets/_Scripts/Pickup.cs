@@ -11,13 +11,12 @@ public class Pickup : MonoBehaviour
 		GameManager.Instance.AddPoints(other.GetComponent<LocalPlayer>().teamIndex, 1);
 
 
-		print("A caler une fois la fonction faite");
 		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
 	}
 
 
 	private void OnDestroy ()
 	{
-		Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
+		//Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
 	}
 }
