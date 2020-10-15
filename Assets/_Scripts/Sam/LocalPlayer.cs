@@ -29,6 +29,9 @@ public class LocalPlayer : MonoBehaviour
     private ushort _liveHealth;
     public Team teamIndex;
 
+    //vision
+    public GameObject visionObj;
+
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
 
@@ -59,8 +62,9 @@ public class LocalPlayer : MonoBehaviour
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
-            UiManager.instance.myPlayerModule = myPlayerModule;
+            UiManager.Instance.myPlayerModule = myPlayerModule;
         }
+        visionObj.SetActive(isOwner);
     }
 
 

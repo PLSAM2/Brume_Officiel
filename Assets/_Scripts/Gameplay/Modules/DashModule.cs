@@ -20,9 +20,13 @@ public class DashModule : SpellModule
 
 	public override void OnDisable ()
 	{
-		startCanalisation -= ShowPreview;
-		endCanalisation -= ClearPreview;
-		myPlayerModule.forcedMovementInterrupted-= EndDashFeedback;
+        if (GetComponent<LocalPlayer>().isOwner)
+        {
+			startCanalisation -= ShowPreview;
+			endCanalisation -= ClearPreview;
+			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
+		}
+
 	}
 	public override void ResolveSpell ( Vector3 _mousePosition )
 	{
