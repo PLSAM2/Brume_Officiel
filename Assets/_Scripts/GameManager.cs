@@ -34,6 +34,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public LocalPlayer currentLocalPlayer;
 
+    [SerializeField] Camera defaultCam;
+    [SerializeField] Camera InBrumeCam;
 
     private void Awake()
     {
@@ -173,6 +175,12 @@ public class GameManager : SerializedMonoBehaviour
                 }
             }
         }
+    }
+
+    public void ResetCam()
+    {
+        defaultCam.gameObject.SetActive(true);
+        InBrumeCam.gameObject.SetActive(false);
     }
 
     void UpdateTime()

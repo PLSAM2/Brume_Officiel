@@ -17,8 +17,6 @@ public class SamTest : MonoBehaviour
 
     [SerializeField] SetPosition script;
 
-    [SerializeField] GameObject circle;
-
     [SerializeField] Animator myAnimator;
 
     [SerializeField] AnimationCurve curveAlpha;
@@ -43,7 +41,6 @@ public class SamTest : MonoBehaviour
                 cameraInBrume.gameObject.SetActive(true);
 
                 script.enabled = true;
-                circle.SetActive(true);
 
                 myAnimator.SetBool("InBrume", true);
 
@@ -94,7 +91,6 @@ public class SamTest : MonoBehaviour
                 cameraInBrume.gameObject.SetActive(false);
 
                 script.enabled = false;
-                circle.SetActive(false);
 
                 myAnimator.SetBool("InBrume", false);
 
