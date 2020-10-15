@@ -1832,48 +1832,23 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1693696118 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -7935494346270426752, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 1989597231}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1693696120 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1989597231}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693696118}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dfa3960228c6c7499f9f52ab7671633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1693696124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693696118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b56435dced6f394089a1a8d153574f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  spell: {fileID: 11400000, guid: f887d23f737a585438fc258bf283d8a1, type: 2}
-  actionLinked: 0
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
 --- !u!114 &1693696125 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6674073701188791837, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1989597231}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693696118}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 327ddf0e40e63304599be44252132c60, type: 3}
@@ -2378,7 +2353,7 @@ PrefabInstance:
     - target: {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: firstSpell
       value: 
-      objectReference: {fileID: 1693696124}
+      objectReference: {fileID: 0}
     - target: {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: secondSpell
       value: 
@@ -2490,10 +2465,6 @@ PrefabInstance:
     - target: {fileID: 8281150123794309746, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: allBlockingLayer.m_Bits
       value: 768
-      objectReference: {fileID: 0}
-    - target: {fileID: 8281150123794309746, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: usingStamina
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8281150123794309746, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: movementBlockingLayer.m_Bits

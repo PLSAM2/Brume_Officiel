@@ -19,7 +19,7 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] LayerMask groundLayer;
 
 	[Header("DamagesPart")]
-	[ReadOnly] public En_CharacterState state;
+	[ReadOnly] public En_CharacterState state= En_CharacterState.Clear;
 	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 
@@ -132,11 +132,12 @@ public class PlayerModule : MonoBehaviour
 
 [System.Flags]
 public enum En_CharacterState
-{
-	Slowed = 1 << 0,
-	SpedUp = 1 << 1,
-	Stunned = 1 << 2,
-	Canalysing = 1 << 3,
+{ 
+	Clear = 1 <<0,
+	Slowed = 1 << 1,
+	SpedUp = 1 << 2,
+	Stunned = 1 << 3,
+	Canalysing = 1 << 4,
 }
 
 
