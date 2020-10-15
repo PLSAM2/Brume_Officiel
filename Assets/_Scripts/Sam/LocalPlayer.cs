@@ -15,6 +15,7 @@ public class LocalPlayer : MonoBehaviour
     public PlayerModule myPlayerModule;
 
     Vector3 lastPosition;
+
     Vector3 lastRotation;
 
     //

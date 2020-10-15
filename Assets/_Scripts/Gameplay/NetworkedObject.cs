@@ -35,6 +35,11 @@ public class NetworkedObject : MonoBehaviour
         return isOwner;
     }
 
+    public ushort GetItemID()
+    {
+        return serverObjectID;
+    }
+
     private void Update()
     {
         if (!isNetworked || !isOwner || serverObjectID == 0 )
