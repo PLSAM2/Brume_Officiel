@@ -6,6 +6,8 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using static GameData;
+using TMPro;
+using UnityEngine.UI;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -31,6 +33,11 @@ public class LocalPlayer : MonoBehaviour
 
     //vision
     public GameObject visionObj;
+
+    [Header("UI")]
+    public GameObject canvas;
+    public TextMeshProUGUI nameText;
+    public Image life;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
