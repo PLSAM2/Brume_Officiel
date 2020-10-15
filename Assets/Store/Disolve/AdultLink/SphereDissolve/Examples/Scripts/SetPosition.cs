@@ -6,10 +6,14 @@ namespace AdultLink {
 	[ExecuteInEditMode]
 	public class SetPosition : MonoBehaviour {
 
-	public Material mat;
+	public List<Material> mats = new List<Material>();
 	// Update is called once per frame
 	void Update () {
-		mat.SetVector("_Position", transform.position);
+
+			foreach(Material mat in mats)
+            {
+				mat.SetVector("_Position", transform.position);
+			}
 	}
 }
 }

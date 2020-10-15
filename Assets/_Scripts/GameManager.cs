@@ -32,6 +32,7 @@ public class GameManager : SerializedMonoBehaviour
     private float remainingTime = 0;
     private bool isWaitingForRespawn = false;
 
+    public LocalPlayer currentLocalPlayer;
 
 
     private void Awake()
@@ -346,6 +347,11 @@ public class GameManager : SerializedMonoBehaviour
                     myLocalPlayer.myPlayerId = id;
                     myLocalPlayer.isOwner = client.ID == id;
                     myLocalPlayer.Init(client);
+
+                    if (myLocalPlayer.isOwner)
+                    {
+                        currentLocalPlayer = myLocalPlayer;
+                    }
 
                     networkPlayers.Add(id, myLocalPlayer);
                 }
