@@ -35,7 +35,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public LocalPlayer currentLocalPlayer;
 
-    [SerializeField] Camera defaultCam;
+    public Camera defaultCam;
     [SerializeField] Camera InBrumeCam;
     [SerializeField] Animator volumeAnimator;
 
