@@ -332,7 +332,17 @@ public class GameManager : SerializedMonoBehaviour
 
                     if (networkPlayers.ContainsKey(id)) { return; }
 
-                    GameObject obj = Instantiate(prefabPlayer, new Vector3(0,0,90) , Quaternion.identity) as GameObject;
+                    Vector3 spawnPos = Vector3.zero;
+
+                    foreach (SpawnPoint spawn in spawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
+                    {
+                        if (spawn.CanSpawn())
+                        {
+                            spawnPos = spawn.transform.position;
+                        }
+                    }
+
+                    GameObject obj = Instantiate(prefabPlayer, spawnPos, Quaternion.identity) as GameObject;
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
                     myLocalPlayer.isOwner = client.ID == id;
