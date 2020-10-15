@@ -51,7 +51,7 @@ public class PlayerModule : MonoBehaviour
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
-		UiManager.instance.myPlayerModule = this;
+		UiManager.Instance.myPlayerModule = this;
 
 
 		firstSpell?.SetupComponent();

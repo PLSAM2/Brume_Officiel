@@ -32,6 +32,7 @@ public class GameManager : SerializedMonoBehaviour
     private float remainingTime = 0;
     private bool isWaitingForRespawn = false;
 
+    public LocalPlayer currentLocalPlayer;
 
 
     private void Awake()
@@ -65,7 +66,7 @@ public class GameManager : SerializedMonoBehaviour
         remainingTime = timePerRound;
         int secondRemaining = (int)remainingTime % 60;
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
-        UiManager.instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+        UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
         if (RoomManager.Instance.GetLocalPlayer().IsHost)
         {
@@ -165,10 +166,10 @@ public class GameManager : SerializedMonoBehaviour
 
                 if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
-                    UiManager.instance.allyScore.text = scores[_team].ToString();
+                    UiManager.Instance.allyScore.text = scores[_team].ToString();
                 } else
                 {
-                    UiManager.instance.ennemyScore.text = scores[_team].ToString();
+                    UiManager.Instance.ennemyScore.text = scores[_team].ToString();
                 }
             }
         }
@@ -191,7 +192,7 @@ public class GameManager : SerializedMonoBehaviour
         }
         int secondRemaining = (int)remainingTime % 60;
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
-        UiManager.instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+        UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
     }
 
@@ -331,11 +332,26 @@ public class GameManager : SerializedMonoBehaviour
 
                     if (networkPlayers.ContainsKey(id)) { return; }
 
-                    GameObject obj = Instantiate(prefabPlayer, new Vector3(0,0,90) , Quaternion.identity) as GameObject;
+                    Vector3 spawnPos = Vector3.zero;
+
+                    foreach (SpawnPoint spawn in spawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
+                    {
+                        if (spawn.CanSpawn())
+                        {
+                            spawnPos = spawn.transform.position;
+                        }
+                    }
+
+                    GameObject obj = Instantiate(prefabPlayer, spawnPos, Quaternion.identity) as GameObject;
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
                     myLocalPlayer.isOwner = client.ID == id;
                     myLocalPlayer.Init(client);
+
+                    if (myLocalPlayer.isOwner)
+                    {
+                        currentLocalPlayer = myLocalPlayer;
+                    }
 
                     networkPlayers.Add(id, myLocalPlayer);
                 }

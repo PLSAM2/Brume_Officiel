@@ -63,6 +63,10 @@ public class NetworkObjectsManager : MonoBehaviour
             {
                 SynchroniseObject(sender, e);
             }
+            if (message.Tag == Tags.DestroyObject)
+            {
+                DestroyNetworkedObjectInServer(sender, e);
+            }
         }
     }
 
@@ -92,7 +96,6 @@ public class NetworkObjectsManager : MonoBehaviour
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
     {
-
         ushort _ownerID;
         ushort _objectID;
         ushort _lastObjId;
@@ -167,4 +170,38 @@ public class NetworkObjectsManager : MonoBehaviour
         }
 
     }
+
+    public void DestroyNetworkedObject(ushort networkedObjectID, bool bypassOwner = false)
+    {
+        // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
+
+        if (!instantiatedObjectsList[networkedObjectID].GetIsOwner() && !bypassOwner)
+        {
+            Debug.LogError("YOU HAVE TO BE OWNER");
+            return;
+        }
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(networkedObjectID);
+
+            using (Message message = Message.Create(Tags.DestroyObject, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    public void DestroyNetworkedObjectInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort objID = reader.ReadUInt16();
+                Destroy(instantiatedObjectsList[objID].gameObject);
+                instantiatedObjectsList.Remove(objID);
+
+            }
+        }
+    }
+
 }
