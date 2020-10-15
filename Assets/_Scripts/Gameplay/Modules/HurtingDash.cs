@@ -7,12 +7,12 @@ using UnityEngine.UI;
 public class HurtingDash : DashModule
 {
 	[SerializeField] LayerMask characterLayer;
-	[SerializeField] RectTransform canalisationCircle, canvasFeedBackCanalisation;
 
 	bool damaging = false;
 	Vector3 directionToDamage;
 	List<GameObject> allPlayerTouched = new List<GameObject>();
 	float _width;
+
 	public override void SetupComponent ()
 	{
 		base.SetupComponent();
@@ -57,10 +57,9 @@ public class HurtingDash : DashModule
 				if (isNew)
 				{
 					LocalPlayer _tempStack = _hit.collider.GetComponent<LocalPlayer>();
-					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.myLocalPlayer.teamIndex)
+					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.mylocalPlayer.teamIndex)
 					{
 						DamagesInfos _infos = new DamagesInfos();
-						_infos.playerName = myPlayerModule.myName;
 						_infos.damages = spell.damagesToDeal;
 
 						_tempStack.DealDamages(_infos);
@@ -73,9 +72,9 @@ public class HurtingDash : DashModule
 
 	
 
-	void StartDamaging ( ForcedMovement _forcedmvementInfos )
+	void StartDamaging ( ForcedMovement _forcedMovementInfos )
 	{
-		directionToDamage = _forcedmvementInfos.direction;
+		directionToDamage = _forcedMovementInfos.direction;
 		damaging = true;
 	}
 
@@ -84,4 +83,5 @@ public class HurtingDash : DashModule
 		damaging = false;
 		allPlayerTouched.Clear();
 	}
+
 }

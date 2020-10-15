@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
-
+using System.Net.Http.Headers;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -15,22 +15,19 @@ public class PlayerModule : MonoBehaviour
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 
-	[ReadOnly] public ushort myId;
-	[ReadOnly] public string myName;
 	[SerializeField] Camera mainCam;
 	[SerializeField] LayerMask groundLayer;
-	[HideInInspector] public LocalPlayer myLocalPlayer;
 
 	[Header("DamagesPart")]
 	[ReadOnly] public En_CharacterState state;
-	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>(); 
+	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
 	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick;
 	[SerializeField] CapsuleCollider coll;
-
+	[ReadOnly] public LocalPlayer mylocalPlayer;
 
 	//ALL ACTION 
 	#region
@@ -52,10 +49,10 @@ public class PlayerModule : MonoBehaviour
 	void Start ()
 	{
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
+		mylocalPlayer = GetComponent<LocalPlayer>();
 
 		UiManager.instance.myPlayerModule = this;
 
-		myLocalPlayer = GetComponent<LocalPlayer>();
 
 		firstSpell?.SetupComponent();
 		secondSpell?.SetupComponent();
@@ -101,10 +98,16 @@ public class PlayerModule : MonoBehaviour
 
 	void LookAtMouse ()
 	{
-		Vector3 _currentMousePos = mousePos();
-		transform.LookAt(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
+		if ((state & En_CharacterState.Canalysing) == 0)
+		{
+			Vector3 _currentMousePos = mousePos();
+			transform.LookAt(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
+		}
 	}
 	//Vars 
+
+	
+
 	#region 
 	public Vector3 directionInputed ()
 	{
