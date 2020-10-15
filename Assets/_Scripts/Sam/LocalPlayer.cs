@@ -6,6 +6,8 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using static GameData;
+using TMPro;
+using UnityEngine.UI;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -15,10 +17,8 @@ public class LocalPlayer : MonoBehaviour
     public PlayerModule myPlayerModule;
 
     Vector3 lastPosition;
-
     Vector3 lastRotation;
-
-    //
+    
     UnityClient currentClient;
 
     [SerializeField] Animator myAnimator;
@@ -35,6 +35,10 @@ public class LocalPlayer : MonoBehaviour
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
 
+    [Header("UI")]
+    public GameObject canvas;
+    public TextMeshProUGUI nameText;
+    public Image life;
 
     private void Awake()
     {
@@ -80,6 +84,9 @@ public class LocalPlayer : MonoBehaviour
 
     void Update()
     {
+        canvas.transform.LookAt(Camera.main.transform.position);
+        canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+
         if (!isOwner) { return; }
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
@@ -143,7 +150,20 @@ public class LocalPlayer : MonoBehaviour
     public void OnRespawn()
 	{
         liveHealth = myPlayerModule.characterParameters.health;
-	}
+        nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
+
+        if (teamIndex == Team.blue)
+        {
+            nameText.color = Color.blue;
+            life.color = Color.blue;
+        }
+        else if (teamIndex == Team.red)
+        {
+            nameText.color = Color.red;
+            life.color = Color.red;
+        }
+
+    }
 
 
     public void DealDamages (DamagesInfos _damagesToDeal)
