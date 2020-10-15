@@ -20,6 +20,14 @@ public class SamTest : MonoBehaviour
 
     [SerializeField] Animator myAnimator;
 
+    private void Start()
+    {
+        foreach (Material mat in matSkin)
+        {
+            mat.SetFloat("_Invert", 0);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 8)
