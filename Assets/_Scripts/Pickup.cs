@@ -8,17 +8,17 @@ public class Pickup : MonoBehaviour
 	LocalPlayer playerTouched;
 	private void OnTriggerEnter ( Collider other )
 	{
-	
-
-
-		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID(), true);
 		playerTouched = other.GetComponent<LocalPlayer>();
+
+		if (playerTouched.isOwner)
+			GameManager.Instance.AddPoints(playerTouched.teamIndex, 1);
+		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID(), true);
 	}
 
 
 	private void OnDestroy ()
 	{
-		GameManager.Instance.AddPoints(playerTouched.teamIndex, 1);
-		//Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
+	
+		Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
 	}
 }
