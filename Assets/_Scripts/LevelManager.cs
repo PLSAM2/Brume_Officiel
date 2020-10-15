@@ -17,8 +17,10 @@ public class LevelManager : MonoBehaviour
 			for (int i = 0; i < numberOfCollectible; i++)
 			{
 				int _randomTransform = Random.Range(0, _collectibleSpotAvaible.Count-1);
+
 				_usedSpot.Add(_collectibleSpotAvaible[_randomTransform]);
-				_collectibleSpotAvaible.Remove(_collectibleSpotAvaible[_randomTransform]);
+
+				_collectibleSpotAvaible.RemoveAt(_randomTransform);
 			}
 
 			for  (int j = 0; j < _usedSpot.Count -1;  j++)
