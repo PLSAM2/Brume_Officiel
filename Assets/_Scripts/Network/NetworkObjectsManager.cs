@@ -161,8 +161,10 @@ public class NetworkObjectsManager : MonoBehaviour
                 }
             }
         }
+        if (instantiatedObjectsList.ContainsKey(_objectID))
+            return;
 
-        instantiatedObjectsList[_objectID].transform.position = _newObjectPos;
+         instantiatedObjectsList[_objectID].transform.position = _newObjectPos;
 
         if (_synchroniseRotation)
         {

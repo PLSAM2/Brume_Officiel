@@ -5,21 +5,20 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
 	[SerializeField] GameObject particleOnPickedUp;
-
+	LocalPlayer playerTouched;
 	private void OnTriggerEnter ( Collider other )
 	{
 	
 
-		print(other);
 
 		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID(), true);
-
+		playerTouched = other.GetComponent<LocalPlayer>();
 	}
 
 
 	private void OnDestroy ()
 	{
-		GameManager.Instance.AddPoints(other.GetComponent<LocalPlayer>().teamIndex, 1);
+		GameManager.Instance.AddPoints(playerTouched.teamIndex, 1);
 		//Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
 	}
 }
