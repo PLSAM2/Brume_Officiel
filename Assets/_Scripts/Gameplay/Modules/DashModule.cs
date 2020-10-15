@@ -10,14 +10,23 @@ public class DashModule : SpellModule
 	public override void SetupComponent ()
 	{
 		base.SetupComponent();
+		mylineRender.useWorldSpace = true;
+
 
 		startCanalisation += ShowPreview;
 		endCanalisation += ClearPreview;
-		mylineRender.useWorldSpace = true;
+		myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 	}
 
+	public override void OnDisable ()
+	{
+		startCanalisation -= ShowPreview;
+		endCanalisation -= ClearPreview;
+		myPlayerModule.forcedMovementInterrupted-= EndDashFeedback;
+	}
 	public override void ResolveSpell ( Vector3 _mousePosition )
 	{
+
 		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
 		ForcedMovement dashInfos = new ForcedMovement();
 		dashInfos.duration = _localTraduction.timeToReachMaxRange;
@@ -33,8 +42,8 @@ public class DashModule : SpellModule
 		}
 
 		myPlayerModule.forcedMovementAdded(dashInfos);
-		
 		base.ResolveSpell(_mousePosition);
+
 	}
 
 	public virtual void ShowPreview ()
@@ -80,13 +89,11 @@ public class DashModule : SpellModule
 		}
 	}
 
-	void StartDashFeedback()
-	{
-
-	}
+	
 
 	void EndDashFeedback()
 	{
-
+		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
+
 }

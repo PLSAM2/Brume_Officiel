@@ -7,17 +7,22 @@ using Sirenix.OdinInspector;
 public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
-	[ReadOnly] public float Cooldown { get => _cooldown; set {
+	[ReadOnly]
+	public float Cooldown
+	{
+		get => _cooldown; set
+		{
 			_cooldown = value; UiManager.instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
-		} }
+		}
+	}
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false;
 	public Sc_Spell spell;
 
 	public En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
-	[HideInInspector] public Vector3 recordedMousePosOnInput;
-	[HideInInspector] public PlayerModule myPlayerModule;
+	[ReadOnly] public Vector3 recordedMousePosOnInput;
+	[ReadOnly] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
 
@@ -43,9 +48,13 @@ public class SpellModule : MonoBehaviour
 		}
 		UiManager.instance.SetupIcon(spell, actionLinked);
 		timeToResolveSpell = spell.canalisationTime;
+
+		startCanalisation += StartCanalysingFeedBack;
+		endCanalisation += ResolveSpellFeedback;
+
 	}
 
-	public virtual void  OnDisable ()
+	public virtual void OnDisable ()
 	{
 		switch (actionLinked)
 		{
@@ -62,9 +71,11 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInput -= StartCanalysing;
 				break;
 		}
+		startCanalisation -= StartCanalysingFeedBack;
+		endCanalisation -= ResolveSpellFeedback;
 	}
 
-	public 	virtual void  Update ()
+	public virtual void Update ()
 	{
 		if (isUsed)
 		{
@@ -84,11 +95,11 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		canalisationParticle.Play();
-		recordedMousePosOnInput = _BaseMousePos;
-		myPlayerModule.state |= En_CharacterState.Canalysing;
 		if (canBeCast())
 		{
+			recordedMousePosOnInput = _BaseMousePos;
+			myPlayerModule.state |= En_CharacterState.Canalysing;
+
 			startCanalisation?.Invoke();
 			Cooldown = spell.cooldown;
 			isUsed = true;
@@ -103,7 +114,6 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
-		canalisationParticle.Stop();
 		myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
 		endCanalisation?.Invoke();
 	}
@@ -116,11 +126,31 @@ public class SpellModule : MonoBehaviour
 
 	bool canBeCast ()
 	{
-		if (/*(myPlayerModule.state | spell.StateAutorised) != spell.StateAutorised &&*/
-			Cooldown>0 || isUsed)
+		if ((myPlayerModule.state & En_CharacterState.Canalysing) != 0 ||
+			Cooldown > 0 || isUsed)
 			return false;
 		else
 			return true;
+	}
+
+
+	void StartCanalysingFeedBack ()
+	{
+		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
+	}
+	void ResolveSpellFeedback ()
+	{
+		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+	}
+
+	public void StartParticleCanalisation ()
+	{
+		canalisationParticle.Play();
+
+	}
+	public void StopParticleCanalisation ()
+	{
+		canalisationParticle.Stop();
 	}
 }
 
