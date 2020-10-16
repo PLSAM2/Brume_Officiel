@@ -66,6 +66,10 @@ public class SamTest : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
+            if (GameManager.Instance.currentLocalPlayer == null)
+            {
+                return;
+            }
             if (other.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
             {
                 float distance = Vector3.Distance(other.transform.position, transform.position);
