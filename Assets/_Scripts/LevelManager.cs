@@ -54,8 +54,11 @@ public class LevelManager : MonoBehaviour
 
 	public void KillPickup(Transform _positionFreed)
 	{
-		collectibleSpotAvaible.Add(_positionFreed);
-		_pickableAvaible -= 1;
+		if (RoomManager.Instance.GetLocalPlayer().IsHost)
+		{
+			collectibleSpotAvaible.Add(_positionFreed);
+			_pickableAvaible -= 1;
+		}
 	}
 
 	void CheckForRepop()
