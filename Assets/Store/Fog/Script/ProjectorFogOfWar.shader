@@ -5,6 +5,7 @@
 
 Shader "Projector/Fog Of War" {
 	Properties {
+		_OldFogTex ("Old Fog Texture", 2D) = "gray" {}
 		_FogTex ("Fog Texture", 2D) = "gray" {}
 		_Color ("Color", Color) = (0,0,0,0)
 	}
@@ -39,16 +40,18 @@ Shader "Projector/Fog Of War" {
 				return o;
 			}
 			
+			sampler2D _OldFogTex;
 			sampler2D _FogTex;
 			fixed4 _Color;
 			uniform float _Blend;
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				fixed a1 = tex2Dproj (_OldFogTex, UNITY_PROJ_COORD(i.uvShadow)).a;
 				fixed a2 = tex2Dproj (_FogTex, UNITY_PROJ_COORD(i.uvShadow)).a;
 
-				//fixed a = a2 * _Blend;
-				fixed4 col = lerp(_Color, fixed4(1,1,1,1), a2);
+				fixed a = lerp(a1, a2, _Blend);
+				fixed4 col = lerp(_Color, fixed4(1,1,1,1), a);
 
 				UNITY_APPLY_FOG_COLOR(i.fogCoord, col, fixed4(1,1,1,1));
 				return col;
