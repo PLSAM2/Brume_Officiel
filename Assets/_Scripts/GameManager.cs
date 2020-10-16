@@ -149,6 +149,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public void AddPoints(Team targetTeam, ushort value)
     {
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write((ushort)targetTeam);
@@ -174,11 +175,16 @@ public class GameManager : SerializedMonoBehaviour
                 if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
                     UiManager.Instance.allyScore.text = scores[_team].ToString();
+
+                    UiManager.Instance.DisplayGeneralPoints(_team, _score);
+
                 } else
                 {
                     UiManager.Instance.ennemyScore.text = scores[_team].ToString();
                 }
             }
+
+
         }
     }
 

@@ -126,7 +126,8 @@ public class LocalPlayer : MonoBehaviour
 
         if (!isOwner)
         {
-            if (isInBrume && canBeRevealed)
+
+            if (GameManager.Instance.currentLocalPlayer.isInBrume && !isInBrume && canBeRevealed)
             {
                 StartCoroutine(CanBeRevealed());
             }

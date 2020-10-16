@@ -19,7 +19,9 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI ennemyScore;
 
     public TextMeshProUGUI generalMessage;
+    public TextMeshProUGUI generalPoints;
     public Animator generalMessageAnim;
+    public Animator generalPointsAnim;
 
     [SerializeField] Image brumeFilter;
 
@@ -129,5 +131,21 @@ public class UiManager : MonoBehaviour
     {
         generalMessage.text = value;
         generalMessageAnim.Play("GenMessage");
+    }
+
+    public void DisplayGeneralPoints(Team team, int value)
+    {
+        generalPoints.text = "+" + value;
+
+        if (team == Team.blue)
+        {
+            generalPoints.color = Color.blue;
+        }
+        else if (team == Team.red)
+        {
+            generalPoints.color = Color.red;
+        }
+
+        generalPointsAnim.Play("GenPoints");
     }
 }
