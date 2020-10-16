@@ -96,6 +96,7 @@ public class LocalPlayer : MonoBehaviour
             }
 
             fogScript.enabled = true;
+            //
         }
         visionObj.SetActive(isOwner);
     }
