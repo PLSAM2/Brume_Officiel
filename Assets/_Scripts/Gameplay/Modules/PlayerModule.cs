@@ -10,15 +10,18 @@ public class PlayerModule : MonoBehaviour
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R;
-	[SerializeField] Camera mainCam;
-	[SerializeField] LayerMask groundLayer;
+
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 
+	[SerializeField] Camera mainCam;
+	[SerializeField] LayerMask groundLayer;
+
 	[Header("DamagesPart")]
 	[ReadOnly] public En_CharacterState state= En_CharacterState.Clear;
 	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
+
 
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;

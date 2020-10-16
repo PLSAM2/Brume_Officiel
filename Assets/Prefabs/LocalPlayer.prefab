@@ -80,7 +80,9 @@ MonoBehaviour:
   myAnimator: {fileID: 4705339813984825636}
   circleDirection: {fileID: 3531234986128592076}
   teamIndex: 0
+  isInBrume: 0
   visionObj: {fileID: 466112710899532364}
+  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   canvas: {fileID: 6548595031188705954}
   nameText: {fileID: 2784098647336443950}
   life: {fileID: 8177495112107496326}
@@ -260,7 +262,7 @@ Transform:
   m_GameObject: {fileID: 466112710899532364}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.76107, z: 0}
-  m_LocalScale: {x: 0.76107, y: 0.76107, z: 0.76107}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2018274824535757923}
   m_RootOrder: 5
@@ -369,7 +371,7 @@ GameObject:
   - component: {fileID: 1461855470822321989}
   - component: {fileID: 2278810184385879824}
   - component: {fileID: 2784098647336443950}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
