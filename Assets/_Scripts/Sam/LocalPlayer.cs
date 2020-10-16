@@ -44,6 +44,7 @@ public class LocalPlayer : MonoBehaviour
 
     [SerializeField] List<Material> matInBrume = new List<Material>();
 
+    [SerializeField] FieldOfViewOld fogScript;
 
     private void Awake()
     {
@@ -52,8 +53,8 @@ public class LocalPlayer : MonoBehaviour
         OnRespawn();
     }
 
-	private void Start ()
-	{
+    private void Start()
+    {
         triggerAnim += TriggerTheAnim;
 
         nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
@@ -79,7 +80,7 @@ public class LocalPlayer : MonoBehaviour
 
         if (isOwner)
         {
-            GameManager.Instance. ResetCam();
+            GameManager.Instance.ResetCam();
             GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
 
@@ -93,6 +94,8 @@ public class LocalPlayer : MonoBehaviour
                 mat.SetFloat("_Invert", 0);
                 mat.SetFloat("_Radius", 1);
             }
+
+            fogScript.enabled = true;
         }
         visionObj.SetActive(isOwner);
     }
@@ -108,10 +111,8 @@ public class LocalPlayer : MonoBehaviour
         triggerAnim -= TriggerTheAnim;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-
-
         if (!isOwner) { return; }
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
@@ -160,6 +161,7 @@ public class LocalPlayer : MonoBehaviour
             {
                 currentClient.SendMessage(_message, SendMode.Unreliable);
             }
+
         }
     }
 
@@ -178,13 +180,12 @@ public class LocalPlayer : MonoBehaviour
     }
 
     public void OnRespawn()
-	{
+    {
         liveHealth = myPlayerModule.characterParameters.health;
 
     }
 
-
-    public void DealDamages (DamagesInfos _damagesToDeal)
+    public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damages.damageHealth;
@@ -200,7 +201,7 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    public void KillPlayer ()
+    public void KillPlayer()
     {
         if (isOwner)
         {
@@ -223,7 +224,7 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    public void TriggerTheAnim ( string triggerName )
+    public void TriggerTheAnim(string triggerName)
     {
         myAnimator.SetTrigger(triggerName);
     }

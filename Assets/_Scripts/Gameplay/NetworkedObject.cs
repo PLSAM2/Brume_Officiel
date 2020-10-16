@@ -40,11 +40,10 @@ public class NetworkedObject : MonoBehaviour
         return serverObjectID;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!isNetworked || !isOwner || serverObjectID == 0 )
             return;
-
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync)
         {
