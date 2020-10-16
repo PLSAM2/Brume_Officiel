@@ -32,6 +32,8 @@ public class SamTest : MonoBehaviour
         if(other.gameObject.layer == 8)
         {
             LocalPlayer player = other.GetComponent<LocalPlayer>();
+            player.isInBrume = true;
+
             if (player.isOwner)
             {
                 cameraDefault.gameObject.SetActive(false);
@@ -54,9 +56,6 @@ public class SamTest : MonoBehaviour
                 }
 
                 enterDistance = Vector3.Distance(other.transform.position, transform.position);
-            } else
-            {
-               player.isInBrume = true;
             }
         }
     }
@@ -83,6 +82,8 @@ public class SamTest : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             LocalPlayer player = other.GetComponent<LocalPlayer>();
+            player.isInBrume = false;
+
             if (player.isOwner)
             {
                 cameraDefault.gameObject.SetActive(true);
@@ -105,9 +106,6 @@ public class SamTest : MonoBehaviour
                 }
 
                 UiManager.Instance.SetAlphaBrume(0);
-            } else
-            {
-               player.isInBrume = false;
             }
         }
     }

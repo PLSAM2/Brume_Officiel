@@ -56,9 +56,7 @@ public class FieldOfViewOld : MonoBehaviour {
     {
         foreach (Transform enemy in visibleTargets)
         {
-			print(enemy);
-
-            if (GameManager.Instance.visiblePlayer.Contains(enemy))
+            if (!GameManager.Instance.visiblePlayer.Contains(enemy))
             {
                 GameManager.Instance.visiblePlayer.Add(enemy);
             }
@@ -85,6 +83,9 @@ public class FieldOfViewOld : MonoBehaviour {
             if(targetsInViewRadius[i].tag != "Hide") { continue; }
 
 			Transform target = targetsInViewRadius [i].transform;
+
+			if(target == GameManager.Instance.currentLocalPlayer.transform) { continue; }
+
 			Vector3 dirToTarget = (target.position - transform.position).normalized;
 			if (Vector3.Angle (transform.forward, dirToTarget) < viewAngle / 2) {
 				float dstToTarget = Vector3.Distance (transform.position, target.position);

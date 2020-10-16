@@ -254,15 +254,17 @@ public class LocalPlayer : MonoBehaviour
     IEnumerator CanBeRevealed()
     {
         canBeRevealed = false;
-        GameObject _fx = Instantiate(sonar, transform.position, Quaternion.Euler(90, 0, 0));
+        if (!isOwner) {
+            GameObject _fx = Instantiate(sonar, transform.position, Quaternion.Euler(90, 0, 0));
 
-        if (teamIndex == Team.blue)
-        {
-            _fx.GetComponent<ParticleSystem>().startColor = Color.blue;
-        }
-        else if (teamIndex == Team.red)
-        {
-            _fx.GetComponent<ParticleSystem>().startColor = Color.red;
+            if (teamIndex == Team.blue)
+            {
+                _fx.GetComponent<ParticleSystem>().startColor = Color.blue;
+            }
+            else if (teamIndex == Team.red)
+            {
+                _fx.GetComponent<ParticleSystem>().startColor = Color.red;
+            }
         }
 
         yield return new WaitForSeconds(canBeRevealedTime);
