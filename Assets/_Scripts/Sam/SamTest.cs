@@ -65,7 +65,6 @@ public class SamTest : MonoBehaviour
             if (other.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
             {
                 float distance = Vector3.Distance(other.transform.position, transform.position);
-                print(curveAlpha.Evaluate(enterDistance - distance));
                 UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(enterDistance - distance));
             }
         }

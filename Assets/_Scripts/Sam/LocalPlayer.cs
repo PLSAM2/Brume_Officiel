@@ -44,6 +44,7 @@ public class LocalPlayer : MonoBehaviour
 
     [SerializeField] List<Material> matInBrume = new List<Material>();
 
+    [SerializeField] FieldOfViewOld fogScript;
 
     private void Awake()
     {
@@ -93,6 +94,8 @@ public class LocalPlayer : MonoBehaviour
                 mat.SetFloat("_Invert", 0);
                 mat.SetFloat("_Radius", 1);
             }
+
+            fogScript.enabled = true;
         }
         visionObj.SetActive(isOwner);
     }
