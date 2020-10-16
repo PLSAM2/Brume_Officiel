@@ -56,22 +56,20 @@ public class FieldOfViewOld : MonoBehaviour {
     {
         foreach (Transform enemy in visibleTargets)
         {
-			/*
-            if (!GameManager.Instance.visibleEnemy.Contains(enemy))
+			print(enemy);
+
+            if (GameManager.Instance.visiblePlayer.Contains(enemy))
             {
-                GameManager.Instance.visibleEnemy.Add(enemy);
+                GameManager.Instance.visiblePlayer.Add(enemy);
             }
-			*/
         }
 
         foreach (Transform enemy in oldVisibleTargets)
         {
-			/*
             if (!visibleTargets.Contains(enemy))
             {
-                GameManager.Instance.visibleEnemy.Remove(enemy);
+                GameManager.Instance.visiblePlayer.Remove(enemy);
             }
-			*/
         }
 
         oldVisibleTargets.Clear();

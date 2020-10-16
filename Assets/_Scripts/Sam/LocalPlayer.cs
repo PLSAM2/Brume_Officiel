@@ -51,6 +51,9 @@ public class LocalPlayer : MonoBehaviour
 
     [SerializeField] FieldOfViewOld fogScript;
 
+    public GameObject parentRenderer;
+    [SerializeField] EnemyDisplayer myDisplayer;
+
     private void Awake()
     {
         lastPosition = transform.position;
@@ -101,8 +104,9 @@ public class LocalPlayer : MonoBehaviour
             }
 
             fogScript.enabled = true;
-            //
+            myDisplayer.enabled = true;
         }
+
         visionObj.SetActive(isOwner);
     }
 

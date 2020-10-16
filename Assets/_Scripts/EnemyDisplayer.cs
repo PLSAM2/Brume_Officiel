@@ -4,40 +4,53 @@ using UnityEngine;
 
 public class EnemyDisplayer : MonoBehaviour
 {
-    private void Start()
+    private void OnEnable()
     {
-        //GameManager.Instance.visibleEnemy.Clear();
+        GameManager.Instance.visiblePlayer.Clear();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (GameManager.Instance.canPlay)
+        foreach (KeyValuePair<ushort, LocalPlayer> enemy in GameManager.Instance.networkPlayers)
         {
-            List<Transform> allVisibleEnemy = GameManager.Instance.visibleEnemy;
+            if (enemy.Value.isOwner) { continue; }
 
-            foreach (KeyValuePair<Transform, Displayer> enemy in GameManager.Instance.enemyList)
+            if (GameManager.Instance.currentLocalPlayer.isInBrume)
             {
-                if (allVisibleEnemy.Contains(enemy.Key))
+                if (enemy.Value.isInBrume)
                 {
-                    enemy.Value.SetAlphaValue(1);
+                    HideOrShow(enemy.Value, true);
                 }
                 else
                 {
-                    enemy.Value.SetAlphaValue(0);
+                    HideOrShow(enemy.Value, false);
+                }
+            }
+            else
+            {
+                if (enemy.Value.isInBrume)
+                {
+                    HideOrShow(enemy.Value, false);
+                }
+                else
+                {
+                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    {
+                        HideOrShow(enemy.Value, true);
+                    }
+                    else
+                    {
+                        HideOrShow(enemy.Value, false);
+                    }
                 }
             }
         }
-        else
-        {
-            GameManager.Instance.visibleEnemy.Clear();
+    }
 
-            foreach (KeyValuePair<Transform, Displayer> enemy in GameManager.Instance.enemyList)
-            {
-                enemy.Value.SetAlphaValue(0);
-            }
-        }
-        */
+    void HideOrShow(LocalPlayer p, bool value)
+    {
+        p.parentRenderer.SetActive(value);
+        p.canvas.SetActive(value);
     }
 }

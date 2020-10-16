@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
   - component: {fileID: 6020452266926908102}
+  - component: {fileID: 3198462268170187270}
   m_Layer: 8
   m_Name: LocalPlayer
-  m_TagString: Untagged
+  m_TagString: Hide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,6 +90,8 @@ MonoBehaviour:
   matInBrume:
   - {fileID: 2100000, guid: f271d56c8bddec549a5180d974b22c48, type: 2}
   fogScript: {fileID: 6020452266926908102}
+  parentRenderer: {fileID: 8898860123117720155}
+  myDisplayer: {fileID: 3198462268170187270}
 --- !u!114 &6674073701188791837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +207,18 @@ MonoBehaviour:
   edgeDstThreshold: 4
   maskCutawayDst: 0
   viewMeshFilter: {fileID: 466112710899532360}
+--- !u!114 &3198462268170187270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b73cd3532091341be4e0bc5f88132d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
