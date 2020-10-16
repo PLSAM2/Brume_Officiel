@@ -26,7 +26,7 @@ public class GameManager : SerializedMonoBehaviour
     [SerializeField] private bool debug = false;
     [SerializeField] private float timePerRound = 180; // seconds
 
-    private Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
+    public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
     private Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
     private bool timeStart = false;
     private bool stopInit = false;
@@ -38,6 +38,9 @@ public class GameManager : SerializedMonoBehaviour
     public Camera defaultCam;
     [SerializeField] Camera InBrumeCam;
     [SerializeField] Animator volumeAnimator;
+
+    //View 
+    public List<Transform> visiblePlayer = new List<Transform>();
 
     private void Awake()
     {
