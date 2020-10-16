@@ -42,7 +42,7 @@ public class LocalPlayer : MonoBehaviour
     public Image life;
 
     private bool canBeRevealed = true;
-    private int canBeRevealedTime = 5;
+    private int canBeRevealedTime = 3;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
