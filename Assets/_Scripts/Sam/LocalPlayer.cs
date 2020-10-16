@@ -206,7 +206,7 @@ public class LocalPlayer : MonoBehaviour
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damages.damageHealth;
-
+        UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(myPlayerId);
@@ -223,6 +223,7 @@ public class LocalPlayer : MonoBehaviour
         if (isOwner)
         {
             GameManager.Instance.KillCharacter();
+            UiManager.Instance.DisplayGeneralMessage("You have been slain");
 
             switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
             {

@@ -18,6 +18,9 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI allyScore;
     public TextMeshProUGUI ennemyScore;
 
+    public TextMeshProUGUI generalMessage;
+    public Animator generalMessageAnim;
+
     [SerializeField] Image brumeFilter;
 
     private void Awake()
@@ -119,5 +122,12 @@ public class UiManager : MonoBehaviour
     public void SetAlphaBrume(float value)
     {
         brumeFilter.color = new Color(brumeFilter.color.r, brumeFilter.color.g, brumeFilter.color.b, value);
+    }
+
+
+    public void DisplayGeneralMessage(string value)
+    {
+        generalMessage.text = value;
+        generalMessageAnim.Play("GenMessage");
     }
 }
