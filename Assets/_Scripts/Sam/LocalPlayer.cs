@@ -19,7 +19,7 @@ public class LocalPlayer : MonoBehaviour
     Vector3 lastPosition;
     Vector3 lastRotation;
 
-    
+
     UnityClient currentClient;
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject circleDirection;
@@ -46,6 +46,7 @@ public class LocalPlayer : MonoBehaviour
 
     [SerializeField] List<Material> matInBrume = new List<Material>();
 
+    [SerializeField] FieldOfViewOld fogScript;
 
     private void Awake()
     {
@@ -95,6 +96,8 @@ public class LocalPlayer : MonoBehaviour
                 mat.SetFloat("_Invert", 0);
                 mat.SetFloat("_Radius", 1);
             }
+
+            fogScript.enabled = true;
         }
         visionObj.SetActive(isOwner);
     }
@@ -114,11 +117,10 @@ public class LocalPlayer : MonoBehaviour
     {
         if (!isOwner)
         {
-            if (isInBrume)
+            if (isInBrume && canBeRevealed)
             {
-
+                StartCoroutine(CanBeRevealed());
             }
-
 
             return;
         }
@@ -147,7 +149,7 @@ public class LocalPlayer : MonoBehaviour
     private void LateUpdate()
     {
         canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-        canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+        canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, 0);
     }
 
     void OnPlayerMove(Vector3 pos)
@@ -240,7 +242,17 @@ public class LocalPlayer : MonoBehaviour
     IEnumerator CanBeRevealed()
     {
         canBeRevealed = false;
-        Instantiate(sonar, transform.position, Quaternion.identity);
+        GameObject _fx = Instantiate(sonar, transform.position, Quaternion.Euler(90, 0 ,0));
+
+        if (teamIndex == Team.blue)
+        {
+            _fx.GetComponent<ParticleSystem>().startColor = Color.blue;
+        }
+        else if (teamIndex == Team.red)
+        {
+            _fx.GetComponent<ParticleSystem>().startColor = Color.red;
+        }
+
         yield return new WaitForSeconds(canBeRevealedTime);
         canBeRevealed = true;
     }

@@ -11,11 +11,9 @@ public class FogProjector : MonoBehaviour
     public RenderTexture fogTexture;
     RenderTexture projecTexture;
 
-    RenderTexture oldTexture;
-
     public Shader blurShader;
 
-    [Range(1, 4)]
+    [Range(1, 100)]
     public int upsample = 2;
 
     Material blurMaterial;
@@ -52,14 +50,7 @@ public class FogProjector : MonoBehaviour
                             0,
                             fogTexture.format) {filterMode = FilterMode.Bilinear};
 
-        oldTexture = new RenderTexture(
-                         fogTexture.width * upsample,
-                         fogTexture.height * upsample,
-                         0,
-                         fogTexture.format) {filterMode = FilterMode.Bilinear};
-
         projector.material.SetTexture("_FogTex", projecTexture);
-        projector.material.SetTexture("_OldFogTex", oldTexture);
         blendNameId = Shader.PropertyToID("_Blend");
         blend = 1;
         projector.material.SetFloat(blendNameId, blend);
@@ -69,7 +60,6 @@ public class FogProjector : MonoBehaviour
 
     public void UpdateFog()
     {
-        Graphics.Blit(projecTexture, oldTexture);
         Graphics.Blit(fogTexture, projecTexture);
 
         RenderTexture temp = RenderTexture.GetTemporary(
