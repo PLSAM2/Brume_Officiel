@@ -17,27 +17,29 @@ public class LocalPlayer : MonoBehaviour
     public PlayerModule myPlayerModule;
 
     Vector3 lastPosition;
-
     Vector3 lastRotation;
 
-    //
+    
     UnityClient currentClient;
-
     [SerializeField] Animator myAnimator;
-
     [SerializeField] GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
     private ushort _liveHealth;
     public Team teamIndex;
+    public bool isInBrume = false;
 
     //vision
     public GameObject visionObj;
+    public GameObject sonar;
 
     [Header("UI")]
     public GameObject canvas;
     public TextMeshProUGUI nameText;
     public Image life;
+
+    private bool canBeRevealed = true;
+    private int canBeRevealedTime = 5;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
@@ -110,7 +112,16 @@ public class LocalPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isOwner) { return; }
+        if (!isOwner)
+        {
+            if (isInBrume)
+            {
+
+            }
+
+
+            return;
+        }
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
         {
@@ -224,5 +235,13 @@ public class LocalPlayer : MonoBehaviour
     public void TriggerTheAnim(string triggerName)
     {
         myAnimator.SetTrigger(triggerName);
+    }
+
+    IEnumerator CanBeRevealed()
+    {
+        canBeRevealed = false;
+        Instantiate(sonar, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(canBeRevealedTime);
+        canBeRevealed = true;
     }
 }
