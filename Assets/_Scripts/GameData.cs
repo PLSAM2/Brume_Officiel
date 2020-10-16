@@ -11,9 +11,9 @@ public class GameData
     public enum Character : ushort
     {
         none = 0,
-        shili = 10,
-        researchers = 20,
-        hiddenOnes = 30
+        A = 10,
+        B = 20,
+        C = 30
     }
 
 }
