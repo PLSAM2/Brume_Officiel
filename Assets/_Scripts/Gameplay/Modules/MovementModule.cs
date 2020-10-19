@@ -32,9 +32,10 @@ public class MovementModule : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 
 		myPlayerModule.DirectionInputedUpdate += Move;
+		myPlayerModule.forcedMovementAdded += AddDash;
+
 		/*myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;*/
-		myPlayerModule.forcedMovementAdded += AddDash;
 
 		//IMPORTANT POUR LES CALLBACKS
 		currentForcedMovement.myModule = myPlayerModule;
@@ -53,12 +54,14 @@ public class MovementModule : MonoBehaviour
 		parameters = _newParameters;
 		collider = _colliderInfos;
 
+		//stamina
 		_stamina = parameters.maxStamina;
 		Stamina = parameters.maxStamina;
 	}
 
 	void Move (Vector3 _directionInputed)
 	{
+		//forceMovement
 		if (currentForcedMovement.duration > 0)
 		{
 			currentForcedMovement.duration -= Time.deltaTime;
@@ -68,8 +71,24 @@ public class MovementModule : MonoBehaviour
 			else
 				ForcedMovementTouchObstacle();
 		}
+		//movement normal
 		else if (_directionInputed != Vector3.zero && canMove())
 		{
+			//Mouvement Modifier via bool
+			if (running == true)
+			{
+				timeSpentRunning += Time.deltaTime;
+				Stamina -= Time.deltaTime;
+				if (Stamina <= 0 && usingStamina)
+					myPlayerModule.stopRunning.Invoke();
+			}
+			else
+			{
+				StopRunning();
+				myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
+			}
+
+			//marche
 			if (!isFree(_directionInputed, movementBlockingLayer))
 			{
 				transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
@@ -78,23 +97,9 @@ public class MovementModule : MonoBehaviour
 			{
 				transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
 			}
-
-			if(running == true)
-			{
-				timeSpentRunning +=  Time.deltaTime;
-				Stamina -= Time.deltaTime;
-				if (Stamina <= 0 && usingStamina)
-					myPlayerModule.stopRunning.Invoke();
-			}
-
-			myPlayerModule.onSendMovement?.Invoke(_directionInputed);
 		}
-		else
-		{
-			StopRunning();
-			myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
-		}
-
+	
+		//Stamina
 		if(!running && usingStamina)
 		{
 			if (timeSpentNotRunning > parameters.regenDelay)
@@ -114,7 +119,6 @@ public class MovementModule : MonoBehaviour
 	}
 	public void AddDash ( ForcedMovement infos )
 	{
-		PlayerModule _tempStock = myPlayerModule;
 		currentForcedMovement = infos;
 		currentForcedMovement.myModule = myPlayerModule;
 	}
@@ -164,6 +168,7 @@ public class MovementModule : MonoBehaviour
 
 		return _forceToApply;
 	}*/
+
 	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
 	{
 		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom, movementBlockingLayer)[0];
@@ -220,7 +225,7 @@ public class MovementModule : MonoBehaviour
 			transform.position + new Vector3(0, collider.height / 2, 0),
 			collider.radius,
 			_direction,
-			collider.radius,
+			collider.radius/2,
 			_checkingLayer).ToList<RaycastHit>();
 
 		List<RaycastHit> _returnList = new List<RaycastHit>();

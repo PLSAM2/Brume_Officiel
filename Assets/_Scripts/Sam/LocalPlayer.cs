@@ -29,20 +29,14 @@ public class LocalPlayer : MonoBehaviour
 
     [Header("MultiGameplayParameters")]
     private ushort _liveHealth;
-    public Team teamIndex;
-    public bool isInBrume = false;
 
     //vision
-    public GameObject visionObj;
-    public GameObject sonar;
 
     [Header("UI")]
     public GameObject canvas;
     public TextMeshProUGUI nameText;
     public Image life;
 
-    private bool canBeRevealed = true;
-    private int canBeRevealedTime = 3;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
@@ -67,12 +61,12 @@ public class LocalPlayer : MonoBehaviour
 
         nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
-        if (teamIndex == Team.blue)
+        if (myPlayerModule.teamIndex == Team.blue)
         {
             nameText.color = Color.blue;
             life.color = Color.blue;
         }
-        else if (teamIndex == Team.red)
+        else if (myPlayerModule.teamIndex == Team.red)
         {
             nameText.color = Color.red;
             life.color = Color.red;
@@ -84,7 +78,7 @@ public class LocalPlayer : MonoBehaviour
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
-        teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
+        myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
         if (isOwner)
         {
@@ -107,7 +101,6 @@ public class LocalPlayer : MonoBehaviour
             myDisplayer.enabled = true;
         }
 
-        visionObj.SetActive(isOwner);
     }
 
 
@@ -123,18 +116,6 @@ public class LocalPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        if (!isOwner)
-        {
-
-            if (GameManager.Instance.currentLocalPlayer.isInBrume && !isInBrume && canBeRevealed)
-            {
-                StartCoroutine(CanBeRevealed());
-            }
-
-            return;
-        }
-
         if (!isOwner) { return; }
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
@@ -252,25 +233,7 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
-    IEnumerator CanBeRevealed()
-    {
-        canBeRevealed = false;
-        if (!isOwner) {
-            GameObject _fx = Instantiate(sonar, transform.position, Quaternion.Euler(90, 0, 0));
-
-            if (teamIndex == Team.blue)
-            {
-                _fx.GetComponent<ParticleSystem>().startColor = Color.blue;
-            }
-            else if (teamIndex == Team.red)
-            {
-                _fx.GetComponent<ParticleSystem>().startColor = Color.red;
-            }
-        }
-
-        yield return new WaitForSeconds(canBeRevealedTime);
-        canBeRevealed = true;
-    }
+  
 
 
 }

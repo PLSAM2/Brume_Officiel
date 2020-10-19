@@ -31,10 +31,10 @@ public class SamTest : MonoBehaviour
     {
         if(other.gameObject.layer == 8)
         {
-            LocalPlayer player = other.GetComponent<LocalPlayer>();
+            PlayerModule player = other.GetComponent<PlayerModule>();
             player.isInBrume = true;
 
-            if (player.isOwner)
+            if (player.mylocalPlayer.isOwner)
             {
                 cameraDefault.gameObject.SetActive(false);
                 cameraInBrume.gameObject.SetActive(true);
@@ -81,10 +81,10 @@ public class SamTest : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
-            LocalPlayer player = other.GetComponent<LocalPlayer>();
+            PlayerModule player = other.GetComponent<PlayerModule>();
             player.isInBrume = false;
 
-            if (player.isOwner)
+            if (player.mylocalPlayer.isOwner)
             {
                 cameraDefault.gameObject.SetActive(true);
                 cameraInBrume.gameObject.SetActive(false);

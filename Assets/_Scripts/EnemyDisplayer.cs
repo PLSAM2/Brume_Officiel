@@ -16,9 +16,9 @@ public class EnemyDisplayer : MonoBehaviour
         {
             if (enemy.Value.isOwner) { continue; }
 
-            if (GameManager.Instance.currentLocalPlayer.isInBrume)
+            if (GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
             {
-                if (enemy.Value.isInBrume)
+                if (enemy.Value.myPlayerModule.isInBrume)
                 {
                     HideOrShow(enemy.Value, true);
                 }
@@ -29,7 +29,7 @@ public class EnemyDisplayer : MonoBehaviour
             }
             else
             {
-                if (enemy.Value.isInBrume)
+                if (enemy.Value.myPlayerModule.isInBrume)
                 {
                     HideOrShow(enemy.Value, false);
                 }
