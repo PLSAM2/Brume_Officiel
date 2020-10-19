@@ -8,6 +8,7 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using static GameData;
+using Sirenix.OdinInspector;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class LobbyManager : MonoBehaviour
     public RoomListPanelControl roomListPanelControl;
     public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
 
-    [HideInInspector] public PlayerData localPlayer;
+    [ReadOnly] public PlayerData localPlayer;
 
     [SerializeField] UnityClient client;
     [SerializeField] private TMP_InputField nameInputField;
@@ -292,7 +293,6 @@ public class LobbyManager : MonoBehaviour
 
     private void PlayerJoinedActualRoom(object sender, MessageReceivedEventArgs e)
     {
-
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())

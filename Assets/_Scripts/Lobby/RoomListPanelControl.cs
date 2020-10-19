@@ -23,7 +23,7 @@ public class RoomListPanelControl : MonoBehaviour
             GameObject _tempListObj = Instantiate(roomListObj, roomList.transform);
             RoomListObj _roomListObj = _tempListObj.GetComponent<RoomListObj>();
             roomObjDict.Add(room.Value, _tempListObj);
-            _roomListObj.Init(room.Value, 1, room.Value.ID);
+            _roomListObj.Init(room.Value, room.Value.playerCount, room.Value.ID);
         }
     }
 }
