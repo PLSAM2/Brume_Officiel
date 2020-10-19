@@ -161,10 +161,9 @@ public class NetworkObjectsManager : MonoBehaviour
                 }
             }
         }
-        if (instantiatedObjectsList.ContainsKey(_objectID))
-            return;
 
- 
+        if (!instantiatedObjectsList.ContainsKey(_objectID))
+            return;
 
         if (_synchroniseRotation)
         {

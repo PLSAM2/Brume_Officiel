@@ -18,29 +18,29 @@ public class GameManager : SerializedMonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     public Dictionary<Team, List<SpawnPoint>> spawns = new Dictionary<Team, List<SpawnPoint>>();
-    public CinemachineVirtualCamera myCam;
-
-    [SerializeField] GameObject prefabPlayer;
-    [SerializeField] UnityClient client;
-    [SerializeField] private float respawnTime = 15;
-    [SerializeField] private bool debug = false;
-    [SerializeField] private float timePerRound = 180; // seconds
-
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
-    private Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
-    private bool timeStart = false;
-    private bool stopInit = false;
-    private float remainingTime = 0;
-    private bool isWaitingForRespawn = false;
 
+    [Header("Player")]
     public LocalPlayer currentLocalPlayer;
+    [SerializeField] UnityClient client;
+    [SerializeField] GameObject prefabPlayer;
 
+    [Header("Timer")]
+    [SerializeField] private float timePerRound = 180; // seconds
+    private bool timeStart = false;
+    private float remainingTime = 0;
+
+    [Header("Camera")]
+    public CinemachineVirtualCamera myCam;
     public Camera defaultCam;
     [SerializeField] Camera InBrumeCam;
     [SerializeField] Animator volumeAnimator;
 
-    //View 
     public List<Transform> visiblePlayer = new List<Transform>();
+
+    private bool stopInit = false;
+    private bool isWaitingForRespawn = false;
+    private Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
 
     private void Awake()
     {
@@ -86,16 +86,6 @@ public class GameManager : SerializedMonoBehaviour
         if (timeStart)
         {
             UpdateTime();
-        }
-
-        if (debug)
-        {
-            debug = false;
-
-            foreach (KeyValuePair<ushort, LocalPlayer> element in networkPlayers)
-            {
-                print(element.Key + " " + element.Value);
-            }
         }
     }
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
@@ -438,7 +428,7 @@ public class GameManager : SerializedMonoBehaviour
     IEnumerator WaitForRespawn()
     {
         isWaitingForRespawn = true;
-        yield return new WaitForSeconds(respawnTime);
+        yield return new WaitForSeconds(currentLocalPlayer.respawnTime);
         SendSpawnChamp();
         isWaitingForRespawn = false;
     }
