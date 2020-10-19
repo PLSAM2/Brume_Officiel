@@ -85,7 +85,6 @@ public class MovementModule : MonoBehaviour
 			else
 			{
 				StopRunning();
-				myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
 			}
 
 			//marche
