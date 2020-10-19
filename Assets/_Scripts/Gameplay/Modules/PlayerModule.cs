@@ -67,9 +67,7 @@ public class PlayerModule : MonoBehaviour
 		if (mylocalPlayer.isOwner)
 		{
 			//visionPArt
-			StartCoroutine(WaitForVisionCheck());
 			visionObj.SetActive(true);
-			revelationCheck += CheckForBrumeRevelation;
 
 			//modulesPArt
 			UiManager.Instance.myPlayerModule = this;
@@ -80,12 +78,15 @@ public class PlayerModule : MonoBehaviour
 			leftClick?.SetupComponent();
 		}
 		else
-			return;
+		{
+			revelationCheck += CheckForBrumeRevelation;
+			CheckForBrumeRevelation();
+		}
 	}
 
 	private void OnDisable ()
 	{
-		if (mylocalPlayer.isOwner)
+		if (!mylocalPlayer.isOwner)
 		{
 			revelationCheck -= CheckForBrumeRevelation;
 		}
@@ -128,13 +129,6 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 			return;
-
-		if (Physics.CapsuleCast(transform.position - Vector3.up / 2, transform.position + Vector3.up / 2, coll.radius, Vector3.zero, 0, brumeLayer))
-		{
-			isInBrume = true;
-		}
-		else
-			isInBrume = false;
 	}
 
 	void LookAtMouse ()
@@ -150,9 +144,10 @@ public class PlayerModule : MonoBehaviour
 	#region
 	void CheckForBrumeRevelation ()
 	{
-		if (!mylocalPlayer.isOwner && Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= characterParameters.detectionRange && GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
+		if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
+			GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
 		{
-			GameObject _fx = Instantiate(sonar, transform.position, Quaternion.Euler(90, 0, 0));
+			GameObject _fx = Instantiate(sonar, transform.position+ Vector3.up, Quaternion.Euler(90, 0, 0));
 
 			if (teamIndex == Team.blue)
 			{
@@ -163,11 +158,11 @@ public class PlayerModule : MonoBehaviour
 				_fx.GetComponent<ParticleSystem>().startColor = Color.red;
 			}
 		}
+		StartCoroutine(WaitForVisionCheck());
 	}
 	IEnumerator WaitForVisionCheck ()
 	{
 		yield return new WaitForSecondsRealtime(characterParameters.delayBetweenDetection);
-		print("CheckingRevelationPings");
 		revelationCheck?.Invoke();
 	}
 	#endregion

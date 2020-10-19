@@ -85,7 +85,6 @@ public class MovementModule : MonoBehaviour
 			else
 			{
 				StopRunning();
-				myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
 			}
 
 			//marche
@@ -221,12 +220,13 @@ public class MovementModule : MonoBehaviour
 
 	List<RaycastHit> CastCapsuleHit ( Vector3 _direction , LayerMask _checkingLayer)
 	{
-		List<RaycastHit> _allHit = Physics.CapsuleCastAll(transform.position - new Vector3(0, collider.height / 2, 0),
-			transform.position + new Vector3(0, collider.height / 2, 0),
+		List<RaycastHit> _allHit = Physics.CapsuleCastAll(transform.position,
+			transform.position + new Vector3(0, collider.height, 0),
 			collider.radius,
 			_direction,
-			collider.radius/2,
+			collider.radius,
 			_checkingLayer).ToList<RaycastHit>();
+
 
 		List<RaycastHit> _returnList = new List<RaycastHit>();
 
@@ -237,9 +237,13 @@ public class MovementModule : MonoBehaviour
 				_returnList.Add(_allHit[i]);
 			}
 		}
-
 		return _returnList;
 	}
 
+
+	private void OnDrawGizmosSelected ()
+	{
+		//Gizmos.DrawSphere(transform.position + new Vector3(.3f, 1.5f,0), .3f);
+	}
 	#endregion
 }
