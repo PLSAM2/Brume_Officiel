@@ -224,7 +224,7 @@ public class MovementModule : MonoBehaviour
 			transform.position + new Vector3(0, collider.height, 0),
 			collider.radius,
 			_direction,
-			collider.radius/2,
+			collider.radius,
 			_checkingLayer).ToList<RaycastHit>();
 
 
@@ -243,7 +243,7 @@ public class MovementModule : MonoBehaviour
 
 	private void OnDrawGizmosSelected ()
 	{
-		Gizmos.DrawSphere(transform.position + new Vector3(.3f, 1.5f,0), .3f);
+		//Gizmos.DrawSphere(transform.position + new Vector3(.3f, 1.5f,0), .3f);
 	}
 	#endregion
 }

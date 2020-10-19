@@ -167,7 +167,6 @@ public class PlayerModule : MonoBehaviour
 	IEnumerator WaitForVisionCheck ()
 	{
 		yield return new WaitForSecondsRealtime(characterParameters.delayBetweenDetection);
-		print("CheckingRevelationPings");
 		revelationCheck?.Invoke();
 		StartCoroutine(WaitForVisionCheck());
 	}
