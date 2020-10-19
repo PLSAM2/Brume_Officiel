@@ -107,10 +107,10 @@ public class GameManager : SerializedMonoBehaviour
                 SupprPlayerInServer(_sender, _e);
             }
 
-            if (message.Tag == Tags.SendAnim)
-            {
-                SendPlayerAnim(_sender, _e);
-            }
+            //if (message.Tag == Tags.SendAnim)
+            //{
+            //    SendPlayerAnim(_sender, _e);
+            //}
 
             if (message.Tag == Tags.StartTimer)
             {
@@ -401,28 +401,28 @@ public class GameManager : SerializedMonoBehaviour
         }
     }
 
-    void SendPlayerAnim(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                if (message.Tag == Tags.SendAnim)
-                {
-                    ushort id = reader.ReadUInt16();
+    //void SendPlayerAnim(object sender, MessageReceivedEventArgs e)
+    //{
+    //    using (Message message = e.GetMessage())
+    //    {
+    //        using (DarkRiftReader reader = message.GetReader())
+    //        {
+    //            if (message.Tag == Tags.SendAnim)
+    //            {
+    //                ushort id = reader.ReadUInt16();
 
-                    if (networkPlayers.ContainsKey(id))
-                    {
-                        networkPlayers[id].SetAnim(
-                            reader.ReadSingle(),
-                            reader.ReadSingle()
-                            );
-                    }
+    //                if (networkPlayers.ContainsKey(id))
+    //                {
+    //                    networkPlayers[id].SetAnim(
+    //                        reader.ReadSingle(),
+    //                        reader.ReadSingle()
+    //                        );
+    //                }
 
-                }
-            }
-        }
-    }
+    //            }
+    //        }
+    //    }
+    //}
 
 
     IEnumerator WaitForRespawn()

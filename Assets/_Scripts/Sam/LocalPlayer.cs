@@ -18,6 +18,7 @@ public class LocalPlayer : MonoBehaviour
     public PlayerModule myPlayerModule;
 
     [SerializeField] Animator myAnimator;
+    [SerializeField] NetworkAnimationController networkAnimationController;
     [SerializeField] GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
@@ -146,6 +147,9 @@ public class LocalPlayer : MonoBehaviour
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
+            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable);
+
+            /*
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
                 _writer.Write(RoomManager.Instance.actualRoom.ID);
@@ -157,16 +161,15 @@ public class LocalPlayer : MonoBehaviour
                 {
                     currentClient.SendMessage(_message, SendMode.Unreliable);
                 }
-            }
+            }*/
         }
     }
 
-    public void SetAnim(float forward, float right)
-    {
-        Debug.Log(forward + "     " +  right);
-        myAnimator.SetFloat("Forward", forward);
-        myAnimator.SetFloat("Turn", right);
-    }
+    //public void SetAnim(float forward, float right)
+    //{
+    //    myAnimator.SetFloat("Forward", forward);
+    //    myAnimator.SetFloat("Turn", right);
+    //}
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
     {
