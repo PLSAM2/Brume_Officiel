@@ -13,30 +13,21 @@ public class LocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
     public bool isOwner = false;
+    public float distanceRequiredBeforeSync = 0.1f;
 
     public PlayerModule myPlayerModule;
 
-    Vector3 lastPosition;
-
-    Vector3 lastRotation;
-
-    //
-    UnityClient currentClient;
-
     [SerializeField] Animator myAnimator;
-
     [SerializeField] GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
+    public float respawnTime = 15;
     private ushort _liveHealth;
-
-    //vision
 
     [Header("UI")]
     public GameObject canvas;
     public TextMeshProUGUI nameText;
     public Image life;
-
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
@@ -47,6 +38,10 @@ public class LocalPlayer : MonoBehaviour
 
     public GameObject parentRenderer;
     [SerializeField] EnemyDisplayer myDisplayer;
+
+    private UnityClient currentClient;
+    private Vector3 lastPosition;
+    private Vector3 lastRotation;
 
     private void Awake()
     {
@@ -71,8 +66,6 @@ public class LocalPlayer : MonoBehaviour
             nameText.color = Color.red;
             life.color = Color.red;
         }
-
-
     }
 
     public void Init(UnityClient newClient)
@@ -100,10 +93,7 @@ public class LocalPlayer : MonoBehaviour
             fogScript.enabled = true;
             myDisplayer.enabled = true;
         }
-
     }
-
-
 
     private void OnDisable()
     {
@@ -118,7 +108,7 @@ public class LocalPlayer : MonoBehaviour
     {
         if (!isOwner) { return; }
 
-        if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
+        if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
             lastPosition = transform.position;
             lastRotation = transform.localEulerAngles;
@@ -153,24 +143,25 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
 
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
-            _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-            _writer.Write(forward);
-            _writer.Write(right);
-
-            using (Message _message = Message.Create(Tags.SendAnim, _writer))
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
-                currentClient.SendMessage(_message, SendMode.Unreliable);
-            }
+                _writer.Write(RoomManager.Instance.actualRoom.ID);
 
+                _writer.Write(forward);
+                _writer.Write(right);
+
+                using (Message _message = Message.Create(Tags.SendAnim, _writer))
+                {
+                    currentClient.SendMessage(_message, SendMode.Unreliable);
+                }
+            }
         }
     }
 
     public void SetAnim(float forward, float right)
     {
-
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
     }
@@ -193,6 +184,7 @@ public class LocalPlayer : MonoBehaviour
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damages.damageHealth;
         UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(myPlayerId);
@@ -233,7 +225,7 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
-  
+
 
 
 }
