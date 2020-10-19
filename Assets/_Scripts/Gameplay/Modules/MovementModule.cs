@@ -74,6 +74,7 @@ public class MovementModule : MonoBehaviour
 		//movement normal
 		else if (_directionInputed != Vector3.zero && canMove())
 		{
+			Vector3 movementToSendToAnim = Vector3.zero;
 			//Mouvement Modifier via bool
 			if (running == true)
 			{
@@ -90,16 +91,21 @@ public class MovementModule : MonoBehaviour
 			//marche
 			if (!isFree(_directionInputed, movementBlockingLayer))
 			{
-				transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
+				movementToSendToAnim = SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
+				transform.position += movementToSendToAnim;
 			}
 			else
 			{
-				transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
+				movementToSendToAnim = _directionInputed * liveMoveSpeed() * Time.deltaTime;
+				transform.position += movementToSendToAnim;
 			}
+
+			myPlayerModule.onSendMovement.Invoke(movementToSendToAnim);
+
 		}
-	
+
 		//Stamina
-		if(!running && usingStamina)
+		if (!running && usingStamina)
 		{
 			if (timeSpentNotRunning > parameters.regenDelay)
 				Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);

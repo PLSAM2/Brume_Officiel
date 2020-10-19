@@ -137,6 +137,7 @@ public class LocalPlayer : MonoBehaviour
 
     void OnPlayerMove(Vector3 pos)
     {
+        print("SendingMovement");
         float right = Vector3.Dot(transform.right, pos);
         float forward = Vector3.Dot(transform.forward, pos);
 

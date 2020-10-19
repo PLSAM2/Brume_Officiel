@@ -55,7 +55,6 @@ public class PlayerModule : MonoBehaviour
 	public Action<ForcedMovement> forcedMovementAdded;
 	public Action forcedMovementInterrupted;
 	public Action<MovementModifier> addMovementModifier;
-
 	//Animation
 	public Action<Vector3> onSendMovement;
 	#endregion
