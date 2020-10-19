@@ -1,82 +1,151 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using static GameData;
+
 public class UiManager : MonoBehaviour
 {
-	public static UiManager instance;
-	public PlayerModule myPlayerModule;
-	public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon;
+    private static UiManager _instance;
+    public static UiManager Instance { get { return _instance; } }
 
-	private void Awake ()
-	{
-		if (instance == null || instance == this)
-			instance = this;
-		else
-			Destroy(this);
-	}
+    public PlayerModule myPlayerModule;
+    public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon;
 
-	public void UpdateUiCooldownSpell (En_SpellInput spell, float _time, float _completeCd)
-	{
-		float _percentageRemaining = _time / _completeCd;
+    public TextMeshProUGUI timer;
+    public TextMeshProUGUI allyScore;
+    public TextMeshProUGUI ennemyScore;
 
-		switch (spell) 
-		{
-			case En_SpellInput.FirstSpell:
-				firstSpell.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, firstSpell, .2f);
-				break;
+    public TextMeshProUGUI generalMessage;
+    public TextMeshProUGUI generalPoints;
+    public Animator generalMessageAnim;
+    public Animator generalPointsAnim;
 
-			case En_SpellInput.SecondSpell:
-				secondSpell.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, secondSpell, .2f);
-				break;
+    [SerializeField] Image brumeFilter;
 
-			case En_SpellInput.ThirdSpell:
-				thirdSpell.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, thirdSpell, .2f);
-				break;
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
-			case En_SpellInput.Maj:
-				sprintIcon.UpdateFillAmount(_percentageRemaining);
-				break;
+    private void Start()
+    {
+        // A changer >>
+        Team team = RoomManager.Instance.GetLocalPlayer().playerTeam;
 
-			case En_SpellInput.Click:
-				autoAttackIcon.UpdateFillAmount(_percentageRemaining);
-				CheckBeReady(_time, _completeCd, autoAttackIcon, 0.05f);
-				break;
-		}		
-	}
+        if (team == Team.blue)
+        {
+            allyScore.color = Color.blue;
+            ennemyScore.color = Color.red;
+        }
+        else if (team == Team.red)
+        {
+            allyScore.color = Color.red;
+            ennemyScore.color = Color.blue;
+        }
 
-	public void SetupIcon(Sc_Spell _spellAttached, En_SpellInput _input )
-	{
-		switch(_input)
-		{
-			case En_SpellInput.FirstSpell:
-				firstSpell.SetSprite(_spellAttached.spellIcon);
-				break;
+        // <<
+    }
 
-			case En_SpellInput.SecondSpell:
-				secondSpell.SetSprite(_spellAttached.spellIcon);
-				break;
+    public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
+    {
+        float _percentageRemaining = _time / _completeCd;
 
-			case En_SpellInput.ThirdSpell:
-				thirdSpell.SetSprite(_spellAttached.spellIcon);
-				break;
+        switch (spell)
+        {
+            case En_SpellInput.FirstSpell:
+                firstSpell.UpdateFillAmount(_percentageRemaining);
+                CheckBeReady(_time, firstSpell, .2f);
+                break;
 
-			case En_SpellInput.Maj:
-				break;
+            case En_SpellInput.SecondSpell:
+                secondSpell.UpdateFillAmount(_percentageRemaining);
+                CheckBeReady(_time, secondSpell, .2f);
+                break;
 
-			case En_SpellInput.Click:
-				autoAttackIcon.SetSprite(_spellAttached.spellIcon);
-				break;
-		}
-	}
+            case En_SpellInput.ThirdSpell:
+                thirdSpell.UpdateFillAmount(_percentageRemaining);
+                CheckBeReady(_time, thirdSpell, .2f);
+                break;
 
-	void CheckBeReady(float _actualTime, float _completeCd, IconUi _iconToPrep, float _timeToCheckShow)
-	{
-		if (_actualTime <= 0.1f)
-			_iconToPrep.BeReady(true, _timeToCheckShow);
-		else if (_completeCd - _actualTime <= _timeToCheckShow)
-			_iconToPrep.BeReady(false, _timeToCheckShow);
-	}
+            case En_SpellInput.Maj:
+                sprintIcon.UpdateFillAmount(_percentageRemaining);
+                break;
+
+            case En_SpellInput.Click:
+                autoAttackIcon.UpdateFillAmount(_percentageRemaining);
+                CheckBeReady(_time, autoAttackIcon, 0.05f);
+                break;
+        }
+    }
+
+    public void SetupIcon(Sc_Spell _spellAttached, En_SpellInput _input)
+    {
+        switch (_input)
+        {
+            case En_SpellInput.FirstSpell:
+                firstSpell.SetSprite(_spellAttached.spellIcon);
+                break;
+
+            case En_SpellInput.SecondSpell:
+                secondSpell.SetSprite(_spellAttached.spellIcon);
+                break;
+
+            case En_SpellInput.ThirdSpell:
+                thirdSpell.SetSprite(_spellAttached.spellIcon);
+                break;
+
+            case En_SpellInput.Maj:
+                break;
+
+            case En_SpellInput.Click:
+                autoAttackIcon.SetSprite(_spellAttached.spellIcon);
+                break;
+        }
+    }
+
+    void CheckBeReady(float _actualTime, IconUi _iconToPrep, float _timeToCheckShow)
+    {
+        if (_actualTime <= 0.2f)
+            _iconToPrep.BeReady(true, _timeToCheckShow);
+        else
+            _iconToPrep.BeReady(false, _timeToCheckShow);
+    }
+
+    public void SetAlphaBrume(float value)
+    {
+        brumeFilter.color = new Color(brumeFilter.color.r, brumeFilter.color.g, brumeFilter.color.b, value);
+    }
+
+
+    public void DisplayGeneralMessage(string value)
+    {
+        generalMessage.text = value;
+        generalMessageAnim.Play("GenMessage");
+    }
+
+    public void DisplayGeneralPoints(Team team, int value)
+    {
+        generalPoints.text = "+" + value;
+
+        if (team == Team.blue)
+        {
+            generalPoints.color = Color.blue;
+        }
+        else if (team == Team.red)
+        {
+            generalPoints.color = Color.red;
+        }
+
+        generalPointsAnim.Play("GenPoints");
+    }
 }

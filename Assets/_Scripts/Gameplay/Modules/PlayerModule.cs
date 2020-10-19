@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
+using System.Net.Http.Headers;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -13,34 +14,45 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-	[ReadOnly] public En_CharacterState state;
 
-	[ReadOnly] public ushort myId;
-	[HideInInspector] public int teamIndex { get; set; }
 	[SerializeField] Camera mainCam;
 	[SerializeField] LayerMask groundLayer;
 
+	[Header("DamagesPart")]
+	[ReadOnly] public En_CharacterState state= En_CharacterState.Clear;
+	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
+
 
 	[Header("CharacterBuilder")]
-	[SerializeField] MovementModule movementPart;
+	public MovementModule movementPart;
 	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick;
 	[SerializeField] CapsuleCollider coll;
+	[ReadOnly] public LocalPlayer mylocalPlayer;
 
 	//ALL ACTION 
+	#region
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
+	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased;
+	//run
 	public Action toggleRunning, stopRunning;
+	//otherMovements
+	public Action<ForcedMovement> forcedMovementAdded;
+	public Action forcedMovementInterrupted;
+	public Action<MovementModifier> addMovementModifier;
 
 	//Animation
 	public Action<Vector3> onSendMovement;
-
+	#endregion
 
 	void Start ()
 	{
 		movementPart.SetupComponent(characterParameters.movementParameters, coll);
+		mylocalPlayer = GetComponent<LocalPlayer>();
 
-		UiManager.instance.myPlayerModule = this;
+		UiManager.Instance.myPlayerModule = this;
+
 
 		firstSpell?.SetupComponent();
 		secondSpell?.SetupComponent();
@@ -50,45 +62,58 @@ public class PlayerModule : MonoBehaviour
 
 	void Update ()
 	{
+		//rot player
+		LookAtMouse();
+		//direction des fleches du clavier 
 		DirectionInputedUpdate.Invoke(directionInputed());
 
-		LookAtMouse();
-
-
+		//INPUT DETECTION SPELLS AND RUNNING
+		#region
+		
 		if (Input.GetKeyDown(firstSpellKey))
 			firstSpellInput?.Invoke(mousePos());
-
 		else if (Input.GetKeyDown(secondSpellKey))
 			secondSpellInput?.Invoke(mousePos());
-
 		else if (Input.GetKeyDown(thirdSpellKey))
 			thirdSpellInput?.Invoke(mousePos());
-
+		//AUTO
 		else if (Input.GetAxis("Fire1") > 0)
+		{
 			leftClickInput?.Invoke(mousePos());
-
+		}
+		//RUNNING
 		else if (Input.GetKeyDown(KeyCode.LeftShift))
 			toggleRunning?.Invoke();
 
+		if (Input.GetKeyUp(firstSpellKey))
+			firstSpellInputRealeased?.Invoke(mousePos());
+		else if (Input.GetKeyDown(secondSpellKey))
+			secondSpellInputRealeased?.Invoke(mousePos());
+		else if (Input.GetKeyDown(thirdSpellKey))
+			thirdSpellInputRealeased?.Invoke(mousePos());
+		#endregion
 	}
+
+	
 
 	void LookAtMouse ()
 	{
-		Vector3 _currentMousePos = mousePos();
-
-		//Quaternion lookOnLook = Quaternion.LookRotation(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
-		//transform.rotation = Quaternion.Slerp(transform.rotation, lookOnLook, Time.deltaTime * 15);
-
-		transform.LookAt(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
+		if ((state & En_CharacterState.Canalysing) == 0)
+		{
+			Vector3 _currentMousePos = mousePos();
+			transform.LookAt(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
+		}
 	}
 	//Vars 
-	#region 
 
-	Vector3 directionInputed ()
+	
+
+	#region 
+	public Vector3 directionInputed ()
 	{
 		return Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 	}
-	Vector3 mousePos ()
+	public Vector3 mousePos ()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -107,9 +132,52 @@ public class PlayerModule : MonoBehaviour
 
 [System.Flags]
 public enum En_CharacterState
-{
-	Slowed = 1 << 0,
-	SpedUp = 1 << 1,
-	Stunned = 1 << 2,
-	Canalysing = 1 << 3,
+{ 
+	Clear = 1 <<0,
+	Slowed = 1 << 1,
+	SpedUp = 1 << 2,
+	Stunned = 1 << 3,
+	Canalysing = 1 << 4,
 }
+
+
+[System.Serializable]
+public class ForcedMovement
+{
+	public PlayerModule myModule;
+	float _duration = 0;
+	public float duration
+	{
+		get => _duration; set
+		{
+			_duration = value; if (_duration <= 0) {  myModule.forcedMovementInterrupted.Invoke(); }
+		}
+	}
+	Vector3 _direction;
+	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
+	public float strength;
+}
+
+[System.Serializable]
+public class MovementModifier
+{
+	public float percentageOfTheModifier, duration;
+}
+
+
+[System.Serializable]
+public class DamagesInfos
+{
+	public DamagesParameters damages;
+	public string playerName;
+}
+
+
+[System.Serializable]
+public class DamagesParameters
+{
+	public ushort damageHealth;
+}
+
+
+

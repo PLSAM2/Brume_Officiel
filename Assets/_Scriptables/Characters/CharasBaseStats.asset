@@ -13,33 +13,35 @@ MonoBehaviour:
   m_Name: CharasBaseStats
   m_EditorClassIdentifier: 
   movementParameters:
-    movementSpeed: 5
-    accelerationTime: 3
-    bonusRunningSpeed: 5
+    movementSpeed: 7
+    accelerationTime: 0.1
+    bonusRunningSpeed: -4
     accelerationCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0.038769707
-        outSlope: 0.038769707
+        inSlope: 2.790043
+        outSlope: 2.790043
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.60833335
+        outWeight: 0.04311153
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 2.8977754
-        outSlope: 2.8977754
+        inSlope: 0.39415234
+        outSlope: 0.39415234
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.030928075
+        inWeight: 0.077788174
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    maxStamina: 10
+    maxStamina: 3
     regenDelay: 0.5
-    regenPerSecond: 3
+    regenPerSecond: 1
+  health: 1
+  visionRange: 0

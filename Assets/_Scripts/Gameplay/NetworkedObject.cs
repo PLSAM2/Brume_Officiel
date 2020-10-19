@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class NetworkedObject : MonoBehaviour
 {
-    public PlayerData owner;
+    public bool isNetworked = true;
     public bool synchroniseRotation = true;
-
-    public ushort networkedObjectID = 0; // ID dans le scriptable (utilisé pour l'instantiation)
-    public ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
     public float distanceRequiredBeforeSync = 0.02f;
-    private Vector3 lastPosition;
-    private bool isNetworked = true;
 
-    public bool isOwner = false;
-    private UnityClient ownerIClient;
+    private ushort networkedObjectID = 0; // ID dans le scriptable (utilisé pour l'instantiation)
+    private ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
+    private bool isOwner = false;
+    private PlayerData owner;
+    private UnityClient ownerIClient; // Set uniquement par le créateur
+    private Vector3 lastPosition; // Set uniquement par le créateur
 
     public void Init(ushort lastObjId, PlayerData playerData)
     {
@@ -31,10 +30,19 @@ public class NetworkedObject : MonoBehaviour
         }
     }
 
-
-    private void Update()
+    public bool GetIsOwner()
     {
-        if (!isNetworked || !isOwner || serverObjectID == 0)
+        return isOwner;
+    }
+
+    public ushort GetItemID()
+    {
+        return serverObjectID;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isNetworked || !isOwner || serverObjectID == 0 )
             return;
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync)
@@ -42,6 +50,7 @@ public class NetworkedObject : MonoBehaviour
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
                 writer.Write(serverObjectID);
+                writer.Write(RoomManager.Instance.actualRoom.ID);
 
                 writer.Write(this.transform.position.x);
                 writer.Write(this.transform.position.y);

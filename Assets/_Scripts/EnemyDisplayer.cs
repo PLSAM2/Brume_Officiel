@@ -1,0 +1,56 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyDisplayer : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        GameManager.Instance.visiblePlayer.Clear();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        foreach (KeyValuePair<ushort, LocalPlayer> enemy in GameManager.Instance.networkPlayers)
+        {
+            if (enemy.Value.isOwner) { continue; }
+
+            if (GameManager.Instance.currentLocalPlayer.isInBrume)
+            {
+                if (enemy.Value.isInBrume)
+                {
+                    HideOrShow(enemy.Value, true);
+                }
+                else
+                {
+                    HideOrShow(enemy.Value, false);
+                }
+            }
+            else
+            {
+                if (enemy.Value.isInBrume)
+                {
+                    HideOrShow(enemy.Value, false);
+                }
+                else
+                {
+                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    {
+                        HideOrShow(enemy.Value, true);
+                    }
+                    else
+                    {
+                        HideOrShow(enemy.Value, false);
+                    }
+                }
+            }
+        }
+    }
+
+    void HideOrShow(LocalPlayer p, bool value)
+    {
+        p.parentRenderer.SetActive(value);
+        p.canvas.SetActive(value);
+    }
+}

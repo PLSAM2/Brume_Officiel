@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static GameData;
 
-public class RoomPanelControl : MonoBehaviour
+public class RoomPanelControl : SerializedMonoBehaviour
 {
     public TextMeshProUGUI roomName;
 
@@ -55,7 +56,6 @@ public class RoomPanelControl : MonoBehaviour
         PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
 
         obj.playerName.text = player.Name;
-
         PlayerObjDict.Add(player.ID, obj);
 
         SetReady(player.ID, player.IsReady);

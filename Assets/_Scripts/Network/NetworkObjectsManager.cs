@@ -13,7 +13,7 @@ public class NetworkObjectsManager : MonoBehaviour
     public static NetworkObjectsManager Instance { get { return _instance; } }
 
     public Sc_NetworkedObjects networkedObjectsList;
-    public Dictionary<ushort, GameObject> instantiatedObjectsList = new Dictionary<ushort, GameObject>();
+    public Dictionary<ushort, NetworkedObject> instantiatedObjectsList = new Dictionary<ushort, NetworkedObject>();
 
     UnityClient client;
 
@@ -39,6 +39,11 @@ public class NetworkObjectsManager : MonoBehaviour
         client.MessageReceived += MessageReceived;
     }
 
+    private void OnDisable()
+    {
+        client.MessageReceived -= MessageReceived;
+    }
+
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
         if (RoomManager.Instance == null)
@@ -58,6 +63,10 @@ public class NetworkObjectsManager : MonoBehaviour
             {
                 SynchroniseObject(sender, e);
             }
+            if (message.Tag == Tags.DestroyObject)
+            {
+                DestroyNetworkedObjectInServer(sender, e);
+            }
         }
     }
 
@@ -69,6 +78,7 @@ public class NetworkObjectsManager : MonoBehaviour
         {
             writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
+            writer.Write(RoomManager.Instance.actualRoom.ID);
 
             writer.Write(position.x);
             writer.Write(position.y);
@@ -86,8 +96,6 @@ public class NetworkObjectsManager : MonoBehaviour
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
     {
-        // NON RECU PAR LE CREATEUR 
-
         ushort _ownerID;
         ushort _objectID;
         ushort _lastObjId;
@@ -117,10 +125,10 @@ public class NetworkObjectsManager : MonoBehaviour
         GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects[_objectID], _ObjectPos, Quaternion.Euler(_ObjectRotation));
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
         networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
-        NetworkedObjectAdded(_lastObjId, _tempObject);
+        NetworkedObjectAdded(_lastObjId, networkedObject);
     }
 
-    public void NetworkedObjectAdded(ushort lastObjId, GameObject obj)
+    public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)
     {
         instantiatedObjectsList.Add(lastObjId, obj);
     }
@@ -153,8 +161,10 @@ public class NetworkObjectsManager : MonoBehaviour
                 }
             }
         }
+        if (instantiatedObjectsList.ContainsKey(_objectID))
+            return;
 
-        instantiatedObjectsList[_objectID].transform.position = _newObjectPos;
+ 
 
         if (_synchroniseRotation)
         {
@@ -162,4 +172,38 @@ public class NetworkObjectsManager : MonoBehaviour
         }
 
     }
+
+    public void DestroyNetworkedObject(ushort networkedObjectID, bool bypassOwner = false)
+    {
+        // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
+
+        if (!instantiatedObjectsList[networkedObjectID].GetIsOwner() && !bypassOwner)
+        {
+            Debug.LogError("YOU HAVE TO BE OWNER");
+            return;
+        }
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(networkedObjectID);
+
+            using (Message message = Message.Create(Tags.DestroyObject, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    private void DestroyNetworkedObjectInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort objID = reader.ReadUInt16();
+                Destroy(instantiatedObjectsList[objID].gameObject);
+                instantiatedObjectsList.Remove(objID);
+
+            }
+        }
+    }
+
 }

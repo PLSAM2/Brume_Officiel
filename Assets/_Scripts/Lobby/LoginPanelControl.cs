@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,9 +33,9 @@ public class LoginPanelControl : MonoBehaviour
 
     private void Start()
     {
-        client.Connect(client.Address, client.Port, true);
+            client.Connect(client.Address, client.Port, true);
 
-        StartCoroutine(TimerBeforeConnectingFirstTime());
+            StartCoroutine(TimerBeforeConnectingFirstTime());
     }
     void Update()
     {
