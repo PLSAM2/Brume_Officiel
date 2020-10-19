@@ -169,6 +169,7 @@ public class PlayerModule : MonoBehaviour
 		yield return new WaitForSecondsRealtime(characterParameters.delayBetweenDetection);
 		print("CheckingRevelationPings");
 		revelationCheck?.Invoke();
+		StartCoroutine(WaitForVisionCheck());
 	}
 	#endregion
 
