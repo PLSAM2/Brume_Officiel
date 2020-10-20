@@ -158,7 +158,6 @@ public class LocalPlayer : MonoBehaviour
     {
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
-     //   myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
     }
 
     public void OnRespawn()
