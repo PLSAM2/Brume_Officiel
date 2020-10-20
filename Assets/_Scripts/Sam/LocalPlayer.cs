@@ -93,8 +93,8 @@ public class LocalPlayer : MonoBehaviour
                 mat.SetFloat("_Radius", 1);
             }
 
-            fogScript.enabled = true;
-            myDisplayer.enabled = true;
+            //fogScript.enabled = true;
+            //myDisplayer.enabled = true;
         }
     }
 
