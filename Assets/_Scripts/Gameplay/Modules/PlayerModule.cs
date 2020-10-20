@@ -200,29 +200,6 @@ public enum En_CharacterState
 }
 
 [System.Serializable]
-public class ForcedMovement
-{
-	public PlayerModule myModule;
-	float _duration = 0;
-	public float duration
-	{
-		get => _duration; set
-		{
-			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke(); }
-		}
-	}
-	Vector3 _direction;
-	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
-	public float strength;
-}
-
-[System.Serializable]
-public class MovementModifier
-{
-	public float percentageOfTheModifier, duration;
-}
-
-[System.Serializable]
 public class DamagesInfos
 {
 	public DamagesParameters damages;
