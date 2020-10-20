@@ -17,7 +17,7 @@ public class LocalPlayer : MonoBehaviour
 
     public PlayerModule myPlayerModule;
 
-    [SerializeField] Animator myAnimator;
+    public Animator myAnimator;
     [SerializeField] NetworkAnimationController networkAnimationController;
     [SerializeField] GameObject circleDirection;
 
@@ -67,6 +67,8 @@ public class LocalPlayer : MonoBehaviour
             nameText.color = Color.red;
             life.color = Color.red;
         }
+
+        OnPlayerMove(Vector3.zero);
     }
 
     public void Init(UnityClient newClient)
@@ -144,6 +146,7 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
 
+
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
             networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable);
@@ -155,7 +158,7 @@ public class LocalPlayer : MonoBehaviour
     {
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
-        myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
+     //   myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
     }
 
     public void OnRespawn()

@@ -41,6 +41,9 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
+
+	//animations local des autres joueurs
+	//Vector3 oldPos;
 	//ALL ACTION 
 	#region
 	public Action revelationCheck;
@@ -81,9 +84,10 @@ public class PlayerModule : MonoBehaviour
 			revelationCheck += CheckForBrumeRevelation;
 			CheckForBrumeRevelation();
 		}
+	//	oldPos = transform.position;
 	}
 
-	private void OnDisable ()
+	private void OnDestroy ()
 	{
 		if (!mylocalPlayer.isOwner)
 		{
@@ -129,6 +133,20 @@ public class PlayerModule : MonoBehaviour
 		else
 			return;
 	}
+
+	//ANIM EN LOCAL
+/*	private void FixedUpdate ()
+	{
+		if (mylocalPlayer.isOwner == false)
+		{
+			Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
+			//mylocalPlayer
+		}
+	}
+	private void LateUpdate ()
+	{
+		oldPos = transform.position;
+	}*/
 
 	void LookAtMouse ()
 	{
@@ -197,29 +215,6 @@ public enum En_CharacterState
 	SpedUp = 1 << 2,
 	Stunned = 1 << 3,
 	Canalysing = 1 << 4,
-}
-
-[System.Serializable]
-public class ForcedMovement
-{
-	public PlayerModule myModule;
-	float _duration = 0;
-	public float duration
-	{
-		get => _duration; set
-		{
-			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke(); }
-		}
-	}
-	Vector3 _direction;
-	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
-	public float strength;
-}
-
-[System.Serializable]
-public class MovementModifier
-{
-	public float percentageOfTheModifier, duration;
 }
 
 [System.Serializable]
