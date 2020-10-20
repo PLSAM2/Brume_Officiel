@@ -98,9 +98,12 @@ public class MovementModule : MonoBehaviour
 			}
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
-	
+		else
+			myPlayerModule.onSendMovement(Vector3.zero);
+
+
 		//Stamina
-		if(!running && usingStamina)
+		if (!running && usingStamina)
 		{
 			if (timeSpentNotRunning > parameters.regenDelay)
 				Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
