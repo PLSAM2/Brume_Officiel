@@ -1,5 +1,4 @@
-﻿using AdultLink;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -12,8 +11,6 @@ public class SamTest : MonoBehaviour
     [SerializeField] Camera cameraInBrume;
 
     [SerializeField] List<Material> matSkin = new List<Material>();
-
-    [SerializeField] SetPosition script;
 
     [SerializeField] Animator myAnimator;
 
@@ -38,8 +35,6 @@ public class SamTest : MonoBehaviour
             {
                 cameraDefault.gameObject.SetActive(false);
                 cameraInBrume.gameObject.SetActive(true);
-
-                script.enabled = true;
 
                 myAnimator.SetBool("InBrume", true);
 
@@ -88,8 +83,6 @@ public class SamTest : MonoBehaviour
             {
                 cameraDefault.gameObject.SetActive(true);
                 cameraInBrume.gameObject.SetActive(false);
-
-                script.enabled = false;
 
                 myAnimator.SetBool("InBrume", false);
 
