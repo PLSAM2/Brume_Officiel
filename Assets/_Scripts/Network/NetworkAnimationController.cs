@@ -46,7 +46,7 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 SyncBooleanInserver(sender, e);
             }            
-            if (message.Tag == Tags.sync)
+            if (message.Tag == Tags.SyncFloat)
             {
                 SyncFloatInserver(sender, e);
             }

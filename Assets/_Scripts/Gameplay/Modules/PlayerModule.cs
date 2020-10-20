@@ -41,6 +41,9 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
+
+	//animations local des autres joueurs
+	//Vector3 oldPos;
 	//ALL ACTION 
 	#region
 	public Action revelationCheck;
@@ -81,9 +84,10 @@ public class PlayerModule : MonoBehaviour
 			revelationCheck += CheckForBrumeRevelation;
 			CheckForBrumeRevelation();
 		}
+	//	oldPos = transform.position;
 	}
 
-	private void OnDisable ()
+	private void OnDestroy ()
 	{
 		if (!mylocalPlayer.isOwner)
 		{
@@ -129,6 +133,20 @@ public class PlayerModule : MonoBehaviour
 		else
 			return;
 	}
+
+	//ANIM EN LOCAL
+/*	private void FixedUpdate ()
+	{
+		if (mylocalPlayer.isOwner == false)
+		{
+			Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
+			//mylocalPlayer
+		}
+	}
+	private void LateUpdate ()
+	{
+		oldPos = transform.position;
+	}*/
 
 	void LookAtMouse ()
 	{
