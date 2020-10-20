@@ -749,6 +749,8 @@ MonoBehaviour:
   gameScene: Game
   champSelectScene: ChampSelect
   menuScene: Lobby
+  actualRoom:
+    playerCount: 1
   client: {fileID: 288130756}
   AlreadyInit: 0
 --- !u!114 &288130756
@@ -763,7 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2b44c570cb28644b8762e0b13e7c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  address: 192.168.140.206
+  address: 127.0.0.1
   port: 4296
   noDelay: 0
   autoConnect: 0
