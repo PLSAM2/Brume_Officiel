@@ -92,10 +92,6 @@ public class NetworkAnimationController : MonoBehaviour
         sbyte optimisedXvalue = (sbyte)Mathf.RoundToInt(Xvalue * 100);
         sbyte optimisedYvalue = (sbyte)Mathf.RoundToInt(Yvalue * 100);
 
-        print(optimisedXvalue);
-        print(optimisedYvalue);
-
-
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(client.ID);
