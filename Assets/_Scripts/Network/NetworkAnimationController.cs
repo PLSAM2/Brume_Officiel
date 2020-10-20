@@ -46,7 +46,7 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 SyncBooleanInserver(sender, e);
             }            
-            if (message.Tag == Tags.sync)
+            if (message.Tag == Tags.SyncFloat)
             {
                 SyncFloatInserver(sender, e);
             }
@@ -129,7 +129,7 @@ public class NetworkAnimationController : MonoBehaviour
         }
     }
 
-    public void SyncBoolean(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
+    public void SyncFloatInServer(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
