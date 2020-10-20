@@ -138,7 +138,6 @@ public class LocalPlayer : MonoBehaviour
 
     void OnPlayerMove(Vector3 pos)
     {
-        print("SendingMovement");
         float right = Vector3.Dot(transform.right, pos);
         float forward = Vector3.Dot(transform.forward, pos);
 
@@ -148,28 +147,9 @@ public class LocalPlayer : MonoBehaviour
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
             networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable);
-
-            /*
-            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-            {
-                _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-                _writer.Write(forward);
-                _writer.Write(right);
-
-                using (Message _message = Message.Create(Tags.SendAnim, _writer))
-                {
-                    currentClient.SendMessage(_message, SendMode.Unreliable);
-                }
-            }*/
         }
     }
 
-    //public void SetAnim(float forward, float right)
-    //{
-    //    myAnimator.SetFloat("Forward", forward);
-    //    myAnimator.SetFloat("Turn", right);
-    //}
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
     {

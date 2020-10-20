@@ -45,6 +45,10 @@ public class NetworkAnimationController : MonoBehaviour
             if (message.Tag == Tags.SyncBoolean)
             {
                 SyncBooleanInserver(sender, e);
+            }            
+            if (message.Tag == Tags.sync)
+            {
+                SyncFloatInserver(sender, e);
             }
         }
     }
@@ -159,5 +163,36 @@ public class NetworkAnimationController : MonoBehaviour
             }
         }
     }
+    public void SyncFloat(string floatName, float value, SendMode sendMode = SendMode.Reliable)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(client.ID);
+            _writer.Write(floatName);
+            _writer.Write(value);
 
+            using (Message _message = Message.Create(Tags.SyncFloat, _writer))
+            {
+                client.SendMessage(_message, sendMode);
+            }
+        }
+    }
+
+    private void SyncFloatInserver(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                if (_id != client.ID) // SI ce player est bien le sender + si l'on est pas le sender
+                    return;
+
+                string _floatName = reader.ReadString();
+                float _value = reader.ReadSingle();
+
+                animator.SetFloat(_floatName, _value);
+            }
+        }
+    }
 }
