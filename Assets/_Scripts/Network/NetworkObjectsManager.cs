@@ -80,7 +80,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         {
             writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
-            writer.Write(RoomManager.Instance.actualRoom.ID);
 
             writer.Write(position.x);
             writer.Write(position.y);

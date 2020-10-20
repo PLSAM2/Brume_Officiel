@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Tags 
 {
+    /// <summary>
+    /// Val 0000 --> 1000
+    /// Sam 1000 --> 2000
+    /// Pierre 2000 --> 3000
+    /// </summary>
+
     // Lobby 0 --> 299 >>       
     public static readonly ushort PlayerConnected = 0;
     public static readonly ushort Ping = 2;
@@ -38,11 +44,11 @@ public class Tags
         public static readonly ushort SyncTrigger = 750;
         public static readonly ushort Sync2DBlendTree = 752;
         public static readonly ushort SyncBoolean = 754;
+        public static readonly ushort SyncFloat = 756;
         // <<
 
     public static readonly ushort SpawnObjPlayer = 1000;
     public static readonly ushort MovePlayerTag = 1010;
     public static readonly ushort SupprObjPlayer = 1020;
-    public static readonly ushort SendAnim = 1030;
     // <<
 }
