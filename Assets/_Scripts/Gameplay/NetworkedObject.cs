@@ -9,7 +9,6 @@ public class NetworkedObject : MonoBehaviour
     public bool synchroniseRotation = true;
     public float distanceRequiredBeforeSync = 0.02f;
 
-    private ushort networkedObjectID = 0; // ID dans le scriptable (utilisé pour l'instantiation)
     private ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
     private bool isOwner = false;
     private PlayerData owner;
@@ -22,6 +21,7 @@ public class NetworkedObject : MonoBehaviour
 
         serverObjectID = lastObjId;
         owner = playerData;
+        lastPosition = transform.position;
 
         if (RoomManager.Instance.GetLocalPlayer() == owner)
         {
@@ -40,17 +40,18 @@ public class NetworkedObject : MonoBehaviour
         return serverObjectID;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!isNetworked || !isOwner || serverObjectID == 0 )
             return;
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync)
         {
+            lastPosition = transform.position;
+
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
                 writer.Write(serverObjectID);
-                writer.Write(RoomManager.Instance.actualRoom.ID);
 
                 writer.Write(this.transform.position.x);
                 writer.Write(this.transform.position.y);

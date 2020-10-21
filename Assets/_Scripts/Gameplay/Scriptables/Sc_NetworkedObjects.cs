@@ -5,15 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NetworkedObjectsList", menuName = "Custom/New Networked objects list")]
+[InlineEditor]
 public class Sc_NetworkedObjects : SerializedScriptableObject
 {
     public Dictionary<ushort, GameObject> networkObjects = new Dictionary<ushort, GameObject>();
 }
 
-
-//[Serializable]
-//public class NetworkObjectData
-//{
-//    public ushort ID;
-//    public GameObject objectPrefab;
-//}

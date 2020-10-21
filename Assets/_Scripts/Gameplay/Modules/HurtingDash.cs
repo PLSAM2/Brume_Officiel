@@ -56,13 +56,13 @@ public class HurtingDash : DashModule
 
 				if (isNew)
 				{
-					LocalPlayer _tempStack = _hit.collider.GetComponent<LocalPlayer>();
-					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.mylocalPlayer.teamIndex)
+					PlayerModule _tempStack = _hit.collider.GetComponent<PlayerModule>();
+					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.teamIndex)
 					{
 						DamagesInfos _infos = new DamagesInfos();
 						_infos.damages = spell.damagesToDeal;
 
-						_tempStack.DealDamages(_infos);
+						_tempStack.mylocalPlayer.DealDamages(_infos);
 						allPlayerTouched.Add(_hit.collider.gameObject);
 					}
 				}

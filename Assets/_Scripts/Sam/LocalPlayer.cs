@@ -13,36 +13,22 @@ public class LocalPlayer : MonoBehaviour
 {
     public ushort myPlayerId;
     public bool isOwner = false;
+    public float distanceRequiredBeforeSync = 0.1f;
 
     public PlayerModule myPlayerModule;
 
-    Vector3 lastPosition;
-
-    Vector3 lastRotation;
-
-    //
-    UnityClient currentClient;
-
-    [SerializeField] Animator myAnimator;
-
+    public Animator myAnimator;
+    [SerializeField] NetworkAnimationController networkAnimationController;
     [SerializeField] GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
+    public float respawnTime = 15;
     private ushort _liveHealth;
-    public Team teamIndex;
-    public bool isInBrume = false;
-
-    //vision
-    public GameObject visionObj;
-    public GameObject sonar;
 
     [Header("UI")]
     public GameObject canvas;
     public TextMeshProUGUI nameText;
     public Image life;
-
-    private bool canBeRevealed = true;
-    private int canBeRevealedTime = 3;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
@@ -53,6 +39,10 @@ public class LocalPlayer : MonoBehaviour
 
     public GameObject parentRenderer;
     [SerializeField] EnemyDisplayer myDisplayer;
+
+    private UnityClient currentClient;
+    private Vector3 lastPosition;
+    private Vector3 lastRotation;
 
     private void Awake()
     {
@@ -67,24 +57,24 @@ public class LocalPlayer : MonoBehaviour
 
         nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
-        if (teamIndex == Team.blue)
+        if (myPlayerModule.teamIndex == Team.blue)
         {
             nameText.color = Color.blue;
             life.color = Color.blue;
         }
-        else if (teamIndex == Team.red)
+        else if (myPlayerModule.teamIndex == Team.red)
         {
             nameText.color = Color.red;
             life.color = Color.red;
         }
 
-
+        OnPlayerMove(Vector3.zero);
     }
 
     public void Init(UnityClient newClient)
     {
         currentClient = newClient;
-        teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
+        myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
         if (isOwner)
         {
@@ -103,14 +93,10 @@ public class LocalPlayer : MonoBehaviour
                 mat.SetFloat("_Radius", 1);
             }
 
-            fogScript.enabled = true;
-            myDisplayer.enabled = true;
+            //fogScript.enabled = true;
+            //myDisplayer.enabled = true;
         }
-
-        visionObj.SetActive(isOwner);
     }
-
-
 
     private void OnDisable()
     {
@@ -123,21 +109,9 @@ public class LocalPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        if (!isOwner)
-        {
-
-            if (GameManager.Instance.currentLocalPlayer.isInBrume && !isInBrume && canBeRevealed)
-            {
-                StartCoroutine(CanBeRevealed());
-            }
-
-            return;
-        }
-
         if (!isOwner) { return; }
 
-        if (Vector3.Distance(lastPosition, transform.position) > 0.2f || lastRotation != transform.localEulerAngles)
+        if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
             lastPosition = transform.position;
             lastRotation = transform.localEulerAngles;
@@ -172,33 +146,18 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
 
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+
+        if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
-            _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-            _writer.Write(forward);
-            _writer.Write(right);
-
-            using (Message _message = Message.Create(Tags.SendAnim, _writer))
-            {
-                currentClient.SendMessage(_message, SendMode.Unreliable);
-            }
-
+            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable);
         }
     }
 
-    public void SetAnim(float forward, float right)
-    {
-
-        myAnimator.SetFloat("Forward", forward);
-        myAnimator.SetFloat("Turn", right);
-    }
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
     {
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
-        myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
     }
 
     public void OnRespawn()
@@ -212,6 +171,7 @@ public class LocalPlayer : MonoBehaviour
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damages.damageHealth;
         UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(myPlayerId);
@@ -252,25 +212,7 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
-    IEnumerator CanBeRevealed()
-    {
-        canBeRevealed = false;
-        if (!isOwner) {
-            GameObject _fx = Instantiate(sonar, transform.position, Quaternion.Euler(90, 0, 0));
 
-            if (teamIndex == Team.blue)
-            {
-                _fx.GetComponent<ParticleSystem>().startColor = Color.blue;
-            }
-            else if (teamIndex == Team.red)
-            {
-                _fx.GetComponent<ParticleSystem>().startColor = Color.red;
-            }
-        }
-
-        yield return new WaitForSeconds(canBeRevealedTime);
-        canBeRevealed = true;
-    }
 
 
 }

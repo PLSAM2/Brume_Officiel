@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2018274824535757923}
   - component: {fileID: 4705339813984825636}
+  - component: {fileID: -3939077042609495558}
   - component: {fileID: 1217320960498770133}
   - component: {fileID: 6674073701188791837}
   - component: {fileID: 8281150123794309746}
@@ -63,6 +64,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-3939077042609495558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8598cbc373c19cc429a3cad5111916dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4705339813984825636}
 --- !u!114 &1217320960498770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,18 +91,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayerId: 0
   isOwner: 0
+  distanceRequiredBeforeSync: 0.05
   myPlayerModule: {fileID: 6667444453632817538}
   myAnimator: {fileID: 4705339813984825636}
+  networkAnimationController: {fileID: -3939077042609495558}
   circleDirection: {fileID: 3531234986128592076}
-  teamIndex: 0
-  isInBrume: 0
-  visionObj: {fileID: 466112710899532364}
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
+  respawnTime: 15
   canvas: {fileID: 6548595031188705954}
   nameText: {fileID: 2784098647336443950}
   life: {fileID: 8177495112107496326}
   matInBrume:
-  - {fileID: 2100000, guid: f271d56c8bddec549a5180d974b22c48, type: 2}
+  - {fileID: 0}
   fogScript: {fileID: 6020452266926908102}
   parentRenderer: {fileID: 8898860123117720155}
   myDisplayer: {fileID: 3198462268170187270}
@@ -145,7 +158,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dfa3960228c6c7499f9f52ab7671633, type: 3}
   m_Name: 
@@ -154,12 +167,19 @@ MonoBehaviour:
   secondSpellKey: 101
   thirdSpellKey: 114
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
+  teamIndex: 0
   mainCam: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
+  isInBrume: 0
   state: 1
   allHitTaken: []
+  visionObj: {fileID: 466112710899532364}
+  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
+  brumeLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   movementPart: {fileID: 8281150123794309746}
   firstSpell: {fileID: 0}
   secondSpell: {fileID: 6674073701188791837}
@@ -197,10 +217,10 @@ MonoBehaviour:
   viewAngle: 360
   targetMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 4864
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 266752
   visibleTargets: []
   meshResolution: 10
   edgeResolveIterations: 3
@@ -1023,7 +1043,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f271d56c8bddec549a5180d974b22c48, type: 2}
+  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1046,7 +1066,7 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
-  m_UpdateWhenOffscreen: 0
+  m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4713902905286190846, guid: 92beab30f99b07d49adfb1fcea390bbc, type: 3}
   m_Bones:
@@ -1586,7 +1606,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f271d56c8bddec549a5180d974b22c48, type: 2}
+  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1609,7 +1629,7 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
-  m_UpdateWhenOffscreen: 0
+  m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 2825808982408651311, guid: 92beab30f99b07d49adfb1fcea390bbc, type: 3}
   m_Bones:
@@ -2367,7 +2387,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f271d56c8bddec549a5180d974b22c48, type: 2}
+  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2390,7 +2410,7 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
-  m_UpdateWhenOffscreen: 0
+  m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: -5776427226758463341, guid: 92beab30f99b07d49adfb1fcea390bbc, type: 3}
   m_Bones:
@@ -2779,7 +2799,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 261943
+    m_Bits: 196407
 --- !u!1 &6596779497191525723
 GameObject:
   m_ObjectHideFlags: 0
@@ -8642,7 +8662,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f271d56c8bddec549a5180d974b22c48, type: 2}
+  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8665,7 +8685,7 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
-  m_UpdateWhenOffscreen: 0
+  m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: -3106403576111199412, guid: 92beab30f99b07d49adfb1fcea390bbc, type: 3}
   m_Bones:

@@ -96,7 +96,7 @@ public class RoomManager : MonoBehaviour
     }
 
     private void QuitGameInServer(object sender, MessageReceivedEventArgs e)
-    {
+    {       
         SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
     }
 

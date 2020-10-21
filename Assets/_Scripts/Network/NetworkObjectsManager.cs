@@ -1,21 +1,23 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class NetworkObjectsManager : MonoBehaviour
+public class NetworkObjectsManager : SerializedMonoBehaviour
 {
     private static NetworkObjectsManager _instance;
     public static NetworkObjectsManager Instance { get { return _instance; } }
 
-    public Sc_NetworkedObjects networkedObjectsList;
+   [SerializeField] public Sc_NetworkedObjects networkedObjectsList;
+    [Header("Instantiated Object")]
     public Dictionary<ushort, NetworkedObject> instantiatedObjectsList = new Dictionary<ushort, NetworkedObject>();
 
-    UnityClient client;
+    private UnityClient client;
 
     private void Awake()
     {
@@ -78,7 +80,6 @@ public class NetworkObjectsManager : MonoBehaviour
         {
             writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
-            writer.Write(RoomManager.Instance.actualRoom.ID);
 
             writer.Write(position.x);
             writer.Write(position.y);
@@ -161,10 +162,9 @@ public class NetworkObjectsManager : MonoBehaviour
                 }
             }
         }
-        if (instantiatedObjectsList.ContainsKey(_objectID))
-            return;
 
- 
+        if (!instantiatedObjectsList.ContainsKey(_objectID))
+            return;
 
         if (_synchroniseRotation)
         {

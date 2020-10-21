@@ -1,4 +1,5 @@
 ﻿using DarkRift;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ public class RoomData : IDarkRiftSerializable
 {
     [SerializeField] public ushort ID { get; set; }
     [SerializeField] public string Name { get; set; }
-    [SerializeField] public int MaxPlayers { get; set; }
+    [SerializeField] public ushort MaxPlayers { get; set; }
+
+    public ushort playerCount = 1; // LocalOnly
 
     // Uniquement rempli si à l'intérieur de celle-ci >>
 
@@ -31,8 +34,9 @@ public class RoomData : IDarkRiftSerializable
     {
         this.ID = e.Reader.ReadUInt16();
         this.Name = e.Reader.ReadString();
-        this.MaxPlayers = e.Reader.ReadInt32();
-    }
+        this.MaxPlayers = e.Reader.ReadUInt16();
+        this.playerCount = e.Reader.ReadUInt16();
+    }       
 
     public void Serialize(SerializeEvent e)
     {
