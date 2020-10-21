@@ -7,13 +7,13 @@ public class CameraManager : MonoBehaviour
 {
 	private static CameraManager _instance;
 	public static CameraManager Instance { get { return _instance; } }
-	[SerializeField] float percentageOfTheScreenToScrollFrom = .3f, scrollingSpeed = 10;
+	[SerializeField] float percentageOfTheScreenToScrollFrom = .1f, scrollingSpeed = 10;
 	[SerializeField] Transform cameraLocker;
 	public static Action UpdateCameraPos, LockCamera;
 
 	//float et taille d ecran histoire que on la recalcule pas a chaque fois
 	Vector2 pixelSizeScreen;
-	float minX, maxX, minY, maxY;
+	float minX, maxX, minY, maxY, screenEdgeBorder;
 	bool isLocked = true;
 	PlayerModule playerToFollow;
 
@@ -37,6 +37,8 @@ public class CameraManager : MonoBehaviour
 		LockCamera += LockingCam;
 		GameManager.PlayerSpawned += SetParent;
 		OnResolutionChanged();
+
+		screenEdgeBorder = Screen.height * percentageOfTheScreenToScrollFrom;
 	}
 
 	private void OnDestroy ()
@@ -98,16 +100,36 @@ public class CameraManager : MonoBehaviour
         cameraLocker.position = new Vector3(cameraLocker.position.x, 0, cameraLocker.position.z);
             }*/
 
+/*
+			float inputX = Input.mousePosition.x;
+			float inputY = Input.mousePosition.y;
 
-		float inputX = Input.mousePosition.x;
-		float inputY = Input.mousePosition.y;
+			if (inputX <= minX || inputX >= maxX || inputY <= minY || inputY >= maxY)
+			{
+				cameraLocker.position += Vector3.Normalize(playerToFollow.mousePos() - cameraLocker.position) * scrollingSpeed;
+				//new Vector3(0, 0, ((inputY - maxY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
+			}
+	*/
+		Vector3 desiredMove = new Vector3();
 
-		if (inputX <= minX || inputX >= maxX || inputY <= minY || inputY >= maxY)
-		{
-			cameraLocker.position += Vector3.Normalize(playerToFollow.mousePos() - cameraLocker.position) * scrollingSpeed;
-			//new Vector3(0, 0, ((inputY - maxY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
-		}
+		Rect leftRect = new Rect(0, 0, screenEdgeBorder, Screen.height);
+		Rect rightRect = new Rect(Screen.width - screenEdgeBorder, 0, screenEdgeBorder, Screen.height);
+		Rect upRect = new Rect(0, Screen.height - screenEdgeBorder, Screen.width, screenEdgeBorder);
+		Rect downRect = new Rect(0, 0, Screen.width, screenEdgeBorder);
 
+		desiredMove.x = leftRect.Contains(MouseInput) ? -1 : rightRect.Contains(MouseInput) ? 1 : 0;
+		desiredMove.z = upRect.Contains(MouseInput) ? 1 : downRect.Contains(MouseInput) ? -1 : 0;
+		desiredMove *= scrollingSpeed;
+
+		desiredMove *= Time.deltaTime;
+		desiredMove.y = 0;
+		cameraLocker.position += new Vector3(desiredMove.x, 0,desiredMove.z) ;
+			
+	}
+
+	private Vector2 MouseInput
+	{
+		get { return Input.mousePosition; }
 	}
 
 	private void Update ()
