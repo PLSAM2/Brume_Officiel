@@ -37,6 +37,7 @@ public class GameManager : SerializedMonoBehaviour
     [SerializeField] Animator volumeAnimator;
 
     public List<Transform> visiblePlayer = new List<Transform>();
+    public static Action<PlayerModule> PlayerSpawned;
 
     private bool stopInit = false;
     private bool isWaitingForRespawn = false;
