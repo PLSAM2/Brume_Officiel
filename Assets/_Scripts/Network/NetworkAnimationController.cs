@@ -76,7 +76,8 @@ public class NetworkAnimationController : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _id = reader.ReadUInt16();
-                if (_id != client.ID) // SI ce player est bien le sender + si l'on est pas le sender
+
+                if (_id == client.ID) // si l'on est pas le sender
                     return;
 
                 string _trigger = reader.ReadString();
@@ -89,7 +90,7 @@ public class NetworkAnimationController : MonoBehaviour
     public void Sync2DBlendTree(string XvalueName, string YvalueName, float Xvalue, float Yvalue, SendMode sendMode = SendMode.Reliable)
     {
         sbyte optimisedXvalue = (sbyte)Mathf.RoundToInt(Xvalue * 100);
-        sbyte optimisedYvalue = (sbyte)Mathf.RoundToInt(Xvalue * 100);
+        sbyte optimisedYvalue = (sbyte)Mathf.RoundToInt(Yvalue * 100);
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -113,13 +114,13 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
 
-                if (_id != client.ID) // SI ce player est bien le sender + si l'on est pas le sender
+                if (_id == client.ID) // si l'on est pas le sender
                     return;
 
                 string XvalueName = reader.ReadString();
                 string YvalueName = reader.ReadString();
-                float Xvalue = reader.ReadSByte() / 100;
-                float Yvalue = reader.ReadSByte() / 100;
+                float Xvalue = ((float)reader.ReadSByte()) / 100;
+                float Yvalue = ((float)reader.ReadSByte()) / 100;
 
                 animator.SetFloat(XvalueName, Xvalue);
                 animator.SetFloat(YvalueName, Yvalue);
@@ -129,7 +130,7 @@ public class NetworkAnimationController : MonoBehaviour
         }
     }
 
-    public void SyncBoolean(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
+    public void SyncFloatInServer(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -153,7 +154,8 @@ public class NetworkAnimationController : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _id = reader.ReadUInt16();
-                if (_id != client.ID) // SI ce player est bien le sender + si l'on est pas le sender
+
+                if (_id == client.ID) // si l'on est pas le sender
                     return;
 
                 string _boolean = reader.ReadString();
@@ -185,7 +187,8 @@ public class NetworkAnimationController : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _id = reader.ReadUInt16();
-                if (_id != client.ID) // SI ce player est bien le sender + si l'on est pas le sender
+
+                if (_id == client.ID) // si l'on est pas le sender
                     return;
 
                 string _floatName = reader.ReadString();

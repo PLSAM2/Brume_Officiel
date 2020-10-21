@@ -93,8 +93,8 @@ public class LocalPlayer : MonoBehaviour
                 mat.SetFloat("_Radius", 1);
             }
 
-            fogScript.enabled = true;
-            myDisplayer.enabled = true;
+            //fogScript.enabled = true;
+            //myDisplayer.enabled = true;
         }
     }
 
@@ -158,7 +158,6 @@ public class LocalPlayer : MonoBehaviour
     {
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
-     //   myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
     }
 
     public void OnRespawn()
