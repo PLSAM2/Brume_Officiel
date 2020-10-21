@@ -12,7 +12,7 @@ public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
-	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R;
+	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
 
 
 	[Header("GameplayInfos")]
@@ -78,6 +78,8 @@ public class PlayerModule : MonoBehaviour
 			secondSpell?.SetupComponent();
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
+
+			GameManager.PlayerSpawned.Invoke(this);
 		}
 		else
 		{
@@ -129,6 +131,12 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyDown(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
 			#endregion
+
+			//camera
+			if (Input.GetKeyUp(freeCamera))
+				CameraManager.LockCamera.Invoke();
+			else if (Input.GetKey(freeCamera))
+				CameraManager.UpdateCameraPos();
 		}
 		else
 			return;
