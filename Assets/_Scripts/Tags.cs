@@ -50,10 +50,10 @@ class Tags
         // <<
 
         //Interactible 770 --> 789 >>
-        public static readonly ushort UnlockAltar = 770;
-        public static readonly ushort TryCaptureAltar = 771;
-        public static readonly ushort CaptureProgressAltar = 772;
-        public static readonly ushort CaptureAltar = 773;
+        public static readonly ushort UnlockInteractible = 770;
+        public static readonly ushort TryCaptureInteractible = 772;
+        public static readonly ushort CaptureProgressInteractible = 774;
+        public static readonly ushort CaptureInteractible = 776;
         // <<
 
     public static readonly ushort SpawnObjPlayer = 1000;

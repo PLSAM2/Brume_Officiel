@@ -9,7 +9,6 @@ using static GameData;
 
 public class InteractibleObjectsManager : MonoBehaviour
 {
-
     public List<Altar> altarList = new List<Altar>();
     public float firstAltarUnlockTime = 15;
 
@@ -46,19 +45,19 @@ public class InteractibleObjectsManager : MonoBehaviour
     {
         using (Message message = e.GetMessage() as Message)
         {
-            if (message.Tag == Tags.TryCaptureAltar)
+            if (message.Tag == Tags.TryCaptureInteractible)
             {
                 TryCaptureAltarInServer(sender, e);
             }
-            if (message.Tag == Tags.CaptureProgressAltar)
+            if (message.Tag == Tags.CaptureProgressInteractible)
             {
                 CaptureProgressAltarInServer(sender, e);
             }            
-            if (message.Tag == Tags.CaptureAltar)
+            if (message.Tag == Tags.CaptureInteractible)
             {
                 CaptureAltarInServer(sender, e);
             }
-            if (message.Tag == Tags.UnlockAltar)
+            if (message.Tag == Tags.UnlockInteractible)
             {
                 UnlockAltarInServer(sender, e);
             }
@@ -107,7 +106,7 @@ public class InteractibleObjectsManager : MonoBehaviour
 
                 Altar _altar = altarList[_altarID];
 
-                _altar.UpdateCaptureProgress(_team);
+                _altar.UpdateTryCapture(_team);
             }
         }
 
@@ -154,7 +153,7 @@ public class InteractibleObjectsManager : MonoBehaviour
             {
                 _writer.Write(_altarId);
 
-                using (Message _message = Message.Create(Tags.UnlockAltar, _writer))
+                using (Message _message = Message.Create(Tags.UnlockInteractible, _writer))
                 {
                     client.SendMessage(_message, SendMode.Reliable);
                 }
