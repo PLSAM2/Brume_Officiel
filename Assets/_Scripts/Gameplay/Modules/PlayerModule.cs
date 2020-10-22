@@ -6,14 +6,14 @@ using Sirenix.OdinInspector;
 using System.Net.Http.Headers;
 using DG.Tweening;
 using static GameData;
-using System.Runtime.InteropServices;
+
 
 public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
-
+	public KeyCode interactKey = KeyCode.F;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
@@ -41,8 +41,8 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
-	[Header("Minimap")]
-	public SpriteRenderer minimapIcon;
+	public List<Interactible> interactiblesClose = new List<Interactible>();
+
 	//animations local des autres joueurs
 	//Vector3 oldPos;
 	//ALL ACTION 
@@ -63,18 +63,10 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	#endregion
 
-	void Awake ()
+	void Start ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
-		GameManager.AllCharacterSpawned += Setup;
-
-		if (GameManager.Instance.gameStarted)
-			Setup();
-	}
-
-	void Setup()
-	{
 		if (mylocalPlayer.isOwner)
 		{
 			//visionPArt
@@ -88,29 +80,18 @@ public class PlayerModule : MonoBehaviour
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
 
-
 			GameManager.PlayerSpawned.Invoke(this);
-
-			minimapIcon.color = Color.blue;
 		}
 		else
 		{
-			//revelationCheck += CheckForBrumeRevelation;
-			//CheckForBrumeRevelation();
-
-			if (teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				minimapIcon.color = Color.green;
-			else
-				minimapIcon.color = Color.red;
+			revelationCheck += CheckForBrumeRevelation;
+			CheckForBrumeRevelation();
 		}
-		//	oldPos = transform.position;
-
+	//	oldPos = transform.position;
 	}
 
 	private void OnDestroy ()
 	{
-		GameManager.AllCharacterSpawned -= Setup;
-
 		if (!mylocalPlayer.isOwner)
 		{
 			revelationCheck -= CheckForBrumeRevelation;
@@ -150,10 +131,31 @@ public class PlayerModule : MonoBehaviour
 				secondSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
-			#endregion
 
-			//camera
-			if (Input.GetKeyUp(freeCamera))
+			if (Input.GetKeyDown(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+				{
+					if (interactible == null)
+						return;
+
+					interactible.TryCapture(teamIndex);
+				}
+			}
+			else if (Input.GetKeyUp(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+                {
+					if (interactible == null)
+						return;
+
+					interactible.StopCapturing(teamIndex);
+				}
+			}
+				#endregion
+
+				//camera
+				if (Input.GetKeyUp(freeCamera))
 				CameraManager.LockCamera.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.UpdateCameraPos();
@@ -163,18 +165,18 @@ public class PlayerModule : MonoBehaviour
 	}
 
 	//ANIM EN LOCAL
-	/*	private void FixedUpdate ()
+/*	private void FixedUpdate ()
+	{
+		if (mylocalPlayer.isOwner == false)
 		{
-			if (mylocalPlayer.isOwner == false)
-			{
-				Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
-				//mylocalPlayer
-			}
+			Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
+			//mylocalPlayer
 		}
-		private void LateUpdate ()
-		{
-			oldPos = transform.position;
-		}*/
+	}
+	private void LateUpdate ()
+	{
+		oldPos = transform.position;
+	}*/
 
 	void LookAtMouse ()
 	{
@@ -192,7 +194,7 @@ public class PlayerModule : MonoBehaviour
 		if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
 		{
-			GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
+			GameObject _fx = Instantiate(sonar, transform.position+ Vector3.up, Quaternion.Euler(90, 0, 0));
 
 			if (teamIndex == Team.blue)
 			{
