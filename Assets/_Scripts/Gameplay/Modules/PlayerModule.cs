@@ -13,7 +13,7 @@ public class PlayerModule : MonoBehaviour
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
-
+	public KeyCode interactKey = KeyCode.F;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
@@ -41,6 +41,7 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
+	public List<Interactible> interactiblesClose = new List<Interactible>();
 
 	//animations local des autres joueurs
 	//Vector3 oldPos;
@@ -130,10 +131,31 @@ public class PlayerModule : MonoBehaviour
 				secondSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
-			#endregion
 
-			//camera
-			if (Input.GetKeyUp(freeCamera))
+			if (Input.GetKeyDown(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+				{
+					if (interactible == null)
+						return;
+
+					interactible.TryCapture(teamIndex);
+				}
+			}
+			else if (Input.GetKeyUp(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+                {
+					if (interactible == null)
+						return;
+
+					interactible.StopCapturing(teamIndex);
+				}
+			}
+				#endregion
+
+				//camera
+				if (Input.GetKeyUp(freeCamera))
 				CameraManager.LockCamera.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.UpdateCameraPos();
