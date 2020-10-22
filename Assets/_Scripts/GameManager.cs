@@ -21,7 +21,9 @@ public class GameManager : SerializedMonoBehaviour
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
 
     [Header("Player")]
-    public LocalPlayer currentLocalPlayer;
+    LocalPlayer _currentLocalPlayer;
+    public LocalPlayer currentLocalPlayer {get => _currentLocalPlayer; set { _currentLocalPlayer = value; PlayerSpawned.Invoke(_currentLocalPlayer.myPlayerModule); } }
+
     [SerializeField] UnityClient client;
     [SerializeField] GameObject prefabPlayer;
 
@@ -42,6 +44,10 @@ public class GameManager : SerializedMonoBehaviour
     private bool stopInit = false;
     private bool isWaitingForRespawn = false;
     private Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
+   
+    public static Action AllCharacterSpawned;
+    int numberOfPlayerToSpawn;
+    public bool gameStarted = false;
 
     private void Awake()
     {
@@ -65,6 +71,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Start()
     {
+        numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
         SendSpawnChamp();
 
         // A refaire >>
@@ -350,12 +357,21 @@ public class GameManager : SerializedMonoBehaviour
                     myLocalPlayer.isOwner = client.ID == id;
                     myLocalPlayer.Init(client);
 
+
                     if (myLocalPlayer.isOwner)
                     {
                         currentLocalPlayer = myLocalPlayer;
                     }
 
                     networkPlayers.Add(id, myLocalPlayer);
+
+                    //CALLBACK TOUS LES JOUEURS SONT APPARUS
+                    numberOfPlayerToSpawn -= 1;
+                    if (numberOfPlayerToSpawn == 0)
+                    {
+                        AllCharacterSpawned.Invoke();
+                        gameStarted = true;
+                    }
                 }
             }
         }
