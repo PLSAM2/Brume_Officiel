@@ -17,12 +17,15 @@ public enum State : ushort
 public class Interactible : MonoBehaviour
 {
     [Header("Interactible properties")]
-
+    public ushort interactibleID;
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
     [ReadOnly] public Team capturingTeam = Team.none;
     public State state = State.Locked;
+
     protected Action<Team> capturedEvent;
+    protected Action<Team> leaveEvent;
+
     public Character[] authorizedCaptureCharacter = new Character[1];
     protected float timer = 0;
     protected bool isCapturing = false;
@@ -53,7 +56,24 @@ public class Interactible : MonoBehaviour
             {
                 capturedEvent.Invoke(capturingTeam);
             }
+
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            {
+                _writer.Write(interactibleID);
+                _writer.Write((float)Time.fixedDeltaTime);
+
+                using (Message _message = Message.Create(Tags.CaptureProgressInteractible, _writer))
+                {
+                    client.SendMessage(_message, SendMode.Unreliable);
+                }
+            }
+
+
         }
+    }
+    public void ProgressInServer(float progress)
+    {
+        timer += progress;
     }
 
     public virtual void TryCapture(Team team)
@@ -63,12 +83,49 @@ public class Interactible : MonoBehaviour
             return;
         }
 
-        capturingTeam = team;
         isCapturing = true;
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(interactibleID);
+            _writer.Write((ushort)team);
+
+            using (Message _message = Message.Create(Tags.TryCaptureInteractible, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+
+    }
+
+    public virtual void UpdateTryCapture(Team team)
+    {
+        if (state != State.Capturable)
+        {
+            return;
+        }
+
+        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équie qui capture, arreter la capture
+        {
+            isCapturing = false;
+        }
+
+        capturingTeam = team;
+
+        if (capturingTeam != team)
+        {
+            StopCapturing(team);
+        }
+
+        timer = 0;
     }
 
     public virtual void StopCapturing(Team team)
     {
+        if (!isCapturing) // si il ne catpure déja pas
+        {
+            return;
+        }
 
         if (team == capturingTeam)
         {
@@ -79,8 +136,42 @@ public class Interactible : MonoBehaviour
 
     public virtual void Captured(Team team)
     {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(interactibleID);
+
+            _writer.Write((ushort)team);
+
+            using (Message _message = Message.Create(Tags.CaptureInteractible, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
         timer = 0;
     }
+
+    public virtual void UpdateCaptured(Team team)
+    {
+        // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
+
+        isCapturing = false;
+        state = State.Captured;
+        timer = 0;
+
+        // Detruire ici
+    }
+
+
+    public virtual void SetActiveState(bool value)
+    {
+        isInteractable = value;
+    }
+
+    protected virtual void Unlock()
+    {
+        state = State.Capturable;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -109,6 +200,11 @@ public class Interactible : MonoBehaviour
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
+                if (isCapturing && _pModule.teamIndex == capturingTeam)
+                {
+                    leaveEvent.Invoke(_pModule.teamIndex);
+                }
+
                 _pModule.interactiblesClose.Remove(this);
             }
         }
