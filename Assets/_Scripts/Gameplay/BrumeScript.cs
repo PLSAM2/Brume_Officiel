@@ -3,26 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
-public class SamTest : MonoBehaviour
+public class BrumeScript : MonoBehaviour
 {
-    [SerializeField] List<Material> matInBrume = new List<Material>();
-
-    [SerializeField] Camera cameraDefault;
-    [SerializeField] Camera cameraInBrume;
-
-    [SerializeField] List<Material> matSkin = new List<Material>();
+    //[SerializeField] Camera cameraDefault;
+    //[SerializeField] Camera cameraInBrume;
 
     [SerializeField] Animator myAnimator;
 
     [SerializeField] AnimationCurve curveAlpha;
-
-    private void Start()
-    {
-        foreach (Material mat in matSkin)
-        {
-            mat.SetFloat("_Invert", 0);
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -33,22 +21,7 @@ public class SamTest : MonoBehaviour
 
             if (player.mylocalPlayer.isOwner)
             {
-                cameraDefault.gameObject.SetActive(false);
-                cameraInBrume.gameObject.SetActive(true);
-
                 myAnimator.SetBool("InBrume", true);
-
-                /*
-                foreach (Material mat in matInBrume)
-                {
-                    mat.SetFloat("_Invert", 0);
-                }*/
-
-                foreach (Material mat in matSkin)
-                {
-                    mat.SetFloat("_Invert", 1);
-                    mat.SetFloat("_Radius", transform.localScale.x + 0.5f);
-                }
 
                 enterDistance = Vector3.Distance(other.transform.position, transform.position);
             }
@@ -81,22 +54,7 @@ public class SamTest : MonoBehaviour
 
             if (player.mylocalPlayer.isOwner)
             {
-                cameraDefault.gameObject.SetActive(true);
-                cameraInBrume.gameObject.SetActive(false);
-
                 myAnimator.SetBool("InBrume", false);
-
-                /*
-                foreach (Material mat in matInBrume)
-                {
-                    mat.SetFloat("_Invert", 1);
-                }*/
-
-                foreach (Material mat in matSkin)
-                {
-                    mat.SetFloat("_Invert", 0);
-                    mat.SetFloat("_Radius", 1);
-                }
 
                 UiManager.Instance.SetAlphaBrume(0);
             }
