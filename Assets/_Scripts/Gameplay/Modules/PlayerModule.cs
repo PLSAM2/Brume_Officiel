@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using System.Net.Http.Headers;
 using DG.Tweening;
 using static GameData;
-
+using System.Runtime.InteropServices;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -41,7 +41,8 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
-
+	[Header("Minimap")]
+	public SpriteRenderer minimapIcon;
 	//animations local des autres joueurs
 	//Vector3 oldPos;
 	//ALL ACTION 
@@ -62,10 +63,18 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	#endregion
 
-	void Start ()
+	void Awake ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
+		GameManager.AllCharacterSpawned += Setup;
+
+		if (GameManager.Instance.gameStarted)
+			Setup();
+	}
+
+	void Setup()
+	{
 		if (mylocalPlayer.isOwner)
 		{
 			//visionPArt
@@ -79,18 +88,29 @@ public class PlayerModule : MonoBehaviour
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
 
+
 			GameManager.PlayerSpawned.Invoke(this);
+
+			minimapIcon.color = Color.blue;
 		}
 		else
 		{
-			revelationCheck += CheckForBrumeRevelation;
-			CheckForBrumeRevelation();
+			//revelationCheck += CheckForBrumeRevelation;
+			//CheckForBrumeRevelation();
+
+			if (teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+				minimapIcon.color = Color.green;
+			else
+				minimapIcon.color = Color.red;
 		}
-	//	oldPos = transform.position;
+		//	oldPos = transform.position;
+
 	}
 
 	private void OnDestroy ()
 	{
+		GameManager.AllCharacterSpawned -= Setup;
+
 		if (!mylocalPlayer.isOwner)
 		{
 			revelationCheck -= CheckForBrumeRevelation;
@@ -143,18 +163,18 @@ public class PlayerModule : MonoBehaviour
 	}
 
 	//ANIM EN LOCAL
-/*	private void FixedUpdate ()
-	{
-		if (mylocalPlayer.isOwner == false)
+	/*	private void FixedUpdate ()
 		{
-			Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
-			//mylocalPlayer
+			if (mylocalPlayer.isOwner == false)
+			{
+				Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
+				//mylocalPlayer
+			}
 		}
-	}
-	private void LateUpdate ()
-	{
-		oldPos = transform.position;
-	}*/
+		private void LateUpdate ()
+		{
+			oldPos = transform.position;
+		}*/
 
 	void LookAtMouse ()
 	{
@@ -172,7 +192,7 @@ public class PlayerModule : MonoBehaviour
 		if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
 		{
-			GameObject _fx = Instantiate(sonar, transform.position+ Vector3.up, Quaternion.Euler(90, 0, 0));
+			GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
 
 			if (teamIndex == Team.blue)
 			{
