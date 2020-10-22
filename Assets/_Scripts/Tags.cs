@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tags 
+class Tags
 {
     /// <summary>
     /// Val 0000 --> 1000
     /// Sam 1000 --> 2000
     /// Pierre 2000 --> 3000
+    /// 
+    /// VALEUR MAX 65535
     /// </summary>
 
     // Lobby 0 --> 299 >>       
@@ -40,11 +42,18 @@ public class Tags
     public static readonly ushort AddPoints = 550;
     public static readonly ushort KillCharacter = 560;
 
-        //Anim 750 --> 800 >>
+        //Anim 750 --> 769 >>
         public static readonly ushort SyncTrigger = 750;
         public static readonly ushort Sync2DBlendTree = 752;
         public static readonly ushort SyncBoolean = 754;
         public static readonly ushort SyncFloat = 756;
+        // <<
+
+        //Interactible 770 --> 789 >>
+        public static readonly ushort UnlockAltar = 770;
+        public static readonly ushort TryCaptureAltar = 771;
+        public static readonly ushort CaptureProgressAltar = 772;
+        public static readonly ushort CaptureAltar = 773;
         // <<
 
     public static readonly ushort SpawnObjPlayer = 1000;
