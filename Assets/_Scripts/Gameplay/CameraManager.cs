@@ -132,7 +132,7 @@ public class CameraManager : MonoBehaviour
 		get { return Input.mousePosition; }
 	}
 
-	private void Update ()
+	private void LateUpdate ()
 	{
 		if (isLocked)
 		{

@@ -6,14 +6,14 @@ using Sirenix.OdinInspector;
 using System.Net.Http.Headers;
 using DG.Tweening;
 using static GameData;
-
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
-
+	public KeyCode interactKey = KeyCode.F;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
@@ -34,6 +34,7 @@ public class PlayerModule : MonoBehaviour
 	public GameObject visionObj;
 	public GameObject sonar;
 	public LayerMask brumeLayer;
+	[SerializeField] SpriteRenderer mapIcon;
 
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
@@ -41,6 +42,7 @@ public class PlayerModule : MonoBehaviour
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
+	public List<Interactible> interactiblesClose = new List<Interactible>();
 
 	//animations local des autres joueurs
 	//Vector3 oldPos;
@@ -62,12 +64,30 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	#endregion
 
-	void Start ()
+	void Awake ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
+		GameManager.AllCharacterSpawned += Setup;
+		if (GameManager.Instance.gameStarted)
+			Setup();
+
+	//	oldPos = transform.position;
+	}
+
+	private void OnDestroy ()
+	{
+		if (!mylocalPlayer.isOwner)
+		{
+			revelationCheck -= CheckForBrumeRevelation;
+		}
+	}
+
+	void Setup()
+	{
 		if (mylocalPlayer.isOwner)
 		{
+			mapIcon.color = Color.blue;
 			//visionPArt
 			visionObj.SetActive(true);
 
@@ -83,17 +103,14 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 		{
+			if (teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+				mapIcon.color = Color.green;
+			else
+				mapIcon.color = Color.red;
+
 			revelationCheck += CheckForBrumeRevelation;
 			CheckForBrumeRevelation();
-		}
-	//	oldPos = transform.position;
-	}
 
-	private void OnDestroy ()
-	{
-		if (!mylocalPlayer.isOwner)
-		{
-			revelationCheck -= CheckForBrumeRevelation;
 		}
 	}
 
@@ -130,10 +147,31 @@ public class PlayerModule : MonoBehaviour
 				secondSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
-			#endregion
 
-			//camera
-			if (Input.GetKeyUp(freeCamera))
+			if (Input.GetKeyDown(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+				{
+					if (interactible == null)
+						return;
+
+					interactible.TryCapture(teamIndex);
+				}
+			}
+			else if (Input.GetKeyUp(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+                {
+					if (interactible == null)
+						return;
+
+					interactible.StopCapturing(teamIndex);
+				}
+			}
+				#endregion
+
+				//camera
+				if (Input.GetKeyUp(freeCamera))
 				CameraManager.LockCamera.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.UpdateCameraPos();
