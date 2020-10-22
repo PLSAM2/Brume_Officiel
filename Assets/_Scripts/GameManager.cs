@@ -106,12 +106,6 @@ public class GameManager : SerializedMonoBehaviour
             {
                 SupprPlayerInServer(_sender, _e);
             }
-
-            //if (message.Tag == Tags.SendAnim)
-            //{
-            //    SendPlayerAnim(_sender, _e);
-            //}
-
             if (message.Tag == Tags.StartTimer)
             {
                 StartTimerInServer();
@@ -135,11 +129,8 @@ public class GameManager : SerializedMonoBehaviour
         }
     }
 
-
-
     public void AddPoints(Team targetTeam, ushort value)
     {
-
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write((ushort)targetTeam);

@@ -166,6 +166,7 @@ MonoBehaviour:
   firstSpellKey: 97
   secondSpellKey: 101
   thirdSpellKey: 114
+  interactKey: 102
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   mainCam: {fileID: 0}
@@ -187,6 +188,7 @@ MonoBehaviour:
   leftClick: {fileID: 0}
   coll: {fileID: 8154408291484997990}
   mylocalPlayer: {fileID: 0}
+  interactiblesClose: []
 --- !u!136 &8154408291484997990
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -220,7 +222,7 @@ MonoBehaviour:
     m_Bits: 4864
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 266752
+    m_Bits: 4608
   visibleTargets: []
   meshResolution: 10
   edgeResolveIterations: 3
