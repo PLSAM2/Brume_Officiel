@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 11900000}
-  - component: {fileID: 368272103}
   m_Layer: 1
-  m_Name: BlobShadowProjector
+  m_Name: Fog Projector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,23 +51,6 @@ Projector:
   m_IgnoreLayers:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &368272103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eeff59f765c91b4e9392def49c4f9f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fogTexture: {fileID: 8400000, guid: bfcae5bf0a923544b8ff8aeecd2c2518, type: 2}
-  blurShader: {fileID: 4800000, guid: f9d5fa183cd6b45eeb1491f74863cd91, type: 3}
-  upsample: 2
-  blur: 1
-  blendSpeed: 3
 --- !u!1 &626621456
 GameObject:
   m_ObjectHideFlags: 0
