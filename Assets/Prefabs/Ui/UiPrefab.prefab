@@ -1826,7 +1826,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4368336332123472598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
@@ -1861,6 +1861,7 @@ MonoBehaviour:
   - {fileID: 3896673474963214834}
   - {fileID: 5081701933709017580}
   - {fileID: 7773627807322282327}
+  maxPulledKillFeedElements: 3
 --- !u!1 &5033773353339605914
 GameObject:
   m_ObjectHideFlags: 0
@@ -4124,11 +4125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4144,7 +4145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4152,7 +4153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_Pivot.x
@@ -4166,6 +4167,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KillFeedElement (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5286902680450646760, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+      propertyPath: killFeedManager
+      value: 
+      objectReference: {fileID: 5374257044712492032}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
 --- !u!224 &4236438758418174836 stripped
@@ -4237,11 +4242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4257,7 +4262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4265,7 +4270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_Pivot.x
@@ -4279,6 +4284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KillFeedElement (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5286902680450646760, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+      propertyPath: killFeedManager
+      value: 
+      objectReference: {fileID: 5374257044712492032}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
 --- !u!224 &1706432335900642255 stripped
@@ -4471,11 +4480,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4491,7 +4500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4499,7 +4508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
       propertyPath: m_Pivot.x
@@ -4513,6 +4522,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KillFeedElement
       objectReference: {fileID: 0}
+    - target: {fileID: 5286902680450646760, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+      propertyPath: killFeedManager
+      value: 
+      objectReference: {fileID: 5374257044712492032}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
 --- !u!224 &5358383639351296874 stripped
