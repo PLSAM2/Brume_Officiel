@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using static GameData;
 
 public enum State : ushort
@@ -21,6 +22,7 @@ public class Interactible : MonoBehaviour
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
     [ReadOnly] public Team capturingTeam = Team.none;
+    protected PlayerModule capturingPlayerModule;
     public State state = State.Locked;
 
     protected Action<Team> capturedEvent;
@@ -29,6 +31,16 @@ public class Interactible : MonoBehaviour
     public Character[] authorizedCaptureCharacter = new Character[1];
     protected float timer = 0;
     protected bool isCapturing = false;
+
+    [Header("Color")]
+    [SerializeField] protected Color redTeamCaptureColor;
+    [SerializeField] protected Color blueTeamCaptureColor;
+    [SerializeField] protected Color canBeCapturedColor;
+    [SerializeField] protected Color noCaptureColor;
+
+    [Header("UI")]
+    [SerializeField] private Image fillImg;
+    [SerializeField] private Image zoneImg;
 
     protected UnityClient client;
 
@@ -44,6 +56,7 @@ public class Interactible : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         Capture();
+        fillImg.fillAmount = (timer / interactTime);
     }
 
     protected virtual void Capture()
@@ -76,13 +89,13 @@ public class Interactible : MonoBehaviour
         timer += progress;
     }
 
-    public virtual void TryCapture(Team team)
+    public virtual void TryCapture(Team team, PlayerModule capturingPlayer)
     {
         if (state != State.Capturable)
         {
             return;
         }
-
+        capturingPlayerModule = capturingPlayer;
         isCapturing = true;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -95,6 +108,8 @@ public class Interactible : MonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
+
+        UpdateTryCapture(team);
 
     }
 
@@ -118,6 +133,20 @@ public class Interactible : MonoBehaviour
         }
 
         timer = 0;
+
+
+        switch (team)
+        {
+            case Team.red:
+                SetColor(redTeamCaptureColor);
+                break;
+            case Team.blue:
+                SetColor(blueTeamCaptureColor);
+                break;
+            default:
+                Debug.Log("ERROR NO TEAM");
+                break;
+        }
     }
 
     public virtual void StopCapturing(Team team)
@@ -131,6 +160,19 @@ public class Interactible : MonoBehaviour
         {
             capturingTeam = Team.none;
             isCapturing = false;
+        }
+
+        if (team == capturingTeam)
+        {
+            if (state == State.Capturable)
+            {
+                SetColor(canBeCapturedColor);
+            }
+            else
+            {
+                SetColor(noCaptureColor);
+            }
+
         }
     }
 
@@ -148,12 +190,14 @@ public class Interactible : MonoBehaviour
             }
         }
         timer = 0;
+
+        UpdateCaptured(team);
     }
 
     public virtual void UpdateCaptured(Team team)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
-
+        fillImg.fillAmount = 0;
         isCapturing = false;
         state = State.Captured;
         timer = 0;
@@ -169,7 +213,15 @@ public class Interactible : MonoBehaviour
 
     protected virtual void Unlock()
     {
+        SetColor(canBeCapturedColor);
+        zoneImg.gameObject.SetActive(true);
         state = State.Capturable;
+    }
+
+    private void SetColor(Color color)
+    {
+        fillImg.color = new Color(color.r, color.g, color.b, fillImg.color.a);
+        zoneImg.color = new Color(color.r, color.g, color.b, zoneImg.color.a);
     }
 
 

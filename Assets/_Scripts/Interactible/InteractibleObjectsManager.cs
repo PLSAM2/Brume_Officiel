@@ -1,6 +1,7 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,11 @@ using static GameData;
 
 public class InteractibleObjectsManager : MonoBehaviour
 {
-    public List<Altar> altarList = new List<Altar>();
+    [BoxGroup]
+    [InfoBox("Chaque objet doit avoir un ID UNIQUE", InfoMessageType.Info)]
+    public List<Interactible> interactibleList = new List<Interactible>();
+
+    private List<Altar> altarList = new List<Altar>();
     public float firstAltarUnlockTime = 15;
 
     UnityClient client;
@@ -32,6 +37,15 @@ public class InteractibleObjectsManager : MonoBehaviour
             StartCoroutine(UnlockAltar());
         }
 
+        foreach (Interactible interactible in interactibleList)
+        {
+            if (interactible.GetType() == typeof(Altar))
+            {
+                altarList.Add((Altar)interactible);
+            }
+        }
+
+
         client.MessageReceived += MessageReceived;
     }
 
@@ -47,86 +61,97 @@ public class InteractibleObjectsManager : MonoBehaviour
         {
             if (message.Tag == Tags.TryCaptureInteractible)
             {
-                TryCaptureAltarInServer(sender, e);
+                TryCaptureInteractibleInServer(sender, e);
             }
             if (message.Tag == Tags.CaptureProgressInteractible)
             {
-                CaptureProgressAltarInServer(sender, e);
+                CaptureProgressInteractibleInServer(sender, e);
             }            
             if (message.Tag == Tags.CaptureInteractible)
             {
-                CaptureAltarInServer(sender, e);
+                CaptureInteractibleInServer(sender, e);
             }
             if (message.Tag == Tags.UnlockInteractible)
             {
-                UnlockAltarInServer(sender, e);
+                UnlockInteractibleInServer(sender, e);
             }
         }
     }
 
-    private void UnlockAltarInServer(object sender, MessageReceivedEventArgs e)
+    private void UnlockInteractibleInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _altarID = reader.ReadUInt16();
+                ushort _ID = reader.ReadUInt16();
 
-                Altar _altar = altarList[_altarID];
+                Interactible _interactible = interactibleList[_ID];
 
-                _altar.SetActiveState(true);
+                if (_interactible.GetType() == typeof(Altar))
+                {
+                    ((Altar)_interactible).SetActiveState(true);
+                }
             }
         }
     }
 
-    private void CaptureAltarInServer(object sender, MessageReceivedEventArgs e)
+    private void CaptureInteractibleInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _altarID = reader.ReadUInt16();
+                ushort _ID = reader.ReadUInt16();
                 Team _team = (Team)reader.ReadUInt16();
 
-                Altar _altar = altarList[_altarID];
+                Interactible _interactible = interactibleList[_ID];
 
-                _altar.UpdateCaptured(_team);
+                if (_interactible.GetType() == typeof(Altar))
+                {
+                    ((Altar)_interactible).UpdateCaptured(_team);
+                }
             }
         }
     }
 
-    private void TryCaptureAltarInServer(object sender, MessageReceivedEventArgs e)
+    private void TryCaptureInteractibleInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _altarID = reader.ReadUInt16();
+                ushort _ID = reader.ReadUInt16();
                 Team _team = (Team)reader.ReadUInt16();
 
-                Altar _altar = altarList[_altarID];
+                Interactible _interactible = interactibleList[_ID];
 
-                _altar.UpdateTryCapture(_team);
+
+                if (_interactible.GetType() == typeof(Altar))
+                {
+                    ((Altar)_interactible).UpdateTryCapture(_team);
+                }
             }
         }
 
     }
 
-    private void CaptureProgressAltarInServer(object sender, MessageReceivedEventArgs e)
+    private void CaptureProgressInteractibleInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _altarID = reader.ReadUInt16();
+                ushort _ID = reader.ReadUInt16();
                 float progress = reader.ReadSingle();
 
-                Altar _altar = altarList[_altarID];
+                Interactible _interactible = interactibleList[_ID];
 
-                _altar.ProgressInServer(progress);
+                if (_interactible.GetType() == typeof(Altar))
+                {
+                    ((Altar)_interactible).ProgressInServer(progress);
+                }
             }
-
-
         }
     }
 
