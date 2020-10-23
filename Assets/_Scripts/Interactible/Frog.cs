@@ -25,7 +25,13 @@ public class Frog : Interactible
     {
         base.Captured(team);
 
-        //Ajouter ward 
+        //Ajoute une ward 
+        if (capturingPlayerModule.GetComponent<WardModule>() != null)
+        {
+            capturingPlayerModule.GetComponent<WardModule>().AddCharge();
+        }
+
+
     }
 
 

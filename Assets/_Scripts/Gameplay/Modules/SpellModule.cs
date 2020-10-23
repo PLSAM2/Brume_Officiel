@@ -58,6 +58,9 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput += StartCanalysing;
+				break;
 		}
 		UiManager.Instance.SetupIcon(spell, actionLinked);
 		timeToResolveSpell = spell.canalisationTime;
@@ -83,6 +86,9 @@ public class SpellModule : MonoBehaviour
 				break;
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= StartCanalysing;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput -= StartCanalysing;
 				break;
 		}
 		startCanalisation -= StartCanalysingFeedBack;
@@ -139,7 +145,7 @@ public class SpellModule : MonoBehaviour
 		Interrupt();
 	}
 
-	public void DecreaseCooldown ()
+	public virtual void DecreaseCooldown ()
 	{
 		if(charges <  spell.numberOfCharge)
 		{
