@@ -134,7 +134,7 @@ public class CameraManager : MonoBehaviour
 
 	private void LateUpdate ()
 	{
-		if (isLocked)
+		if (isLocked && GameManager.Instance.gameStarted)
 		{
 			cameraLocker.transform.position = playerToFollow.transform.position;
 		}

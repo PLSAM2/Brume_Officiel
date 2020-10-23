@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_EnemyIconMinimap : MonoBehaviour
+public class EnemyIconMinimap : MonoBehaviour
 {
     public bool isRedTeam;
 
