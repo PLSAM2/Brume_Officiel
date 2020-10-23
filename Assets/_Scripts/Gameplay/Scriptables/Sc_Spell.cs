@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-[CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell")]
+[CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell/BaseSpell")]
 public class Sc_Spell : ScriptableObject
 {
     public float canalisationTime, movementModifier, range, cooldown;
