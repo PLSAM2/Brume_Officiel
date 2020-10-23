@@ -310,20 +310,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b86ecb81d74e440b1d725acee5b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactibleID: 0
   interactTime: 7
   isInteractable: 1
   capturingTeam: 0
   state: 0
   authorizedCaptureCharacter: 0a00
-  altarID: 0
-  life: 100
-  unlockTime: 5
   redTeamCaptureColor: {r: 1, g: 0, b: 0, a: 0}
   blueTeamCaptureColor: {r: 0, g: 0.0034604073, b: 1, a: 0}
-  contestCaptureColor: {r: 1, g: 0.9243814, b: 0, a: 0}
+  canBeCapturedColor: {r: 0.21382403, g: 1, b: 0, a: 0}
   noCaptureColor: {r: 1, g: 1, b: 1, a: 0}
   fillImg: {fileID: 606675981}
   zoneImg: {fileID: 22753861}
+  life: 100
+  unlockTime: 5
 --- !u!54 &5867301088352787088
 Rigidbody:
   m_ObjectHideFlags: 0

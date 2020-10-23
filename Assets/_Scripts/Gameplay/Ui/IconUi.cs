@@ -3,30 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class IconUi : MonoBehaviour
 {
 	[SerializeField] Image icon, outline, fillAmount;
+	[SerializeField] TextMeshProUGUI chargesSpot, cooldownCount;
 	[SerializeField] En_SpellInput typeOfSpell;
-	RectTransform myRectTransform;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
-	private void Start ()
-	{
-		myRectTransform = icon.GetComponent<RectTransform>();
-	}
 
-	public void SetSprite(Sprite _icon)
+	public void SetSprite ( Sprite _icon )
 	{
 		icon.sprite = _icon;
 	}
 
-	public void UpdateFillAmount(float _fill)
+	public void UpdateFillAmount ( float _cooldownRemaining , float _completeCd)
 	{
-		fillAmount.fillAmount = _fill;
+
+		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
+		{
+			//	cooldownCount.text = "" +  Mathf.RoundToInt(_cooldownRemaining).ToString();
+			fillAmount.fillAmount = _cooldownRemaining / _completeCd;
+
+		}
+		else
+		{
+			fillAmount.fillAmount = 0;
+			//cooldownCount.text = " ";
+		}
 	}
 
-	public void BeReady(bool _hiding, float _timeToWarmUp = .2f)
+	public void UpdatesChargesAmont ( int _numberOfCharges )
+	{
+		chargesSpot.text = _numberOfCharges.ToString();
+	}
+
+	public void BeReady ( bool _hiding, float _timeToWarmUp = .2f )
 	{
 		/* SACRE BORDEL A CORRIGER
 		if(isMoving == false)
