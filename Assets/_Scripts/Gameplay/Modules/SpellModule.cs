@@ -15,6 +15,19 @@ public class SpellModule : MonoBehaviour
 			_cooldown = value; UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
+	public int _charges;
+
+	[ReadOnly]
+	public int charges
+	{
+		get => _charges;
+		set
+		{
+			_charges = value;
+			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+		}
+	}
+
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false;
 	public Sc_Spell spell;
@@ -52,6 +65,7 @@ public class SpellModule : MonoBehaviour
 		startCanalisation += StartCanalysingFeedBack;
 		endCanalisation += ResolveSpellFeedback;
 
+		charges = spell.numberOfCharge;
 	}
 
 	public virtual void OnDisable ()
@@ -97,12 +111,19 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			if (charges == spell.numberOfCharge)
+				Cooldown = spell.cooldown;
+
+			charges -= 1;
+
 			recordedMousePosOnInput = _BaseMousePos;
 			myPlayerModule.state |= En_CharacterState.Canalysing;
 
 			startCanalisation?.Invoke();
-			Cooldown = spell.cooldown;
+		
 			isUsed = true;
+
+		
 		}
 	}
 
@@ -120,14 +141,24 @@ public class SpellModule : MonoBehaviour
 
 	public void DecreaseCooldown ()
 	{
-		if (Cooldown >= 0)
-			Cooldown -= Time.deltaTime;
+		if(charges <  spell.numberOfCharge)
+		{
+			if (Cooldown >= 0)
+				Cooldown -= Time.deltaTime;
+			else
+			{
+				charges += 1;
+				Cooldown = spell.cooldown;
+			}
+		}
+		
+
 	}
 
 	bool canBeCast ()
 	{
 		if ((myPlayerModule.state & En_CharacterState.Canalysing) != 0 ||
-			Cooldown > 0 || isUsed)
+			charges == 0 || isUsed)
 			return false;
 		else
 			return true;
