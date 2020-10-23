@@ -63,26 +63,26 @@ public class UiManager : MonoBehaviour
         switch (spell)
         {
             case En_SpellInput.FirstSpell:
-                firstSpell.UpdateFillAmount(_percentageRemaining);
+                firstSpell.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
                 CheckBeReady(_time, firstSpell, .2f);
                 break;
 
             case En_SpellInput.SecondSpell:
-                secondSpell.UpdateFillAmount(_percentageRemaining);
+                secondSpell.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
                 CheckBeReady(_time, secondSpell, .2f);
                 break;
 
             case En_SpellInput.ThirdSpell:
-                thirdSpell.UpdateFillAmount(_percentageRemaining);
+                thirdSpell.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
                 CheckBeReady(_time, thirdSpell, .2f);
                 break;
 
             case En_SpellInput.Maj:
-                sprintIcon.UpdateFillAmount(_percentageRemaining);
+                sprintIcon.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
                 break;
 
             case En_SpellInput.Click:
-                autoAttackIcon.UpdateFillAmount(_percentageRemaining);
+                autoAttackIcon.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
                 CheckBeReady(_time, autoAttackIcon, 0.05f);
                 break;
         }
@@ -120,6 +120,26 @@ public class UiManager : MonoBehaviour
         else
             _iconToPrep.BeReady(false, _timeToCheckShow);
     }
+
+    public void UpdateChargesUi(int _charges, En_SpellInput _spellInput)
+	{
+        switch(_spellInput)
+		{
+            case En_SpellInput.FirstSpell:
+                firstSpell.UpdatesChargesAmont(_charges);
+                break;
+            case En_SpellInput.SecondSpell:
+                secondSpell.UpdatesChargesAmont(_charges);
+                break;
+            case En_SpellInput.ThirdSpell:
+                thirdSpell.UpdatesChargesAmont(_charges);
+                break;
+            case En_SpellInput.Click:
+                autoAttackIcon.UpdatesChargesAmont(_charges);
+                break;
+
+        }
+	}
 
     public void SetAlphaBrume(float value)
     {
