@@ -62,7 +62,9 @@ public class KillFeedManager : MonoBehaviour
     }
 
     // Cette fonction est appelé à chaque fois qu'un KillFeedElement disparait et check si la file d'attente est vide.
-    // Une fois le KillFeedElement pullé, il faut le retirer de la liste et la réarranger, l'élément 1 doit devenir l'élément 0, L'élément 2 doit devenir l'élément 1 etc...
+    // Une fois le KillFeedElement pullé, il faut le retirer de la liste.
+
+    // /!\ C'EST ICI QUE LE BUG APPARAIT, Lorsqu'on lance pleins d'appels d'event et que la file d'attente se remplit, certains restent au mauvais endroit au lieu de disparaitre correctement.
 
     public void CheckKillFeedElementsToPull()
     {
@@ -92,7 +94,6 @@ public class KillFeedManager : MonoBehaviour
             NewEvent((character)Random.Range(0,2), (action)Random.Range(0, 2), (target)Random.Range(0, 4));
     }*/
 }
-
 
 public class killFeedElementToPull
 {

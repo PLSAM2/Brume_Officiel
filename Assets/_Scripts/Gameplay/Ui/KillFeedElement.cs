@@ -82,6 +82,7 @@ public class KillFeedElement : MonoBehaviour
         MoveIn();
     }
 
+    // Animation d'entrée, activée une fois l'initiation finie.
     private void MoveIn()
     {
         rectTransform.DOAnchorPos(new Vector2(0, -60), 0);
@@ -89,6 +90,7 @@ public class KillFeedElement : MonoBehaviour
         StartCoroutine(WaitAndMoveOut());
     }
 
+    // Animation de descente, pour laisser la place à un nouvel event, si le nombre d'event max n'est pas atteint.
     public void MoveDown()
     {
         if (moveDownCount < killFeedManager.maxPulledKillFeedElements)
@@ -98,6 +100,7 @@ public class KillFeedElement : MonoBehaviour
         }
     }
 
+    // Animation de sortie, une fois que le délais de vie est écoulé, et reset des variables concernées.
     private void MoveOut()
     {
         rectTransform.DOAnchorPos(InitPos, 0);
@@ -106,6 +109,7 @@ public class KillFeedElement : MonoBehaviour
         killFeedManager.CheckKillFeedElementsToPull();
     }
 
+    //Délais d'attente entre la vie et la mort de l'event.
     private IEnumerator WaitAndMoveOut()
     {
         yield return new WaitForSeconds(lifeTime);
