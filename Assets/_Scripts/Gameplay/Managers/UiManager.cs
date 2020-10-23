@@ -58,31 +58,30 @@ public class UiManager : MonoBehaviour
 
     public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
     {
-        float _percentageRemaining = _time / _completeCd;
 
         switch (spell)
         {
             case En_SpellInput.FirstSpell:
-                firstSpell.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
+                firstSpell.UpdateFillAmount( _time, _completeCd);
                 CheckBeReady(_time, firstSpell, .2f);
                 break;
 
             case En_SpellInput.SecondSpell:
-                secondSpell.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
+                secondSpell.UpdateFillAmount( _time, _completeCd);
                 CheckBeReady(_time, secondSpell, .2f);
                 break;
 
             case En_SpellInput.ThirdSpell:
-                thirdSpell.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
+                thirdSpell.UpdateFillAmount( _time, _completeCd);
                 CheckBeReady(_time, thirdSpell, .2f);
                 break;
 
             case En_SpellInput.Maj:
-                sprintIcon.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
+                sprintIcon.UpdateFillAmount( _time, _completeCd);
                 break;
 
             case En_SpellInput.Click:
-                autoAttackIcon.UpdateFillAmount(_percentageRemaining, _time, _completeCd);
+                autoAttackIcon.UpdateFillAmount( _time, _completeCd);
                 CheckBeReady(_time, autoAttackIcon, 0.05f);
                 break;
         }

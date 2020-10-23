@@ -100,7 +100,6 @@ public class SpellModule : MonoBehaviour
 					ResolveSpell(recordedMousePosOnInput);
 				else
 					ResolveSpell(myPlayerModule.mousePos());
-				Interrupt();
 			}
 		}
 		else
@@ -137,6 +136,7 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
 		endCanalisation?.Invoke();
+		Interrupt();
 	}
 
 	public void DecreaseCooldown ()
@@ -157,7 +157,7 @@ public class SpellModule : MonoBehaviour
 
 	bool canBeCast ()
 	{
-		if ((myPlayerModule.state & En_CharacterState.Canalysing) != 0 ||
+		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
 			return false;
 		else

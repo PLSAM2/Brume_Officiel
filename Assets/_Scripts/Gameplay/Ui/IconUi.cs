@@ -18,12 +18,14 @@ public class IconUi : MonoBehaviour
 		icon.sprite = _icon;
 	}
 
-	public void UpdateFillAmount ( float _fill, float _cooldownRemaining , float _completeCd)
+	public void UpdateFillAmount ( float _cooldownRemaining , float _completeCd)
 	{
+
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
-		//	cooldownCount.text = "" +  Mathf.RoundToInt(_cooldownRemaining).ToString();
-			fillAmount.fillAmount = _fill;
+			//	cooldownCount.text = "" +  Mathf.RoundToInt(_cooldownRemaining).ToString();
+			fillAmount.fillAmount = _cooldownRemaining / _completeCd;
+
 		}
 		else
 		{
