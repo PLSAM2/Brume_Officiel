@@ -47,7 +47,6 @@ Shader "Projector/Fog Of War" {
 			{
 				fixed a2 = tex2Dproj (_FogTex, UNITY_PROJ_COORD(i.uvShadow)).a;
 
-				//fixed a = a2 * _Blend;
 				fixed4 col = lerp(_Color, fixed4(1,1,1,1), a2);
 
 				UNITY_APPLY_FOG_COLOR(i.fogCoord, col, fixed4(1,1,1,1));

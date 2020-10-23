@@ -33,16 +33,13 @@ public class LocalPlayer : MonoBehaviour
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
 
-    [SerializeField] List<Material> matInBrume = new List<Material>();
-
-    [SerializeField] FieldOfViewOld fogScript;
-
-    public GameObject parentRenderer;
-    [SerializeField] EnemyDisplayer myDisplayer;
-
     private UnityClient currentClient;
     private Vector3 lastPosition;
     private Vector3 lastRotation;
+
+    //Fog
+    public GameObject myFog;
+    public FieldOfViewOld myFogScript;
 
     private void Awake()
     {
@@ -79,7 +76,7 @@ public class LocalPlayer : MonoBehaviour
         if (isOwner)
         {
             GameManager.Instance.ResetCam();
-            GameManager.Instance.myCam.m_Follow = transform;
+           // GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
 
             myPlayerModule.onSendMovement += OnPlayerMove;
@@ -87,14 +84,16 @@ public class LocalPlayer : MonoBehaviour
             circleDirection.SetActive(true);
             UiManager.Instance.myPlayerModule = myPlayerModule;
 
-            foreach (Material mat in matInBrume)
+            myFogScript.enabled = true;
+            myFog.SetActive(true);
+        }
+        else
+        {
+            if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
             {
-                mat.SetFloat("_Invert", 0);
-                mat.SetFloat("_Radius", 1);
+                myFogScript.enabled = true;
+                myFog.SetActive(true);
             }
-
-            fogScript.enabled = true;
-            myDisplayer.enabled = true;
         }
     }
 
@@ -158,7 +157,6 @@ public class LocalPlayer : MonoBehaviour
     {
         transform.position = newPos;
         transform.localEulerAngles = newRotation;
-     //   myAnimator.SetFloat("Forward", 1, 0.1f, Time.deltaTime);
     }
 
     public void OnRespawn()

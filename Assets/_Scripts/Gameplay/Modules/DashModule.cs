@@ -20,21 +20,42 @@ public class DashModule : SpellModule
 
 	public override void OnDisable ()
 	{
-        if (GetComponent<LocalPlayer>().isOwner)
+        if (myPlayerModule.mylocalPlayer.isOwner)
         {
 			startCanalisation -= ShowPreview;
 			endCanalisation -= ClearPreview;
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
-
 	}
 	public override void ResolveSpell ( Vector3 _mousePosition )
 	{
 
 		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
 		ForcedMovement dashInfos = new ForcedMovement();
-		dashInfos.duration = _localTraduction.timeToReachMaxRange;
+
+		if (_localTraduction.adaptiveRange)
+		{
+			float speedOfDash = _localTraduction.range / _localTraduction.timeToReachMaxRange;
+
+			if (spell.useLastRecordedMousePos)
+			{
+			/*	dashInfos.duration = Vector3.Distance(recordedMousePosOnInput, transform.position)/ speedOfDash;
+				print(dashInfos.duration);*/
+
+			}
+			else
+			{
+				/*dashInfos.duration = (_localTraduction.range / _localTraduction.timeToReachMaxRange) / Vector3.Distance(myPlayerModule.mousePos(), transform.position);*/
+
+			}
+		}
+		else
+		{
+			dashInfos.duration = _localTraduction.timeToReachMaxRange;
+		}
+
 		dashInfos.strength = _localTraduction.range / dashInfos.duration;
+
 
 		if (spell.useLastRecordedMousePos)
 		{
@@ -44,7 +65,6 @@ public class DashModule : SpellModule
 		{
 			dashInfos.direction = myPlayerModule.mousePos() - transform.position;
 		}
-
 		myPlayerModule.forcedMovementAdded(dashInfos);
 		base.ResolveSpell(_mousePosition);
 
@@ -53,15 +73,32 @@ public class DashModule : SpellModule
 	public virtual void ShowPreview ()
 	{
 		mylineRender.positionCount += 1;
-		if (spell.useLastRecordedMousePos)
+		float range;
+		
+		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
+
+		if (_localTraduction.adaptiveRange)
 		{
-			mylineRender.SetPosition(1, transform.position + Vector3.Normalize(recordedMousePosOnInput - transform.position) * spell.range);
+			if (spell.useLastRecordedMousePos)
+			{
+				mylineRender.SetPosition(1, transform.position + (recordedMousePosOnInput - transform.position));
+			}
+			else
+			{
+				mylineRender.SetPosition(1, transform.position + (myPlayerModule.mousePos() - transform.position));
+			}
 		}
 		else
 		{
-			mylineRender.SetPosition(1, transform.position + Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range);
+			if (spell.useLastRecordedMousePos)
+			{
+				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(recordedMousePosOnInput - transform.position) * spell.range);
+			}
+			else
+			{
+				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range);
+			}
 		}
-
 		mylineRender.DOColor(new Color2(startColorPreview, startColorPreview), new Color2(endColorPreview, endColorPreview), spell.canalisationTime);
 	}
 
