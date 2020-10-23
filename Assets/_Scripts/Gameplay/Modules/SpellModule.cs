@@ -191,5 +191,6 @@ public enum En_SpellInput
 	SecondSpell,
 	ThirdSpell,
 	Click,
-	Maj
+	Maj,
+	Ward
 }

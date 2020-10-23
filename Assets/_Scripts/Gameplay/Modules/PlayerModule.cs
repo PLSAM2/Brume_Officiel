@@ -13,6 +13,7 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode firstSpellKey = KeyCode.A;
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
 	public KeyCode interactKey = KeyCode.F;
+	public KeyCode wardKey = KeyCode.Alpha4;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
@@ -37,7 +38,7 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
-	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick;
+	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, ward;
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
@@ -51,8 +52,8 @@ public class PlayerModule : MonoBehaviour
 
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
-	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
+	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, wardInputReleased;
 	//run
 	public Action toggleRunning, stopRunning;
 	//otherMovements
@@ -97,6 +98,7 @@ public class PlayerModule : MonoBehaviour
 			secondSpell?.SetupComponent();
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
+			ward?.SetupComponent();
 
 			GameManager.PlayerSpawned.Invoke(this);
 		}
@@ -131,6 +133,8 @@ public class PlayerModule : MonoBehaviour
 				secondSpellInput?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
 				thirdSpellInput?.Invoke(mousePos());
+			else if (Input.GetKeyDown(wardKey))
+				wardInput?.Invoke(mousePos());
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0)
 			{
@@ -145,7 +149,10 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyDown(secondSpellKey))
 				secondSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
-				thirdSpellInputRealeased?.Invoke(mousePos());
+				thirdSpellInputRealeased?.Invoke(mousePos());			
+			else if (Input.GetKeyDown(wardKey))
+				wardInputReleased?.Invoke(mousePos());
+
 
 			if (Input.GetKeyDown(interactKey))
 			{
@@ -154,7 +161,7 @@ public class PlayerModule : MonoBehaviour
 					if (interactible == null)
 						return;
 
-					interactible.TryCapture(teamIndex);
+					interactible.TryCapture(teamIndex, this);
 				}
 			}
 			else if (Input.GetKeyUp(interactKey))
