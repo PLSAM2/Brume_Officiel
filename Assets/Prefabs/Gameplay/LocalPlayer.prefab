@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 4705339813984825636}
   - component: {fileID: -3939077042609495558}
   - component: {fileID: 1217320960498770133}
-  - component: {fileID: 6674073701188791837}
   - component: {fileID: 8281150123794309746}
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
   - component: {fileID: 6020452266926908102}
+  - component: {fileID: 6674073701188791837}
   - component: {fileID: 7642602275245690328}
   m_Layer: 8
   m_Name: LocalPlayer
@@ -102,32 +102,6 @@ MonoBehaviour:
   life: {fileID: 8177495112107496326}
   myFog: {fileID: 466112710899532364}
   myFogScript: {fileID: 6020452266926908102}
---- !u!114 &6674073701188791837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327ddf0e40e63304599be44252132c60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
-  actionLinked: 1
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  mylineRender: {fileID: 2550331642934917765}
-  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
-  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
-  characterLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +139,7 @@ MonoBehaviour:
   thirdSpellKey: 114
   freeCamera: 32
   interactKey: 102
-  wardKey: 52
+  wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   mainCam: {fileID: 0}
@@ -186,7 +160,7 @@ MonoBehaviour:
   secondSpell: {fileID: 6674073701188791837}
   thirdSpell: {fileID: 0}
   leftClick: {fileID: 0}
-  ward: {fileID: 0}
+  ward: {fileID: 7642602275245690328}
   coll: {fileID: 8154408291484997990}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
@@ -230,6 +204,33 @@ MonoBehaviour:
   edgeDstThreshold: 4
   maskCutawayDst: 0
   viewMeshFilter: {fileID: 466112710899532360}
+--- !u!114 &6674073701188791837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327ddf0e40e63304599be44252132c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  _charges: 0
+  isUsed: 0
+  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
+  actionLinked: 1
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
+  mylineRender: {fileID: 2550331642934917765}
+  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
+  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &7642602275245690328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,12 +245,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  _charges: 0
   isUsed: 0
-  spell: {fileID: 0}
+  spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   actionLinked: 5
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
+  launchCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0013847351
+      inSlope: 4.0423255
+      outSlope: 4.0423255
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49664783
+      value: 2.008997
+      inSlope: 0.009083529
+      outSlope: 0.009083529
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17882842
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0007167
+      value: -0.0011343956
+      inSlope: -3.987811
+      outSlope: -3.987811
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wardPrefab: {fileID: 1785922920789865436, guid: 1925b94b1d7ce1f4ab12e6cd5a1114bf, type: 3}
+  wardSpeed: 1
+  isLaunched: 0
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0

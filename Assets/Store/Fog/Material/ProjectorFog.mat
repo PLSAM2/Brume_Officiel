@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ProjectorFog
   m_Shader: {fileID: 4800000, guid: 89e4cb9199094e2458ec4a29d8fd9466, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: FSR_PROJECTOR_FOR_LWRP _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FogTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8400000, guid: bfcae5bf0a923544b8ff8aeecd2c2518, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -81,6 +81,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.19117647, g: 0.19117647, b: 0.19117647, a: 1}
+    - _Color: {r: 0.3773585, g: 0.36845854, b: 0.36845854, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
