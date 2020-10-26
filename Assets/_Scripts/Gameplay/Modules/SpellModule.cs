@@ -6,7 +6,10 @@ using Sirenix.OdinInspector;
 
 public class SpellModule : MonoBehaviour
 {
+	En_CharacterState stateAtStart;
+
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
+
 	[ReadOnly]
 	public float Cooldown
 	{
@@ -68,7 +71,7 @@ public class SpellModule : MonoBehaviour
 		charges = spell.numberOfCharge;
 	}
 
-	public virtual void OnDisable ()
+	protected virtual void OnDisable ()
 	{
 		switch (actionLinked)
 		{
@@ -89,7 +92,7 @@ public class SpellModule : MonoBehaviour
 		endCanalisation -= ResolveSpellFeedback;
 	}
 
-	public virtual void Update ()
+	protected virtual void Update ()
 	{
 		if (isUsed)
 		{
@@ -106,10 +109,13 @@ public class SpellModule : MonoBehaviour
 			DecreaseCooldown();
 	}
 
-	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
+	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
+
 		if (canBeCast())
 		{
+			stateAtStart = myPlayerModule.state;
+
 			if (charges == spell.numberOfCharge)
 				Cooldown = spell.cooldown;
 
@@ -121,8 +127,6 @@ public class SpellModule : MonoBehaviour
 			startCanalisation?.Invoke();
 		
 			isUsed = true;
-
-		
 		}
 	}
 
@@ -132,9 +136,11 @@ public class SpellModule : MonoBehaviour
 		currentTimeCanalised = 0;
 	}
 
-	public virtual void ResolveSpell ( Vector3 _mousePosition )
+	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
-		myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
+		if((stateAtStart & En_CharacterState.Canalysing ) == 0)
+			myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
+
 		endCanalisation?.Invoke();
 		Interrupt();
 	}

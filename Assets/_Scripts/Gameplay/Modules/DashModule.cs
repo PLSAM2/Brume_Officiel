@@ -18,7 +18,7 @@ public class DashModule : SpellModule
 		myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 	}
 
-	public override void OnDisable ()
+	protected override void OnDisable ()
 	{
         if (myPlayerModule.mylocalPlayer.isOwner)
         {
@@ -27,7 +27,7 @@ public class DashModule : SpellModule
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
 	}
-	public override void ResolveSpell ( Vector3 _mousePosition )
+	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
 
 		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
@@ -120,7 +120,7 @@ public class DashModule : SpellModule
 		}
 	}
 
-	public override void Update ()
+	protected override void Update ()
 	{
 		base.Update();
 

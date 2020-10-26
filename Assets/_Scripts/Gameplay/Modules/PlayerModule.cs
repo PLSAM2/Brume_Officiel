@@ -272,12 +272,8 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
-	public DamagesParameters damages;
-	public string playerName;
+	public ushort damageHealth;
+
+	[HideInInspector] public string playerName;
 }
 
-[System.Serializable]
-public class DamagesParameters
-{
-	public ushort damageHealth;
-}

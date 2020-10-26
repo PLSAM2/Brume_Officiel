@@ -168,13 +168,13 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-        liveHealth -= _damagesToDeal.damages.damageHealth;
+        liveHealth -= _damagesToDeal.damageHealth;
         UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(myPlayerId);
-            _writer.Write(_damagesToDeal.damages.damageHealth);
+            _writer.Write(_damagesToDeal.damageHealth);
             using (Message _message = Message.Create(Tags.Damages, _writer))
             {
                 currentClient.SendMessage(_message, SendMode.Reliable);

@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
+
 
 public class Projectile : MonoBehaviour
 {
 
-	ProjectileInfos myInfos;
-	
+	[ReadOnly] public St_ProjectileInfos myInfos;
+	Team team;
 
-	public void SetupProjectile( ProjectileInfos _infos )
+	public void SetupProjectile( St_ProjectileInfos _infos , Team _teamIndex )
 	{
 		myInfos.myDamages = _infos.myDamages;
+		team = _teamIndex;
 	}
 
 	private void OnCollisionEnter ( Collision collision )
@@ -19,9 +23,14 @@ public class Projectile : MonoBehaviour
 
 		if(playerHit != null)
 		{
-			playerHit.DealDamages(myInfos.myDamages);
+			if (playerHit.myPlayerModule.teamIndex != team)
+			{
+				playerHit.DealDamages(myInfos.myDamages);
+				Destroy();
+			}
+			else
+				return;
 		}
-
 		Destroy();
 	}
 
@@ -45,7 +54,8 @@ public class Projectile : MonoBehaviour
 	}
 }
 
-public class ProjectileInfos
+[System.Serializable]
+public struct St_ProjectileInfos
 {
 	public DamagesInfos myDamages;
 	public Vector3 myDirection;

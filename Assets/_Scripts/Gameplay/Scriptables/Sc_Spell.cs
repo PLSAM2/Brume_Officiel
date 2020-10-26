@@ -13,6 +13,4 @@ public class Sc_Spell : ScriptableObject
     [InfoBox("Utilise la position de la souris au moment de l'input et pas de la réalisation du sort")] public bool useLastRecordedMousePos;
     public Sprite spellIcon;
     public int numberOfCharge;
-
-    public DamagesParameters damagesToDeal;
 }
