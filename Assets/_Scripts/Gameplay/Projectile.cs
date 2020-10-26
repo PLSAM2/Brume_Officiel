@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
 	SphereCollider myColl;
 	[SerializeField] LayerMask layerToHit;
 	[SerializeField] GameObject feedBackTouch;
-
+	[SerializeField] Sc_ProjectileSpell spellRule;
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
@@ -101,6 +101,14 @@ public class Projectile : MonoBehaviour
 	void Destroy ()
 	{
 		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
+	}
+
+	[Button]
+	void SetupPrefab ()
+	{
+		myInfos.myDamages.damageHealth = spellRule.projParameters.myDamages.damageHealth;
+		myInfos.mySpeed = spellRule.range / spellRule.timeToReachMaxRange;
+		myInfos.myLifeTime = spellRule.timeToReachMaxRange;
 	}
 }
 
