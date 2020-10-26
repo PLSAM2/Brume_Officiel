@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4046907593915369113}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 3019420767287029772}
   m_Father: {fileID: 5237070312135978756}
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7ad3012cff9dba34aa47105ca7d838fc, type: 2}
+  - {fileID: 2100000, guid: 5b071e1ff6a3acb43a8050b5a3d79eb0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,8 +126,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
-  m_Height: 1
+  m_Radius: 0.1
+  m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1984787125783616747
@@ -163,7 +163,7 @@ MonoBehaviour:
       playerName: 
     mySpeed: 10
     myLifeTime: 1
-  team: 20
+  team: 10
   layerToHit:
     serializedVersion: 2
     m_Bits: 768
@@ -242,7 +242,7 @@ TrailRenderer:
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.15
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -269,8 +269,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0, a: 1}
-      key1: {r: 1, g: 0.033018887, b: 0.033018887, a: 1}
+      key0: {r: 0.050980397, g: 0.20000002, b: 1, a: 1}
+      key1: {r: 0.050980397, g: 0.20000002, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
