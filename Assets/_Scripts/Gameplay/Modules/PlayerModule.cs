@@ -7,13 +7,13 @@ using System.Net.Http.Headers;
 using DG.Tweening;
 using static GameData;
 
-
 public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
-	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R;
-
+	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
+	public KeyCode interactKey = KeyCode.F;
+	public KeyCode wardKey = KeyCode.Alpha4;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
@@ -34,13 +34,15 @@ public class PlayerModule : MonoBehaviour
 	public GameObject visionObj;
 	public GameObject sonar;
 	public LayerMask brumeLayer;
+	[SerializeField] SpriteRenderer mapIcon;
 
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
-	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick;
+	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, ward;
 	[SerializeField] CapsuleCollider coll;
 	[ReadOnly] public LocalPlayer mylocalPlayer;
 
+	public List<Interactible> interactiblesClose = new List<Interactible>();
 
 	//animations local des autres joueurs
 	//Vector3 oldPos;
@@ -50,8 +52,8 @@ public class PlayerModule : MonoBehaviour
 
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput;
-	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
+	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, wardInputReleased;
 	//run
 	public Action toggleRunning, stopRunning;
 	//otherMovements
@@ -62,12 +64,30 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	#endregion
 
-	void Start ()
+	void Awake ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
+		GameManager.AllCharacterSpawned += Setup;
+		if (GameManager.Instance.gameStarted)
+			Setup();
+
+	//	oldPos = transform.position;
+	}
+
+	private void OnDestroy ()
+	{
+		if (!mylocalPlayer.isOwner)
+		{
+			revelationCheck -= CheckForBrumeRevelation;
+		}
+	}
+
+	void Setup()
+	{
 		if (mylocalPlayer.isOwner)
 		{
+			mapIcon.color = Color.blue;
 			//visionPArt
 			visionObj.SetActive(true);
 
@@ -78,20 +98,20 @@ public class PlayerModule : MonoBehaviour
 			secondSpell?.SetupComponent();
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
+			ward?.SetupComponent();
+
+			GameManager.PlayerSpawned.Invoke(this);
 		}
 		else
 		{
+			if (teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+				mapIcon.color = Color.green;
+			else
+				mapIcon.color = Color.red;
+
 			revelationCheck += CheckForBrumeRevelation;
 			CheckForBrumeRevelation();
-		}
-	//	oldPos = transform.position;
-	}
 
-	private void OnDestroy ()
-	{
-		if (!mylocalPlayer.isOwner)
-		{
-			revelationCheck -= CheckForBrumeRevelation;
 		}
 	}
 
@@ -113,6 +133,8 @@ public class PlayerModule : MonoBehaviour
 				secondSpellInput?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
 				thirdSpellInput?.Invoke(mousePos());
+			else if (Input.GetKeyDown(wardKey))
+				wardInput?.Invoke(mousePos());
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0)
 			{
@@ -127,8 +149,38 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyDown(secondSpellKey))
 				secondSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
-				thirdSpellInputRealeased?.Invoke(mousePos());
-			#endregion
+				thirdSpellInputRealeased?.Invoke(mousePos());			
+			else if (Input.GetKeyDown(wardKey))
+				wardInputReleased?.Invoke(mousePos());
+
+
+			if (Input.GetKeyDown(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+				{
+					if (interactible == null)
+						return;
+
+					interactible.TryCapture(teamIndex, this);
+				}
+			}
+			else if (Input.GetKeyUp(interactKey))
+			{
+				foreach (Interactible interactible in interactiblesClose)
+                {
+					if (interactible == null)
+						return;
+
+					interactible.StopCapturing(teamIndex);
+				}
+			}
+				#endregion
+
+				//camera
+				if (Input.GetKeyUp(freeCamera))
+				CameraManager.LockCamera.Invoke();
+			else if (Input.GetKey(freeCamera))
+				CameraManager.UpdateCameraPos();
 		}
 		else
 			return;

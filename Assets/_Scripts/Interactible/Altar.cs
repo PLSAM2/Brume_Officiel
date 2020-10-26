@@ -1,56 +1,44 @@
-﻿using System.Collections;
+﻿
+using DarkRift;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 
-public enum AltarState : ushort
-{
-    Locked = 0,
-    Capturable = 1,
-    Captured = 2
-}
+
 
 public class Altar : Interactible
 {
     [Header("Altar properties")]
-    public AltarState altarState = AltarState.Locked;
-    public Character[] authorizedCaptureCharacter = new Character[1];
-    public Team teamOwner = Team.none;
-
     public int life;
     public float unlockTime;
 
-    [SerializeField] private Image fillImg;
     void Start()
     {
-        base.capturedEvent += Captured;
-
         base.Init();
-
+        base.capturedEvent += Captured;
+        base.leaveEvent += StopCapturing;
         isInteractable = false;
     }
 
-    protected override void Update()
+    private void OnDisable()
     {
-        if (altarState == AltarState.Capturable)
-        {
-            base.Update();
-
-            fillImg.fillAmount = (timer / interactTime);
-        }
-
+        base.capturedEvent -= Captured;
+        base.leaveEvent -= StopCapturing;
     }
 
-    protected override void Captured()
+    public override void UpdateCaptured(Team team)
     {
-        altarState = AltarState.Captured;
-        fillImg.fillAmount = 0;
+        // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
+        base.UpdateCaptured(team);
+
+        // Detruire ici
     }
 
-    public void SetActiveState(bool value)
+    public override void SetActiveState(bool value)
     {
-        isInteractable = value;
+        base.SetActiveState(value);
 
         if (value)
         {
@@ -62,16 +50,10 @@ public class Altar : Interactible
     {
         yield return new WaitForSeconds(unlockTime);
 
-        Unlock();
+        base.Unlock();
     }
 
-    private void Unlock()
-    {
-        altarState = AltarState.Capturable;
 
-    }
-    void Destroy()
-    {
 
-    }
+
 }

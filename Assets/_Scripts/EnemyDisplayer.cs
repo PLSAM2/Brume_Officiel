@@ -50,7 +50,7 @@ public class EnemyDisplayer : MonoBehaviour
 
     void HideOrShow(LocalPlayer p, bool value)
     {
-        p.parentRenderer.SetActive(value);
+        //p.parentRenderer.SetActive(value);
         p.canvas.SetActive(value);
     }
 }

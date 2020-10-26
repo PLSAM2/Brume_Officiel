@@ -15,6 +15,19 @@ public class SpellModule : MonoBehaviour
 			_cooldown = value; UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
+	public int _charges;
+
+	[ReadOnly]
+	public int charges
+	{
+		get => _charges;
+		set
+		{
+			_charges = value;
+			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+		}
+	}
+
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false;
 	public Sc_Spell spell;
@@ -45,6 +58,9 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput += StartCanalysing;
+				break;
 		}
 		UiManager.Instance.SetupIcon(spell, actionLinked);
 		timeToResolveSpell = spell.canalisationTime;
@@ -52,6 +68,7 @@ public class SpellModule : MonoBehaviour
 		startCanalisation += StartCanalysingFeedBack;
 		endCanalisation += ResolveSpellFeedback;
 
+		charges = spell.numberOfCharge;
 	}
 
 	public virtual void OnDisable ()
@@ -70,6 +87,9 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= StartCanalysing;
 				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput -= StartCanalysing;
+				break;
 		}
 		startCanalisation -= StartCanalysingFeedBack;
 		endCanalisation -= ResolveSpellFeedback;
@@ -86,7 +106,6 @@ public class SpellModule : MonoBehaviour
 					ResolveSpell(recordedMousePosOnInput);
 				else
 					ResolveSpell(myPlayerModule.mousePos());
-				Interrupt();
 			}
 		}
 		else
@@ -97,12 +116,19 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			if (charges == spell.numberOfCharge)
+				Cooldown = spell.cooldown;
+
+			charges -= 1;
+
 			recordedMousePosOnInput = _BaseMousePos;
 			myPlayerModule.state |= En_CharacterState.Canalysing;
 
 			startCanalisation?.Invoke();
-			Cooldown = spell.cooldown;
+		
 			isUsed = true;
+
+		
 		}
 	}
 
@@ -116,18 +142,29 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
 		endCanalisation?.Invoke();
+		Interrupt();
 	}
 
-	public void DecreaseCooldown ()
+	public virtual void DecreaseCooldown ()
 	{
-		if (Cooldown >= 0)
-			Cooldown -= Time.deltaTime;
+		if(charges <  spell.numberOfCharge)
+		{
+			if (Cooldown >= 0)
+				Cooldown -= Time.deltaTime;
+			else
+			{
+				charges += 1;
+				Cooldown = spell.cooldown;
+			}
+		}
+		
+
 	}
 
 	bool canBeCast ()
 	{
-		if ((myPlayerModule.state & En_CharacterState.Canalysing) != 0 ||
-			Cooldown > 0 || isUsed)
+		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
+			charges == 0 || isUsed)
 			return false;
 		else
 			return true;
@@ -160,5 +197,6 @@ public enum En_SpellInput
 	SecondSpell,
 	ThirdSpell,
 	Click,
-	Maj
+	Maj,
+	Ward
 }
