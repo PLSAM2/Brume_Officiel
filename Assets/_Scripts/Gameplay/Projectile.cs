@@ -10,13 +10,13 @@ public class Projectile : MonoBehaviour
 
 	[ReadOnly] public St_ProjectileInfos myInfos;
 	[SerializeField] Team team;
-	CapsuleCollider myColl;
+	SphereCollider myColl;
 	[SerializeField] LayerMask layerToHit;
-
+	[SerializeField] GameObject feedBackTouch;
 
 	private void Start ()
 	{
-		myColl = GetComponent<CapsuleCollider>();
+		myColl = GetComponent<SphereCollider>();
 	}
 
 	/*private void OnCollisionEnter ( Collision collision )
@@ -43,12 +43,11 @@ public class Projectile : MonoBehaviour
 
 	void CustomCollision ()
 	{
-		RaycastHit[] _hits = Physics.CapsuleCastAll(transform.position + transform.forward / myColl.height / 2, transform.position - transform.forward / myColl.height / 2, myColl.radius, transform.forward, Time.deltaTime, layerToHit);
+		RaycastHit[] _hits = Physics.SphereCastAll(transform.position, myColl.radius, transform.forward, .1f, layerToHit);
 
-		Debug.DrawRay(transform.position, transform.position - transform.forward / myColl.height / 2 - transform.position + transform.forward / myColl.height / 2, Color.red, 10);
 
 		bool _mustDestroy = false;
-
+		Vector3 _PosToSpawn = Vector3.zero;
 		if (_hits.Length > 0)
 		{
 			for(int i = 0; i < _hits.Length; i++)
@@ -62,6 +61,8 @@ public class Projectile : MonoBehaviour
 					{
 						playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
 						_mustDestroy = true;
+						_PosToSpawn = _hits[i].point;
+						return;
 					}
 					else
 						return;
@@ -69,6 +70,7 @@ public class Projectile : MonoBehaviour
 				else
 				{
 					print(_hits[i].collider.name);
+					_PosToSpawn = _hits[i].point;
 					_mustDestroy = true;
 				}
 
@@ -77,7 +79,13 @@ public class Projectile : MonoBehaviour
 		}
 
 		if (_mustDestroy)
+
+		{
+			if(_PosToSpawn != Vector3.zero)
+				Instantiate(feedBackTouch, _PosToSpawn, Quaternion.identity);
+
 			Destroy();
+		}
 	}
 
 	private void FixedUpdate ()
@@ -85,6 +93,7 @@ public class Projectile : MonoBehaviour
 		myInfos.myLifeTime -= Time.fixedDeltaTime;
 		if (myInfos.myLifeTime <= 0)
 		{
+			print("OUtOFTIme");
 			Destroy();
 		}
 	}
