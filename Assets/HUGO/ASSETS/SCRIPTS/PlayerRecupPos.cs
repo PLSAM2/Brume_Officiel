@@ -20,7 +20,7 @@ public class PlayerRecupPos : MonoBehaviour
 
     void Update()
     {
-        Vector4 _tempVector = new Vector4(myPlayer.position.x, myPlayer.position.y, myPlayer.position.z, 0);
-        _myInstanceMat.SetVector("_Character_Position", _tempVector);
+      //Vector4 _tempVector = new Vector4(myPlayer.position.x, myPlayer.position.y, myPlayer.position.z, 0);
+        _myInstanceMat.SetVector("_Character_Position", myPlayer.position);
     }
 }
