@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GameData;
 public class ModuleProjectileSpell : SpellModule
 {
-	[SerializeField] Sc_ProjectileSpell spellParameters;
 	Sc_ProjectileSpell spellProj; //plus facile a lire dans le script
 	Vector3 _direction;
 	int shotRemainingInSalve;
@@ -39,28 +38,34 @@ public class ModuleProjectileSpell : SpellModule
 
 		if (shooting == true)
 		{
+			isUsed = false;
 			timeBetweenShot -= Time.deltaTime;
-
 			if (timeBetweenShot <= 0)
 			{
 				if (spell.useLastRecordedMousePos)
-					ShootProjectile(Vector3.Normalize(_direction), transform.forward);
+					ShootProjectile(transform.forward + transform.position);
 				else
-					ShootProjectile(Vector3.Normalize(myPlayerModule.mousePos() - transform.position), transform.forward);
-
+					ShootProjectile(transform.forward + transform.position);
 			}
 		}
 	}
-	void ShootProjectile ( Vector3 _direction, Vector3 _posToSet )
+	void ShootProjectile ( Vector3 _posToSet )
 	{
 		timeBetweenShot = spellProj.delayBetweenShot;
 		shotRemainingInSalve--;
 		if (shotRemainingInSalve <= 0)
-			shooting = false;
-		//REZO A IMPLEMENTER
-		//GameObject =  NetworkObjectsManager.Instance.NetworkInstantiate(12, _posToSet, transform.rotation.eulerAngles);
-		Projectile _proj = Instantiate(spellProj.prefab, _posToSet, transform.rotation);
-		_proj.myInfos.myDirection = _direction;
+			Interrupt();
 
+
+		if(myPlayerModule.teamIndex == Team.blue)
+			NetworkObjectsManager.Instance.NetworkInstantiate(12, _posToSet, transform.rotation.eulerAngles);
+		else
+			NetworkObjectsManager.Instance.NetworkInstantiate(13, _posToSet, transform.rotation.eulerAngles);
+	}
+
+	public override void Interrupt ()
+	{
+		base.Interrupt();
+		shooting = false;
 	}
 }

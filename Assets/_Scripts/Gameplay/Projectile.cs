@@ -9,15 +9,17 @@ public class Projectile : MonoBehaviour
 {
 
 	[ReadOnly] public St_ProjectileInfos myInfos;
-	Team team;
+	[SerializeField] Team team;
+	CapsuleCollider myColl;
+	[SerializeField] LayerMask layerToHit;
 
-	public void SetupProjectile( St_ProjectileInfos _infos , Team _teamIndex )
+
+	private void Start ()
 	{
-		myInfos.myDamages = _infos.myDamages;
-		team = _teamIndex;
+		myColl = GetComponent<CapsuleCollider>();
 	}
 
-	private void OnCollisionEnter ( Collision collision )
+	/*private void OnCollisionEnter ( Collision collision )
 	{
 		LocalPlayer playerHit = collision.gameObject.GetComponent<LocalPlayer>();
 
@@ -25,30 +27,69 @@ public class Projectile : MonoBehaviour
 		{
 			if (playerHit.myPlayerModule.teamIndex != team)
 			{
-				playerHit.DealDamages(myInfos.myDamages);
-				Destroy();
+
 			}
 			else
 				return;
 		}
 		Destroy();
-	}
+	}*/
 
 	private void Update ()
 	{
-		transform.position += myInfos.mySpeed * myInfos.myDirection * Time.deltaTime;
+		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
+		CustomCollision();
+	}
+
+	void CustomCollision ()
+	{
+		RaycastHit[] _hits = Physics.CapsuleCastAll(transform.position + transform.forward / myColl.height / 2, transform.position - transform.forward / myColl.height / 2, myColl.radius, transform.forward, Time.deltaTime, layerToHit);
+
+		Debug.DrawRay(transform.position, transform.position - transform.forward / myColl.height / 2 - transform.position + transform.forward / myColl.height / 2, Color.red, 10);
+
+		bool _mustDestroy = false;
+
+		if (_hits.Length > 0)
+		{
+			for(int i = 0; i < _hits.Length; i++)
+			{
+
+				PlayerModule playerHit = _hits[i].collider.GetComponent<PlayerModule>();
+
+				if (playerHit != null)
+				{
+					if (playerHit.teamIndex != team)
+					{
+						playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+						_mustDestroy = true;
+					}
+					else
+						return;
+				}
+				else
+				{
+					print(_hits[i].collider.name);
+					_mustDestroy = true;
+				}
+
+
+			}
+		}
+
+		if (_mustDestroy)
+			Destroy();
 	}
 
 	private void FixedUpdate ()
 	{
 		myInfos.myLifeTime -= Time.fixedDeltaTime;
-		if(myInfos.myLifeTime <=0)
+		if (myInfos.myLifeTime <= 0)
 		{
 			Destroy();
 		}
 	}
 
-	void Destroy()
+	void Destroy ()
 	{
 		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
 	}
@@ -58,6 +99,5 @@ public class Projectile : MonoBehaviour
 public struct St_ProjectileInfos
 {
 	public DamagesInfos myDamages;
-	public Vector3 myDirection;
-	[HideInInspector] public float mySpeed, myLifeTime;
+	[ReadOnly] public float mySpeed, myLifeTime;
 }

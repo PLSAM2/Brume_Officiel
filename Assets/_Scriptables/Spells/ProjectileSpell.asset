@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: ProjectileSpell
   m_EditorClassIdentifier: 
-  canalisationTime: 0.2
+  canalisationTime: 0.1
   movementModifier: 0
   range: 10
   cooldown: 1
@@ -21,17 +21,14 @@ MonoBehaviour:
   useLastRecordedMousePos: 0
   spellIcon: {fileID: 21300000, guid: ac378749b253b074b932b863293d0f7f, type: 3}
   numberOfCharge: 1
-  damagesToDeal:
-    damageHealth: 5
   projParameters:
     myDamages:
-      damages:
-        damageHealth: 0
+      damageHealth: 5
       playerName: 
-    myDirection: {x: 0, y: 0, z: 0}
     mySpeed: 0
     myLifeTime: 0
-  numberOfProjectileShotPerSalve: 4
+  numberOfProjectileShotPerSalve: 6
   timeToReachMaxRange: 1
-  delayBetweenShot: 0.1
-  prefab: {fileID: 0}
+  delayBetweenShot: 0.2
+  prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
+  prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}

@@ -39,7 +39,7 @@ public class LocalPlayer : MonoBehaviour
 
     //Fog
     public GameObject myFog;
-    public FieldOfViewOld myFogScript;
+   // public FieldOfViewOld myFogScript;
 
     private void Awake()
     {
@@ -84,16 +84,16 @@ public class LocalPlayer : MonoBehaviour
             circleDirection.SetActive(true);
             UiManager.Instance.myPlayerModule = myPlayerModule;
 
-            myFogScript.enabled = true;
+          //  myFogScript.enabled = true;
             myFog.SetActive(true);
         }
         else
         {
-            if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
+           /*   if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+          {
                 myFogScript.enabled = true;
                 myFog.SetActive(true);
-            }
+            }*/
         }
     }
 

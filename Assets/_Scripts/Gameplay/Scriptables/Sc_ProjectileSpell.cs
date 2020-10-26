@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Runtime.InteropServices;
 
 [CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell/ShootSpell")]
 public class Sc_ProjectileSpell : Sc_Spell
@@ -10,13 +11,20 @@ public class Sc_ProjectileSpell : Sc_Spell
 	public int numberOfProjectileShotPerSalve= 4;
 	public float timeToReachMaxRange = 1,  delayBetweenShot =.1f;
 
-	public Projectile prefab;
+	public Projectile prefabBlueTeam, prefabRedTeam;
 
 	[Button]
 	void SetupPrefab ()
 	{
-		prefab.myInfos.myDamages.damageHealth = projParameters.myDamages.damageHealth;
 
-		prefab.myInfos.myLifeTime = range/ timeToReachMaxRange;
+		prefabBlueTeam.myInfos.myDamages.damageHealth = projParameters.myDamages.damageHealth;
+		prefabBlueTeam.myInfos.mySpeed = range / timeToReachMaxRange;
+		prefabBlueTeam.myInfos.myLifeTime = timeToReachMaxRange;
+		prefabRedTeam.myInfos.myDamages.damageHealth = projParameters.myDamages.damageHealth;
+		prefabRedTeam.myInfos.mySpeed = range/ timeToReachMaxRange;
+		prefabRedTeam.myInfos.myLifeTime = timeToReachMaxRange;
+
+	
+
 	}
 }

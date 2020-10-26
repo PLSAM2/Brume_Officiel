@@ -18,7 +18,7 @@ public class SpellModule : MonoBehaviour
 			_cooldown = value; UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
-	public int _charges;
+	private int _charges;
 
 	[ReadOnly]
 	public int charges
@@ -33,7 +33,7 @@ public class SpellModule : MonoBehaviour
 
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false;
-	public Sc_Spell spell;
+	[ReadOnly] public Sc_Spell spell;
 
 	public En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
@@ -136,19 +136,23 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public void Interrupt ()
+	public virtual	void Interrupt ()
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
+		TreatCharacterState();
 	}
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
-		if((stateAtStart & En_CharacterState.Canalysing ) == 0)
-			myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
-
 		endCanalisation?.Invoke();
 		Interrupt();
+	}
+
+	protected virtual void TreatCharacterState()
+	{
+		if ((stateAtStart & En_CharacterState.Canalysing) == 0)
+			myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
 	}
 
 	public virtual void DecreaseCooldown ()
