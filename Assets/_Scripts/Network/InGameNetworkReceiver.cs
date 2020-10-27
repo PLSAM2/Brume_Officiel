@@ -58,7 +58,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 float xDestination = reader.ReadSingle();
                 float yDestination = reader.ReadSingle();
                 float zDestination = reader.ReadSingle();
-
                 Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
 
                 GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().InitWardLaunch(destination);

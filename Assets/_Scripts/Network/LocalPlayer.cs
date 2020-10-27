@@ -39,7 +39,7 @@ public class LocalPlayer : MonoBehaviour
     private Vector3 lastRotation;
 
     //Fog
-    public GameObject myFog;
+    public GameObject myReveal;
    // public FieldOfViewOld myFogScript;
 
     private void Awake()
@@ -87,16 +87,14 @@ public class LocalPlayer : MonoBehaviour
             circleDirection.SetActive(true);
             UiManager.Instance.myPlayerModule = myPlayerModule;
 
-          //  myFogScript.enabled = true;
-            myFog.SetActive(true);
+            myReveal.SetActive(true);
         }
         else
         {
-           /*   if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-          {
-                myFogScript.enabled = true;
-                myFog.SetActive(true);
-            }*/
+            if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                myReveal.SetActive(true);
+            }
         }
     }
 

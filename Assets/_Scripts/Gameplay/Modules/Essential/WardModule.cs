@@ -10,7 +10,7 @@ public class WardModule : SpellModule
     private GameObject wardObj;
     public float wardSpeed;
     public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
-
+    public float distanceMaxBeforeEndTravel = 0.01f;
     private bool isLaunched = false;
     private float deceleration = 1;
     private float baseDistance;
@@ -29,6 +29,8 @@ public class WardModule : SpellModule
         animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 
         isOwner = this.GetComponent<LocalPlayer>().isOwner;
+
+        AddCharge(100000000); // !!!!!!!
     }
 
 
@@ -38,7 +40,7 @@ public class WardModule : SpellModule
 
         if (isLaunched)
         {
-            if (wardObj.transform.position == destination)
+            if (Vector3.Distance(wardObj.transform.position, destination) < distanceMaxBeforeEndTravel)
             {
                 WardLanded();
                 return;
@@ -50,7 +52,7 @@ public class WardModule : SpellModule
             noCurvePosition = newPosition;
 
             float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
-            float UpOffset = 0;
+            float UpOffset;
 
             UpOffset = launchCurve.Evaluate(distanceProgress);
             lastOffest = UpOffset;
@@ -75,7 +77,7 @@ public class WardModule : SpellModule
         }
 
         destination = _mousePosition;
-        print("here");
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(RoomManager.Instance.client.ID); // Player ID
@@ -95,6 +97,7 @@ public class WardModule : SpellModule
 
     public void InitWardLaunch(Vector3 destination)
     {
+        this.destination = destination;
         wardObj.SetActive(true);
         startPos = (transform.position + Vector3.up);
         wardObj.transform.position = startPos;
@@ -120,7 +123,7 @@ public class WardModule : SpellModule
             }
         }
 
-        wardObj.GetComponent<Ward>().Landed();
+       wardObj.GetComponent<Ward>().Landed();
 
     }
 

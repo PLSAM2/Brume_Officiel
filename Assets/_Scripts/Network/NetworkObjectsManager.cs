@@ -199,8 +199,13 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort objID = reader.ReadUInt16();
-                Destroy(instantiatedObjectsList[objID].gameObject);
-                instantiatedObjectsList.Remove(objID);
+
+                if (instantiatedObjectsList.ContainsKey(objID))
+                {
+                    Destroy(instantiatedObjectsList[objID].gameObject);
+                    instantiatedObjectsList.Remove(objID);
+                }
+
 
             }
         }

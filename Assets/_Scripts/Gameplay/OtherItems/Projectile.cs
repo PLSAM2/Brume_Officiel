@@ -72,7 +72,7 @@ public class Projectile : MonoBehaviour
 				}
 				else
 				{
-					print(_hits[i].collider.name);
+					// print(_hits[i].collider.name);
 					_PosToSpawn = _hits[i].point;
 					_mustDestroy = true;
 				}
@@ -96,7 +96,7 @@ public class Projectile : MonoBehaviour
 		myInfos.myLifeTime -= Time.fixedDeltaTime;
 		if (myInfos.myLifeTime <= 0)
 		{
-			print("OUtOFTIme");
+			// print("OUtOFTIme");
 			Destroy();
 		}
 	}
