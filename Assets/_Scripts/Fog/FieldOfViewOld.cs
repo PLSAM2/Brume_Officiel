@@ -39,7 +39,7 @@ public class FieldOfViewOld : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 	}
 
-	private void Update ()
+	private void FixedUpdate ()
 	{
 		FogProjector.Instance.UpdateFog();
 	}
