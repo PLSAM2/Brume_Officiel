@@ -75,7 +75,7 @@ public class WardModule : SpellModule
         }
 
         destination = _mousePosition;
-
+        print("here");
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(RoomManager.Instance.client.ID); // Player ID
