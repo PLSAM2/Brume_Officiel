@@ -2585,9 +2585,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc0e7c672a7b9a4297b32a0e030f16e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactibleList:
-  - {fileID: 1548242586}
-  - {fileID: 4770236800084259024}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 1548242586}
+    - {fileID: 4770236800084259024}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: interactibleList
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[Interactible,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.UInt16,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   firstAltarUnlockTime: 10
 --- !u!43 &695395503
 Mesh:
@@ -7501,6 +7553,10 @@ PrefabInstance:
     - target: {fileID: 5461372675387200605, guid: c27a047f5cb03554e8f55673faa996a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7649166997013386788, guid: c27a047f5cb03554e8f55673faa996a2, type: 3}
+      propertyPath: interactibleID
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c27a047f5cb03554e8f55673faa996a2, type: 3}

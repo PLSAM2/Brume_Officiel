@@ -249,7 +249,7 @@ public class PlayerModule : MonoBehaviour
 
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
 		{
-			return hit.point;
+			return new Vector3(hit.point.x, 0, hit.point.z);
 		}
 		else
 		{
