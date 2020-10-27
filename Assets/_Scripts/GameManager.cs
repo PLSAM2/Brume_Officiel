@@ -109,7 +109,6 @@ public class GameManager : SerializedMonoBehaviour
             {
                 SendPlayerMove(_sender, _e);
             }
-
             if (message.Tag == Tags.SupprObjPlayer)
             {
                 SupprPlayerInServer(_sender, _e);
