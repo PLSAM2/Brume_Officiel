@@ -9,6 +9,7 @@ public class SpellModule : MonoBehaviour
 	En_CharacterState stateAtStart;
 
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
+	protected bool isOwner;
 
 	[ReadOnly]
 	public float Cooldown
@@ -48,6 +49,8 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
+		if (myPlayerModule.mylocalPlayer.isOwner)
+			isOwner = true;
 
 		switch (actionLinked)
 		{
@@ -78,26 +81,29 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void OnDisable ()
 	{
-		switch (actionLinked)
+		if(isOwner)
 		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= StartCanalysing;
-				break;
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= StartCanalysing;
-				break;
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= StartCanalysing;
-				break;
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= StartCanalysing;
-				break;
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput -= StartCanalysing;
-				break;
+			switch (actionLinked)
+			{
+				case En_SpellInput.FirstSpell:
+					myPlayerModule.firstSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.SecondSpell:
+					myPlayerModule.secondSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.ThirdSpell:
+					myPlayerModule.thirdSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.Click:
+					myPlayerModule.leftClickInput -= StartCanalysing;
+					break;
+				case En_SpellInput.Ward:
+					myPlayerModule.wardInput -= StartCanalysing;
+					break;
+			}
+			startCanalisation -= StartCanalysingFeedBack;
+			endCanalisation -= ResolveSpellFeedback;
 		}
-		startCanalisation -= StartCanalysingFeedBack;
-		endCanalisation -= ResolveSpellFeedback;
 	}
 
 	protected virtual void Update ()
