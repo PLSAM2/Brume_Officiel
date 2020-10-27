@@ -8,10 +8,19 @@ using System.Runtime.InteropServices;
 public class Sc_ProjectileSpell : Sc_Spell
 {
 	public St_ProjectileInfos projParameters;
-	public int numberOfProjectileShotPerSalve= 4;
-	public float timeToReachMaxRange = 1,  delayBetweenShot =.1f;
+	public SalveInfos salveInfos;
 
 	public Projectile prefabBlueTeam, prefabRedTeam;
 
-	
+	[SerializeField] bool isMultiple = false;
+	[ShowIf("isMultiple")]
+	public int numberOfProjShoot = 3;
+	public int angleToSplit = 60;
+}
+
+[System.Serializable]
+public class SalveInfos
+{
+	public int numberOfProjectileShotPerSalve = 4;
+	public float timeToReachMaxRange = 1, timeToResolveTheSalve = .6f;
 }

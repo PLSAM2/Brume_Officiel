@@ -19,7 +19,7 @@ public class FrogNest : MonoBehaviour
 
     public void FrogPicked()
     {
-        frogObj.gameObject.SetActive(false);
+        // frogObj.gameObject.SetActive(false);
 
         StartCoroutine(WaitForRespawn());
     }

@@ -41,7 +41,7 @@ public class FieldOfViewOld : MonoBehaviour
 
 	private void FixedUpdate ()
 	{
-		FogProjector.Instance.UpdateFog();
+		//FogProjector.Instance.UpdateFog();
 	}
 
 	IEnumerator FindTargetsWithDelay ( float delay )
@@ -53,11 +53,11 @@ public class FieldOfViewOld : MonoBehaviour
 		}
 	}
 
-	void LateUpdate ()
+	void FixedUpdate ()
 	{
 		DrawFieldOfView();
 
-		SetListVisibleEnemy();
+		//SetListVisibleEnemy();
 
 	}
 

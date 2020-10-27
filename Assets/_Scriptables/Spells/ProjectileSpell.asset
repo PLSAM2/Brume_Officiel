@@ -28,8 +28,12 @@ MonoBehaviour:
       playerName: 
     mySpeed: 0
     myLifeTime: 0
-  numberOfProjectileShotPerSalve: 4
-  timeToReachMaxRange: 0.15
-  delayBetweenShot: 0.15
+  salveInfos:
+    numberOfProjectileShotPerSalve: 4
+    timeToReachMaxRange: 1
+    timeToResolveTheSalve: 0.6
   prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
   prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
+  isMultiple: 1
+  numberOfProjShoot: 40
+  angleToSplit: 160
