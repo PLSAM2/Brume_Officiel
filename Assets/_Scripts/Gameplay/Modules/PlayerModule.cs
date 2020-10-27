@@ -205,7 +205,7 @@ public class PlayerModule : MonoBehaviour
 		if ((state & En_CharacterState.Canalysing) == 0)
 		{
 			Vector3 _currentMousePos = mousePos();
-			transform.LookAt(new Vector3(_currentMousePos.x, 0, _currentMousePos.z));
+			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
 	}
 
