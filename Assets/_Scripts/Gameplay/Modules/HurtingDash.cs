@@ -23,12 +23,12 @@ public class HurtingDash : DashModule
 		mylineRender.endWidth = _width;
 	}
 
-	public override void OnDisable ()
+	protected override void OnDisable ()
 	{
 		base.OnDisable();
 	}
 
-	public override void Update ()
+	protected override void Update ()
 	{
 		base.Update();
 		
@@ -60,7 +60,7 @@ public class HurtingDash : DashModule
 					if (_tempStack.gameObject != gameObject && _tempStack.teamIndex != myPlayerModule.teamIndex)
 					{
 						DamagesInfos _infos = new DamagesInfos();
-						_infos.damages = spell.damagesToDeal;
+						_infos = (spell as Sc_DashSpell).damages;
 
 						_tempStack.mylocalPlayer.DealDamages(_infos);
 						allPlayerTouched.Add(_hit.collider.gameObject);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkRift;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,26 +9,30 @@ public class WardModule : SpellModule
     [SerializeField] private GameObject wardPrefab;
     private GameObject wardObj;
     public float wardSpeed;
-    private float deceleratedRatio = 1;
+    public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
 
-    public bool isLaunched = false;
+    private bool isLaunched = false;
     private float deceleration = 1;
-    private Vector3 startPos;
-    private Vector3 destination;
     private float baseDistance;
     private float lastOffest = 0;
+    private Vector3 startPos;
+    private Vector3 destination;
     private Vector3 noCurvePosition;
     private float animationCurveMaxValue;
+
+    private bool isOwner;
+
     private void Start()
     {
-        charges += 10000;
         wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
         wardObj.SetActive(false);
-        animationCurveMaxValue = launchCurve.Evaluate(0.5f);
+        animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+
+        isOwner = this.GetComponent<LocalPlayer>().isOwner;
     }
 
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
 
@@ -38,18 +43,18 @@ public class WardModule : SpellModule
                 WardLanded();
                 return;
             }
-            deceleration = 1;
-            deceleration -= lastOffest / (animationCurveMaxValue + deceleratedRatio);
-            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (wardSpeed * deceleration) * Time.deltaTime ); // Progression de la position de la balle (sans courbe)
 
+            deceleration = 1;
+            deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
+            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (wardSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
             noCurvePosition = newPosition;
+
             float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
             float UpOffset = 0;
 
             UpOffset = launchCurve.Evaluate(distanceProgress);
             lastOffest = UpOffset;
             wardObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
-            deceleration = 1;
         }
     }
 
@@ -60,12 +65,37 @@ public class WardModule : SpellModule
         charges += value;
     }
 
-    public override void ResolveSpell(Vector3 _mousePosition)
+    protected override void ResolveSpell(Vector3 _mousePosition)
     {
         base.ResolveSpell(_mousePosition);
 
-        wardObj.SetActive(true);
+        if (isLaunched)
+        {
+            return;
+        }
+
         destination = _mousePosition;
+        print("here");
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(RoomManager.Instance.client.ID); // Player ID
+
+            _writer.Write(destination.x);
+            _writer.Write(destination.y);
+            _writer.Write(destination.z);
+
+            using (Message _message = Message.Create(Tags.LaunchWard, _writer))
+            {
+                RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+
+        InitWardLaunch(destination);
+    }
+
+    public void InitWardLaunch(Vector3 destination)
+    {
+        wardObj.SetActive(true);
         startPos = (transform.position + Vector3.up);
         wardObj.transform.position = startPos;
         baseDistance = Vector3.Distance(startPos, destination);
@@ -76,5 +106,22 @@ public class WardModule : SpellModule
     public void WardLanded()
     {
         isLaunched = false;
+
+        if (isOwner)
+        {
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            {
+                _writer.Write(RoomManager.Instance.client.ID); // Player ID
+
+                using (Message _message = Message.Create(Tags.StartWardLifeTime, _writer))
+                {
+                    RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+                }
+            }
+        }
+
+        wardObj.GetComponent<Ward>().Landed();
+
     }
+
 }

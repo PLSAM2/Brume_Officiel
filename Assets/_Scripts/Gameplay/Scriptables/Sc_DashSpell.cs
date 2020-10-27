@@ -8,4 +8,6 @@ public class Sc_DashSpell : Sc_Spell
     public bool adaptiveRange;
     public float timeToReachMaxRange;
     public float damagesRadius;
+
+    public DamagesInfos damages;
 }

@@ -8,6 +8,7 @@ using System;
 using static GameData;
 using TMPro;
 using UnityEngine.UI;
+using DarkRift.Client;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class LocalPlayer : MonoBehaviour
 
     //Fog
     public GameObject myFog;
-    public FieldOfViewOld myFogScript;
+   // public FieldOfViewOld myFogScript;
 
     private void Awake()
     {
@@ -47,6 +48,8 @@ public class LocalPlayer : MonoBehaviour
         lastRotation = transform.localEulerAngles;
         OnRespawn();
     }
+
+
 
     private void Start()
     {
@@ -84,16 +87,16 @@ public class LocalPlayer : MonoBehaviour
             circleDirection.SetActive(true);
             UiManager.Instance.myPlayerModule = myPlayerModule;
 
-            myFogScript.enabled = true;
+          //  myFogScript.enabled = true;
             myFog.SetActive(true);
         }
         else
         {
-            if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
+           /*   if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+          {
                 myFogScript.enabled = true;
                 myFog.SetActive(true);
-            }
+            }*/
         }
     }
 
@@ -145,10 +148,9 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
 
-
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
-            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable);
+            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable); // Sync animation blend tree
         }
     }
 
@@ -168,13 +170,13 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-        liveHealth -= _damagesToDeal.damages.damageHealth;
+        liveHealth -= _damagesToDeal.damageHealth;
         UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(myPlayerId);
-            _writer.Write(_damagesToDeal.damages.damageHealth);
+            _writer.Write(_damagesToDeal.damageHealth);
             using (Message _message = Message.Create(Tags.Damages, _writer))
             {
                 currentClient.SendMessage(_message, SendMode.Reliable);
@@ -210,7 +212,6 @@ public class LocalPlayer : MonoBehaviour
     {
         myAnimator.SetTrigger(triggerName);
     }
-
 
 
 

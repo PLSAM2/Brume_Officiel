@@ -18,6 +18,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     public Dictionary<ushort, NetworkedObject> instantiatedObjectsList = new Dictionary<ushort, NetworkedObject>();
 
     private UnityClient client;
+    public GameObject lastGOInstantiate;
 
     private void Awake()
     {
@@ -75,7 +76,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     public void NetworkInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles)
     {
         // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
-
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
