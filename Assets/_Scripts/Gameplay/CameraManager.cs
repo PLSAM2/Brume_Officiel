@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class CameraManager : MonoBehaviour
 	float minX, maxX, minY, maxY, screenEdgeBorder;
 	bool isLocked = true;
 	PlayerModule playerToFollow;
-
+	[SerializeField] CinemachineVirtualCamera myCinemachine;
 	[SerializeField] LayerMask groundlayer;
 
 	private void Awake ()
@@ -37,8 +38,8 @@ public class CameraManager : MonoBehaviour
 		LockCamera += LockingCam;
 
 		GameObject _go = new GameObject();
-		cameraLocker = Instantiate(_go).transform;
-
+		cameraLocker = _go.transform;
+		myCinemachine.Follow = _go.transform;
 		GameManager.PlayerSpawned += SetParent;
 
 		OnResolutionChanged();
