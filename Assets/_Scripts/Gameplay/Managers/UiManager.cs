@@ -12,7 +12,7 @@ public class UiManager : MonoBehaviour
     public static UiManager Instance { get { return _instance; } }
 
     public PlayerModule myPlayerModule;
-    public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon;
+    public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
 
     public TextMeshProUGUI timer;
     public TextMeshProUGUI allyScore;
@@ -84,6 +84,10 @@ public class UiManager : MonoBehaviour
                 autoAttackIcon.UpdateFillAmount( _time, _completeCd);
                 CheckBeReady(_time, autoAttackIcon, 0.05f);
                 break;
+            case En_SpellInput.Ward:
+                wardIcon.UpdateFillAmount(_time, _completeCd);
+                CheckBeReady(_time, wardIcon, 0.05f);
+                break;
         }
     }
 
@@ -108,6 +112,9 @@ public class UiManager : MonoBehaviour
 
             case En_SpellInput.Click:
                 autoAttackIcon.SetSprite(_spellAttached.spellIcon);
+                break;
+            case En_SpellInput.Ward:
+                wardIcon.SetSprite(_spellAttached.spellIcon);
                 break;
         }
     }
@@ -135,6 +142,9 @@ public class UiManager : MonoBehaviour
                 break;
             case En_SpellInput.Click:
                 autoAttackIcon.UpdatesChargesAmont(_charges);
+                break;
+            case En_SpellInput.Ward:
+                wardIcon.UpdatesChargesAmont(_charges);
                 break;
 
         }

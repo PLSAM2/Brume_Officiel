@@ -31,7 +31,6 @@ public class PlayerModule : MonoBehaviour
 
 
 	[Header("Vision")]
-	public GameObject visionObj;
 	public GameObject sonar;
 	public LayerMask brumeLayer;
 	[SerializeField] SpriteRenderer mapIcon;
@@ -88,8 +87,6 @@ public class PlayerModule : MonoBehaviour
 		if (mylocalPlayer.isOwner)
 		{
 			mapIcon.color = Color.blue;
-			//visionPArt
-			visionObj.SetActive(true);
 
 			//modulesPArt
 			UiManager.Instance.myPlayerModule = this;
