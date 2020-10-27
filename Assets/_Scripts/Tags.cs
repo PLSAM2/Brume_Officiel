@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-class Tags
+﻿class Tags
 {
     /// <summary>
     /// Val 0000 --> 1000
@@ -54,6 +50,11 @@ class Tags
         public static readonly ushort TryCaptureInteractible = 772;
         public static readonly ushort CaptureProgressInteractible = 774;
         public static readonly ushort CaptureInteractible = 776;
+        // <<
+
+        //Ward & Vision 790 --> 799 >>
+        public static readonly ushort LaunchWard = 790;
+        public static readonly ushort StartWardLifeTime = 791;
         // <<
 
     public static readonly ushort SpawnObjPlayer = 1000;

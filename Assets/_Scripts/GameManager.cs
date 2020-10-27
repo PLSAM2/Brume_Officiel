@@ -35,7 +35,6 @@ public class GameManager : SerializedMonoBehaviour
     [Header("Camera")]
     public CinemachineVirtualCamera myCam;
     public Camera defaultCam;
-    [SerializeField] Camera InBrumeCam;
     [SerializeField] Animator volumeAnimator;
 
     public List<Transform> visiblePlayer = new List<Transform>();
@@ -109,7 +108,6 @@ public class GameManager : SerializedMonoBehaviour
             {
                 SendPlayerMove(_sender, _e);
             }
-
             if (message.Tag == Tags.SupprObjPlayer)
             {
                 SupprPlayerInServer(_sender, _e);
@@ -180,7 +178,6 @@ public class GameManager : SerializedMonoBehaviour
     public void ResetCam()
     {
         defaultCam.gameObject.SetActive(true);
-        InBrumeCam.gameObject.SetActive(false);
         volumeAnimator.SetBool("InBrume", false);
     }
 

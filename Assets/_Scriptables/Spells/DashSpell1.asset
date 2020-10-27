@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e928c7f3c3488d4c85b5caff876dd93, type: 3}
   m_Name: DashSpell1
   m_EditorClassIdentifier: 
-  canalisationTime: 0.1
+  canalisationTime: 0
   movementModifier: 0
-  range: 3
-  cooldown: 5
-  StateAutorised: 1
+  range: 4
+  cooldown: 4
+  forbiddenState: 8
   canCancel: 0
   useLastRecordedMousePos: 1
   spellIcon: {fileID: 21300000, guid: fc5f29ac79ae23c42986ccb2e397704a, type: 3}
   numberOfCharge: 3
-  damagesToDeal:
-    damageHealth: 1
   adaptiveRange: 0
   timeToReachMaxRange: 0.1
   damagesRadius: 1.2
+  damages:
+    damageHealth: 0
+    playerName: 
