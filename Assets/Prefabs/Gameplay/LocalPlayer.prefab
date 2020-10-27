@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 8281150123794309746}
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
-  - component: {fileID: 6020452266926908102}
   - component: {fileID: 6674073701188791837}
   - component: {fileID: 7642602275245690328}
+  - component: {fileID: 32086142644911797}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -101,7 +101,7 @@ MonoBehaviour:
   nameText: {fileID: 2784098647336443950}
   life: {fileID: 8177495112107496326}
   myFog: {fileID: 466112710899532364}
-  myFogScript: {fileID: 6020452266926908102}
+  myFogScript: {fileID: 0}
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   dashBlockingLayer:
     serializedVersion: 2
     m_Bits: 512
-  forbidenWalkingState: 28
+  forbidenWalkingState: 8
   usingStamina: 0
 --- !u!114 &6667444453632817538
 MonoBehaviour:
@@ -156,7 +156,7 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 7456197301907493091}
   movementPart: {fileID: 8281150123794309746}
-  firstSpell: {fileID: 0}
+  firstSpell: {fileID: 32086142644911797}
   secondSpell: {fileID: 6674073701188791837}
   thirdSpell: {fileID: 0}
   leftClick: {fileID: 0}
@@ -178,32 +178,6 @@ CapsuleCollider:
   m_Height: 1.7721548
   m_Direction: 1
   m_Center: {x: 0, y: 0.8928008, z: -0.017817229}
---- !u!114 &6020452266926908102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933f27ed8a5cf43359d7caf0a5f5e732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewRadius: 5.91
-  viewAngle: 360
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 4864
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 266752
-  visibleTargets: []
-  meshResolution: 10
-  edgeResolveIterations: 3
-  edgeDstThreshold: 4
-  maskCutawayDst: 0
-  viewMeshFilter: {fileID: 466112710899532360}
 --- !u!114 &6674073701188791837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +192,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
-  _charges: 0
   isUsed: 0
   spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
   actionLinked: 1
@@ -245,7 +218,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
-  _charges: 0
   isUsed: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   actionLinked: 5
@@ -258,15 +230,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.0013847351
-      inSlope: 3.0010414
-      outSlope: 3.4897318
-      tangentMode: 1
-      weightedMode: 3
+      inSlope: 4.0423255
+      outSlope: 4.0423255
+      tangentMode: 34
+      weightedMode: 0
       inWeight: 0
-      outWeight: 0.30279455
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5008898
-      value: 1.5024903
+      time: 0.49664783
+      value: 2.008997
       inSlope: 0.009083529
       outSlope: 0.009083529
       tangentMode: 0
@@ -276,18 +248,38 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1.0007167
       value: -0.0011343956
-      inSlope: -79.43065
-      outSlope: -79.43065
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0.01417937
+      inSlope: -3.987811
+      outSlope: -3.987811
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   wardPrefab: {fileID: 1785922920789865436, guid: 1925b94b1d7ce1f4ab12e6cd5a1114bf, type: 3}
-  wardSpeed: 20
-  deceleratedRatio: 4
+  wardSpeed: 1
+  isLaunched: 0
+--- !u!114 &32086142644911797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
+  actionLinked: 3
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724655755996733115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6870150835912919914}

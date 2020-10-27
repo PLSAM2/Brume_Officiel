@@ -32,7 +32,7 @@ public class WardModule : SpellModule
     }
 
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
 
@@ -65,7 +65,7 @@ public class WardModule : SpellModule
         charges += value;
     }
 
-    public override void ResolveSpell(Vector3 _mousePosition)
+    protected override void ResolveSpell(Vector3 _mousePosition)
     {
         base.ResolveSpell(_mousePosition);
 

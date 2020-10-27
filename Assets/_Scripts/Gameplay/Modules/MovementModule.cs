@@ -8,7 +8,7 @@ public class MovementModule : MonoBehaviour
 {
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
-	[SerializeField] LayerMask movementBlockingLayer, dashBlockingLayer ;
+	public LayerMask movementBlockingLayer, dashBlockingLayer ;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Canalysing | En_CharacterState.Stunned;
 	CapsuleCollider collider;
 

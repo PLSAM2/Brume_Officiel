@@ -256,6 +256,16 @@ public class PlayerModule : MonoBehaviour
 			return Vector3.zero;
 		}
 	}
+
+	public Vector3 ClosestFreePos(Vector3 _posToCloseUpTo, float _anticipationDistance)
+	{
+		RaycastHit _hit;
+		if(Physics.Raycast(transform.position,_posToCloseUpTo - transform.position, out _hit, 1000, movementPart.movementBlockingLayer))
+		{
+			return transform.position + Vector3.Normalize(_posToCloseUpTo - transform.position) * (Vector3.Distance(_hit.point, transform.position) - _anticipationDistance);
+		}
+		return transform.position;
+	}
 	#endregion
 }
 
@@ -272,12 +282,8 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
-	public DamagesParameters damages;
-	public string playerName;
+	public ushort damageHealth;
+
+	[HideInInspector] public string playerName;
 }
 
-[System.Serializable]
-public class DamagesParameters
-{
-	public ushort damageHealth;
-}
