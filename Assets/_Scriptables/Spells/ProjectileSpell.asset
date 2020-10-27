@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: ProjectileSpell
   m_EditorClassIdentifier: 
-  canalisationTime: 0.1
+  canalisationTime: 0.01
   movementModifier: 0
-  range: 7
-  cooldown: 1
+  range: 8
+  cooldown: 0.8
   forbiddenState: 24
   canCancel: 0
   mustUseACollFreePos: 0
@@ -30,6 +30,6 @@ MonoBehaviour:
     myLifeTime: 0
   numberOfProjectileShotPerSalve: 4
   timeToReachMaxRange: 0.15
-  delayBetweenShot: 0.25
+  delayBetweenShot: 0.15
   prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
   prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
