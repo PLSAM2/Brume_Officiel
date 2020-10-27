@@ -6,7 +6,6 @@ using static GameData;
 public class ModuleProjectileSpell : SpellModule
 {
 	Sc_ProjectileSpell spellProj; //plus facile a lire dans le script
-	Vector3 _direction;
 	int shotRemainingInSalve;
 
 	bool shooting = false;
@@ -43,25 +42,48 @@ public class ModuleProjectileSpell : SpellModule
 			if (timeBetweenShot <= 0)
 			{
 				if (spell.useLastRecordedMousePos)
-					ShootProjectile(transform.forward + transform.position);
+					ShootSalve(PosToInstantiate(), RotationOfTheProj());
 				else
-					ShootProjectile(transform.forward + transform.position);
+					ShootSalve(PosToInstantiate(), RotationOfTheProj());
 			}
 		}
 	}
-	void ShootProjectile ( Vector3 _posToSet )
+
+	protected virtual Vector3 PosToInstantiate()
+	{
+		return transform.forward + transform.position;
+	}
+
+	protected virtual Vector3 RotationOfTheProj ()
+	{
+		return transform.rotation.eulerAngles;
+	}
+
+
+	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
 	{
 		timeBetweenShot = spellProj.delayBetweenShot;
 		shotRemainingInSalve--;
+
 		if (shotRemainingInSalve <= 0)
 			Interrupt();
 
-
-		if(myPlayerModule.teamIndex == Team.blue)
-			NetworkObjectsManager.Instance.NetworkInstantiate(12, _posToSet, transform.rotation.eulerAngles);
-		else
-			NetworkObjectsManager.Instance.NetworkInstantiate(13, _posToSet, transform.rotation.eulerAngles);
+		ReadSalve(_posToSet, _rot);
 	}
+
+	protected virtual void ReadSalve ( Vector3 _posToSet, Vector3 _rot )
+	{
+		ShootProjectile(_posToSet, _rot);
+	}
+
+	void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
+	{
+		if (myPlayerModule.teamIndex == Team.blue)
+			NetworkObjectsManager.Instance.NetworkInstantiate(12, _posToSet, _rot);
+		else
+			NetworkObjectsManager.Instance.NetworkInstantiate(13, _posToSet, _rot);
+	}
+
 
 	public override void Interrupt ()
 	{

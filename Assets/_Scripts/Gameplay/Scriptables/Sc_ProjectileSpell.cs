@@ -13,5 +13,6 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 	public Projectile prefabBlueTeam, prefabRedTeam;
 
-	
+	[SerializeField] bool isMultiple = false;
+	[ShowIf(isMultiple)]
 }
