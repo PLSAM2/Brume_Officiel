@@ -15,7 +15,8 @@ public class SpellModule : MonoBehaviour
 	{
 		get => _cooldown; set
 		{
-			_cooldown = value; UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
+			_cooldown = value;
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
 	private int _charges;
@@ -28,12 +29,13 @@ public class SpellModule : MonoBehaviour
 		{
 			_charges = value;
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+			Cooldown = spell.cooldown;
 		}
 	}
 
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false;
-	[ReadOnly] public Sc_Spell spell;
+	public Sc_Spell spell;
 
 	public En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
@@ -164,11 +166,13 @@ public class SpellModule : MonoBehaviour
 			else
 			{
 				charges += 1;
-				Cooldown = spell.cooldown;
 			}
 		}
-		
+	}
 
+	public void ReduceCooldown(float _durationShorten)
+	{
+		Cooldown -= _durationShorten;
 	}
 
 	bool canBeCast ()

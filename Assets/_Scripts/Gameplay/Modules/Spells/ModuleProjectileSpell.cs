@@ -5,30 +5,25 @@ using UnityEngine;
 using static GameData;
 public class ModuleProjectileSpell : SpellModule
 {
-	Sc_ProjectileSpell spellProj; //plus facile a lire dans le script
+	protected Sc_ProjectileSpell spellProj; //plus facile a lire dans le script
 	int shotRemainingInSalve;
+	[SerializeField] ushort indexOfTheShotProjectileBlue = 12, indexOfTheShotProjectileRed = 13;
+	SalveInfos myLiveSalve;
 
 	bool shooting = false;
-	float timeBetweenShot;
+	float timeBetweenShot = 0;
 
 	private void Start ()
 	{
 		spellProj = spell as Sc_ProjectileSpell;
+		myLiveSalve = spellProj.salveInfos;
 	}
 
 	protected override void ResolveSpell ( Vector3 mousePosition )
 	{
 		shooting = true;
-		shotRemainingInSalve = spellProj.numberOfProjectileShotPerSalve;
+		shotRemainingInSalve = spellProj.salveInfos.numberOfProjectileShotPerSalve;
 		endCanalisation?.Invoke();
-	}
-
-	protected override void StartCanalysing ( Vector3 _BaseMousePos )
-	{
-			_direction = Vector3.Normalize(recordedMousePosOnInput - transform.position);
-
-
-		base.StartCanalysing(_BaseMousePos);
 	}
 
 	protected override void Update ()
@@ -62,7 +57,8 @@ public class ModuleProjectileSpell : SpellModule
 
 	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
 	{
-		timeBetweenShot = spellProj.delayBetweenShot;
+		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfProjectileShotPerSalve;
+
 		shotRemainingInSalve--;
 
 		if (shotRemainingInSalve <= 0)
@@ -76,12 +72,12 @@ public class ModuleProjectileSpell : SpellModule
 		ShootProjectile(_posToSet, _rot);
 	}
 
-	void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
+	protected  void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
 		if (myPlayerModule.teamIndex == Team.blue)
-			NetworkObjectsManager.Instance.NetworkInstantiate(12, _posToSet, _rot);
+			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
 		else
-			NetworkObjectsManager.Instance.NetworkInstantiate(13, _posToSet, _rot);
+			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
 	}
 
 

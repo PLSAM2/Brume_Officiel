@@ -8,19 +8,21 @@ public class MovementModule : MonoBehaviour
 {
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
-	public LayerMask movementBlockingLayer, dashBlockingLayer ;
+	public LayerMask movementBlockingLayer, dashBlockingLayer;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Canalysing | En_CharacterState.Stunned;
+	List<MovementModifier> allLiveMovementModifier = new List<MovementModifier>();
+
 	CapsuleCollider collider;
 
-	[Header("Running Stamina")]
-	[SerializeField] bool usingStamina;
-	float timeSpentRunning,  timeSpentNotRunning, _stamina;
-	public float Stamina {	get => _stamina; 
-		set { 
-			_stamina = value;
-			UiManager.Instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} 
-	}
-	bool running = false;
+	/*	[Header("Running Stamina")]
+		[SerializeField] bool usingStamina;
+		float timeSpentRunning,  timeSpentNotRunning, _stamina;
+		public float Stamina {	get => _stamina; 
+			set { 
+				_stamina = value;
+				UiManager.Instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} 
+		}
+		bool running = false;*/
 	//DASH 
 	ForcedMovement currentForcedMovement = new ForcedMovement();
 
@@ -39,14 +41,17 @@ public class MovementModule : MonoBehaviour
 
 		//IMPORTANT POUR LES CALLBACKS
 		currentForcedMovement.myModule = myPlayerModule;
+		myPlayerModule.addMovementModifier += AddModifierMovementSpeed;
 
 	}
 
-	void OnDisable()
+	void OnDisable ()
 	{
 		myPlayerModule.DirectionInputedUpdate -= Move;
-		myPlayerModule.toggleRunning -= ToggleRunning;
-		myPlayerModule.stopRunning -= StopRunning;
+		myPlayerModule.forcedMovementAdded -= AddDash;
+
+		//	myPlayerModule.toggleRunning -= ToggleRunning;
+		//	myPlayerModule.stopRunning -= StopRunning;
 	}
 
 	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )
@@ -55,19 +60,34 @@ public class MovementModule : MonoBehaviour
 		collider = _colliderInfos;
 
 		//stamina
-		_stamina = parameters.maxStamina;
-		Stamina = parameters.maxStamina;
+		//_stamina = parameters.maxStamina;
+		//Stamina = parameters.maxStamina;
 	}
 
-	void Move (Vector3 _directionInputed)
+	void FixedUpdate ()
+	{
+		List<MovementModifier> _tempList = allLiveMovementModifier;
+		for (int i = 0; i < allLiveMovementModifier.Count - 1; i++)
+		{
+			allLiveMovementModifier[i].duration -= Time.fixedDeltaTime;
+			if (allLiveMovementModifier[i].duration <= 0)
+			{
+				_tempList.RemoveAt(i);
+			}
+		}
+
+		allLiveMovementModifier = _tempList;
+	}
+
+	void Move ( Vector3 _directionInputed )
 	{
 		//forceMovement
 		if (currentForcedMovement.duration > 0)
 		{
 			currentForcedMovement.duration -= Time.deltaTime;
 
-			if (isFree(currentForcedMovement.direction, dashBlockingLayer))
-				transform.position += currentForcedMovement.direction * currentForcedMovement.strength * Time.deltaTime;
+			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
+				transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
 			else
 				ForcedMovementTouchObstacle();
 		}
@@ -75,7 +95,7 @@ public class MovementModule : MonoBehaviour
 		else if (_directionInputed != Vector3.zero && canMove())
 		{
 			//Mouvement Modifier via bool
-			if (running == true)
+			/*if (running == true)
 			{
 				timeSpentRunning += Time.deltaTime;
 				Stamina -= Time.deltaTime;
@@ -85,10 +105,10 @@ public class MovementModule : MonoBehaviour
 			else
 			{
 				StopRunning();
-			}
+			}*/
 
 			//marche
-			if (!isFree(_directionInputed, movementBlockingLayer))
+			if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
 			{
 				transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
 			}
@@ -103,16 +123,16 @@ public class MovementModule : MonoBehaviour
 
 
 		//Stamina
-		if (!running && usingStamina)
-		{
-			if (timeSpentNotRunning > parameters.regenDelay)
-				Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
-			else
-				timeSpentNotRunning += Time.deltaTime;
-		}
+		/*	if (!running && usingStamina)
+			{
+				if (timeSpentNotRunning > parameters.regenDelay)
+					Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
+				else
+					timeSpentNotRunning += Time.deltaTime;
+			}*/
 	}
 
-	void ForcedMovementTouchObstacle()
+	void ForcedMovementTouchObstacle ()
 	{
 		//juste pour caler le callback comme quoi le mouvement est bien fini;
 		currentForcedMovement.duration = 0;
@@ -126,7 +146,7 @@ public class MovementModule : MonoBehaviour
 		currentForcedMovement.myModule = myPlayerModule;
 	}
 
-	void StopRunning()
+	/*void StopRunning()
 	{
 		timeSpentRunning = 0;
 		running = false;
@@ -144,8 +164,16 @@ public class MovementModule : MonoBehaviour
 			StopRunning();
 		else
 			StartRunning();
+	}*/
+	void AddModifierMovementSpeed ( MovementModifier _newModif )
+	{
+		allLiveMovementModifier.Add(_newModif);
 	}
 
+	void MovementModiferUpdate ()
+	{
+
+	}
 	//Parameters
 	#region
 	/* si plusieurs mouvement forcé en même temps s additione;
@@ -174,7 +202,7 @@ public class MovementModule : MonoBehaviour
 
 	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
 	{
-		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom, movementBlockingLayer)[0];
+		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom, movementBlockingLayer, collider.radius)[0];
 
 
 		Vector3 _aVector = new Vector3(-_hitToRead.normal.z, 0, _hitToRead.normal.x);
@@ -182,14 +210,14 @@ public class MovementModule : MonoBehaviour
 
 		if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
 		{
-			if (isFree(_aVector, movementBlockingLayer))
+			if (isFree(_aVector, movementBlockingLayer, collider.radius))
 				return _aVector;
 			else
 				return Vector3.zero;
 		}
 		else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
 		{
-			if (isFree(_bVector, movementBlockingLayer))
+			if (isFree(_bVector, movementBlockingLayer, collider.radius))
 			{
 				return _bVector;
 			}
@@ -200,9 +228,9 @@ public class MovementModule : MonoBehaviour
 			return Vector3.zero;
 
 	}
-	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck )
+	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
 	{
-		if (CastCapsuleHit(_direction, _layerTocheck).Count > 0)
+		if (CastCapsuleHit(_direction, _layerTocheck, _maxRange).Count > 0)
 			return false;
 		else
 			return true;
@@ -214,21 +242,34 @@ public class MovementModule : MonoBehaviour
 		else
 			return true;
 	}
-	float liveMoveSpeed()
+	float liveMoveSpeed ()
 	{
-		float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;
+		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
+		float _defspeed = parameters.movementSpeed;
+
+		if (allLiveMovementModifier.Count > 0)
+		{
+			float _finalPercentage = 0;
+			for (int i = 0; i < allLiveMovementModifier.Count - 1; i++)
+			{
+				_finalPercentage += allLiveMovementModifier[i].percentageOfTheModifier;
+			}
+			_finalPercentage /= allLiveMovementModifier.Count;
+			_defspeed *= _finalPercentage;
+		}
 
 		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
-		return defspeed;
+		return _defspeed;
+
 	}
 
-	List<RaycastHit> CastCapsuleHit ( Vector3 _direction , LayerMask _checkingLayer)
+	List<RaycastHit> CastCapsuleHit ( Vector3 _direction, LayerMask _checkingLayer, float _maxRange )
 	{
 		List<RaycastHit> _allHit = Physics.CapsuleCastAll(transform.position,
 			transform.position + new Vector3(0, collider.height, 0),
 			collider.radius,
 			_direction,
-			collider.radius,
+			_maxRange,
 			_checkingLayer).ToList<RaycastHit>();
 
 
@@ -242,12 +283,6 @@ public class MovementModule : MonoBehaviour
 			}
 		}
 		return _returnList;
-	}
-
-
-	private void OnDrawGizmosSelected ()
-	{
-		//Gizmos.DrawSphere(transform.position + new Vector3(.3f, 1.5f,0), .3f);
 	}
 	#endregion
 }
