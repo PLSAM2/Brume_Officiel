@@ -8,6 +8,7 @@ using System;
 using static GameData;
 using TMPro;
 using UnityEngine.UI;
+using DarkRift.Client;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class LocalPlayer : MonoBehaviour
         lastRotation = transform.localEulerAngles;
         OnRespawn();
     }
+
+
 
     private void Start()
     {
@@ -145,10 +148,9 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
 
-
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
         {
-            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable);
+            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable); // Sync animation blend tree
         }
     }
 
@@ -210,7 +212,6 @@ public class LocalPlayer : MonoBehaviour
     {
         myAnimator.SetTrigger(triggerName);
     }
-
 
 
 
