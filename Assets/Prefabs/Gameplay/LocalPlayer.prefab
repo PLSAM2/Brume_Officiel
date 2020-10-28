@@ -121,7 +121,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   forbidenWalkingState: 8
-  usingStamina: 0
 --- !u!114 &6667444453632817538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +157,7 @@ MonoBehaviour:
   firstSpell: {fileID: 2861809655894589310}
   secondSpell: {fileID: 6674073701188791837}
   thirdSpell: {fileID: 0}
-  leftClick: {fileID: 0}
+  leftClick: {fileID: 32086142644911797}
   ward: {fileID: 7642602275245690328}
   coll: {fileID: 8154408291484997990}
   mylocalPlayer: {fileID: 0}
@@ -200,6 +199,7 @@ MonoBehaviour:
   mylineRender: {fileID: 2550331642934917765}
   startColorPreview: {r: 1, g: 0, b: 0, a: 1}
   endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  usingKeyboardInput: 1
   characterLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -268,6 +268,7 @@ MonoBehaviour:
   wardPrefab: {fileID: 1785922920789865436, guid: 1925b94b1d7ce1f4ab12e6cd5a1114bf, type: 3}
   wardSpeed: 15
   deceleratedRatio: 3
+  distanceMaxBeforeEndTravel: 0.01
 --- !u!114 &32086142644911797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +289,8 @@ MonoBehaviour:
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461717235990}
+  indexOfTheShotProjectileBlue: 12
+  indexOfTheShotProjectileRed: 13
 --- !u!114 &2861809655894589310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,10 +307,12 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  actionLinked: 3
+  actionLinked: 0
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461717235990}
+  indexOfTheShotProjectileBlue: 12
+  indexOfTheShotProjectileRed: 13
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
