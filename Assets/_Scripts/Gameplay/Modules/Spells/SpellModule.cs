@@ -127,6 +127,7 @@ public class SpellModule : MonoBehaviour
 		if (isUsed && !resolved)
 		{
 			currentTimeCanalised += Time.deltaTime;
+
 			if (currentTimeCanalised >= timeToResolveSpell)
 			{
 				if (spell.useLastRecordedMousePos)

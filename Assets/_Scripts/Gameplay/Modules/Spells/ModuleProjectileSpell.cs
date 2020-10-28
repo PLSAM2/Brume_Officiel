@@ -29,9 +29,13 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected override void ResolveSpell ( Vector3 mousePosition )
 	{
+
+		endCanalisation?.Invoke();
+		resolved = true;
+
 		shooting = true;
 		shotRemainingInSalve = myLiveSalve.numberOfSalve;
-		endCanalisation?.Invoke();
+		timeBetweenShot = 0;
 	}
 
 	protected override void Update ()
@@ -40,7 +44,7 @@ public class ModuleProjectileSpell : SpellModule
 
 		if (shooting == true)
 		{
-			isUsed = false;
+			
 			timeBetweenShot -= Time.deltaTime;
 			if (timeBetweenShot <= 0)
 			{
@@ -103,6 +107,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		base.Interrupt();
 		shooting = false;
+		isUsed = false;
 	}
 
 	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )

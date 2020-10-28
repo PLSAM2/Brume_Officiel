@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: ProjectileSpell attaque base
   m_EditorClassIdentifier: 
   canalisationTime: 0.01
-  movementModifier: 0
   range: 8
   cooldown: 0.8
   forbiddenState: 24
@@ -29,11 +28,11 @@ MonoBehaviour:
     mySpeed: 0
     myLifeTime: 0
   salveInfos:
-    numberOfProjectileShotPerSalve: 4
+    numberOfSalve: 1
     timeToReachMaxRange: 1
     timeToResolveTheSalve: 0.6
   prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
   prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
   isMultiple: 1
-  numberOfProjShoot: 1
-  angleToSplit: 140
+  numberOfProjShoot: 4
+  angleToSplit: 0

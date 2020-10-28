@@ -149,8 +149,6 @@ public class DashModule : SpellModule
 		}
 	}
 
-	
-
 	void EndDashFeedback()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
@@ -160,6 +158,12 @@ public class DashModule : SpellModule
 	{
 		base.UpgradeSpell(_rule);
 		charges += _rule.numberOfChargeAdded;
+	}
+
+	protected override void ReturnToNormal ()
+	{
+		base.ReturnToNormal();
+		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
 
 

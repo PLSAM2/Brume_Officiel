@@ -42,6 +42,7 @@ public class MovementModule : MonoBehaviour
 		//IMPORTANT POUR LES CALLBACKS
 		currentForcedMovement.myModule = myPlayerModule;
 		myPlayerModule.addMovementModifier += AddModifierMovementSpeed;
+
 		collider = GetComponent<CapsuleCollider>();
 
 	}

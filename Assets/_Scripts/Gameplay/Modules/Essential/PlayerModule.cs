@@ -14,14 +14,11 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
+	private LayerMask groundLayer;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-
 	public Team teamIndex;
-
-	[SerializeField] Camera mainCam;
-	[SerializeField] LayerMask groundLayer;
 	public bool isInBrume = false;
 
 
@@ -67,11 +64,16 @@ public class PlayerModule : MonoBehaviour
 	public Action backToNormalKit;
 	#endregion
 
-	void Awake ()
+	void Awake()
 	{
+		groundLayer = LayerMask.GetMask("Ground");
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
 		GameManager.AllCharacterSpawned += Setup;
+	}
+
+	void Start()
+	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
 
@@ -212,9 +214,12 @@ public class PlayerModule : MonoBehaviour
 
 	void LookAtMouse ()
 	{
+		print("akirbnaqfra");
 		if ((state & En_CharacterState.Canalysing) == 0)
 		{
 			Vector3 _currentMousePos = mousePos();
+
+			print("Looking" + new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
 	}
