@@ -15,7 +15,8 @@ public class DashModule : SpellModule
 		base.SetupComponent();
 		mylineRender.useWorldSpace = true;
 
-		if (isOwner)
+
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			startCanalisation += ShowPreview;
 			endCanalisation += ClearPreview;
@@ -25,7 +26,7 @@ public class DashModule : SpellModule
 
 	protected override void OnDisable ()
 	{
-        if (isOwner)
+        if (myPlayerModule.mylocalPlayer.isOwner)
         {
 			startCanalisation -= ShowPreview;
 			endCanalisation -= ClearPreview;
@@ -148,11 +149,22 @@ public class DashModule : SpellModule
 		}
 	}
 
-	
-
 	void EndDashFeedback()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
+
+	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	{
+		base.UpgradeSpell(_rule);
+		charges += _rule.numberOfChargeAdded;
+	}
+
+	protected override void ReturnToNormal ()
+	{
+		base.ReturnToNormal();
+		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
+	}
+
 
 }

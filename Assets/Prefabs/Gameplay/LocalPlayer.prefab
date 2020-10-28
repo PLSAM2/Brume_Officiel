@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 6674073701188791837}
   - component: {fileID: 7642602275245690328}
   - component: {fileID: 32086142644911797}
-  - component: {fileID: 2861809655894589310}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -153,7 +152,7 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 7456197301907493091}
   movementPart: {fileID: 8281150123794309746}
-  firstSpell: {fileID: 2861809655894589310}
+  firstSpell: {fileID: 0}
   secondSpell: {fileID: 6674073701188791837}
   thirdSpell: {fileID: 0}
   leftClick: {fileID: 32086142644911797}
@@ -190,6 +189,7 @@ MonoBehaviour:
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
+  resolved: 0
   spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
   actionLinked: 1
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
@@ -217,6 +217,7 @@ MonoBehaviour:
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
+  resolved: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   actionLinked: 5
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
@@ -283,30 +284,9 @@ MonoBehaviour:
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
+  resolved: 0
   spell: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
   actionLinked: 3
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  indexOfTheShotProjectileBlue: 12
-  indexOfTheShotProjectileRed: 13
---- !u!114 &2861809655894589310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8a0ecb9612efdb479f0ad5ef4a35923, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  actionLinked: 0
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461717235990}

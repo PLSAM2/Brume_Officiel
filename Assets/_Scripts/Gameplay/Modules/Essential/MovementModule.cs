@@ -43,10 +43,13 @@ public class MovementModule : MonoBehaviour
 		currentForcedMovement.myModule = myPlayerModule;
 		myPlayerModule.addMovementModifier += AddModifierMovementSpeed;
 
+		collider = GetComponent<CapsuleCollider>();
+
 	}
 
 	void OnDisable ()
 	{
+		myPlayerModule.addMovementModifier -= AddModifierMovementSpeed;
 		myPlayerModule.DirectionInputedUpdate -= Move;
 		myPlayerModule.forcedMovementAdded -= AddDash;
 
@@ -54,10 +57,10 @@ public class MovementModule : MonoBehaviour
 		//	myPlayerModule.stopRunning -= StopRunning;
 	}
 
-	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )
+	public void SetupComponent ( St_MovementParameters _newParameters)
 	{
 		parameters = _newParameters;
-		collider = _colliderInfos;
+
 
 		//stamina
 		//_stamina = parameters.maxStamina;
@@ -67,9 +70,10 @@ public class MovementModule : MonoBehaviour
 	void FixedUpdate ()
 	{
 		List<MovementModifier> _tempList = allLiveMovementModifier;
-		for (int i = 0; i < allLiveMovementModifier.Count - 1; i++)
+		for (int i = 0; i < allLiveMovementModifier.Count ; i++)
 		{
 			allLiveMovementModifier[i].duration -= Time.fixedDeltaTime;
+
 			if (allLiveMovementModifier[i].duration <= 0)
 			{
 				_tempList.RemoveAt(i);
@@ -250,14 +254,13 @@ public class MovementModule : MonoBehaviour
 		if (allLiveMovementModifier.Count > 0)
 		{
 			float _finalPercentage = 0;
-			for (int i = 0; i < allLiveMovementModifier.Count - 1; i++)
+			for (int i = 0; i < allLiveMovementModifier.Count ; i++)
 			{
 				_finalPercentage += allLiveMovementModifier[i].percentageOfTheModifier;
 			}
 			_finalPercentage /= allLiveMovementModifier.Count;
 			_defspeed *= _finalPercentage;
 		}
-
 		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
 		return _defspeed;
 
