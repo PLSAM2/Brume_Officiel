@@ -51,14 +51,14 @@ public class SpellModule : MonoBehaviour
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
 
+
 	public virtual void SetupComponent ()
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			if (myPlayerModule.mylocalPlayer.isOwner)
-				isOwner = true;
+			isOwner = true;
 
 			switch (actionLinked)
 			{
@@ -89,7 +89,8 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.upgradeKit += UpgradeSpell;
 			myPlayerModule.backToNormalKit += ReturnToNormal;
 		}
-
+		else
+			Destroy(this);
 	}
 
 	protected virtual void OnDisable ()

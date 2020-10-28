@@ -86,7 +86,6 @@ public class PlayerModule : MonoBehaviour
 
 		if (!mylocalPlayer.isOwner)
 		{
-			revelationCheck -= CheckForBrumeRevelation;
 		}
 		else
 		{
@@ -122,8 +121,8 @@ public class PlayerModule : MonoBehaviour
 			else
 				mapIcon.color = Color.red;
 
-			revelationCheck += CheckForBrumeRevelation;
-			CheckForBrumeRevelation();
+			StartCoroutine(WaitForVisionCheck());
+
 		}
 	}
 
@@ -214,15 +213,12 @@ public class PlayerModule : MonoBehaviour
 
 	void LookAtMouse ()
 	{
-		print("akirbnaqfra");
 		if ((state & En_CharacterState.Canalysing) == 0)
 		{
 			Vector3 _currentMousePos = mousePos();
-
-			print("Looking" + new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
-	}
+	} 
 
 	public void AddState( En_CharacterState _stateToAdd)
 	{
@@ -291,12 +287,15 @@ public class PlayerModule : MonoBehaviour
 				_fx.GetComponent<ParticleSystem>().startColor = Color.red;
 			}
 		}
-		StartCoroutine(WaitForVisionCheck());
+
 	}
 	IEnumerator WaitForVisionCheck ()
 	{
-		yield return new WaitForSecondsRealtime(characterParameters.delayBetweenDetection);
+		CheckForBrumeRevelation();
+		print("Checking");
+		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
 		revelationCheck?.Invoke();
+		StartCoroutine("WaitForVisionCheck");
 	}
 	#endregion
 
