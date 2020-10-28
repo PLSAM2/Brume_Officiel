@@ -12,20 +12,23 @@ public class FowFollow : MonoBehaviour
 
     [SerializeField] float followSpeed = 10;
 
-    public void Init(Transform _target, float _range)
+    public void Init(Transform _target)
     {
         if(_target != null)
         {
             isStatic = false;
             myTarget = _target;
-
-            myFieldOfView.viewRadius = _range;
         }
         else
         {
             isStatic = true;
             myFieldOfView.GenerateFowStatic();
         }
+    }
+
+    public void ChangeRange(float _range)
+    {
+        myFieldOfView.viewRadius = _range;
     }
 
     // Update is called once per frame

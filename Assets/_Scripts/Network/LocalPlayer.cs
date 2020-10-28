@@ -41,7 +41,6 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     GameObject myFow;
-    [SerializeField] float fowRange = 7;
 
     private void Awake()
     {
@@ -104,7 +103,7 @@ public class LocalPlayer : MonoBehaviour
         myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity);
         FowFollow myFowFollow = myFow.GetComponent<FowFollow>();
 
-        myFowFollow.Init(transform, fowRange);
+        myFowFollow.Init(transform);
     }
 
     private void OnDestroy()
