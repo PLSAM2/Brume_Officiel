@@ -18,7 +18,6 @@ public class Projectile : MonoBehaviour
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
-		print(transform.rotation);
 	}
 
 	/*private void OnCollisionEnter ( Collision collision )
