@@ -107,6 +107,14 @@ public class LocalPlayer : MonoBehaviour
         myFowFollow.Init(transform, fowRange);
     }
 
+    private void OnDestroy()
+    {
+        if(myFow != null)
+        {
+            Destroy(myFow);
+        }
+    }
+
     private void OnDisable()
     {
         if (!isOwner)
