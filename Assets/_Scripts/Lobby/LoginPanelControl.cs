@@ -3,6 +3,7 @@ using DarkRift.Client.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,15 +28,30 @@ public class LoginPanelControl : MonoBehaviour
     [SerializeField] private Button loginBtn;
     [SerializeField] private UnityClient client;
 
-    private bool isTryingToConnectFirstTime = true;
-    private bool isTryingToReconnect = false;
-    private int attempt = 0;
-
-    private void Start()
+    public void ConnectOnline()
     {
+        try
+        {
             client.Connect(client.Address, client.Port, true);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError(e);
+        }
+         
+    }
 
-            StartCoroutine(TimerBeforeConnectingFirstTime());
+    public void ConnectLocal()
+    {
+        try
+        {
+            client.Connect(LocalIP, client.Port, true);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError(e);
+        }
+
     }
     void Update()
     {
@@ -43,11 +59,6 @@ public class LoginPanelControl : MonoBehaviour
 
         if (client.ConnectionState != ConnectionState.Connected)
         {
-            if (!isTryingToConnectFirstTime)
-            {
-                StartCoroutine(TryReconnect());
-            }
-
             loginBtn.interactable = false;
             return;
         }
@@ -81,40 +92,5 @@ public class LoginPanelControl : MonoBehaviour
         LobbyManager.Instance.DisplayMainMenu();
     }
 
-    IEnumerator TryReconnect()
-    {
-        isTryingToReconnect = true;
 
-        if (client.ConnectionState != ConnectionState.Connected)
-        {
-            attempt++;
-
-            if (attempt % 2 == 0)
-            {
-                client.Connect(client.Address, client.Port, true);
-                Debug.Log("Reconnecting at => " + client.Address);
-            }
-            else
-            {
-                client.Connect(LocalIP, client.Port, true);
-                Debug.Log("Reconnecting at => " + LocalIP);
-            }
-
-            Debug.Log("Reconnecting after " + timeBeforeReconnect + " | attempt : " + attempt);
-        }
-
-        yield return new WaitForSeconds(timeBeforeReconnect);
-
-        isTryingToReconnect = false;
-    }
-    IEnumerator TimerBeforeConnectingFirstTime()
-    {
-        yield return new WaitForSeconds(timeFirstAttempt);
-
-        if (client.ConnectionState != ConnectionState.Connected)
-        {
-            isTryingToConnectFirstTime = false;
-        }
-
-    }
 }

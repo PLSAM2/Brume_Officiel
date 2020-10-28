@@ -12,15 +12,17 @@ public class DashModule : SpellModule
 		base.SetupComponent();
 		mylineRender.useWorldSpace = true;
 
-
-		startCanalisation += ShowPreview;
-		endCanalisation += ClearPreview;
-		myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
+		if (isOwner)
+		{
+			startCanalisation += ShowPreview;
+			endCanalisation += ClearPreview;
+			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
+		}
 	}
 
 	protected override void OnDisable ()
 	{
-        if (myPlayerModule.mylocalPlayer.isOwner)
+        if (isOwner)
         {
 			startCanalisation -= ShowPreview;
 			endCanalisation -= ClearPreview;
