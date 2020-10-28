@@ -61,6 +61,8 @@ public class PlayerModule : MonoBehaviour
 	public Action<MovementModifier> addMovementModifier;
 	//Animation
 	public Action<Vector3> onSendMovement;
+	public static Action<float> reduceAllCooldown;
+	public static Action<float, En_SpellInput> reduceTargetCooldown;
 	#endregion
 
 	void Awake ()
@@ -71,7 +73,7 @@ public class PlayerModule : MonoBehaviour
 		if (GameManager.Instance.gameStarted)
 			Setup();
 
-	//	oldPos = transform.position;
+		//	oldPos = transform.position;
 	}
 
 	private void OnDestroy ()
@@ -82,7 +84,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	void Setup()
+	void Setup ()
 	{
 		if (mylocalPlayer.isOwner)
 		{
@@ -96,7 +98,8 @@ public class PlayerModule : MonoBehaviour
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
 			ward?.SetupComponent();
-
+			reduceAllCooldown += ReduceAllCooldowns;
+			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
 		}
 		else
@@ -146,7 +149,7 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyDown(secondSpellKey))
 				secondSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(thirdSpellKey))
-				thirdSpellInputRealeased?.Invoke(mousePos());			
+				thirdSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(wardKey))
 				wardInputReleased?.Invoke(mousePos());
 
@@ -164,17 +167,17 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyUp(interactKey))
 			{
 				foreach (Interactible interactible in interactiblesClose)
-                {
+				{
 					if (interactible == null)
 						return;
 
 					interactible.StopCapturing(teamIndex);
 				}
 			}
-				#endregion
+			#endregion
 
-				//camera
-				if (Input.GetKeyUp(freeCamera))
+			//camera
+			if (Input.GetKeyUp(freeCamera))
 				CameraManager.LockCamera.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.UpdateCameraPos();
@@ -184,18 +187,18 @@ public class PlayerModule : MonoBehaviour
 	}
 
 	//ANIM EN LOCAL
-/*	private void FixedUpdate ()
-	{
-		if (mylocalPlayer.isOwner == false)
+	/*	private void FixedUpdate ()
 		{
-			Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
-			//mylocalPlayer
+			if (mylocalPlayer.isOwner == false)
+			{
+				Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
+				//mylocalPlayer
+			}
 		}
-	}
-	private void LateUpdate ()
-	{
-		oldPos = transform.position;
-	}*/
+		private void LateUpdate ()
+		{
+			oldPos = transform.position;
+		}*/
 
 	void LookAtMouse ()
 	{
@@ -206,6 +209,40 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
+	void ReduceCooldown ( float _duration, En_SpellInput _spell )
+	{
+		switch (_spell)
+		{ 
+		case En_SpellInput.FirstSpell:
+				firstSpell.ReduceCooldown(_duration);
+			break;
+
+			case En_SpellInput.SecondSpell:
+				secondSpell.ReduceCooldown(_duration);
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.ReduceCooldown(_duration);
+				break;
+
+			case En_SpellInput.Click:
+				leftClick.ReduceCooldown(_duration);
+				break;
+
+			case En_SpellInput.Ward:
+				ward.ReduceCooldown(_duration);
+				break;
+		}
+	}
+
+	void ReduceAllCooldowns ( float _duration)
+	{
+		firstSpell.ReduceCooldown(_duration);
+		secondSpell.ReduceCooldown(_duration);
+		thirdSpell.ReduceCooldown(_duration);
+		leftClick.ReduceCooldown(_duration);
+		ward.ReduceCooldown(_duration);
+	}
 	//vision
 	#region
 	void CheckForBrumeRevelation ()
@@ -213,7 +250,7 @@ public class PlayerModule : MonoBehaviour
 		if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
 		{
-			GameObject _fx = Instantiate(sonar, transform.position+ Vector3.up, Quaternion.Euler(90, 0, 0));
+			GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
 
 			if (teamIndex == Team.blue)
 			{
@@ -246,7 +283,7 @@ public class PlayerModule : MonoBehaviour
 
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
 		{
-			return hit.point;
+			return new Vector3(hit.point.x, 0, hit.point.z);
 		}
 		else
 		{
@@ -254,10 +291,10 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public Vector3 ClosestFreePos(Vector3 _posToCloseUpTo, float _anticipationDistance)
+	public Vector3 ClosestFreePos ( Vector3 _posToCloseUpTo, float _anticipationDistance )
 	{
 		RaycastHit _hit;
-		if(Physics.Raycast(transform.position,_posToCloseUpTo - transform.position, out _hit, 1000, movementPart.movementBlockingLayer))
+		if (Physics.Raycast(transform.position, _posToCloseUpTo - transform.position, out _hit, 1000, movementPart.movementBlockingLayer))
 		{
 			return transform.position + Vector3.Normalize(_posToCloseUpTo - transform.position) * (Vector3.Distance(_hit.point, transform.position) - _anticipationDistance);
 		}
@@ -274,6 +311,7 @@ public enum En_CharacterState
 	SpedUp = 1 << 2,
 	Stunned = 1 << 3,
 	Canalysing = 1 << 4,
+	Silenced = 1 << 5,
 }
 
 [System.Serializable]

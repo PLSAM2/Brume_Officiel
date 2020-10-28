@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: ProjectileSpell
+  m_Name: ProjectileSpell attaque base
   m_EditorClassIdentifier: 
   canalisationTime: 0.01
   movementModifier: 0
@@ -24,12 +24,16 @@ MonoBehaviour:
   numberOfCharge: 1
   projParameters:
     myDamages:
-      damageHealth: 5
+      damageHealth: 1
       playerName: 
     mySpeed: 0
     myLifeTime: 0
-  numberOfProjectileShotPerSalve: 4
-  timeToReachMaxRange: 0.15
-  delayBetweenShot: 0.15
+  salveInfos:
+    numberOfProjectileShotPerSalve: 4
+    timeToReachMaxRange: 1
+    timeToResolveTheSalve: 0.6
   prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
   prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
+  isMultiple: 1
+  numberOfProjShoot: 1
+  angleToSplit: 140

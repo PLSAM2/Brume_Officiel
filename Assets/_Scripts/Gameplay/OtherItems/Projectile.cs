@@ -14,9 +14,11 @@ public class Projectile : MonoBehaviour
 	[SerializeField] LayerMask layerToHit;
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] Sc_ProjectileSpell spellRule;
+
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
+		print(transform.rotation);
 	}
 
 	/*private void OnCollisionEnter ( Collision collision )
@@ -62,6 +64,7 @@ public class Projectile : MonoBehaviour
 						playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
 						_mustDestroy = true;
 						_PosToSpawn = _hits[i].point;
+							
 						return;
 					}
 					else
@@ -69,7 +72,7 @@ public class Projectile : MonoBehaviour
 				}
 				else
 				{
-					print(_hits[i].collider.name);
+					// print(_hits[i].collider.name);
 					_PosToSpawn = _hits[i].point;
 					_mustDestroy = true;
 				}
@@ -93,7 +96,7 @@ public class Projectile : MonoBehaviour
 		myInfos.myLifeTime -= Time.fixedDeltaTime;
 		if (myInfos.myLifeTime <= 0)
 		{
-			print("OUtOFTIme");
+			// print("OUtOFTIme");
 			Destroy();
 		}
 	}
@@ -107,8 +110,8 @@ public class Projectile : MonoBehaviour
 	void SetupPrefab ()
 	{
 		myInfos.myDamages.damageHealth = spellRule.projParameters.myDamages.damageHealth;
-		myInfos.mySpeed = spellRule.range / spellRule.timeToReachMaxRange;
-		myInfos.myLifeTime = spellRule.timeToReachMaxRange;
+		myInfos.mySpeed = spellRule.range / spellRule.salveInfos.timeToReachMaxRange;
+		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
 	}
 }
 

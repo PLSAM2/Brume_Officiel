@@ -8,11 +8,10 @@ using System.Linq;
 using UnityEngine;
 using static GameData;
 
-public class InteractibleObjectsManager : MonoBehaviour
+public class InteractibleObjectsManager : SerializedMonoBehaviour
 {
     [BoxGroup]
-    [InfoBox("Chaque objet doit avoir un ID UNIQUE", InfoMessageType.Info)]
-    public List<Interactible> interactibleList = new List<Interactible>();
+    public Dictionary<ushort, Interactible> interactibleList = new Dictionary<ushort, Interactible>();
 
     private List<Altar> altarList = new List<Altar>();
     public float firstAltarUnlockTime = 15;
@@ -29,6 +28,8 @@ public class InteractibleObjectsManager : MonoBehaviour
         }
 
         client = RoomManager.Instance.client;
+
+        InitInteractibleID();
     }
     void Start()
     {
@@ -37,11 +38,11 @@ public class InteractibleObjectsManager : MonoBehaviour
             StartCoroutine(UnlockAltar());
         }
 
-        foreach (Interactible interactible in interactibleList)
+        foreach (KeyValuePair<ushort, Interactible> interactible in interactibleList)
         {
-            if (interactible.GetType() == typeof(Altar))
+            if (interactible.Value.GetType() == typeof(Altar))
             {
-                altarList.Add((Altar)interactible);
+                altarList.Add((Altar)interactible.Value);
             }
         }
 
@@ -66,7 +67,7 @@ public class InteractibleObjectsManager : MonoBehaviour
             if (message.Tag == Tags.CaptureProgressInteractible)
             {
                 CaptureProgressInteractibleInServer(sender, e);
-            }            
+            }
             if (message.Tag == Tags.CaptureInteractible)
             {
                 CaptureInteractibleInServer(sender, e);
@@ -75,6 +76,14 @@ public class InteractibleObjectsManager : MonoBehaviour
             {
                 UnlockInteractibleInServer(sender, e);
             }
+        }
+    }
+
+    public void InitInteractibleID()
+    {
+        for (ushort i = 0; i < interactibleList.Count; i++)
+        {
+            interactibleList[i].interactibleID = i;
         }
     }
 
@@ -111,6 +120,10 @@ public class InteractibleObjectsManager : MonoBehaviour
                 {
                     ((Altar)_interactible).UpdateCaptured(_team);
                 }
+                else if (_interactible.GetType() == typeof(Frog))
+                {
+                    ((Frog)_interactible).UpdateCaptured(_team);
+                }
             }
         }
     }
@@ -126,11 +139,7 @@ public class InteractibleObjectsManager : MonoBehaviour
 
                 Interactible _interactible = interactibleList[_ID];
 
-
-                if (_interactible.GetType() == typeof(Altar))
-                {
-                    ((Altar)_interactible).UpdateTryCapture(_team);
-                }
+                (_interactible).UpdateTryCapture(_team);
             }
         }
 
@@ -147,10 +156,7 @@ public class InteractibleObjectsManager : MonoBehaviour
 
                 Interactible _interactible = interactibleList[_ID];
 
-                if (_interactible.GetType() == typeof(Altar))
-                {
-                    ((Altar)_interactible).ProgressInServer(progress);
-                }
+                (_interactible).ProgressInServer(progress);
             }
         }
     }

@@ -9,13 +9,15 @@ public class SpellModule : MonoBehaviour
 	En_CharacterState stateAtStart;
 
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
+	protected bool isOwner;
 
 	[ReadOnly]
 	public float Cooldown
 	{
 		get => _cooldown; set
 		{
-			_cooldown = value; UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
+			_cooldown = value;
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
 	private int _charges;
@@ -28,12 +30,13 @@ public class SpellModule : MonoBehaviour
 		{
 			_charges = value;
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+			Cooldown = spell.cooldown;
 		}
 	}
 
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false;
-	[ReadOnly] public Sc_Spell spell;
+	public Sc_Spell spell;
 
 	public En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
@@ -46,6 +49,8 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
+		if (myPlayerModule.mylocalPlayer.isOwner)
+			isOwner = true;
 
 		switch (actionLinked)
 		{
@@ -76,26 +81,29 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void OnDisable ()
 	{
-		switch (actionLinked)
+		if(isOwner)
 		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= StartCanalysing;
-				break;
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= StartCanalysing;
-				break;
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= StartCanalysing;
-				break;
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= StartCanalysing;
-				break;
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput -= StartCanalysing;
-				break;
+			switch (actionLinked)
+			{
+				case En_SpellInput.FirstSpell:
+					myPlayerModule.firstSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.SecondSpell:
+					myPlayerModule.secondSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.ThirdSpell:
+					myPlayerModule.thirdSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.Click:
+					myPlayerModule.leftClickInput -= StartCanalysing;
+					break;
+				case En_SpellInput.Ward:
+					myPlayerModule.wardInput -= StartCanalysing;
+					break;
+			}
+			startCanalisation -= StartCanalysingFeedBack;
+			endCanalisation -= ResolveSpellFeedback;
 		}
-		startCanalisation -= StartCanalysingFeedBack;
-		endCanalisation -= ResolveSpellFeedback;
 	}
 
 	protected virtual void Update ()
@@ -164,11 +172,13 @@ public class SpellModule : MonoBehaviour
 			else
 			{
 				charges += 1;
-				Cooldown = spell.cooldown;
 			}
 		}
-		
+	}
 
+	public void ReduceCooldown(float _durationShorten)
+	{
+		Cooldown -= _durationShorten;
 	}
 
 	bool canBeCast ()

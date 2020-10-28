@@ -18,7 +18,8 @@ public enum State : ushort
 public class Interactible : MonoBehaviour
 {
     [Header("Interactible properties")]
-    public ushort interactibleID;
+    [ReadOnly] public ushort interactibleID = 0; // Generate in interactibleObjectManager
+
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
     [ReadOnly] public Team capturingTeam = Team.none;

@@ -38,9 +38,9 @@ public class LocalPlayer : MonoBehaviour
     private Vector3 lastPosition;
     private Vector3 lastRotation;
 
-    //Fog
-    public GameObject myReveal;
-   // public FieldOfViewOld myFogScript;
+    [Header("Fog")]
+    public GameObject fowPrefab;
+    GameObject myFow;
 
     private void Awake()
     {
@@ -87,14 +87,30 @@ public class LocalPlayer : MonoBehaviour
             circleDirection.SetActive(true);
             UiManager.Instance.myPlayerModule = myPlayerModule;
 
-            myReveal.SetActive(true);
+            SpawnFow();
         }
         else
         {
             if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
             {
-                myReveal.SetActive(true);
+                SpawnFow();
             }
+        }
+    }
+
+    void SpawnFow()
+    {
+        myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity);
+        FowFollow myFowFollow = myFow.GetComponent<FowFollow>();
+
+        myFowFollow.Init(transform);
+    }
+
+    private void OnDestroy()
+    {
+        if(myFow != null)
+        {
+            Destroy(myFow);
         }
     }
 

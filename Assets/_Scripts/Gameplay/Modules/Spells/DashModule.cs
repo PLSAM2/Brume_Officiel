@@ -7,26 +7,38 @@ public class DashModule : SpellModule
 {
 	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
+	Vector3 lastRecordedDirection = Vector3.zero;
+	public bool usingKeyboardInput;
+
 	public override void SetupComponent ()
 	{
 		base.SetupComponent();
 		mylineRender.useWorldSpace = true;
 
-
-		startCanalisation += ShowPreview;
-		endCanalisation += ClearPreview;
-		myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
+		if (isOwner)
+		{
+			startCanalisation += ShowPreview;
+			endCanalisation += ClearPreview;
+			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
+		}
 	}
 
 	protected override void OnDisable ()
 	{
-        if (myPlayerModule.mylocalPlayer.isOwner)
+        if (isOwner)
         {
 			startCanalisation -= ShowPreview;
 			endCanalisation -= ClearPreview;
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
 	}
+
+	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		base.StartCanalysing(_BaseMousePos);
+		lastRecordedDirection = myPlayerModule.directionInputed();
+	}
+
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
 
@@ -59,11 +71,17 @@ public class DashModule : SpellModule
 
 		if (spell.useLastRecordedMousePos)
 		{
-			dashInfos.direction = recordedMousePosOnInput - transform.position;
+			if (usingKeyboardInput)
+				dashInfos.direction = lastRecordedDirection;
+			else
+				dashInfos.direction = recordedMousePosOnInput - transform.position;
 		}
 		else
 		{
-			dashInfos.direction = myPlayerModule.mousePos() - transform.position;
+			if (usingKeyboardInput)
+				dashInfos.direction = myPlayerModule.directionInputed();
+			else
+				dashInfos.direction = myPlayerModule.mousePos() - transform.position;
 		}
 		myPlayerModule.forcedMovementAdded(dashInfos);
 		base.ResolveSpell(_mousePosition);

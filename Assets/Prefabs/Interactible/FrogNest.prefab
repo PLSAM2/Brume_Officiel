@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5461372675387200605}
-  - component: {fileID: 2309909007866677933}
-  - component: {fileID: 5867301088352787088}
   - component: {fileID: 8059990686991345477}
   m_Layer: 0
   m_Name: FrogNest
@@ -35,35 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2309909007866677933
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812203338465489556}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.86
-  m_Center: {x: 0, y: -0.49, z: 0}
---- !u!54 &5867301088352787088
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812203338465489556}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &8059990686991345477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfcacd658bcdf9f4da5a02e4811de191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frogObj: {fileID: 0}
-  respawnTime: 0
+  frogObj: {fileID: 7649166997013386788}
+  respawnTime: 10
 --- !u!1 &2851306537607003157
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 800ec33a9c0fe564b9b72cdd97dc8d9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -236,6 +205,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7133607094311464153, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9c6c9fcb82afe874a825a9e680e694b2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
 --- !u!4 &787284156220074979 stripped
@@ -243,3 +216,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5461372675387200605, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
   m_PrefabInstance: {fileID: 4694526831879061438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7649166997013386788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3098761990348155290, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
+  m_PrefabInstance: {fileID: 4694526831879061438}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130dc63a56f64db4191f426b35e7319f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
