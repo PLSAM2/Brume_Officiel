@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
+  m_Name: ProjectileSpell salve
+  m_EditorClassIdentifier: 
+  canalisationTime: 0.01
+  movementModifier: 0
+  range: 5
+  cooldown: 3
+  forbiddenState: 24
+  canCancel: 0
+  mustUseACollFreePos: 0
+  useLastRecordedMousePos: 0
+  spellIcon: {fileID: 21300000, guid: ac378749b253b074b932b863293d0f7f, type: 3}
+  numberOfCharge: 1
+  projParameters:
+    myDamages:
+      damageHealth: 1
+      playerName: 
+    mySpeed: 0
+    myLifeTime: 0
+  salveInfos:
+    numberOfProjectileShotPerSalve: 1
+    timeToReachMaxRange: 0.6
+    timeToResolveTheSalve: 0.6
+  prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
+  prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
+  isMultiple: 1
+  numberOfProjShoot: 6
+  angleToSplit: 140

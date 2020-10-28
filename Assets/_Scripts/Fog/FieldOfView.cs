@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FieldOfViewOld : MonoBehaviour
+public class FieldOfView : MonoBehaviour
 {
 
 	public float viewRadius;
@@ -39,11 +39,6 @@ public class FieldOfViewOld : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 	}
 
-	private void Update ()
-	{
-		//FogProjector.Instance.UpdateFog();
-	}
-
 	IEnumerator FindTargetsWithDelay ( float delay )
 	{
 		while (true)
@@ -53,12 +48,22 @@ public class FieldOfViewOld : MonoBehaviour
 		}
 	}
 
+	public void GenerateFowStatic()
+    {
+		isStatic = true;
+		DrawFieldOfView();
+	}
+
+	bool isStatic = false;
+
 	void FixedUpdate ()
 	{
+        if (isStatic) { return; }
+
 		DrawFieldOfView();
 
 		//SetListVisibleEnemy();
-
+		//FogProjector.Instance.UpdateFog();
 	}
 
 	void SetListVisibleEnemy ()

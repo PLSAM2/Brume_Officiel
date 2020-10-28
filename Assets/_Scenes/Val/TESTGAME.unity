@@ -2555,7 +2555,6 @@ MonoBehaviour:
   timePerRound: 180
   myCam: {fileID: 0}
   defaultCam: {fileID: 942639389}
-  InBrumeCam: {fileID: 942639388}
   volumeAnimator: {fileID: 323151474}
   visiblePlayer: []
   gameStarted: 0
@@ -4012,17 +4011,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7437436737860875975, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.939262
+      objectReference: {fileID: 0}
     - target: {fileID: 7696856220853874057, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
---- !u!20 &942639388 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6077146216757655007, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-  m_PrefabInstance: {fileID: 942639387}
-  m_PrefabAsset: {fileID: 0}
 --- !u!20 &942639389 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8688815936704438496, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
@@ -8340,6 +8338,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1319539626486977561, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278735141983318112, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278735141983318112, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278735141983318112, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278735141983318112, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

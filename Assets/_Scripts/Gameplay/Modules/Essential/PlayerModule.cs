@@ -80,6 +80,8 @@ public class PlayerModule : MonoBehaviour
 
 	private void OnDestroy ()
 	{
+		GameManager.AllCharacterSpawned -= Setup;
+
 		if (!mylocalPlayer.isOwner)
 		{
 			revelationCheck -= CheckForBrumeRevelation;
@@ -100,7 +102,7 @@ public class PlayerModule : MonoBehaviour
 
 			//modulesPArt
 			UiManager.Instance.myPlayerModule = this;
-			movementPart.SetupComponent(characterParameters.movementParameters, coll);
+			movementPart.SetupComponent(characterParameters.movementParameters);
 			firstSpell?.SetupComponent();
 			secondSpell?.SetupComponent();
 			thirdSpell?.SetupComponent();
@@ -264,7 +266,12 @@ public class PlayerModule : MonoBehaviour
 	//vision
 	#region
 	void CheckForBrumeRevelation ()
-	{
+    {
+        if (GameManager.Instance.currentLocalPlayer == null)
+        {
+			return;
+        }
+
 		if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
 		{

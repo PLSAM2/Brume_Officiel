@@ -33,7 +33,6 @@ public class RoomManager : MonoBehaviour
             _instance = this;
         }
 
-        DontDestroyOnLoad(this.gameObject);
 
         client.MessageReceived += MessageReceived;
     }
