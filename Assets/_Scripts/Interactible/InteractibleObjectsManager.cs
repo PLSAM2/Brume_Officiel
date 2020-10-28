@@ -11,7 +11,7 @@ using static GameData;
 public class InteractibleObjectsManager : SerializedMonoBehaviour
 {
     [BoxGroup]
-    public Dictionary<ushort, Interactible> interactibleList = new Dictionary<ushort, Interactible>();
+    public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
 
     private List<Altar> altarList = new List<Altar>();
     public float firstAltarUnlockTime = 15;
@@ -38,11 +38,11 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             StartCoroutine(UnlockAltar());
         }
 
-        foreach (KeyValuePair<ushort, Interactible> interactible in interactibleList)
+        foreach (KeyInteractiblePair KeyInteractiblePair in interactibleList)
         {
-            if (interactible.Value.GetType() == typeof(Altar))
+            if (KeyInteractiblePair.interactible.GetType() == typeof(Altar))
             {
-                altarList.Add((Altar)interactible.Value);
+                altarList.Add((Altar)KeyInteractiblePair.interactible);
             }
         }
 
@@ -83,7 +83,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
     {
         for (ushort i = 0; i < interactibleList.Count; i++)
         {
-            interactibleList[i].interactibleID = i;
+            interactibleList[i].Key = i;
         }
     }
 
@@ -95,7 +95,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             {
                 ushort _ID = reader.ReadUInt16();
 
-                Interactible _interactible = interactibleList[_ID];
+                Interactible _interactible = interactibleList[_ID].interactible;
 
                 if (_interactible.GetType() == typeof(Altar))
                 {
@@ -114,7 +114,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 ushort _ID = reader.ReadUInt16();
                 Team _team = (Team)reader.ReadUInt16();
 
-                Interactible _interactible = interactibleList[_ID];
+                Interactible _interactible = interactibleList[_ID].interactible;
 
                 if (_interactible.GetType() == typeof(Altar))
                 {
@@ -137,7 +137,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 ushort _ID = reader.ReadUInt16();
                 Team _team = (Team)reader.ReadUInt16();
 
-                Interactible _interactible = interactibleList[_ID];
+                Interactible _interactible = interactibleList[_ID].interactible;
 
                 (_interactible).UpdateTryCapture(_team);
             }
@@ -154,7 +154,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 ushort _ID = reader.ReadUInt16();
                 float progress = reader.ReadSingle();
 
-                Interactible _interactible = interactibleList[_ID];
+                Interactible _interactible = interactibleList[_ID].interactible;
 
                 (_interactible).ProgressInServer(progress);
             }
