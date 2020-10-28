@@ -67,9 +67,10 @@ public class MovementModule : MonoBehaviour
 	void FixedUpdate ()
 	{
 		List<MovementModifier> _tempList = allLiveMovementModifier;
-		for (int i = 0; i < allLiveMovementModifier.Count - 1; i++)
+		for (int i = 0; i < allLiveMovementModifier.Count ; i++)
 		{
 			allLiveMovementModifier[i].duration -= Time.fixedDeltaTime;
+
 			if (allLiveMovementModifier[i].duration <= 0)
 			{
 				_tempList.RemoveAt(i);
@@ -250,14 +251,13 @@ public class MovementModule : MonoBehaviour
 		if (allLiveMovementModifier.Count > 0)
 		{
 			float _finalPercentage = 0;
-			for (int i = 0; i < allLiveMovementModifier.Count - 1; i++)
+			for (int i = 0; i < allLiveMovementModifier.Count ; i++)
 			{
 				_finalPercentage += allLiveMovementModifier[i].percentageOfTheModifier;
 			}
 			_finalPercentage /= allLiveMovementModifier.Count;
 			_defspeed *= _finalPercentage;
 		}
-
 		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
 		return _defspeed;
 

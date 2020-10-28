@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6674073701188791837}
   - component: {fileID: 7642602275245690328}
   - component: {fileID: 32086142644911797}
-  - component: {fileID: 2861809655894589310}
+  - component: {fileID: 7415735807896348347}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -121,7 +121,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   forbidenWalkingState: 8
-  usingStamina: 0
 --- !u!114 &6667444453632817538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,9 +154,9 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 7456197301907493091}
   movementPart: {fileID: 8281150123794309746}
-  firstSpell: {fileID: 2861809655894589310}
+  firstSpell: {fileID: 32086142644911797}
   secondSpell: {fileID: 6674073701188791837}
-  thirdSpell: {fileID: 0}
+  thirdSpell: {fileID: 7415735807896348347}
   leftClick: {fileID: 0}
   ward: {fileID: 7642602275245690328}
   coll: {fileID: 8154408291484997990}
@@ -200,6 +199,7 @@ MonoBehaviour:
   mylineRender: {fileID: 2550331642934917765}
   startColorPreview: {r: 1, g: 0, b: 0, a: 1}
   endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  usingKeyboardInput: 0
   characterLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -268,6 +268,7 @@ MonoBehaviour:
   wardPrefab: {fileID: 1785922920789865436, guid: 1925b94b1d7ce1f4ab12e6cd5a1114bf, type: 3}
   wardSpeed: 15
   deceleratedRatio: 3
+  distanceMaxBeforeEndTravel: 0.01
 --- !u!114 &32086142644911797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,11 +285,13 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  actionLinked: 3
+  actionLinked: 0
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461717235990}
---- !u!114 &2861809655894589310
+  indexOfTheShotProjectileBlue: 12
+  indexOfTheShotProjectileRed: 13
+--- !u!114 &7415735807896348347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,14 +300,14 @@ MonoBehaviour:
   m_GameObject: {fileID: -7935494346270426752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8a0ecb9612efdb479f0ad5ef4a35923, type: 3}
+  m_Script: {fileID: 11500000, guid: c65d22a176d80624cb2b80c907eed451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
-  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  actionLinked: 3
+  spell: {fileID: 11400000, guid: 58683f536a7da4d4f930b348757dba41, type: 2}
+  actionLinked: 2
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461717235990}

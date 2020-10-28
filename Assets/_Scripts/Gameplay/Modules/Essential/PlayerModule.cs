@@ -63,6 +63,8 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
+	public Action<Sc_UpgradeSpell> upgradeKit;
+	public Action backToNormalKit;
 	#endregion
 
 	void Awake ()
@@ -82,10 +84,16 @@ public class PlayerModule : MonoBehaviour
 		{
 			revelationCheck -= CheckForBrumeRevelation;
 		}
+		else
+		{
+			reduceAllCooldown -= ReduceAllCooldowns;
+			reduceTargetCooldown -= ReduceCooldown;
+		}
 	}
 
 	void Setup ()
 	{
+		state = En_CharacterState.Clear;
 		if (mylocalPlayer.isOwner)
 		{
 			mapIcon.color = Color.blue;
@@ -98,6 +106,7 @@ public class PlayerModule : MonoBehaviour
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
 			ward?.SetupComponent();
+
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
@@ -111,7 +120,6 @@ public class PlayerModule : MonoBehaviour
 
 			revelationCheck += CheckForBrumeRevelation;
 			CheckForBrumeRevelation();
-
 		}
 	}
 
@@ -207,6 +215,16 @@ public class PlayerModule : MonoBehaviour
 			Vector3 _currentMousePos = mousePos();
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
+	}
+
+	public void AddState( En_CharacterState _stateToAdd)
+	{
+		state |= _stateToAdd;
+	}
+
+	public void RemoveState( En_CharacterState _stateToRemove)
+	{
+		state = state & (state & ~(_stateToRemove));
 	}
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )

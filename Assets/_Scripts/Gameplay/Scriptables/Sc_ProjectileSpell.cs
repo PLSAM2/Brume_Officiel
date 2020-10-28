@@ -19,8 +19,8 @@ public class Sc_ProjectileSpell : Sc_Spell
 }
 
 [System.Serializable]
-public class SalveInfos
+public struct SalveInfos
 {
-	public int numberOfProjectileShotPerSalve = 4;
-	public float timeToReachMaxRange = 1, timeToResolveTheSalve = .6f;
+	public int numberOfSalve;
+	public float timeToReachMaxRange, timeToResolveTheSalve;
 }

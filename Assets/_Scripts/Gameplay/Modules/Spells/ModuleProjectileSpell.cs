@@ -9,6 +9,7 @@ public class ModuleProjectileSpell : SpellModule
 	int shotRemainingInSalve;
 	[SerializeField] ushort indexOfTheShotProjectileBlue = 12, indexOfTheShotProjectileRed = 13;
 	SalveInfos myLiveSalve;
+	Vector3 lastForwardRecorded;
 
 	bool shooting = false;
 	float timeBetweenShot = 0;
@@ -17,12 +18,19 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		spellProj = spell as Sc_ProjectileSpell;
 		myLiveSalve = spellProj.salveInfos;
+
+	}
+
+	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		base.StartCanalysing(_BaseMousePos);
+		lastForwardRecorded = transform.forward + transform.position;
 	}
 
 	protected override void ResolveSpell ( Vector3 mousePosition )
 	{
 		shooting = true;
-		shotRemainingInSalve = spellProj.salveInfos.numberOfProjectileShotPerSalve;
+		shotRemainingInSalve = myLiveSalve.numberOfSalve;
 		endCanalisation?.Invoke();
 	}
 
@@ -36,6 +44,7 @@ public class ModuleProjectileSpell : SpellModule
 			timeBetweenShot -= Time.deltaTime;
 			if (timeBetweenShot <= 0)
 			{
+				//A RECORIGER POUR L INSTANT CA S EN FOUT
 				if (spell.useLastRecordedMousePos)
 					ShootSalve(PosToInstantiate(), RotationOfTheProj());
 				else
@@ -57,21 +66,30 @@ public class ModuleProjectileSpell : SpellModule
 
 	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
 	{
-		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfProjectileShotPerSalve;
+		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfSalve;
 
 		shotRemainingInSalve--;
 
 		if (shotRemainingInSalve <= 0)
 			Interrupt();
 
-		ReadSalve(_posToSet, _rot);
+		ReadSalve();
 	}
 
-	protected virtual void ReadSalve ( Vector3 _posToSet, Vector3 _rot )
+	protected void ReadSalve ()
 	{
-		ShootProjectile(_posToSet, _rot);
-	}
+		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
+		float _angleToAdd = spellProj.angleToSplit / spellProj.numberOfProjShoot;
 
+		for (int i = 0; i < spellProj.numberOfProjShoot; i++)
+		{
+			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
+
+			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
+			_baseAngle += _angleToAdd;
+		}
+	}
+	
 	protected  void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
 		if (myPlayerModule.teamIndex == Team.blue)
@@ -85,5 +103,18 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		base.Interrupt();
 		shooting = false;
+	}
+
+	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	{
+		base.UpgradeSpell(_rule);
+		myLiveSalve.timeToResolveTheSalve += _rule.durationAdded;
+		myLiveSalve.numberOfSalve += _rule.shotAdded;
+	}
+
+	protected override void ReturnToNormal ()
+	{
+		base.ReturnToNormal();
+		myLiveSalve = spellProj.salveInfos;
 	}
 }

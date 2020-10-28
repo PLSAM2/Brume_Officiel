@@ -16,9 +16,12 @@ public class DashModule : SpellModule
 		mylineRender.useWorldSpace = true;
 
 
-		startCanalisation += ShowPreview;
-		endCanalisation += ClearPreview;
-		myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			startCanalisation += ShowPreview;
+			endCanalisation += ClearPreview;
+			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
+		}
 	}
 
 	protected override void OnDisable ()
@@ -152,5 +155,12 @@ public class DashModule : SpellModule
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
+
+	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	{
+		base.UpgradeSpell(_rule);
+		charges += _rule.numberOfChargeAdded;
+	}
+
 
 }
