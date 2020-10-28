@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FieldOfViewOld : MonoBehaviour
+public class FieldOfView : MonoBehaviour
 {
 
 	public float viewRadius;
@@ -48,8 +48,18 @@ public class FieldOfViewOld : MonoBehaviour
 		}
 	}
 
+	public void GenerateFowStatic()
+    {
+		isStatic = true;
+		DrawFieldOfView();
+	}
+
+	bool isStatic = false;
+
 	void FixedUpdate ()
 	{
+        if (isStatic) { return; }
+
 		DrawFieldOfView();
 
 		//SetListVisibleEnemy();
