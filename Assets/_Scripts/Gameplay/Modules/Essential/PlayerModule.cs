@@ -14,14 +14,11 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
+	private LayerMask groundLayer;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-
 	public Team teamIndex;
-
-	[SerializeField] Camera mainCam;
-	[SerializeField] LayerMask groundLayer;
 	public bool isInBrume = false;
 
 
@@ -63,13 +60,20 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
+	public Action<Sc_UpgradeSpell> upgradeKit;
+	public Action backToNormalKit;
 	#endregion
 
-	void Awake ()
+	void Awake()
 	{
+		groundLayer = LayerMask.GetMask("Ground");
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
 		GameManager.AllCharacterSpawned += Setup;
+	}
+
+	void Start()
+	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
 
@@ -84,10 +88,16 @@ public class PlayerModule : MonoBehaviour
 		{
 			revelationCheck -= CheckForBrumeRevelation;
 		}
+		else
+		{
+			reduceAllCooldown -= ReduceAllCooldowns;
+			reduceTargetCooldown -= ReduceCooldown;
+		}
 	}
 
 	void Setup ()
 	{
+		state = En_CharacterState.Clear;
 		if (mylocalPlayer.isOwner)
 		{
 			mapIcon.color = Color.blue;
@@ -100,6 +110,7 @@ public class PlayerModule : MonoBehaviour
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
 			ward?.SetupComponent();
+
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
@@ -113,7 +124,6 @@ public class PlayerModule : MonoBehaviour
 
 			revelationCheck += CheckForBrumeRevelation;
 			CheckForBrumeRevelation();
-
 		}
 	}
 
@@ -204,11 +214,24 @@ public class PlayerModule : MonoBehaviour
 
 	void LookAtMouse ()
 	{
+		print("akirbnaqfra");
 		if ((state & En_CharacterState.Canalysing) == 0)
 		{
 			Vector3 _currentMousePos = mousePos();
+
+			print("Looking" + new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
+	}
+
+	public void AddState( En_CharacterState _stateToAdd)
+	{
+		state |= _stateToAdd;
+	}
+
+	public void RemoveState( En_CharacterState _stateToRemove)
+	{
+		state = state & (state & ~(_stateToRemove));
 	}
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
