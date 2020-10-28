@@ -39,11 +39,6 @@ public class FieldOfViewOld : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 	}
 
-	private void Update ()
-	{
-		//FogProjector.Instance.UpdateFog();
-	}
-
 	IEnumerator FindTargetsWithDelay ( float delay )
 	{
 		while (true)
@@ -58,7 +53,7 @@ public class FieldOfViewOld : MonoBehaviour
 		DrawFieldOfView();
 
 		//SetListVisibleEnemy();
-
+		//FogProjector.Instance.UpdateFog();
 	}
 
 	void SetListVisibleEnemy ()

@@ -20,17 +20,12 @@ public class WardModule : SpellModule
     private Vector3 noCurvePosition;
     private float animationCurveMaxValue;
 
-    private bool isOwner;
 
     private void Start()
     {
         wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
         wardObj.SetActive(false);
         animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
-
-        isOwner = this.GetComponent<LocalPlayer>().isOwner;
-
-        AddCharge(100000000); // !!!!!!!
     }
 
 
@@ -69,12 +64,12 @@ public class WardModule : SpellModule
 
     protected override void ResolveSpell(Vector3 _mousePosition)
     {
-        base.ResolveSpell(_mousePosition);
-
         if (isLaunched)
         {
             return;
         }
+
+        base.ResolveSpell(_mousePosition);
 
         destination = _mousePosition;
 
@@ -123,7 +118,7 @@ public class WardModule : SpellModule
             }
         }
 
-       wardObj.GetComponent<Ward>().Landed();
+        wardObj.GetComponent<Ward>().Landed();
 
     }
 
