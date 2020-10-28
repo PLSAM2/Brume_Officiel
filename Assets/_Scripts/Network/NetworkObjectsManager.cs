@@ -123,7 +123,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             }
         }
 
-        GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects[_objectID], _ObjectPos, Quaternion.Euler(_ObjectRotation));
+        GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects[_objectID].gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
         networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
         NetworkedObjectAdded(_lastObjId, networkedObject);
