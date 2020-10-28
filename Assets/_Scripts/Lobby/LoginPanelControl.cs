@@ -13,6 +13,13 @@ public class LoginPanelControl : MonoBehaviour
 
     public float timeFirstAttempt = 6;
     public float timeBeforeReconnect = 4;
+
+
+    [SerializeField] private TMP_InputField nameLoginInputField;
+    [SerializeField] private TextMeshProUGUI connectionStateLogin;
+    [SerializeField] private Button loginBtn;
+    [SerializeField] private UnityClient client;
+
     public IPAddress LocalIP
     {
         get { return IPAddress.Parse(localIP); }
@@ -20,13 +27,18 @@ public class LoginPanelControl : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("The address of the server to connect to.")]
+    [Tooltip("The address of the server to connect to (LOCAL).")]
     private string localIP = IPAddress.Loopback.ToString();
 
-    [SerializeField] private TMP_InputField nameLoginInputField;
-    [SerializeField] private TextMeshProUGUI connectionStateLogin;
-    [SerializeField] private Button loginBtn;
-    [SerializeField] private UnityClient client;
+    public IPAddress LocalHostIP
+    {
+        get { return IPAddress.Parse(localHostIP); }
+        set { localHostIP = value.ToString(); }
+    }
+
+    [SerializeField]
+    [Tooltip("The address of the localhost server to connect to.")]
+    private string localHostIP = IPAddress.Loopback.ToString();
 
     public void ConnectOnline()
     {
@@ -37,8 +49,7 @@ public class LoginPanelControl : MonoBehaviour
         catch (SocketException e)
         {
             Debug.LogError(e);
-        }
-         
+        }  
     }
 
     public void ConnectLocal()
@@ -51,8 +62,20 @@ public class LoginPanelControl : MonoBehaviour
         {
             Debug.LogError(e);
         }
-
     }
+
+    public void ConnectLocalHost()
+    {
+        try
+        {
+            client.Connect(LocalHostIP, client.Port, true);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
     void Update()
     {
         connectionStateLogin.text = client.ConnectionState.ToString();
