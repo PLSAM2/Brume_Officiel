@@ -42,11 +42,13 @@ public class MovementModule : MonoBehaviour
 		//IMPORTANT POUR LES CALLBACKS
 		currentForcedMovement.myModule = myPlayerModule;
 		myPlayerModule.addMovementModifier += AddModifierMovementSpeed;
+		collider = GetComponent<CapsuleCollider>();
 
 	}
 
 	void OnDisable ()
 	{
+		myPlayerModule.addMovementModifier -= AddModifierMovementSpeed;
 		myPlayerModule.DirectionInputedUpdate -= Move;
 		myPlayerModule.forcedMovementAdded -= AddDash;
 
@@ -54,10 +56,10 @@ public class MovementModule : MonoBehaviour
 		//	myPlayerModule.stopRunning -= StopRunning;
 	}
 
-	public void SetupComponent ( St_MovementParameters _newParameters, CapsuleCollider _colliderInfos )
+	public void SetupComponent ( St_MovementParameters _newParameters)
 	{
 		parameters = _newParameters;
-		collider = _colliderInfos;
+
 
 		//stamina
 		//_stamina = parameters.maxStamina;

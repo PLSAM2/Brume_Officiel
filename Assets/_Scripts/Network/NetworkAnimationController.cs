@@ -19,15 +19,15 @@ public class NetworkAnimationController : MonoBehaviour
             return;
         }
 
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+        animator = GetComponent<Animator>();
 
         client = RoomManager.Instance.client;
         client.MessageReceived += Client_MessageReceived;
     }
-
+    private void OnDisable()
+    {
+        client.MessageReceived -= Client_MessageReceived;
+    }
 
 
     private void Client_MessageReceived(object sender, MessageReceivedEventArgs e)

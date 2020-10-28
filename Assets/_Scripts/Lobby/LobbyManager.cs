@@ -28,6 +28,8 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] private GameObject roomPanel;
     [SerializeField] private GameObject roomListPanel;
 
+    [SerializeField] private TextMeshProUGUI pingtest;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -64,6 +66,15 @@ public class LobbyManager : MonoBehaviour
         nameInputField.text = localPlayer.Name;
     }
 
+    private void FixedUpdate()
+    {
+        if (client.ConnectionState != ConnectionState.Connected)
+        {
+            return;
+        }
+
+        pingtest.text = client.Client.RoundTripTime.LatestRtt.ToString();
+    }
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
@@ -77,7 +88,6 @@ public class LobbyManager : MonoBehaviour
                     localPlayer = _localPlayer;
                 }
             }
-
             if (message.Tag == Tags.CreateRoom)
             {
                 RoomCreatedInServer(sender, e);
@@ -246,7 +256,6 @@ public class LobbyManager : MonoBehaviour
 
     public void JoinRoom(ushort roomID)
     {
-
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write(false);
@@ -277,7 +286,6 @@ public class LobbyManager : MonoBehaviour
 
                 for (int i = 0; i < playerNumber; i++)
                 {
-
                     PlayerData player = reader.ReadSerializable<PlayerData>();
                     _playerList.Add(player.ID, player);
                 }
@@ -288,7 +296,6 @@ public class LobbyManager : MonoBehaviour
         rooms[roomID].playerList = _playerList;
 
         roomPanelControl.InitRoom(rooms[roomID]);
-
     }
 
     private void PlayerJoinedActualRoom(object sender, MessageReceivedEventArgs e)
@@ -383,6 +390,7 @@ public class LobbyManager : MonoBehaviour
 
     private void QuitActualRoomInServer(object sender, MessageReceivedEventArgs e)
     {
+        print("Room " + RoomManager.Instance.actualRoom.ID + " Quit");
         RoomManager.Instance.actualRoom = null;
         localPlayer.IsHost = false;
         DisplayMainMenu();

@@ -118,7 +118,7 @@ public class WardModule : SpellModule
             }
         }
 
-        wardObj.GetComponent<Ward>().Landed();
+        wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
 
     }
 

@@ -200,8 +200,10 @@ public class LocalPlayer : MonoBehaviour
 
     public void KillPlayer()
     {
+        print("mortMAISPASOWNER");
         if (isOwner)
         {
+            print("mort");
             GameManager.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
 

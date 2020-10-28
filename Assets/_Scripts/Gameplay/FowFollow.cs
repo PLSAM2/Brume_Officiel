@@ -12,7 +12,7 @@ public class FowFollow : MonoBehaviour
 
     [SerializeField] float followSpeed = 10;
 
-    public void Init(Transform _target)
+    public void Init(Transform _target = null)
     {
         if(_target != null)
         {
