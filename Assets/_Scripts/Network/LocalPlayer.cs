@@ -43,6 +43,8 @@ public class LocalPlayer : MonoBehaviour
     public GameObject fowPrefab;
     GameObject myFow;
 
+    public List<GameObject> objToHide = new List<GameObject>();
+
     private void Awake()
     {
         lastPosition = transform.position;

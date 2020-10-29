@@ -62,7 +62,7 @@ public class FieldOfView : MonoBehaviour
 
 		DrawFieldOfView();
 
-		//SetListVisibleEnemy();
+		SetListVisibleEnemy();
 		//FogProjector.Instance.UpdateFog();
 	}
 

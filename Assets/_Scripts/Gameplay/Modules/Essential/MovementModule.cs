@@ -268,8 +268,7 @@ public class MovementModule : MonoBehaviour
 
 	List<RaycastHit> CastCapsuleHit ( Vector3 _direction, LayerMask _checkingLayer, float _maxRange )
 	{
-		List<RaycastHit> _allHit = Physics.CapsuleCastAll(transform.position,
-			transform.position + new Vector3(0, collider.height, 0),
+		List<RaycastHit> _allHit = Physics.SphereCastAll(transform.position,
 			collider.radius,
 			_direction,
 			_maxRange,

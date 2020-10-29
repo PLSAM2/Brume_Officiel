@@ -17,10 +17,8 @@ public class SpellModule : MonoBehaviour
 		get => _cooldown; set
 		{
 			_cooldown = value;
-			if (myPlayerModule.mylocalPlayer.isOwner)
-			{
-				UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
-			}
+
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
 	private int _charges;
@@ -32,10 +30,8 @@ public class SpellModule : MonoBehaviour
 		set
 		{
 			_charges = value;
-			if (myPlayerModule.mylocalPlayer.isOwner)
-			{
-				UiManager.Instance.UpdateChargesUi(charges, actionLinked);
-			}
+
+			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
 			Cooldown = spell.cooldown;
 		}
 	}
