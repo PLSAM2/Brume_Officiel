@@ -69,7 +69,7 @@ public class PlayerModule : MonoBehaviour
 		groundLayer = LayerMask.GetMask("Ground");
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
-		GameManager.AllCharacterSpawned += Setup;
+		InGameNetworkReceiver.AllCharacterSpawned += Setup;
 	}
 
 	void Start()
@@ -82,7 +82,7 @@ public class PlayerModule : MonoBehaviour
 
 	private void OnDestroy ()
 	{
-		GameManager.AllCharacterSpawned -= Setup;
+		InGameNetworkReceiver.AllCharacterSpawned -= Setup;
 
 		if (!mylocalPlayer.isOwner)
 		{

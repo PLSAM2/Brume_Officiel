@@ -20,8 +20,11 @@ public class RoomManager : MonoBehaviour
     [HideInInspector] public RoomData actualRoom;
 
     public UnityClient client;
-
     public bool AlreadyInit = false;
+
+    [Header("ActualGameInfo")]
+    public int roundCount = 0;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -81,6 +84,17 @@ public class RoomManager : MonoBehaviour
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)
     {
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
+        StartNewRound();
+    }
+
+    private void StartNewRound()
+    {
+        roundCount++;
+    }
+
+    private void ResetActualGame()
+    {
+        roundCount = 0;
     }
 
     public void QuitGame()
@@ -92,6 +106,8 @@ public class RoomManager : MonoBehaviour
             using (Message message = Message.Create(Tags.QuitGame, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
+
+        ResetActualGame();
     }
 
     private void QuitGameInServer(object sender, MessageReceivedEventArgs e)

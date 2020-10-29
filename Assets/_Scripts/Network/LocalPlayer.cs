@@ -207,16 +207,16 @@ public class LocalPlayer : MonoBehaviour
     {
         if (isOwner)
         {
-            GameManager.Instance.KillCharacter();
+            InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
 
             switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
             {
                 case Team.red:
-                    GameManager.Instance.AddPoints(Team.blue, 5);
+                    InGameNetworkReceiver.Instance.AddPoints(Team.blue, 5);
                     break;
                 case Team.blue:
-                    GameManager.Instance.AddPoints(Team.red, 5);
+                    InGameNetworkReceiver.Instance.AddPoints(Team.red, 5);
                     break;
                 default:
                     print("Error");
