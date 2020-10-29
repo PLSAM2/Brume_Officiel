@@ -12,7 +12,7 @@ public class SpellModule : MonoBehaviour
 	protected bool isOwner;
 
 	[ReadOnly]
-	public float Cooldown
+	public float cooldown
 	{
 		get => _cooldown; set
 		{
@@ -32,7 +32,7 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
-			Cooldown = spell.cooldown;
+			cooldown = spell.cooldown;
 		}
 	}
 
@@ -46,7 +46,6 @@ public class SpellModule : MonoBehaviour
 	[ReadOnly] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
-
 
 	public virtual void SetupComponent ()
 	{
@@ -133,20 +132,22 @@ public class SpellModule : MonoBehaviour
 					ResolveSpell(myPlayerModule.mousePos());
 			}
 		}
-		else
+
+		if (charges < spell.numberOfCharge)
 			DecreaseCooldown();
 	}
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		resolved = false;
-
 		if (canBeCast())
 		{
+			resolved = false;
+
+
 			stateAtStart = myPlayerModule.state;
 
 			if (charges == spell.numberOfCharge)
-				Cooldown = spell.cooldown;
+				cooldown = spell.cooldown;
 
 			charges -= 1;
 
@@ -156,6 +157,8 @@ public class SpellModule : MonoBehaviour
 
 			isUsed = true;
 		}
+		else
+			return;
 	}
 
 	public virtual void Interrupt ()
@@ -182,8 +185,8 @@ public class SpellModule : MonoBehaviour
 	{
 		if (charges < spell.numberOfCharge)
 		{
-			if (Cooldown >= 0)
-				Cooldown -= Time.deltaTime;
+			if (cooldown >= 0)
+				cooldown -= Time.deltaTime;
 			else
 			{
 				charges += 1;
@@ -193,16 +196,14 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void UpgradeSpell ( Sc_UpgradeSpell _rule ) { }
 
-
 	protected virtual void ReturnToNormal () { }
-
 
 	public void ReduceCooldown ( float _durationShorten )
 	{
-		Cooldown -= _durationShorten;
+		cooldown -= _durationShorten;
 	}
 
-	bool canBeCast ()
+	protected virtual bool canBeCast ()
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
@@ -211,11 +212,11 @@ public class SpellModule : MonoBehaviour
 			return true;
 	}
 
-
 	void StartCanalysingFeedBack ()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
 	}
+
 	void ResolveSpellFeedback ()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
@@ -226,6 +227,7 @@ public class SpellModule : MonoBehaviour
 		canalisationParticle.Play();
 
 	}
+
 	public void StopParticleCanalisation ()
 	{
 		canalisationParticle.Stop();

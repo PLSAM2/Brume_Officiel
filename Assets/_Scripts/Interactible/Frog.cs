@@ -11,6 +11,10 @@ public class Frog : Interactible
     void Start()
     {
         base.Init();
+    }
+
+    private void OnEnable()
+    {
         base.capturedEvent += Captured;
         base.leaveEvent += StopCapturing;
     }
