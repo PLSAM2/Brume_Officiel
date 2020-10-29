@@ -29,6 +29,7 @@ public class LocalPlayer : MonoBehaviour
     [Header("UI")]
     public GameObject canvas;
     public TextMeshProUGUI nameText;
+    public TextMeshProUGUI lifeCount;
     public Image life;
 
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
@@ -125,6 +126,8 @@ public class LocalPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
+        lifeCount.text = "HP : " + liveHealth;
+
         if (!isOwner) { return; }
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)

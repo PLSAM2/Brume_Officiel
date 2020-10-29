@@ -17,6 +17,7 @@ public class SpellModule : MonoBehaviour
 		get => _cooldown; set
 		{
 			_cooldown = value;
+
 			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 		}
 	}
@@ -29,13 +30,14 @@ public class SpellModule : MonoBehaviour
 		set
 		{
 			_charges = value;
+
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
 			Cooldown = spell.cooldown;
 		}
 	}
 
 	float _cooldown = 0;
-	[ReadOnly] public bool isUsed = false;
+	[ReadOnly] public bool isUsed = false, resolved;
 	public Sc_Spell spell;
 
 	public En_SpellInput actionLinked;
@@ -45,43 +47,51 @@ public class SpellModule : MonoBehaviour
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
 
+
 	public virtual void SetupComponent ()
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
 			isOwner = true;
 
-		switch (actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += StartCanalysing;
-				break;
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += StartCanalysing;
-				break;
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += StartCanalysing;
-				break;
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += StartCanalysing;
-				break;
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput += StartCanalysing;
-				break;
+			switch (actionLinked)
+			{
+				case En_SpellInput.FirstSpell:
+					myPlayerModule.firstSpellInput += StartCanalysing;
+					break;
+				case En_SpellInput.SecondSpell:
+					myPlayerModule.secondSpellInput += StartCanalysing;
+					break;
+				case En_SpellInput.ThirdSpell:
+					myPlayerModule.thirdSpellInput += StartCanalysing;
+					break;
+				case En_SpellInput.Click:
+					myPlayerModule.leftClickInput += StartCanalysing;
+					break;
+				case En_SpellInput.Ward:
+					myPlayerModule.wardInput += StartCanalysing;
+					break;
+			}
+			UiManager.Instance.SetupIcon(spell, actionLinked);
+			timeToResolveSpell = spell.canalisationTime;
+
+			startCanalisation += StartCanalysingFeedBack;
+			endCanalisation += ResolveSpellFeedback;
+
+			charges = spell.numberOfCharge;
+
+			myPlayerModule.upgradeKit += UpgradeSpell;
+			myPlayerModule.backToNormalKit += ReturnToNormal;
 		}
-		UiManager.Instance.SetupIcon(spell, actionLinked);
-		timeToResolveSpell = spell.canalisationTime;
-
-		startCanalisation += StartCanalysingFeedBack;
-		endCanalisation += ResolveSpellFeedback;
-
-		charges = spell.numberOfCharge;
+		else
+			Destroy(this);
 	}
 
 	protected virtual void OnDisable ()
 	{
-		if(isOwner)
+		if (isOwner)
 		{
 			switch (actionLinked)
 			{
@@ -103,14 +113,18 @@ public class SpellModule : MonoBehaviour
 			}
 			startCanalisation -= StartCanalysingFeedBack;
 			endCanalisation -= ResolveSpellFeedback;
+
+			myPlayerModule.upgradeKit -= UpgradeSpell;
+			myPlayerModule.backToNormalKit -= ReturnToNormal;
 		}
 	}
 
 	protected virtual void Update ()
 	{
-		if (isUsed)
+		if (isUsed && !resolved)
 		{
 			currentTimeCanalised += Time.deltaTime;
+
 			if (currentTimeCanalised >= timeToResolveSpell)
 			{
 				if (spell.useLastRecordedMousePos)
@@ -125,6 +139,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
+		resolved = false;
 
 		if (canBeCast())
 		{
@@ -136,15 +151,14 @@ public class SpellModule : MonoBehaviour
 			charges -= 1;
 
 			recordedMousePosOnInput = _BaseMousePos;
-			myPlayerModule.state |= En_CharacterState.Canalysing;
-
+			myPlayerModule.AddState(En_CharacterState.Canalysing);
 			startCanalisation?.Invoke();
-		
+
 			isUsed = true;
 		}
 	}
 
-	public virtual	void Interrupt ()
+	public virtual void Interrupt ()
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
@@ -154,18 +168,19 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
 		endCanalisation?.Invoke();
+		resolved = true;
 		Interrupt();
 	}
 
-	protected virtual void TreatCharacterState()
+	protected virtual void TreatCharacterState ()
 	{
 		if ((stateAtStart & En_CharacterState.Canalysing) == 0)
-			myPlayerModule.state = myPlayerModule.state & (myPlayerModule.state & ~(En_CharacterState.Canalysing));
+			myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 	}
 
 	public virtual void DecreaseCooldown ()
 	{
-		if(charges <  spell.numberOfCharge)
+		if (charges < spell.numberOfCharge)
 		{
 			if (Cooldown >= 0)
 				Cooldown -= Time.deltaTime;
@@ -176,7 +191,13 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public void ReduceCooldown(float _durationShorten)
+	protected virtual void UpgradeSpell ( Sc_UpgradeSpell _rule ) { }
+
+
+	protected virtual void ReturnToNormal () { }
+
+
+	public void ReduceCooldown ( float _durationShorten )
 	{
 		Cooldown -= _durationShorten;
 	}

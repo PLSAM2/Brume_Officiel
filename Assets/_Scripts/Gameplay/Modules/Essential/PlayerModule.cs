@@ -14,14 +14,11 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
+	private LayerMask groundLayer;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
-
 	public Team teamIndex;
-
-	[SerializeField] Camera mainCam;
-	[SerializeField] LayerMask groundLayer;
 	public bool isInBrume = false;
 
 
@@ -63,13 +60,20 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
+	public Action<Sc_UpgradeSpell> upgradeKit;
+	public Action backToNormalKit;
 	#endregion
 
-	void Awake ()
+	void Awake()
 	{
+		groundLayer = LayerMask.GetMask("Ground");
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
 		GameManager.AllCharacterSpawned += Setup;
+	}
+
+	void Start()
+	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
 
@@ -78,26 +82,34 @@ public class PlayerModule : MonoBehaviour
 
 	private void OnDestroy ()
 	{
+		GameManager.AllCharacterSpawned -= Setup;
+
 		if (!mylocalPlayer.isOwner)
 		{
-			revelationCheck -= CheckForBrumeRevelation;
+		}
+		else
+		{
+			reduceAllCooldown -= ReduceAllCooldowns;
+			reduceTargetCooldown -= ReduceCooldown;
 		}
 	}
 
 	void Setup ()
 	{
+		state = En_CharacterState.Clear;
 		if (mylocalPlayer.isOwner)
 		{
 			mapIcon.color = Color.blue;
 
 			//modulesPArt
 			UiManager.Instance.myPlayerModule = this;
-			movementPart.SetupComponent(characterParameters.movementParameters, coll);
+			movementPart.SetupComponent(characterParameters.movementParameters);
 			firstSpell?.SetupComponent();
 			secondSpell?.SetupComponent();
 			thirdSpell?.SetupComponent();
 			leftClick?.SetupComponent();
 			ward?.SetupComponent();
+
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
@@ -109,8 +121,7 @@ public class PlayerModule : MonoBehaviour
 			else
 				mapIcon.color = Color.red;
 
-			revelationCheck += CheckForBrumeRevelation;
-			CheckForBrumeRevelation();
+			StartCoroutine(WaitForVisionCheck());
 
 		}
 	}
@@ -207,6 +218,16 @@ public class PlayerModule : MonoBehaviour
 			Vector3 _currentMousePos = mousePos();
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
+	} 
+
+	public void AddState( En_CharacterState _stateToAdd)
+	{
+		state |= _stateToAdd;
+	}
+
+	public void RemoveState( En_CharacterState _stateToRemove)
+	{
+		state = state & (state & ~(_stateToRemove));
 	}
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
@@ -246,7 +267,12 @@ public class PlayerModule : MonoBehaviour
 	//vision
 	#region
 	void CheckForBrumeRevelation ()
-	{
+    {
+        if (GameManager.Instance.currentLocalPlayer == null)
+        {
+			return;
+        }
+
 		if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
 		{
@@ -261,12 +287,15 @@ public class PlayerModule : MonoBehaviour
 				_fx.GetComponent<ParticleSystem>().startColor = Color.red;
 			}
 		}
-		StartCoroutine(WaitForVisionCheck());
+
 	}
 	IEnumerator WaitForVisionCheck ()
 	{
-		yield return new WaitForSecondsRealtime(characterParameters.delayBetweenDetection);
+		CheckForBrumeRevelation();
+		print("Checking");
+		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
 		revelationCheck?.Invoke();
+		StartCoroutine("WaitForVisionCheck");
 	}
 	#endregion
 

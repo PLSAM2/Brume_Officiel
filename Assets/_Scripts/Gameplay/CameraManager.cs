@@ -49,6 +49,7 @@ public class CameraManager : MonoBehaviour
 
 	private void OnDestroy ()
 	{
+		GameManager.PlayerSpawned -= SetParent;
 		UpdateCameraPos -= CameraScroll;
 		LockCamera -= LockingCam;
 	}
@@ -140,7 +141,7 @@ public class CameraManager : MonoBehaviour
 
 	private void LateUpdate ()
 	{
-		if (isLocked && GameManager.Instance.gameStarted)
+		if (isLocked && GameManager.Instance.gameStarted && playerToFollow != null)
 		{
 			cameraLocker.transform.position = playerToFollow.transform.position;
 		}

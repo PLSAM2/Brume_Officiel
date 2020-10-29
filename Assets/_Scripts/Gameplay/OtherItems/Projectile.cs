@@ -18,7 +18,6 @@ public class Projectile : MonoBehaviour
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
-		print(transform.rotation);
 	}
 
 	/*private void OnCollisionEnter ( Collision collision )
@@ -96,14 +95,19 @@ public class Projectile : MonoBehaviour
 		myInfos.myLifeTime -= Time.fixedDeltaTime;
 		if (myInfos.myLifeTime <= 0)
 		{
-			// print("OUtOFTIme");
+            // print("OUtOFTIme");
+
+
 			Destroy();
 		}
 	}
 
 	void Destroy ()
 	{
-		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
+		if (this.GetComponent<NetworkedObject>().GetIsOwner())
+		{
+			NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
+		}
 	}
 
 	[Button]
