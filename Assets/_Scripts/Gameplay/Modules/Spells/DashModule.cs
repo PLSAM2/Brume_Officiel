@@ -7,7 +7,6 @@ public class DashModule : SpellModule
 {
 	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
-	Vector3 lastRecordedDirection = Vector3.zero;
 	public bool usingKeyboardInput;
 
 	public override void SetupComponent ()
@@ -32,12 +31,6 @@ public class DashModule : SpellModule
 			endCanalisation -= ClearPreview;
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
-	}
-
-	protected override void StartCanalysing ( Vector3 _BaseMousePos )
-	{
-		base.StartCanalysing(_BaseMousePos);
-		lastRecordedDirection = myPlayerModule.directionInputed();
 	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )

@@ -5,9 +5,10 @@ using UnityEngine.PlayerLoop;
 
 public class UpgradeModule : SpellModule
 {
-	float bonusTimeRemaining;
+	float bonusTimeRemaining ;
 	float durationThrowback;
-	bool throwbackTriggered, canTakeThrowBack = false;
+	bool throwbackTriggered = false;
+	bool inBonus = false;
 	Sc_UpgradeSpell _tempSpellTrad;
 
 	void Start ()
@@ -17,6 +18,7 @@ public class UpgradeModule : SpellModule
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
 		base.ResolveSpell(_mousePosition);
+
 		MovementModifier _tempModifier = new MovementModifier();
 
 		_tempModifier.duration = _tempSpellTrad.duration;
@@ -29,29 +31,37 @@ public class UpgradeModule : SpellModule
 
 		myPlayerModule.upgradeKit.Invoke(_tempSpellTrad);
 		throwbackTriggered = false;
+
+		inBonus = true;
 	}
 
-	private void FixedUpdate ()
+	protected override void Update ()
 	{
-		if (canTakeThrowBack)
+		base.Update();
+
+		if (inBonus)
 		{
 			if (bonusTimeRemaining > 0)
 			{
-				bonusTimeRemaining -= Time.fixedDeltaTime;
+				bonusTimeRemaining -= Time.deltaTime;
 			}
-			else if (!throwbackTriggered)
+			else
 			{
 				EndBonusCallBack();
 			}
 		}
 
 
-		if (durationThrowback > 0)
+		if(throwbackTriggered)
 		{
-			durationThrowback -= Time.fixedDeltaTime;
+			if (durationThrowback > 0)
+			{
+				durationThrowback -= Time.deltaTime;
+			}
+			else 
+				EndMalusCallBack();
 		}
-		else if (throwbackTriggered)
-			EndMalusCallBack();
+	
 
 	}
 
@@ -63,22 +73,26 @@ public class UpgradeModule : SpellModule
 
 	void EndBonusCallBack ()
 	{
+		inBonus = false;
 		myPlayerModule.backToNormalKit.Invoke();
 
 		isUsed = false;
-		
-		canTakeThrowBack = true;
+
+		StartThrowBack();
 	}
 
-	void StartThrowBack()
+	void StartThrowBack ()
 	{
+		print("MalusStart");
+		throwbackTriggered = true;
 		durationThrowback = _tempSpellTrad.durationSilenced;
 		myPlayerModule.AddState(_tempSpellTrad.stateThrowbackToApply);
 	}
 
 	void EndMalusCallBack ()
 	{
+		print("Malusfinished");
+		throwbackTriggered = false;
 		myPlayerModule.RemoveState(_tempSpellTrad.stateThrowbackToApply);
-		canTakeThrowBack = false;
 	}
 }

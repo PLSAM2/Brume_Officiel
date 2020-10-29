@@ -46,6 +46,7 @@ public class SpellModule : MonoBehaviour
 	[ReadOnly] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
+	protected	Vector3 lastRecordedDirection = Vector3.zero;
 
 	public virtual void SetupComponent ()
 	{
@@ -133,7 +134,7 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 
-		if (charges < spell.numberOfCharge)
+		if (charges < spell.numberOfCharge && !isUsed)
 			DecreaseCooldown();
 	}
 
@@ -141,8 +142,9 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
-			resolved = false;
+			lastRecordedDirection = myPlayerModule.directionInputed();
 
+			resolved = false;
 
 			stateAtStart = myPlayerModule.state;
 
@@ -207,9 +209,13 @@ public class SpellModule : MonoBehaviour
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
+		{
 			return false;
+		}
 		else
+		{
 			return true;
+		}
 	}
 
 	void StartCanalysingFeedBack ()
