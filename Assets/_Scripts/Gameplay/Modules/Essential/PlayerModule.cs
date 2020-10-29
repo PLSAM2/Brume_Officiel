@@ -292,10 +292,8 @@ public class PlayerModule : MonoBehaviour
 	IEnumerator WaitForVisionCheck ()
 	{
 		CheckForBrumeRevelation();
-		print("Checking");
 		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
 		revelationCheck?.Invoke();
-		StartCoroutine("WaitForVisionCheck");
 	}
 	#endregion
 

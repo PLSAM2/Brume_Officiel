@@ -122,6 +122,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  myRenderer: {fileID: 2716930816223899529}
+  groundImg: {fileID: 6879843219013606253}
 --- !u!54 &2716930816223899543
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -167,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6622190310298538935
 Transform:
   m_ObjectHideFlags: 0
@@ -189,7 +191,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6879843219013606253}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
