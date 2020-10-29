@@ -50,7 +50,9 @@ public class EnemyDisplayer : MonoBehaviour
 
     void HideOrShow(LocalPlayer p, bool value)
     {
-        //p.parentRenderer.SetActive(value);
-        p.canvas.SetActive(value);
+        foreach(GameObject obj in p.objToHide)
+        {
+            obj.SetActive(value);
+        }
     }
 }
