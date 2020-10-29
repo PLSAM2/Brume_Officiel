@@ -297,9 +297,14 @@ public class GameManager : SerializedMonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 ushort _damages = reader.ReadUInt16();
+                print(_damages);
+                if (!networkPlayers.ContainsKey(_id))
+                {
+                    return;
+                }
 
                 LocalPlayer target = networkPlayers[_id];
-
+                print(target.myPlayerId);
                 target.liveHealth -= _damages;
 
             }

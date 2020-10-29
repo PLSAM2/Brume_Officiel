@@ -8,6 +8,8 @@ using UnityEngine;
 [InlineEditor]
 public class Sc_NetworkedObjects : SerializedScriptableObject
 {
-    public Dictionary<ushort, GameObject> networkObjects = new Dictionary<ushort, GameObject>();
+    [BoxGroup]
+    [Title("KEY MUST BE UNIQUE")]
+    public List<KeyGameObjectPair> networkObjects = new List<KeyGameObjectPair>();
 }
 

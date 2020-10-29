@@ -13,7 +13,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     private static NetworkObjectsManager _instance;
     public static NetworkObjectsManager Instance { get { return _instance; } }
 
-   [SerializeField] public Sc_NetworkedObjects networkedObjectsList;
+    [SerializeField] public Sc_NetworkedObjects networkedObjectsList;
     [Header("Instantiated Object")]
     public Dictionary<ushort, NetworkedObject> instantiatedObjectsList = new Dictionary<ushort, NetworkedObject>();
 
@@ -122,8 +122,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _lastObjId = reader.ReadUInt16();
             }
         }
-
-        GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects[_objectID], _ObjectPos, Quaternion.Euler(_ObjectRotation));
+        GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
         networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
         NetworkedObjectAdded(_lastObjId, networkedObject);

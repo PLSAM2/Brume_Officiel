@@ -5,12 +5,12 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class BrumeScript : MonoBehaviour
 {
-    //[SerializeField] Camera cameraDefault;
-    //[SerializeField] Camera cameraInBrume;
-
     [SerializeField] Animator myAnimator;
 
     [SerializeField] AnimationCurve curveAlpha;
+
+    [SerializeField] Renderer myRenderer;
+    [SerializeField] GameObject groundImg;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +24,8 @@ public class BrumeScript : MonoBehaviour
                 myAnimator.SetBool("InBrume", true);
 
                 enterDistance = Vector3.Distance(other.transform.position, transform.position);
+                groundImg.SetActive(true);
+                myRenderer.enabled = false;
             }
         }
     }
@@ -55,8 +57,9 @@ public class BrumeScript : MonoBehaviour
             if (player.mylocalPlayer.isOwner)
             {
                 myAnimator.SetBool("InBrume", false);
-
                 UiManager.Instance.SetAlphaBrume(0);
+                groundImg.SetActive(false);
+                myRenderer.enabled = true;
             }
         }
     }

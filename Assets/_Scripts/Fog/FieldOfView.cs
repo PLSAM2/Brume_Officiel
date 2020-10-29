@@ -27,7 +27,7 @@ public class FieldOfView : MonoBehaviour
 
 	PlayerModule myPlayerModule;
 
-	void Start ()
+	void OnEnable ()
 	{
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
@@ -62,7 +62,7 @@ public class FieldOfView : MonoBehaviour
 
 		DrawFieldOfView();
 
-		//SetListVisibleEnemy();
+		SetListVisibleEnemy();
 		//FogProjector.Instance.UpdateFog();
 	}
 

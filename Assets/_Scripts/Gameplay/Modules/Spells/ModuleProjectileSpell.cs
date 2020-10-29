@@ -9,6 +9,7 @@ public class ModuleProjectileSpell : SpellModule
 	int shotRemainingInSalve;
 	[SerializeField] ushort indexOfTheShotProjectileBlue = 12, indexOfTheShotProjectileRed = 13;
 	SalveInfos myLiveSalve;
+	Vector3 lastForwardRecorded;
 
 	bool shooting = false;
 	float timeBetweenShot = 0;
@@ -19,23 +20,17 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = spellProj.salveInfos;
 	}
 
-	protected override void ResolveSpell ( Vector3 mousePosition )
-	{
-		shooting = true;
-		shotRemainingInSalve = spellProj.salveInfos.numberOfProjectileShotPerSalve;
-		endCanalisation?.Invoke();
-	}
-
 	protected override void Update ()
 	{
 		base.Update();
 
 		if (shooting == true)
 		{
-			isUsed = false;
 			timeBetweenShot -= Time.deltaTime;
 			if (timeBetweenShot <= 0)
 			{
+
+				//A RECORIGER POUR L INSTANT CA S EN FOUT
 				if (spell.useLastRecordedMousePos)
 					ShootSalve(PosToInstantiate(), RotationOfTheProj());
 				else
@@ -44,7 +39,55 @@ public class ModuleProjectileSpell : SpellModule
 		}
 	}
 
-	protected virtual Vector3 PosToInstantiate()
+	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		base.StartCanalysing(_BaseMousePos);
+		lastForwardRecorded = transform.forward + transform.position;
+	}
+
+	public override void Interrupt ()
+	{
+		base.Interrupt();
+		shooting = false;
+	}
+
+	protected override void ResolveSpell ( Vector3 mousePosition )
+	{
+		shotRemainingInSalve = myLiveSalve.numberOfSalve;
+		timeBetweenShot = 0;
+
+		shooting = true;
+
+		endCanalisation?.Invoke();
+		resolved = true;
+	}
+
+	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	{
+		base.UpgradeSpell(_rule);
+		myLiveSalve.timeToResolveTheSalve += _rule.durationAdded;
+		myLiveSalve.numberOfSalve += _rule.shotAdded;
+	}
+
+	protected override void ReturnToNormal ()
+	{
+		base.ReturnToNormal();
+		myLiveSalve = spellProj.salveInfos;
+	}
+
+	protected override bool canBeCast ()
+	{
+		if (shooting)
+		{
+			return false;
+		}
+		else
+			return base.canBeCast();
+	}
+
+	//shootingPart
+	#region 
+	protected virtual Vector3 PosToInstantiate ()
 	{
 		return transform.forward + transform.position;
 	}
@@ -54,36 +97,38 @@ public class ModuleProjectileSpell : SpellModule
 		return transform.rotation.eulerAngles;
 	}
 
-
 	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
 	{
-		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfProjectileShotPerSalve;
+		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfSalve;
 
 		shotRemainingInSalve--;
 
 		if (shotRemainingInSalve <= 0)
 			Interrupt();
 
-		ReadSalve(_posToSet, _rot);
+		ReadSalve();
 	}
 
-	protected virtual void ReadSalve ( Vector3 _posToSet, Vector3 _rot )
+	protected void ReadSalve ()
 	{
-		ShootProjectile(_posToSet, _rot);
+		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
+		float _angleToAdd = spellProj.angleToSplit / spellProj.numberOfProjShoot;
+
+		for (int i = 0; i < spellProj.numberOfProjShoot; i++)
+		{
+			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
+
+			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
+			_baseAngle += _angleToAdd;
+		}
 	}
 
-	protected  void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
+	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
 		if (myPlayerModule.teamIndex == Team.blue)
 			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
 		else
 			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
 	}
-
-
-	public override void Interrupt ()
-	{
-		base.Interrupt();
-		shooting = false;
-	}
+	#endregion
 }
