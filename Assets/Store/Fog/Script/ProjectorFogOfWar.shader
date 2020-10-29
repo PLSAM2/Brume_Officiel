@@ -126,10 +126,8 @@ Shader "Projector/Fog Of War" {
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed a2 = tex2Dproj (_FogTex, UNITY_PROJ_COORD(i.uvShadow)).a;
-				fixed a1 = tex2Dproj(_RampTex, UNITY_PROJ_COORD(i.uvShadow)).b;
 
-				fixed a = a1 * a2;
-				fixed4 col = lerp(_Color, fixed4(1,1,1,1), a);
+				fixed4 col = lerp(_Color, fixed4(1,1,1,1), a2);
 
 				UNITY_APPLY_FOG_COLOR(i.fogCoord, col, fixed4(1,1,1,1));
 				return col;
