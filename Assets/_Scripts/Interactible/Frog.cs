@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class Frog : Interactible
         base.Init();
     }
 
+
     public override void Captured(GameData.Team team) // quand capturer en local
     {
         base.Captured(team);
@@ -21,7 +23,6 @@ public class Frog : Interactible
         //Ajoute une ward 
         if (capturingPlayerModule.GetComponent<WardModule>() != null)
         {
-            print("add ward");
             capturingPlayerModule.GetComponent<WardModule>().AddCharge();
         }
     }

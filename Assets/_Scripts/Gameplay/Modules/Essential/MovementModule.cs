@@ -180,7 +180,7 @@ public class MovementModule : MonoBehaviour
 
 	void UpdateStateOnMovement ()
 	{
-		print("RunSpeedChanged");
+		// print("RunSpeedChanged");
 		if (liveMoveSpeed() > parameters.movementSpeed)
 		{
 			print("SPED UP");
