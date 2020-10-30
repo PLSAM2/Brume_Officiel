@@ -58,11 +58,12 @@ public class FieldOfView : MonoBehaviour
 
 	void FixedUpdate ()
 	{
+        SetListVisibleEnemy();
+
         if (isStatic) { return; }
 
 		DrawFieldOfView();
 
-		SetListVisibleEnemy();
 		//FogProjector.Instance.UpdateFog();
 	}
 

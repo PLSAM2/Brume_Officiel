@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FowFollow : MonoBehaviour
+public class Fow : MonoBehaviour
 {
     public Transform myTarget;
     [SerializeField] bool isStatic = false;
