@@ -11,10 +11,11 @@ public class UpgradeModule : SpellModule
 	bool inBonus = false;
 	Sc_UpgradeSpell _tempSpellTrad;
 
-	void Start ()
+	void Awake ()
 	{
 		_tempSpellTrad = spell as Sc_UpgradeSpell;
 	}
+
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
 		base.ResolveSpell(_mousePosition);
@@ -29,7 +30,7 @@ public class UpgradeModule : SpellModule
 		durationThrowback = _tempSpellTrad.durationSilenced;
 
 
-		myPlayerModule.upgradeKit.Invoke(_tempSpellTrad);
+		myPlayerModule.upgradeKit.Invoke();
 		throwbackTriggered = false;
 
 		inBonus = true;
@@ -65,25 +66,18 @@ public class UpgradeModule : SpellModule
 
 	}
 
-	public override void Interrupt ()
-	{
-		currentTimeCanalised = 0;
-		TreatCharacterState();
-	}
 
 	void EndBonusCallBack ()
 	{
 		inBonus = false;
 		myPlayerModule.backToNormalKit.Invoke();
 
-		isUsed = false;
 
 		StartThrowBack();
 	}
 
 	void StartThrowBack ()
 	{
-		print("MalusStart");
 		throwbackTriggered = true;
 		durationThrowback = _tempSpellTrad.durationSilenced;
 		myPlayerModule.AddState(_tempSpellTrad.stateThrowbackToApply);
@@ -91,8 +85,13 @@ public class UpgradeModule : SpellModule
 
 	void EndMalusCallBack ()
 	{
-		print("Malusfinished");
 		throwbackTriggered = false;
 		myPlayerModule.RemoveState(_tempSpellTrad.stateThrowbackToApply);
+	}
+
+	protected override float finalCooldownValue ()
+	{
+		float defValue = _tempSpellTrad.duration + base.finalCooldownValue();
+		return defValue;
 	}
 }

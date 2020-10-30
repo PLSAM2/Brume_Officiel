@@ -23,7 +23,8 @@ public class PlayerModule : MonoBehaviour
 
 
 	[Header("DamagesPart")]
-	[ReadOnly] public En_CharacterState state = En_CharacterState.Clear;
+	En_CharacterState _state;
+	[ReadOnly] public En_CharacterState state { get => _state; set { _state = value; UiManager.Instance.StatusUpdate(_state); } } 
 	[ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 
@@ -60,8 +61,7 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> onSendMovement;
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
-	public Action<Sc_UpgradeSpell> upgradeKit;
-	public Action backToNormalKit;
+	public Action upgradeKit, backToNormalKit;
 	#endregion
 
 	void Awake()
@@ -99,6 +99,7 @@ public class PlayerModule : MonoBehaviour
 		state = En_CharacterState.Clear;
 		if (mylocalPlayer.isOwner)
 		{
+			_state = En_CharacterState.Clear;
 			mapIcon.color = Color.blue;
 
 			//modulesPArt

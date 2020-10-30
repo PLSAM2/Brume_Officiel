@@ -18,7 +18,7 @@ public class SpellModule : MonoBehaviour
 		{
 			_cooldown = value;
 
-			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, finalCooldownValue());
 		}
 	}
 	private int _charges;
@@ -32,7 +32,7 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
-			cooldown = spell.cooldown;
+			cooldown = finalCooldownValue();
 		}
 	}
 
@@ -149,7 +149,7 @@ public class SpellModule : MonoBehaviour
 			stateAtStart = myPlayerModule.state;
 
 			if (charges == spell.numberOfCharge)
-				cooldown = spell.cooldown;
+				cooldown = finalCooldownValue();
 
 			charges -= 1;
 
@@ -196,7 +196,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void UpgradeSpell ( Sc_UpgradeSpell _rule ) { }
+	protected virtual void UpgradeSpell () { }
 
 	protected virtual void ReturnToNormal () { }
 
@@ -237,6 +237,11 @@ public class SpellModule : MonoBehaviour
 	public void StopParticleCanalisation ()
 	{
 		canalisationParticle.Stop();
+	}
+
+	protected virtual float finalCooldownValue()
+	{
+		return spell.cooldown + spell.canalisationTime;
 	}
 }
 

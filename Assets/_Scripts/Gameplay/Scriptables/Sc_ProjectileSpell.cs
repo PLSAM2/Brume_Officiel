@@ -23,13 +23,18 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[Header("MultiProjectile")]
 	[SerializeField] bool isMultiple = false;
 
-	[ShowIf("isMultiple")] [Min(1)] public int numberOfProjShoot = 3;
 	[ShowIf("isMultiple")] public int angleToSplit;
+
+	[Header("UpgradePart")]
+	public int bonusShot;
+	public int bonusSalve;
+	public float durationAdded;
 }
 
 [System.Serializable]
 public struct SalveInfos
 {
 	[Min(1)] public int numberOfSalve;
+	[Min(1)] public int numberOfShot;
 	public float timeToReachMaxRange, timeToResolveTheSalve;
 }
