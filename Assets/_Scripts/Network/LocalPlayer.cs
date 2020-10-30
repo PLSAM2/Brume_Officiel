@@ -104,7 +104,7 @@ public class LocalPlayer : MonoBehaviour
     void SpawnFow()
     {
         myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity);
-        FowFollow myFowFollow = myFow.GetComponent<FowFollow>();
+        Fow myFowFollow = myFow.GetComponent<Fow>();
 
         myFowFollow.Init(transform);
     }

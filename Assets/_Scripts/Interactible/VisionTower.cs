@@ -6,7 +6,7 @@ public class VisionTower : Interactible
 {
     [Header("Vision Tower properties")]
     public float unlockTime;
-    public FowFollow vision;
+    public Fow vision;
 
 
     void Start()
