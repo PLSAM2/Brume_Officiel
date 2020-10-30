@@ -26,12 +26,20 @@ public class RoomData : IDarkRiftSerializable
     {
         this.ID = iD;
         this.Name = name;
+
+
+        scores.Add(Team.blue, 0);
+        scores.Add(Team.red, 0);
     }
 
     public RoomData()
     {
         this.ID = 0; // Une room ne peut pas avoir l'ID 0 sur le serveur
         this.Name = "";
+
+
+        scores.Add(Team.blue, 0);
+        scores.Add(Team.red, 0);
     }
 
     public void Deserialize(DeserializeEvent e)

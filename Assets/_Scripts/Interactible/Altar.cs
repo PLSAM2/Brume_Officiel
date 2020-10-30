@@ -17,15 +17,7 @@ public class Altar : Interactible
     void Start()
     {
         base.Init();
-        base.capturedEvent += Captured;
-        base.leaveEvent += StopCapturing;
         isInteractable = false;
-    }
-
-    private void OnDisable()
-    {
-        base.capturedEvent -= Captured;
-        base.leaveEvent -= StopCapturing;
     }
 
     public override void UpdateCaptured(Team team)

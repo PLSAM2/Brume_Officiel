@@ -26,9 +26,6 @@ public class Interactible : MonoBehaviour
     protected PlayerModule capturingPlayerModule;
     public State state = State.Locked;
 
-    protected Action<Team> capturedEvent;
-    protected Action<Team> leaveEvent;
-
     public Character[] authorizedCaptureCharacter = new Character[1];
     protected float timer = 0;
     protected bool isCapturing = false;
@@ -68,7 +65,7 @@ public class Interactible : MonoBehaviour
 
             if (timer >= interactTime)
             {
-                capturedEvent.Invoke(capturingTeam);
+                Captured(capturingTeam);
             }
 
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -255,7 +252,7 @@ public class Interactible : MonoBehaviour
             {
                 if (isCapturing && _pModule.teamIndex == capturingTeam)
                 {
-                    leaveEvent.Invoke(_pModule.teamIndex);
+                    StopCapturing(_pModule.teamIndex);
                 }
 
                 _pModule.interactiblesClose.Remove(this);
