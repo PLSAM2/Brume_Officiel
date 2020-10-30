@@ -222,28 +222,28 @@ public class InGameNetworkReceiver : MonoBehaviour
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(killerID);
-
+            _writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
 
-        if (RoomManager.Instance.GetLocalPlayer().playerCharacter == Character.Shili)
-        {
-            switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                case Team.red:
-                    AddPoints(Team.blue, 1);
-                    break;
-                case Team.blue:
-                    AddPoints(Team.red, 1);
-                    break;
-                default:
-                    print("Error");
-                    break;
-            }
-        }
+        //if (RoomManager.Instance.GetLocalPlayer().playerCharacter == Character.Shili)
+        //{
+        //    switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
+        //    {
+        //        case Team.red:
+        //            AddPoints(Team.blue, 1);
+        //            break;
+        //        case Team.blue:
+        //            AddPoints(Team.red, 1);
+        //            break;
+        //        default:
+        //            print("Error");
+        //            break;
+        //    }
+        //}
     }
 
     private void KillCharacterInServer(object sender, MessageReceivedEventArgs e)

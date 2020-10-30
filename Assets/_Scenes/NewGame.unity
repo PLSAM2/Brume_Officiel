@@ -297,7 +297,6 @@ GameObject:
   m_Component:
   - component: {fileID: 74980374}
   - component: {fileID: 74980373}
-  - component: {fileID: 74980372}
   - component: {fileID: 74980375}
   m_Layer: 0
   m_Name: GameManager
@@ -306,53 +305,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &74980372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74980371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc0e7c672a7b9a4297b32a0e030f16e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  interactibleList:
-  - Key: 0
-    interactible: {fileID: 1910293989}
-  - Key: 0
-    interactible: {fileID: 1573812982}
-  - Key: 0
-    interactible: {fileID: 1083526311}
-  - Key: 0
-    interactible: {fileID: 1740814281}
-  - Key: 0
-    interactible: {fileID: 1506006722}
-  - Key: 0
-    interactible: {fileID: 1774197965}
-  - Key: 0
-    interactible: {fileID: 1681163900}
-  - Key: 0
-    interactible: {fileID: 77006552}
-  - Key: 0
-    interactible: {fileID: 400045742}
-  - Key: 0
-    interactible: {fileID: 77188727}
-  - Key: 0
-    interactible: {fileID: 801597349}
-  - Key: 0
-    interactible: {fileID: 479239476}
-  firstAltarUnlockTime: 10
 --- !u!114 &74980373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8467,6 +8419,7 @@ Transform:
   - {fileID: 77188726}
   - {fileID: 801597348}
   - {fileID: 479239475}
+  - {fileID: 1768448556}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11550,6 +11503,84 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1768448554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1768448556}
+  - component: {fileID: 1768448555}
+  m_Layer: 0
+  m_Name: InteractibleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1768448555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768448554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc0e7c672a7b9a4297b32a0e030f16e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  interactibleList:
+  - Key: 0
+    interactible: {fileID: 1910293989}
+  - Key: 0
+    interactible: {fileID: 1573812982}
+  - Key: 0
+    interactible: {fileID: 1083526311}
+  - Key: 0
+    interactible: {fileID: 1740814281}
+  - Key: 0
+    interactible: {fileID: 1506006722}
+  - Key: 0
+    interactible: {fileID: 1774197965}
+  - Key: 0
+    interactible: {fileID: 1681163900}
+  - Key: 0
+    interactible: {fileID: 77006552}
+  - Key: 0
+    interactible: {fileID: 400045742}
+  - Key: 0
+    interactible: {fileID: 77188727}
+  - Key: 0
+    interactible: {fileID: 801597349}
+  - Key: 0
+    interactible: {fileID: 479239476}
+  firstAltarUnlockTime: 10
+--- !u!4 &1768448556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768448554}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 708.92926, y: 631.3161, z: -50.98595}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1359762980}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1774197963
 PrefabInstance:
   m_ObjectHideFlags: 0
