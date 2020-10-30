@@ -12,14 +12,6 @@ public class VisionTower : Interactible
     void Start()
     {
         base.Init();
-        base.capturedEvent += Captured;
-        base.leaveEvent += StopCapturing;
-    }
-
-    private void OnDisable()
-    {
-        base.capturedEvent -= Captured;
-        base.leaveEvent -= StopCapturing;
     }
 
     public override void Captured(GameData.Team team)
