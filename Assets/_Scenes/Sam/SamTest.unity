@@ -123,6 +123,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &146306362
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3198480878554853157, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: myTarget
+      value: 
+      objectReference: {fileID: 1740439349}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103172767365961193, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+      propertyPath: m_Name
+      value: Fow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
 --- !u!1 &222950819
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +678,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28a5e79925e3ce04a82856c16a572cbe, type: 3}
+--- !u!4 &1740439349 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 864384192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &32086143315740522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,6 +698,7 @@ MonoBehaviour:
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
+  resolved: 0
   spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
   actionLinked: 3
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
@@ -1145,9 +1212,10 @@ MonoBehaviour:
   respawnTime: 15
   canvas: {fileID: 6548595032665353085}
   nameText: {fileID: 2784098648544352753}
+  lifeCount: {fileID: 0}
   life: {fileID: 8177495111168092761}
-  myFog: {fileID: 466112709423135635}
-  myFogScript: {fileID: 0}
+  fowPrefab: {fileID: 0}
+  objToHide: []
 --- !u!1 &1287877692060713055
 GameObject:
   m_ObjectHideFlags: 0
@@ -3834,10 +3902,6 @@ MonoBehaviour:
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
-  mainCam: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1024
   isInBrume: 0
   state: 1
   allHitTaken: []
@@ -3870,6 +3934,7 @@ MonoBehaviour:
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
+  resolved: 0
   spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
   actionLinked: 1
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
@@ -3878,6 +3943,7 @@ MonoBehaviour:
   mylineRender: {fileID: 2550331641726829402}
   startColorPreview: {r: 1, g: 0, b: 0, a: 1}
   endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  usingKeyboardInput: 0
   characterLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -4297,6 +4363,7 @@ MonoBehaviour:
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
+  resolved: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   actionLinked: 5
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}

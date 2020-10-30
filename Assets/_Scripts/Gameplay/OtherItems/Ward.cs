@@ -6,7 +6,7 @@ using UnityEngine;
 public class Ward : MonoBehaviour
 {
     public float lifeTime = 60;
-    [SerializeField] private FowFollow fowFollow;
+    [SerializeField] private Fow fowFollow;
 
     public void Landed(GameData.Team Team)
     {
