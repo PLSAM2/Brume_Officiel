@@ -104,7 +104,7 @@ public class LocalPlayer : MonoBehaviour
     void SpawnFow()
     {
         myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity);
-        FowFollow myFowFollow = myFow.GetComponent<FowFollow>();
+        Fow myFowFollow = myFow.GetComponent<Fow>();
 
         myFowFollow.Init(transform);
     }
@@ -190,7 +190,7 @@ public class LocalPlayer : MonoBehaviour
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damageHealth;
-        UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
+
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -209,19 +209,6 @@ public class LocalPlayer : MonoBehaviour
         {
             InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
-
-            switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                case Team.red:
-                    InGameNetworkReceiver.Instance.AddPoints(Team.blue, 5);
-                    break;
-                case Team.blue:
-                    InGameNetworkReceiver.Instance.AddPoints(Team.red, 5);
-                    break;
-                default:
-                    print("Error");
-                    break;
-            }
 
             GameManager.Instance.ResetCam();
         }
