@@ -17,6 +17,7 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI timer;
     public TextMeshProUGUI allyScore;
     public TextMeshProUGUI ennemyScore;
+    public TextMeshProUGUI round;
 
     public TextMeshProUGUI generalMessage;
     public TextMeshProUGUI generalPoints;
@@ -53,6 +54,7 @@ public class UiManager : MonoBehaviour
             ennemyScore.color = Color.blue;
         }
 
+        round.text = "Round : " + RoomManager.Instance.roundCount;
         // <<
     }
 

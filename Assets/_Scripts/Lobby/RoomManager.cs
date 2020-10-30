@@ -1,12 +1,11 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
-using System;
-using System.Collections;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using static GameData;
 
 public class RoomManager : MonoBehaviour
 {
@@ -17,13 +16,14 @@ public class RoomManager : MonoBehaviour
     public string champSelectScene;
     public string menuScene;
 
-    [HideInInspector] public RoomData actualRoom;
+    public RoomData actualRoom;
 
     public UnityClient client;
     public bool AlreadyInit = false;
 
     [Header("ActualGameInfo")]
     public int roundCount = 0;
+
 
     private void Awake()
     {
@@ -43,6 +43,11 @@ public class RoomManager : MonoBehaviour
     private void OnDisable()
     {
         client.MessageReceived -= MessageReceived;
+    }
+
+    private void Start()
+    {
+
     }
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -94,6 +99,9 @@ public class RoomManager : MonoBehaviour
 
     private void ResetActualGame()
     {
+        actualRoom.scores[Team.red] = 0;
+        actualRoom.scores[Team.blue] = 0;
+
         roundCount = 0;
     }
 
