@@ -57,7 +57,7 @@ public class MovementModule : MonoBehaviour
 		//	myPlayerModule.stopRunning -= StopRunning;
 	}
 
-	public void SetupComponent ( St_MovementParameters _newParameters)
+	public void SetupComponent ( St_MovementParameters _newParameters )
 	{
 		parameters = _newParameters;
 
@@ -70,7 +70,8 @@ public class MovementModule : MonoBehaviour
 	void FixedUpdate ()
 	{
 		List<MovementModifier> _tempList = allLiveMovementModifier;
-		for (int i = 0; i < allLiveMovementModifier.Count ; i++)
+
+		for (int i = 0; i < allLiveMovementModifier.Count; i++)
 		{
 			allLiveMovementModifier[i].duration -= Time.fixedDeltaTime;
 
@@ -79,8 +80,11 @@ public class MovementModule : MonoBehaviour
 				_tempList.RemoveAt(i);
 			}
 		}
+		bool asChanged = false;
 
 		allLiveMovementModifier = _tempList;
+		UpdateStateOnMovement();
+
 	}
 
 	void Move ( Vector3 _directionInputed )
@@ -174,9 +178,27 @@ public class MovementModule : MonoBehaviour
 		allLiveMovementModifier.Add(_newModif);
 	}
 
-	void MovementModiferUpdate ()
+	void UpdateStateOnMovement ()
 	{
+		print("RunSpeedChanged");
+		if (liveMoveSpeed() > parameters.movementSpeed)
+		{
+			print("SPED UP");
+			myPlayerModule.AddState(En_CharacterState.SpedUp);
+			myPlayerModule.RemoveState(En_CharacterState.Slowed);
+		}
+		else if (liveMoveSpeed() < parameters.movementSpeed)
+		{
+			print("SPED down");
 
+			myPlayerModule.AddState(En_CharacterState.Slowed);
+			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
+		}
+		else
+		{
+			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
+			myPlayerModule.RemoveState(En_CharacterState.Slowed);
+		}
 	}
 	//Parameters
 	#region
@@ -254,7 +276,7 @@ public class MovementModule : MonoBehaviour
 		if (allLiveMovementModifier.Count > 0)
 		{
 			float _finalPercentage = 0;
-			for (int i = 0; i < allLiveMovementModifier.Count ; i++)
+			for (int i = 0; i < allLiveMovementModifier.Count; i++)
 			{
 				_finalPercentage += allLiveMovementModifier[i].percentageOfTheModifier;
 			}

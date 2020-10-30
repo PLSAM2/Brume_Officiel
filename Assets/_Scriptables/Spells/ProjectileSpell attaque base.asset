@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canalisationTime: 0.01
   range: 8
-  cooldown: 0.8
+  cooldown: 0.3
   numberOfCharge: 1
   forbiddenState: 24
   canCancel: 0
@@ -27,12 +27,15 @@ MonoBehaviour:
       playerName: 
     mySpeed: 0
     myLifeTime: 0
-  prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
-  prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
+  prefabBlueTeam: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
+  prefabRedTeam: {fileID: 8044532633874114583, guid: 50b3edd1446c85c408dbf2cf0eebd6eb, type: 3}
   salveInfos:
     numberOfSalve: 4
-    timeToReachMaxRange: 12
+    numberOfShot: 1
+    timeToReachMaxRange: 0.2
     timeToResolveTheSalve: 0.6
   isMultiple: 0
-  numberOfProjShoot: 1
   angleToSplit: 0
+  bonusShot: 0
+  bonusSalve: 2
+  durationAdded: 0.2
