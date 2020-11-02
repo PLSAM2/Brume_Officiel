@@ -198,8 +198,14 @@ public class PlayerModule : MonoBehaviour
 			return;
 	}
 
-	//ANIM EN LOCAL
-	/*	private void FixedUpdate ()
+    public void SetInBrumeStatut(bool _value)
+    {
+        isInBrume = _value;
+        mylocalPlayer.ChangeFowRaduis(_value);
+    }
+
+    //ANIM EN LOCAL
+    /*	private void FixedUpdate ()
 		{
 			if (mylocalPlayer.isOwner == false)
 			{
@@ -212,7 +218,7 @@ public class PlayerModule : MonoBehaviour
 			oldPos = transform.position;
 		}*/
 
-	void LookAtMouse ()
+    void LookAtMouse ()
 	{
 		if ((state & En_CharacterState.Canalysing) == 0)
 		{
@@ -328,7 +334,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return transform.position;
 	}
-	#endregion
+    #endregion
 }
 
 [System.Flags]
