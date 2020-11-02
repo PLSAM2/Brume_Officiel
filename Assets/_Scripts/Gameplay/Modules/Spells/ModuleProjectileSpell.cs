@@ -132,4 +132,10 @@ public class ModuleProjectileSpell : SpellModule
 			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
 	}
 	#endregion
+
+	protected override float durationOfTheMovementModifier ()
+	{
+		float _temp = base.durationOfTheMovementModifier() + spellProj.salveInfos.timeToResolveTheSalve;
+		return _temp;
+	}
 }

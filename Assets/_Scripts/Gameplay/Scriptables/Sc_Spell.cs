@@ -9,7 +9,8 @@ public class Sc_Spell : ScriptableObject
 {
     [Header("Properties")]
     public float canalisationTime;
-      public float range, cooldown;
+	public float range, cooldown;
+	[Range(0,2)] [Tooltip("0 completeSlow, 2 = speed*2 ")] public float movementModifierDuringCanalysing;
     public int numberOfCharge = 1;
 
     [Header("Constraints")]

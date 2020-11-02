@@ -220,6 +220,10 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
+		MovementModifier _temp = new MovementModifier();
+		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
+		_temp.duration = durationOfTheMovementModifier();
+		myPlayerModule.addMovementModifier(_temp);
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
 	}
 
@@ -233,6 +237,12 @@ public class SpellModule : MonoBehaviour
 		canalisationParticle.Play();
 
 	}
+
+	protected virtual float durationOfTheMovementModifier()
+	{
+		return spell.canalisationTime; 
+	}
+
 
 	public void StopParticleCanalisation ()
 	{
