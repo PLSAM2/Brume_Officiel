@@ -19,6 +19,7 @@ public class FrogNest : MonoBehaviour
 
     public void FrogPicked()
     {
+        frogObj.capturingPlayerModule.interactiblesClose.Remove(frogObj);
         frogObj.gameObject.SetActive(false);
 
         StartCoroutine(WaitForRespawn());
