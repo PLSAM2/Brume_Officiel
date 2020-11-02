@@ -23,7 +23,7 @@ public class Interactible : MonoBehaviour
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
     [ReadOnly] public Team capturingTeam = Team.none;
-    protected PlayerModule capturingPlayerModule;
+    public PlayerModule capturingPlayerModule;
     public State state = State.Locked;
 
     public Character[] authorizedCaptureCharacter = new Character[1];

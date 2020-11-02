@@ -22,7 +22,6 @@ public class VisionTower : Interactible
         {
             vision.gameObject.SetActive(true);
             vision.Init();
-
         }
         else
         {
