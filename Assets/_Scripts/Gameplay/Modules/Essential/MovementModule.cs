@@ -180,17 +180,13 @@ public class MovementModule : MonoBehaviour
 
 	void UpdateStateOnMovement ()
 	{
-		print("RunSpeedChanged");
 		if (liveMoveSpeed() > parameters.movementSpeed)
 		{
-			print("SPED UP");
 			myPlayerModule.AddState(En_CharacterState.SpedUp);
 			myPlayerModule.RemoveState(En_CharacterState.Slowed);
 		}
 		else if (liveMoveSpeed() < parameters.movementSpeed)
 		{
-			print("SPED down");
-
 			myPlayerModule.AddState(En_CharacterState.Slowed);
 			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
 		}

@@ -14,10 +14,16 @@ public class Projectile : MonoBehaviour
 	[SerializeField] LayerMask layerToHit;
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] Sc_ProjectileSpell spellRule;
+	bool isOwner;
 
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
+		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
+		if(!isOwner)
+		{
+			Destroy(this);
+		}
 	}
 
 	/*private void OnCollisionEnter ( Collision collision )
@@ -49,6 +55,7 @@ public class Projectile : MonoBehaviour
 
 		bool _mustDestroy = false;
 		Vector3 _PosToSpawn = Vector3.zero;
+
 		if (_hits.Length > 0)
 		{
 			for(int i = 0; i < _hits.Length; i++)
@@ -61,6 +68,7 @@ public class Projectile : MonoBehaviour
 					if (playerHit.teamIndex != team)
 					{
 						playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+						Destroy();
 						_mustDestroy = true;
 						_PosToSpawn = _hits[i].point;
 							
@@ -74,20 +82,14 @@ public class Projectile : MonoBehaviour
 					// print(_hits[i].collider.name);
 					_PosToSpawn = _hits[i].point;
 					_mustDestroy = true;
+					Destroy();
 				}
 
 
 			}
 		}
 
-		if (_mustDestroy)
-
-		{
-			if(_PosToSpawn != Vector3.zero)
-				Instantiate(feedBackTouch, _PosToSpawn, Quaternion.identity);
-
-			Destroy();
-		}
+	
 	}
 
 	private void FixedUpdate ()
