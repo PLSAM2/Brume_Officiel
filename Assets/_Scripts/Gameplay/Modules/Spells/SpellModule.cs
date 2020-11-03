@@ -157,6 +157,11 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.AddState(En_CharacterState.Canalysing);
 			startCanalisation?.Invoke();
 
+
+			if (spell.lockOnCanalisation)
+				myPlayerModule.rotationLock(true);
+
+
 			isUsed = true;
 		}
 		else
@@ -168,6 +173,9 @@ public class SpellModule : MonoBehaviour
 		isUsed = false;
 		currentTimeCanalised = 0;
 		TreatCharacterState();
+
+		if (spell.lockOnCanalisation)
+			myPlayerModule.rotationLock(false);
 	}
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
