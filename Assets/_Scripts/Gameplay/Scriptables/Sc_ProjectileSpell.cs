@@ -28,6 +28,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[ShowIf("isMultiple")] public int angleToSplit;
 
 	[Header("UpgradePart")]
+	public float cooldownReduction = 0;
 	public int bonusShot;
 	public int bonusSalve;
 	public float durationAdded;

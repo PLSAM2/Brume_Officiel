@@ -72,6 +72,8 @@ public class Projectile : MonoBehaviour
 						_mustDestroy = true;
 						_PosToSpawn = _hits[i].point;
 						asDeal = true;
+						if (isOwner)
+							PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
 						return;
 					}
 					else
