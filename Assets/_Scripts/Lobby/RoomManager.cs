@@ -58,10 +58,10 @@ public class RoomManager : MonoBehaviour
             {
                 StartChampSelectInServer(sender, e);
             }
-            if (message.Tag == Tags.QuitGame)
-            {
-                QuitGameInServer(sender, e);
-            }
+            //if (message.Tag == Tags.QuitGame)
+            //{
+            //    QuitGameInServer(sender, e);
+            //}
 
             if (message.Tag == Tags.StartGame)
             {
@@ -105,23 +105,23 @@ public class RoomManager : MonoBehaviour
         roundCount = 0;
     }
 
-    public void QuitGame()
-    {
-        using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        {
-            writer.Write(actualRoom.ID);
-            print("Quit");
-            using (Message message = Message.Create(Tags.QuitGame, writer))
-                client.SendMessage(message, SendMode.Reliable);
-        }
+    //public void QuitGame()
+    //{
+    //    using (DarkRiftWriter writer = DarkRiftWriter.Create())
+    //    {
+    //        writer.Write(actualRoom.ID);
+    //        print("Quit");
+    //        using (Message message = Message.Create(Tags.QuitGame, writer))
+    //            client.SendMessage(message, SendMode.Reliable);
+    //    }
 
-        ResetActualGame();
-    }
+    //    ResetActualGame();
+    //}
 
-    private void QuitGameInServer(object sender, MessageReceivedEventArgs e)
-    {       
-        SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
-    }
+    //private void QuitGameInServer(object sender, MessageReceivedEventArgs e)
+    //{       
+    //    SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
+    //}
 
 
     public List<PlayerData> GetAllPlayerInActualRoom(bool includeLocalPlayer = true)

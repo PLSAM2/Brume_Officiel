@@ -21,10 +21,11 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI ennemyScore;
     public TextMeshProUGUI round;
 
-    public TextMeshProUGUI generalMessage;
-    public TextMeshProUGUI generalPoints;
-    public Animator generalMessageAnim;
-    public Animator generalPointsAnim;
+    [SerializeField] private TextMeshProUGUI generalMessage;
+    [SerializeField] private TextMeshProUGUI generalPoints;
+    [SerializeField] private Animator generalMessageAnim;
+    [SerializeField] private Animator generalPointsAnim;
+    [SerializeField] private GameObject waitingForPlayersPanel;
 
     [SerializeField] Image brumeFilter;
 
@@ -126,6 +127,11 @@ public class UiManager : MonoBehaviour
                 wardIcon.SetSprite(_spellAttached.spellIcon);
                 break;
         }
+    }
+
+    internal void AllPlayerJoinGameScene()
+    {
+        waitingForPlayersPanel.SetActive(false);
     }
 
     void CheckBeReady(float _actualTime, IconUi _iconToPrep, float _timeToCheckShow)

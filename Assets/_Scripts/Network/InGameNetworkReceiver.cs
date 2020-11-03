@@ -218,7 +218,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     public void KillCharacter(ushort killerID = 0)
     {
-
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(killerID);
@@ -228,22 +227,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
-
-        //if (RoomManager.Instance.GetLocalPlayer().playerCharacter == Character.Shili)
-        //{
-        //    switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
-        //    {
-        //        case Team.red:
-        //            AddPoints(Team.blue, 1);
-        //            break;
-        //        case Team.blue:
-        //            AddPoints(Team.red, 1);
-        //            break;
-        //        default:
-        //            print("Error");
-        //            break;
-        //    }
-        //}
     }
 
     private void KillCharacterInServer(object sender, MessageReceivedEventArgs e)
