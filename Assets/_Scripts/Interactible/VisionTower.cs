@@ -18,6 +18,13 @@ public class VisionTower : Interactible
     {
         base.Captured(team);
 
+        StartCoroutine(ReactivateTower());
+    }
+
+    public override void UpdateCaptured(GameData.Team team)
+    {
+        base.UpdateCaptured(team);
+
         if (team == RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
             vision.gameObject.SetActive(true);
@@ -28,7 +35,6 @@ public class VisionTower : Interactible
             vision.gameObject.SetActive(false);
         }
 
-        StartCoroutine(ReactivateTower());
     }
 
     IEnumerator ReactivateTower()

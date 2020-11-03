@@ -108,7 +108,6 @@ public class Interactible : MonoBehaviour
         }
 
         UpdateTryCapture(team);
-
     }
 
     public virtual void UpdateTryCapture(Team team)
@@ -118,7 +117,7 @@ public class Interactible : MonoBehaviour
             return;
         }
 
-        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équie qui capture, arreter la capture
+        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
         {
             isCapturing = false;
         }
