@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: -3939077042609495558}
   - component: {fileID: 1217320960498770133}
   - component: {fileID: 8281150123794309746}
-  - component: {fileID: 6667444453632817538}
+  - component: {fileID: 2026548338358286537}
+  - component: {fileID: 7315650069007287688}
   - component: {fileID: 8154408291484997990}
   - component: {fileID: 6674073701188791837}
   - component: {fileID: 7642602275245690328}
   - component: {fileID: 32086142644911797}
-  - component: {fileID: 7315650069007287688}
-  - component: {fileID: 2026548338358286537}
+  - component: {fileID: 6667444453632817538}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -107,7 +107,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   forbidenWalkingState: 8
---- !u!114 &6667444453632817538
+--- !u!114 &2026548338358286537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,33 +116,41 @@ MonoBehaviour:
   m_GameObject: {fileID: -7935494346270426752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dfa3960228c6c7499f9f52ab7671633, type: 3}
+  m_Script: {fileID: 11500000, guid: c65d22a176d80624cb2b80c907eed451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSpellKey: 97
-  secondSpellKey: 32
-  thirdSpellKey: 101
-  freeCamera: 308
-  interactKey: 102
-  wardKey: 118
-  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  teamIndex: 0
-  isInBrume: 0
-  allHitTaken: []
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
-  brumeLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  mapIcon: {fileID: 7456197301907493091}
-  movementPart: {fileID: 8281150123794309746}
-  firstSpell: {fileID: 7315650069007287688}
-  secondSpell: {fileID: 6674073701188791837}
-  thirdSpell: {fileID: 2026548338358286537}
-  leftClick: {fileID: 32086142644911797}
-  ward: {fileID: 7642602275245690328}
-  coll: {fileID: 8154408291484997990}
-  mylocalPlayer: {fileID: 0}
-  interactiblesClose: []
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 58683f536a7da4d4f930b348757dba41, type: 2}
+  actionLinked: 2
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
+--- !u!114 &7315650069007287688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
+  actionLinked: 0
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
+  indexOfTheShotProjectileBlue: 14
+  indexOfTheShotProjectileRed: 15
 --- !u!136 &8154408291484997990
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -275,7 +283,7 @@ MonoBehaviour:
   canalisationParticle: {fileID: 8162580461717235990}
   indexOfTheShotProjectileBlue: 12
   indexOfTheShotProjectileRed: 13
---- !u!114 &7315650069007287688
+--- !u!114 &6667444453632817538
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,41 +292,33 @@ MonoBehaviour:
   m_GameObject: {fileID: -7935494346270426752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 0dfa3960228c6c7499f9f52ab7671633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  actionLinked: 0
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  indexOfTheShotProjectileBlue: 14
-  indexOfTheShotProjectileRed: 15
---- !u!114 &2026548338358286537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65d22a176d80624cb2b80c907eed451, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 58683f536a7da4d4f930b348757dba41, type: 2}
-  actionLinked: 2
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
+  firstSpellKey: 97
+  secondSpellKey: 32
+  thirdSpellKey: 101
+  freeCamera: 308
+  interactKey: 102
+  wardKey: 118
+  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
+  teamIndex: 0
+  isInBrume: 0
+  allHitTaken: []
+  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
+  brumeLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  mapIcon: {fileID: 7456197301907493091}
+  movementPart: {fileID: 8281150123794309746}
+  firstSpell: {fileID: 7315650069007287688}
+  secondSpell: {fileID: 6674073701188791837}
+  thirdSpell: {fileID: 2026548338358286537}
+  leftClick: {fileID: 32086142644911797}
+  ward: {fileID: 7642602275245690328}
+  coll: {fileID: 8154408291484997990}
+  mylocalPlayer: {fileID: 0}
+  interactiblesClose: []
 --- !u!1 &185187326254875073
 GameObject:
   m_ObjectHideFlags: 0

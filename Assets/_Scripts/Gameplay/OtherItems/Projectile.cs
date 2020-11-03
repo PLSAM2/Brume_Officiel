@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
 		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
 		if(!isOwner)
 		{
-			Destroy(this);
+			asDeal = true;
 		}
 	}
 
