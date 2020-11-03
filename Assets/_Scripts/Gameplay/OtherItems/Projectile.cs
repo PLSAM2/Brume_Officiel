@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 	[SerializeField] LayerMask layerToHit;
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] Sc_ProjectileSpell spellRule;
-	bool isOwner;
+	bool isOwner, asDeal=false;
 
 	private void Start ()
 	{
@@ -56,7 +56,7 @@ public class Projectile : MonoBehaviour
 		bool _mustDestroy = false;
 		Vector3 _PosToSpawn = Vector3.zero;
 
-		if (_hits.Length > 0)
+		if (_hits.Length > 0 && !asDeal)
 		{
 			for(int i = 0; i < _hits.Length; i++)
 			{
@@ -71,7 +71,7 @@ public class Projectile : MonoBehaviour
 						Destroy();
 						_mustDestroy = true;
 						_PosToSpawn = _hits[i].point;
-							
+						asDeal = true;
 						return;
 					}
 					else
