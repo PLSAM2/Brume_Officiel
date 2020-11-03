@@ -17,7 +17,9 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 
 	[Header("SalveInfos")]
+	public float offSet = .1f;
 	public SalveInfos salveInfos;
+	
 
 
 	[Header("MultiProjectile")]

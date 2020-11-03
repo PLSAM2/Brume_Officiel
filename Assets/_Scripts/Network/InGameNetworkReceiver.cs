@@ -265,14 +265,13 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 ushort _damages = reader.ReadUInt16();
-                print(_damages);
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
                     return;
                 }
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
-                print(target.myPlayerId);
+
                 target.liveHealth -= _damages;
 
             }
