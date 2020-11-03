@@ -113,15 +113,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 Team _team = (Team)reader.ReadUInt16();
 
                 Interactible _interactible = interactibleList[_ID].interactible;
-
-                if (_interactible.GetType() == typeof(Altar))
-                {
-                    ((Altar)_interactible).UpdateCaptured(_team);
-                }
-                else if (_interactible.GetType() == typeof(Frog))
-                {
-                    ((Frog)_interactible).UpdateCaptured(_team);
-                }
+                _interactible.UpdateCaptured(_team);
             }
         }
     }

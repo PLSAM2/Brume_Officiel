@@ -12,9 +12,10 @@ public class Ward : MonoBehaviour
     {
         if (Team != RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
-            this.gameObject.SetActive(false);
+            this.DestroyWard();
         } else
         {
+            fowFollow.gameObject.SetActive(true);
             fowFollow.Init();
             StartCoroutine(WardLifeTime());
         }
