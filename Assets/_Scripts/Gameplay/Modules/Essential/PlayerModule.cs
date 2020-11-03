@@ -15,6 +15,7 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
 	private LayerMask groundLayer;
+	bool rotLocked = false;
 
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
@@ -62,6 +63,7 @@ public class PlayerModule : MonoBehaviour
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
 	public Action upgradeKit, backToNormalKit;
+	public Action<bool> rotationLock;
 	#endregion
 
 	void Awake()
@@ -89,6 +91,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 		{
+			rotationLock -= LockingRotation;
 			reduceAllCooldown -= ReduceAllCooldowns;
 			reduceTargetCooldown -= ReduceCooldown;
 		}
@@ -111,9 +114,11 @@ public class PlayerModule : MonoBehaviour
 			leftClick?.SetupComponent();
 			ward?.SetupComponent();
 
+			rotationLock += LockingRotation;
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
+			
 		}
 		else
 		{
@@ -220,7 +225,7 @@ public class PlayerModule : MonoBehaviour
 
     void LookAtMouse ()
 	{
-		if ((state & En_CharacterState.Canalysing) == 0)
+		if (!rotLocked)
 		{
 			Vector3 _currentMousePos = mousePos();
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
@@ -335,6 +340,15 @@ public class PlayerModule : MonoBehaviour
 		return transform.position;
 	}
     #endregion
+
+	void LockingRotation(bool _isLocked)
+	{
+		if (_isLocked)
+			rotLocked = true;
+		else
+			rotLocked = false;
+
+	}
 }
 
 [System.Flags]
