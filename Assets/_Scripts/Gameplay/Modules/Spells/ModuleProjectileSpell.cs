@@ -112,12 +112,24 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ReadSalve ()
 	{
+		/*
 		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
 		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShot;
 
 		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
 		{
-			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
+			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * (transform.forward /10 );
+
+			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
+			_baseAngle += _angleToAdd;
+		}*/
+
+		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
+		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShot;
+
+		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
+		{
+			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * (transform.forward / 10);
 
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
@@ -132,4 +144,10 @@ public class ModuleProjectileSpell : SpellModule
 			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
 	}
 	#endregion
+
+	protected override float durationOfTheMovementModifier ()
+	{
+		float _temp = base.durationOfTheMovementModifier() + spellProj.salveInfos.timeToResolveTheSalve;
+		return _temp;
+	}
 }

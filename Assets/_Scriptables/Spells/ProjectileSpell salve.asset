@@ -15,7 +15,9 @@ MonoBehaviour:
   canalisationTime: 0.01
   range: 2.5
   cooldown: 3
+  movementModifierDuringCanalysing: 0.1
   numberOfCharge: 1
+  lockOnCanalisation: 1
   forbiddenState: 56
   canCancel: 0
   mustUseACollFreePos: 0
@@ -32,10 +34,10 @@ MonoBehaviour:
   salveInfos:
     numberOfSalve: 1
     numberOfShot: 9
-    timeToReachMaxRange: 0.09
-    timeToResolveTheSalve: 0.3
+    timeToReachMaxRange: 0.05
+    timeToResolveTheSalve: 0.05
   isMultiple: 1
-  angleToSplit: 65
-  bonusShot: 5
+  angleToSplit: 90
+  bonusShot: 0
   bonusSalve: 0
-  durationAdded: 0.1
+  durationAdded: 0

@@ -157,6 +157,11 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.AddState(En_CharacterState.Canalysing);
 			startCanalisation?.Invoke();
 
+
+			if (spell.lockOnCanalisation)
+				myPlayerModule.rotationLock(true);
+
+
 			isUsed = true;
 		}
 		else
@@ -168,6 +173,9 @@ public class SpellModule : MonoBehaviour
 		isUsed = false;
 		currentTimeCanalised = 0;
 		TreatCharacterState();
+
+		if (spell.lockOnCanalisation)
+			myPlayerModule.rotationLock(false);
 	}
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
@@ -220,6 +228,10 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
+		MovementModifier _temp = new MovementModifier();
+		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
+		_temp.duration = durationOfTheMovementModifier();
+		myPlayerModule.addMovementModifier(_temp);
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
 	}
 
@@ -233,6 +245,12 @@ public class SpellModule : MonoBehaviour
 		canalisationParticle.Play();
 
 	}
+
+	protected virtual float durationOfTheMovementModifier()
+	{
+		return spell.canalisationTime; 
+	}
+
 
 	public void StopParticleCanalisation ()
 	{

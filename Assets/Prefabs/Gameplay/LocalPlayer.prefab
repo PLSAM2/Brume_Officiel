@@ -76,12 +76,14 @@ MonoBehaviour:
   myAnimator: {fileID: 1783050465530621638}
   networkAnimationController: {fileID: -3939077042609495558}
   circleDirection: {fileID: 3531234986128592076}
-  respawnTime: 15
+  respawnTime: 2
   canvas: {fileID: 6548595031188705954}
   nameText: {fileID: 2784098647336443950}
   lifeCount: {fileID: 2467996829230243338}
   life: {fileID: 8177495112107496326}
   fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+  fowRaduis: 7
+  fowRaduisInBrume: 7
   objToHide:
   - {fileID: 4977980120565394950}
   - {fileID: 6548595031188705954}
@@ -1925,7 +1927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6870150835912919914
 Transform:
   m_ObjectHideFlags: 0

@@ -9,8 +9,10 @@ public class Sc_Spell : ScriptableObject
 {
     [Header("Properties")]
     public float canalisationTime;
-      public float range, cooldown;
+	public float range, cooldown;
+	[Range(0,2)] [Tooltip("0 completeSlow, 2 = speed*2 ")] public float movementModifierDuringCanalysing;
     public int numberOfCharge = 1;
+	public bool lockOnCanalisation = true;
 
     [Header("Constraints")]
     public En_CharacterState forbiddenState = En_CharacterState.Canalysing | En_CharacterState.Stunned | En_CharacterState.Silenced;
