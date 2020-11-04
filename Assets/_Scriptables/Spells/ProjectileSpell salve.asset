@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: ProjectileSpell salve
   m_EditorClassIdentifier: 
-  canalisationTime: 0.3
+  canalisationTime: 0.25
   range: 3
   cooldown: 6
   movementModifierDuringCanalysing: 0.1
@@ -39,6 +39,7 @@ MonoBehaviour:
     timeToResolveTheSalve: 0.05
   isMultiple: 1
   angleToSplit: 90
+  cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
   durationAdded: 0
