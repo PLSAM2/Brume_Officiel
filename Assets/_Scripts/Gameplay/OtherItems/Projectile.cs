@@ -20,7 +20,8 @@ public class Projectile : MonoBehaviour
 	{
 		myColl = GetComponent<SphereCollider>();
 		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
-		if(!isOwner)
+
+		if (!isOwner)
 		{
 			asDeal = true;
 		}
@@ -31,7 +32,7 @@ public class Projectile : MonoBehaviour
 		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
 	}
 
-    /*private void OnCollisionEnter ( Collision collision )
+	/*private void OnCollisionEnter ( Collision collision )
 	{
 		LocalPlayer playerHit = collision.gameObject.GetComponent<LocalPlayer>();
 
@@ -47,7 +48,7 @@ public class Projectile : MonoBehaviour
 		Destroy();
 	}*/
 
-    private void Update ()
+	private void Update ()
 	{
 		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
 		CustomCollision();
