@@ -28,8 +28,8 @@ public class Projectile : MonoBehaviour
 
     private void OnEnable()
     {
-		SetupPrefab();
-    }
+		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
+	}
 
     /*private void OnCollisionEnter ( Collision collision )
 	{
