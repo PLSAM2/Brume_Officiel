@@ -21,11 +21,16 @@ public class UiManager : MonoBehaviour
     public TextMeshProUGUI ennemyScore;
     public TextMeshProUGUI round;
 
+
     [SerializeField] private TextMeshProUGUI generalMessage;
     [SerializeField] private TextMeshProUGUI generalPoints;
     [SerializeField] private Animator generalMessageAnim;
     [SerializeField] private Animator generalPointsAnim;
     [SerializeField] private GameObject waitingForPlayersPanel;
+
+    public float generalMessageAnimTime = 3;
+    private List<string> generalMessageList = new List<string>();
+    private bool waitForGenMessageAnimEnd = false;
 
     [SerializeField] Image brumeFilter;
 
@@ -64,6 +69,14 @@ public class UiManager : MonoBehaviour
 
         round.text = "Round : " + RoomManager.Instance.roundCount;
         // <<
+    }
+
+    private void FixedUpdate()
+    {
+        if (generalMessageList.Count > 0 && !waitForGenMessageAnimEnd)
+        {
+            StartCoroutine(GeneralMessage());
+        }
     }
 
     public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
@@ -201,8 +214,27 @@ public class UiManager : MonoBehaviour
 
     public void DisplayGeneralMessage(string value)
     {
-        generalMessage.text = value;
+        generalMessageList.Add(value);            
+    }
+
+    IEnumerator GeneralMessage()
+    {
+        waitForGenMessageAnimEnd = true;
+        generalMessage.text = generalMessageList[0];
         generalMessageAnim.Play("GenMessage");
+
+        yield return new WaitForSeconds(generalMessageAnimTime);
+
+        generalMessageList.RemoveAt(0);
+
+        if (generalMessageList.Count == 0)
+        {
+            waitForGenMessageAnimEnd = false;
+        } else
+        {
+            StartCoroutine(GeneralMessage());
+        }
+
     }
 
     public void DisplayGeneralPoints(Team team, int value)

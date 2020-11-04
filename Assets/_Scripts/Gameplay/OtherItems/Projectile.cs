@@ -26,7 +26,12 @@ public class Projectile : MonoBehaviour
 		}
 	}
 
-	/*private void OnCollisionEnter ( Collision collision )
+    private void OnEnable()
+    {
+		SetupPrefab();
+    }
+
+    /*private void OnCollisionEnter ( Collision collision )
 	{
 		LocalPlayer playerHit = collision.gameObject.GetComponent<LocalPlayer>();
 
@@ -42,7 +47,7 @@ public class Projectile : MonoBehaviour
 		Destroy();
 	}*/
 
-	private void Update ()
+    private void Update ()
 	{
 		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
 		CustomCollision();
@@ -113,7 +118,7 @@ public class Projectile : MonoBehaviour
 	}
 
 	[Button]
-	void SetupPrefab ()
+	 void SetupPrefab ()
 	{
 		myInfos.myDamages.damageHealth = spellRule.projParameters.myDamages.damageHealth;
 		myInfos.mySpeed = spellRule.range / spellRule.salveInfos.timeToReachMaxRange;
