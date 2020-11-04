@@ -17,7 +17,7 @@ public class BrumeScript : MonoBehaviour
         if(other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            player.isInBrume = true;
+            player.SetInBrumeStatut(true);
 
             if (player.mylocalPlayer.isOwner)
             {
@@ -52,7 +52,7 @@ public class BrumeScript : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            player.isInBrume = false;
+            player.SetInBrumeStatut(false);
 
             if (player.mylocalPlayer.isOwner)
             {

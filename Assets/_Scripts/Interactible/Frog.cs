@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +14,6 @@ public class Frog : Interactible
         base.Init();
     }
 
-    private void OnEnable()
-    {
-        base.capturedEvent += Captured;
-        base.leaveEvent += StopCapturing;
-    }
-
-    private void OnDisable()
-    {
-        base.capturedEvent -= Captured;
-        base.leaveEvent -= StopCapturing;
-    }
 
     public override void Captured(GameData.Team team) // quand capturer en local
     {

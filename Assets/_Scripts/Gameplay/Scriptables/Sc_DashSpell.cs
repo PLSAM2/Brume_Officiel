@@ -10,4 +10,7 @@ public class Sc_DashSpell : Sc_Spell
     public float damagesRadius;
 
     public DamagesInfos damages;
+
+	[Header("Bonus")]
+	public int bonusDash;
 }

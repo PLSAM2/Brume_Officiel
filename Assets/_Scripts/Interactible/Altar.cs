@@ -17,15 +17,7 @@ public class Altar : Interactible
     void Start()
     {
         base.Init();
-        base.capturedEvent += Captured;
-        base.leaveEvent += StopCapturing;
         isInteractable = false;
-    }
-
-    private void OnDisable()
-    {
-        base.capturedEvent -= Captured;
-        base.leaveEvent -= StopCapturing;
     }
 
     public override void UpdateCaptured(Team team)
@@ -36,10 +28,15 @@ public class Altar : Interactible
         // Detruire ici
     }
 
+    public override void Captured(Team team)
+    {
+        base.Captured(team);
+        UiManager.Instance.DisplayGeneralMessage("Altar captured");
+    }
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
-
+        UiManager.Instance.DisplayGeneralMessage("Altar unlock in " + unlockTime + " seconds");
         if (value)
         {
             StartCoroutine(ActivateAltar());
@@ -49,7 +46,7 @@ public class Altar : Interactible
     IEnumerator ActivateAltar()
     {
         yield return new WaitForSeconds(unlockTime);
-
+        UiManager.Instance.DisplayGeneralMessage("Altar unlock");
         base.Unlock();
     }
 

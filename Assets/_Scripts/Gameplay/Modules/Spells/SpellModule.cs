@@ -18,7 +18,7 @@ public class SpellModule : MonoBehaviour
 		{
 			_cooldown = value;
 
-			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, finalCooldownValue());
 		}
 	}
 	private int _charges;
@@ -32,7 +32,7 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
-			cooldown = spell.cooldown;
+			cooldown = finalCooldownValue();
 		}
 	}
 
@@ -149,13 +149,18 @@ public class SpellModule : MonoBehaviour
 			stateAtStart = myPlayerModule.state;
 
 			if (charges == spell.numberOfCharge)
-				cooldown = spell.cooldown;
+				cooldown = finalCooldownValue();
 
 			charges -= 1;
 
 			recordedMousePosOnInput = _BaseMousePos;
 			myPlayerModule.AddState(En_CharacterState.Canalysing);
 			startCanalisation?.Invoke();
+
+
+			if (spell.lockOnCanalisation)
+				myPlayerModule.rotationLock(true);
+
 
 			isUsed = true;
 		}
@@ -168,6 +173,9 @@ public class SpellModule : MonoBehaviour
 		isUsed = false;
 		currentTimeCanalised = 0;
 		TreatCharacterState();
+
+		if (spell.lockOnCanalisation)
+			myPlayerModule.rotationLock(false);
 	}
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
@@ -196,7 +204,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void UpgradeSpell ( Sc_UpgradeSpell _rule ) { }
+	protected virtual void UpgradeSpell () { }
 
 	protected virtual void ReturnToNormal () { }
 
@@ -220,6 +228,10 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
+		MovementModifier _temp = new MovementModifier();
+		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
+		_temp.duration = durationOfTheMovementModifier();
+		myPlayerModule.addMovementModifier(_temp);
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
 	}
 
@@ -234,9 +246,20 @@ public class SpellModule : MonoBehaviour
 
 	}
 
+	protected virtual float durationOfTheMovementModifier()
+	{
+		return spell.canalisationTime; 
+	}
+
+
 	public void StopParticleCanalisation ()
 	{
 		canalisationParticle.Stop();
+	}
+
+	protected virtual float finalCooldownValue()
+	{
+		return spell.cooldown + spell.canalisationTime;
 	}
 }
 

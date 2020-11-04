@@ -6,15 +6,16 @@ using UnityEngine;
 public class Ward : MonoBehaviour
 {
     public float lifeTime = 60;
-    [SerializeField] private FowFollow fowFollow;
+    [SerializeField] private Fow fowFollow;
 
     public void Landed(GameData.Team Team)
     {
         if (Team != RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
-            this.gameObject.SetActive(false);
+            this.DestroyWard();
         } else
         {
+            fowFollow.gameObject.SetActive(true);
             fowFollow.Init();
             StartCoroutine(WardLifeTime());
         }

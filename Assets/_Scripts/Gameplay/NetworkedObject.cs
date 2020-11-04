@@ -29,7 +29,16 @@ public class NetworkedObject : MonoBehaviour
             isOwner = true;
         }
     }
-
+    private void OnDisable()
+    {
+        // RESET VALUES BECAUSE OF POOLING
+        owner = null;
+        isOwner = false;
+        ownerIClient = null;
+        serverObjectID = 0;
+        lastPosition = Vector3.zero;
+    }
+    
     public bool GetIsOwner()
     {
         return isOwner;

@@ -29,6 +29,11 @@ public class WardModule : SpellModule
     }
 
 
+    private void OnDestroy()
+    {
+        Destroy(wardObj);
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -119,7 +124,5 @@ public class WardModule : SpellModule
         }
 
         wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
-
     }
-
 }
