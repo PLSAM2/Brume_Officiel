@@ -273,7 +273,7 @@ public class PlayerModule : MonoBehaviour
 		firstSpell.ReduceCooldown(_duration);
 		secondSpell.ReduceCooldown(_duration);
 		thirdSpell.ReduceCooldown(_duration);
-		leftClick.ReduceCooldown(_duration);
+		//leftClick.ReduceCooldown(_duration);
 		ward.ReduceCooldown(_duration);
 	}
 	//vision
