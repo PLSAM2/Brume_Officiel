@@ -54,8 +54,6 @@ public class LocalPlayer : MonoBehaviour
         OnRespawn();
     }
 
-
-
     private void Start()
     {
         triggerAnim += TriggerTheAnim;
@@ -107,6 +105,24 @@ public class LocalPlayer : MonoBehaviour
     {
         myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
         myFow.Init(transform);
+    }
+
+    public void SHowHideFow(bool _value)
+    {
+        if (myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return;
+        }
+
+        if (_value)
+        {
+            myFow.gameObject.SetActive(true);
+        }
+        else
+        {
+            myFow.gameObject.SetActive(false);
+            myFow.ChangeFowRaduis(0);
+        }
     }
 
     private void OnDestroy()
