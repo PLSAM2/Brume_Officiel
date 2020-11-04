@@ -66,15 +66,19 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Start()
     {
-
         remainingTime = timePerRound;
         int secondRemaining = (int)remainingTime % 60;
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
-        if (RoomManager.Instance.GetLocalPlayer().IsHost)
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            StartTimer();
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+
+            using (Message _message = Message.Create(Tags.PlayerJoinGameScene, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
         }
 
     }
@@ -97,11 +101,19 @@ public class GameManager : SerializedMonoBehaviour
             if (message.Tag == Tags.StopGame)
             {
                 StopGameInServer();
+            }            
+            if (message.Tag == Tags.AllPlayerJoinGameScene)
+            {
+                AllPlayerJoinGameScene();
             }
 
         }
     }
 
+    private void AllPlayerJoinGameScene()
+    {
+        UiManager.Instance.AllPlayerJoinGameScene();
+    }
 
     public void ResetCam()
     {
@@ -111,7 +123,6 @@ public class GameManager : SerializedMonoBehaviour
 
     void UpdateTime()
     {
-
         remainingTime -= Time.deltaTime;
 
         if (remainingTime <= 0)
@@ -119,7 +130,6 @@ public class GameManager : SerializedMonoBehaviour
             if (!stopInit)
             {
                 stopInit = true;
-                StopGame();
             }
             return;
 
@@ -130,19 +140,18 @@ public class GameManager : SerializedMonoBehaviour
 
     }
 
+    //private void StopGame()
+    //{
+    //    using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+    //    {
+    //        _writer.Write(RoomManager.Instance.actualRoom.ID);
 
-    private void StopGame()
-    {
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-            using (Message _message = Message.Create(Tags.StopGame, _writer))
-            {
-                client.SendMessage(_message, SendMode.Reliable);
-            }
-        }
-    }
+    //        using (Message _message = Message.Create(Tags.StopGame, _writer))
+    //        {
+    //            client.SendMessage(_message, SendMode.Reliable);
+    //        }
+    //    }
+    //}
 
     private void StopGameInServer()
     {
@@ -151,23 +160,9 @@ public class GameManager : SerializedMonoBehaviour
         SceneManager.LoadScene(RoomManager.Instance.champSelectScene, LoadSceneMode.Single);
     }
 
-    private void StartTimer()
-    {
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-            using (Message _message = Message.Create(Tags.StartTimer, _writer))
-            {
-                client.SendMessage(_message, SendMode.Reliable);
-            }
-        }
-    }
-
     private void StartTimerInServer()
     {
         timeStart = true;
     }
-
     
 }

@@ -62,11 +62,12 @@ public class ModuleProjectileSpell : SpellModule
 		resolved = true;
 	}
 
-	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	protected override void UpgradeSpell ( )
 	{
-		base.UpgradeSpell(_rule);
-		myLiveSalve.timeToResolveTheSalve += _rule.durationAdded;
-		myLiveSalve.numberOfSalve += _rule.shotAdded;
+		base.UpgradeSpell();
+		myLiveSalve.timeToResolveTheSalve += spellProj.durationAdded;
+		myLiveSalve.numberOfSalve += spellProj.bonusSalve;
+		myLiveSalve.numberOfShot += spellProj.bonusShot;
 	}
 
 	protected override void ReturnToNormal ()
@@ -111,12 +112,24 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ReadSalve ()
 	{
+		/*
 		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
-		float _angleToAdd = spellProj.angleToSplit / spellProj.numberOfProjShoot;
+		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShot;
 
-		for (int i = 0; i < spellProj.numberOfProjShoot; i++)
+		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
 		{
-			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
+			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * (transform.forward /10 );
+
+			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
+			_baseAngle += _angleToAdd;
+		}*/
+
+		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
+		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShot;
+
+		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
+		{
+			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
 
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
@@ -131,4 +144,10 @@ public class ModuleProjectileSpell : SpellModule
 			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
 	}
 	#endregion
+
+	protected override float durationOfTheMovementModifier ()
+	{
+		float _temp = base.durationOfTheMovementModifier() + spellProj.salveInfos.timeToResolveTheSalve;
+		return _temp;
+	}
 }

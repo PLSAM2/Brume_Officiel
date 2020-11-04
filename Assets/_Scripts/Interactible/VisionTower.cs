@@ -6,38 +6,35 @@ public class VisionTower : Interactible
 {
     [Header("Vision Tower properties")]
     public float unlockTime;
-    public FowFollow vision;
+    public Fow vision;
 
 
     void Start()
     {
         base.Init();
-        base.capturedEvent += Captured;
-        base.leaveEvent += StopCapturing;
-    }
-
-    private void OnDisable()
-    {
-        base.capturedEvent -= Captured;
-        base.leaveEvent -= StopCapturing;
     }
 
     public override void Captured(GameData.Team team)
     {
         base.Captured(team);
 
+        StartCoroutine(ReactivateTower());
+    }
+
+    public override void UpdateCaptured(GameData.Team team)
+    {
+        base.UpdateCaptured(team);
+
         if (team == RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
             vision.gameObject.SetActive(true);
             vision.Init();
-
         }
         else
         {
             vision.gameObject.SetActive(false);
         }
 
-        StartCoroutine(ReactivateTower());
     }
 
     IEnumerator ReactivateTower()

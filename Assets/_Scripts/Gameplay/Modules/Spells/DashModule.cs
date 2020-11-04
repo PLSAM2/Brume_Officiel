@@ -147,10 +147,11 @@ public class DashModule : SpellModule
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
 
-	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	protected override void UpgradeSpell ( )
 	{
-		base.UpgradeSpell(_rule);
-		charges += _rule.numberOfChargeAdded;
+		base.UpgradeSpell();
+		Sc_DashSpell dashSpell = spell as Sc_DashSpell;
+		charges += dashSpell.bonusDash;
 	}
 
 	protected override void ReturnToNormal ()

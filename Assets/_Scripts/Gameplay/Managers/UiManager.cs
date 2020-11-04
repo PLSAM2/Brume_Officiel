@@ -11,21 +11,30 @@ public class UiManager : MonoBehaviour
     private static UiManager _instance;
     public static UiManager Instance { get { return _instance; } }
 
-    public PlayerModule myPlayerModule;
-    public IconUi firstSpell, secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
+    [HideInInspector] public PlayerModule myPlayerModule;
+	[Header("Spell Icons")]
+	public IconUi firstSpell;
+	public IconUi secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
 
     public TextMeshProUGUI timer;
     public TextMeshProUGUI allyScore;
     public TextMeshProUGUI ennemyScore;
+    public TextMeshProUGUI round;
 
-    public TextMeshProUGUI generalMessage;
-    public TextMeshProUGUI generalPoints;
-    public Animator generalMessageAnim;
-    public Animator generalPointsAnim;
+    [SerializeField] private TextMeshProUGUI generalMessage;
+    [SerializeField] private TextMeshProUGUI generalPoints;
+    [SerializeField] private Animator generalMessageAnim;
+    [SerializeField] private Animator generalPointsAnim;
+    [SerializeField] private GameObject waitingForPlayersPanel;
 
     [SerializeField] Image brumeFilter;
 
-    private void Awake()
+	[Header("Status Icon")]
+	public Image stunIcon;
+	public Image slowIcon, spedUpIcon, silencedIcon,canalysingIcon;
+
+
+	private void Awake()
     {
         if (_instance != null && _instance != this)
         {
@@ -53,6 +62,7 @@ public class UiManager : MonoBehaviour
             ennemyScore.color = Color.blue;
         }
 
+        round.text = "Round : " + RoomManager.Instance.roundCount;
         // <<
     }
 
@@ -119,6 +129,11 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    internal void AllPlayerJoinGameScene()
+    {
+        waitingForPlayersPanel.SetActive(false);
+    }
+
     void CheckBeReady(float _actualTime, IconUi _iconToPrep, float _timeToCheckShow)
     {
         if (_actualTime <= 0.2f)
@@ -148,6 +163,34 @@ public class UiManager : MonoBehaviour
                 break;
 
         }
+	}
+
+	public void StatusUpdate(En_CharacterState _currentState)
+	{
+		if ((_currentState & En_CharacterState.Silenced) != 0)
+			silencedIcon.gameObject.SetActive(true);
+		else
+			silencedIcon.gameObject.SetActive(false);
+
+		if ((_currentState & En_CharacterState.Slowed) != 0)
+			slowIcon.gameObject.SetActive(true);
+		else
+			slowIcon.gameObject.SetActive(false);
+
+		if ((_currentState & En_CharacterState.SpedUp)!= 0)
+			spedUpIcon.gameObject.SetActive(true);
+		else
+			spedUpIcon.gameObject.SetActive(false);
+
+		if ((_currentState & En_CharacterState.Stunned)!= 0)
+			stunIcon.gameObject.SetActive(true);
+		else
+			stunIcon.gameObject.SetActive(false);
+
+		if ((_currentState & En_CharacterState.Canalysing) != 0)
+			canalysingIcon.gameObject.SetActive(true);
+		else
+			canalysingIcon.gameObject.SetActive(false);
 	}
 
     public void SetAlphaBrume(float value)

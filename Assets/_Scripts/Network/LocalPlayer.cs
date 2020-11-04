@@ -41,7 +41,9 @@ public class LocalPlayer : MonoBehaviour
 
     [Header("Fog")]
     public GameObject fowPrefab;
-    GameObject myFow;
+    Fow myFow;
+    [SerializeField] float fowRaduis = 7;
+    [SerializeField] float fowRaduisInBrume = 4;
 
     public List<GameObject> objToHide = new List<GameObject>();
 
@@ -103,10 +105,8 @@ public class LocalPlayer : MonoBehaviour
 
     void SpawnFow()
     {
-        myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity);
-        FowFollow myFowFollow = myFow.GetComponent<FowFollow>();
-
-        myFowFollow.Init(transform);
+        myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
+        myFow.Init(transform);
     }
 
     private void OnDestroy()
@@ -153,10 +153,24 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
+
     private void LateUpdate()
     {
         canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
         canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+    }
+
+    public void ChangeFowRaduis(bool _value)
+    {
+        switch (_value)
+        {
+            case true:
+                myFow.ChangeFowRaduis(fowRaduisInBrume);
+                    break;
+            case false:
+                myFow.ChangeFowRaduis(fowRaduis);
+                break;
+        }
     }
 
     void OnPlayerMove(Vector3 pos)
@@ -190,7 +204,7 @@ public class LocalPlayer : MonoBehaviour
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damageHealth;
-        UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
+		print("I TOok Damage once");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -209,19 +223,6 @@ public class LocalPlayer : MonoBehaviour
         {
             InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
-
-            switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                case Team.red:
-                    InGameNetworkReceiver.Instance.AddPoints(Team.blue, 5);
-                    break;
-                case Team.blue:
-                    InGameNetworkReceiver.Instance.AddPoints(Team.red, 5);
-                    break;
-                default:
-                    print("Error");
-                    break;
-            }
 
             GameManager.Instance.ResetCam();
         }

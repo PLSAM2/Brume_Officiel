@@ -17,9 +17,7 @@ public class InGameNetworkReceiver : MonoBehaviour
     public static Action AllCharacterSpawned;
     int numberOfPlayerToSpawn;
     // <<
-    //Scores 
-    private Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
-    // <<
+
     private bool isWaitingForRespawn = false;
     UnityClient client;
     private void Awake()
@@ -45,9 +43,6 @@ public class InGameNetworkReceiver : MonoBehaviour
     private void Start()
     {
         SendSpawnChamp();
-
-        scores.Add(Team.blue, 0);
-        scores.Add(Team.red, 0);
 
         numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
     }
@@ -191,18 +186,18 @@ public class InGameNetworkReceiver : MonoBehaviour
                 Team _team = (Team)reader.ReadUInt16();
                 ushort _score = reader.ReadUInt16();
 
-                scores[_team] += _score;
+                RoomManager.Instance.actualRoom.scores[_team] += _score;
 
                 if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
-                    UiManager.Instance.allyScore.text = scores[_team].ToString();
+                    UiManager.Instance.allyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
 
                     UiManager.Instance.DisplayGeneralPoints(_team, _score);
 
                 }
                 else
                 {
-                    UiManager.Instance.ennemyScore.text = scores[_team].ToString();
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
                 }
             }
         }
@@ -221,10 +216,12 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
-    public void KillCharacter()
+    public void KillCharacter(ushort killerID = 0)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
+            _writer.Write(killerID);
+            _writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
@@ -239,6 +236,12 @@ public class InGameNetworkReceiver : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort id = reader.ReadUInt16();
+                ushort killerId = reader.ReadUInt16();
+
+                if (client.ID == killerId) // Si on à tué un ennemi
+                {
+                    UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
+                }
 
                 SupprPlayer(id);
 
@@ -262,14 +265,13 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 ushort _damages = reader.ReadUInt16();
-                print(_damages);
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
                     return;
                 }
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
-                print(target.myPlayerId);
+
                 target.liveHealth -= _damages;
 
             }
