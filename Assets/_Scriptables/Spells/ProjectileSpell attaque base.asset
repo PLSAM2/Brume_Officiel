@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: ProjectileSpell attaque base
   m_EditorClassIdentifier: 
-  canalisationTime: 0
+  canalisationTime: 0.02
   range: 6
-  cooldown: 0.4
-  movementModifierDuringCanalysing: 0.5
+  cooldown: 1
+  movementModifierDuringCanalysing: 0.3
   numberOfCharge: 1
   lockOnCanalisation: 0
   forbiddenState: 24
@@ -31,6 +31,7 @@ MonoBehaviour:
     myLifeTime: 0
   prefabBlueTeam: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
   prefabRedTeam: {fileID: 8044532633874114583, guid: 50b3edd1446c85c408dbf2cf0eebd6eb, type: 3}
+  offSet: 0.1
   salveInfos:
     numberOfSalve: 3
     numberOfShot: 1
@@ -38,6 +39,7 @@ MonoBehaviour:
     timeToResolveTheSalve: 0.4
   isMultiple: 0
   angleToSplit: 0
+  cooldownReduction: 0.2
   bonusShot: 0
   bonusSalve: 1
   durationAdded: 0
