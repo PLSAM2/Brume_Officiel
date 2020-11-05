@@ -21,15 +21,18 @@ public class Projectile : MonoBehaviour
 		myColl = GetComponent<SphereCollider>();
 		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
 
-		if (!isOwner)
-		{
-			asDeal = true;
-		}
 	}
 
     private void OnEnable()
     {
 		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
+
+		if (!isOwner)
+		{
+			asDeal = true;
+		}
+		else
+			asDeal = false;
 	}
 
 	/*private void OnCollisionEnter ( Collision collision )

@@ -46,6 +46,7 @@ public class LocalPlayer : MonoBehaviour
     [SerializeField] float fowRaduisInBrume = 4;
 
     public List<GameObject> objToHide = new List<GameObject>();
+	public static Action disableModule;
 
     private void Awake()
     {
@@ -221,7 +222,8 @@ public class LocalPlayer : MonoBehaviour
     {
         if (isOwner)
         {
-            InGameNetworkReceiver.Instance.KillCharacter();
+			disableModule.Invoke();
+			InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
 
             GameManager.Instance.ResetCam();

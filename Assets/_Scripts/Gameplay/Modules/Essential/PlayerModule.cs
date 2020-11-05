@@ -74,7 +74,7 @@ public class PlayerModule : MonoBehaviour
 		InGameNetworkReceiver.AllCharacterSpawned += Setup;
 	}
 
-	void Start()
+	void OnEnable()
 	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
@@ -118,6 +118,8 @@ public class PlayerModule : MonoBehaviour
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
+
+
 			
 		}
 		else
@@ -349,6 +351,8 @@ public class PlayerModule : MonoBehaviour
 			rotLocked = false;
 
 	}
+
+	
 }
 
 [System.Flags]
