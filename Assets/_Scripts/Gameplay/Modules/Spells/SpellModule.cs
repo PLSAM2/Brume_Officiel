@@ -32,7 +32,6 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
-			cooldown = finalCooldownValue();
 		}
 	}
 
@@ -179,6 +178,9 @@ public class SpellModule : MonoBehaviour
 		currentTimeCanalised = 0;
 		TreatCharacterState();
 
+		if(cooldown<=0)
+			cooldown = finalCooldownValue();
+		
 		if (spell.lockOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
@@ -205,6 +207,7 @@ public class SpellModule : MonoBehaviour
 			else
 			{
 				charges += 1;
+				cooldown = finalCooldownValue();
 			}
 		}
 	}
@@ -264,7 +267,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual float finalCooldownValue()
 	{
-		return spell.cooldown + spell.canalisationTime;
+		return spell.cooldown;
 	}
 }
 
