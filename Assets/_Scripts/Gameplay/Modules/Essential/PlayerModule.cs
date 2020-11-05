@@ -74,7 +74,7 @@ public class PlayerModule : MonoBehaviour
 		InGameNetworkReceiver.AllCharacterSpawned += Setup;
 	}
 
-	void OnEnable()
+	void Start()
 	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
