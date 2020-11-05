@@ -11,7 +11,7 @@ public class Fow : MonoBehaviour
     [SerializeField] FieldOfView myFieldOfView;
 
     [SerializeField] float followSpeed = 10;
-    float fowRaduis;
+    float fowRaduis = 0;
 
     public void Init(Transform _target = null)
     {
@@ -26,11 +26,6 @@ public class Fow : MonoBehaviour
             isStatic = true;
             myFieldOfView.GenerateFowStatic();
         }
-    }
-
-    public void ChangeRange(float _range)
-    {
-        myFieldOfView.viewRadius = _range;
     }
 
     public void ChangeFowRaduis(float _size)
