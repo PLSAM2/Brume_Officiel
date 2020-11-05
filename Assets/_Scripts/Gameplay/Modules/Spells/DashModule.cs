@@ -8,14 +8,16 @@ public class DashModule : SpellModule
 	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
 	public bool usingKeyboardInput;
+	bool isOwner;
 
 	public override void SetupComponent ()
 	{
 		base.SetupComponent();
 		mylineRender.useWorldSpace = true;
 
+		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-		if (myPlayerModule.mylocalPlayer.isOwner)
+		if (isOwner)
 		{
 			startCanalisation += ShowPreview;
 			endCanalisation += ClearPreview;
@@ -23,9 +25,11 @@ public class DashModule : SpellModule
 		}
 	}
 
-	protected override void OnDisable ()
+	protected override void Disable ()
 	{
-        if (myPlayerModule.mylocalPlayer.isOwner)
+		base.Disable();
+
+        if (isOwner)
         {
 			startCanalisation -= ShowPreview;
 			endCanalisation -= ClearPreview;
@@ -159,6 +163,11 @@ public class DashModule : SpellModule
 		base.ReturnToNormal();
 		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
-
-
+	protected override bool canBeCast ()
+	{
+		if (myPlayerModule.directionInputed() == Vector3.zero)
+			return false;
+		else
+			return base.canBeCast();
+	}
 }

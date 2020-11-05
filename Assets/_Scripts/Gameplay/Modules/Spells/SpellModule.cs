@@ -32,7 +32,6 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
-			cooldown = finalCooldownValue();
 		}
 	}
 
@@ -47,6 +46,41 @@ public class SpellModule : MonoBehaviour
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
 	protected	Vector3 lastRecordedDirection = Vector3.zero;
+
+	private void OnEnable ()
+	{
+		LocalPlayer.disableModule += Disable;
+	}
+	
+	protected virtual void Disable()
+	{
+		if (isOwner)
+		{
+			switch (actionLinked)
+			{
+				case En_SpellInput.FirstSpell:
+					myPlayerModule.firstSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.SecondSpell:
+					myPlayerModule.secondSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.ThirdSpell:
+					myPlayerModule.thirdSpellInput -= StartCanalysing;
+					break;
+				case En_SpellInput.Click:
+					myPlayerModule.leftClickInput -= StartCanalysing;
+					break;
+				case En_SpellInput.Ward:
+					myPlayerModule.wardInput -= StartCanalysing;
+					break;
+			}
+			startCanalisation -= StartCanalysingFeedBack;
+			endCanalisation -= ResolveSpellFeedback;
+
+			myPlayerModule.upgradeKit -= UpgradeSpell;
+			myPlayerModule.backToNormalKit -= ReturnToNormal;
+		}
+	}
 
 	public virtual void SetupComponent ()
 	{
@@ -87,36 +121,6 @@ public class SpellModule : MonoBehaviour
 		}
 		else
 			Destroy(this);
-	}
-
-	protected virtual void OnDisable ()
-	{
-		if (isOwner)
-		{
-			switch (actionLinked)
-			{
-				case En_SpellInput.FirstSpell:
-					myPlayerModule.firstSpellInput -= StartCanalysing;
-					break;
-				case En_SpellInput.SecondSpell:
-					myPlayerModule.secondSpellInput -= StartCanalysing;
-					break;
-				case En_SpellInput.ThirdSpell:
-					myPlayerModule.thirdSpellInput -= StartCanalysing;
-					break;
-				case En_SpellInput.Click:
-					myPlayerModule.leftClickInput -= StartCanalysing;
-					break;
-				case En_SpellInput.Ward:
-					myPlayerModule.wardInput -= StartCanalysing;
-					break;
-			}
-			startCanalisation -= StartCanalysingFeedBack;
-			endCanalisation -= ResolveSpellFeedback;
-
-			myPlayerModule.upgradeKit -= UpgradeSpell;
-			myPlayerModule.backToNormalKit -= ReturnToNormal;
-		}
 	}
 
 	protected virtual void Update ()
@@ -174,6 +178,9 @@ public class SpellModule : MonoBehaviour
 		currentTimeCanalised = 0;
 		TreatCharacterState();
 
+		if(cooldown<=0)
+			cooldown = finalCooldownValue();
+		
 		if (spell.lockOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
@@ -200,6 +207,7 @@ public class SpellModule : MonoBehaviour
 			else
 			{
 				charges += 1;
+				cooldown = finalCooldownValue();
 			}
 		}
 	}
@@ -259,7 +267,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual float finalCooldownValue()
 	{
-		return spell.cooldown + spell.canalisationTime;
+		return spell.cooldown;
 	}
 }
 
