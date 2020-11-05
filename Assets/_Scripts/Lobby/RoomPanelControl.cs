@@ -96,6 +96,8 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
     public void SwapTeam()
     {
+        LobbyManager.Instance.SetReady(false);
+
         switch (LobbyManager.Instance.localPlayer.playerTeam)
         {
             case Team.red:
@@ -120,6 +122,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
             {
                 if (!p.Value.IsReady)
                 {
+                    startGameButton.SetActive(false);
                     return;
                 }
             }

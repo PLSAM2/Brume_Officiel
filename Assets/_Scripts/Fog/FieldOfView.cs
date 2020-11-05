@@ -101,6 +101,8 @@ public class FieldOfView : MonoBehaviour
 
 			Transform target = targetsInViewRadius[i].transform;
 
+            if (GameManager.Instance.currentLocalPlayer == null) { return; }
+
 			if (target == GameManager.Instance.currentLocalPlayer.transform) { continue; }
 
 			Vector3 dirToTarget = (target.position - transform.position).normalized;

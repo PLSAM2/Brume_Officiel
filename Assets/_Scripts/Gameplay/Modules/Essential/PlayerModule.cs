@@ -74,7 +74,7 @@ public class PlayerModule : MonoBehaviour
 		InGameNetworkReceiver.AllCharacterSpawned += Setup;
 	}
 
-	void Start()
+	void OnEnable()
 	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
@@ -118,6 +118,8 @@ public class PlayerModule : MonoBehaviour
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 			GameManager.PlayerSpawned.Invoke(this);
+
+
 			
 		}
 		else
@@ -273,7 +275,7 @@ public class PlayerModule : MonoBehaviour
 		firstSpell.ReduceCooldown(_duration);
 		secondSpell.ReduceCooldown(_duration);
 		thirdSpell.ReduceCooldown(_duration);
-		leftClick.ReduceCooldown(_duration);
+		//leftClick.ReduceCooldown(_duration);
 		ward.ReduceCooldown(_duration);
 	}
 	//vision
@@ -349,6 +351,8 @@ public class PlayerModule : MonoBehaviour
 			rotLocked = false;
 
 	}
+
+	
 }
 
 [System.Flags]
