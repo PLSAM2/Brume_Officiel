@@ -11,7 +11,7 @@ public class Fow : MonoBehaviour
     [SerializeField] FieldOfView myFieldOfView;
 
     [SerializeField] float followSpeed = 10;
-    float fowRaduis;
+    float fowRaduis = 0;
 
     public void Init(Transform _target = null)
     {
@@ -28,11 +28,6 @@ public class Fow : MonoBehaviour
         }
     }
 
-    public void ChangeRange(float _range)
-    {
-        myFieldOfView.viewRadius = _range;
-    }
-
     public void ChangeFowRaduis(float _size)
     {
         fowRaduis = _size;
@@ -46,5 +41,10 @@ public class Fow : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, myTarget.position, Time.deltaTime * followSpeed);
 
         myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, 6 * Time.deltaTime);
+    }
+
+    private void OnEnable()
+    {
+        myFieldOfView.DrawFieldOfView();
     }
 }

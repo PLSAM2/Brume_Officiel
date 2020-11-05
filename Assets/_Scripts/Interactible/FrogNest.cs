@@ -20,15 +20,6 @@ public class FrogNest : MonoBehaviour
     public void FrogPicked()
     {
         frogObj.capturingPlayerModule.interactiblesClose.Remove(frogObj);
-        frogObj.gameObject.SetActive(false);
-
-        StartCoroutine(WaitForRespawn());
+        frogObj.gameObject.SetActive(false); 
     }
-
-    IEnumerator WaitForRespawn()
-    {
-        yield return new WaitForSeconds(respawnTime);
-        SpawnFrog();
-    }
-
 }

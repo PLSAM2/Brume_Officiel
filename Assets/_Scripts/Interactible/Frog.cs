@@ -36,4 +36,8 @@ public class Frog : Interactible
         nest.FrogPicked();
     }
 
+    internal void RespawnFrog()
+    {
+        nest.SpawnFrog();
+    }
 }

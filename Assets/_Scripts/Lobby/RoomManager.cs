@@ -83,17 +83,19 @@ public class RoomManager : MonoBehaviour
 
     private void StartChampSelectInServer(object sender, MessageReceivedEventArgs e)
     {
+        StartNewRound();
+        ResetPlayersReadyStates();
         SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
     }
 
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)
     {
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
-        StartNewRound();
     }
 
     private void StartNewRound()
     {
+        ResetPlayersReadyStates();
         roundCount++;
     }
 
@@ -122,6 +124,15 @@ public class RoomManager : MonoBehaviour
     //{       
     //    SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
     //}
+
+
+    public void ResetPlayersReadyStates()
+    {
+        foreach (KeyValuePair<ushort, PlayerData> p in actualRoom.playerList)
+        {
+            p.Value.IsReady = false;
+        }
+    }
 
 
     public List<PlayerData> GetAllPlayerInActualRoom(bool includeLocalPlayer = true)

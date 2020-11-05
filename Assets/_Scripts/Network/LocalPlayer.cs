@@ -1,14 +1,12 @@
 ﻿using DarkRift;
 using DarkRift.Client.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
-using static GameData;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using DarkRift.Client;
+using static GameData;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -46,6 +44,7 @@ public class LocalPlayer : MonoBehaviour
     [SerializeField] float fowRaduisInBrume = 4;
 
     public List<GameObject> objToHide = new List<GameObject>();
+	public static Action disableModule;
 
     private void Awake()
     {
@@ -53,8 +52,6 @@ public class LocalPlayer : MonoBehaviour
         lastRotation = transform.localEulerAngles;
         OnRespawn();
     }
-
-
 
     private void Start()
     {
@@ -109,11 +106,30 @@ public class LocalPlayer : MonoBehaviour
         myFow.Init(transform);
     }
 
+    public void ShowHideFow(bool _value)
+    {
+        if (myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return;
+        }
+
+        if (_value)
+        {
+            myFow.gameObject.SetActive(true);
+            //ChangeFowRaduis(myPlayerModule.isInBrume);
+        }
+        else
+        {
+            myFow.gameObject.SetActive(false);
+            //myFow.ChangeFowRaduis(0);
+        }
+    }
+
     private void OnDestroy()
     {
         if(myFow != null)
         {
-            Destroy(myFow);
+            Destroy(myFow.gameObject);
         }
     }
 
@@ -221,7 +237,8 @@ public class LocalPlayer : MonoBehaviour
     {
         if (isOwner)
         {
-            InGameNetworkReceiver.Instance.KillCharacter();
+			disableModule.Invoke();
+			InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
 
             GameManager.Instance.ResetCam();

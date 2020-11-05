@@ -129,7 +129,7 @@ public class ModuleProjectileSpell : SpellModule
 
 		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
 		{
-			Vector3 _PosToSpawn = Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
+			Vector3 _PosToSpawn = transform.forward * spellProj.offSet; //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
 
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
