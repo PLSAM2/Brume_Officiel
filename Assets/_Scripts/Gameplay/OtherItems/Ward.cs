@@ -7,7 +7,7 @@ using static GameData;
 public class Ward : MonoBehaviour
 {
     public float lifeTime = 60;
-    [SerializeField] private Fow fowFollow;
+    public Fow fowFollow;
 
     Team myTeam;
 
@@ -24,6 +24,11 @@ public class Ward : MonoBehaviour
             StartCoroutine(WardLifeTime());
 
             GameManager.Instance.allWard.Add(this);
+
+            if (GameManager.Instance.currentLocalPlayer != null && GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
+            {
+                fowFollow.gameObject.SetActive(false);
+            }
         }
     }
 
