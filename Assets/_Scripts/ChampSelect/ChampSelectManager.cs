@@ -3,6 +3,7 @@ using DarkRift.Client;
 using DarkRift.Client.Unity;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
@@ -15,6 +16,7 @@ public class ChampSelectManager : MonoBehaviour
     public List<CharacterListObj> redTeamCharacterList = new List<CharacterListObj>();
     public List<CharacterListObj> blueTeamCharacterList = new List<CharacterListObj>();
     public GameObject startButton;
+    public TextMeshProUGUI roundText;
     public Dictionary<ushort, CharacterListObj> linkPlayerCharacterListObj = new Dictionary<ushort, CharacterListObj>();
 
     private void Awake()
@@ -60,6 +62,7 @@ public class ChampSelectManager : MonoBehaviour
             item.GetComponent<Button>().interactable = false;
         }
 
+        roundText.text = "Round : " + RoomManager.Instance.roundCount;
     }
 
     private void OnDisable()
@@ -157,9 +160,9 @@ public class ChampSelectManager : MonoBehaviour
 
     private bool CheckIfPlayersAreReady()
     {
-        foreach (PlayerData p in RoomManager.Instance.GetAllPlayerInActualRoom())
+        foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
         {
-            if (!p.IsReady)
+            if (!p.Value.IsReady)
             {
                 return false;
             }
