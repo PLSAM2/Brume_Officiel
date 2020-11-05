@@ -1,14 +1,12 @@
 ﻿using DarkRift;
 using DarkRift.Client.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
-using static GameData;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using DarkRift.Client;
+using static GameData;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -108,7 +106,7 @@ public class LocalPlayer : MonoBehaviour
         myFow.Init(transform);
     }
 
-    public void SHowHideFow(bool _value)
+    public void ShowHideFow(bool _value)
     {
         if (myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
@@ -118,11 +116,12 @@ public class LocalPlayer : MonoBehaviour
         if (_value)
         {
             myFow.gameObject.SetActive(true);
+            //ChangeFowRaduis(myPlayerModule.isInBrume);
         }
         else
         {
             myFow.gameObject.SetActive(false);
-            myFow.ChangeFowRaduis(0);
+            //myFow.ChangeFowRaduis(0);
         }
     }
 

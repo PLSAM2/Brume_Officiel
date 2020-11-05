@@ -37,6 +37,12 @@ public class EnemyDisplayer : MonoBehaviour
                 }
                 else
                 {
+                    if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                    {
+                        HideOrShow(enemy.Value, true);
+                        continue;
+                    }
+
                     if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
                     {
                         HideOrShow(enemy.Value, true);
@@ -56,6 +62,6 @@ public class EnemyDisplayer : MonoBehaviour
         {
             obj.SetActive(value);
         }
-        p.SHowHideFow(value);
+        p.ShowHideFow(value);
     }
 }
