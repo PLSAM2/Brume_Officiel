@@ -178,6 +178,8 @@ public class LocalPlayer : MonoBehaviour
 
     public void ChangeFowRaduis(bool _value)
     {
+        if(myFow == null) { return; }
+
         switch (_value)
         {
             case true:

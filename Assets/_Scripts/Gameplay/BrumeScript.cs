@@ -69,8 +69,11 @@ public class BrumeScript : MonoBehaviour
 
     void SetWardFow(bool _value)
     {
-        foreach(Ward ward in GameManager.Instance.allWard)
+        GameManager.Instance.allWard.RemoveAll(x => x == null);
+
+        foreach (Ward ward in GameManager.Instance.allWard)
         {
+            if(ward == null) { continue; }
             ward.fowFollow.gameObject.SetActive(_value);
         }
     }
