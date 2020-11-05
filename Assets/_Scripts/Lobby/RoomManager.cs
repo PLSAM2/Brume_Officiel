@@ -88,6 +88,7 @@ public class RoomManager : MonoBehaviour
 
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)
     {
+        GetLocalPlayer().IsReady = false;
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
         StartNewRound();
     }
