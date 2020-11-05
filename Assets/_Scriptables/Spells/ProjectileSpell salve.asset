@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: ProjectileSpell salve
   m_EditorClassIdentifier: 
   canalisationTime: 0.25
-  range: 3
+  range: 2
   cooldown: 5
-  movementModifierDuringCanalysing: 0.1
+  movementModifierDuringCanalysing: 0.3
   numberOfCharge: 1
-  lockOnCanalisation: 1
+  lockOnCanalisation: 0
   forbiddenState: 56
   canCancel: 0
   mustUseACollFreePos: 0
@@ -31,14 +31,14 @@ MonoBehaviour:
     myLifeTime: 0
   prefabBlueTeam: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
   prefabRedTeam: {fileID: 3297628972495695630, guid: b0700cfa124359c4b86caa17688c4a46, type: 3}
-  offSet: 1
+  offSet: 0.5
   salveInfos:
     numberOfSalve: 1
     numberOfShot: 9
     timeToReachMaxRange: 0.05
     timeToResolveTheSalve: 0.05
   isMultiple: 1
-  angleToSplit: 90
+  angleToSplit: 135
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
