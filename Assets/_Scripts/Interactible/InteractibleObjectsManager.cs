@@ -10,7 +10,7 @@ using static GameData;
 
 public class InteractibleObjectsManager : SerializedMonoBehaviour
 {
-    [BoxGroup("Les autels doivent etres en premiers")]
+    [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
 
     private List<Altar> altarList = new List<Altar>();
@@ -72,6 +72,10 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             if (message.Tag == Tags.UnlockInteractible)
             {
                 UnlockInteractibleInServer(sender, e);
+            }            
+            if (message.Tag == Tags.FrogTimerElasped)
+            {
+                RespawnFrogTimerEndInServer(sender, e);
             }
         }
     }
@@ -151,9 +155,25 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
         }
     }
 
+
+    private void RespawnFrogTimerEndInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                ((Frog)_interactible).RespawnFrog();
+            }
+        }
+    }
+
     //private IEnumerator UnlockAltar()
     //{
-    //    yield return new WaitForSeconds(firstAltarUnlockTime);
+    //    yield return new WaitForSeconds(firstAltarUnlockTime); 
 
     //    List<Altar> usableAltars = new List<Altar>();
 

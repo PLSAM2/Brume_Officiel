@@ -19,7 +19,7 @@ public class Interactible : MonoBehaviour
 {
     [Header("Interactible properties")]
     [ReadOnly] public ushort interactibleID = 0; // Generate in interactibleObjectManager
-
+    public InteractibleType type = InteractibleType.none;
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
     [ReadOnly] public Team capturingTeam = Team.none;
@@ -177,9 +177,10 @@ public class Interactible : MonoBehaviour
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(interactibleID);
+            _writer.Write(interactibleID); 
 
             _writer.Write((ushort)team);
+            _writer.Write((ushort)type);
 
             using (Message _message = Message.Create(Tags.CaptureInteractible, _writer))
             {
