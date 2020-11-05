@@ -25,9 +25,7 @@ public class FieldOfView : MonoBehaviour
 	public MeshFilter viewMeshFilter;
 	Mesh viewMesh;
 
-	PlayerModule myPlayerModule;
-
-	void OnEnable ()
+	void InitMesh ()
 	{
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
@@ -35,8 +33,6 @@ public class FieldOfView : MonoBehaviour
 		viewMeshFilter.mesh = viewMesh;
 
 		StartCoroutine("FindTargetsWithDelay", .1f);
-
-		myPlayerModule = GetComponent<PlayerModule>();
 	}
 
 	IEnumerator FindTargetsWithDelay ( float delay )
@@ -54,7 +50,7 @@ public class FieldOfView : MonoBehaviour
 		DrawFieldOfView();
 	}
 
-	bool isStatic = false;
+    [SerializeField] bool isStatic = false;
 
 	void FixedUpdate ()
 	{
@@ -115,7 +111,7 @@ public class FieldOfView : MonoBehaviour
 		}
 	}
 
-	void DrawFieldOfView ()
+	public void DrawFieldOfView ()
 	{
 		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
 		float stepAngleSize = viewAngle / stepCount;
@@ -165,6 +161,11 @@ public class FieldOfView : MonoBehaviour
 				triangles[i * 3 + 2] = i + 2;
 			}
 		}
+
+        if(viewMesh == null)
+        {
+            InitMesh();
+        }
 
 		viewMesh.Clear();
 
