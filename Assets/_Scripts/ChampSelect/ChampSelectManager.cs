@@ -1,9 +1,10 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using static GameData;
 
 public class ChampSelectManager : MonoBehaviour
@@ -33,7 +34,32 @@ public class ChampSelectManager : MonoBehaviour
             return;
         }
 
+        InitChampSelect();
+
         RoomManager.Instance.client.MessageReceived += MessageReceived;
+    }
+
+    private void InitChampSelect()
+    {
+        List<CharacterListObj> _tempList;
+
+        switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            case Team.red:
+                _tempList = blueTeamCharacterList;
+                break;
+            case Team.blue:
+                _tempList = redTeamCharacterList;
+                break;
+            default: throw new System.Exception("Team non existante");
+
+        }
+
+        foreach (CharacterListObj item in _tempList)
+        {
+            item.GetComponent<Button>().interactable = false;
+        }
+
     }
 
     private void OnDisable()
@@ -97,15 +123,6 @@ public class ChampSelectManager : MonoBehaviour
     private void SetCharacter(ushort playerID, Character character)
     {
         PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
-
-        player.playerCharacter = character;
-
-        if (linkPlayerCharacterListObj.ContainsKey(playerID))
-        {
-            linkPlayerCharacterListObj[playerID].playerNameText.text = "";
-            linkPlayerCharacterListObj.Remove(playerID);
-        }
-
         int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
 
         CharacterListObj _listObj;
@@ -123,7 +140,16 @@ public class ChampSelectManager : MonoBehaviour
                 return;
         }
 
-        _listObj.playerNameText.text = player.Name;
+        if (linkPlayerCharacterListObj.ContainsKey(playerID))
+        {
+            linkPlayerCharacterListObj[playerID].playerNameText.text = "";
+            linkPlayerCharacterListObj.Remove(playerID);
+        }
+
+        player.playerCharacter = character;
+
+        player.IsReady = true;
+        _listObj.playerNameText.text = player.Name; 
         linkPlayerCharacterListObj.Add(playerID, _listObj);
 
     }

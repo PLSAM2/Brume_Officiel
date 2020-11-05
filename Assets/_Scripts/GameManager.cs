@@ -39,7 +39,7 @@ public class GameManager : SerializedMonoBehaviour
     public List<Transform> visiblePlayer = new List<Transform>();
     public static Action<PlayerModule> PlayerSpawned;
 
-
+    public List<Ward> allWard = new List<Ward>();
 
     private bool stopInit = false;
     public bool gameStarted = false;

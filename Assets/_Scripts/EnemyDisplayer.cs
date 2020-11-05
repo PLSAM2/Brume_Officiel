@@ -16,6 +16,8 @@ public class EnemyDisplayer : MonoBehaviour
         {
             if (enemy.Value.isOwner) { continue; }
 
+            if(GameManager.Instance.currentLocalPlayer == null){ return; }
+
             if (GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
             {
                 if (enemy.Value.myPlayerModule.isInBrume)
@@ -54,5 +56,6 @@ public class EnemyDisplayer : MonoBehaviour
         {
             obj.SetActive(value);
         }
+        p.SHowHideFow(value);
     }
 }

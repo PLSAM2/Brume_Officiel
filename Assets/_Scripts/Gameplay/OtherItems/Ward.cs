@@ -2,15 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
 
 public class Ward : MonoBehaviour
 {
     public float lifeTime = 60;
     [SerializeField] private Fow fowFollow;
 
-    public void Landed(GameData.Team Team)
+    Team myTeam;
+
+    public void Landed(Team _team)
     {
-        if (Team != RoomManager.Instance.GetLocalPlayer().playerTeam)
+        myTeam = _team;
+        if (_team != RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
             this.DestroyWard();
         } else
@@ -18,6 +22,8 @@ public class Ward : MonoBehaviour
             fowFollow.gameObject.SetActive(true);
             fowFollow.Init();
             StartCoroutine(WardLifeTime());
+
+            GameManager.Instance.allWard.Add(this);
         }
     }
 
@@ -32,6 +38,11 @@ public class Ward : MonoBehaviour
 
     }
 
-
-
+    private void OnDisable()
+    {
+        if (myTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            GameManager.Instance.allWard.Remove(this);
+        }
+    }
 }
