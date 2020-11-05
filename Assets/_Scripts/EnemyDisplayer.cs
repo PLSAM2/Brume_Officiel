@@ -22,7 +22,14 @@ public class EnemyDisplayer : MonoBehaviour
             {
                 if (enemy.Value.myPlayerModule.isInBrume)
                 {
-                    HideOrShow(enemy.Value, true);
+                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    {
+                        HideOrShow(enemy.Value, true);
+                    }
+                    else
+                    {
+                        HideOrShow(enemy.Value, false);
+                    }
                 }
                 else
                 {

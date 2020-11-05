@@ -129,7 +129,7 @@ public class LocalPlayer : MonoBehaviour
     {
         if(myFow != null)
         {
-            Destroy(myFow);
+            Destroy(myFow.gameObject);
         }
     }
 

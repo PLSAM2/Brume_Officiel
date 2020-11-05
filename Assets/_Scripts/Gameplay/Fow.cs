@@ -42,4 +42,9 @@ public class Fow : MonoBehaviour
 
         myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, 6 * Time.deltaTime);
     }
+
+    private void OnEnable()
+    {
+        myFieldOfView.DrawFieldOfView();
+    }
 }

@@ -23,11 +23,6 @@ public class HurtingDash : DashModule
 		mylineRender.endWidth = _width;
 	}
 
-	protected override void OnDisable ()
-	{
-		base.OnDisable();
-	}
-
 	protected override void Update ()
 	{
 		base.Update();
