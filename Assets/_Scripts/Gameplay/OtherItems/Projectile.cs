@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
 	{
 		myColl = GetComponent<SphereCollider>();
 		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
-
+		asDeal = false;
 	}
 
     private void OnEnable()
@@ -35,10 +35,10 @@ public class Projectile : MonoBehaviour
 			asDeal = false;
 	}
 
-	/*private void OnCollisionEnter ( Collision collision )
+	private void OnCollisionEnter ( Collision collision )
 	{
-		LocalPlayer playerHit = collision.gameObject.GetComponent<LocalPlayer>();
-
+		PlayerModule playerHit = collision.gameObject.GetComponent<PlayerModule>();
+		/*
 		if(playerHit != null)
 		{
 			if (playerHit.myPlayerModule.teamIndex != team)
@@ -48,13 +48,38 @@ public class Projectile : MonoBehaviour
 			else
 				return;
 		}
-		Destroy();
-	}*/
+		Destroy();*/
+
+		if (playerHit != null)
+		{
+			if (playerHit.teamIndex != team)
+			{
+				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+				Instantiate(feedBackTouch, collision.contacts[0].point, Quaternion.identity);
+				Destroy();
+				asDeal = true;
+				if (isOwner)
+					PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
+				return;
+			}
+			else
+				return;
+		}
+		else
+		{
+			Instantiate(feedBackTouch, collision.contacts[0].point, Quaternion.identity);
+			Destroy();
+			print("i collide with wall");
+
+		}
+		print("i collide with something");
+
+	}
 
 	private void Update ()
 	{
 		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
-		CustomCollision();
+		//CustomCollision();
 	}
 
 	void CustomCollision ()
@@ -77,6 +102,7 @@ public class Projectile : MonoBehaviour
 					if (playerHit.teamIndex != team)
 					{
 						playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+						Instantiate(feedBackTouch, _hits[i].point, Quaternion.identity);
 						Destroy();
 						_mustDestroy = true;
 						_PosToSpawn = _hits[i].point;
@@ -93,7 +119,9 @@ public class Projectile : MonoBehaviour
 					// print(_hits[i].collider.name);
 					_PosToSpawn = _hits[i].point;
 					_mustDestroy = true;
+					Instantiate(feedBackTouch, _hits[i].point, Quaternion.identity);
 					Destroy();
+
 				}
 
 

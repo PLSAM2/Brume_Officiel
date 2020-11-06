@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _BETWEENFULLLOWANDHIGH05_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BrumeTexture:
-        m_Texture: {fileID: 2800000, guid: bb0988e7843e1044e95b7a17cd828759, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -101,18 +101,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Animated: 0
+    - _BetweenFullLowAndHigh05: 1
+    - _Black: 0
     - _BumpScale: 1
+    - _ColorLevel: 0
     - _CurvFix: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Float0: -0.01
+    - _Full05: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Levels: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _Opacity05: 1
+    - _OpacityBlack: 1
+    - _OpacityLevel: 1
     - _Parallax: 0.02
     - _ParallaxScale: 1.63
     - _Scale: 0.08
@@ -124,13 +132,16 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
-    - _distancePlane: 1
-    - _opacityContrast: 8
+    - _distancePlane: -1
+    - _opacityContrast: 10
     - _parallaxScale: 0.1
-    - _scale: 0.21
+    - _scale: 0.25
     m_Colors:
-    - _BrumeColor: {r: 0.68467426, g: 0.80562115, b: 0.9245283, a: 0}
+    - _BrumeColor: {r: 0.6862745, g: 0.80392164, b: 0.92549026, a: 1}
+    - _BrumeColorHigh: {r: 0.8349056, g: 0.9806515, b: 1, a: 0}
+    - _BrumeColorLow: {r: 0, g: 0.07408519, b: 0.3679245, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DistortSpeed: {r: 0.1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Vector0: {r: -0.06, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
