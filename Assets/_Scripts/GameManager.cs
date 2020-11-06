@@ -19,6 +19,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public Dictionary<Team, List<SpawnPoint>> spawns = new Dictionary<Team, List<SpawnPoint>>();
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
+    public Action AllCharacterSpawned;
 
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
@@ -71,6 +72,15 @@ public class GameManager : SerializedMonoBehaviour
         int minuteRemaining = (int)Math.Floor(remainingTime / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
+
+    }
+
+
+
+
+    public void PlayerJoinedAndInitInScene()
+    {
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(RoomManager.Instance.actualRoom.ID);
@@ -80,7 +90,6 @@ public class GameManager : SerializedMonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
-
     }
     private void Update()
     {
@@ -113,6 +122,8 @@ public class GameManager : SerializedMonoBehaviour
     private void AllPlayerJoinGameScene()
     {
         UiManager.Instance.AllPlayerJoinGameScene();
+        AllCharacterSpawned?.Invoke();
+        gameStarted = true;
     }
 
     public void ResetCam()
