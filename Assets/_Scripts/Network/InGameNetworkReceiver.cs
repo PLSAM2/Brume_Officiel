@@ -14,8 +14,8 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     //Spawn
     [SerializeField] GameObject prefabPlayer;
-    public static Action AllCharacterSpawned;
-    int numberOfPlayerToSpawn;
+
+    // int numberOfPlayerToSpawn;
     // <<
 
     private bool isWaitingForRespawn = false;
@@ -44,7 +44,7 @@ public class InGameNetworkReceiver : MonoBehaviour
     {
         SendSpawnChamp();
 
-        numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
+      //  numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
     }
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
     {
@@ -153,12 +153,12 @@ public class InGameNetworkReceiver : MonoBehaviour
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
 
                     //CALLBACK TOUS LES JOUEURS SONT APPARUS
-                    numberOfPlayerToSpawn -= 1;
-                    if (numberOfPlayerToSpawn == 0)
-                    {
-                        AllCharacterSpawned.Invoke();
-                        GameManager.Instance.gameStarted = true;
-                    }
+                    //numberOfPlayerToSpawn -= 1;
+                    //if (numberOfPlayerToSpawn == 0)
+                    //{
+                      //  AllCharacterSpawned.Invoke();
+                    //    GameManager.Instance.gameStarted = true;
+                    //}
                 }
             }
         }
