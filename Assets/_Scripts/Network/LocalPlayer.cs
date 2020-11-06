@@ -215,7 +215,6 @@ public class LocalPlayer : MonoBehaviour
     public void OnRespawn()
     {
         liveHealth = myPlayerModule.characterParameters.health;
-
     }
 
     public void DealDamages(DamagesInfos _damagesToDeal)
