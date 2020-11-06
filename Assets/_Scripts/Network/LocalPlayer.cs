@@ -170,7 +170,17 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+	private void Update ()
+	{
+		if(Input.GetKeyDown(KeyCode.K))
+		{
+			DamagesInfos _temp = new DamagesInfos();
+			_temp.damageHealth = 100;
+			DealDamages(_temp);
+		}
+	}
+
+	private void LateUpdate()
     {
         canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
         canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
