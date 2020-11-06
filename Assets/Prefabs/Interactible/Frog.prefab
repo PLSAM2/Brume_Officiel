@@ -327,9 +327,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactibleID: 0
-  interactTime: 5
+  type: 3
+  interactTime: 2
   isInteractable: 1
   capturingTeam: 0
+  capturingPlayerModule: {fileID: 0}
   state: 1
   authorizedCaptureCharacter: 0a0014001e00
   redTeamCaptureColor: {r: 1, g: 0, b: 0, a: 0}
@@ -399,7 +401,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 9c6c9fcb82afe874a825a9e680e694b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

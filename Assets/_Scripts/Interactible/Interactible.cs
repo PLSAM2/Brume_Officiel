@@ -178,7 +178,6 @@ public class Interactible : MonoBehaviour
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(interactibleID); 
-
             _writer.Write((ushort)team);
             _writer.Write((ushort)type);
 

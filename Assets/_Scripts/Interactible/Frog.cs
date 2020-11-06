@@ -18,7 +18,7 @@ public class Frog : Interactible
     public override void Captured(GameData.Team team) // quand capturer en local
     {
         base.Captured(team);
-        nest.FrogPicked();
+        nest.FrogPicked(capturingPlayerModule);
 
         //Ajoute une ward 
         if (capturingPlayerModule.GetComponent<WardModule>() != null)
@@ -33,7 +33,7 @@ public class Frog : Interactible
         base.UpdateCaptured(team);
         state = State.Capturable;
         // Respawn 
-        nest.FrogPicked();
+        nest.FrogPicked(capturingPlayerModule);
     }
 
     internal void RespawnFrog()
