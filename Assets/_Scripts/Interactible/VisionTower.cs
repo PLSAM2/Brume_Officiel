@@ -5,7 +5,6 @@ using UnityEngine;
 public class VisionTower : Interactible
 {
     [Header("Vision Tower properties")]
-    public float unlockTime;
     public Fow vision;
 
 
@@ -17,8 +16,6 @@ public class VisionTower : Interactible
     public override void Captured(GameData.Team team)
     {
         base.Captured(team);
-
-        StartCoroutine(ReactivateTower());
     }
 
     public override void UpdateCaptured(GameData.Team team)
@@ -37,12 +34,8 @@ public class VisionTower : Interactible
 
     }
 
-    IEnumerator ReactivateTower()
+    public void ReactivateTower()
     {
-        yield return new WaitForSeconds(unlockTime);
-
         base.Unlock();
     }
-
-
 }

@@ -1,13 +1,12 @@
-﻿class Tags
+﻿/// <summary>
+/// Val 0000 --> 1000
+/// Sam 1000 --> 2000
+/// Pierre 2000 --> 3000
+/// 
+/// VALEUR MAX 65535
+/// </summary>
+class Tags
 {
-    /// <summary>
-    /// Val 0000 --> 1000
-    /// Sam 1000 --> 2000
-    /// Pierre 2000 --> 3000
-    /// 
-    /// VALEUR MAX 65535
-    /// </summary>
-
     // Lobby 0 --> 299 >>       
     public static readonly ushort PlayerConnected = 0;
     public static readonly ushort Ping = 2;
@@ -52,11 +51,12 @@
         public static readonly ushort TryCaptureInteractible = 772;
         public static readonly ushort CaptureProgressInteractible = 774;
         public static readonly ushort CaptureInteractible = 776;
-        public static readonly ushort FrogTimerElasped = 778;
+        public static readonly ushort FrogTimerElapsed = 778;
+        public static readonly ushort VisionTowerTimerElapsed = 779;
         // <<
 
-    //Ward & Vision 790 --> 799 >>
-    public static readonly ushort LaunchWard = 790;
+        //Ward & Vision 790 --> 799 >>
+        public static readonly ushort LaunchWard = 790;
         public static readonly ushort StartWardLifeTime = 791;
         // <<
 

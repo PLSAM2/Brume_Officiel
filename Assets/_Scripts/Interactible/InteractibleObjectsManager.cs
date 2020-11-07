@@ -73,10 +73,15 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             {
                 UnlockInteractibleInServer(sender, e);
             }            
-            if (message.Tag == Tags.FrogTimerElasped)
+            if (message.Tag == Tags.FrogTimerElapsed)
             {
                 RespawnFrogTimerEndInServer(sender, e);
             }
+            if (message.Tag == Tags.VisionTowerTimerElapsed)
+            {
+                ReactivateVisionTowerInServer(sender, e);
+            }
+
         }
     }
 
@@ -171,6 +176,20 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
         }
     }
 
+    private void ReactivateVisionTowerInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                ((VisionTower)_interactible).ReactivateTower();
+            }
+        }
+    }
     //private IEnumerator UnlockAltar()
     //{
     //    yield return new WaitForSeconds(firstAltarUnlockTime); 

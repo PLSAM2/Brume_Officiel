@@ -218,7 +218,8 @@ public class SpellModule : MonoBehaviour
 
 	public void ReduceCooldown ( float _durationShorten )
 	{
-		cooldown -= _durationShorten;
+		if(cooldown != finalCooldownValue())
+			cooldown -= _durationShorten;
 	}
 
 	protected virtual bool canBeCast ()
