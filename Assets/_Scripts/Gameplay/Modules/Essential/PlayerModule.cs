@@ -79,7 +79,10 @@ public class PlayerModule : MonoBehaviour
         if (GameManager.Instance.gameStarted)
             Setup();
 
-        GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
+        if (mylocalPlayer.isOwner)
+        {
+            GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
+        }
 
         //	oldPos = transform.position;
     }
