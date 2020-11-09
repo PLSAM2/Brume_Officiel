@@ -286,7 +286,7 @@ public class PlayerModule : MonoBehaviour
         }
 
         if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
-            GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
+            GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume && (state & En_CharacterState.Crouched) == 0)
         {
             GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
 
@@ -305,7 +305,7 @@ public class PlayerModule : MonoBehaviour
     {
         CheckForBrumeRevelation();
         yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-        revelationCheck?.Invoke();
+        StartCoroutine(WaitForVisionCheck());
     }
     #endregion
 

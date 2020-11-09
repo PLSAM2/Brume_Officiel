@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-
+[InlineEditor]
 [CreateAssetMenu(fileName = "NewCharacter", menuName = "CreateCuston/NewCharacter")]
 public class Sc_CharacterParameters : ScriptableObject
 {
