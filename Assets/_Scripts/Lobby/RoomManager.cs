@@ -58,16 +58,26 @@ public class RoomManager : MonoBehaviour
             {
                 StartChampSelectInServer(sender, e);
             }
-            //if (message.Tag == Tags.QuitGame)
-            //{
-            //    QuitGameInServer(sender, e);
-            //}
-
             if (message.Tag == Tags.StartGame)
             {
                 StartGameInServer(sender, e);
             }
+            if (message.Tag == Tags.AddPoints)
+            {
+                AddPointsInServer(sender, e);
+            }
+            if (message.Tag == Tags.NewRound)
+            {
+                NewRoundInServer(sender, e);
+            }
+
         }
+    }
+
+    private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
+    {
+        StartNewRound();
+        SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
     }
 
     public void StartChampSelect()
@@ -95,8 +105,45 @@ public class RoomManager : MonoBehaviour
 
     private void StartNewRound()
     {
-        ResetPlayersReadyStates();
         roundCount++;
+    }
+    public void AddPoints(Team targetTeam, ushort value)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write((ushort)targetTeam);
+            _writer.Write(value);
+
+            using (Message _message = Message.Create(Tags.AddPoints, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+    private void AddPointsInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                Team _team = (Team)reader.ReadUInt16();
+                ushort _score = reader.ReadUInt16();
+
+                RoomManager.Instance.actualRoom.scores[_team] += _score;
+
+                if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    UiManager.Instance.allyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
+
+                    UiManager.Instance.DisplayGeneralPoints(_team, _score);
+
+                }
+                else
+                {
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
+                }
+            }
+        }
     }
 
     private void ResetActualGame()
