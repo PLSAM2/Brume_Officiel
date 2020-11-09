@@ -56,7 +56,7 @@ public class RoomManager : MonoBehaviour
         {
             if (message.Tag == Tags.LobbyStartGame)
             {
-                StartChampSelectInServer(sender, e);
+                StartChampSelectInServer();
             }
             if (message.Tag == Tags.StartGame)
             {
@@ -91,8 +91,9 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    private void StartChampSelectInServer(object sender, MessageReceivedEventArgs e)
+    public void StartChampSelectInServer()
     {
+        AlreadyInit = true;
         StartNewRound();
         ResetPlayersReadyStates();
         SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
@@ -130,23 +131,32 @@ public class RoomManager : MonoBehaviour
                 ushort _score = reader.ReadUInt16();
 
                 RoomManager.Instance.actualRoom.scores[_team] += _score;
-
-                if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
-                {
-                    UiManager.Instance.allyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
-
-                    UiManager.Instance.DisplayGeneralPoints(_team, _score);
-
-                }
-                else
-                {
-                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
-                }
+                UpdatePointDisplay();
             }
         }
     }
 
-    private void ResetActualGame()
+    public void UpdatePointDisplay()
+    {
+        if (UiManager.Instance != null)
+        {
+            UiManager.Instance.allyScore.text = actualRoom.scores[GetLocalPlayer().playerTeam].ToString();
+
+            switch (GetLocalPlayer().playerTeam)
+            {
+                case Team.red:
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
+                    break;
+                case Team.blue:
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
+                    break;
+                default:
+                    throw new System.Exception("ERREUR equipe non existante");
+            }
+        }
+    }
+
+    public void ResetActualGame()
     {
         actualRoom.scores[Team.red] = 0;
         actualRoom.scores[Team.blue] = 0;

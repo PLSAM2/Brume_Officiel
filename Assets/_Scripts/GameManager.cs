@@ -70,6 +70,8 @@ public class GameManager : SerializedMonoBehaviour
         int secondRemaining = (int)timer % 60;
         int minuteRemaining = (int)Math.Floor(timer / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+
+        RoomManager.Instance.UpdatePointDisplay();
     }
     public void PlayerJoinedAndInitInScene()
     {
@@ -136,9 +138,9 @@ public class GameManager : SerializedMonoBehaviour
 
     private void StopGameInServer()
     {
-        RoomManager.Instance.AlreadyInit = true;
 
-        SceneManager.LoadScene(RoomManager.Instance.champSelectScene, LoadSceneMode.Single);
+        RoomManager.Instance.ResetActualGame();
+        RoomManager.Instance.StartChampSelectInServer();
     }
 
     private void StartTimerInServer()
