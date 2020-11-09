@@ -111,6 +111,22 @@ public class GameManager : SerializedMonoBehaviour
             {
                 AllPlayerJoinGameScene();
             }
+            if (message.Tag == Tags.PlayerQuitRoom)
+            {
+                PlayerQuitGame(_sender, _e);
+            }
+        }
+    }
+
+    private void PlayerQuitGame(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                PlayerData player = reader.ReadSerializable<PlayerData>();
+                UiManager.Instance.DisplayGeneralMessage("Player " + player.Name + " quit");
+            }
         }
     }
 
