@@ -88,7 +88,6 @@ public class DashModule : SpellModule
 	public virtual void ShowPreview ()
 	{
 		mylineRender.positionCount += 1;
-		float range;
 		
 		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
 

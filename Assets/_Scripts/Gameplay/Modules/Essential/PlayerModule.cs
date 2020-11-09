@@ -22,7 +22,8 @@ public class PlayerModule : MonoBehaviour
     public Team teamIndex;
     public bool isInBrume = false;
     [HideInInspector] public bool isCrouched;
-
+    //PINGS
+    Vector3 lastRecordedPos;
 
     [Header("DamagesPart")]
     En_CharacterState _state;
@@ -47,7 +48,6 @@ public class PlayerModule : MonoBehaviour
     //ALL ACTION 
     #region
     public Action revelationCheck;
-
     public Action<Vector3> DirectionInputedUpdate;
     //spell
     public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
@@ -277,13 +277,13 @@ public class PlayerModule : MonoBehaviour
     #region
     void CheckForBrumeRevelation()
     {
+
         if (GameManager.Instance.currentLocalPlayer == null)
         {
             return;
         }
 
-        if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
-            GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume && (state & En_CharacterState.Crouched) == 0)
+        if (ShouldBePinged())
         {
             GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
 
@@ -298,6 +298,37 @@ public class PlayerModule : MonoBehaviour
         }
 
     }
+
+    bool ShouldBePinged()
+	{
+        if (lastRecordedPos == transform.position)
+            return false;
+
+        lastRecordedPos = transform.position;
+
+        if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) > GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange)
+		{
+            return false;
+		}
+
+        if(GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume == isInBrume )
+		{
+            return false;
+        }
+
+        if(Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) > GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange)
+		{
+            return false;
+		}
+
+        if (Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) < GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.visionRange)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     IEnumerator WaitForVisionCheck()
     {
         CheckForBrumeRevelation();
