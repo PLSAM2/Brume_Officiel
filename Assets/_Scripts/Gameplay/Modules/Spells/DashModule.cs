@@ -8,7 +8,6 @@ public class DashModule : SpellModule
 	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
 	public bool usingKeyboardInput;
-	bool isOwner;
 
 	public override void SetupComponent ()
 	{
