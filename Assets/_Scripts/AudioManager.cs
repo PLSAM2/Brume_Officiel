@@ -24,6 +24,11 @@ public class AudioManager : MonoBehaviour
             _instance = this;
         }
         DontDestroyOnLoad(this);
+
+        if (PlayerPrefs.HasKey("Volume"))
+        {
+            currentPlayerVolume = PlayerPrefs.GetFloat("Volume");
+        }
     }
 
     public void Play2DAudio(AudioClip _clip, float _volume = 1)
