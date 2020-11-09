@@ -290,6 +290,26 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
+    public void ReceiveStatus(object sender, MessageReceivedEventArgs e )
+	{
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                if (message.Tag == Tags.StateUpdate)
+                {
+                    ushort id = reader.ReadUInt16();
+
+                    if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+                    {
+                        return;
+                    }
+
+                    GameManager.Instance.networkPlayers[id].OnStatusReceived(reader.ReadInt16());
+                }
+            }
+        }
+    }
     IEnumerator WaitForRespawn()
     {
         isWaitingForRespawn = true;

@@ -5,41 +5,44 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
+using Sirenix.OdinInspector;
 
 public class UiManager : MonoBehaviour
 {
     private static UiManager _instance;
     public static UiManager Instance { get { return _instance; } }
 
-    [HideInInspector] public PlayerModule myPlayerModule;
-	[Header("Spell Icons")]
-	public IconUi firstSpell;
-	public IconUi secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
-
-    public TextMeshProUGUI timer;
-    public TextMeshProUGUI allyScore;
-    public TextMeshProUGUI ennemyScore;
-    public TextMeshProUGUI round;
 
 
-    [SerializeField] private TextMeshProUGUI generalMessage;
-    [SerializeField] private TextMeshProUGUI generalPoints;
-    [SerializeField] private Animator generalMessageAnim;
-    [SerializeField] private Animator generalPointsAnim;
-    [SerializeField] private GameObject waitingForPlayersPanel;
+    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
+    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
+    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
+    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI round;
 
-    public float generalMessageAnimTime = 3;
+
+    [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
+    [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
+    [FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalMessageAnim;
+    [FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalPointsAnim;
+    [FoldoutGroup("GeneralMessage")] [SerializeField] private GameObject waitingForPlayersPanel;
+
+    [FoldoutGroup("GeneralMessage")] public float generalMessageAnimTime = 3;
     private List<string> generalMessageList = new List<string>();
     private bool waitForGenMessageAnimEnd = false;
 
     [SerializeField] Image brumeFilter;
 
+    [Header("GamePlayPart")]
 	[Header("Status Icon")]
-	public Image stunIcon;
-	public Image slowIcon, spedUpIcon, silencedIcon,canalysingIcon;
+    [FoldoutGroup("StatusIcon")] public Image stunIcon;
+    [FoldoutGroup("StatusIcon")] public Image slowIcon, spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon;
+
+    [Header("Spell Icons")]
+    [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
+    [FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
 
 
-	private void Awake()
+    private void Awake()
     {
         if (_instance != null && _instance != this)
         {
@@ -204,7 +207,12 @@ public class UiManager : MonoBehaviour
 			canalysingIcon.gameObject.SetActive(true);
 		else
 			canalysingIcon.gameObject.SetActive(false);
-	}
+
+        if ((_currentState & En_CharacterState.Crouched) != 0)
+            crouchedIcon.gameObject.SetActive(true);
+        else
+            crouchedIcon.gameObject.SetActive(false);
+    }
 
     public void SetAlphaBrume(float value)
     {
