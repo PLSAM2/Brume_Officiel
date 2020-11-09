@@ -32,6 +32,7 @@ class Tags
     public static readonly ushort AllPlayerJoinGameScene = 301;
     public static readonly ushort StartTimer = 305;
     public static readonly ushort StopGame = 310;
+    public static readonly ushort NewRound = 315;
     public static readonly ushort InstantiateObject = 500;
     public static readonly ushort SynchroniseObject = 510;
     public static readonly ushort DestroyObject = 515;
