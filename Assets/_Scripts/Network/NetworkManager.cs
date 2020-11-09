@@ -44,12 +44,6 @@ public class NetworkManager : MonoBehaviour
     {
         Ping();
     }
-
-
-
-
-
-
     private void Ping()
     {
         if (client.ConnectionState != ConnectionState.Connected)
