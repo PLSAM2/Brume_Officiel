@@ -45,6 +45,7 @@ public class SpellModule : MonoBehaviour
 	[ReadOnly] public PlayerModule myPlayerModule;
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
+	public List<ParticleSystem> particleResolution;
 	protected	Vector3 lastRecordedDirection = Vector3.zero;
 
 	private void OnEnable ()
@@ -247,12 +248,19 @@ public class SpellModule : MonoBehaviour
 	void ResolveSpellFeedback ()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+
+		if(particleResolution.Count > 0)
+		{
+			for (int i = 0; i < particleResolution.Count; i ++)
+			{
+				particleResolution[i].Play();
+			}
+		}
 	}
 
 	public void StartParticleCanalisation ()
 	{
 		canalisationParticle.Play();
-
 	}
 
 	protected virtual float durationOfTheMovementModifier()
