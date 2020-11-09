@@ -11,7 +11,7 @@ public class PlayerModule : MonoBehaviour
 {
     [Header("Inputs")]
     public KeyCode firstSpellKey = KeyCode.A;
-    public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
+    public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift;
     public KeyCode interactKey = KeyCode.F;
     public KeyCode wardKey = KeyCode.Alpha4;
     private LayerMask groundLayer;
@@ -21,6 +21,7 @@ public class PlayerModule : MonoBehaviour
     public Sc_CharacterParameters characterParameters;
     public Team teamIndex;
     public bool isInBrume = false;
+    [HideInInspector] public bool isCrouched;
 
 
     [Header("DamagesPart")]
@@ -108,7 +109,6 @@ public class PlayerModule : MonoBehaviour
             mapIcon.color = Color.blue;
 
             //modulesPArt
-            UiManager.Instance.myPlayerModule = this;
             movementPart.SetupComponent(characterParameters.movementParameters);
             firstSpell?.SetupComponent();
             secondSpell?.SetupComponent();
@@ -195,6 +195,12 @@ public class PlayerModule : MonoBehaviour
                     interactible.StopCapturing(teamIndex);
                 }
             }
+
+            if (Input.GetKeyDown(crouching))
+                AddState(En_CharacterState.Crouched);
+
+            else if (Input.GetKeyUp(crouching))
+                RemoveState(En_CharacterState.Crouched);
             #endregion
 
             //camera
@@ -212,20 +218,6 @@ public class PlayerModule : MonoBehaviour
         isInBrume = _value;
         mylocalPlayer.ChangeFowRaduis(_value);
     }
-
-    //ANIM EN LOCAL
-    /*	private void FixedUpdate ()
-		{
-			if (mylocalPlayer.isOwner == false)
-			{
-				Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
-				//mylocalPlayer
-			}
-		}
-		private void LateUpdate ()
-		{
-			oldPos = transform.position;
-		}*/
 
     void LookAtMouse()
     {
@@ -352,7 +344,6 @@ public class PlayerModule : MonoBehaviour
             rotLocked = true;
         else
             rotLocked = false;
-
     }
 
 
@@ -367,6 +358,7 @@ public enum En_CharacterState
     Stunned = 1 << 3,
     Canalysing = 1 << 4,
     Silenced = 1 << 5,
+    Crouched = 1 << 6,
 }
 
 [System.Serializable]

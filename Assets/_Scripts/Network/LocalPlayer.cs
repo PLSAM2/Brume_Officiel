@@ -87,8 +87,6 @@ public class LocalPlayer : MonoBehaviour
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
-            UiManager.Instance.myPlayerModule = myPlayerModule;
-
             SpawnFow();
         }
         else
@@ -166,6 +164,21 @@ public class LocalPlayer : MonoBehaviour
                 {
                     currentClient.SendMessage(_message, SendMode.Unreliable);
                 }
+            }
+        }
+    }
+
+    public void SendState(En_CharacterState _state)
+	{
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+
+            _writer.Write((int)_state);
+
+            using (Message _message = Message.Create(Tags.StateUpdate, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Unreliable);
             }
         }
     }
@@ -256,6 +269,10 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void OnStatusReceived(int _state)
+	{
+        myPlayerModule.state = (En_CharacterState)_state;
+	}
     public void TriggerTheAnim(string triggerName)
     {
         myAnimator.SetTrigger(triggerName);

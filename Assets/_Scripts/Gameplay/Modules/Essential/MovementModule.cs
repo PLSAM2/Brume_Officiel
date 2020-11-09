@@ -60,8 +60,6 @@ public class MovementModule : MonoBehaviour
 	public void SetupComponent ( St_MovementParameters _newParameters )
 	{
 		parameters = _newParameters;
-
-
 		//stamina
 		//_stamina = parameters.maxStamina;
 		//Stamina = parameters.maxStamina;
@@ -267,7 +265,14 @@ public class MovementModule : MonoBehaviour
 	float liveMoveSpeed ()
 	{
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-		float _defspeed = parameters.movementSpeed;
+		float _defspeed = 0;
+
+		if (myPlayerModule.isCrouched)
+			_defspeed = parameters.crouchingSpeed;
+
+		else
+			_defspeed = parameters.movementSpeed;
+
 
 		if (allLiveMovementModifier.Count > 0)
 		{
