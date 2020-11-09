@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
 	[SerializeField] Sc_ProjectileSpell spellRule;
 	bool isOwner, asDeal=false;
 
+	[SerializeField] AudioClip _mySfxAudio;
+
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
@@ -33,6 +35,14 @@ public class Projectile : MonoBehaviour
 		}
 		else
 			asDeal = false;
+	}
+
+	public void Init()
+    {
+		if (_mySfxAudio != null)
+		{
+			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
+		}
 	}
 
 	private void OnCollisionEnter ( Collision collision )
