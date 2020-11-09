@@ -30,7 +30,7 @@ public class LocalPlayer : MonoBehaviour
     public TextMeshProUGUI lifeCount;
     public Image life;
 
-    [ReadOnly] public ushort liveHealth { get => _liveHealth; set {_liveHealth = (ushort)Mathf.Clamp(value, 0, 1000); if (_liveHealth <= 0) KillPlayer(); } }
+    [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
 
     private UnityClient currentClient;
@@ -185,7 +185,7 @@ public class LocalPlayer : MonoBehaviour
 
 	private void Update ()
 	{
-		if(Input.GetKeyDown(KeyCode.K))
+		if(Input.GetKeyDown(KeyCode.K) && isOwner)
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 100;
@@ -243,7 +243,7 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-        liveHealth -= _damagesToDeal.damageHealth;
+        liveHealth = (ushort)Mathf.Clamp(liveHealth - _damagesToDeal.damageHealth, 0, 1000);
 		print("I TOok Damage once");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
