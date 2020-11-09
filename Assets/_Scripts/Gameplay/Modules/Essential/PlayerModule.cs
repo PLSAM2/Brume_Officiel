@@ -26,7 +26,7 @@ public class PlayerModule : MonoBehaviour
 
     [Header("DamagesPart")]
     En_CharacterState _state;
-    [ReadOnly] public En_CharacterState state { get => _state; set { _state = value; UiManager.Instance.StatusUpdate(_state); } }
+    [ReadOnly] public En_CharacterState state { get => _state; set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state); } } }
     [ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 
@@ -42,7 +42,6 @@ public class PlayerModule : MonoBehaviour
     [ReadOnly] public LocalPlayer mylocalPlayer;
 
     public List<Interactible> interactiblesClose = new List<Interactible>();
-
     //animations local des autres joueurs
     //Vector3 oldPos;
     //ALL ACTION 
@@ -231,11 +230,13 @@ public class PlayerModule : MonoBehaviour
     public void AddState(En_CharacterState _stateToAdd)
     {
         state |= _stateToAdd;
+        mylocalPlayer.SendState(_state);
     }
 
     public void RemoveState(En_CharacterState _stateToRemove)
     {
         state = state & (state & ~(_stateToRemove));
+        mylocalPlayer.SendState(_state);
     }
 
     void ReduceCooldown(float _duration, En_SpellInput _spell)
