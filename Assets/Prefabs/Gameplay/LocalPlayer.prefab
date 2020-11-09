@@ -277,11 +277,13 @@ MonoBehaviour:
   secondSpellKey: 32
   thirdSpellKey: 101
   freeCamera: 308
+  crouching: 304
   interactKey: 102
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   isInBrume: 0
+  isCrouched: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   brumeLayer:
@@ -1926,7 +1928,7 @@ SkinnedMeshRenderer:
   m_GameObject: {fileID: 5404875324372030781}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -2032,7 +2034,7 @@ GameObject:
   - component: {fileID: 5100113601684079516}
   - component: {fileID: 1163919473078000102}
   m_Layer: 0
-  m_Name: Animator
+  m_Name: AnimatorPerso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
