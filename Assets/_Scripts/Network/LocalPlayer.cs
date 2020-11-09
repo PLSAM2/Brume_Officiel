@@ -46,6 +46,10 @@ public class LocalPlayer : MonoBehaviour
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
 
+
+    [Header("Audio")]
+    [SerializeField] AudioListener myAudiolister;
+
     private void Awake()
     {
         lastPosition = transform.position;
@@ -88,6 +92,7 @@ public class LocalPlayer : MonoBehaviour
 
             circleDirection.SetActive(true);
             SpawnFow();
+            myAudiolister.enabled = true;
         }
         else
         {
