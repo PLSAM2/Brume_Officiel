@@ -174,7 +174,7 @@ public class LocalPlayer : MonoBehaviour
         {
             _writer.Write(RoomManager.Instance.actualRoom.ID);
 
-            _writer.Write((int)_state);
+            _writer.Write((ushort)_state);
 
             using (Message _message = Message.Create(Tags.StateUpdate, _writer))
             {
@@ -269,7 +269,7 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    public void OnStatusReceived(int _state)
+    public void OnStatusReceived(uint _state)
 	{
         myPlayerModule.state = (En_CharacterState)_state;
 	}

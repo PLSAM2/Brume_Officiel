@@ -17,8 +17,8 @@ GameObject:
   - component: {fileID: 8154408291484997990}
   - component: {fileID: 7642602275245690328}
   - component: {fileID: 32086142644911797}
-  - component: {fileID: 6667444453632817538}
   - component: {fileID: 3101534736191369760}
+  - component: {fileID: 6667444453632817538}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -261,6 +261,34 @@ MonoBehaviour:
   particleResolution: []
   indexOfTheShotProjectileBlue: 12
   indexOfTheShotProjectileRed: 13
+--- !u!114 &3101534736191369760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d3ca1e22e2227439e3f1b135c4b87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
+  actionLinked: 1
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 8162580461717235990}
+  particleResolution:
+  - {fileID: 9155000043582245773}
+  - {fileID: 8344504165092554911}
+  mylineRender: {fileID: 2550331642934917765}
+  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
+  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  usingKeyboardInput: 0
 --- !u!114 &6667444453632817538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,34 +327,6 @@ MonoBehaviour:
   coll: {fileID: 8154408291484997990}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
---- !u!114 &3101534736191369760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3d3ca1e22e2227439e3f1b135c4b87d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
-  actionLinked: 1
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  particleResolution:
-  - {fileID: 9155000043582245773}
-  - {fileID: 8344504165092554911}
-  mylineRender: {fileID: 2550331642934917765}
-  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
-  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
-  usingKeyboardInput: 0
 --- !u!1 &57102716035201480
 GameObject:
   m_ObjectHideFlags: 0
