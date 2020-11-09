@@ -216,7 +216,12 @@ public class LobbyManager : MonoBehaviour
                 for (int i = 0; i < roomNumber; i++)
                 {
                     RoomData room = reader.ReadSerializable<RoomData>();
-                    rooms.Add(room.ID, room);
+
+                    if (!room.IsStarted)
+                    {
+                        rooms.Add(room.ID, room);
+                    }
+
                 }
             }
         }
