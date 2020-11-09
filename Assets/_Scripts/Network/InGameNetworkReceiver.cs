@@ -214,7 +214,6 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
-
     private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
@@ -234,7 +233,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
             }
         }
-
     }
 
 
@@ -252,8 +250,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     void SupprPlayer(ushort ID)
     {
-        Destroy(GameManager.Instance.networkPlayers[ID].gameObject);
-        GameManager.Instance.networkPlayers.Remove(ID);
+        if (GameManager.Instance.networkPlayers.ContainsKey(ID))
+        {
+            Destroy(GameManager.Instance.networkPlayers[ID].gameObject);
+            GameManager.Instance.networkPlayers.Remove(ID);
+        }
     }
 
 
