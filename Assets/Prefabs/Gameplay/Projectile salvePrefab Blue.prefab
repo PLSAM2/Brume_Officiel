@@ -94,8 +94,9 @@ GameObject:
   - component: {fileID: 1984787125783616747}
   - component: {fileID: 1384060272247584325}
   - component: {fileID: 1795821538017011573}
+  - component: {fileID: 7676648114141103316}
   m_Layer: 20
-  m_Name: ProjectilePrefab Blue
+  m_Name: Projectile salvePrefab Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,13 +148,13 @@ MonoBehaviour:
     myDamages:
       damageHealth: 1
       playerName: 
-    mySpeed: 8.333333
-    myLifeTime: 0.6
+    mySpeed: 60
+    myLifeTime: 0.05
   team: 20
   layerToHit:
     serializedVersion: 2
     m_Bits: 768
-  feedBackTouch: {fileID: 1081485305171292, guid: 31035502a0bf4d7d8437e7ef69fe9377, type: 3}
+  feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   spellRule: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
 --- !u!135 &1795821538017011573
 SphereCollider:
@@ -168,6 +169,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7676648114141103316
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234301381807575755}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 3
 --- !u!1 &9190268781658803757
 GameObject:
   m_ObjectHideFlags: 0

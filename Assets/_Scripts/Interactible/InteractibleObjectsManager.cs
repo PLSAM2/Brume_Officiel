@@ -10,14 +10,12 @@ using static GameData;
 
 public class InteractibleObjectsManager : SerializedMonoBehaviour
 {
-    [BoxGroup]
+    [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
 
     private List<Altar> altarList = new List<Altar>();
-    public float firstAltarUnlockTime = 15;
 
     UnityClient client;
-
 
     private void Awake()
     {
@@ -33,10 +31,10 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
     }
     void Start()
     {
-        if (RoomManager.Instance.GetLocalPlayer().IsHost)
-        {
-            StartCoroutine(UnlockAltar());
-        }
+        //if (RoomManager.Instance.GetLocalPlayer().IsHost)
+        //{
+        //    StartCoroutine(UnlockAltar());
+        //}
 
         foreach (KeyInteractiblePair KeyInteractiblePair in interactibleList)
         {
@@ -45,7 +43,6 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 altarList.Add((Altar)KeyInteractiblePair.interactible);
             }
         }
-
 
         client.MessageReceived += MessageReceived;
     }
@@ -75,7 +72,16 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             if (message.Tag == Tags.UnlockInteractible)
             {
                 UnlockInteractibleInServer(sender, e);
+            }            
+            if (message.Tag == Tags.FrogTimerElapsed)
+            {
+                RespawnFrogTimerEndInServer(sender, e);
             }
+            if (message.Tag == Tags.VisionTowerTimerElapsed)
+            {
+                ReactivateVisionTowerInServer(sender, e);
+            }
+
         }
     }
 
@@ -84,6 +90,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
         for (ushort i = 0; i < interactibleList.Count; i++)
         {
             interactibleList[i].Key = i;
+            interactibleList[i].interactible.interactibleID = i;
         }
     }
 
@@ -115,15 +122,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 Team _team = (Team)reader.ReadUInt16();
 
                 Interactible _interactible = interactibleList[_ID].interactible;
-
-                if (_interactible.GetType() == typeof(Altar))
-                {
-                    ((Altar)_interactible).UpdateCaptured(_team);
-                }
-                else if (_interactible.GetType() == typeof(Frog))
-                {
-                    ((Frog)_interactible).UpdateCaptured(_team);
-                }
+                _interactible.UpdateCaptured(_team);
             }
         }
     }
@@ -161,38 +160,68 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
         }
     }
 
-    private IEnumerator UnlockAltar()
+
+    private void RespawnFrogTimerEndInServer(object sender, MessageReceivedEventArgs e)
     {
-        yield return new WaitForSeconds(firstAltarUnlockTime);
-
-        List<Altar> usableAltars = new List<Altar>();
-
-        foreach (Altar altar in altarList)
+        using (Message message = e.GetMessage())
         {
-            if (!altar.isInteractable)
+            using (DarkRiftReader reader = message.GetReader())
             {
-                usableAltars.Add(altar);
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                ((Frog)_interactible).RespawnFrog();
             }
-        }
-
-        ushort _altarId = (ushort)Random.Range(0, usableAltars.Count);
-        Altar _altar = usableAltars[_altarId];
-
-        if (_altar != null)
-        {
-            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-            {
-                _writer.Write(_altarId);
-
-                using (Message _message = Message.Create(Tags.UnlockInteractible, _writer))
-                {
-                    client.SendMessage(_message, SendMode.Reliable);
-                }
-            }
-
-            _altar.SetActiveState(true);
         }
     }
+
+    private void ReactivateVisionTowerInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                ((VisionTower)_interactible).ReactivateTower();
+            }
+        }
+    }
+    //private IEnumerator UnlockAltar()
+    //{
+    //    yield return new WaitForSeconds(firstAltarUnlockTime); 
+
+    //    List<Altar> usableAltars = new List<Altar>();
+
+    //    foreach (Altar altar in altarList)
+    //    {
+    //        if (!altar.isInteractable)
+    //        {
+    //            usableAltars.Add(altar);
+    //        }
+    //    }
+
+    //    ushort _altarId = (ushort)Random.Range(0, usableAltars.Count);
+    //    Altar _altar = usableAltars[_altarId];
+
+    //    if (_altar != null)
+    //    {
+    //        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+    //        {
+    //            _writer.Write(_altarId);
+
+    //            using (Message _message = Message.Create(Tags.UnlockInteractible, _writer))
+    //            {
+    //                client.SendMessage(_message, SendMode.Reliable);
+    //            }
+    //        }
+
+    //        _altar.SetActiveState(true);
+    //    }
+    //}
 
 
 

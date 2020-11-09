@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,22 +14,11 @@ public class Frog : Interactible
         base.Init();
     }
 
-    private void OnEnable()
-    {
-        base.capturedEvent += Captured;
-        base.leaveEvent += StopCapturing;
-    }
-
-    private void OnDisable()
-    {
-        base.capturedEvent -= Captured;
-        base.leaveEvent -= StopCapturing;
-    }
 
     public override void Captured(GameData.Team team) // quand capturer en local
     {
         base.Captured(team);
-        nest.FrogPicked();
+        nest.FrogPicked(capturingPlayerModule);
 
         //Ajoute une ward 
         if (capturingPlayerModule.GetComponent<WardModule>() != null)
@@ -43,7 +33,11 @@ public class Frog : Interactible
         base.UpdateCaptured(team);
         state = State.Capturable;
         // Respawn 
-        nest.FrogPicked();
+        nest.FrogPicked(capturingPlayerModule);
     }
 
+    internal void RespawnFrog()
+    {
+        nest.SpawnFrog();
+    }
 }

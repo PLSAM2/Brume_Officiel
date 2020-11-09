@@ -1,14 +1,12 @@
 ﻿using DarkRift;
 using DarkRift.Client.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
-using static GameData;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using DarkRift.Client;
+using static GameData;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -41,9 +39,12 @@ public class LocalPlayer : MonoBehaviour
 
     [Header("Fog")]
     public GameObject fowPrefab;
-    GameObject myFow;
+    Fow myFow;
+    [SerializeField] float fowRaduis = 7;
+    [SerializeField] float fowRaduisInBrume = 4;
 
     public List<GameObject> objToHide = new List<GameObject>();
+	public static Action disableModule;
 
     private void Awake()
     {
@@ -51,8 +52,6 @@ public class LocalPlayer : MonoBehaviour
         lastRotation = transform.localEulerAngles;
         OnRespawn();
     }
-
-
 
     private void Start()
     {
@@ -103,17 +102,34 @@ public class LocalPlayer : MonoBehaviour
 
     void SpawnFow()
     {
-        myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity);
-        FowFollow myFowFollow = myFow.GetComponent<FowFollow>();
+        myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
+        myFow.Init(transform);
+    }
 
-        myFowFollow.Init(transform);
+    public void ShowHideFow(bool _value)
+    {
+        if (myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return;
+        }
+
+        if (_value)
+        {
+            myFow.gameObject.SetActive(true);
+            //ChangeFowRaduis(myPlayerModule.isInBrume);
+        }
+        else
+        {
+            myFow.gameObject.SetActive(false);
+            //myFow.ChangeFowRaduis(0);
+        }
     }
 
     private void OnDestroy()
     {
         if(myFow != null)
         {
-            Destroy(myFow);
+            Destroy(myFow.gameObject);
         }
     }
 
@@ -153,10 +169,36 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
-    private void LateUpdate()
+
+	private void Update ()
+	{
+		if(Input.GetKeyDown(KeyCode.K))
+		{
+			DamagesInfos _temp = new DamagesInfos();
+			_temp.damageHealth = 100;
+			DealDamages(_temp);
+		}
+	}
+
+	private void LateUpdate()
     {
         canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
         canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+    }
+
+    public void ChangeFowRaduis(bool _value)
+    {
+        if(myFow == null) { return; }
+
+        switch (_value)
+        {
+            case true:
+                myFow.ChangeFowRaduis(fowRaduisInBrume);
+                    break;
+            case false:
+                myFow.ChangeFowRaduis(fowRaduis);
+                break;
+        }
     }
 
     void OnPlayerMove(Vector3 pos)
@@ -183,14 +225,13 @@ public class LocalPlayer : MonoBehaviour
     public void OnRespawn()
     {
         liveHealth = myPlayerModule.characterParameters.health;
-
     }
 
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         liveHealth -= _damagesToDeal.damageHealth;
-        UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
+		print("I TOok Damage once");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -207,21 +248,9 @@ public class LocalPlayer : MonoBehaviour
     {
         if (isOwner)
         {
-            GameManager.Instance.KillCharacter();
+			disableModule.Invoke();
+			InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
-
-            switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                case Team.red:
-                    GameManager.Instance.AddPoints(Team.blue, 5);
-                    break;
-                case Team.blue:
-                    GameManager.Instance.AddPoints(Team.red, 5);
-                    break;
-                default:
-                    print("Error");
-                    break;
-            }
 
             GameManager.Instance.ResetCam();
         }

@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_InkShaderUnlit_Test
-  m_Shader: {fileID: 4800000, guid: e1488b7503a279d408815535f483134b, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
+  m_ShaderKeywords: _OUTLINE1_ON _OUTLINE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -43,6 +43,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 2800000, guid: d69708e797d901040b8b9c15bd0b6ea7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 4d5dbc1ba3dda0143a39c6a1fa10a3b9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalBase:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ObjectTexture:
         m_Texture: {fileID: 2800000, guid: 6395db2a80729484b931cff6723fa89f, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -55,12 +67,56 @@ Material:
         m_Texture: {fileID: 2800000, guid: 19626680f9871db42ab8b3e46a6228e6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ShadowEdge:
+        m_Texture: {fileID: 2800000, guid: e0ccb9fc7a953df47b554d3b7e6776b3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowRamp:
+        m_Texture: {fileID: 2800000, guid: 58cc733b1b04f984aa8dc381f55a7746, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowRamp1:
+        m_Texture: {fileID: 2800000, guid: e0ccb9fc7a953df47b554d3b7e6776b3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 72dda63cce3d4ea45b064ca9bcbc266e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _chinesePaper_Texture:
+        m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _edgeNoise_Texture:
+        m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _edgeNoise_Texture1:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _object_Texture:
+        m_Texture: {fileID: 2800000, guid: f9bd85ea2601b824c87556c13e852933, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _watercolor_Texture:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -73,17 +129,55 @@ Material:
     - Vector1_D0733445: -0.72
     - Vector1_DB7D2502: 0
     - Vector1_E91310D0: 0
+    - _ASEOutlineWidth: 0
+    - _Cutoff: 0.5
+    - _DistortionStrength: 0.5
+    - _EmberSpread: 0.41
+    - _Float0: 0.63
+    - _Float1: 0
+    - _Float4: 0.58
+    - _Float5: 7.14
+    - _Float6: 3.36
+    - _Float7: 5.12
+    - _Float8: 0.07
+    - _FlowMapTilling: 1
     - _LengthCameraFade: 2
+    - _NoiseTiling: 1
     - _OffsetCameraFade: 15.4
     - _PaperTextureContrast: 2
     - _PaperTextureTiling: 1
     - _PaperTextureTiling1: 1
+    - _Radius: 3.7
     - _RampScale: 0.5
+    - _SphereMask_Hardness: 0.8
+    - _StepShadow: -0.19
     - __dirty: 0
+    - _chinesePaper_Tiling: 1
+    - _edgeNoise_Attenuation: -0.16
+    - _edgeNoise_Attenuation1: 0.5
+    - _edgeNoise_Contrast: 0.63
+    - _edgeNoise_Tiling: 1
+    - _fresnelStrength: 0.5
+    - _outline: 1
+    - _outline1: 1
+    - _outlineWidth: 0.001
+    - _outlineWidth1: 0
+    - _outline_On: 0
+    - _watercolor_Contrast: 0.8
+    - _watercolor_Edge: 0.7
+    - _watercolor_Strength: 10
+    - _watercolor_Tiling: 0.8
+    - _watercolor_Tiling2: 0.6
     m_Colors:
     - Color_6B4C1467: {r: 0.38679245, g: 0.38679245, b: 0.38679245, a: 0}
     - Color_C2E95E6F: {r: 1, g: 1, b: 1, a: 0}
     - Vector2_96ED0023: {r: 0, g: 0, b: 0, a: 0}
+    - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FlowDirection: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Vector0: {r: 28.7, g: 0, b: -15.72, a: 0}
+    - _edgeNoise_Speed: {r: 0.1, g: 0, b: 0, a: 0}
+    - _shadow_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0}
+    - _watercolor_Speed: {r: 0.01, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8241851090486746018
 MonoBehaviour:

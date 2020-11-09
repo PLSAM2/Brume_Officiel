@@ -17,17 +17,13 @@ public class FrogNest : MonoBehaviour
         frogObj.gameObject.SetActive(true);
     }
 
-    public void FrogPicked()
+    public void FrogPicked(PlayerModule capturingPlayer)
     {
-        frogObj.gameObject.SetActive(false);
+        if (capturingPlayer.interactiblesClose.Contains(frogObj))
+        {
+            capturingPlayer.interactiblesClose.Remove(frogObj);
+        }
 
-        StartCoroutine(WaitForRespawn());
+        frogObj.gameObject.SetActive(false); 
     }
-
-    IEnumerator WaitForRespawn()
-    {
-        yield return new WaitForSeconds(respawnTime);
-        SpawnFrog();
-    }
-
 }

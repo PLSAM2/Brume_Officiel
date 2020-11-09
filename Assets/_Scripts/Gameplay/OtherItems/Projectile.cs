@@ -14,16 +14,31 @@ public class Projectile : MonoBehaviour
 	[SerializeField] LayerMask layerToHit;
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] Sc_ProjectileSpell spellRule;
+	bool isOwner, asDeal=false;
 
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
+		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
+		asDeal = false;
 	}
 
-	/*private void OnCollisionEnter ( Collision collision )
-	{
-		LocalPlayer playerHit = collision.gameObject.GetComponent<LocalPlayer>();
+    private void OnEnable()
+    {
+		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
 
+		if (!isOwner)
+		{
+			asDeal = true;
+		}
+		else
+			asDeal = false;
+	}
+
+	private void OnCollisionEnter ( Collision collision )
+	{
+		PlayerModule playerHit = collision.gameObject.GetComponent<PlayerModule>();
+		/*
 		if(playerHit != null)
 		{
 			if (playerHit.myPlayerModule.teamIndex != team)
@@ -33,13 +48,38 @@ public class Projectile : MonoBehaviour
 			else
 				return;
 		}
-		Destroy();
-	}*/
+		Destroy();*/
+
+		if (playerHit != null)
+		{
+			if (playerHit.teamIndex != team)
+			{
+				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+				Instantiate(feedBackTouch, collision.contacts[0].point, Quaternion.identity);
+				Destroy();
+				asDeal = true;
+				if (isOwner)
+					PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
+				return;
+			}
+			else
+				return;
+		}
+		else
+		{
+			Instantiate(feedBackTouch, collision.contacts[0].point, Quaternion.identity);
+			Destroy();
+			print("i collide with wall");
+
+		}
+		print("i collide with something");
+
+	}
 
 	private void Update ()
 	{
 		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
-		CustomCollision();
+		//CustomCollision();
 	}
 
 	void CustomCollision ()
@@ -49,7 +89,8 @@ public class Projectile : MonoBehaviour
 
 		bool _mustDestroy = false;
 		Vector3 _PosToSpawn = Vector3.zero;
-		if (_hits.Length > 0)
+
+		if (_hits.Length > 0 && !asDeal)
 		{
 			for(int i = 0; i < _hits.Length; i++)
 			{
@@ -61,9 +102,13 @@ public class Projectile : MonoBehaviour
 					if (playerHit.teamIndex != team)
 					{
 						playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+						Instantiate(feedBackTouch, _hits[i].point, Quaternion.identity);
+						Destroy();
 						_mustDestroy = true;
 						_PosToSpawn = _hits[i].point;
-							
+						asDeal = true;
+						if (isOwner)
+							PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
 						return;
 					}
 					else
@@ -74,20 +119,16 @@ public class Projectile : MonoBehaviour
 					// print(_hits[i].collider.name);
 					_PosToSpawn = _hits[i].point;
 					_mustDestroy = true;
+					Instantiate(feedBackTouch, _hits[i].point, Quaternion.identity);
+					Destroy();
+
 				}
 
 
 			}
 		}
 
-		if (_mustDestroy)
-
-		{
-			if(_PosToSpawn != Vector3.zero)
-				Instantiate(feedBackTouch, _PosToSpawn, Quaternion.identity);
-
-			Destroy();
-		}
+	
 	}
 
 	private void FixedUpdate ()
@@ -111,7 +152,7 @@ public class Projectile : MonoBehaviour
 	}
 
 	[Button]
-	void SetupPrefab ()
+	 void SetupPrefab ()
 	{
 		myInfos.myDamages.damageHealth = spellRule.projParameters.myDamages.damageHealth;
 		myInfos.mySpeed = spellRule.range / spellRule.salveInfos.timeToReachMaxRange;

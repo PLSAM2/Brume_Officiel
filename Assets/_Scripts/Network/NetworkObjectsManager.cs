@@ -17,8 +17,11 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     [Header("Instantiated Object")]
     public Dictionary<ushort, NetworkedObject> instantiatedObjectsList = new Dictionary<ushort, NetworkedObject>();
 
+    public GameObject poolRootObj;
+
     private UnityClient client;
-    public GameObject lastGOInstantiate;
+    public List<KeyGameObjectPair> poolParents = new List<KeyGameObjectPair>();
+    [ReadOnly] public GameObject lastGOInstantiate;
 
     private void Awake()
     {
@@ -40,8 +43,13 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         client = RoomManager.Instance.client;
 
         client.MessageReceived += MessageReceived;
+
     }
 
+    private void Start()
+    {
+        InitPooling();
+    }
     private void OnDisable()
     {
         client.MessageReceived -= MessageReceived;
@@ -73,6 +81,45 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         }
     }
 
+    private void InitPooling()
+    {
+        foreach (KeyGameObjectPair item in networkedObjectsList.networkObjects)
+        {
+            GameObject parent = new GameObject("POOL_" + item.gameObject.name);
+            parent.transform.SetParent(poolRootObj.transform);
+
+            KeyGameObjectPair newPair = new KeyGameObjectPair();
+            newPair.gameObject = parent;
+            newPair.Key = item.Key;
+            poolParents.Add(newPair);
+
+            for (int i = 0; i < item.poolCount; i++)
+            {
+                GameObject newobj = Instantiate(item.gameObject, parent.transform);
+                newobj.SetActive(false);
+            }
+        }
+    }
+
+    private GameObject GetFirstDisabledObject(int objectID)
+    {
+        foreach (Transform t in poolParents.Where(x => x.Key == objectID).First().gameObject.transform)
+        {
+            if (!t.gameObject.activeInHierarchy)
+            {
+                return t.gameObject;
+            }
+        }
+
+        throw new Exception("AUCUN OBJETS INACTIF RESTANT POUR LA CLE => " + objectID);
+    }
+
+    /// <summary>
+    /// Use linq / Not efficient in Update
+    /// </summary>
+    /// <param name="networkedObjectID"></param>
+    /// <param name="position"></param>
+    /// <param name="eulerAngles"></param>
     public void NetworkInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles)
     {
         // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
@@ -92,7 +139,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             using (Message message = Message.Create(Tags.InstantiateObject, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
-
     }
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
@@ -122,10 +168,20 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _lastObjId = reader.ReadUInt16();
             }
         }
-        GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
+
+        GameObject _tempObject = GetFirstDisabledObject(_objectID);
+        _tempObject.transform.position = _ObjectPos;
+        _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
         networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
         NetworkedObjectAdded(_lastObjId, networkedObject);
+        _tempObject.SetActive(true);
+
+
+        //GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
+        //NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
+        //networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
+        //NetworkedObjectAdded(_lastObjId, networkedObject);
     }
 
     public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)
@@ -201,7 +257,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
                 if (instantiatedObjectsList.ContainsKey(objID))
                 {
-                    Destroy(instantiatedObjectsList[objID].gameObject);
+                    instantiatedObjectsList[objID].gameObject.SetActive(false);
                     instantiatedObjectsList.Remove(objID);
                 }
 

@@ -19,8 +19,6 @@ public class NetworkAnimationController : MonoBehaviour
             return;
         }
 
-        animator = GetComponent<Animator>();
-
         client = RoomManager.Instance.client;
         client.MessageReceived += Client_MessageReceived;
     }

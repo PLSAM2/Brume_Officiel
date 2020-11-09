@@ -8,7 +8,7 @@ public class CameraManager : MonoBehaviour
 {
 	private static CameraManager _instance;
 	public static CameraManager Instance { get { return _instance; } }
-	[SerializeField] float percentageOfTheScreenToScrollFrom = .1f, scrollingSpeed = 10;
+	[SerializeField] float percentageOfTheScreenToScrollFromWidth = .1f, percentageOfTheScreenToScrollFromHeight = .1f, scrollingSpeed = 10;
 	Transform cameraLocker;
 	public static Action UpdateCameraPos, LockCamera;
 
@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
 	PlayerModule playerToFollow;
 	[SerializeField] CinemachineVirtualCamera myCinemachine;
 	[SerializeField] LayerMask groundlayer;
+	float screenEdgeBorderHeight, screenEdgeBorderWidth;
 
 	private void Awake ()
 	{
@@ -44,7 +45,8 @@ public class CameraManager : MonoBehaviour
 
 		OnResolutionChanged();
 
-		screenEdgeBorder = Screen.height * percentageOfTheScreenToScrollFrom;
+		screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
+		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;
 	}
 
 	private void OnDestroy ()
@@ -59,13 +61,14 @@ public class CameraManager : MonoBehaviour
 		playerToFollow = _characterToStick;
 		cameraLocker.transform.position = _characterToStick.transform.position;
 	}
+
 	void OnResolutionChanged ()
 	{
 		pixelSizeScreen = new Vector2(Screen.width, Screen.height);
-		minX = pixelSizeScreen.x / 2 - pixelSizeScreen.x * percentageOfTheScreenToScrollFrom;
-		maxX = pixelSizeScreen.x / 2 + pixelSizeScreen.x * percentageOfTheScreenToScrollFrom;
-		minY = pixelSizeScreen.y / 2 - pixelSizeScreen.y * percentageOfTheScreenToScrollFrom;
-		maxY = pixelSizeScreen.y / 2 + pixelSizeScreen.y * percentageOfTheScreenToScrollFrom;
+		minX = pixelSizeScreen.x / 2 - pixelSizeScreen.x * percentageOfTheScreenToScrollFromWidth;
+		maxX = pixelSizeScreen.x / 2 + pixelSizeScreen.x * percentageOfTheScreenToScrollFromWidth;
+		minY = pixelSizeScreen.y / 2 - pixelSizeScreen.y * percentageOfTheScreenToScrollFromHeight;
+		maxY = pixelSizeScreen.y / 2 + pixelSizeScreen.y * percentageOfTheScreenToScrollFromHeight;
 	}
 
 	public void LockingCam ()
@@ -119,10 +122,10 @@ public class CameraManager : MonoBehaviour
 	*/
 		Vector3 desiredMove = new Vector3();
 
-		Rect leftRect = new Rect(0, 0, screenEdgeBorder, Screen.height);
-		Rect rightRect = new Rect(Screen.width - screenEdgeBorder, 0, screenEdgeBorder, Screen.height);
-		Rect upRect = new Rect(0, Screen.height - screenEdgeBorder, Screen.width, screenEdgeBorder);
-		Rect downRect = new Rect(0, 0, Screen.width, screenEdgeBorder);
+		Rect leftRect = new Rect(0, 0, screenEdgeBorderWidth, Screen.height);
+		Rect rightRect = new Rect(Screen.width - screenEdgeBorderWidth, 0, screenEdgeBorderWidth, Screen.height);
+		Rect upRect = new Rect(0, Screen.height - screenEdgeBorderHeight, Screen.width, screenEdgeBorderHeight);
+		Rect downRect = new Rect(0, 0, Screen.width, screenEdgeBorderHeight);
 
 		desiredMove.x = leftRect.Contains(MouseInput) ? -1 : rightRect.Contains(MouseInput) ? 1 : 0;
 		desiredMove.z = upRect.Contains(MouseInput) ? 1 : downRect.Contains(MouseInput) ? -1 : 0;

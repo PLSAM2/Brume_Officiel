@@ -16,11 +16,20 @@ public class EnemyDisplayer : MonoBehaviour
         {
             if (enemy.Value.isOwner) { continue; }
 
+            if(GameManager.Instance.currentLocalPlayer == null){ return; }
+
             if (GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
             {
                 if (enemy.Value.myPlayerModule.isInBrume)
                 {
-                    HideOrShow(enemy.Value, true);
+                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    {
+                        HideOrShow(enemy.Value, true);
+                    }
+                    else
+                    {
+                        HideOrShow(enemy.Value, false);
+                    }
                 }
                 else
                 {
@@ -35,6 +44,12 @@ public class EnemyDisplayer : MonoBehaviour
                 }
                 else
                 {
+                    if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                    {
+                        HideOrShow(enemy.Value, true);
+                        continue;
+                    }
+
                     if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
                     {
                         HideOrShow(enemy.Value, true);
@@ -54,5 +69,6 @@ public class EnemyDisplayer : MonoBehaviour
         {
             obj.SetActive(value);
         }
+        p.ShowHideFow(value);
     }
 }

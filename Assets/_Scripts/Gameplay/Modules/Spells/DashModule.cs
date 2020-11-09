@@ -7,16 +7,17 @@ public class DashModule : SpellModule
 {
 	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
-	Vector3 lastRecordedDirection = Vector3.zero;
 	public bool usingKeyboardInput;
+	bool isOwner;
 
 	public override void SetupComponent ()
 	{
 		base.SetupComponent();
 		mylineRender.useWorldSpace = true;
 
+		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-		if (myPlayerModule.mylocalPlayer.isOwner)
+		if (isOwner)
 		{
 			startCanalisation += ShowPreview;
 			endCanalisation += ClearPreview;
@@ -24,20 +25,16 @@ public class DashModule : SpellModule
 		}
 	}
 
-	protected override void OnDisable ()
+	protected override void Disable ()
 	{
-        if (myPlayerModule.mylocalPlayer.isOwner)
+		base.Disable();
+
+        if (isOwner)
         {
 			startCanalisation -= ShowPreview;
 			endCanalisation -= ClearPreview;
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
-	}
-
-	protected override void StartCanalysing ( Vector3 _BaseMousePos )
-	{
-		base.StartCanalysing(_BaseMousePos);
-		lastRecordedDirection = myPlayerModule.directionInputed();
 	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )
@@ -154,10 +151,11 @@ public class DashModule : SpellModule
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
 
-	protected override void UpgradeSpell ( Sc_UpgradeSpell _rule )
+	protected override void UpgradeSpell ( )
 	{
-		base.UpgradeSpell(_rule);
-		charges += _rule.numberOfChargeAdded;
+		base.UpgradeSpell();
+		Sc_DashSpell dashSpell = spell as Sc_DashSpell;
+		charges += dashSpell.bonusDash;
 	}
 
 	protected override void ReturnToNormal ()
@@ -165,6 +163,11 @@ public class DashModule : SpellModule
 		base.ReturnToNormal();
 		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
-
-
+	protected override bool canBeCast ()
+	{
+		if (myPlayerModule.directionInputed() == Vector3.zero)
+			return false;
+		else
+			return base.canBeCast();
+	}
 }

@@ -19,15 +19,12 @@ public class Interactible : MonoBehaviour
 {
     [Header("Interactible properties")]
     [ReadOnly] public ushort interactibleID = 0; // Generate in interactibleObjectManager
-
+    public InteractibleType type = InteractibleType.none;
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
     [ReadOnly] public Team capturingTeam = Team.none;
-    protected PlayerModule capturingPlayerModule;
+    public PlayerModule capturingPlayerModule;
     public State state = State.Locked;
-
-    protected Action<Team> capturedEvent;
-    protected Action<Team> leaveEvent;
 
     public Character[] authorizedCaptureCharacter = new Character[1];
     protected float timer = 0;
@@ -68,7 +65,7 @@ public class Interactible : MonoBehaviour
 
             if (timer >= interactTime)
             {
-                capturedEvent.Invoke(capturingTeam);
+                Captured(capturingTeam);
             }
 
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -111,7 +108,6 @@ public class Interactible : MonoBehaviour
         }
 
         UpdateTryCapture(team);
-
     }
 
     public virtual void UpdateTryCapture(Team team)
@@ -121,7 +117,7 @@ public class Interactible : MonoBehaviour
             return;
         }
 
-        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équie qui capture, arreter la capture
+        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
         {
             isCapturing = false;
         }
@@ -181,9 +177,9 @@ public class Interactible : MonoBehaviour
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(interactibleID);
-
+            _writer.Write(interactibleID); 
             _writer.Write((ushort)team);
+            _writer.Write((ushort)type);
 
             using (Message _message = Message.Create(Tags.CaptureInteractible, _writer))
             {
@@ -255,7 +251,7 @@ public class Interactible : MonoBehaviour
             {
                 if (isCapturing && _pModule.teamIndex == capturingTeam)
                 {
-                    leaveEvent.Invoke(_pModule.teamIndex);
+                    StopCapturing(_pModule.teamIndex);
                 }
 
                 _pModule.interactiblesClose.Remove(this);

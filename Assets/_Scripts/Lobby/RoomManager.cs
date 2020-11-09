@@ -1,12 +1,11 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
-using System;
-using System.Collections;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using static GameData;
 
 public class RoomManager : MonoBehaviour
 {
@@ -17,11 +16,15 @@ public class RoomManager : MonoBehaviour
     public string champSelectScene;
     public string menuScene;
 
-    [HideInInspector] public RoomData actualRoom;
+    public RoomData actualRoom;
 
     public UnityClient client;
-
     public bool AlreadyInit = false;
+
+    [Header("ActualGameInfo")]
+    public int roundCount = 0;
+
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -42,6 +45,11 @@ public class RoomManager : MonoBehaviour
         client.MessageReceived -= MessageReceived;
     }
 
+    private void Start()
+    {
+
+    }
+
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
@@ -50,10 +58,10 @@ public class RoomManager : MonoBehaviour
             {
                 StartChampSelectInServer(sender, e);
             }
-            if (message.Tag == Tags.QuitGame)
-            {
-                QuitGameInServer(sender, e);
-            }
+            //if (message.Tag == Tags.QuitGame)
+            //{
+            //    QuitGameInServer(sender, e);
+            //}
 
             if (message.Tag == Tags.StartGame)
             {
@@ -75,6 +83,8 @@ public class RoomManager : MonoBehaviour
 
     private void StartChampSelectInServer(object sender, MessageReceivedEventArgs e)
     {
+        StartNewRound();
+        ResetPlayersReadyStates();
         SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
     }
 
@@ -83,20 +93,45 @@ public class RoomManager : MonoBehaviour
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
     }
 
-    public void QuitGame()
+    private void StartNewRound()
     {
-        using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        {
-            writer.Write(actualRoom.ID);
-            print("Quit");
-            using (Message message = Message.Create(Tags.QuitGame, writer))
-                client.SendMessage(message, SendMode.Reliable);
-        }
+        ResetPlayersReadyStates();
+        roundCount++;
     }
 
-    private void QuitGameInServer(object sender, MessageReceivedEventArgs e)
-    {       
-        SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
+    private void ResetActualGame()
+    {
+        actualRoom.scores[Team.red] = 0;
+        actualRoom.scores[Team.blue] = 0;
+
+        roundCount = 0;
+    }
+
+    //public void QuitGame()
+    //{
+    //    using (DarkRiftWriter writer = DarkRiftWriter.Create())
+    //    {
+    //        writer.Write(actualRoom.ID);
+    //        print("Quit");
+    //        using (Message message = Message.Create(Tags.QuitGame, writer))
+    //            client.SendMessage(message, SendMode.Reliable);
+    //    }
+
+    //    ResetActualGame();
+    //}
+
+    //private void QuitGameInServer(object sender, MessageReceivedEventArgs e)
+    //{       
+    //    SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
+    //}
+
+
+    public void ResetPlayersReadyStates()
+    {
+        foreach (KeyValuePair<ushort, PlayerData> p in actualRoom.playerList)
+        {
+            p.Value.IsReady = false;
+        }
     }
 
 

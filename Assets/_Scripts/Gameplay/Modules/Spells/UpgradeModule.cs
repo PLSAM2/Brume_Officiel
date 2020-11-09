@@ -5,18 +5,21 @@ using UnityEngine.PlayerLoop;
 
 public class UpgradeModule : SpellModule
 {
-	float bonusTimeRemaining;
+	float bonusTimeRemaining ;
 	float durationThrowback;
-	bool throwbackTriggered, canTakeThrowBack = false;
+	bool throwbackTriggered = false;
+	bool inBonus = false;
 	Sc_UpgradeSpell _tempSpellTrad;
 
-	void Start ()
+	void Awake ()
 	{
 		_tempSpellTrad = spell as Sc_UpgradeSpell;
 	}
+
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
 		base.ResolveSpell(_mousePosition);
+
 		MovementModifier _tempModifier = new MovementModifier();
 
 		_tempModifier.duration = _tempSpellTrad.duration;
@@ -27,58 +30,68 @@ public class UpgradeModule : SpellModule
 		durationThrowback = _tempSpellTrad.durationSilenced;
 
 
-		myPlayerModule.upgradeKit.Invoke(_tempSpellTrad);
+		myPlayerModule.upgradeKit.Invoke();
 		throwbackTriggered = false;
+
+		inBonus = true;
 	}
 
-	private void FixedUpdate ()
+	protected override void Update ()
 	{
-		if (canTakeThrowBack)
+		base.Update();
+
+		if (inBonus)
 		{
 			if (bonusTimeRemaining > 0)
 			{
-				bonusTimeRemaining -= Time.fixedDeltaTime;
+				bonusTimeRemaining -= Time.deltaTime;
 			}
-			else if (!throwbackTriggered)
+			else
 			{
 				EndBonusCallBack();
 			}
 		}
 
 
-		if (durationThrowback > 0)
+		if(throwbackTriggered)
 		{
-			durationThrowback -= Time.fixedDeltaTime;
+			if (durationThrowback > 0)
+			{
+				durationThrowback -= Time.deltaTime;
+			}
+			else 
+				EndMalusCallBack();
 		}
-		else if (throwbackTriggered)
-			EndMalusCallBack();
+	
 
 	}
 
-	public override void Interrupt ()
-	{
-		currentTimeCanalised = 0;
-		TreatCharacterState();
-	}
 
 	void EndBonusCallBack ()
 	{
+		inBonus = false;
 		myPlayerModule.backToNormalKit.Invoke();
 
-		isUsed = false;
-		
-		canTakeThrowBack = true;
+
+		StartThrowBack();
 	}
 
-	void StartThrowBack()
+	void StartThrowBack ()
 	{
+		throwbackTriggered = true;
 		durationThrowback = _tempSpellTrad.durationSilenced;
 		myPlayerModule.AddState(_tempSpellTrad.stateThrowbackToApply);
 	}
 
 	void EndMalusCallBack ()
 	{
+		throwbackTriggered = false;
 		myPlayerModule.RemoveState(_tempSpellTrad.stateThrowbackToApply);
-		canTakeThrowBack = false;
+	}
+
+	protected override float finalCooldownValue ()
+	{
+		float defValue = _tempSpellTrad.duration + base.finalCooldownValue();
+		return defValue;
 	}
 }

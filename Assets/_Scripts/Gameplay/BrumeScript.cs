@@ -17,11 +17,12 @@ public class BrumeScript : MonoBehaviour
         if(other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            player.isInBrume = true;
+            player.SetInBrumeStatut(true);
 
             if (player.mylocalPlayer.isOwner)
             {
                 myAnimator.SetBool("InBrume", true);
+                SetWardFow(false);
 
                 enterDistance = Vector3.Distance(other.transform.position, transform.position);
                 groundImg.SetActive(true);
@@ -52,15 +53,28 @@ public class BrumeScript : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            player.isInBrume = false;
+            player.SetInBrumeStatut(false);
 
             if (player.mylocalPlayer.isOwner)
             {
                 myAnimator.SetBool("InBrume", false);
+                SetWardFow(true);
+
                 UiManager.Instance.SetAlphaBrume(0);
                 groundImg.SetActive(false);
                 myRenderer.enabled = true;
             }
+        }
+    }
+
+    void SetWardFow(bool _value)
+    {
+        GameManager.Instance.allWard.RemoveAll(x => x == null);
+
+        foreach (Ward ward in GameManager.Instance.allWard)
+        {
+            if(ward == null) { continue; }
+            ward.fowFollow.gameObject.SetActive(_value);
         }
     }
 }
