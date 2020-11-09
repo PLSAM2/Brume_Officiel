@@ -36,7 +36,7 @@ public class AudioElement : MonoBehaviour
 
     private void Update()
     {
-        if (follow)
+        if (follow && objFollowing != null)
         {
             SetPosition(objFollowing.position);
         }
