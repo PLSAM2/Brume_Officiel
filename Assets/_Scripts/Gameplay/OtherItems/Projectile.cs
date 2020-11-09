@@ -50,7 +50,7 @@ public class Projectile : MonoBehaviour
 		}
 		Destroy();*/
 
-		if (playerHit != null)
+		if (playerHit != null && !asDeal)
 		{
 			if (playerHit.teamIndex != team)
 			{

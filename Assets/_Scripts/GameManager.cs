@@ -72,6 +72,7 @@ public class GameManager : SerializedMonoBehaviour
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
         RoomManager.Instance.UpdatePointDisplay();
+        UiManager.Instance.DisplayGeneralMessage("Round : " + RoomManager.Instance.roundCount);
     }
     public void PlayerJoinedAndInitInScene()
     {
@@ -138,7 +139,6 @@ public class GameManager : SerializedMonoBehaviour
 
     private void StopGameInServer()
     {
-
         RoomManager.Instance.ResetActualGame();
         RoomManager.Instance.StartChampSelectInServer();
     }

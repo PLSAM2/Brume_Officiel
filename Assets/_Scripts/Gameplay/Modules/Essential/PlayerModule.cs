@@ -104,6 +104,12 @@ public class PlayerModule : MonoBehaviour
 
     void Setup()
     {
+        firstSpell?.SetupComponent();
+        secondSpell?.SetupComponent();
+        thirdSpell?.SetupComponent();
+        leftClick?.SetupComponent();
+        ward?.SetupComponent();
+
         state = En_CharacterState.Clear;
         if (mylocalPlayer.isOwner)
         {
@@ -112,19 +118,10 @@ public class PlayerModule : MonoBehaviour
 
             //modulesPArt
             movementPart.SetupComponent(characterParameters.movementParameters);
-            firstSpell?.SetupComponent();
-            secondSpell?.SetupComponent();
-            thirdSpell?.SetupComponent();
-            leftClick?.SetupComponent();
-            ward?.SetupComponent();
-
             rotationLock += LockingRotation;
             reduceAllCooldown += ReduceAllCooldowns;
             reduceTargetCooldown += ReduceCooldown;
             GameManager.PlayerSpawned.Invoke(this);
-
-
-
         }
         else
         {
