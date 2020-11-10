@@ -281,6 +281,11 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
+    public void BoolTheAnim ( string _triggerName, bool _value )
+    {
+        myAnimator.SetBool(_triggerName, _value);
+    }
+
 
 
 }
