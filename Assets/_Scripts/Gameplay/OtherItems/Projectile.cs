@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
     {
 		if (_mySfxAudio != null)
 		{
-			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform, 0.5f);
+			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
 		}
 	}
 
