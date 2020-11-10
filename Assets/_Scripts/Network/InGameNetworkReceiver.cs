@@ -149,11 +149,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
 
+                    GameManager.Instance.OnPlayerRespawn?.Invoke(id);
+
                     //CALLBACK TOUS LES JOUEURS SONT APPARUS
                     //numberOfPlayerToSpawn -= 1;
                     //if (numberOfPlayerToSpawn == 0)
                     //{
-                      //  AllCharacterSpawned.Invoke();
+                    //  AllCharacterSpawned.Invoke();
                     //    GameManager.Instance.gameStarted = true;
                     //}
                 }
@@ -196,12 +198,9 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort id = reader.ReadUInt16();
                 ushort killerId = reader.ReadUInt16();
 
-                if (client.ID == killerId) // Si on à tué un ennemi
-                {
-                    UiManager.Instance.DisplayGeneralMessage("You slain an ennemy");
-                }
-
                 SupprPlayer(id);
+
+                GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 
                 if (RoomManager.Instance.GetLocalPlayer().ID == id)
                 {
@@ -231,6 +230,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 target.liveHealth -= _damages;
 
+                GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
         }
     }

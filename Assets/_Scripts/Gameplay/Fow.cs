@@ -13,13 +13,14 @@ public class Fow : MonoBehaviour
     [SerializeField] float followSpeed = 10;
     float fowRaduis = 0;
 
-    public void Init(Transform _target = null)
+    public void Init(Transform _target = null, float _fowRaduis = 0)
     {
         if(_target != null)
         {
             isStatic = false;
             myTarget = _target;
-            fowRaduis = myFieldOfView.viewRadius;
+            fowRaduis = _fowRaduis;
+            myFieldOfView.viewRadius = fowRaduis;
         }
         else
         {
