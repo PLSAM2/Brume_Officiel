@@ -45,9 +45,9 @@ public class Projectile : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter ( Collision collision )
+	private void OnTriggerEnter ( Collider Collider )
 	{
-		PlayerModule playerHit = collision.gameObject.GetComponent<PlayerModule>();
+		PlayerModule playerHit = Collider.gameObject.GetComponent<PlayerModule>();
 		/*
 		if(playerHit != null)
 		{
@@ -65,7 +65,7 @@ public class Projectile : MonoBehaviour
 			if (playerHit.teamIndex != team)
 			{
 				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
-				Instantiate(feedBackTouch, collision.contacts[0].point, Quaternion.identity);
+				Instantiate(feedBackTouch, Collider.ClosestPoint(transform.position), Quaternion.identity); 
 				Destroy();
 				asDeal = true;
 				if (isOwner)
@@ -77,7 +77,7 @@ public class Projectile : MonoBehaviour
 		}
 		else
 		{
-			Instantiate(feedBackTouch, collision.contacts[0].point, Quaternion.identity);
+			Instantiate(feedBackTouch, Collider.ClosestPoint(transform.position), Quaternion.identity);
 			Destroy();
 			print("i collide with wall");
 
