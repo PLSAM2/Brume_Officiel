@@ -149,13 +149,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
 
-                    //CALLBACK TOUS LES JOUEURS SONT APPARUS
-                    //numberOfPlayerToSpawn -= 1;
-                    //if (numberOfPlayerToSpawn == 0)
-                    //{
-                      //  AllCharacterSpawned.Invoke();
-                    //    GameManager.Instance.gameStarted = true;
-                    //}
                 }
             }
         }
@@ -203,13 +196,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 SupprPlayer(id);
 
-                if (RoomManager.Instance.GetLocalPlayer().ID == id)
-                {
-                    if (!isWaitingForRespawn)
-                    {
-                        StartCoroutine(WaitForRespawn());
-                    }
-                }
+                //if (RoomManager.Instance.GetLocalPlayer().ID == id)
+                //{
+                //    if (!isWaitingForRespawn)
+                //    {
+                //        StartCoroutine(WaitForRespawn());
+                //    }
+                //}
             }
         }
     }
@@ -311,11 +304,11 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-    IEnumerator WaitForRespawn()
-    {
-        isWaitingForRespawn = true;
-        yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
-        SendSpawnChamp();
-        isWaitingForRespawn = false;
-    }
+    //IEnumerator WaitForRespawn()
+    //{
+    //    isWaitingForRespawn = true;
+    //    yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
+    //    SendSpawnChamp();
+    //    isWaitingForRespawn = false;
+    //}
 }
