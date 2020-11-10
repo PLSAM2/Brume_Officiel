@@ -43,6 +43,7 @@ public class PlayerModule : MonoBehaviour
     [ReadOnly] public LocalPlayer mylocalPlayer;
 
     public List<Interactible> interactiblesClose = new List<Interactible>();
+    public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
     //animations local des autres joueurs
     //Vector3 oldPos;
     //ALL ACTION 
@@ -375,6 +376,10 @@ public class PlayerModule : MonoBehaviour
             rotLocked = false;
     }
 
+    public void PickPlayerSoul(PlayerSoul playerSoul)
+    {
+        playerSouls.Add(playerSoul);
+    }
 
 }
 

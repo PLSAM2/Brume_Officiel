@@ -202,13 +202,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 
-                if (RoomManager.Instance.GetLocalPlayer().ID == id)
-                {
-                    if (!isWaitingForRespawn)
-                    {
-                        StartCoroutine(WaitForRespawn());
-                    }
-                }
+                //if (RoomManager.Instance.GetLocalPlayer().ID == id)
+                //{
+                //    if (!isWaitingForRespawn)
+                //    {
+                //        StartCoroutine(WaitForRespawn());
+                //    }
+                //}
             }
         }
     }
@@ -311,11 +311,11 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-    IEnumerator WaitForRespawn()
-    {
-        isWaitingForRespawn = true;
-        yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
-        SendSpawnChamp();
-        isWaitingForRespawn = false;
-    }
+    //IEnumerator WaitForRespawn()
+    //{
+    //    isWaitingForRespawn = true;
+    //    yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
+    //    SendSpawnChamp();
+    //    isWaitingForRespawn = false;
+    //}
 }
