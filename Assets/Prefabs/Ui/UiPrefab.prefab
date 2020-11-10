@@ -975,7 +975,6 @@ GameObject:
   - component: {fileID: 4724699717960410191}
   - component: {fileID: 2312821965300447811}
   - component: {fileID: 1991394437482536151}
-  - component: {fileID: 8542297543813610946}
   m_Layer: 5
   m_Name: EnemyYin
   m_TagString: Untagged
@@ -1030,7 +1029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0fe6a2df0fe653147b05cd0fcc2ff15c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1040,27 +1039,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8542297543813610946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2904240289711490941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f932cf85bf21c1049b6cf86a44f88e78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRedTeam: 0
-  blueColorSeen: {r: 0.1882353, g: 0.5372549, b: 0.84705883, a: 1}
-  redColorSeen: {r: 0.84705883, g: 0.1882353, b: 0.1882353, a: 1}
-  blueColorUnseen: {r: 0.04387683, g: 0.31050223, b: 0.5471698, a: 1}
-  redColorUnseen: {r: 0.5566038, g: 0.04988429, b: 0.04988429, a: 1}
-  deadColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
-  mercenaryAlive: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
-  mercenaryDying: {fileID: 21300000, guid: 0fe6a2df0fe653147b05cd0fcc2ff15c, type: 3}
-  icon: {fileID: 1991394437482536151}
 --- !u!1 &2980891880045163322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1340,7 +1318,6 @@ GameObject:
   - component: {fileID: 5386210562772534768}
   - component: {fileID: 8674603454050830500}
   - component: {fileID: 1284658354845367864}
-  - component: {fileID: 3129327030943662029}
   m_Layer: 5
   m_Name: EnemyShili
   m_TagString: Untagged
@@ -1405,27 +1382,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3129327030943662029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3174869745101134224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f932cf85bf21c1049b6cf86a44f88e78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRedTeam: 1
-  blueColorSeen: {r: 0.1882353, g: 0.5372549, b: 0.84705883, a: 1}
-  redColorSeen: {r: 0.84705883, g: 0.1882353, b: 0.1882353, a: 1}
-  blueColorUnseen: {r: 0.04387683, g: 0.31050223, b: 0.5471698, a: 1}
-  redColorUnseen: {r: 0.5566038, g: 0.04988429, b: 0.04988429, a: 1}
-  deadColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
-  mercenaryAlive: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
-  mercenaryDying: {fileID: 21300000, guid: 0fe6a2df0fe653147b05cd0fcc2ff15c, type: 3}
-  icon: {fileID: 1284658354845367864}
 --- !u!1 &3876398570151659584
 GameObject:
   m_ObjectHideFlags: 0
@@ -2077,7 +2033,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4785938763265007097}
   - component: {fileID: 1851004477392704256}
-  - component: {fileID: 5816801760079111002}
   - component: {fileID: 8815842893275259328}
   m_Layer: 5
   m_Name: EnemyYang
@@ -2113,27 +2068,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5318099121404467660}
   m_CullTransparentMesh: 0
---- !u!114 &5816801760079111002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5318099121404467660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f932cf85bf21c1049b6cf86a44f88e78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRedTeam: 1
-  blueColorSeen: {r: 0.1882353, g: 0.5372549, b: 0.84705883, a: 1}
-  redColorSeen: {r: 0.84705883, g: 0.1882353, b: 0.1882353, a: 1}
-  blueColorUnseen: {r: 0.04387683, g: 0.31050223, b: 0.5471698, a: 1}
-  redColorUnseen: {r: 0.5566038, g: 0.04988429, b: 0.04988429, a: 1}
-  deadColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
-  mercenaryAlive: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
-  mercenaryDying: {fileID: 21300000, guid: 0fe6a2df0fe653147b05cd0fcc2ff15c, type: 3}
-  icon: {fileID: 8815842893275259328}
 --- !u!114 &8815842893275259328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4465,7 +4399,7 @@ MonoBehaviour:
   wardIcon: {fileID: 6886621739615428115}
   enemyYang: {fileID: 8815842893275259328}
   enemyShili: {fileID: 1284658354845367864}
-  enemyYin: {fileID: 0}
+  enemyYin: {fileID: 1991394437482536151}
   inViewColor: {r: 0.8490566, g: 0.19624422, b: 0.29045284, a: 1}
   outViewColor: {r: 0.3773585, g: 0, b: 0, a: 1}
   killedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
@@ -4578,6 +4512,11 @@ PrefabInstance:
       objectReference: {fileID: 5374257044712492032}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+--- !u!224 &3835962407190759235 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+  m_PrefabInstance: {fileID: 12882843308644147}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5292605987638318555 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5286902680450646760, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
@@ -4589,11 +4528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe682a67a814064d9479a6f0bfcd4b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3835962407190759235 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
-  m_PrefabInstance: {fileID: 12882843308644147}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &507142930380270007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5478,11 +5412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &7337673306254827896 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3434446067250362354, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
-  m_PrefabInstance: {fileID: 5367512845973886602}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &124034638222582045 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
@@ -5494,6 +5423,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7337673306254827896 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3434446067250362354, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
+  m_PrefabInstance: {fileID: 5367512845973886602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5679080980332697747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5771,11 +5705,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
---- !u!224 &1319539626486977561 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-  m_PrefabInstance: {fileID: 6639088495214769779}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6943894825926998634 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
@@ -5787,6 +5716,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1319539626486977561 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 6639088495214769779}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6939291142092922949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6365,11 +6299,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
---- !u!224 &4323709664553036592 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-  m_PrefabInstance: {fileID: 8245477988200417626}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5625768656871392579 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
@@ -6381,6 +6310,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd3ae8fd1d4aca4385172fb1c486df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &4323709664553036592 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+  m_PrefabInstance: {fileID: 8245477988200417626}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9173016720607859482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6482,6 +6416,11 @@ PrefabInstance:
       objectReference: {fileID: 5374257044712492032}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+--- !u!224 &5358383639351296874 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+  m_PrefabInstance: {fileID: 9173016720607859482}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3896673474963214834 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5286902680450646760, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
@@ -6493,8 +6432,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe682a67a814064d9479a6f0bfcd4b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &5358383639351296874 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3824074627911536752, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
-  m_PrefabInstance: {fileID: 9173016720607859482}
-  m_PrefabAsset: {fileID: 0}

@@ -14,11 +14,14 @@ public class GameFactory
     {
         myImage.color = myColor;
 
-        if(mySprite != null)
+        if (mySprite != null)
         {
             myImage.sprite = mySprite;
         }
     }
 
-
+    public static ushort GetMaxLifeOfPlayer(ushort id)
+    {
+        return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+    }
 }

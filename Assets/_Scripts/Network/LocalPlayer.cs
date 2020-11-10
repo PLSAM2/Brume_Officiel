@@ -40,8 +40,6 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
-    [SerializeField] float fowRaduis = 7;
-    [SerializeField] float fowRaduisInBrume = 4;
 
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
@@ -107,7 +105,7 @@ public class LocalPlayer : MonoBehaviour
     void SpawnFow()
     {
         myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
-        myFow.Init(transform);
+        myFow.Init(transform, myPlayerModule.characterParameters.visionRange);
     }
 
     public void ShowHideFow(bool _value)
@@ -212,7 +210,7 @@ public class LocalPlayer : MonoBehaviour
         switch (_value)
         {
             case true:
-                myFow.ChangeFowRaduis(fowRaduisInBrume);
+                myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
                     break;
             case false:
                 myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
@@ -243,7 +241,7 @@ public class LocalPlayer : MonoBehaviour
 
     public void OnRespawn()
     {
-        liveHealth = myPlayerModule.characterParameters.health;
+        liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
     public void DealDamages(DamagesInfos _damagesToDeal)

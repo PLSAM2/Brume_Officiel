@@ -230,6 +230,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 target.liveHealth -= _damages;
 
+                GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
         }
     }
