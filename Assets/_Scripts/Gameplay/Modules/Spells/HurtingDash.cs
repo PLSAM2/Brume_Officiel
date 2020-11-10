@@ -13,9 +13,9 @@ public class HurtingDash : DashModule
 	List<GameObject> allPlayerTouched = new List<GameObject>();
 	float _width;
 
-	public override void SetupComponent ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		base.SetupComponent();
+		base.SetupComponent(_actionLinked);
 		myPlayerModule.forcedMovementAdded += StartDamaging;
 		myPlayerModule.forcedMovementInterrupted += StopDamaging;
 		_width  = (spell as Sc_DashSpell).damagesRadius;

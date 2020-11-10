@@ -44,6 +44,14 @@ public class GameManager : SerializedMonoBehaviour
     private bool stopInit = false;
     public bool gameStarted = false;
 
+
+    //Event utile
+    public Action<ushort, ushort> OnPlayerDie;
+    public Action<ushort, bool> OnPlayerAtViewChange;
+    public Action<ushort, ushort> OnPlayerGetDamage;
+    public Action<ushort> OnPlayerRespawn;
+
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

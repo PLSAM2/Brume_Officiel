@@ -9,9 +9,9 @@ public class DashModule : SpellModule
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
 	public bool usingKeyboardInput;
 
-	public override void SetupComponent ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		base.SetupComponent();
+		base.SetupComponent(_actionLinked);
 		mylineRender.useWorldSpace = true;
 
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;

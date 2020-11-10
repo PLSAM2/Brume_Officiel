@@ -93,6 +93,7 @@ public class PlayerModule : MonoBehaviour
 
         if (!mylocalPlayer.isOwner)
         {
+
         }
         else
         {
@@ -104,11 +105,11 @@ public class PlayerModule : MonoBehaviour
 
     void Setup()
     {
-        firstSpell?.SetupComponent();
-        secondSpell?.SetupComponent();
-        thirdSpell?.SetupComponent();
-        leftClick?.SetupComponent();
-        ward?.SetupComponent();
+        firstSpell?.SetupComponent(En_SpellInput.FirstSpell);
+        secondSpell?.SetupComponent(En_SpellInput.SecondSpell);
+        thirdSpell?.SetupComponent(En_SpellInput.ThirdSpell);
+        leftClick?.SetupComponent(En_SpellInput.Click);
+        ward?.SetupComponent(En_SpellInput.Ward);
 
         state = En_CharacterState.Clear;
         if (mylocalPlayer.isOwner)
@@ -131,7 +132,6 @@ public class PlayerModule : MonoBehaviour
                 mapIcon.color = Color.red;
 
             StartCoroutine(WaitForVisionCheck());
-
         }
     }
 
