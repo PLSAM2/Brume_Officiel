@@ -65,7 +65,6 @@ public class Projectile : MonoBehaviour
 			if (playerHit.teamIndex != team)
 			{
 				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
-				Instantiate(feedBackTouch, Collider.ClosestPoint(transform.position), Quaternion.identity); 
 				Destroy();
 				asDeal = true;
 				if (isOwner)
@@ -77,7 +76,6 @@ public class Projectile : MonoBehaviour
 		}
 		else
 		{
-			Instantiate(feedBackTouch, Collider.ClosestPoint(transform.position), Quaternion.identity);
 			Destroy();
 		}
 

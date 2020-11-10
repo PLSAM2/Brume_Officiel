@@ -112,6 +112,7 @@ public class PlayerModule : MonoBehaviour
         ward?.SetupComponent(En_SpellInput.Ward);
 
         state = En_CharacterState.Clear;
+
         if (mylocalPlayer.isOwner)
         {
             _state = En_CharacterState.Clear;
@@ -305,26 +306,22 @@ public class PlayerModule : MonoBehaviour
             return false;
 
         lastRecordedPos = transform.position;
+        PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
-        if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) > GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange)
-		{
+        if (_localPlayer.isInBrume)
             return false;
-		}
+
+        if (Vector3.Distance(transform.position, _localPlayer.transform.position) > _localPlayer.characterParameters.detectionRange)
+            return false;
 
         if(GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume == isInBrume )
-		{
             return false;
-        }
 
-        if(Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) > GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange)
-		{
+        if(Vector3.Distance(_localPlayer.transform.position, transform.position) > _localPlayer.characterParameters.detectionRange)
             return false;
-		}
 
-        if (Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) < GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.visionRange)
-        {
+        if (Vector3.Distance(_localPlayer.transform.position, transform.position) < _localPlayer.characterParameters.visionRange)
             return false;
-        }
 
         return true;
     }
