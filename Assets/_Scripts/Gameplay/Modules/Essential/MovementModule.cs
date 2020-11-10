@@ -11,6 +11,7 @@ public class MovementModule : MonoBehaviour
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Canalysing | En_CharacterState.Stunned;
 	List<MovementModifier> allLiveMovementModifier = new List<MovementModifier>();
+	[SerializeField] CharacterController chara;
 
 	CapsuleCollider collider;
 
@@ -91,7 +92,8 @@ public class MovementModule : MonoBehaviour
 			currentForcedMovement.duration -= Time.deltaTime;
 
 			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
-				transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
+				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
+				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime) ;
 			else
 				ForcedMovementTouchObstacle();
 		}
@@ -114,11 +116,14 @@ public class MovementModule : MonoBehaviour
 			//marche
 			if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
 			{
-				transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
+				//transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
+				chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
+
 			}
 			else
 			{
-				transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
+				//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
+				chara.Move( _directionInputed * liveMoveSpeed() * Time.deltaTime);
 			}
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
