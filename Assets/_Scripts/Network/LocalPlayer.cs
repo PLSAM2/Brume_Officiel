@@ -215,7 +215,7 @@ public class LocalPlayer : MonoBehaviour
                 myFow.ChangeFowRaduis(fowRaduisInBrume);
                     break;
             case false:
-                myFow.ChangeFowRaduis(fowRaduis);
+                myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
                 break;
         }
     }

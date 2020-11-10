@@ -148,14 +148,15 @@ MonoBehaviour:
     myDamages:
       damageHealth: 1
       playerName: 
-    mySpeed: 60
-    myLifeTime: 0.05
+    mySpeed: 40.000004
+    myLifeTime: 0.03
   team: 20
   layerToHit:
     serializedVersion: 2
     m_Bits: 768
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   spellRule: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
+  _mySfxAudio: {fileID: 0}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -164,7 +165,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6234301381807575755}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
@@ -257,7 +258,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.3
+  m_Time: 0.1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.15
