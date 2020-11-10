@@ -46,6 +46,10 @@ public class LocalPlayer : MonoBehaviour
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
 
+
+    [Header("Audio")]
+    [SerializeField] AudioListener myAudiolister;
+
     private void Awake()
     {
         lastPosition = transform.position;
@@ -87,9 +91,8 @@ public class LocalPlayer : MonoBehaviour
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
-            UiManager.Instance.myPlayerModule = myPlayerModule;
-
             SpawnFow();
+            myAudiolister.enabled = true;
         }
         else
         {
@@ -170,9 +173,24 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void SendState(En_CharacterState _state)
+	{
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+
+            _writer.Write((ushort)_state);
+
+            using (Message _message = Message.Create(Tags.StateUpdate, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Unreliable);
+            }
+        }
+    }
+
 	private void Update ()
 	{
-		if(Input.GetKeyDown(KeyCode.K))
+		if(Input.GetKeyDown(KeyCode.K) && isOwner)
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 100;
@@ -230,7 +248,7 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-        liveHealth -= _damagesToDeal.damageHealth;
+        liveHealth = (ushort)Mathf.Clamp(liveHealth - _damagesToDeal.damageHealth, 0, 1000);
 		print("I TOok Damage once");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -256,6 +274,10 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void OnStatusReceived(uint _state)
+	{
+        myPlayerModule.state = (En_CharacterState)_state;
+	}
     public void TriggerTheAnim(string triggerName)
     {
         myAnimator.SetTrigger(triggerName);

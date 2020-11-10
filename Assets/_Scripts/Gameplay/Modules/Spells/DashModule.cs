@@ -8,7 +8,6 @@ public class DashModule : SpellModule
 	public LineRenderer mylineRender;
 	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
 	public bool usingKeyboardInput;
-	bool isOwner;
 
 	public override void SetupComponent ()
 	{
@@ -89,11 +88,10 @@ public class DashModule : SpellModule
 	public virtual void ShowPreview ()
 	{
 		mylineRender.positionCount += 1;
-		float range;
 		
 		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
 
-		if (_localTraduction.adaptiveRange)
+		/*if (_localTraduction.adaptiveRange)
 		{
 			if (spell.useLastRecordedMousePos)
 			{
@@ -105,7 +103,7 @@ public class DashModule : SpellModule
 			}
 		}
 		else
-		{
+		{*/
 			if (spell.useLastRecordedMousePos)
 			{
 				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(recordedMousePosOnInput - transform.position) * spell.range);
@@ -114,7 +112,7 @@ public class DashModule : SpellModule
 			{
 				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range);
 			}
-		}
+		//}
 		mylineRender.DOColor(new Color2(startColorPreview, startColorPreview), new Color2(endColorPreview, endColorPreview), spell.canalisationTime);
 	}
 

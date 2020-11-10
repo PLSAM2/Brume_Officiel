@@ -56,18 +56,28 @@ public class RoomManager : MonoBehaviour
         {
             if (message.Tag == Tags.LobbyStartGame)
             {
-                StartChampSelectInServer(sender, e);
+                StartChampSelectInServer();
             }
-            //if (message.Tag == Tags.QuitGame)
-            //{
-            //    QuitGameInServer(sender, e);
-            //}
-
             if (message.Tag == Tags.StartGame)
             {
                 StartGameInServer(sender, e);
             }
+            if (message.Tag == Tags.AddPoints)
+            {
+                AddPointsInServer(sender, e);
+            }
+            if (message.Tag == Tags.NewRound)
+            {
+                NewRoundInServer(sender, e);
+            }
+
         }
+    }
+
+    private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
+    {
+        StartNewRound();
+        SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
     }
 
     public void StartChampSelect()
@@ -81,8 +91,9 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    private void StartChampSelectInServer(object sender, MessageReceivedEventArgs e)
+    public void StartChampSelectInServer()
     {
+        AlreadyInit = true;
         StartNewRound();
         ResetPlayersReadyStates();
         SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
@@ -95,11 +106,57 @@ public class RoomManager : MonoBehaviour
 
     private void StartNewRound()
     {
-        ResetPlayersReadyStates();
         roundCount++;
     }
+    public void AddPoints(Team targetTeam, ushort value)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write((ushort)targetTeam);
+            _writer.Write(value);
 
-    private void ResetActualGame()
+            using (Message _message = Message.Create(Tags.AddPoints, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+    private void AddPointsInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                Team _team = (Team)reader.ReadUInt16();
+                ushort _score = reader.ReadUInt16();
+
+                RoomManager.Instance.actualRoom.scores[_team] += _score;
+                UpdatePointDisplay();
+            }
+        }
+    }
+
+    public void UpdatePointDisplay()
+    {
+        if (UiManager.Instance != null)
+        {
+            UiManager.Instance.allyScore.text = actualRoom.scores[GetLocalPlayer().playerTeam].ToString();
+
+            switch (GetLocalPlayer().playerTeam)
+            {
+                case Team.red:
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
+                    break;
+                case Team.blue:
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
+                    break;
+                default:
+                    throw new System.Exception("ERREUR equipe non existante");
+            }
+        }
+    }
+
+    public void ResetActualGame()
     {
         actualRoom.scores[Team.red] = 0;
         actualRoom.scores[Team.blue] = 0;

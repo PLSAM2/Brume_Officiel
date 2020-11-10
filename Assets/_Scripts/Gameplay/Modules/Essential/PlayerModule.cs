@@ -11,7 +11,7 @@ public class PlayerModule : MonoBehaviour
 {
     [Header("Inputs")]
     public KeyCode firstSpellKey = KeyCode.A;
-    public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space;
+    public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift;
     public KeyCode interactKey = KeyCode.F;
     public KeyCode wardKey = KeyCode.Alpha4;
     private LayerMask groundLayer;
@@ -21,11 +21,13 @@ public class PlayerModule : MonoBehaviour
     public Sc_CharacterParameters characterParameters;
     public Team teamIndex;
     public bool isInBrume = false;
-
+    [HideInInspector] public bool isCrouched;
+    //PINGS
+    Vector3 lastRecordedPos;
 
     [Header("DamagesPart")]
     En_CharacterState _state;
-    [ReadOnly] public En_CharacterState state { get => _state; set { _state = value; UiManager.Instance.StatusUpdate(_state); } }
+    [ReadOnly] public En_CharacterState state { get => _state; set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state); } } }
     [ReadOnly] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 
@@ -41,13 +43,11 @@ public class PlayerModule : MonoBehaviour
     [ReadOnly] public LocalPlayer mylocalPlayer;
 
     public List<Interactible> interactiblesClose = new List<Interactible>();
-
     //animations local des autres joueurs
     //Vector3 oldPos;
     //ALL ACTION 
     #region
     public Action revelationCheck;
-
     public Action<Vector3> DirectionInputedUpdate;
     //spell
     public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
@@ -79,7 +79,10 @@ public class PlayerModule : MonoBehaviour
         if (GameManager.Instance.gameStarted)
             Setup();
 
-        GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
+        if (mylocalPlayer.isOwner)
+        {
+            GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
+        }
 
         //	oldPos = transform.position;
     }
@@ -101,6 +104,12 @@ public class PlayerModule : MonoBehaviour
 
     void Setup()
     {
+        firstSpell?.SetupComponent();
+        secondSpell?.SetupComponent();
+        thirdSpell?.SetupComponent();
+        leftClick?.SetupComponent();
+        ward?.SetupComponent();
+
         state = En_CharacterState.Clear;
         if (mylocalPlayer.isOwner)
         {
@@ -108,21 +117,11 @@ public class PlayerModule : MonoBehaviour
             mapIcon.color = Color.blue;
 
             //modulesPArt
-            UiManager.Instance.myPlayerModule = this;
             movementPart.SetupComponent(characterParameters.movementParameters);
-            firstSpell?.SetupComponent();
-            secondSpell?.SetupComponent();
-            thirdSpell?.SetupComponent();
-            leftClick?.SetupComponent();
-            ward?.SetupComponent();
-
             rotationLock += LockingRotation;
             reduceAllCooldown += ReduceAllCooldowns;
             reduceTargetCooldown += ReduceCooldown;
             GameManager.PlayerSpawned.Invoke(this);
-
-
-
         }
         else
         {
@@ -195,6 +194,12 @@ public class PlayerModule : MonoBehaviour
                     interactible.StopCapturing(teamIndex);
                 }
             }
+
+            if (Input.GetKeyDown(crouching))
+                AddState(En_CharacterState.Crouched);
+
+            else if (Input.GetKeyUp(crouching))
+                RemoveState(En_CharacterState.Crouched);
             #endregion
 
             //camera
@@ -213,20 +218,6 @@ public class PlayerModule : MonoBehaviour
         mylocalPlayer.ChangeFowRaduis(_value);
     }
 
-    //ANIM EN LOCAL
-    /*	private void FixedUpdate ()
-		{
-			if (mylocalPlayer.isOwner == false)
-			{
-				Vector3 _direction = Vector3.Normalize(transform.position - oldPos);
-				//mylocalPlayer
-			}
-		}
-		private void LateUpdate ()
-		{
-			oldPos = transform.position;
-		}*/
-
     void LookAtMouse()
     {
         if (!rotLocked)
@@ -239,11 +230,13 @@ public class PlayerModule : MonoBehaviour
     public void AddState(En_CharacterState _stateToAdd)
     {
         state |= _stateToAdd;
+        mylocalPlayer.SendState(_state);
     }
 
     public void RemoveState(En_CharacterState _stateToRemove)
     {
         state = state & (state & ~(_stateToRemove));
+        mylocalPlayer.SendState(_state);
     }
 
     void ReduceCooldown(float _duration, En_SpellInput _spell)
@@ -284,13 +277,13 @@ public class PlayerModule : MonoBehaviour
     #region
     void CheckForBrumeRevelation()
     {
+
         if (GameManager.Instance.currentLocalPlayer == null)
         {
             return;
         }
 
-        if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) <= GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange &&
-            GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
+        if (ShouldBePinged())
         {
             GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
 
@@ -305,11 +298,42 @@ public class PlayerModule : MonoBehaviour
         }
 
     }
+
+    bool ShouldBePinged()
+	{
+        if (lastRecordedPos == transform.position)
+            return false;
+
+        lastRecordedPos = transform.position;
+
+        if (Vector3.Distance(transform.position, GameManager.Instance.currentLocalPlayer.transform.position) > GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange)
+		{
+            return false;
+		}
+
+        if(GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume == isInBrume )
+		{
+            return false;
+        }
+
+        if(Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) > GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.detectionRange)
+		{
+            return false;
+		}
+
+        if (Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) < GameManager.Instance.currentLocalPlayer.myPlayerModule.characterParameters.visionRange)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     IEnumerator WaitForVisionCheck()
     {
         CheckForBrumeRevelation();
         yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-        revelationCheck?.Invoke();
+        StartCoroutine(WaitForVisionCheck());
     }
     #endregion
 
@@ -352,7 +376,6 @@ public class PlayerModule : MonoBehaviour
             rotLocked = true;
         else
             rotLocked = false;
-
     }
 
 
@@ -367,6 +390,7 @@ public enum En_CharacterState
     Stunned = 1 << 3,
     Canalysing = 1 << 4,
     Silenced = 1 << 5,
+    Crouched = 1 << 6,
 }
 
 [System.Serializable]

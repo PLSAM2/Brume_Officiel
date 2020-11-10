@@ -21,12 +21,11 @@ public class RoomData : IDarkRiftSerializable
     // InGameStats >>
     public Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
     // <<
-
+    public bool IsStarted = false;
     public RoomData(ushort iD, string name)
     {
         this.ID = iD;
         this.Name = name;
-
 
         scores.Add(Team.blue, 0);
         scores.Add(Team.red, 0);
@@ -49,16 +48,18 @@ public class RoomData : IDarkRiftSerializable
         this.MaxPlayers = e.Reader.ReadUInt16();
         this.scores[Team.blue] = e.Reader.ReadUInt16();
         this.scores[Team.red] = e.Reader.ReadUInt16();
+        this.IsStarted = e.Reader.ReadBoolean();
         this.playerCount = e.Reader.ReadUInt16(); // valeur calculé sur serveur
     }
 
     public void Serialize(SerializeEvent e)
     {
-        e.Writer.Write(ID);
+        e.Writer.Write(ID); 
         e.Writer.Write(Name);
         e.Writer.Write(MaxPlayers);
         e.Writer.Write(scores[Team.blue]);
         e.Writer.Write(scores[Team.red]);
+        e.Writer.Write(IsStarted);
     }
 }
 

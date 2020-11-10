@@ -177,6 +177,8 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         NetworkedObjectAdded(_lastObjId, networkedObject);
         _tempObject.SetActive(true);
 
+        _tempObject.GetComponent<Projectile>().Init();
+
 
         //GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
         //NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();

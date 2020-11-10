@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
 	[SerializeField] Sc_ProjectileSpell spellRule;
 	bool isOwner, asDeal=false;
 
+	[SerializeField] AudioClip _mySfxAudio;
+
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
@@ -35,6 +37,14 @@ public class Projectile : MonoBehaviour
 			asDeal = false;
 	}
 
+	public void Init()
+    {
+		if (_mySfxAudio != null)
+		{
+			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
+		}
+	}
+
 	private void OnCollisionEnter ( Collision collision )
 	{
 		PlayerModule playerHit = collision.gameObject.GetComponent<PlayerModule>();
@@ -50,7 +60,7 @@ public class Projectile : MonoBehaviour
 		}
 		Destroy();*/
 
-		if (playerHit != null)
+		if (playerHit != null && !asDeal)
 		{
 			if (playerHit.teamIndex != team)
 			{

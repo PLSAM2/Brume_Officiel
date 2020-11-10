@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-
+[InlineEditor]
 [CreateAssetMenu(fileName = "NewCharacter", menuName = "CreateCuston/NewCharacter")]
 public class Sc_CharacterParameters : ScriptableObject
 {
-	public St_MovementParameters movementParameters;
 	public ushort health;
 
+	[Header("Movement Parameters")]
+	public St_MovementParameters movementParameters;
+
 	[Header("Vision Parameters")]
-	public ushort visionRange, detectionRange = 10, delayBetweenDetection = 2;
+	public ushort visionRange;
+	public ushort detectionRange = 10, delayBetweenDetection = 2;
 }
 
 [System.Serializable]
 public struct St_MovementParameters
 {
-	public float movementSpeed;
-	public float accelerationTime, bonusRunningSpeed;
+	public float movementSpeed, crouchingSpeed;
+/*	public float accelerationTime, bonusRunningSpeed;
 	public AnimationCurve accelerationCurve;
-	public float maxStamina, regenDelay, regenPerSecond;
+public float maxStamina, regenDelay, regenPerSecond;*/
 }

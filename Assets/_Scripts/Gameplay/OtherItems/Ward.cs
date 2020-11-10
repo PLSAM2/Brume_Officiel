@@ -34,6 +34,7 @@ public class Ward : MonoBehaviour
 
     public void DestroyWard()
     {
+        fowFollow.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
     IEnumerator WardLifeTime()

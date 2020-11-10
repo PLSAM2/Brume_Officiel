@@ -55,10 +55,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 SpawnPlayerObj(sender, e);
             }
-            if (message.Tag == Tags.AddPoints)
-            {
-                AddPointsInServer(sender, e);
-            }
+
             if (message.Tag == Tags.MovePlayerTag)
             {
                 SendPlayerMove(sender, e);
@@ -163,45 +160,6 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-
-    public void AddPoints(Team targetTeam, ushort value)
-    {
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write((ushort)targetTeam);
-            _writer.Write(value);
-
-            using (Message _message = Message.Create(Tags.AddPoints, _writer))
-            {
-                client.SendMessage(_message, SendMode.Reliable);
-            }
-        }
-    }
-    private void AddPointsInServer(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                Team _team = (Team)reader.ReadUInt16();
-                ushort _score = reader.ReadUInt16();
-
-                RoomManager.Instance.actualRoom.scores[_team] += _score;
-
-                if (_team == RoomManager.Instance.GetLocalPlayer().playerTeam)
-                {
-                    UiManager.Instance.allyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
-
-                    UiManager.Instance.DisplayGeneralPoints(_team, _score);
-
-                }
-                else
-                {
-                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[_team].ToString();
-                }
-            }
-        }
-    }
     void SendSpawnChamp()
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -256,7 +214,6 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
-
     private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
@@ -276,7 +233,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
             }
         }
-
     }
 
 
@@ -294,8 +250,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     void SupprPlayer(ushort ID)
     {
-        Destroy(GameManager.Instance.networkPlayers[ID].gameObject);
-        GameManager.Instance.networkPlayers.Remove(ID);
+        if (GameManager.Instance.networkPlayers.ContainsKey(ID))
+        {
+            Destroy(GameManager.Instance.networkPlayers[ID].gameObject);
+            GameManager.Instance.networkPlayers.Remove(ID);
+        }
     }
 
 
@@ -332,6 +291,26 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
+    public void ReceiveStatus(object sender, MessageReceivedEventArgs e )
+	{
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                if (message.Tag == Tags.StateUpdate)
+                {
+                    ushort id = reader.ReadUInt16();
+
+                    if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+                    {
+                        return;
+                    }
+
+                    GameManager.Instance.networkPlayers[id].OnStatusReceived(reader.ReadUInt16());
+                }
+            }
+        }
+    }
     IEnumerator WaitForRespawn()
     {
         isWaitingForRespawn = true;

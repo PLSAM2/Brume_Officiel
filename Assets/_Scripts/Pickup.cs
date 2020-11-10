@@ -17,8 +17,6 @@ public class Pickup : MonoBehaviour
 	{
 		playerTouched = other.GetComponent<LocalPlayer>();
 
-		if (playerTouched.isOwner)
-			InGameNetworkReceiver.Instance.AddPoints(playerTouched.myPlayerModule.teamIndex, 1);
 		NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID(), true); 
 		Instantiate(particleOnPickedUp, transform.position, Quaternion.identity);
 

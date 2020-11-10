@@ -42,6 +42,11 @@ public class Interactible : MonoBehaviour
 
     protected UnityClient client;
 
+    [Header("Map")]
+    protected bool showOnMap= true;
+    [SerializeField] SpriteRenderer mapIcon;
+    [SerializeField] Sprite iconNeutral, iconCapturable, iconRed, iconBlue;
+
     private void Awake()
     {
         client = RoomManager.Instance.client;
@@ -198,6 +203,11 @@ public class Interactible : MonoBehaviour
         isCapturing = false;
         state = State.Captured;
         timer = 0;
+
+        if (team == Team.red && showOnMap)
+            mapIcon.sprite = iconRed;
+        else if ( showOnMap)
+            mapIcon.sprite = iconBlue;
 
         // Detruire ici
     }

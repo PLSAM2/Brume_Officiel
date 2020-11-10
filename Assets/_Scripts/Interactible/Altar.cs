@@ -13,6 +13,7 @@ public class Altar : Interactible
     [Header("Altar properties")]
     public int life;
     public float unlockTime;
+    public string altarName = "";
 
     void Start()
     {
@@ -36,7 +37,7 @@ public class Altar : Interactible
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
-        UiManager.Instance.DisplayGeneralMessage("Altar unlock in " + unlockTime + " seconds");
+        UiManager.Instance.DisplayGeneralMessage("Altar " + altarName + " unlock in " + unlockTime + " seconds");
         if (value)
         {
             StartCoroutine(ActivateAltar());

@@ -216,7 +216,12 @@ public class LobbyManager : MonoBehaviour
                 for (int i = 0; i < roomNumber; i++)
                 {
                     RoomData room = reader.ReadSerializable<RoomData>();
-                    rooms.Add(room.ID, room);
+
+                    if (!room.IsStarted)
+                    {
+                        rooms.Add(room.ID, room);
+                    }
+
                 }
             }
         }
@@ -294,8 +299,8 @@ public class LobbyManager : MonoBehaviour
 
         RoomManager.Instance.actualRoom = rooms[roomID];
         rooms[roomID].playerList = _playerList;
-
         roomPanelControl.InitRoom(rooms[roomID]);
+
     }
 
     private void PlayerJoinedActualRoom(object sender, MessageReceivedEventArgs e)
@@ -325,7 +330,6 @@ public class LobbyManager : MonoBehaviour
             }
         }
     }
-
     public void CreateRoom()
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
@@ -334,7 +338,6 @@ public class LobbyManager : MonoBehaviour
                 client.SendMessage(message, SendMode.Reliable);
         }
     }
-
 
     private void RoomCreatedInServer(object sender, MessageReceivedEventArgs e)
     {
@@ -477,5 +480,4 @@ public class LobbyManager : MonoBehaviour
         roomPanel.SetActive(false);
         roomListPanelControl.Init();
     }
-
 }

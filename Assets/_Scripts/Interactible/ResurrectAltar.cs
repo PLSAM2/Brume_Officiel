@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class tESTsAM : MonoBehaviour
+public class ResurrectAltar : Interactible
 {
     // Start is called before the first frame update
     void Start()

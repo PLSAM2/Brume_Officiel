@@ -28,9 +28,8 @@ public class GameManager : SerializedMonoBehaviour
     [SerializeField] UnityClient client;
 
     [Header("Timer")]
-    [SerializeField] private float timePerRound = 180; // seconds
     private bool timeStart = false;
-    private float remainingTime = 0;
+    private float timer = 0;
 
     [Header("Camera")]
     public CinemachineVirtualCamera myCam;
@@ -67,17 +66,14 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Start()
     {
-        remainingTime = timePerRound;
-        int secondRemaining = (int)remainingTime % 60;
-        int minuteRemaining = (int)Math.Floor(remainingTime / 60);
+        timer = 0;
+        int secondRemaining = (int)timer % 60;
+        int minuteRemaining = (int)Math.Floor(timer / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
-
+        RoomManager.Instance.UpdatePointDisplay();
+        UiManager.Instance.DisplayGeneralMessage("Round : " + RoomManager.Instance.roundCount);
     }
-
-
-
-
     public void PlayerJoinedAndInitInScene()
     {
 
@@ -115,7 +111,22 @@ public class GameManager : SerializedMonoBehaviour
             {
                 AllPlayerJoinGameScene();
             }
+            if (message.Tag == Tags.PlayerQuitRoom)
+            {
+                PlayerQuitGame(_sender, _e);
+            }
+        }
+    }
 
+    private void PlayerQuitGame(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                PlayerData player = reader.ReadSerializable<PlayerData>();
+                UiManager.Instance.DisplayGeneralMessage("Player " + player.Name + " quit");
+            }
         }
     }
 
@@ -134,41 +145,18 @@ public class GameManager : SerializedMonoBehaviour
 
     void UpdateTime()
     {
-        remainingTime -= Time.deltaTime;
+        timer += Time.deltaTime;
 
-        if (remainingTime <= 0)
-        {
-            if (!stopInit)
-            {
-                stopInit = true;
-            }
-            return;
-
-        }
-        int secondRemaining = (int)remainingTime % 60;
-        int minuteRemaining = (int)Math.Floor(remainingTime / 60);
+        int secondRemaining = (int)timer % 60;
+        int minuteRemaining = (int)Math.Floor(timer / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
     }
 
-    //private void StopGame()
-    //{
-    //    using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-    //    {
-    //        _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-    //        using (Message _message = Message.Create(Tags.StopGame, _writer))
-    //        {
-    //            client.SendMessage(_message, SendMode.Reliable);
-    //        }
-    //    }
-    //}
-
     private void StopGameInServer()
     {
-        RoomManager.Instance.AlreadyInit = true;
-
-        SceneManager.LoadScene(RoomManager.Instance.champSelectScene, LoadSceneMode.Single);
+        RoomManager.Instance.ResetActualGame();
+        RoomManager.Instance.StartChampSelectInServer();
     }
 
     private void StartTimerInServer()

@@ -60,8 +60,6 @@ public class MovementModule : MonoBehaviour
 	public void SetupComponent ( St_MovementParameters _newParameters )
 	{
 		parameters = _newParameters;
-
-
 		//stamina
 		//_stamina = parameters.maxStamina;
 		//Stamina = parameters.maxStamina;
@@ -80,8 +78,6 @@ public class MovementModule : MonoBehaviour
 				_tempList.RemoveAt(i);
 			}
 		}
-		bool asChanged = false;
-
 		allLiveMovementModifier = _tempList;
 		UpdateStateOnMovement();
 
@@ -224,7 +220,7 @@ public class MovementModule : MonoBehaviour
 
 	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
 	{
-		RaycastHit _hitToRead = CastCapsuleHit(_directionToSlideFrom, movementBlockingLayer, collider.radius)[0];
+		RaycastHit _hitToRead = CastSphereAll(_directionToSlideFrom, movementBlockingLayer, collider.radius)[0];
 
 
 		Vector3 _aVector = new Vector3(-_hitToRead.normal.z, 0, _hitToRead.normal.x);
@@ -252,7 +248,7 @@ public class MovementModule : MonoBehaviour
 	}
 	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
 	{
-		if (CastCapsuleHit(_direction, _layerTocheck, _maxRange).Count > 0)
+		if (CastSphereAll(_direction, _layerTocheck, _maxRange) != null)
 			return false;
 		else
 			return true;
@@ -267,7 +263,14 @@ public class MovementModule : MonoBehaviour
 	float liveMoveSpeed ()
 	{
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-		float _defspeed = parameters.movementSpeed;
+		float _defspeed = 0;
+
+		if (myPlayerModule.isCrouched)
+			_defspeed = parameters.crouchingSpeed;
+
+		else
+			_defspeed = parameters.movementSpeed;
+
 
 		if (allLiveMovementModifier.Count > 0)
 		{
@@ -284,7 +287,7 @@ public class MovementModule : MonoBehaviour
 
 	}
 
-	List<RaycastHit> CastCapsuleHit ( Vector3 _direction, LayerMask _checkingLayer, float _maxRange )
+	List<RaycastHit> CastSphereAll ( Vector3 _direction, LayerMask _checkingLayer, float _maxRange )
 	{
 		List<RaycastHit> _allHit = Physics.SphereCastAll(transform.position,
 			collider.radius,
@@ -292,17 +295,24 @@ public class MovementModule : MonoBehaviour
 			_maxRange,
 			_checkingLayer).ToList<RaycastHit>();
 
+		Debug.DrawLine(transform.position, (_direction * _maxRange + transform.position), Color.red);
 
 		List<RaycastHit> _returnList = new List<RaycastHit>();
-
-		for (int i = 0; i < _allHit.Count; i++)
+		if (_allHit.Count > 0)
 		{
-			if (_allHit[i].collider.gameObject != this.gameObject)
+			for (int i = 0; i < _allHit.Count; i++)
 			{
-				_returnList.Add(_allHit[i]);
+				if (_allHit[i].collider.gameObject != this.gameObject)
+				{
+					_returnList.Add(_allHit[i]);
+				}
 			}
+			print(_allHit[0].collider.name);
+
+			return _returnList;
 		}
-		return _returnList;
+		else
+			return null;
 	}
 	#endregion
 }

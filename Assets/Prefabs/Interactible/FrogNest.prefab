@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frogObj: {fileID: 7649166997013386788}
-  respawnTime: 10
+  respawnTime: 30
 --- !u!1 &2851306537607003157
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +161,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Frog
       objectReference: {fileID: 0}
+    - target: {fileID: 3330907568142940792, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 92ff4f99ed905994fb61a399c854707d, type: 3}
     - target: {fileID: 5461372675387200605, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -204,6 +208,18 @@ PrefabInstance:
     - target: {fileID: 5461372675387200605, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820006547242144219, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820006547242144219, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820006547242144219, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 985a12b65669783458d7b549c8e666bf, type: 3}
