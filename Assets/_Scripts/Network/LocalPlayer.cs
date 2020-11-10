@@ -40,15 +40,14 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
-    [SerializeField] float fowRaduis = 7;
-    [SerializeField] float fowRaduisInBrume = 4;
 
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
+    public bool isVisible = false;
 
 
     [Header("Audio")]
-    [SerializeField] AudioListener myAudiolister;
+    [SerializeField] GameObject prefabAudioPlayer;
 
     private void Awake()
     {
@@ -92,7 +91,6 @@ public class LocalPlayer : MonoBehaviour
 
             circleDirection.SetActive(true);
             SpawnFow();
-            myAudiolister.enabled = true;
         }
         else
         {
@@ -106,7 +104,7 @@ public class LocalPlayer : MonoBehaviour
     void SpawnFow()
     {
         myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
-        myFow.Init(transform);
+        myFow.Init(transform, myPlayerModule.characterParameters.visionRange);
     }
 
     public void ShowHideFow(bool _value)
@@ -211,10 +209,10 @@ public class LocalPlayer : MonoBehaviour
         switch (_value)
         {
             case true:
-                myFow.ChangeFowRaduis(fowRaduisInBrume);
+                myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
                     break;
             case false:
-                myFow.ChangeFowRaduis(fowRaduis);
+                myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
                 break;
         }
     }
@@ -242,7 +240,7 @@ public class LocalPlayer : MonoBehaviour
 
     public void OnRespawn()
     {
-        liveHealth = myPlayerModule.characterParameters.health;
+        liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
     public void DealDamages(DamagesInfos _damagesToDeal)
@@ -281,6 +279,11 @@ public class LocalPlayer : MonoBehaviour
     public void TriggerTheAnim(string triggerName)
     {
         myAnimator.SetTrigger(triggerName);
+    }
+
+    public void BoolTheAnim ( string _triggerName, bool _value )
+    {
+        myAnimator.SetBool(_triggerName, _value);
     }
 
 

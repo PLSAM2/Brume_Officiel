@@ -8,14 +8,16 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "NewCharacter", menuName = "CreateCuston/NewCharacter")]
 public class Sc_CharacterParameters : ScriptableObject
 {
-	public ushort health;
+	public ushort maxHealth;
 
 	[Header("Movement Parameters")]
 	public St_MovementParameters movementParameters;
 
 	[Header("Vision Parameters")]
 	public ushort visionRange;
-	public ushort detectionRange = 10, delayBetweenDetection = 2;
+	public ushort visionRangeInBrume;
+	public ushort detectionRange = 10; 
+	public float delayBetweenDetection = 2;
 }
 
 [System.Serializable]

@@ -16,7 +16,7 @@ public class EnemyDisplayer : MonoBehaviour
         {
             if (enemy.Value.isOwner) { continue; }
 
-            if(GameManager.Instance.currentLocalPlayer == null){ return; }
+            if(GameManager.Instance.currentLocalPlayer == null){ return;}
 
             if (GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
             {
@@ -63,12 +63,18 @@ public class EnemyDisplayer : MonoBehaviour
         }
     }
 
-    void HideOrShow(LocalPlayer p, bool value)
+    void HideOrShow(LocalPlayer p, bool _value)
     {
-        foreach(GameObject obj in p.objToHide)
+        if (p.isVisible != _value)
         {
-            obj.SetActive(value);
+            p.isVisible = _value;
+            foreach (GameObject obj in p.objToHide)
+            {
+                obj.SetActive(_value);
+            }
+            p.ShowHideFow(_value);
+
+            GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
         }
-        p.ShowHideFow(value);
     }
 }

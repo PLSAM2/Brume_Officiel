@@ -326,12 +326,13 @@ MonoBehaviour:
   fillImg: {fileID: 606675981}
   zoneImg: {fileID: 22753861}
   mapIcon: {fileID: 291520304735107126}
-  iconNeutral: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
-  iconCapturable: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
-  iconRed: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
-  iconBlue: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
+  iconNeutral: {fileID: 21300000, guid: 51b95484cf243894a869b72a461027b5, type: 3}
+  iconCapturable: {fileID: 21300000, guid: a7d2df1244e3dca4a932e60fd203e055, type: 3}
+  iconRed: {fileID: 21300000, guid: 43a0280fe052d2b449c5c65454c592bf, type: 3}
+  iconBlue: {fileID: 21300000, guid: 827c5bb2772e2c445a7af15af14819d5, type: 3}
   life: 100
   unlockTime: 5
+  altarName: 
 --- !u!54 &5867301088352787088
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -453,7 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2011928767061565596}
   - component: {fileID: 291520304735107126}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: MapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,8 +469,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3980108108678474672}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 8.88}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 5461372675387200605}
   m_RootOrder: 2
@@ -514,7 +515,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 51b95484cf243894a869b72a461027b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

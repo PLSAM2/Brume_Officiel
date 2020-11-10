@@ -39,7 +39,7 @@ public class SpellModule : MonoBehaviour
 	[ReadOnly] public bool isUsed = false, resolved;
 	public Sc_Spell spell;
 
-	public En_SpellInput actionLinked;
+	En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
 	[ReadOnly] public Vector3 recordedMousePosOnInput;
 	[ReadOnly] public PlayerModule myPlayerModule;
@@ -83,10 +83,11 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public virtual void SetupComponent ()
+	public virtual void SetupComponent ( En_SpellInput _actionLinked)
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
+		actionLinked = _actionLinked;
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			isOwner = true;
@@ -130,17 +131,22 @@ public class SpellModule : MonoBehaviour
 		{
 			currentTimeCanalised += Time.deltaTime;
 
-			if (currentTimeCanalised >= timeToResolveSpell)
-			{
-				if (spell.useLastRecordedMousePos)
-					ResolveSpell(recordedMousePosOnInput);
-				else
-					ResolveSpell(myPlayerModule.mousePos());
-			}
+			TreatNormalCanalisation();
 		}
 
 		if (charges < spell.numberOfCharge && !isUsed)
 			DecreaseCooldown();
+	}
+
+	protected virtual void TreatNormalCanalisation()
+	{
+		if (currentTimeCanalised >= timeToResolveSpell)
+		{
+			if (spell.useLastRecordedMousePos)
+				ResolveSpell(recordedMousePosOnInput);
+			else
+				ResolveSpell(myPlayerModule.mousePos());
+		}
 	}
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
@@ -185,6 +191,7 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
+
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
@@ -242,12 +249,27 @@ public class SpellModule : MonoBehaviour
 		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
 		_temp.duration = durationOfTheMovementModifier();
 		myPlayerModule.addMovementModifier(_temp);
-		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
+		
+		switch(actionLinked)
+			{
+			case En_SpellInput.Click:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation0", true);
+				break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation1", true);
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation2", true);
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation3", true);
+				break;
+		}
 	}
 
 	void ResolveSpellFeedback ()
 	{
-		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+	//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
 
 		if(particleResolution.Count > 0)
 		{
@@ -255,6 +277,22 @@ public class SpellModule : MonoBehaviour
 			{
 				particleResolution[i].Play();
 			}
+		}
+
+		switch (actionLinked)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation0", false);
+				break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation1", false);
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation2", false);
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation3", false);
+				break;
 		}
 	}
 

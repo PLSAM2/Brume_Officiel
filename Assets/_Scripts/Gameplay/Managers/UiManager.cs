@@ -41,6 +41,15 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
     [FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
 
+    [Header("Minimap")]
+    [FoldoutGroup("Minimap")] public Image enemyYang, enemyShili, enemyYin;
+    [FoldoutGroup("Minimap")] public Color inViewColor, outViewColor, killedColor;
+    [FoldoutGroup("Minimap")] public Sprite champIcon, champKilledIcon;
+
+    [Header("Team Info")]
+    [FoldoutGroup("TeamInfo")] public Image teamYang, teamShili, teamYin;
+    [FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
+
 
     private void Awake()
     {
@@ -52,6 +61,35 @@ public class UiManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        //disable de base
+        GameFactory.ChangeIconMinimap(enemyShili, null, killedColor);
+        GameFactory.ChangeIconMinimap(enemyYang, champKilledIcon, killedColor);
+        GameFactory.ChangeIconMinimap(enemyYin, champKilledIcon, killedColor);
+
+        lifeShili.fillAmount = 0;
+
+        teamYang.sprite = champKilledIcon;
+        lifeYang.fillAmount = 0;
+
+        teamYin.sprite = champKilledIcon;
+        lifeYin.fillAmount = 0;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.OnPlayerDie += OnPlayerDie;
+        GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
+        GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
+        GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPlayerDie -= OnPlayerDie;
+        GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
+        GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
+        GameManager.Instance.OnPlayerRespawn -= OnPlayerRespawn;
     }
 
     private void Start()
@@ -72,6 +110,143 @@ public class UiManager : MonoBehaviour
 
         round.text = "Round : " + RoomManager.Instance.roundCount;
         // <<
+    }
+
+    void OnPlayerRespawn(ushort id)
+    {
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            GetImageOfTeamChamp(id).sprite = champIcon;
+            GetLifeImageOfTeamChamp(id).fillAmount = 1;
+        }
+        else
+        {
+            Sprite currentSprite = champIcon;
+
+            if (RoomManager.Instance.actualRoom.playerList[id].playerCharacter == Character.Shili)
+            {
+                currentSprite = null;
+            }
+
+            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, outViewColor);
+        }
+    }
+
+    void OnPlayerTakeDamage(ushort id, ushort damage)
+    {
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            GetLifeImageOfTeamChamp(id).fillAmount = (float) GameManager.Instance.networkPlayers[id].liveHealth 
+                / GameFactory.GetMaxLifeOfPlayer(id);
+        }
+    }
+
+    void OnPlayerDie(ushort idKilled, ushort idKiller)
+    {
+        //
+        if (idKilled == idKiller)
+        {
+            DisplayGeneralMessage("You slain an ennemy");
+            //play son kill
+
+        }
+
+        //Kill feed a faire
+
+
+        //UI Minimap info
+        if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            GetImageOfTeamChamp(idKilled).sprite = champKilledIcon;
+            GetLifeImageOfTeamChamp(idKilled).fillAmount = 0;
+        }
+        else //enemy
+        {
+            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(idKilled), champKilledIcon, killedColor);
+        }
+    }
+
+    void OnPlayerViewChange(ushort id, bool isVisible)
+    {
+        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return;
+        }
+
+        if (GameManager.Instance.networkPlayers.ContainsKey(id) && GameManager.Instance.networkPlayers[id] != null)
+        {
+            Sprite currentSprite = champIcon;
+
+            if (RoomManager.Instance.actualRoom.playerList[id].playerCharacter == Character.Shili)
+            {
+                currentSprite = null;
+            }
+
+            switch (isVisible)
+            {
+                case true:
+                    GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, inViewColor);
+                    break;
+
+                case false:
+                    GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, outViewColor);
+                    break;
+            }
+        }
+        else
+        {
+            //joueur est mort
+            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), champKilledIcon, killedColor);
+        }
+    }
+
+    Image GetLifeImageOfTeamChamp(ushort id)
+    {
+        switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+        {
+            case Character.Shili:
+                return lifeShili;
+
+            case Character.Yang:
+                return lifeYang;
+
+            case Character.Yin:
+                return lifeYin;
+        }
+        return null;
+    }
+
+    Image GetImageOfTeamChamp(ushort id)
+    {
+        switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+        {
+            case Character.Shili:
+                return teamShili;
+
+            case Character.Yang:
+                return teamYang;
+
+            case Character.Yin:
+                return teamYin;
+        }
+        return null;
+    }
+
+
+    Image GetImageOfEnemyChamp(ushort id)
+    {
+        switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+        {
+            case Character.Shili:
+                return enemyShili;
+
+            case Character.Yang:
+                return enemyYang;
+
+            case Character.Yin:
+                return enemyYin;
+        }
+        return null;
     }
 
     private void FixedUpdate()
