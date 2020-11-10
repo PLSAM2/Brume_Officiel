@@ -31,7 +31,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
     }
     void Start()
     {
-        //if (RoomManager.Instance.GetLocalPlayer().IsHost)
+        //if(RoomManager.Instance.GetLocalPlayer().IsHost)
         //{
         //    StartCoroutine(UnlockAltar());
         //}
