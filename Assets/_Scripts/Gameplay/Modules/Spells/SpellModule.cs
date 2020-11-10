@@ -39,7 +39,7 @@ public class SpellModule : MonoBehaviour
 	[ReadOnly] public bool isUsed = false, resolved;
 	public Sc_Spell spell;
 
-	public En_SpellInput actionLinked;
+	En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
 	[ReadOnly] public Vector3 recordedMousePosOnInput;
 	[ReadOnly] public PlayerModule myPlayerModule;
@@ -83,10 +83,11 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public virtual void SetupComponent ()
+	public virtual void SetupComponent ( En_SpellInput _actionLinked)
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
+		actionLinked = _actionLinked;
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			isOwner = true;
@@ -130,17 +131,22 @@ public class SpellModule : MonoBehaviour
 		{
 			currentTimeCanalised += Time.deltaTime;
 
-			if (currentTimeCanalised >= timeToResolveSpell)
-			{
-				if (spell.useLastRecordedMousePos)
-					ResolveSpell(recordedMousePosOnInput);
-				else
-					ResolveSpell(myPlayerModule.mousePos());
-			}
+			TreatNormalCanalisation();
 		}
 
 		if (charges < spell.numberOfCharge && !isUsed)
 			DecreaseCooldown();
+	}
+
+	protected virtual void TreatNormalCanalisation()
+	{
+		if (currentTimeCanalised >= timeToResolveSpell)
+		{
+			if (spell.useLastRecordedMousePos)
+				ResolveSpell(recordedMousePosOnInput);
+			else
+				ResolveSpell(myPlayerModule.mousePos());
+		}
 	}
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
