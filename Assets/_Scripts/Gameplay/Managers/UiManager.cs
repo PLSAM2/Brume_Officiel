@@ -61,6 +61,19 @@ public class UiManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        //disable de base
+        GameFactory.ChangeIconMinimap(enemyShili, null, killedColor);
+        GameFactory.ChangeIconMinimap(enemyYang, champKilledIcon, killedColor);
+        GameFactory.ChangeIconMinimap(enemyYin, champKilledIcon, killedColor);
+
+        lifeShili.fillAmount = 0;
+
+        teamYang.sprite = champKilledIcon;
+        lifeYang.fillAmount = 0;
+
+        teamYin.sprite = champKilledIcon;
+        lifeYin.fillAmount = 0;
     }
 
     private void OnEnable()
@@ -116,7 +129,8 @@ public class UiManager : MonoBehaviour
     {
         if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
-            GetLifeImageOfTeamChamp(id).fillAmount = GameManager.Instance.networkPlayers[id].liveHealth;
+            GetLifeImageOfTeamChamp(id).fillAmount = (float) GameManager.Instance.networkPlayers[id].liveHealth 
+                / GameFactory.GetMaxLifeOfPlayer(id);
         }
     }
 
