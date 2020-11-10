@@ -133,6 +133,7 @@ public class ModuleProjectileSpell : SpellModule
 
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
+
 		}
 	}
 
