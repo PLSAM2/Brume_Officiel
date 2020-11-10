@@ -31,6 +31,7 @@ public class ResurrectAltar : Interactible
             }
         }
 
+        capturingPlayerModule.playerSouls.Clear();
     }
 
     public override void UpdateCaptured(GameData.Team team) // capture recu par tout les client
