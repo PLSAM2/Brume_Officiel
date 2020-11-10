@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 
-[InlineEditor]
 public class Projectile : MonoBehaviour
 {
 
@@ -15,7 +14,7 @@ public class Projectile : MonoBehaviour
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] Sc_ProjectileSpell spellRule;
 	bool isOwner, asDeal=false;
-
+	[SerializeField] GameObject mesh;
 	[SerializeField] AudioClip _mySfxAudio;
 
 	private void Start ()
@@ -28,6 +27,7 @@ public class Projectile : MonoBehaviour
     private void OnEnable()
     {
 		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
+		mesh.SetActive(true);
 
 		if (!isOwner)
 		{
@@ -79,10 +79,7 @@ public class Projectile : MonoBehaviour
 		{
 			Instantiate(feedBackTouch, Collider.ClosestPoint(transform.position), Quaternion.identity);
 			Destroy();
-			print("i collide with wall");
-
 		}
-		print("i collide with something");
 
 	}
 
@@ -90,6 +87,12 @@ public class Projectile : MonoBehaviour
 	{
 		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
 		//CustomCollision();
+
+		myInfos.myLifeTime -= Time.deltaTime;
+		if (myInfos.myLifeTime <= 0)
+		{
+			Destroy();
+		}
 	}
 
 	void CustomCollision ()
@@ -141,20 +144,12 @@ public class Projectile : MonoBehaviour
 	
 	}
 
-	private void FixedUpdate ()
-	{
-		myInfos.myLifeTime -= Time.fixedDeltaTime;
-		if (myInfos.myLifeTime <= 0)
-		{
-            // print("OUtOFTIme");
-
-
-			Destroy();
-		}
-	}
 
 	void Destroy ()
 	{
+		mesh.SetActive(false);
+		asDeal = true;
+
 		if (this.GetComponent<NetworkedObject>().GetIsOwner())
 		{
 			NetworkObjectsManager.Instance.DestroyNetworkedObject(GetComponent<NetworkedObject>().GetItemID());
