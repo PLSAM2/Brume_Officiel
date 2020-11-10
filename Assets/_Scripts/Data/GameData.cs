@@ -12,8 +12,8 @@ public class GameData
     {
         none = 0,
         Shili = 10,
-        B = 20,
-        C = 30
+        Yang = 20,
+        Yin = 30
     }
     public enum InteractibleType : ushort
     {

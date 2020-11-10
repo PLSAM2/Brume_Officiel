@@ -45,6 +45,7 @@ public class LocalPlayer : MonoBehaviour
 
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
+    public bool isVisible = false;
 
 
     [Header("Audio")]
