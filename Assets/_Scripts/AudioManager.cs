@@ -41,14 +41,14 @@ public class AudioManager : MonoBehaviour
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
-        _myAudioElement.Init(_clip, 1, _volume);
+        _myAudioElement.Init(_clip, 0, _volume);
     }
 
     public void Play3DAudio(AudioClip _clip, Transform _followObj, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
-        _myAudioElement.Init(_clip, 1f, _volume);
+        _myAudioElement.Init(_clip, 0f, _volume);
     }
 
     public void OnAudioFinish(AudioElement _audio)
