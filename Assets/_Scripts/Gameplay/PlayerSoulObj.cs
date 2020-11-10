@@ -20,10 +20,10 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print("here");
         if (other.gameObject.layer == 8)
         {
             PlayerModule _p = other.gameObject.GetComponent<PlayerModule>();
-
             if (_p == null
                 && !authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_p.mylocalPlayer.myPlayerId].playerCharacter) 
                 && playerSoul.soulInfo.playerTeam != _p.teamIndex)
