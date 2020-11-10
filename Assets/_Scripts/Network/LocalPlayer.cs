@@ -47,7 +47,7 @@ public class LocalPlayer : MonoBehaviour
 
 
     [Header("Audio")]
-    [SerializeField] AudioListener myAudiolister;
+    [SerializeField] GameObject prefabAudioPlayer;
 
     private void Awake()
     {
@@ -91,7 +91,6 @@ public class LocalPlayer : MonoBehaviour
 
             circleDirection.SetActive(true);
             SpawnFow();
-            myAudiolister.enabled = true;
         }
         else
         {
