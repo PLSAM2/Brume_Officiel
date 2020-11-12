@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
 	bool isOwner, asDeal = false;
 	[SerializeField] GameObject mesh;
 	[SerializeField] AudioClip _mySfxAudio;
-
+	[SerializeField] bool _reduceCooldowns = true;
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
@@ -60,27 +60,24 @@ public class Projectile : MonoBehaviour
 		}
 		Destroy();*/
 		print(asDeal);
-
+		print(Collider.name);
 		if (playerHit != null)
 		{
-			if (!asDeal )
+
+			if (playerHit.teamIndex != team)
 			{
-				if(playerHit.teamIndex != team)
-				{
+				if(!asDeal)
 					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
-					Destroy();
-					asDeal = true;
 
-					if (isOwner)
-						PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
-
-					return;
-				}
-			}
-			else
-			{
 				Destroy();
+				asDeal = true;
+
+				if (isOwner && _reduceCooldowns)
+					PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
+
+				return;
 			}
+			else return;
 		}
 		else
 		{
