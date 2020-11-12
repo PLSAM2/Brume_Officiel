@@ -230,7 +230,7 @@ public class Interactible : MonoBehaviour
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
-            if (_pModule == null && !_pModule.mylocalPlayer.isOwner)
+            if (_pModule == null || !_pModule.mylocalPlayer.isOwner)
                 return;
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
@@ -246,7 +246,7 @@ public class Interactible : MonoBehaviour
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
-            if (_pModule == null && !_pModule.mylocalPlayer.isOwner)
+            if (_pModule == null || !_pModule.mylocalPlayer.isOwner)
                 return;
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé

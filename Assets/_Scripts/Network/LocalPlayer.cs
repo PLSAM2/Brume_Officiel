@@ -235,11 +235,11 @@ public class LocalPlayer : MonoBehaviour
 
         myAnimator.SetFloat("Forward", forward);
         myAnimator.SetFloat("Turn", right);
+        networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable); // Sync animation blend tree
+        //if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
+        //{
 
-        if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
-        {
-            networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable); // Sync animation blend tree
-        }
+        //}
     }
 
 
