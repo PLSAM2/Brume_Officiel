@@ -9,6 +9,7 @@ public class ResurrectAltar : Interactible
     {
         base.Init();
     }
+
     public override void Captured(GameData.Team team)
     {
         base.Captured(team);
@@ -32,6 +33,16 @@ public class ResurrectAltar : Interactible
         }
 
         capturingPlayerModule.playerSouls.Clear();
+    }
+
+    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
+    {
+        if (capturingPlayer.playerSouls.Count <= 0)
+        {
+            return;
+        }
+
+        base.TryCapture(team, capturingPlayer);
     }
 
     public override void UpdateCaptured(GameData.Team team) // capture recu par tout les client

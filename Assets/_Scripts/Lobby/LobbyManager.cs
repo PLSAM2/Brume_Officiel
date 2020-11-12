@@ -247,6 +247,7 @@ public class LobbyManager : MonoBehaviour
 
                 if (localPlayer.ID == player.ID)
                 {
+                    localPlayer.IsHost = true;
                     RoomManager.Instance.GetLocalPlayer().IsHost = true;
                 }
             }

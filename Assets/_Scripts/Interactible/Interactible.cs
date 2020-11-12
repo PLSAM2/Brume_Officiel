@@ -204,7 +204,6 @@ public class Interactible : MonoBehaviour
         // Detruire ici
     }
 
-
     public virtual void SetActiveState(bool value)
     {
         isInteractable = value;
