@@ -122,8 +122,14 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.backToNormalKit += ReturnToNormal;
 		}
 		else
-			Destroy(this);
+			DestroyIfClient();
 	}
+
+	protected virtual void DestroyIfClient()
+    {
+		Destroy(this);
+	}
+
 
 	protected virtual void Update ()
 	{
@@ -192,6 +198,7 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.rotationLock(false);
 	}
 
+
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
 		endCanalisation?.Invoke();
@@ -248,12 +255,27 @@ public class SpellModule : MonoBehaviour
 		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
 		_temp.duration = durationOfTheMovementModifier();
 		myPlayerModule.addMovementModifier(_temp);
-		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Canalyse");
+		
+		switch(actionLinked)
+			{
+			case En_SpellInput.Click:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation0", true);
+				break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation1", true);
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation2", true);
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation3", true);
+				break;
+		}
 	}
 
 	void ResolveSpellFeedback ()
 	{
-		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+	//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
 
 		if(particleResolution.Count > 0)
 		{
@@ -261,6 +283,22 @@ public class SpellModule : MonoBehaviour
 			{
 				particleResolution[i].Play();
 			}
+		}
+
+		switch (actionLinked)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation0", false);
+				break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation1", false);
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation2", false);
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation3", false);
+				break;
 		}
 	}
 

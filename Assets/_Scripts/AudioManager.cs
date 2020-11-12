@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
-        _myAudioElement.Init(_clip, 1f, _volume);
+        _myAudioElement.Init(_clip, 1, _volume);
     }
 
     public void OnAudioFinish(AudioElement _audio)

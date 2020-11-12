@@ -44,7 +44,7 @@ public class InGameNetworkReceiver : MonoBehaviour
     {
         SendSpawnChamp();
 
-      //  numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
+        //  numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
     }
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
     {
@@ -55,7 +55,6 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 SpawnPlayerObj(sender, e);
             }
-
             if (message.Tag == Tags.MovePlayerTag)
             {
                 SendPlayerMove(sender, e);
@@ -96,6 +95,9 @@ public class InGameNetworkReceiver : MonoBehaviour
                 float zDestination = reader.ReadSingle();
                 Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
 
+                print(_id);
+                print(GameManager.Instance.networkPlayers[_id].myPlayerId);
+                print(GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().isUsed);
                 GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().InitWardLaunch(destination);
             }
         }
@@ -122,18 +124,33 @@ public class InGameNetworkReceiver : MonoBehaviour
                 if (message.Tag == Tags.SpawnObjPlayer)
                 {
                     ushort id = reader.ReadUInt16();
+                    bool isResurecting = reader.ReadBoolean();
 
                     if (GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
 
                     Vector3 spawnPos = Vector3.zero;
 
-                    foreach (SpawnPoint spawn in GameManager.Instance.spawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
+                    if (!isResurecting)
                     {
-                        if (spawn.CanSpawn())
+                        foreach (SpawnPoint spawn in GameManager.Instance.spawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
                         {
-                            spawnPos = spawn.transform.position;
+                            if (spawn.CanSpawn())
+                            {
+                                spawnPos = spawn.transform.position;
+                            }
                         }
                     }
+                    else
+                    {
+                        foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
+                        {
+                            if (spawn.CanSpawn())
+                            {
+                                spawnPos = spawn.transform.position;
+                            }
+                        }
+                    }
+
 
                     GameObject obj = Instantiate(prefabPlayer, spawnPos, Quaternion.identity) as GameObject;
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
@@ -150,18 +167,12 @@ public class InGameNetworkReceiver : MonoBehaviour
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
 
                     GameManager.Instance.OnPlayerRespawn?.Invoke(id);
-
-                    //CALLBACK TOUS LES JOUEURS SONT APPARUS
-                    //numberOfPlayerToSpawn -= 1;
-                    //if (numberOfPlayerToSpawn == 0)
-                    //{
-                    //  AllCharacterSpawned.Invoke();
-                    //    GameManager.Instance.gameStarted = true;
-                    //}
                 }
             }
         }
     }
+
+
     void SendSpawnChamp()
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -202,13 +213,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 
-                if (RoomManager.Instance.GetLocalPlayer().ID == id)
-                {
-                    if (!isWaitingForRespawn)
-                    {
-                        StartCoroutine(WaitForRespawn());
-                    }
-                }
+                //if (RoomManager.Instance.GetLocalPlayer().ID == id)
+                //{
+                //    if (!isWaitingForRespawn)
+                //    {
+                //        StartCoroutine(WaitForRespawn());
+                //    }
+                //}
             }
         }
     }
@@ -291,8 +302,8 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
-    public void ReceiveStatus(object sender, MessageReceivedEventArgs e )
-	{
+    public void ReceiveStatus(object sender, MessageReceivedEventArgs e)
+    {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -311,11 +322,11 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-    IEnumerator WaitForRespawn()
-    {
-        isWaitingForRespawn = true;
-        yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
-        SendSpawnChamp();
-        isWaitingForRespawn = false;
-    }
+    //IEnumerator WaitForRespawn()
+    //{
+    //    isWaitingForRespawn = true;
+    //    yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
+    //    SendSpawnChamp();
+    //    isWaitingForRespawn = false;
+    //}
 }

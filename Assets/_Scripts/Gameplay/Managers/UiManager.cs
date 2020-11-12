@@ -121,7 +121,14 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), champIcon, outViewColor);
+            Sprite currentSprite = champIcon;
+
+            if (RoomManager.Instance.actualRoom.playerList[id].playerCharacter == Character.Shili)
+            {
+                currentSprite = null;
+            }
+
+            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, outViewColor);
         }
     }
 

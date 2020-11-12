@@ -41,8 +41,8 @@ class Tags
     public static readonly ushort KillCharacter = 560;
     public static readonly ushort StateUpdate = 570;
 
-    //Anim 750 --> 769 >>
-    public static readonly ushort SyncTrigger = 750;
+        //Anim 750 --> 769 >>
+        public static readonly ushort SyncTrigger = 750;
         public static readonly ushort Sync2DBlendTree = 752;
         public static readonly ushort SyncBoolean = 754;
         public static readonly ushort SyncFloat = 756;
@@ -55,6 +55,7 @@ class Tags
         public static readonly ushort CaptureInteractible = 776;
         public static readonly ushort FrogTimerElapsed = 778;
         public static readonly ushort VisionTowerTimerElapsed = 779;
+        public static readonly ushort ResurectPlayer = 783;
         // <<
 
         //Ward & Vision 790 --> 799 >>

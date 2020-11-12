@@ -13,7 +13,7 @@ public class MovementModule : MonoBehaviour
 	List<MovementModifier> allLiveMovementModifier = new List<MovementModifier>();
 	[SerializeField] CharacterController chara;
 
-	CapsuleCollider collider;
+	[HideInInspector] public CapsuleCollider collider;
 
 	/*	[Header("Running Stamina")]
 		[SerializeField] bool usingStamina;
@@ -114,17 +114,17 @@ public class MovementModule : MonoBehaviour
 			}*/
 
 			//marche
-			if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
+		/*	if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
 			{
 				//transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
 				chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
 
 			}
 			else
-			{
+			{*/
 				//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
 				chara.Move( _directionInputed * liveMoveSpeed() * Time.deltaTime);
-			}
+		//	}
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
 		else

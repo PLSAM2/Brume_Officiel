@@ -18,6 +18,11 @@ public class EnemyDisplayer : MonoBehaviour
 
             if(GameManager.Instance.currentLocalPlayer == null){ return;}
 
+            if (enemy.Value.forceShow)
+            {
+                HideOrShow(enemy.Value, true);
+            }
+
             if (GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
             {
                 if (enemy.Value.myPlayerModule.isInBrume)

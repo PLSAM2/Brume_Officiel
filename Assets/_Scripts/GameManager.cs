@@ -18,6 +18,7 @@ public class GameManager : SerializedMonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     public Dictionary<Team, List<SpawnPoint>> spawns = new Dictionary<Team, List<SpawnPoint>>();
+    public List<SpawnPoint> resSpawns = new List<SpawnPoint>();
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
     public Action AllCharacterSpawned;
 

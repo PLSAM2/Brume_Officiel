@@ -20,7 +20,8 @@ public class GameData
         none = 0,
         Altar = 1,
         VisionTower = 2,
-        Frog = 3
+        Frog = 3,
+        ResurectAltar = 4
     }
 
 }

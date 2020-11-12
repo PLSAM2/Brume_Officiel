@@ -19,11 +19,15 @@ public class FrogNest : MonoBehaviour
 
     public void FrogPicked(PlayerModule capturingPlayer)
     {
-        if (capturingPlayer.interactiblesClose.Contains(frogObj))
-        {
-            capturingPlayer.interactiblesClose.Remove(frogObj);
-        }
 
-        frogObj.gameObject.SetActive(false); 
+        frogObj.gameObject.SetActive(false);
+
+        if (capturingPlayer != null)
+        {
+            if (capturingPlayer.interactiblesClose.Contains(frogObj))
+            {
+                capturingPlayer.interactiblesClose.Remove(frogObj);
+            }
+        }
     }
 }

@@ -48,6 +48,10 @@ public class NetworkedObject : MonoBehaviour
     {
         return serverObjectID;
     }
+    public ushort GetOwnerID()
+    {
+        return owner.ID;
+    }
 
     private void Update()
     {
@@ -90,5 +94,6 @@ public class NetworkedObject : MonoBehaviour
     {
         isNetworked = false;
     }
+
 
 }

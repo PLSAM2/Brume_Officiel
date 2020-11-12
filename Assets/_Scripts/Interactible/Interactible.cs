@@ -44,8 +44,8 @@ public class Interactible : MonoBehaviour
 
     [Header("Map")]
     protected bool showOnMap= true;
-    [SerializeField] SpriteRenderer mapIcon;
-    [SerializeField] Sprite iconNeutral, iconCapturable, iconRed, iconBlue;
+    public SpriteRenderer mapIcon;
+    [SerializeField] Sprite iconNeutral, iconRed, iconBlue;
 
     private void Awake()
     {
@@ -53,7 +53,7 @@ public class Interactible : MonoBehaviour
     }
     protected void Init()
     {
-
+        
     }
 
     protected virtual void FixedUpdate()
@@ -83,8 +83,6 @@ public class Interactible : MonoBehaviour
                     client.SendMessage(_message, SendMode.Unreliable);
                 }
             }
-
-
         }
     }
     public void ProgressInServer(float progress)
@@ -122,20 +120,13 @@ public class Interactible : MonoBehaviour
             return;
         }
 
-        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
-        {
-            isCapturing = false;
-        }
-
+        timer = 0;
         capturingTeam = team;
 
-        if (capturingTeam != team)
+        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
         {
-            StopCapturing(team);
+            StopCapturing(RoomManager.Instance.GetLocalPlayer().playerTeam);
         }
-
-        timer = 0;
-
 
         switch (team)
         {
@@ -151,9 +142,13 @@ public class Interactible : MonoBehaviour
         }
     }
 
-    public virtual void StopCapturing(Team team)
+    /// <summary>
+    /// Demande a une équipe de stopper une capture
+    /// </summary>
+    /// <param name="team"> Equipe qui arrete de capturer</param>
+    public virtual void StopCapturing(Team team) 
     {
-        if (!isCapturing) // si il ne catpure déja pas
+        if (!isCapturing) // si il ne capture pas
         {
             return;
         }
@@ -162,10 +157,7 @@ public class Interactible : MonoBehaviour
         {
             capturingTeam = Team.none;
             isCapturing = false;
-        }
 
-        if (team == capturingTeam)
-        {
             if (state == State.Capturable)
             {
                 SetColor(canBeCapturedColor);
@@ -238,7 +230,7 @@ public class Interactible : MonoBehaviour
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
-            if (_pModule == null)
+            if (_pModule == null && !_pModule.mylocalPlayer.isOwner)
                 return;
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
@@ -254,7 +246,7 @@ public class Interactible : MonoBehaviour
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
-            if (_pModule == null)
+            if (_pModule == null && !_pModule.mylocalPlayer.isOwner)
                 return;
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé

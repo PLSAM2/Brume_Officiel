@@ -2,6 +2,7 @@
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,14 +41,14 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
+    public bool forceShow = false;
 
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
     public bool isVisible = false;
 
-
     [Header("Audio")]
-    [SerializeField] AudioListener myAudiolister;
+    [SerializeField] GameObject prefabAudioPlayer;
 
     private void Awake()
     {
@@ -91,7 +92,6 @@ public class LocalPlayer : MonoBehaviour
 
             circleDirection.SetActive(true);
             SpawnFow();
-            myAudiolister.enabled = true;
         }
         else
         {
@@ -99,6 +99,14 @@ public class LocalPlayer : MonoBehaviour
             {
                 SpawnFow();
             }
+            else
+            {
+                foreach(GameObject obj in objToHide)
+                {
+                    obj.SetActive(false);
+                }
+            }
+
         }
     }
 
@@ -195,6 +203,8 @@ public class LocalPlayer : MonoBehaviour
 			_temp.damageHealth = 100;
 			DealDamages(_temp);
 		}
+
+      //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
 	private void LateUpdate()
@@ -282,6 +292,26 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
+    public void BoolTheAnim ( string _triggerName, bool _value )
+    {
+        myAnimator.SetBool(_triggerName, _value);
+    }
 
+    Coroutine timerShow;
+    public void ForceShowPlayer(float _time)
+    {
+        if(timerShow != null)
+        {
+            StopCoroutine(timerShow);
+        }
 
+        StartCoroutine(TimerShowPlayer(_time));
+    }
+
+    IEnumerator TimerShowPlayer(float _time)
+    {
+        forceShow = true;
+        yield return new WaitForSeconds(_time);
+        forceShow = false;
+    }
 }

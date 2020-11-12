@@ -34,6 +34,8 @@ public class WardModule : SpellModule
         Destroy(wardObj);
     }
 
+    protected override void DestroyIfClient() { } // Keep this for client
+
     protected override void Update()
     {
         base.Update();
