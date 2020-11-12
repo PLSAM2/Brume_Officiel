@@ -13,7 +13,9 @@ public class InGameNetworkReceiver : MonoBehaviour
     public static InGameNetworkReceiver Instance { get { return _instance; } }
 
     //Spawn
-    [SerializeField] GameObject prefabPlayer;
+    [SerializeField] GameObject prefabShili;
+    [SerializeField] GameObject prefabYang;
+    [SerializeField] GameObject prefabYin;
 
     // int numberOfPlayerToSpawn;
     // <<
@@ -152,7 +154,23 @@ public class InGameNetworkReceiver : MonoBehaviour
                     }
 
 
-                    GameObject obj = Instantiate(prefabPlayer, spawnPos, Quaternion.identity) as GameObject;
+                    GameObject obj = null;
+
+                    switch (RoomManager.Instance.GetLocalPlayer().playerCharacter)
+                    {
+                        case Character.Shili:
+                            obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
+                            break;
+
+                        case Character.Yang:
+                            obj = Instantiate(prefabYang, spawnPos, Quaternion.identity);
+                            break;
+
+                        default:
+                            obj = Instantiate(prefabYin, spawnPos, Quaternion.identity);
+                            break;
+                    }
+
                     LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                     myLocalPlayer.myPlayerId = id;
                     myLocalPlayer.isOwner = client.ID == id;
