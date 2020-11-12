@@ -40,11 +40,11 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
+    public bool forceShow = false;
 
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
     public bool isVisible = false;
-
 
     [Header("Audio")]
     [SerializeField] GameObject prefabAudioPlayer;
