@@ -7,16 +7,27 @@ public class VisionTower : Interactible
     [Header("Vision Tower properties")]
     public Fow vision;
 
+    [Header("Tower Special Map")]
+    public SpriteRenderer towerBody;
+    public Sprite capturableState, lockedState;
 
     void Start()
     {
         base.Init();
-        base.Unlock();
+        Unlock();
     }
 
     public override void Captured(GameData.Team team)
     {
         base.Captured(team);
+        towerBody.sprite = lockedState;
+    }
+
+	protected override void Unlock ()
+	{
+		base.Unlock();
+        print("UnlockTower" + name);
+        towerBody.sprite = capturableState;
     }
 
     public override void UpdateCaptured(GameData.Team team)
@@ -37,6 +48,6 @@ public class VisionTower : Interactible
 
     public void ReactivateTower()
     {
-        base.Unlock();
+        Unlock();
     }
 }

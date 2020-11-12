@@ -114,17 +114,17 @@ public class MovementModule : MonoBehaviour
 			}*/
 
 			//marche
-			if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
+		/*	if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
 			{
 				//transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
 				chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
 
 			}
 			else
-			{
+			{*/
 				//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
 				chara.Move( _directionInputed * liveMoveSpeed() * Time.deltaTime);
-			}
+		//	}
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
 		else

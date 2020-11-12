@@ -44,8 +44,8 @@ public class Interactible : MonoBehaviour
 
     [Header("Map")]
     protected bool showOnMap= true;
-    [SerializeField] SpriteRenderer mapIcon;
-    [SerializeField] Sprite iconNeutral, iconCapturable, iconRed, iconBlue;
+    public SpriteRenderer mapIcon;
+    [SerializeField] Sprite iconNeutral, iconRed, iconBlue;
 
     private void Awake()
     {
