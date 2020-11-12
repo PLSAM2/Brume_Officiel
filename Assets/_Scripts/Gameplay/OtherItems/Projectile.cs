@@ -60,9 +60,9 @@ public class Projectile : MonoBehaviour
 		}
 		Destroy();*/
 
-		if (playerHit != null && !asDeal)
+		if (playerHit != null )
 		{
-			if (playerHit.teamIndex != team)
+			if (playerHit.teamIndex != team && !asDeal)
 			{
 				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
 				Destroy();
