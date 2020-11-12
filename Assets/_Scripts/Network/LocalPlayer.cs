@@ -203,7 +203,7 @@ public class LocalPlayer : MonoBehaviour
 			DealDamages(_temp);
 		}
 
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+      //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
 	private void LateUpdate()
