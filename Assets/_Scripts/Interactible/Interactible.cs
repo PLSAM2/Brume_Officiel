@@ -53,7 +53,7 @@ public class Interactible : MonoBehaviour
     }
     protected void Init()
     {
-
+        
     }
 
     protected virtual void FixedUpdate()
@@ -83,8 +83,9 @@ public class Interactible : MonoBehaviour
                     client.SendMessage(_message, SendMode.Unreliable);
                 }
             }
-
-
+        } else if (isInteractable && !isCapturing && (state == State.Capturable))
+        {
+            SetColor(canBeCapturedColor); // pas performant en update
         }
     }
     public void ProgressInServer(float progress)

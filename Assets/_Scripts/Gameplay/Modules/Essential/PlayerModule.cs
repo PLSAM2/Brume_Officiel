@@ -309,13 +309,13 @@ public class PlayerModule : MonoBehaviour
         lastRecordedPos = transform.position;
         PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
-        if (_localPlayer.isInBrume)
+        if (!_localPlayer.isInBrume)
             return false;
 
         if (Vector3.Distance(transform.position, _localPlayer.transform.position) > _localPlayer.characterParameters.detectionRange)
             return false;
 
-        if(GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume == isInBrume )
+        if(_localPlayer.isInBrume == isInBrume )
             return false;
 
         if(Vector3.Distance(_localPlayer.transform.position, transform.position) > _localPlayer.characterParameters.detectionRange)

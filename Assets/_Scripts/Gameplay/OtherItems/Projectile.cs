@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
 	[SerializeField] LayerMask layerToHit;
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] Sc_ProjectileSpell spellRule;
-	bool isOwner, asDeal=false;
+	bool isOwner, asDeal = false;
 	[SerializeField] GameObject mesh;
 	[SerializeField] AudioClip _mySfxAudio;
 
@@ -24,8 +24,8 @@ public class Projectile : MonoBehaviour
 		asDeal = false;
 	}
 
-    private void OnEnable()
-    {
+	private void OnEnable ()
+	{
 		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
 		mesh.SetActive(true);
 
@@ -37,8 +37,8 @@ public class Projectile : MonoBehaviour
 			asDeal = false;
 	}
 
-	public void Init()
-    {
+	public void Init ()
+	{
 		if (_mySfxAudio != null)
 		{
 			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
@@ -92,7 +92,7 @@ public class Projectile : MonoBehaviour
 			Destroy();
 		}
 	}
-
+	/*
 	void CustomCollision ()
 	{
 		RaycastHit[] _hits = Physics.SphereCastAll(transform.position, myColl.radius, transform.forward, .1f, layerToHit);
@@ -103,7 +103,7 @@ public class Projectile : MonoBehaviour
 
 		if (_hits.Length > 0 && !asDeal)
 		{
-			for(int i = 0; i < _hits.Length; i++)
+			for (int i = 0; i < _hits.Length; i++)
 			{
 
 				PlayerModule playerHit = _hits[i].collider.GetComponent<PlayerModule>();
@@ -139,9 +139,8 @@ public class Projectile : MonoBehaviour
 			}
 		}
 
-	
-	}
 
+	}*/
 
 	void Destroy ()
 	{
@@ -155,7 +154,7 @@ public class Projectile : MonoBehaviour
 	}
 
 	[Button]
-	 void SetupPrefab ()
+	void SetupPrefab ()
 	{
 		myInfos.myDamages.damageHealth = spellRule.projParameters.myDamages.damageHealth;
 		myInfos.mySpeed = spellRule.range / spellRule.salveInfos.timeToReachMaxRange;
