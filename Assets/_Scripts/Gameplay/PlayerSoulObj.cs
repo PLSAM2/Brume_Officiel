@@ -10,12 +10,20 @@ public class PlayerSoulObj : MonoBehaviour
     public PlayerSoul playerSoul = new PlayerSoul();
 
     private NetworkedObject networkedObject;
+    [SerializeField] SpriteRenderer mapIcon;
+    [SerializeField] Sprite iconYang, iconYin;
 
     private void OnEnable()
     {
         networkedObject = GetComponent<NetworkedObject>();
 
         playerSoul.soulInfo = RoomManager.Instance.actualRoom.playerList[networkedObject.GetOwnerID()];
+        if (playerSoul.soulInfo.playerTeam != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+            mapIcon.sprite = null;
+        else if (playerSoul.soulInfo.playerCharacter == Character.Yang)
+            mapIcon.sprite = iconYang;
+        else
+            mapIcon.sprite = iconYin;
     }
 
     private void OnTriggerEnter(Collider other)
