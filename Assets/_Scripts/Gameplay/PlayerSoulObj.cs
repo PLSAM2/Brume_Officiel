@@ -18,9 +18,15 @@ public class PlayerSoulObj : MonoBehaviour
         networkedObject = GetComponent<NetworkedObject>();
 
         playerSoul.soulInfo = RoomManager.Instance.actualRoom.playerList[networkedObject.GetOwnerID()];
-        if (playerSoul.soulInfo.playerTeam != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-            mapIcon.sprite = null;
-        else if (playerSoul.soulInfo.playerCharacter == Character.Yang)
+        if (playerSoul.soulInfo.playerTeam == Team.red)
+        {
+            mapIcon.color = Color.red;
+        }
+        else
+		{
+            mapIcon.color = Color.blue;
+        }
+        if (playerSoul.soulInfo.playerCharacter == Character.Yang)
             mapIcon.sprite = iconYang;
         else
             mapIcon.sprite = iconYin;

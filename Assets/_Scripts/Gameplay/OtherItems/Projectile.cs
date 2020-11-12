@@ -59,8 +59,7 @@ public class Projectile : MonoBehaviour
 				return;
 		}
 		Destroy();*/
-		print(asDeal);
-		print(Collider.name);
+
 		if (playerHit != null)
 		{
 
