@@ -81,7 +81,7 @@ public class MovementModule : MonoBehaviour
 		}
 		allLiveMovementModifier = _tempList;
 		UpdateStateOnMovement();
-
+		transform.position =new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
 	void Move ( Vector3 _directionInputed )

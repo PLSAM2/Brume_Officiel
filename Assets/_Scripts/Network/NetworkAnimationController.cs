@@ -11,6 +11,8 @@ public class NetworkAnimationController : MonoBehaviour
 
     [SerializeField] Animator animator;
 
+    [SerializeField] LocalPlayer myLocalPlayer;
+
     private void Awake()
     {
         if (RoomManager.Instance == null)
@@ -75,7 +77,7 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
 
-                if (_id == client.ID) // si l'on est pas le sender
+                if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
                     return;
 
                 string _trigger = reader.ReadString();
@@ -112,7 +114,7 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
 
-                if (_id == client.ID) // si l'on est pas le sender
+                if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
                     return;
 
                 string XvalueName = reader.ReadString();
