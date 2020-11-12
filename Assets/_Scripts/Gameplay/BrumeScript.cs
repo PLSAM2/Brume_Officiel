@@ -12,6 +12,10 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] Renderer myRenderer;
     [SerializeField] GameObject groundImg;
 
+    [SerializeField] LayerMask brumeMask;
+    [SerializeField] float rangeFilter = 1;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 8)
@@ -24,14 +28,12 @@ public class BrumeScript : MonoBehaviour
                 myAnimator.SetBool("InBrume", true);
                 SetWardFow(false);
 
-                enterDistance = Vector3.Distance(other.transform.position, transform.position);
                 groundImg.SetActive(true);
                 myRenderer.enabled = false;
             }
         }
     }
 
-    float enterDistance = 0;
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 8)
@@ -40,10 +42,20 @@ public class BrumeScript : MonoBehaviour
             {
                 return;
             }
+
             if (other.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
             {
-                float distance = Vector3.Distance(other.transform.position, transform.position);
-                UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(enterDistance - distance));
+                RaycastHit hit;
+                Vector3 fromPosition = transform.position;
+                Vector3 toPosition = other.transform.position;
+                Vector3 direction = toPosition - fromPosition;
+
+
+                if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity, brumeMask))
+                {
+                    float distance = Vector3.Distance(other.transform.position, transform.position);
+                    UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(Mathf.Clamp(Vector3.Distance(other.transform.position, hit.point), 0 , 1)));
+                }
             }
         }
     }
