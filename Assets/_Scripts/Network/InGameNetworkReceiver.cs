@@ -156,7 +156,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     GameObject obj = null;
 
-                    switch (RoomManager.Instance.GetLocalPlayer().playerCharacter)
+                    switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
                     {
                         case Character.Shili:
                             obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
