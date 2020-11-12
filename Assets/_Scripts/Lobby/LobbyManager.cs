@@ -100,27 +100,22 @@ public class LobbyManager : MonoBehaviour
             {
                 JoinRoomInServer(sender, e);
             }
-
             if (message.Tag == Tags.PlayerJoinedRoom)
             {
                 PlayerJoinedActualRoom(sender, e);
             }
-
             if (message.Tag == Tags.SendAllRooms)
             {
                 GetAllRooms(sender, e);
             }
-
             if (message.Tag == Tags.QuitRoom)
             {
                 QuitActualRoomInServer(sender, e);
             }
-
             if (message.Tag == Tags.SwapHostRoom)
             {
                 SwapHost(sender, e);
             }
-
             if (message.Tag == Tags.PlayerQuitRoom)
             {
                 PlayerQuitActualRoom(sender, e);
@@ -252,7 +247,7 @@ public class LobbyManager : MonoBehaviour
 
                 if (localPlayer.ID == player.ID)
                 {
-                    localPlayer.IsHost = true;
+                    RoomManager.Instance.GetLocalPlayer().IsHost = true;
                 }
             }
         }

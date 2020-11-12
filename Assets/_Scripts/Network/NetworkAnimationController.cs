@@ -122,8 +122,6 @@ public class NetworkAnimationController : MonoBehaviour
 
                 animator.SetFloat(XvalueName, Xvalue);
                 animator.SetFloat(YvalueName, Yvalue);
-
-
             }
         }
     }
