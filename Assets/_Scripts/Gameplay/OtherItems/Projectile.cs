@@ -63,18 +63,23 @@ public class Projectile : MonoBehaviour
 
 		if (playerHit != null)
 		{
-			if (!asDeal && playerHit.teamIndex != team)
+			if (!asDeal )
 			{
+				if(playerHit.teamIndex != team)
+				{
+					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+					Destroy();
+					asDeal = true;
 
-				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+					if (isOwner)
+						PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
+
+					return;
+				}
+			}
+			else
+			{
 				Destroy();
-				asDeal = true;
-
-				if (isOwner)
-					PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
-
-				return;
-
 			}
 		}
 		else
