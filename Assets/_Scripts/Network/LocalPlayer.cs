@@ -98,6 +98,14 @@ public class LocalPlayer : MonoBehaviour
             {
                 SpawnFow();
             }
+            else
+            {
+                foreach(GameObject obj in objToHide)
+                {
+                    obj.SetActive(false);
+                }
+            }
+
         }
     }
 
@@ -194,6 +202,8 @@ public class LocalPlayer : MonoBehaviour
 			_temp.damageHealth = 100;
 			DealDamages(_temp);
 		}
+
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
 	private void LateUpdate()
