@@ -10,7 +10,7 @@ public class ModuleProjectileSpell : SpellModule
 	[SerializeField] ushort indexOfTheShotProjectileBlue = 12, indexOfTheShotProjectileRed = 13;
 	SalveInfos myLiveSalve;
 	Vector3 lastForwardRecorded;
-
+	float offsetHeight;
 	bool shooting = false;
 	float timeBetweenShot = 0;
 
@@ -18,6 +18,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		spellProj = spell as Sc_ProjectileSpell;
 		myLiveSalve = spellProj.salveInfos;
+		offsetHeight = GetComponent<CapsuleCollider>().height / 2;
 	}
 
 	protected override void Update ()
@@ -62,7 +63,7 @@ public class ModuleProjectileSpell : SpellModule
 		resolved = true;
 	}
 
-	protected override void UpgradeSpell ( )
+	protected override void UpgradeSpell ()
 	{
 		base.UpgradeSpell();
 		myLiveSalve.timeToResolveTheSalve += spellProj.durationAdded;
@@ -90,7 +91,7 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		return transform.forward + transform.position;
+		return transform.forward + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
 	}
 
 	protected virtual Vector3 RotationOfTheProj ()
@@ -129,7 +130,7 @@ public class ModuleProjectileSpell : SpellModule
 
 		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
 		{
-			Vector3 _PosToSpawn = transform.forward * spellProj.offSet; //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
+			Vector3 _PosToSpawn = transform.forward * spellProj.offSet + new Vector3(0, offsetHeight, 0); //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
 
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;

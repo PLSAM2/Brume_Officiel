@@ -84,6 +84,7 @@ MonoBehaviour:
   lifeCount: {fileID: 2467996829230243338}
   life: {fileID: 8177495112107496326}
   fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
+  forceShow: 0
   objToHide:
   - {fileID: 5588103883704817958}
   - {fileID: 6548595031188705954}
@@ -125,11 +126,11 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 0
-  m_StepOffset: 0
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2026548338358286537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,7 +1288,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aab4ed72e2443354d8e6c8da74f6b662, type: 3}
   m_Color: {r: 0.09919691, g: 1, b: 0, a: 1}
   m_FlipX: 0
@@ -8246,7 +8247,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
   m_Color: {r: 0.09919691, g: 1, b: 0, a: 1}
   m_FlipX: 0

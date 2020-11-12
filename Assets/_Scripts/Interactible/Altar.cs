@@ -10,11 +10,14 @@ using static GameData;
 
 public class Altar : Interactible
 {
+    [SerializeField] Sprite unlockedAltar;
+
     [Header("Altar properties")]
     public int life;
     public float unlockTime;
     public string altarName = "";
 
+    public 
     void Start()
     {
         base.Init();
@@ -48,10 +51,14 @@ public class Altar : Interactible
     {
         yield return new WaitForSeconds(unlockTime);
         UiManager.Instance.DisplayGeneralMessage("Altar unlock");
-        base.Unlock();
+        Unlock();
     }
 
-
+	protected override void Unlock ()
+	{
+        mapIcon.sprite = unlockedAltar;
+        base.Unlock();
+    }
 
 
 }

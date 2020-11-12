@@ -2,6 +2,7 @@
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,11 +41,11 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
+    public bool forceShow = false;
 
     public List<GameObject> objToHide = new List<GameObject>();
 	public static Action disableModule;
     public bool isVisible = false;
-
 
     [Header("Audio")]
     [SerializeField] GameObject prefabAudioPlayer;
@@ -203,7 +204,7 @@ public class LocalPlayer : MonoBehaviour
 			DealDamages(_temp);
 		}
 
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+      //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
 	private void LateUpdate()
@@ -296,6 +297,21 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetBool(_triggerName, _value);
     }
 
+    Coroutine timerShow;
+    public void ForceShowPlayer(float _time)
+    {
+        if(timerShow != null)
+        {
+            StopCoroutine(timerShow);
+        }
 
+        StartCoroutine(TimerShowPlayer(_time));
+    }
 
+    IEnumerator TimerShowPlayer(float _time)
+    {
+        forceShow = true;
+        yield return new WaitForSeconds(_time);
+        forceShow = false;
+    }
 }
