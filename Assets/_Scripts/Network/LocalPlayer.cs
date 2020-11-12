@@ -98,6 +98,14 @@ public class LocalPlayer : MonoBehaviour
             {
                 SpawnFow();
             }
+            else
+            {
+                foreach(GameObject obj in objToHide)
+                {
+                    obj.SetActive(false);
+                }
+            }
+
         }
     }
 
