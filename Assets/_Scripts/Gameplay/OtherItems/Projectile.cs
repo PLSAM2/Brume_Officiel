@@ -59,20 +59,23 @@ public class Projectile : MonoBehaviour
 				return;
 		}
 		Destroy();*/
+		print(asDeal);
 
-		if (playerHit != null )
+		if (playerHit != null)
 		{
-			if (playerHit.teamIndex != team && !asDeal)
+			if (!asDeal && playerHit.teamIndex != team)
 			{
+
 				playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
 				Destroy();
 				asDeal = true;
+
 				if (isOwner)
 					PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
+
 				return;
+
 			}
-			else
-				return;
 		}
 		else
 		{

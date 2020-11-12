@@ -13,7 +13,7 @@ public class MovementModule : MonoBehaviour
 	List<MovementModifier> allLiveMovementModifier = new List<MovementModifier>();
 	[SerializeField] CharacterController chara;
 
-	CapsuleCollider collider;
+	[HideInInspector] public CapsuleCollider collider;
 
 	/*	[Header("Running Stamina")]
 		[SerializeField] bool usingStamina;
