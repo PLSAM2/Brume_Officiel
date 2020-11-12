@@ -122,8 +122,14 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.backToNormalKit += ReturnToNormal;
 		}
 		else
-			Destroy(this);
+			DestroyIfClient();
 	}
+
+	protected virtual void DestroyIfClient()
+    {
+		Destroy(this);
+	}
+
 
 	protected virtual void Update ()
 	{
