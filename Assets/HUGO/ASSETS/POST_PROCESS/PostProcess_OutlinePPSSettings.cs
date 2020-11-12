@@ -11,10 +11,10 @@ public sealed class PostProcess_OutlinePPSSettings : PostProcessEffectSettings
 {
 	[Tooltip( "Screen" )]
 	public TextureParameter _MainTex = new TextureParameter {  };
-	[Tooltip( "PixelsX" )]
-	public FloatParameter _PixelsX = new FloatParameter { value = 0f };
-	[Tooltip( "PixelsY" )]
-	public FloatParameter _PixelsY = new FloatParameter { value = 0f };
+	[Tooltip( "Intensity" )]
+	public FloatParameter _Intensity = new FloatParameter { value = 1f };
+	[Tooltip( "Step" )]
+	public FloatParameter _Step = new FloatParameter { value = 1f };
 }
 
 public sealed class PostProcess_OutlinePPSRenderer : PostProcessEffectRenderer<PostProcess_OutlinePPSSettings>
@@ -23,8 +23,8 @@ public sealed class PostProcess_OutlinePPSRenderer : PostProcessEffectRenderer<P
 	{
 		var sheet = context.propertySheets.Get( Shader.Find( "PostProcess_Outline" ) );
 		if(settings._MainTex.value != null) sheet.properties.SetTexture( "_MainTex", settings._MainTex );
-		sheet.properties.SetFloat( "_PixelsX", settings._PixelsX );
-		sheet.properties.SetFloat( "_PixelsY", settings._PixelsY );
+		sheet.properties.SetFloat( "_Intensity", settings._Intensity );
+		sheet.properties.SetFloat( "_Step", settings._Step );
 		context.command.BlitFullscreenTriangle( context.source, context.destination, sheet, 0 );
 	}
 }
