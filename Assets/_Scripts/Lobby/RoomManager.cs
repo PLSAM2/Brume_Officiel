@@ -74,12 +74,6 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-
-    private void Update()
-    {
-        print(GetLocalPlayer().IsHost);
-    }
-
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
         StartNewRound();
