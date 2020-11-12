@@ -285,6 +285,8 @@ public class InGameNetworkReceiver : MonoBehaviour
                         return;
                     }
 
+                    print(id);
+
                     GameManager.Instance.networkPlayers[id].SetMovePosition(
 
                         new Vector3( //Position
