@@ -11,6 +11,7 @@ public class VisionTower : Interactible
     void Start()
     {
         base.Init();
+        base.Unlock();
     }
 
     public override void Captured(GameData.Team team)
