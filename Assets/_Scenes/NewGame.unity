@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028377, g: 0.22571409, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -625,7 +625,9 @@ MonoBehaviour:
     - Name: OnPlayerRespawn
       Entry: 6
       Data: 
-  resSpawns: []
+  resSpawns:
+  - {fileID: 910452168}
+  - {fileID: 910452167}
   client: {fileID: 0}
   myCam: {fileID: 0}
   defaultCam: {fileID: 463587853}
@@ -4194,6 +4196,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8697d04e9de157f429c28d382ec5a45e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &910452167 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4486996187997904792, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+  m_PrefabInstance: {fileID: 910452145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad18b2d447d1bcd4eb7d5d85a4d26b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &910452168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 942931749030462643, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+  m_PrefabInstance: {fileID: 910452145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad18b2d447d1bcd4eb7d5d85a4d26b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &966322491
 Mesh:
   m_ObjectHideFlags: 0
@@ -7481,9 +7505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2f4301357c69b4ea5ce98e25ed4761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabShili: {fileID: 27948769369624699, guid: d619410c1bb28254da8151b13b565b65, type: 3}
-  prefabYang: {fileID: 7691618916292274621, guid: 0c7723c83503a7e409891163ac6e0b62, type: 3}
-  prefabYin: {fileID: 268300604141970061, guid: 6e539dcba538fa9438639163b9138849, type: 3}
+  prefabPlayer: {fileID: -7935494346270426752, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
 --- !u!4 &1838625162
 Transform:
   m_ObjectHideFlags: 0
