@@ -28,7 +28,6 @@ public class Frog : Interactible
     }
     public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
     {
-        if (capturingPlayerModule.GetComponent<WardModule>() != null)
         {
             if (capturingPlayerModule.GetComponent<WardModule>().charges >= 1)
             {

@@ -103,12 +103,21 @@ public class CacAttack : SpellModule
 		{
 			Vector3 _direction = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
 			_baseAngle++;
-			Ray _ray = new Ray(_direction, transform.position + Vector3.forward * .55f + Vector3.up * 1.2f);
 
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _currentAttack.rangeOfTheAttack, gameObject.layer);
-			print(_allhits.Length);
+			Ray _ray = new Ray( transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
 
-			Debug.DrawRay(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction* _currentAttack.rangeOfTheAttack, Color.red, 10);
+			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _currentAttack.rangeOfTheAttack, LayerMask.GetMask("Character"));
+			Debug.DrawRay(_ray.origin, _ray.direction, Color.red, 5);
+		/*	RaycastHit _hit; 
+			if(Physics.Raycast(_ray, out _hit, _currentAttack.rangeOfTheAttack, gameObject.layer))
+			{
+				if (_hit.collider.gameObject != null)
+					print(_hit.collider.gameObject.name);
+
+				Debug.DrawRay(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction * _currentAttack.rangeOfTheAttack, Color.red, 10);
+
+			}*/
+
 			for (int j = 0; j < _allhits.Length; j++)
 			{
 				if (!_listHit.Contains(_allhits[j].collider.gameObject))
@@ -117,6 +126,7 @@ public class CacAttack : SpellModule
 				}
 			}
 		}
+		_listHit.Remove(gameObject);
 
 		DamagesInfos _damageToDeal = new DamagesInfos();
 		_damageToDeal.damageHealth = _currentAttack.damagesToDeal;
