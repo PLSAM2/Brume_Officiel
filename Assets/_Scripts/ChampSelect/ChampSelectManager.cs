@@ -112,7 +112,7 @@ public class ChampSelectManager : MonoBehaviour
 
         if (RoomManager.Instance.GetLocalPlayer().IsHost)
         {
-            if (CheckIfPlayersAreReady())
+            if (CheckIfCanLaunch())
             {
                 startButton.SetActive(true);
             } else
@@ -158,7 +158,7 @@ public class ChampSelectManager : MonoBehaviour
     }
 
 
-    private bool CheckIfPlayersAreReady()
+    private bool CheckIfCanLaunch()
     {
         foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
         {
@@ -167,6 +167,24 @@ public class ChampSelectManager : MonoBehaviour
                 return false;
             }
         }
+
+        // Décomenter pour forcer chaque équipe a avoir une shili >>
+
+        //int shiliCount = 0;
+        //foreach (PlayerData p in RoomManager.Instance.actualRoom.playerList.Values)
+        //{
+        //    if (p.playerCharacter == Character.Shili)
+        //    {
+        //        shiliCount++;
+        //    }
+        //}
+
+        //if (shiliCount != 2)
+        //{
+        //    return false;
+        //}
+
+        //<<
 
         return true;
     }

@@ -86,7 +86,7 @@ public class BrumeScript : MonoBehaviour
         foreach (Ward ward in GameManager.Instance.allWard)
         {
             if(ward == null) { continue; }
-            ward.fowFollow.gameObject.SetActive(_value);
+            ward.GetFow().gameObject.SetActive(_value);
         }
     }
 }
