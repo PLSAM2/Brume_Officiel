@@ -188,4 +188,8 @@ public class RoomManager : MonoBehaviour
         return actualRoom.playerList[client.ID];
     }
 
+    public PlayerData GetPlayerData(ushort id)
+    {
+        return actualRoom.playerList[id];
+    }
 }

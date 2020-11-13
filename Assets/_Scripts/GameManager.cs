@@ -24,21 +24,21 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
-    public LocalPlayer currentLocalPlayer {get => _currentLocalPlayer; set { _currentLocalPlayer = value; PlayerSpawned.Invoke(_currentLocalPlayer.myPlayerModule); } }
+    public LocalPlayer currentLocalPlayer {get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
 
     [SerializeField] UnityClient client;
+
+    LocalPlayer _currentSpecPlayer;
 
     [Header("Timer")]
     private bool timeStart = false;
     private float timer = 0;
 
     [Header("Camera")]
-    public CinemachineVirtualCamera myCam;
     public Camera defaultCam;
     [SerializeField] Animator volumeAnimator;
 
     public List<Transform> visiblePlayer = new List<Transform>();
-    public static Action<PlayerModule> PlayerSpawned;
 
     public List<Ward> allWard = new List<Ward>();
 
@@ -52,6 +52,7 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
 
+    public Action<ushort> OnPlayerDisconnect;
 
     private void Awake()
     {
@@ -135,6 +136,8 @@ public class GameManager : SerializedMonoBehaviour
             {
                 PlayerData player = reader.ReadSerializable<PlayerData>();
                 UiManager.Instance.DisplayGeneralMessage("Player " + player.Name + " quit");
+
+                OnPlayerDisconnect?.Invoke(player.ID);
             }
         }
     }
