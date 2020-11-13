@@ -81,6 +81,19 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 StartWardLifeTimeInServer(sender, e);
             }
+
+            if (message.Tag == Tags.StateUpdate)
+            {
+                ReceiveStatus(sender, e);
+            }
+            if (message.Tag == Tags.AddForcedMovement)
+            {
+                ForcedMovementReceived(sender, e);
+            }
+            if (message.Tag == Tags.AltarTrailDebuff)
+            {
+                AltarTrailDebuffInServer(sender, e);
+            }
         }
     }
 
@@ -303,8 +316,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                         return;
                     }
 
-                    print(id);
-
                     GameManager.Instance.networkPlayers[id].SetMovePosition(
 
                         new Vector3( //Position
@@ -342,11 +353,46 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-    //IEnumerator WaitForRespawn()
-    //{
-    //    isWaitingForRespawn = true;
-    //    yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
-    //    SendSpawnChamp();
-    //    isWaitingForRespawn = false;
-    //}
+
+    private void ForcedMovementReceived ( object sender, MessageReceivedEventArgs e )
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                if (message.Tag == Tags.AddForcedMovement)
+                {
+                    ushort id = reader.ReadUInt16();
+
+                    if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+                    {
+                        return;
+                    }
+                    reader.ReadUInt16();
+                    sbyte _newX = reader.ReadSByte();
+                    sbyte _newZ = reader.ReadSByte();
+                    uint _newDuration = reader.ReadUInt16();
+                    uint _newStrength = reader.ReadUInt16();
+
+                    float _directionX = _newX / 10;
+                    float _directionZ = _newZ / 10;
+                    float _duration = _newDuration / 100;
+                    float _strength = _newStrength / 100;
+
+                    ForcedMovement _newForcedMovement = new ForcedMovement();
+                    _newForcedMovement.direction = new Vector3(_directionX, 0, _directionZ);
+                    _newForcedMovement.duration = _duration;
+                    _newForcedMovement.strength = _strength;
+
+                    GameManager.Instance.networkPlayers[id].OnForcedMovementReceived(_newForcedMovement);
+                }
+            }
+        }
+    }
+
+    private void AltarTrailDebuffInServer(object sender, MessageReceivedEventArgs e)
+    {
+        
+    }
+
 }

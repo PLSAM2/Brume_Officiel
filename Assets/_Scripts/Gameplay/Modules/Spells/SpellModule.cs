@@ -46,14 +46,14 @@ public class SpellModule : MonoBehaviour
 	public Action startCanalisation, endCanalisation;
 	public ParticleSystem canalisationParticle;
 	public List<ParticleSystem> particleResolution;
-	protected	Vector3 lastRecordedDirection = Vector3.zero;
+	protected Vector3 lastRecordedDirection = Vector3.zero;
 
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
-	
-	protected virtual void Disable()
+
+	protected virtual void Disable ()
 	{
 		if (isOwner)
 		{
@@ -83,7 +83,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public virtual void SetupComponent ( En_SpellInput _actionLinked)
+	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
@@ -125,8 +125,8 @@ public class SpellModule : MonoBehaviour
 			DestroyIfClient();
 	}
 
-	protected virtual void DestroyIfClient()
-    {
+	protected virtual void DestroyIfClient ()
+	{
 		Destroy(this);
 	}
 
@@ -144,7 +144,7 @@ public class SpellModule : MonoBehaviour
 			DecreaseCooldown();
 	}
 
-	protected virtual void TreatNormalCanalisation()
+	protected virtual void TreatNormalCanalisation ()
 	{
 		if (currentTimeCanalised >= timeToResolveSpell)
 		{
@@ -165,13 +165,14 @@ public class SpellModule : MonoBehaviour
 
 			stateAtStart = myPlayerModule.state;
 
+			DecreaseCharge();
+
 			if (charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();
 
-			charges -= 1;
-
 			recordedMousePosOnInput = _BaseMousePos;
 			myPlayerModule.AddState(En_CharacterState.Canalysing);
+
 			startCanalisation?.Invoke();
 
 
@@ -185,15 +186,20 @@ public class SpellModule : MonoBehaviour
 			return;
 	}
 
+	protected virtual void DecreaseCharge ()
+	{
+		charges -= 1;
+	}
+
 	public virtual void Interrupt ()
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
 		TreatCharacterState();
 
-		if(cooldown<=0)
+		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
-		
+
 		if (spell.lockOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
@@ -232,7 +238,7 @@ public class SpellModule : MonoBehaviour
 
 	public void ReduceCooldown ( float _durationShorten )
 	{
-		if(cooldown != finalCooldownValue())
+		if (cooldown != finalCooldownValue())
 			cooldown -= _durationShorten;
 	}
 
@@ -255,9 +261,9 @@ public class SpellModule : MonoBehaviour
 		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
 		_temp.duration = durationOfTheMovementModifier();
 		myPlayerModule.addMovementModifier(_temp);
-		
-		switch(actionLinked)
-			{
+
+		switch (actionLinked)
+		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation0", true);
 				break;
@@ -275,11 +281,11 @@ public class SpellModule : MonoBehaviour
 
 	void ResolveSpellFeedback ()
 	{
-	//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+		//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
 
-		if(particleResolution.Count > 0)
+		if (particleResolution.Count > 0)
 		{
-			for (int i = 0; i < particleResolution.Count; i ++)
+			for (int i = 0; i < particleResolution.Count; i++)
 			{
 				particleResolution[i].Play();
 			}
@@ -307,9 +313,9 @@ public class SpellModule : MonoBehaviour
 		canalisationParticle.Play();
 	}
 
-	protected virtual float durationOfTheMovementModifier()
+	protected virtual float durationOfTheMovementModifier ()
 	{
-		return spell.canalisationTime; 
+		return spell.canalisationTime;
 	}
 
 
@@ -318,7 +324,7 @@ public class SpellModule : MonoBehaviour
 		canalisationParticle.Stop();
 	}
 
-	protected virtual float finalCooldownValue()
+	protected virtual float finalCooldownValue ()
 	{
 		return spell.cooldown;
 	}

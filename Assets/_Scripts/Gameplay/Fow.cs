@@ -40,7 +40,6 @@ public class Fow : MonoBehaviour
         if (isStatic) { return; }
 
         transform.position = Vector3.Lerp(transform.position, myTarget.position, Time.deltaTime * followSpeed);
-
         myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, 6 * Time.deltaTime);
     }
 
