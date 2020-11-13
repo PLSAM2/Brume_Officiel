@@ -15,6 +15,7 @@ MonoBehaviour:
   settings:
   - {fileID: 5346880832311869934}
   - {fileID: 3632427473300872681}
+  - {fileID: 3964448687223305826}
 --- !u!114 &3632427473300872681
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -27,20 +28,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bf4d4841c1b574d8be205bf4497af6, type: 3}
   m_Name: PostProcess_OutlinePPSSettings
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   _MainTex:
-    overrideState: 0
+    overrideState: 1
     value: {fileID: 0}
     defaultState: 1
   _Intensity:
-    overrideState: 0
+    overrideState: 1
     value: 1
   _Step:
+    overrideState: 1
+    value: 1
+--- !u!114 &3964448687223305826
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c756fe45ae37747864bbe1e991ae38, type: 3}
+  m_Name: EdgeDetect_AfterStack
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 0
+    value: 3
+  sensitivityDepth:
     overrideState: 0
     value: 1
+  sensitivityNormals:
+    overrideState: 0
+    value: 1
+  lumThreshold:
+    overrideState: 0
+    value: 0.2
+  edgeExp:
+    overrideState: 0
+    value: 1
+  sampleDist:
+    overrideState: 0
+    value: 1
+  edgesOnly:
+    overrideState: 0
+    value: 0
+  edgesOnlyBgColor:
+    overrideState: 0
+    value: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &5346880832311869934
 MonoBehaviour:
   m_ObjectHideFlags: 3
