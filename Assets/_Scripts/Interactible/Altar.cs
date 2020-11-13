@@ -17,7 +17,6 @@ public class Altar : Interactible
     public float unlockTime;
     public string altarName = "";
 
-    public 
     void Start()
     {
         base.Init();

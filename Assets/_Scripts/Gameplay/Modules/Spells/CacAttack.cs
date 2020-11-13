@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
+	int currentAttackToResolve = 0;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -15,19 +17,38 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += ResolveSpell;
+				myPlayerModule.leftClickInputRealeased += StartCanalysing;
 				break;
 
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += ResolveSpell;
+				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += ResolveSpell;
+				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += ResolveSpell;
+				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				break;
+		}
+
+		switch (_actionLinked)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInputRealeased += StopCanalysing;
+				break;
+
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInputRealeased += StopCanalysing;
+				break;
+
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInputRealeased += StopCanalysing;
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInputRealeased += StopCanalysing;
 				break;
 		}
 	}
@@ -36,17 +57,59 @@ public class CacAttack : SpellModule
 	{
 		base.ResolveSpell(_mousePosition);
 
+		ResolveAttack();
+
+		//	foreach()
+
+	}
+
+	void ResolveAttack ()
+	{
+
+		CacAttackParameters _currentAttack = localTrad.listOfAttacks[currentAttackToResolve];
+
+		myPlayerModule.forcedMovementInterrupted += ResolveSlash;
+
+		//ptit dash tu connais
+		ForcedMovement _newForcedMovement = new ForcedMovement();
+		_newForcedMovement.direction = transform.forward;
+		_newForcedMovement.duration = _currentAttack.dashDuration;
+		_newForcedMovement.strength = _currentAttack.distanceToDash / _newForcedMovement.duration;
+		myPlayerModule.forcedMovementAdded(_newForcedMovement);
+
+	
+		currentAttackToResolve++;
+
+		if (currentAttackToResolve > localTrad.listOfAttacks.Count - 1)
+		{
+			StopCanalysing(Vector3.zero);
+		}
+		else
+			currentTimeCanalised = 0;
+	}
+
+	void ResolveSlash( )
+	{
+		myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
+
+		CacAttackParameters _currentAttack = localTrad.listOfAttacks[currentAttackToResolve];
+
 		List<GameObject> _listHit = new List<GameObject>();
 
-		float _baseAngle = localTrad.angleToAttackFrom / 2 - localTrad.angleToAttackFrom;
+		float _baseAngle = _currentAttack.angleToAttackFrom / 2 - _currentAttack.angleToAttackFrom;
 
-		for (int i = 0; i < localTrad.angleToAttackFrom; i++)
+		//RAYCAST POUR TOUCHER
+		for (int i = 0; i < _currentAttack.angleToAttackFrom; i++)
 		{
 			Vector3 _direction = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
 			_baseAngle++;
-			RaycastHit[] _allhits = Physics.RaycastAll(transform.position, _direction, spell.range, gameObject.layer);
+			Ray _ray = new Ray(_direction, transform.position + Vector3.forward * .55f + Vector3.up * 1.2f);
 
-			for(int j =0; j < _allhits.Length; j++)
+			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _currentAttack.rangeOfTheAttack, gameObject.layer);
+			print(_allhits.Length);
+
+			Debug.DrawRay(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction* _currentAttack.rangeOfTheAttack, Color.red, 10);
+			for (int j = 0; j < _allhits.Length; j++)
 			{
 				if (!_listHit.Contains(_allhits[j].collider.gameObject))
 				{
@@ -55,7 +118,36 @@ public class CacAttack : SpellModule
 			}
 		}
 
-	//	foreach()
+		DamagesInfos _damageToDeal = new DamagesInfos();
+		_damageToDeal.damageHealth = _currentAttack.damagesToDeal;
+
+		foreach (GameObject _go in _listHit)
+		{
+			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
+			_playerTouched.DealDamages(_damageToDeal);
+
+			Debug.Log(_go.name);
+
+			ForcedMovement _movementTosend = new ForcedMovement();
+			_movementTosend.duration = _currentAttack.bumpDuration;
+			_movementTosend.strength = _currentAttack.bumpDistance / _currentAttack.bumpDuration;
+			_movementTosend.direction = Vector3.Normalize(_go.transform.position - transform.position);
+
+			_playerTouched.SendForcedMovement(_movementTosend);
+		}
 
 	}
+
+	void StopCanalysing ( Vector3 _mousePos )
+	{
+		currentAttackToResolve = 0;
+		charges -= 1;
+		Interrupt();
+	}
+
+	protected override void DecreaseCharge ()
+	{
+		return;
+	}
+
 }
