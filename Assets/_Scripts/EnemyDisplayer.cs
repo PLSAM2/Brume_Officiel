@@ -16,7 +16,18 @@ public class EnemyDisplayer : MonoBehaviour
         {
             if (enemy.Value.isOwner) { continue; }
 
-            if(GameManager.Instance.currentLocalPlayer == null){ return;}
+            if(GameManager.Instance.currentLocalPlayer == null){
+
+                if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    HideOrShow(enemy.Value, true);
+                }
+                else
+                {
+                    HideOrShow(enemy.Value, false);
+                }
+                continue;
+            }
 
             if (enemy.Value.forceShow)
             {

@@ -28,6 +28,8 @@ public class GameManager : SerializedMonoBehaviour
 
     [SerializeField] UnityClient client;
 
+    LocalPlayer _currentSpecPlayer;
+
     [Header("Timer")]
     private bool timeStart = false;
     private float timer = 0;

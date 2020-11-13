@@ -50,6 +50,8 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("TeamInfo")] public Image teamYang, teamShili, teamYin;
     [FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
 
+    [Header("Spec Mode")]
+    [FoldoutGroup("SpecMode")] public SpecMode specMode;
 
     private void Awake()
     {
@@ -434,5 +436,10 @@ public class UiManager : MonoBehaviour
         }
 
         generalPointsAnim.Play("GenPoints");
+    }
+
+    public void OpenSpecMode()
+    {
+        specMode.gameObject.SetActive(true);
     }
 }

@@ -21,7 +21,13 @@ public class CameraManager : MonoBehaviour
 	[SerializeField] LayerMask groundlayer;
 	float screenEdgeBorderHeight, screenEdgeBorderWidth;
 
-	private void Awake ()
+    private void OnEnable()
+    {
+		GameManager.Instance.OnPlayerDie += OnPlayerDie;
+		GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
+	}
+
+    private void Awake ()
 	{
 		if (_instance != null && _instance != this)
 		{
@@ -47,6 +53,24 @@ public class CameraManager : MonoBehaviour
 
 		screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
 		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;
+	}
+
+	void OnPlayerDie(ushort playerId, ushort killedId)
+    {
+		if (playerId == RoomManager.Instance.GetLocalPlayer().ID)
+        {
+			//démarer mod spec
+
+        }
+    }
+
+	void OnPlayerRespawn(ushort playerId)
+    {
+		if (playerId == RoomManager.Instance.GetLocalPlayer().ID)
+		{
+			//stop mod spec
+
+		}
 	}
 
 	private void OnDestroy ()
