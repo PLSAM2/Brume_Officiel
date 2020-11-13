@@ -36,7 +36,6 @@ public class RoomManager : MonoBehaviour
             _instance = this;
         }
 
-
         client.MessageReceived += MessageReceived;
     }
 
@@ -68,7 +67,6 @@ public class RoomManager : MonoBehaviour
 
         }
     }
-
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
         StartNewRound();
@@ -185,25 +183,6 @@ public class RoomManager : MonoBehaviour
             p.Value.IsReady = false;
         }
     }
-
-
-    public List<PlayerData> GetAllPlayerInActualRoom(bool includeLocalPlayer = true)
-    {
-        List<PlayerData> _playerList = new List<PlayerData>();
-
-        foreach (KeyValuePair<ushort, PlayerData> player in actualRoom.playerList)
-        {
-            if (!includeLocalPlayer && player.Key == client.ID)
-            {
-                continue;
-            }
-
-            _playerList.Add(player.Value);
-        }
-
-        return _playerList;
-    }
-
     public PlayerData GetLocalPlayer()
     {
         return actualRoom.playerList[client.ID];

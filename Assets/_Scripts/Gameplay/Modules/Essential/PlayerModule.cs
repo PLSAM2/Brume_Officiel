@@ -214,7 +214,7 @@ public class PlayerModule : MonoBehaviour
             return;
     }
 
-    public void SetInBrumeStatut(bool _value)
+    public virtual void SetInBrumeStatut(bool _value)
     {
         isInBrume = _value;
         mylocalPlayer.ChangeFowRaduis(_value);

@@ -30,7 +30,7 @@ public class LocalPlayer : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI lifeCount;
     public Image life;
-
+    private Quaternion canvasRotation;
     [ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
     public Action<string> triggerAnim;
 
@@ -44,14 +44,16 @@ public class LocalPlayer : MonoBehaviour
     public bool forceShow = false;
 
     public List<GameObject> objToHide = new List<GameObject>();
-	public static Action disableModule;
+    public static Action disableModule;
     public bool isVisible = false;
 
     [Header("Audio")]
     [SerializeField] GameObject prefabAudioPlayer;
 
+
     private void Awake()
     {
+        canvasRotation = canvas.transform.rotation;
         lastPosition = transform.position;
         lastRotation = transform.localEulerAngles;
         OnRespawn();
@@ -85,7 +87,7 @@ public class LocalPlayer : MonoBehaviour
         if (isOwner)
         {
             GameManager.Instance.ResetCam();
-           // GameManager.Instance.myCam.m_Follow = transform;
+            // GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
 
             myPlayerModule.onSendMovement += OnPlayerMove;
@@ -95,13 +97,13 @@ public class LocalPlayer : MonoBehaviour
         }
         else
         {
-            if(myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+            if (myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
             {
                 SpawnFow();
             }
             else
             {
-                foreach(GameObject obj in objToHide)
+                foreach (GameObject obj in objToHide)
                 {
                     obj.SetActive(false);
                 }
@@ -137,7 +139,7 @@ public class LocalPlayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(myFow != null)
+        if (myFow != null)
         {
             Destroy(myFow.gameObject);
         }
@@ -181,7 +183,7 @@ public class LocalPlayer : MonoBehaviour
     }
 
     public void SendState(En_CharacterState _state)
-	{
+    {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(RoomManager.Instance.actualRoom.ID);
@@ -195,33 +197,32 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-	private void Update ()
-	{
-		if(Input.GetKeyDown(KeyCode.K) && isOwner)
-		{
-			DamagesInfos _temp = new DamagesInfos();
-			_temp.damageHealth = 100;
-			DealDamages(_temp);
-		}
-
-      //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-	}
-
-	private void LateUpdate()
+    private void Update()
     {
-        canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-        canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+        if (Input.GetKeyDown(KeyCode.K) && isOwner)
+        {
+            DamagesInfos _temp = new DamagesInfos();
+            _temp.damageHealth = 100;
+            DealDamages(_temp);
+        }
+
+        //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+    }
+
+    private void LateUpdate()
+    {
+        canvas.transform.rotation = canvasRotation; // Empeche le canvas de bouger
     }
 
     public void ChangeFowRaduis(bool _value)
     {
-        if(myFow == null) { return; }
+        if (myFow == null) { return; }
 
         switch (_value)
         {
             case true:
                 myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
-                    break;
+                break;
             case false:
                 myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
                 break;
@@ -257,10 +258,10 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-        int _tempHp =   (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth,0,1000);
+        int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
         liveHealth = (ushort)_tempHp;
 
-		print("I TOok Damage once");
+        print("I TOok Damage once");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -277,8 +278,8 @@ public class LocalPlayer : MonoBehaviour
     {
         if (isOwner)
         {
-			disableModule.Invoke();
-			InGameNetworkReceiver.Instance.KillCharacter();
+            disableModule.Invoke();
+            InGameNetworkReceiver.Instance.KillCharacter();
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
 
             GameManager.Instance.ResetCam();
@@ -286,15 +287,15 @@ public class LocalPlayer : MonoBehaviour
     }
 
     public void OnStatusReceived(uint _state)
-	{
+    {
         myPlayerModule.state = (En_CharacterState)_state;
-	}
+    }
     public void TriggerTheAnim(string triggerName)
     {
         myAnimator.SetTrigger(triggerName);
     }
 
-    public void BoolTheAnim ( string _triggerName, bool _value )
+    public void BoolTheAnim(string _triggerName, bool _value)
     {
         myAnimator.SetBool(_triggerName, _value);
     }
@@ -302,7 +303,7 @@ public class LocalPlayer : MonoBehaviour
     Coroutine timerShow;
     public void ForceShowPlayer(float _time)
     {
-        if(timerShow != null)
+        if (timerShow != null)
         {
             StopCoroutine(timerShow);
         }
