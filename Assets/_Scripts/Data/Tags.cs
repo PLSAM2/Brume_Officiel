@@ -42,8 +42,8 @@ class Tags
     public static readonly ushort StateUpdate = 2570;
     public static readonly ushort AddForcedMovement = 2580;
 
-    //Anim 750 --> 769 >>
-    public static readonly ushort SyncTrigger = 750;
+        //Anim 750 --> 769 >>
+        public static readonly ushort SyncTrigger = 750;
         public static readonly ushort Sync2DBlendTree = 752;
         public static readonly ushort SyncBoolean = 754;
         public static readonly ushort SyncFloat = 756;
@@ -64,6 +64,10 @@ class Tags
         public static readonly ushort StartWardLifeTime = 791;
         // <<
 
+        //Buff 800 --> 810 >>
+        public static readonly ushort AltarTrailDebuff = 800;
+
+        // <<
     public static readonly ushort SpawnObjPlayer = 1000;
     public static readonly ushort MovePlayerTag = 1010;
     public static readonly ushort SupprObjPlayer = 1020;

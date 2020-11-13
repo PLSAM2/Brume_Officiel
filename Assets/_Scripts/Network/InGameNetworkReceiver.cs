@@ -90,12 +90,14 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ForcedMovementReceived(sender, e);
             }
+            if (message.Tag == Tags.AltarTrailDebuff)
+            {
+                AltarTrailDebuffInServer(sender, e);
+            }
         }
     }
 
-
-
-	private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
+    private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
@@ -387,11 +389,10 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-    //IEnumerator WaitForRespawn()
-    //{
-    //    isWaitingForRespawn = true;
-    //    yield return new WaitForSeconds(GameManager.Instance.currentLocalPlayer.respawnTime);
-    //    SendSpawnChamp();
-    //    isWaitingForRespawn = false;
-    //}
+
+    private void AltarTrailDebuffInServer(object sender, MessageReceivedEventArgs e)
+    {
+        
+    }
+
 }

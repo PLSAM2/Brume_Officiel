@@ -8,6 +8,5 @@ public class AltarBuffTrail : AltarBuff
     public override void InitBuff()
     {
         base.InitBuff();
-
     }
 }
