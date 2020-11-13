@@ -26,7 +26,18 @@ public class Frog : Interactible
             capturingPlayerModule.GetComponent<WardModule>().AddCharge();
         }
     }
+    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
+    {
+        if (capturingPlayerModule.GetComponent<WardModule>() != null)
+        {
+            if (capturingPlayerModule.GetComponent<WardModule>().charges >= 1)
+            {
+                return;
+            } 
+        }
 
+        base.TryCapture(team, capturingPlayer);
+    }
 
     public override void UpdateCaptured(GameData.Team team) // capture recu par tout les client
     {

@@ -257,7 +257,9 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-        liveHealth = (ushort)Mathf.Clamp(liveHealth - _damagesToDeal.damageHealth, 0, 1000);
+        int _tempHp =   (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth,0,1000);
+        liveHealth = (ushort)_tempHp;
+
 		print("I TOok Damage once");
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())

@@ -45,11 +45,6 @@ public class RoomManager : MonoBehaviour
         client.MessageReceived -= MessageReceived;
     }
 
-    private void Start()
-    {
-
-    }
-
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
@@ -72,12 +67,6 @@ public class RoomManager : MonoBehaviour
             }
 
         }
-    }
-
-
-    private void Update()
-    {
-        print(GetLocalPlayer().IsHost);
     }
 
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
