@@ -270,7 +270,7 @@ public class MovementModule : MonoBehaviour
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
 		float _defspeed = 0;
 
-		if (myPlayerModule.isCrouched)
+		if ((myPlayerModule.state & En_CharacterState.Crouched)!=0)
 			_defspeed = parameters.crouchingSpeed;
 
 		else
@@ -312,8 +312,6 @@ public class MovementModule : MonoBehaviour
 					_returnList.Add(_allHit[i]);
 				}
 			}
-			print(_allHit[0].collider.name);
-
 			return _returnList;
 		}
 		else
