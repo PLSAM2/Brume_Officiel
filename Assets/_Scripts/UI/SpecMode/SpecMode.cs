@@ -12,7 +12,7 @@ public class SpecMode : MonoBehaviour
     [SerializeField] GameObject label;
 
     bool isSpec = false;
-    ushort playerSpected;
+    public ushort playerSpected;
 
     private void OnEnable()
     {

@@ -12,11 +12,22 @@ public class EnemyDisplayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        LocalPlayer currentFollowPlayer = null;
+
+        if(GameManager.Instance.currentLocalPlayer != null)
+        {
+            currentFollowPlayer = GameManager.Instance.currentLocalPlayer;
+        }
+        else
+        {
+            currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+        }
+
         foreach (KeyValuePair<ushort, LocalPlayer> enemy in GameManager.Instance.networkPlayers)
         {
             if (enemy.Value.isOwner) { continue; }
 
-            if(GameManager.Instance.currentLocalPlayer == null){
+            if(currentFollowPlayer == null){
 
                 if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
@@ -34,7 +45,7 @@ public class EnemyDisplayer : MonoBehaviour
                 HideOrShow(enemy.Value, true);
             }
 
-            if (GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
+            if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
                 if (enemy.Value.myPlayerModule.isInBrume)
                 {

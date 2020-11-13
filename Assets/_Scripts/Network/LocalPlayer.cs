@@ -92,6 +92,8 @@ public class LocalPlayer : MonoBehaviour
 
 			circleDirection.SetActive(true);
 			SpawnFow();
+
+			CameraManager.Instance.SetParent(transform);
 		}
 		else
 		{
