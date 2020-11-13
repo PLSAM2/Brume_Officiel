@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 1
+  m_Name: CubeTest
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
-  m_ShaderKeywords: _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON
+  m_ShaderKeywords: _CUSTOMWORLDSPACENORMAL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: 212ba2aed652f2b40ab854acc245c4c9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Normal:
@@ -72,7 +72,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Normal_Texture:
-        m_Texture: {fileID: 2800000, guid: 2418409f260e65a4baa4d7d8b8b8a53e, type: 3}
+        m_Texture: {fileID: 2800000, guid: b5369e3010b3e6f4299e1098872e57d0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness:
@@ -84,11 +84,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness_Texture:
-        m_Texture: {fileID: 2800000, guid: 462e6eb6ea263d24c9aa2becc5fa3ffa, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_WorldSpaceNormal_Texture:
-        m_Texture: {fileID: 2800000, guid: 2418409f260e65a4baa4d7d8b8b8a53e, type: 3}
+        m_Texture: {fileID: 2800000, guid: b5369e3010b3e6f4299e1098872e57d0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -107,10 +107,6 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TextureSample1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -122,24 +118,13 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EdgeRange: 0
-    - _Float1: 0
-    - _FresnelPower: 1
-    - _FresnelScale: 7.74
-    - _FresnelSecondPower: 1
-    - _FresnelStep: 1
-    - _FresnelStepValue: 7.88
-    - _FresnelStepValue1: 0.97
-    - _FresnelStepValue2: 1
+    - _Float1: 1.58
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _InBrume_Contrast: 8.4
-    - _Ink_Tiling: 4.02
+    - _Ink_Tiling: 3.21
     - _LightDebug: 0
-    - _LightStep: 0.97
-    - _LightStep1: 0.99
-    - _LightStepMax: 0.9
-    - _LightStepMin: 1
     - _Metallic: 0
     - _Mode: 0
     - _Noise_Tiling: 0.49
@@ -147,8 +132,6 @@ Material:
     - _PaperGrunge_Tiling: 1
     - _PaperMultiply: 5
     - _Parallax: 0.02
-    - _RimEdgeNoise: -3.87
-    - _RimEdgeNoise_Tiling: 1
     - _Roughness_Multiplier: 1
     - _RougnessColor: 0
     - _ScreenBasedNoise: 0
@@ -173,7 +156,6 @@ Material:
     - _Noise_Panner: {r: 0.03, g: 0, b: 0, a: 0}
     - _Panner: {r: 0.2, g: 0, b: 0, a: 0}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
-    - _RimLightColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _Rougness_Color1: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _ShadowColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 0}

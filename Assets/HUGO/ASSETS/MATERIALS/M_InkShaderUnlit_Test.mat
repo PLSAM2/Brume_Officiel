@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Edge_Noise_Texture1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _FlowMap:
         m_Texture: {fileID: 2800000, guid: d69708e797d901040b8b9c15bd0b6ea7, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -80,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: 6395db2a80729484b931cff6723fa89f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Normal:
@@ -100,6 +104,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Object_WorldSpaceNormal_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -178,9 +186,10 @@ Material:
     - Vector1_DB7D2502: 0
     - Vector1_E91310D0: 0
     - _ASEOutlineWidth: 0
+    - _CustomWorldSpaceNormal: 0
     - _Cutoff: 0.5
     - _DistortionStrength: 0.73
-    - _EdgeRange: -0.23
+    - _EdgeRange: 0
     - _EmberSpread: 0.41
     - _Float0: 0.63
     - _Float1: 1.58
@@ -206,12 +215,14 @@ Material:
     - _RampScale: 0.5
     - _Roughness_Multiplier: 1
     - _RougnessColor: 1
+    - _ScreenBasedNoise: 0
     - _Shininess: 0.01
     - _Shininess1: 0
     - _SphereMask_Hardness: 0.8
-    - _StepAttenuation: -0.59
-    - _StepShadow: 0.26
+    - _StepAttenuation: -0.1
+    - _StepShadow: 0
     - _StepShadow1: -0.11
+    - _Test: 1
     - __dirty: 0
     - _chinesePaper_Tiling: 1
     - _edgeNoise_Attenuation: -0.16
@@ -236,6 +247,7 @@ Material:
     - Vector2_96ED0023: {r: 0, g: 0, b: 0, a: 0}
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color0: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 0}
     - _FlowDirection: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _InBrume_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
     - _Noise_Panner: {r: 0.2, g: 0, b: 0, a: 0}
