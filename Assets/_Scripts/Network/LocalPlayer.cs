@@ -85,13 +85,14 @@ public class LocalPlayer : MonoBehaviour
         if (isOwner)
         {
             GameManager.Instance.ResetCam();
-           // GameManager.Instance.myCam.m_Follow = transform;
             myPlayerModule.enabled = true;
 
             myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
             SpawnFow();
+
+            CameraManager.Instance.SetParent(transform);
         }
         else
         {

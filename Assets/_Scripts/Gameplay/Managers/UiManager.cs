@@ -442,4 +442,9 @@ public class UiManager : MonoBehaviour
     {
         specMode.gameObject.SetActive(true);
     }
+
+    public void CloseSpecMode()
+    {
+        specMode.gameObject.SetActive(false);
+    }
 }

@@ -124,7 +124,6 @@ public class PlayerModule : MonoBehaviour
             rotationLock += LockingRotation;
             reduceAllCooldown += ReduceAllCooldowns;
             reduceTargetCooldown += ReduceCooldown;
-            GameManager.PlayerSpawned.Invoke(this);
         }
         else
         {

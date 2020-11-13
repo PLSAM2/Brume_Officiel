@@ -16,16 +16,12 @@ public class CameraManager : MonoBehaviour
 	Vector2 pixelSizeScreen;
 	float minX, maxX, minY, maxY, screenEdgeBorder;
 	bool isLocked = true;
-	PlayerModule playerToFollow;
+	public Transform playerToFollow;
 	[SerializeField] CinemachineVirtualCamera myCinemachine;
 	[SerializeField] LayerMask groundlayer;
 	float screenEdgeBorderHeight, screenEdgeBorderWidth;
 
-    private void OnEnable()
-    {
-		GameManager.Instance.OnPlayerDie += OnPlayerDie;
-		GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
-	}
+	public bool isSpectate = false;
 
     private void Awake ()
 	{
@@ -47,7 +43,6 @@ public class CameraManager : MonoBehaviour
 		GameObject _go = new GameObject();
 		cameraLocker = _go.transform;
 		myCinemachine.Follow = _go.transform;
-		GameManager.PlayerSpawned += SetParent;
 
 		OnResolutionChanged();
 
@@ -55,32 +50,13 @@ public class CameraManager : MonoBehaviour
 		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;
 	}
 
-	void OnPlayerDie(ushort playerId, ushort killedId)
-    {
-		if (playerId == RoomManager.Instance.GetLocalPlayer().ID)
-        {
-			//démarer mod spec
-
-        }
-    }
-
-	void OnPlayerRespawn(ushort playerId)
-    {
-		if (playerId == RoomManager.Instance.GetLocalPlayer().ID)
-		{
-			//stop mod spec
-
-		}
-	}
-
 	private void OnDestroy ()
 	{
-		GameManager.PlayerSpawned -= SetParent;
 		UpdateCameraPos -= CameraScroll;
 		LockCamera -= LockingCam;
 	}
 
-	void SetParent ( PlayerModule _characterToStick )
+	public void SetParent ( Transform _characterToStick)
 	{
 		playerToFollow = _characterToStick;
 		cameraLocker.transform.position = _characterToStick.transform.position;
@@ -168,9 +144,22 @@ public class CameraManager : MonoBehaviour
 
 	private void LateUpdate ()
 	{
+        if (isSpectate) { return; }
+
 		if (isLocked && GameManager.Instance.gameStarted && playerToFollow != null)
 		{
 			cameraLocker.transform.position = playerToFollow.transform.position;
 		}
+	}
+
+	public void SetFollowObj(Transform obj)
+    {
+		myCinemachine.Follow = obj;
+	}
+
+	public void ResetPlayerFollow()
+    {
+		isSpectate = false;
+		myCinemachine.Follow = cameraLocker;
 	}
 }

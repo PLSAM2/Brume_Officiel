@@ -12,9 +12,9 @@ public class SpecPlayerElement : MonoBehaviour
     [SerializeField] Color blueColor;
     [SerializeField] Color redColor;
 
-    ushort playerId;
+    public ushort playerId;
 
-    [SerializeField] GameObject eye;
+    public GameObject eye;
 
     public void Init(ushort _id)
     {
@@ -35,8 +35,7 @@ public class SpecPlayerElement : MonoBehaviour
 
     public void SpecPlayer()
     {
-
-
+        CameraManager.Instance.SetParent(GameManager.Instance.networkPlayers[playerId].transform);
         eye.SetActive(true);
     }
 }
