@@ -21,6 +21,7 @@ public class PlayerModule : MonoBehaviour
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
 	[ReadOnly] public bool isInBrume = false;
+	[ReadOnly] public int brumeId;
 	Vector3 lastRecordedPos;
 
 	[Header("DamagesPart")]
@@ -155,7 +156,7 @@ public class PlayerModule : MonoBehaviour
 			LookAtMouse();
 
 			//direction des fleches du clavier 
-			DirectionInputedUpdate.Invoke(directionInputed());
+			DirectionInputedUpdate?.Invoke(directionInputed());
 
 			//INPUT DETECTION SPELLS AND RUNNING
 			#region
@@ -216,9 +217,9 @@ public class PlayerModule : MonoBehaviour
 
 			//camera
 			if (Input.GetKeyUp(freeCamera))
-				CameraManager.LockCamera.Invoke();
+				CameraManager.Instance.LockCamera?.Invoke();
 			else if (Input.GetKey(freeCamera))
-				CameraManager.UpdateCameraPos();
+				CameraManager.Instance.UpdateCameraPos?.Invoke();
 		}
 		else
 			return;
@@ -229,10 +230,12 @@ public class PlayerModule : MonoBehaviour
 		TreatEffects();
 	}
 
-	public virtual void SetInBrumeStatut ( bool _value )
+	public virtual void SetInBrumeStatut ( bool _value, int idBrume)
 	{
 		isInBrume = _value;
 		mylocalPlayer.ChangeFowRaduis(_value);
+
+		brumeId = idBrume;
 	}
 
 	void LookAtMouse ()

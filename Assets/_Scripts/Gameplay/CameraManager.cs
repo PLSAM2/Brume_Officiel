@@ -8,9 +8,10 @@ public class CameraManager : MonoBehaviour
 {
 	private static CameraManager _instance;
 	public static CameraManager Instance { get { return _instance; } }
+
 	[SerializeField] float percentageOfTheScreenToScrollFromWidth = .1f, percentageOfTheScreenToScrollFromHeight = .1f, scrollingSpeed = 10;
 	Transform cameraLocker;
-	public static Action UpdateCameraPos, LockCamera;
+	public Action UpdateCameraPos, LockCamera;
 
 	//float et taille d ecran histoire que on la recalcule pas a chaque fois
 	Vector2 pixelSizeScreen;
@@ -35,11 +36,20 @@ public class CameraManager : MonoBehaviour
 		}
 	}
 
-	private void Start ()
+    private void OnEnable()
 	{
 		UpdateCameraPos += CameraScroll;
 		LockCamera += LockingCam;
+	}
 
+    private void OnDisable()
+    {
+		UpdateCameraPos -= CameraScroll;
+		LockCamera -= LockingCam;
+	}
+
+    private void Start ()
+	{
 		GameObject _go = new GameObject();
 		cameraLocker = _go.transform;
 		myCinemachine.Follow = _go.transform;
@@ -48,12 +58,6 @@ public class CameraManager : MonoBehaviour
 
 		screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
 		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;
-	}
-
-	private void OnDestroy ()
-	{
-		UpdateCameraPos -= CameraScroll;
-		LockCamera -= LockingCam;
 	}
 
 	public void SetParent ( Transform _characterToStick)
