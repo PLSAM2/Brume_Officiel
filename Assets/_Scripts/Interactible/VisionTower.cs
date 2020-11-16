@@ -26,7 +26,6 @@ public class VisionTower : Interactible
 	protected override void Unlock ()
 	{
 		base.Unlock();
-        print("UnlockTower" + name);
         towerBody.sprite = capturableState;
     }
 
