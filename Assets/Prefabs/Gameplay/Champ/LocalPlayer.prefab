@@ -112,7 +112,7 @@ MonoBehaviour:
   dashBlockingLayer:
     serializedVersion: 2
     m_Bits: 512
-  forbidenWalkingState: 8
+  forbidenWalkingState: 136
   chara: {fileID: 8474438155242974316}
   collider: {fileID: 0}
 --- !u!143 &8474438155242974316
@@ -330,7 +330,6 @@ MonoBehaviour:
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   isInBrume: 0
-  isCrouched: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   brumeLayer:
@@ -346,6 +345,7 @@ MonoBehaviour:
   coll: {fileID: 8154408291484997990}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
+  allStatusLive: []
 --- !u!81 &8216810861203446032
 AudioListener:
   m_ObjectHideFlags: 0
