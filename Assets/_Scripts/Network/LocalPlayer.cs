@@ -178,7 +178,7 @@ public class LocalPlayer : MonoBehaviour
 
 		if (!isOwner) { return; }
 
-		if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
+		if (lastPosition !=  transform.position || lastRotation != transform.localEulerAngles)
 		{
 			lastPosition = transform.position;
 			lastRotation = transform.localEulerAngles;
@@ -281,13 +281,13 @@ public class LocalPlayer : MonoBehaviour
 		float right = Vector3.Dot(transform.right, pos);
 		float forward = Vector3.Dot(transform.forward, pos);
 
-		myAnimator.SetFloat("Forward", forward);
-		myAnimator.SetFloat("Turn", right);
-		networkAnimationController.Sync2DBlendTree("Forward", "Turn", forward, right, SendMode.Unreliable); // Sync animation blend tree
-																											//if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
-																											//{
+		if(myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
+        {
+			myAnimator.SetFloat("Forward", forward);
+			myAnimator.SetFloat("Turn", right);
 
-		//}
+			networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
+		}
 	}
 
 
