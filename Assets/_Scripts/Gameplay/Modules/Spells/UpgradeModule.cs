@@ -74,13 +74,11 @@ public class UpgradeModule : SpellModule
 	{
 		throwbackTriggered = true;
 		durationThrowback = _tempSpellTrad.durationSilenced;
-		myPlayerModule.AddState(_tempSpellTrad.stateThrowbackToApply);
 	}
 
 	void EndMalusCallBack ()
 	{
 		throwbackTriggered = false;
-		myPlayerModule.RemoveState(_tempSpellTrad.stateThrowbackToApply);
 	}
 
 	protected override float finalCooldownValue ()

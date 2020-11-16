@@ -15,15 +15,25 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
 
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            player.SetInBrumeStatut(true);
+            player.SetInBrumeStatut(true, GetInstanceID());
 
-            if (player.mylocalPlayer.isOwner)
+            PlayerModule currentFollowPlayer = null;
+
+            if (GameManager.Instance.currentLocalPlayer != null)
+            {
+                currentFollowPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
+            }
+            else
+            {
+                currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected].myPlayerModule;
+            }
+
+            if (player == currentFollowPlayer)
             {
                 myAnimator.SetBool("InBrume", true);
                 SetWardFow(false);
@@ -38,12 +48,18 @@ public class BrumeScript : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
-            if (GameManager.Instance.currentLocalPlayer == null)
+            PlayerModule currentFollowPlayer = null;
+
+            if (GameManager.Instance.currentLocalPlayer != null)
             {
-                return;
+                currentFollowPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
+            }
+            else
+            {
+                currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected].myPlayerModule;
             }
 
-            if (other.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
+            if (other.gameObject == currentFollowPlayer.gameObject)
             {
                 RaycastHit hit;
                 Vector3 fromPosition = transform.position;
@@ -65,9 +81,20 @@ public class BrumeScript : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            player.SetInBrumeStatut(false);
+            player.SetInBrumeStatut(false, 0);
 
-            if (player.mylocalPlayer.isOwner)
+            PlayerModule currentFollowPlayer = null;
+
+            if (GameManager.Instance.currentLocalPlayer != null)
+            {
+                currentFollowPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
+            }
+            else
+            {
+                currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected].myPlayerModule;
+            }
+
+            if (player == currentFollowPlayer)
             {
                 myAnimator.SetBool("InBrume", false);
                 SetWardFow(true);
