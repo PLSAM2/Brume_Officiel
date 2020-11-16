@@ -157,7 +157,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if (canBeCast())
+		if (canBeCast(Vector3.Distance(_BaseMousePos, transform.position)))
 		{
 			lastRecordedDirection = myPlayerModule.directionInputed();
 
@@ -172,7 +172,6 @@ public class SpellModule : MonoBehaviour
 				cooldown = finalCooldownValue();
 
 			recordedMousePosOnInput = _BaseMousePos;
-			myPlayerModule.AddState(En_CharacterState.Canalysing);
 
 			startCanalisation?.Invoke();
 
@@ -196,7 +195,6 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
-		TreatCharacterState();
 
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
@@ -214,11 +212,6 @@ public class SpellModule : MonoBehaviour
 		Interrupt();
 	}
 
-	protected virtual void TreatCharacterState ()
-	{
-		if ((stateAtStart & En_CharacterState.Canalysing) == 0)
-			myPlayerModule.RemoveState(En_CharacterState.Canalysing);
-	}
 
 	public virtual void DecreaseCooldown ()
 	{
@@ -244,7 +237,7 @@ public class SpellModule : MonoBehaviour
 			cooldown -= _durationShorten;
 	}
 
-	protected virtual bool canBeCast ()
+	protected virtual bool canBeCast (float _distance)
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)

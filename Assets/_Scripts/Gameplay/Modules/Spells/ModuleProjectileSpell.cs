@@ -77,14 +77,14 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = spellProj.salveInfos;
 	}
 
-	protected override bool canBeCast ()
+	protected override bool canBeCast (float _distance)
 	{
 		if (shooting)
 		{
 			return false;
 		}
 		else
-			return base.canBeCast();
+			return base.canBeCast(_distance);
 	}
 
 	//shootingPart

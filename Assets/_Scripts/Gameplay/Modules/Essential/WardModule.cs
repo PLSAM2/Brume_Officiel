@@ -127,4 +127,12 @@ public class WardModule : SpellModule
 
         wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
     }
+
+	protected override bool canBeCast (float _distance)
+	{
+        if (_distance > spell.range)
+            return false;
+        else
+		    return base.canBeCast(_distance);
+	}
 }

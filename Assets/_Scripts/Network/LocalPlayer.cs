@@ -76,6 +76,24 @@ public class LocalPlayer : MonoBehaviour
 
 		OnPlayerMove(Vector3.zero);
 	}
+	private void Update ()
+	{
+		if (Input.GetKeyDown(KeyCode.K) && isOwner)
+		{
+			DamagesInfos _temp = new DamagesInfos();
+			_temp.damageHealth = 100;
+			DealDamages(_temp);
+		}
+
+		//  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+	}
+
+	private void LateUpdate ()
+	{
+		canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
+		canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+	}
+
 
 	public void Init ( UnityClient newClient )
 	{
@@ -197,16 +215,43 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
+	public void SendStatus ( Sc_Status _statusIncured )
+	{
+
+		ushort _indexOfTheStatus = 0;
+		List<Sc_Status> _tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
+
+		for (ushort i = 0; i < _tempList.Count; i++)
+		{
+			if (_tempList[i] == _statusIncured)
+			{
+				_indexOfTheStatus = i;
+			}
+		}
+
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write(RoomManager.Instance.actualRoom.ID);
+
+			_writer.Write(_indexOfTheStatus);
+
+			using (Message _message = Message.Create(Tags.StateUpdate, _writer))
+			{
+				currentClient.SendMessage(_message, SendMode.Unreliable);
+			}
+		}
+	}
+
 	public void SendForcedMovement ( ForcedMovement _movement )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
-			_writer.Write(Mathf.RoundToInt(_movement.direction.x *10));
-			_writer.Write(Mathf.RoundToInt(_movement.direction.z *10));
-			_writer.Write(Mathf.RoundToInt(_movement.duration *100));
-			_writer.Write(Mathf.RoundToInt(_movement.strength *100));
+			_writer.Write(Mathf.RoundToInt(_movement.direction.x * 10));
+			_writer.Write(Mathf.RoundToInt(_movement.direction.z * 10));
+			_writer.Write(Mathf.RoundToInt(_movement.duration * 100));
+			_writer.Write(Mathf.RoundToInt(_movement.strength * 100));
 
 			using (Message _message = Message.Create(Tags.AddForcedMovement, _writer))
 			{
@@ -215,23 +260,6 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	private void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.K) && isOwner)
-		{
-			DamagesInfos _temp = new DamagesInfos();
-			_temp.damageHealth = 100;
-			DealDamages(_temp);
-		}
-
-		//  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-	}
-
-	private void LateUpdate ()
-	{
-		canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-		canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
-	}
 
 	public void ChangeFowRaduis ( bool _value )
 	{
@@ -304,11 +332,15 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void OnStatusReceived ( uint _state )
+	public void OnStateReceived ( uint _state )
 	{
-		myPlayerModule.state |= (En_CharacterState)_state;
+		myPlayerModule.state = (En_CharacterState)_state;
 	}
-
+	
+	public void OnAddedStatus(uint _newStatus)
+	{
+		myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
+	}
 	public void OnForcedMovementReceived ( ForcedMovement _movementSent )
 	{
 		myPlayerModule.movementPart.AddDash(_movementSent);

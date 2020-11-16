@@ -25,6 +25,7 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("DamagesPart")]
 	En_CharacterState _state;
+	bool isCrouched=false;
 	[ReadOnly] public En_CharacterState state { get => _state; set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
@@ -207,10 +208,11 @@ public class PlayerModule : MonoBehaviour
 			}
 
 			if (Input.GetKeyDown(crouching))
-				AddState(En_CharacterState.Crouched);
+				isCrouched = true;
 
 			else if (Input.GetKeyUp(crouching))
-				RemoveState(En_CharacterState.Crouched);
+				isCrouched = false;
+
 			#endregion
 
 			//camera
@@ -240,18 +242,6 @@ public class PlayerModule : MonoBehaviour
 			Vector3 _currentMousePos = mousePos();
 			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
 		}
-	}
-
-	public void AddState ( En_CharacterState _stateToAdd )
-	{
-		state |= _stateToAdd;
-		mylocalPlayer.SendState(_state);
-	}
-
-	public void RemoveState ( En_CharacterState _stateToRemove )
-	{
-		state = state & (state & ~(_stateToRemove));
-		mylocalPlayer.SendState(_state);
 	}
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
@@ -405,10 +395,11 @@ public class PlayerModule : MonoBehaviour
 
 	void TreatEffects()
 	{
-		if(allStatusLive.Count >0)
+		En_CharacterState _stateToFinalyApply = En_CharacterState.Clear;
+
+		if (allStatusLive.Count >0)
 		{
 			List<EffectLifeTimed> _tempList = allStatusLive;
-			En_CharacterState _stateToFinalyApply = En_CharacterState.Clear;
 
 			for (int i = 0; i < allStatusLive.Count; i++)
 			{
@@ -427,7 +418,14 @@ public class PlayerModule : MonoBehaviour
 
 			allStatusLive = _tempList;
 
+		}
+		if (isCrouched)
+			state |= En_CharacterState.Crouched;
+
+		if (state != _stateToFinalyApply)
+		{
 			state = _stateToFinalyApply;
+			mylocalPlayer.SendState(state);
 		}
 	}
 }
@@ -443,7 +441,6 @@ public enum En_CharacterState
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
 	Stunned = Silenced | Root,
-
 }
 
 [System.Serializable]

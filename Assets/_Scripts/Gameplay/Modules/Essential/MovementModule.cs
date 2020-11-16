@@ -65,8 +65,6 @@ public class MovementModule : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		
-		UpdateStateOnMovement();
 		transform.position =new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
@@ -162,24 +160,7 @@ public class MovementModule : MonoBehaviour
 			StartRunning();
 	}*/
 
-	void UpdateStateOnMovement ()
-	{
-		if (liveMoveSpeed() > parameters.movementSpeed)
-		{
-			myPlayerModule.AddState(En_CharacterState.SpedUp);
-			myPlayerModule.RemoveState(En_CharacterState.Slowed);
-		}
-		else if (liveMoveSpeed() < parameters.movementSpeed)
-		{
-			myPlayerModule.AddState(En_CharacterState.Slowed);
-			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
-		}
-		else
-		{
-			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
-			myPlayerModule.RemoveState(En_CharacterState.Slowed);
-		}
-	}
+
 	//Parameters
 	#region
 	/* si plusieurs mouvement forcé en même temps s additione;
