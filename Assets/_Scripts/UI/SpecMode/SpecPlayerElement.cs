@@ -16,7 +16,9 @@ public class SpecPlayerElement : MonoBehaviour
 
     public GameObject eye;
 
-    public void Init(ushort _id)
+    SpecMode mySpecMode;
+
+    public void Init(ushort _id, SpecMode _mySpecMode)
     {
         playerId = _id;
 
@@ -31,11 +33,13 @@ public class SpecPlayerElement : MonoBehaviour
         }
 
         usernameText.text = RoomManager.Instance.GetPlayerData(playerId).Name;
+
+        mySpecMode = _mySpecMode;
     }
 
     public void SpecPlayer()
     {
-        CameraManager.Instance.SetParent(GameManager.Instance.networkPlayers[playerId].transform);
-        eye.SetActive(true);
+        //CameraManager.Instance.SetParent(GameManager.Instance.networkPlayers[playerId].transform);
+        mySpecMode.ChangeSpecPlayer(playerId);
     }
 }
