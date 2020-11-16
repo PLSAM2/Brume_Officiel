@@ -58,7 +58,7 @@ public class SpecMode : MonoBehaviour
         if(RoomManager.Instance.GetPlayerData(playerId).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam && isSpec)
         {
             RefreshList();
-            SpecPlayer(playerSpected);
+            ChangeSpecPlayer(playerSpected);
         }
     }
 
@@ -106,7 +106,7 @@ public class SpecMode : MonoBehaviour
                 if(player.Value == GameManager.Instance.currentLocalPlayer) { continue; }
 
                 SpecPlayerElement specElement = Instantiate(prefabPlayer, parentList).GetComponent<SpecPlayerElement>();
-                specElement.Init(player.Key);
+                specElement.Init(player.Key, this);
 
                 listPlayer.Add(specElement);
             }
@@ -124,15 +124,14 @@ public class SpecMode : MonoBehaviour
         }
     }
 
-    void SpecPlayer(ushort id)
+    public void ChangeSpecPlayer(ushort id)
     {
+        playerSpected = id;
+        CameraManager.Instance.SetFollowObj(GameManager.Instance.networkPlayers[id].transform);
+
         foreach (SpecPlayerElement player in listPlayer)
         {
-            if(player.playerId == id)
-            {
-                player.SpecPlayer();
-                playerSpected = player.playerId;
-            }
+            player.eye.SetActive(player.playerId == id);
         }
     }
 }
