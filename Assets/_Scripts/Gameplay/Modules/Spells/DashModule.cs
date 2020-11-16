@@ -161,11 +161,11 @@ public class DashModule : SpellModule
 		base.ReturnToNormal();
 		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
-	protected override bool canBeCast ()
+	protected override bool canBeCast (float _distance)
 	{
 		if (myPlayerModule.directionInputed() == Vector3.zero)
 			return false;
 		else
-			return base.canBeCast();
+			return base.canBeCast(_distance);
 	}
 }

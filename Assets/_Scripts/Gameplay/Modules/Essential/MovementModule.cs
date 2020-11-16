@@ -9,7 +9,7 @@ public class MovementModule : MonoBehaviour
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
-	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Canalysing | En_CharacterState.Stunned;
+	[SerializeField] En_CharacterState forbidenWalkingState =  En_CharacterState.Stunned | En_CharacterState.Root;
 
 	[SerializeField] CharacterController chara;
 
@@ -65,8 +65,6 @@ public class MovementModule : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		
-		UpdateStateOnMovement();
 		transform.position =new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
@@ -162,24 +160,7 @@ public class MovementModule : MonoBehaviour
 			StartRunning();
 	}*/
 
-	void UpdateStateOnMovement ()
-	{
-		if (liveMoveSpeed() > parameters.movementSpeed)
-		{
-			myPlayerModule.AddState(En_CharacterState.SpedUp);
-			myPlayerModule.RemoveState(En_CharacterState.Slowed);
-		}
-		else if (liveMoveSpeed() < parameters.movementSpeed)
-		{
-			myPlayerModule.AddState(En_CharacterState.Slowed);
-			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
-		}
-		else
-		{
-			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
-			myPlayerModule.RemoveState(En_CharacterState.Slowed);
-		}
-	}
+
 	//Parameters
 	#region
 	/* si plusieurs mouvement forcé en même temps s additione;
@@ -268,7 +249,7 @@ public class MovementModule : MonoBehaviour
 			float _finalPercentage = 0;
 			for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
 			{
-				_finalPercentage += myPlayerModule.allStatusLive[i].percentageOfTheModifier * myPlayerModule.allStatusLive[i].decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].currentLifeTime/ myPlayerModule.allStatusLive[i].totalTime);
+				_finalPercentage += myPlayerModule.allStatusLive[i].effect.percentageOfTheModifier * myPlayerModule.allStatusLive[i].effect.decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].lifeTime/ myPlayerModule.allStatusLive[i].effect.lifeTime);
 			}
 			_finalPercentage /= myPlayerModule.allStatusLive.Count;
 			_defspeed *= _finalPercentage;

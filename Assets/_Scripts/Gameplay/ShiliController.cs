@@ -20,9 +20,9 @@ public class ShiliController : PlayerModule
         }
     }
 
-    public override void SetInBrumeStatut(bool _value)
+    public override void SetInBrumeStatut(bool _value, int brumeId)
     {
-        base.SetInBrumeStatut(_value);
+        base.SetInBrumeStatut(_value, brumeId);
 
         if (isDebuffTrailActive)
         {
