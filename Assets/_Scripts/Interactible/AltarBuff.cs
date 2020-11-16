@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AltarBuff
+public class AltarBuff : ScriptableObject
 {
-    public virtual void InitBuff() { }
+    public virtual void InitBuff(PlayerModule capturingPlayerModule) { }
 }

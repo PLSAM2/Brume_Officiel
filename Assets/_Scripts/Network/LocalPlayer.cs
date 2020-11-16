@@ -112,6 +112,7 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
+
 	void SpawnFow ()
 	{
 		myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
@@ -136,6 +137,8 @@ public class LocalPlayer : MonoBehaviour
 			//myFow.ChangeFowRaduis(0);
 		}
 	}
+
+
 
 	private void OnDestroy ()
 	{

@@ -201,7 +201,6 @@ public class Interactible : MonoBehaviour
         else if ( showOnMap)
             mapIcon.sprite = iconBlue;
 
-        // Detruire ici
     }
 
     public virtual void SetActiveState(bool value)
