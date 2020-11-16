@@ -49,6 +49,7 @@ public class SpecMode : MonoBehaviour
         {
             isSpec = true;
             CameraManager.Instance.isSpectate = true;
+
             RefreshList();
             TryToSpec();
             return;
@@ -118,6 +119,8 @@ public class SpecMode : MonoBehaviour
         {
             player.SpecPlayer();
             playerSpected = player.playerId;
+            CameraManager.Instance.SetFollowObj(GameManager.Instance.networkPlayers[player.playerId].transform);
+            return;
         }
     }
 
