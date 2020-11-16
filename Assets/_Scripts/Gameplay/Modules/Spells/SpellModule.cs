@@ -259,7 +259,13 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		spell.canalysingStatus.ApplyStatus(myPlayerModule);
+		if (spell.canalysingStatus != null) 
+			spell.canalysingStatus.ApplyStatus(myPlayerModule);
+
+		Effect _newStatus = new Effect();
+		_newStatus.lifeTime = spell.canalisationTime;
+		_newStatus.stateApplied =	En_CharacterState.Canalysing;
+		myPlayerModule.AddStatus(_newStatus);
 
 		switch (actionLinked)
 		{
@@ -281,7 +287,8 @@ public class SpellModule : MonoBehaviour
 	void ResolveSpellFeedback ()
 	{
 		//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
-		spell.resolusionStatus.ApplyStatus(myPlayerModule);
+		if (spell.resolusionStatus != null)
+			spell?.resolusionStatus.ApplyStatus(myPlayerModule);
 
 		if (particleResolution.Count > 0)
 		{

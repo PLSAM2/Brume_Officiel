@@ -199,7 +199,6 @@ public class LocalPlayer : MonoBehaviour
 
 	public void SendForcedMovement ( ForcedMovement _movement )
 	{
-		print(gameObject.name);
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);

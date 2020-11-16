@@ -44,7 +44,7 @@ public class PlayerModule : MonoBehaviour
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
 	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
-	[HideInInspector] public List<Effect> allStatusLive;
+	[HideInInspector] public List<EffectLifeTimed> allStatusLive;
 
 
 	//ALL ACTION 
@@ -115,7 +115,6 @@ public class PlayerModule : MonoBehaviour
 			reduceTargetCooldown -= ReduceCooldown;
 		}
 	}
-
 	void Setup ()
 	{
 		firstSpell?.SetupComponent(En_SpellInput.FirstSpell);
@@ -224,7 +223,6 @@ public class PlayerModule : MonoBehaviour
 		else
 			return;
 	}
-
 	private void FixedUpdate ()
 	{
 		TreatEffects();
@@ -402,29 +400,31 @@ public class PlayerModule : MonoBehaviour
 
 	public void AddStatus( Effect _statusToAdd )
 	{
-		_statusToAdd.totalTime = _statusToAdd.currentLifeTime;
-		allStatusLive.Add(_statusToAdd);
+		EffectLifeTimed _newElement = new EffectLifeTimed();
+		_newElement.lifeTime = _statusToAdd.lifeTime;
+		_newElement.effect = _statusToAdd;
+		allStatusLive.Add(_newElement);
 	}
 
 	void TreatEffects()
 	{
 		if(allStatusLive.Count >0)
 		{
-			List<Effect> _tempList = allStatusLive;
+			List<EffectLifeTimed> _tempList = allStatusLive;
 			En_CharacterState _stateToFinalyApply = En_CharacterState.Clear;
 
 			for (int i = 0; i < allStatusLive.Count; i++)
 			{
-				allStatusLive[i].currentLifeTime -= Time.fixedDeltaTime;
-				_tempList[i].currentLifeTime -= Time.fixedDeltaTime;
+				allStatusLive[i].lifeTime -= Time.fixedDeltaTime;
+				_tempList[i].lifeTime -= Time.fixedDeltaTime;
 
-				if (allStatusLive[i].currentLifeTime <= 0)
+				if (allStatusLive[i].lifeTime <= 0)
 				{
 					_tempList.Remove(allStatusLive[i]);
 				}
 				else
 				{
-					_stateToFinalyApply |= allStatusLive[i].stateApplied;
+					_stateToFinalyApply |= allStatusLive[i].effect.stateApplied;
 				}
 			}
 
@@ -441,10 +441,12 @@ public enum En_CharacterState
 	Clear = 1 << 0,
 	Slowed = 1 << 1,
 	SpedUp = 1 << 2,
-	Stunned = 1 << 3,
+	Root = 1 << 3,
 	Canalysing = 1 << 4,
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
+	Stunned = Silenced | Root,
+
 }
 
 [System.Serializable]
@@ -458,11 +460,17 @@ public class DamagesInfos
 [System.Serializable]
 public class Effect
 {
-	public float currentLifeTime;
-	[HideInInspector] public float totalTime;
+	public float lifeTime;
 	public En_CharacterState stateApplied;
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[ShowIf("isMovementOriented")] public float percentageOfTheModifier=1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier= AnimationCurve.Constant(1,1,1);
+}
+
+[System.Serializable]
+public class EffectLifeTimed
+{
+	public Effect effect;
+	public float lifeTime;
 }
 

@@ -39,6 +39,7 @@ class Tags
     public static readonly ushort Damages = 520;
     public static readonly ushort AddPoints = 550;
     public static readonly ushort KillCharacter = 560;
+
     public static readonly ushort StateUpdate = 2570;
     public static readonly ushort AddForcedMovement = 2580;
 
