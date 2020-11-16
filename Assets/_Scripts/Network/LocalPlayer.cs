@@ -31,7 +31,9 @@ public class LocalPlayer : MonoBehaviour
 	public TextMeshProUGUI lifeCount;
 	public Image life;
 
-	[ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+	[ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; 
+		lifeCount.text = "HP : " + liveHealth;
+			if (_liveHealth <= 0) KillPlayer(); } }
 	public Action<string> triggerAnim;
 
 	private UnityClient currentClient;
@@ -174,8 +176,6 @@ public class LocalPlayer : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		lifeCount.text = "HP : " + liveHealth;
-
 		if (!isOwner) { return; }
 
 		if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync || Vector3.Distance(lastRotation, transform.localEulerAngles) > distanceRequiredBeforeSync)
@@ -248,10 +248,11 @@ public class LocalPlayer : MonoBehaviour
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
-			_writer.Write(Mathf.RoundToInt(_movement.direction.x * 10));
-			_writer.Write(Mathf.RoundToInt(_movement.direction.z * 10));
-			_writer.Write(Mathf.RoundToInt(_movement.duration * 100));
-			_writer.Write(Mathf.RoundToInt(_movement.strength * 100));
+			_writer.Write((sbyte)(Mathf.RoundToInt(_movement.direction.x * 10)));
+			_writer.Write((sbyte)(Mathf.RoundToInt(_movement.direction.z * 10)));
+			_writer.Write((ushort)(Mathf.RoundToInt(_movement.duration * 100)));
+			_writer.Write((ushort)(Mathf.RoundToInt(_movement.strength * 100)));
+			_writer.Write(myPlayerId);
 
 			using (Message _message = Message.Create(Tags.AddForcedMovement, _writer))
 			{

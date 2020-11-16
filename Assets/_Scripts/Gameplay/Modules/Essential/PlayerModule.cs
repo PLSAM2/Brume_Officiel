@@ -450,7 +450,7 @@ public enum En_CharacterState
 public class DamagesInfos
 {
 	public ushort damageHealth;
-
+	public Sc_Status[] statusToApply;
 	[HideInInspector] public string playerName;
 }
 

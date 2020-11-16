@@ -6,7 +6,8 @@ using DG.Tweening;
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
-	int currentAttackToResolve = 0;
+	//int currentAttackToResolve = 0;
+	CacAttackParameters attackToResolve;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -36,67 +37,64 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += StopCanalysing;
+				myPlayerModule.leftClickInputRealeased += ResolveSpell;
 				break;
 
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += StopCanalysing;
+				myPlayerModule.firstSpellInputRealeased += ResolveSpell;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += StopCanalysing;
+				myPlayerModule.secondSpellInputRealeased += ResolveSpell;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += StopCanalysing;
+				myPlayerModule.thirdSpellInputRealeased += ResolveSpell;
 				break;
 		}
 	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
-		base.ResolveSpell(_mousePosition);
-
 		ResolveAttack();
-
-		//	foreach()
-
 	}
 
 	void ResolveAttack ()
 	{
+		attackToResolve = localTrad.listOfAttacks[0];
 
-		CacAttackParameters _currentAttack = localTrad.listOfAttacks[currentAttackToResolve];
+		for(int i =0; i < localTrad.listOfAttacks.Count; i++)
+		{
+			if(currentTimeCanalised >= attackToResolve._timeToHoldMax)
+			{
+				currentTimeCanalised -= attackToResolve._timeToHoldMax;
+			}
+			else
+				attackToResolve = localTrad.listOfAttacks[i];
+		}
 
 		myPlayerModule.forcedMovementInterrupted += ResolveSlash;
 
 		//ptit dash tu connais
 		ForcedMovement _newForcedMovement = new ForcedMovement();
 		_newForcedMovement.direction = transform.forward;
-		_newForcedMovement.duration = _currentAttack.dashDuration;
-		_newForcedMovement.strength = _currentAttack.distanceToDash / _newForcedMovement.duration;
+		_newForcedMovement.duration = attackToResolve.dashDuration;
+		_newForcedMovement.strength = attackToResolve.distanceToDash / _newForcedMovement.duration;
 		myPlayerModule.forcedMovementAdded(_newForcedMovement);
 
-	
-		currentAttackToResolve++;
-
-		if (currentAttackToResolve > localTrad.listOfAttacks.Count - 1)
-		{
-			StopCanalysing(Vector3.zero);
-		}
-		else
-			currentTimeCanalised = 0;
 	}
 
-	void ResolveSlash( )
+	void ResolveSlash()
 	{
 		myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 
-		CacAttackParameters _currentAttack = localTrad.listOfAttacks[currentAttackToResolve];
+		CacAttackParameters _currentAttack = localTrad.listOfAttacks[0];
 
 		List<GameObject> _listHit = new List<GameObject>();
 
 		float _baseAngle = _currentAttack.angleToAttackFrom / 2 - _currentAttack.angleToAttackFrom;
+		float _rangeOfTheAttack = _currentAttack.rangeOfTheAttackMin + (_currentAttack.rangeOfTheAttackMax - _currentAttack.rangeOfTheAttackMin) * Mathf.Clamp((currentTimeCanalised/ _currentAttack._timeToHoldMax),0,1);
+
 
 		//RAYCAST POUR TOUCHER
 		for (int i = 0; i < _currentAttack.angleToAttackFrom; i++)
@@ -106,18 +104,10 @@ public class CacAttack : SpellModule
 
 			Ray _ray = new Ray( transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
 
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _currentAttack.rangeOfTheAttack, LayerMask.GetMask("Character"));
+			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, LayerMask.GetMask("Character"));
 			Debug.DrawRay(_ray.origin, _ray.direction, Color.red, 5);
-		/*	RaycastHit _hit; 
-			if(Physics.Raycast(_ray, out _hit, _currentAttack.rangeOfTheAttack, gameObject.layer))
-			{
-				if (_hit.collider.gameObject != null)
-					print(_hit.collider.gameObject.name);
 
-				Debug.DrawRay(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction * _currentAttack.rangeOfTheAttack, Color.red, 10);
-
-			}*/
-
+			//verif que le gameobject est pas deja dansa la liste
 			for (int j = 0; j < _allhits.Length; j++)
 			{
 				if (!_listHit.Contains(_allhits[j].collider.gameObject))
@@ -126,33 +116,27 @@ public class CacAttack : SpellModule
 				}
 			}
 		}
+		//AU CAS OU JE ME TOUCHE COMME UN GRRRRRRRRRRRROS CON
 		_listHit.Remove(gameObject);
-
-		DamagesInfos _damageToDeal = new DamagesInfos();
-		_damageToDeal.damageHealth = _currentAttack.damagesToDeal;
 
 		foreach (GameObject _go in _listHit)
 		{
 			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
-			_playerTouched.DealDamages(_damageToDeal);
 
-			Debug.Log(_go.name);
+			_playerTouched.DealDamages(_currentAttack.damagesToDeal);
 
+			//push
 			ForcedMovement _movementTosend = new ForcedMovement();
 			_movementTosend.duration = _currentAttack.bumpDuration;
 			_movementTosend.strength = _currentAttack.bumpDistance / _currentAttack.bumpDuration;
 			_movementTosend.direction = Vector3.Normalize(_go.transform.position - transform.position);
 
-			_playerTouched.SendForcedMovement(_movementTosend);
+			if (_movementTosend.duration > 0)
+				_playerTouched.SendForcedMovement(_movementTosend);
 		}
 
-	}
-
-	void StopCanalysing ( Vector3 _mousePos )
-	{
-		currentAttackToResolve = 0;
-		charges -= 1;
 		Interrupt();
+		charges -= 1;
 	}
 
 	protected override void DecreaseCharge ()

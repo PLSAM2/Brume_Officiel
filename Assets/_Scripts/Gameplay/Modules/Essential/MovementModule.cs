@@ -226,7 +226,7 @@ public class MovementModule : MonoBehaviour
 
 	bool canMove ()
 	{
-		if ((myPlayerModule.state & forbidenWalkingState) != 0)
+		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement.duration > 0)
 			return false;
 		else
 			return true;
