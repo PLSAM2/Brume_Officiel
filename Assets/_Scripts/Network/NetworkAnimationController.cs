@@ -115,13 +115,11 @@ public class NetworkAnimationController : MonoBehaviour
                 if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
                     return;
 
-                string XvalueName = reader.ReadString();
-                string YvalueName = reader.ReadString();
                 float Xvalue = ((float)reader.ReadSByte()) / 100;
                 float Yvalue = ((float)reader.ReadSByte()) / 100;
 
-                animator.SetFloat(XvalueName, Xvalue);
-                animator.SetFloat(YvalueName, Yvalue);
+                animator.SetFloat("Forward", Xvalue);
+                animator.SetFloat("Turn", Yvalue);
             }
         }
     }
