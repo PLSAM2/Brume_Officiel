@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour
 	[SerializeField] GameObject mesh;
 	[SerializeField] AudioClip _mySfxAudio;
 	[SerializeField] bool _reduceCooldowns = true;
+	public Sc_Status[] statusToApply;
+
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
@@ -65,8 +67,14 @@ public class Projectile : MonoBehaviour
 
 			if (playerHit.teamIndex != team)
 			{
-				if(!asDeal)
+				if (!asDeal)
+				{
 					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+					foreach(Sc_Status _status in statusToApply)
+					{
+						_status.ApplyStatus(playerHit);
+					}
+				}
 
 				Destroy();
 				asDeal = true;

@@ -33,7 +33,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.8868291}
   m_AnchorMax: {x: 0, y: 0.8868291}
-  m_AnchoredPosition: {x: 141.36528, y: -109.38}
+  m_AnchoredPosition: {x: 141.36528, y: -109.37988}
   m_SizeDelta: {x: 282.73065, y: 218.75903}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &68830053
@@ -190,6 +190,7 @@ MonoBehaviour:
   prefabPlayer: {fileID: 411943586818358023, guid: 9854538f8ecf6c646ba984f42bf237e6, type: 3}
   parentList: {fileID: 68830052}
   label: {fileID: 1429208839}
+  playerSpected: 0
 --- !u!1 &1429208839
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +225,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 141.36525, y: -13.91}
+  m_AnchoredPosition: {x: 141.36525, y: -13.909912}
   m_SizeDelta: {x: 282.7305, y: 27.82022}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1552533709
@@ -550,8 +551,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5, y: -24.95752}
-  m_SizeDelta: {x: 350, y: 350}
+  m_AnchoredPosition: {x: 32, y: -32}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5486531693370151972
 CanvasRenderer:
@@ -1359,8 +1360,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40, y: 160.3}
-  m_SizeDelta: {x: 53, y: 55}
+  m_AnchoredPosition: {x: -13, y: 142.5}
+  m_SizeDelta: {x: 64.018265, y: 66.43405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2312821965300447811
 CanvasRenderer:
@@ -1465,7 +1466,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100%
+  m_text: 32%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1702,8 +1703,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00001812, y: 167.44257}
-  m_SizeDelta: {x: 60, y: 60}
+  m_AnchoredPosition: {x: 35.29995, y: 151.1}
+  m_SizeDelta: {x: 72.47351, y: 72.47351}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8674603454050830500
 CanvasRenderer:
@@ -2418,8 +2419,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 160.29999}
-  m_SizeDelta: {x: 53, y: 55}
+  m_AnchoredPosition: {x: 83.59995, y: 142.5}
+  m_SizeDelta: {x: 64.018265, y: 66.43405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1851004477392704256
 CanvasRenderer:
@@ -4747,12 +4748,12 @@ MonoBehaviour:
   waitingForPlayersPanel: {fileID: 2071096125819648510}
   generalMessageAnimTime: 3
   brumeFilter: {fileID: 8245477987619625966}
-  stunIcon: {fileID: 7515992762995570828}
   slowIcon: {fileID: 1876104890931259093}
   spedUpIcon: {fileID: 7694348954431701761}
   silencedIcon: {fileID: 1966688069096039406}
   canalysingIcon: {fileID: 7681912943301137987}
   crouchedIcon: {fileID: 8189762437035863659}
+  rootIcon: {fileID: 7515992762995570828}
   firstSpell: {fileID: 3769509737893646323}
   secondSpell: {fileID: 6943894825926998634}
   thirdSpell: {fileID: 6561193606505697669}
@@ -6446,10 +6447,10 @@ PrefabInstance:
     - target: {fileID: 67628719166534679, guid: 04eb3cdf91ed2a44ebecf510e0c11191, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1cd77ac37005d194fa0951a30efbd1c1, type: 3}
+      objectReference: {fileID: 21300000, guid: c5867ea33016cf641838745e2c611390, type: 3}
     - target: {fileID: 2703795405280364340, guid: 04eb3cdf91ed2a44ebecf510e0c11191, type: 3}
       propertyPath: m_Name
-      value: StatusIconStun
+      value: StatusIconRoot
       objectReference: {fileID: 0}
     - target: {fileID: 2703795405280364340, guid: 04eb3cdf91ed2a44ebecf510e0c11191, type: 3}
       propertyPath: m_IsActive

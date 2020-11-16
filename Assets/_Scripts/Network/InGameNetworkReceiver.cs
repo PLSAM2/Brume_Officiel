@@ -57,40 +57,44 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 SpawnPlayerObj(sender, e);
             }
-            if (message.Tag == Tags.MovePlayerTag)
+            else if (message.Tag == Tags.MovePlayerTag)
             {
                 SendPlayerMove(sender, e);
             }
-            if (message.Tag == Tags.SupprObjPlayer)
+            else if (message.Tag == Tags.SupprObjPlayer)
             {
                 SupprPlayerInServer(sender, e);
             }
-            if (message.Tag == Tags.KillCharacter)
+            else if (message.Tag == Tags.KillCharacter)
             {
                 KillCharacterInServer(sender, e);
             }
-            if (message.Tag == Tags.Damages)
+            else if (message.Tag == Tags.Damages)
             {
                 TakeDamagesInServer(sender, e);
             }
-            if (message.Tag == Tags.LaunchWard)
+            else if (message.Tag == Tags.LaunchWard)
             {
                 LaunchWardInServer(sender, e);
             }
-            if (message.Tag == Tags.StartWardLifeTime)
+            else if (message.Tag == Tags.StartWardLifeTime)
             {
                 StartWardLifeTimeInServer(sender, e);
             }
 
-            if (message.Tag == Tags.StateUpdate)
+            else if (message.Tag == Tags.StateUpdate)
             {
-                ReceiveStatus(sender, e);
+                ReceiveState(sender, e);
             }
-            if (message.Tag == Tags.AddForcedMovement)
+            else if (message.Tag == Tags.AddForcedMovement)
             {
                 ForcedMovementReceived(sender, e);
             }
-            if (message.Tag == Tags.AltarTrailDebuff)
+            else if (message.Tag == Tags.AddStatus)
+            {
+                ReceiveStatusToAdd(sender, e);
+            }
+            else if (message.Tag == Tags.AltarTrailDebuff)
             {
                 AltarTrailDebuffInServer(sender, e);
             }
@@ -333,7 +337,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
-    public void ReceiveStatus(object sender, MessageReceivedEventArgs e)
+    public void ReceiveState(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
@@ -348,7 +352,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                         return;
                     }
 
-                    GameManager.Instance.networkPlayers[id].OnStatusReceived(reader.ReadUInt16());
+                    GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadUInt16());
                 }
             }
         }
@@ -390,9 +394,38 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
+    public void ReceiveStatusToAdd ( object sender, MessageReceivedEventArgs e )
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                if (message.Tag == Tags.StateUpdate)
+                {
+                    ushort id = reader.ReadUInt16();
+
+                    if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+                    {
+                        return;
+                    }
+
+                    GameManager.Instance.networkPlayers[id].OnAddedStatus(reader.ReadUInt16());
+                }
+            }
+        }
+    }
     private void AltarTrailDebuffInServer(object sender, MessageReceivedEventArgs e)
     {
-        
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                ShiliController _temp = (ShiliController) GameManager.Instance.networkPlayers[_ID].myPlayerModule;
+                _temp.ApplyAltarTrailDebuffInServer();
+            }
+        }
     }
 
 }

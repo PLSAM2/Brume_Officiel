@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
 
 			for (int i = 0; i < _numberToPop; i++)
 			{
-				int _randomTransform = Random.Range(0, collectibleSpotAvaible.Count - 1);
+				int _randomTransform = Random.Range(0, collectibleSpotAvaible.Count);
 
 				_usedSpot.Add(collectibleSpotAvaible[_randomTransform]);
 

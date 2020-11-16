@@ -25,10 +25,12 @@ public class EnemyDisplayer : MonoBehaviour
 
         foreach (KeyValuePair<ushort, LocalPlayer> enemy in GameManager.Instance.networkPlayers)
         {
-            if (enemy.Value.isOwner) { continue; }
+            if (currentFollowPlayer == enemy.Value) {
+                HideOrShow(enemy.Value, true);
+                continue;
+            }
 
             if(currentFollowPlayer == null){
-
                 if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
                     HideOrShow(enemy.Value, true);
@@ -43,11 +45,12 @@ public class EnemyDisplayer : MonoBehaviour
             if (enemy.Value.forceShow)
             {
                 HideOrShow(enemy.Value, true);
+                continue;
             }
 
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
-                if (enemy.Value.myPlayerModule.isInBrume)
+                if (enemy.Value.myPlayerModule.isInBrume && enemy.Value.myPlayerModule.brumeId == currentFollowPlayer.myPlayerModule.brumeId)
                 {
                     if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
                     {

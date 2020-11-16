@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameData;
 
 public class GameFactory
 {
@@ -23,5 +24,17 @@ public class GameFactory
     public static ushort GetMaxLifeOfPlayer(ushort id)
     {
         return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+    }
+
+    public static Team GetOtherTeam(Team team)
+    {
+        if (team == Team.blue)
+        {
+            return Team.red;
+        }
+        else
+        {
+            return Team.blue;
+        }
     }
 }

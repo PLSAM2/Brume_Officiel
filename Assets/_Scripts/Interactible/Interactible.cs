@@ -201,7 +201,6 @@ public class Interactible : MonoBehaviour
         else if ( showOnMap)
             mapIcon.sprite = iconBlue;
 
-        // Detruire ici
     }
 
     public virtual void SetActiveState(bool value)
@@ -209,7 +208,7 @@ public class Interactible : MonoBehaviour
         isInteractable = value;
     }
 
-    protected virtual void Unlock()
+    public virtual void Unlock()
     {
         SetColor(canBeCapturedColor);
         zoneImg.gameObject.SetActive(true);

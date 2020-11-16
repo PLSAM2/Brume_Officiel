@@ -9,8 +9,8 @@ public class MovementModule : MonoBehaviour
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
-	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Canalysing | En_CharacterState.Stunned;
-	List<MovementModifier> allLiveMovementModifier = new List<MovementModifier>();
+	[SerializeField] En_CharacterState forbidenWalkingState =  En_CharacterState.Stunned | En_CharacterState.Root;
+
 	[SerializeField] CharacterController chara;
 
 	[HideInInspector] public CapsuleCollider collider;
@@ -26,7 +26,6 @@ public class MovementModule : MonoBehaviour
 		bool running = false;*/
 	//DASH 
 	ForcedMovement currentForcedMovement = new ForcedMovement();
-
 	//recup des actions
 	PlayerModule myPlayerModule;
 
@@ -42,7 +41,6 @@ public class MovementModule : MonoBehaviour
 
 		//IMPORTANT POUR LES CALLBACKS
 		currentForcedMovement.myModule = myPlayerModule;
-		myPlayerModule.addMovementModifier += AddModifierMovementSpeed;
 
 		collider = GetComponent<CapsuleCollider>();
 
@@ -50,7 +48,6 @@ public class MovementModule : MonoBehaviour
 
 	void OnDisable ()
 	{
-		myPlayerModule.addMovementModifier -= AddModifierMovementSpeed;
 		myPlayerModule.DirectionInputedUpdate -= Move;
 		myPlayerModule.forcedMovementAdded -= AddDash;
 
@@ -68,19 +65,6 @@ public class MovementModule : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		List<MovementModifier> _tempList = allLiveMovementModifier;
-
-		for (int i = 0; i < allLiveMovementModifier.Count; i++)
-		{
-			allLiveMovementModifier[i].duration -= Time.fixedDeltaTime;
-
-			if (allLiveMovementModifier[i].duration <= 0)
-			{
-				_tempList.RemoveAt(i);
-			}
-		}
-		allLiveMovementModifier = _tempList;
-		UpdateStateOnMovement();
 		transform.position =new Vector3(transform.position.x, 0, transform.position.z);
 	}
 
@@ -149,6 +133,7 @@ public class MovementModule : MonoBehaviour
 		currentForcedMovement.myModule = myPlayerModule;
 
 	}
+
 	public void AddDash ( ForcedMovement infos )
 	{
 		currentForcedMovement = infos;
@@ -174,29 +159,8 @@ public class MovementModule : MonoBehaviour
 		else
 			StartRunning();
 	}*/
-	void AddModifierMovementSpeed ( MovementModifier _newModif )
-	{
-		allLiveMovementModifier.Add(_newModif);
-	}
 
-	void UpdateStateOnMovement ()
-	{
-		if (liveMoveSpeed() > parameters.movementSpeed)
-		{
-			myPlayerModule.AddState(En_CharacterState.SpedUp);
-			myPlayerModule.RemoveState(En_CharacterState.Slowed);
-		}
-		else if (liveMoveSpeed() < parameters.movementSpeed)
-		{
-			myPlayerModule.AddState(En_CharacterState.Slowed);
-			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
-		}
-		else
-		{
-			myPlayerModule.RemoveState(En_CharacterState.SpedUp);
-			myPlayerModule.RemoveState(En_CharacterState.Slowed);
-		}
-	}
+
 	//Parameters
 	#region
 	/* si plusieurs mouvement forcé en même temps s additione;
@@ -251,6 +215,7 @@ public class MovementModule : MonoBehaviour
 			return Vector3.zero;
 
 	}
+
 	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
 	{
 		if (CastSphereAll(_direction, _layerTocheck, _maxRange) != null)
@@ -258,6 +223,7 @@ public class MovementModule : MonoBehaviour
 		else
 			return true;
 	}
+
 	bool canMove ()
 	{
 		if ((myPlayerModule.state & forbidenWalkingState) != 0)
@@ -265,6 +231,7 @@ public class MovementModule : MonoBehaviour
 		else
 			return true;
 	}
+
 	float liveMoveSpeed ()
 	{
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
@@ -277,14 +244,14 @@ public class MovementModule : MonoBehaviour
 			_defspeed = parameters.movementSpeed;
 
 
-		if (allLiveMovementModifier.Count > 0)
+		if (myPlayerModule.allStatusLive.Count > 0)
 		{
 			float _finalPercentage = 0;
-			for (int i = 0; i < allLiveMovementModifier.Count; i++)
+			for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
 			{
-				_finalPercentage += allLiveMovementModifier[i].percentageOfTheModifier;
+				_finalPercentage += myPlayerModule.allStatusLive[i].effect.percentageOfTheModifier * myPlayerModule.allStatusLive[i].effect.decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].lifeTime/ myPlayerModule.allStatusLive[i].effect.lifeTime);
 			}
-			_finalPercentage /= allLiveMovementModifier.Count;
+			_finalPercentage /= myPlayerModule.allStatusLive.Count;
 			_defspeed *= _finalPercentage;
 		}
 		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
@@ -335,10 +302,4 @@ public class ForcedMovement
 	Vector3 _direction;
 	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
 	public float strength;
-}
-
-[System.Serializable]
-public class MovementModifier
-{
-	public float percentageOfTheModifier, duration;
 }

@@ -16,7 +16,7 @@ public class Altar : Interactible
     public int life;
     public float unlockTime;
     public string altarName = "";
-
+    public AltarBuff altarBuff;
     void Start()
     {
         base.Init();
@@ -28,13 +28,13 @@ public class Altar : Interactible
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         base.UpdateCaptured(team);
 
-        // Detruire ici
+        UiManager.Instance.DisplayGeneralMessage("Altar captured");
     }
 
     public override void Captured(Team team)
     {
+        altarBuff.InitBuff(capturingPlayerModule);
         base.Captured(team);
-        UiManager.Instance.DisplayGeneralMessage("Altar captured");
     }
     public override void SetActiveState(bool value)
     {
@@ -53,7 +53,7 @@ public class Altar : Interactible
         Unlock();
     }
 
-	protected override void Unlock ()
+	public override void Unlock ()
 	{
         mapIcon.sprite = unlockedAltar;
         base.Unlock();

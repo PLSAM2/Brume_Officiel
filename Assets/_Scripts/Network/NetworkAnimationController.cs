@@ -87,7 +87,7 @@ public class NetworkAnimationController : MonoBehaviour
         }
     }
 
-    public void Sync2DBlendTree(string XvalueName, string YvalueName, float Xvalue, float Yvalue, SendMode sendMode = SendMode.Reliable)
+    public void Sync2DBlendTree(float Xvalue, float Yvalue, SendMode sendMode = SendMode.Reliable)
     {
         sbyte optimisedXvalue = (sbyte)Mathf.RoundToInt(Xvalue * 100);
         sbyte optimisedYvalue = (sbyte)Mathf.RoundToInt(Yvalue * 100);
@@ -95,8 +95,6 @@ public class NetworkAnimationController : MonoBehaviour
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(client.ID);
-            _writer.Write(XvalueName);
-            _writer.Write(YvalueName);
             _writer.Write(optimisedXvalue);
             _writer.Write(optimisedYvalue);
 
@@ -117,13 +115,11 @@ public class NetworkAnimationController : MonoBehaviour
                 if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
                     return;
 
-                string XvalueName = reader.ReadString();
-                string YvalueName = reader.ReadString();
                 float Xvalue = ((float)reader.ReadSByte()) / 100;
                 float Yvalue = ((float)reader.ReadSByte()) / 100;
 
-                animator.SetFloat(XvalueName, Xvalue);
-                animator.SetFloat(YvalueName, Yvalue);
+                animator.SetFloat("Forward", Xvalue);
+                animator.SetFloat("Turn", Yvalue);
             }
         }
     }

@@ -34,8 +34,8 @@ public class UiManager : MonoBehaviour
 
     [Header("GamePlayPart")]
 	[Header("Status Icon")]
-    [FoldoutGroup("StatusIcon")] public Image stunIcon;
-    [FoldoutGroup("StatusIcon")] public Image slowIcon, spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon;
+    [FoldoutGroup("StatusIcon")] public Image slowIcon;
+    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon, rootIcon;
 
     [Header("Spell Icons")]
     [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
@@ -375,10 +375,10 @@ public class UiManager : MonoBehaviour
 		else
 			spedUpIcon.gameObject.SetActive(false);
 
-		if ((_currentState & En_CharacterState.Stunned)!= 0)
-			stunIcon.gameObject.SetActive(true);
+		if ((_currentState & En_CharacterState.Root)!= 0)
+			rootIcon.gameObject.SetActive(true);
 		else
-			stunIcon.gameObject.SetActive(false);
+            rootIcon.gameObject.SetActive(false);
 
 		if ((_currentState & En_CharacterState.Canalysing) != 0)
 			canalysingIcon.gameObject.SetActive(true);

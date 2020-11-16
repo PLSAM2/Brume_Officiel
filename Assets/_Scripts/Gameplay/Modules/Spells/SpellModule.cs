@@ -157,7 +157,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if (canBeCast())
+		if (canBeCast(Vector3.Distance(_BaseMousePos, transform.position)))
 		{
 			lastRecordedDirection = myPlayerModule.directionInputed();
 
@@ -167,11 +167,11 @@ public class SpellModule : MonoBehaviour
 
 			DecreaseCharge();
 
+
 			if (charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();
 
 			recordedMousePosOnInput = _BaseMousePos;
-			myPlayerModule.AddState(En_CharacterState.Canalysing);
 
 			startCanalisation?.Invoke();
 
@@ -195,7 +195,6 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
-		TreatCharacterState();
 
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
@@ -208,15 +207,11 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
 		endCanalisation?.Invoke();
+
 		resolved = true;
 		Interrupt();
 	}
 
-	protected virtual void TreatCharacterState ()
-	{
-		if ((stateAtStart & En_CharacterState.Canalysing) == 0)
-			myPlayerModule.RemoveState(En_CharacterState.Canalysing);
-	}
 
 	public virtual void DecreaseCooldown ()
 	{
@@ -242,7 +237,7 @@ public class SpellModule : MonoBehaviour
 			cooldown -= _durationShorten;
 	}
 
-	protected virtual bool canBeCast ()
+	protected virtual bool canBeCast (float _distance)
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
@@ -257,10 +252,13 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		MovementModifier _temp = new MovementModifier();
-		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
-		_temp.duration = durationOfTheMovementModifier();
-		myPlayerModule.addMovementModifier(_temp);
+		if (spell.canalysingStatus != null) 
+			spell.canalysingStatus.ApplyStatus(myPlayerModule);
+
+		Effect _newStatus = new Effect();
+		_newStatus.lifeTime = spell.canalisationTime;
+		_newStatus.stateApplied =	En_CharacterState.Canalysing;
+		myPlayerModule.AddStatus(_newStatus);
 
 		switch (actionLinked)
 		{
@@ -282,6 +280,8 @@ public class SpellModule : MonoBehaviour
 	void ResolveSpellFeedback ()
 	{
 		//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+		if (spell.resolusionStatus != null)
+			spell?.resolusionStatus.ApplyStatus(myPlayerModule);
 
 		if (particleResolution.Count > 0)
 		{
