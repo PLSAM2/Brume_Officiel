@@ -416,7 +416,16 @@ public class InGameNetworkReceiver : MonoBehaviour
     }
     private void AltarTrailDebuffInServer(object sender, MessageReceivedEventArgs e)
     {
-        
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                ShiliController _temp = (ShiliController) GameManager.Instance.networkPlayers[_ID].myPlayerModule;
+                _temp.ApplyAltarTrailDebuffInServer();
+            }
+        }
     }
 
 }
