@@ -53,7 +53,7 @@ public class Altar : Interactible
         Unlock();
     }
 
-	protected override void Unlock ()
+	public override void Unlock ()
 	{
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
