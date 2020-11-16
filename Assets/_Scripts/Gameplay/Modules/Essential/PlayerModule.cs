@@ -423,7 +423,7 @@ public class PlayerModule : MonoBehaviour
 
 		}
 		if (isCrouched)
-			state |= En_CharacterState.Crouched;
+			_stateToFinalyApply |= En_CharacterState.Crouched;
 
 		if (state != _stateToFinalyApply)
 		{
@@ -469,5 +469,8 @@ public class EffectLifeTimed
 {
 	public Effect effect;
 	public float lifeTime;
+
+
+
 }
 
