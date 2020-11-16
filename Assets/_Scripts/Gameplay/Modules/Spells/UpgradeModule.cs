@@ -20,12 +20,6 @@ public class UpgradeModule : SpellModule
 	{
 		base.ResolveSpell(_mousePosition);
 
-		MovementModifier _tempModifier = new MovementModifier();
-
-		_tempModifier.duration = _tempSpellTrad.duration;
-		_tempModifier.percentageOfTheModifier = 1 + _tempSpellTrad.bonusPercentageMoveSpeed;
-		myPlayerModule.addMovementModifier(_tempModifier);
-
 		bonusTimeRemaining = _tempSpellTrad.duration;
 		durationThrowback = _tempSpellTrad.durationSilenced;
 

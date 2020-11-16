@@ -167,6 +167,7 @@ public class SpellModule : MonoBehaviour
 
 			DecreaseCharge();
 
+
 			if (charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();
 
@@ -208,6 +209,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
 		endCanalisation?.Invoke();
+
 		resolved = true;
 		Interrupt();
 	}
@@ -257,10 +259,7 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		MovementModifier _temp = new MovementModifier();
-		_temp.percentageOfTheModifier = spell.movementModifierDuringCanalysing;
-		_temp.duration = durationOfTheMovementModifier();
-		myPlayerModule.addMovementModifier(_temp);
+		spell.canalysingStatus.ApplyStatus(myPlayerModule);
 
 		switch (actionLinked)
 		{
@@ -282,6 +281,7 @@ public class SpellModule : MonoBehaviour
 	void ResolveSpellFeedback ()
 	{
 		//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
+		spell.resolusionStatus.ApplyStatus(myPlayerModule);
 
 		if (particleResolution.Count > 0)
 		{

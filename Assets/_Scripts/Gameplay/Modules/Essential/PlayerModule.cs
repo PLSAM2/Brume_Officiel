@@ -43,6 +43,8 @@ public class PlayerModule : MonoBehaviour
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
 	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
+	[HideInInspector] public List<Effect> allStatusLive;
+
 
 	//ALL ACTION 
 	#region
@@ -60,7 +62,6 @@ public class PlayerModule : MonoBehaviour
 	#region
 	public Action<ForcedMovement> forcedMovementAdded;
 	public Action forcedMovementInterrupted;
-	public Action<MovementModifier> addMovementModifier;
 	#endregion
 
 	//pour l animator
@@ -95,7 +96,6 @@ public class PlayerModule : MonoBehaviour
 		{
 			GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
 		}
-
 		//	oldPos = transform.position;
 	}
 
@@ -224,6 +224,11 @@ public class PlayerModule : MonoBehaviour
 			return;
 	}
 
+	private void FixedUpdate ()
+	{
+		TreatEffects();
+	}
+
 	public virtual void SetInBrumeStatut ( bool _value )
 	{
 		isInBrume = _value;
@@ -285,6 +290,7 @@ public class PlayerModule : MonoBehaviour
 		//leftClick.ReduceCooldown(_duration);
 		ward.ReduceCooldown(_duration);
 	}
+	
 	//vision
 	#region
 	void CheckForBrumeRevelation ()
@@ -391,6 +397,39 @@ public class PlayerModule : MonoBehaviour
 		playerSouls.Add(playerSoul);
 	}
 
+	public void AddStatus( Effect _statusToAdd )
+	{
+		_statusToAdd.totalTime = _statusToAdd.currentLifeTime;
+		allStatusLive.Add(_statusToAdd);
+	}
+
+	void TreatEffects()
+	{
+		if(allStatusLive.Count >0)
+		{
+			List<Effect> _tempList = allStatusLive;
+			En_CharacterState _stateToFinalyApply = En_CharacterState.Clear;
+
+			for (int i = 0; i < allStatusLive.Count; i++)
+			{
+				allStatusLive[i].currentLifeTime -= Time.fixedDeltaTime;
+				_tempList[i].currentLifeTime -= Time.fixedDeltaTime;
+
+				if (allStatusLive[i].currentLifeTime <= 0)
+				{
+					_tempList.Remove(allStatusLive[i]);
+				}
+				else
+				{
+					_stateToFinalyApply |= allStatusLive[i].stateApplied;
+				}
+			}
+
+			allStatusLive = _tempList;
+
+			state = _stateToFinalyApply;
+		}
+	}
 }
 
 [System.Flags]
@@ -411,5 +450,16 @@ public class DamagesInfos
 	public ushort damageHealth;
 
 	[HideInInspector] public string playerName;
+}
+
+[System.Serializable]
+public class Effect
+{
+	public float currentLifeTime;
+	[HideInInspector] public float totalTime;
+	public En_CharacterState stateApplied;
+	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
+	[ShowIf("isMovementOriented")] public float percentageOfTheModifier=1;
+	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier= AnimationCurve.Constant(1,1,1);
 }
 
