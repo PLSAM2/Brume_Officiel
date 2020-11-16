@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: ProjectileSpell attaque base
   m_EditorClassIdentifier: 
-  canalisationTime: 0.02
+  canalisationTime: 0
   range: 5.5
   cooldown: 1
-  movementModifierDuringCanalysing: 0.3
   numberOfCharge: 1
   lockOnCanalisation: 0
   forbiddenState: 56
+  canalysingStatus: {fileID: 11400000, guid: b8f60be7f55ce564fa24db67e92c5f92, type: 2}
+  resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 0
