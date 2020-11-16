@@ -14,7 +14,7 @@ public class VisionTower : Interactible
     void Start()
     {
         base.Init();
-        Unlock();
+        towerBody.sprite = lockedState;
     }
 
     public override void Captured(GameData.Team team)
@@ -23,9 +23,9 @@ public class VisionTower : Interactible
         towerBody.sprite = lockedState;
     }
 
-	protected override void Unlock ()
-	{
-		base.Unlock();
+    public override void Unlock()
+    {
+        base.Unlock();
         towerBody.sprite = capturableState;
     }
 

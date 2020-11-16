@@ -2,6 +2,7 @@
 using DarkRift.Client;
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,6 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
     }
     void Start()
     {
-        //if(RoomManager.Instance.GetLocalPlayer().IsHost)
-        //{
-        //    StartCoroutine(UnlockAltar());
-        //}
 
         foreach (KeyInteractiblePair KeyInteractiblePair in interactibleList)
         {
@@ -72,7 +69,11 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             if (message.Tag == Tags.UnlockInteractible)
             {
                 UnlockInteractibleInServer(sender, e);
-            }            
+            }
+            if (message.Tag == Tags.UnlockAllInteractibleOfType)
+            {
+                UnlockAllInteractibleOfType(sender, e);
+            }
             if (message.Tag == Tags.FrogTimerElapsed)
             {
                 RespawnFrogTimerEndInServer(sender, e);
@@ -81,7 +82,6 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             {
                 ReactivateVisionTowerInServer(sender, e);
             }
-
         }
     }
 
@@ -190,39 +190,44 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             }
         }
     }
-    //private IEnumerator UnlockAltar()
-    //{
-    //    yield return new WaitForSeconds(firstAltarUnlockTime); 
 
-    //    List<Altar> usableAltars = new List<Altar>();
+    private void UnlockAllInteractibleOfType(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                InteractibleType _type = (InteractibleType)reader.ReadUInt16();
 
-    //    foreach (Altar altar in altarList)
-    //    {
-    //        if (!altar.isInteractable)
-    //        {
-    //            usableAltars.Add(altar);
-    //        }
-    //    }
+                foreach (KeyInteractiblePair interactiblePair in interactibleList)
+                {
+                    if (interactiblePair.interactible.type == _type)
+                    {
+                        Interactible _temp = interactiblePair.interactible;
 
-    //    ushort _altarId = (ushort)Random.Range(0, usableAltars.Count);
-    //    Altar _altar = usableAltars[_altarId];
-
-    //    if (_altar != null)
-    //    {
-    //        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-    //        {
-    //            _writer.Write(_altarId);
-
-    //            using (Message _message = Message.Create(Tags.UnlockInteractible, _writer))
-    //            {
-    //                client.SendMessage(_message, SendMode.Reliable);
-    //            }
-    //        }
-
-    //        _altar.SetActiveState(true);
-    //    }
-    //}
-
-
+                        switch (_type)
+                        {
+                            case InteractibleType.none:
+                                return;
+                            case InteractibleType.Altar:
+                                ((Altar)_temp).Unlock();
+                                break;
+                            case InteractibleType.VisionTower:
+                                ((VisionTower)_temp).Unlock();
+                                break;
+                            case InteractibleType.Frog:
+                                ((Frog)_temp).Unlock();
+                                break;
+                            case InteractibleType.ResurectAltar:
+                                ((ResurrectAltar)_temp).Unlock();
+                                break;
+                            default:
+                                throw new Exception("Type non connnu");
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
