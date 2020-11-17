@@ -19,7 +19,16 @@ public class PlayerModule : MonoBehaviour
     [Header("GameplayInfos")]
     public Sc_CharacterParameters characterParameters;
     [ReadOnly] public Team teamIndex;
-    [ReadOnly] public bool isInBrume = false;
+    private bool _isInBrume;
+
+    [ReadOnly] public bool isInBrume
+    { get => _isInBrume; set {
+            _isInBrume = value;
+            if (isAltarSpeedBuffActive)
+            {
+                SetAltarSpeedBuffState(_isInBrume);
+            }
+        } }
     [ReadOnly] public int brumeId;
     Vector3 lastRecordedPos;
 
@@ -241,11 +250,6 @@ public class PlayerModule : MonoBehaviour
         mylocalPlayer.ChangeFowRaduis(_value);
 
         brumeId = idBrume;
-
-		if (isAltarSpeedBuffActive)
-		{
-			SetAltarSpeedBuffState(_value);
-		}
 	}
 
 	void LookAtMouse()
@@ -430,7 +434,7 @@ public class PlayerModule : MonoBehaviour
 
             for (int i = 0; i < allStatusLive.Count; i++)
             {
-                if (!allStatusLive[i].effect.isDurable)
+                if (!allStatusLive[i].effect.isConstant)
                 {
                     allStatusLive[i].lifeTime -= Time.fixedDeltaTime;
                     _tempList[i].lifeTime -= Time.fixedDeltaTime;
@@ -493,7 +497,6 @@ public class PlayerModule : MonoBehaviour
 	public void ApplySpeedBuffInServer ()
 	{
 		isAltarSpeedBuffActive = true;
-        print("IApplyBuff");
 		if (isInBrume)
 		{
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
@@ -502,14 +505,20 @@ public class PlayerModule : MonoBehaviour
 
 	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
 	{
+        print("I changedOfstate");
+
 		if (value)
 		{
-			StopStatus(leavingBrumeStatus.effect.forcedKey);
+            Debug.Log("Istoped" + leavingBrumeStatus.effect.forcedKey);
+            StopStatus(enteringBrumeStatus.effect.forcedKey);
+            StopStatus(leavingBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
 		}
 		else
 		{
-			StopStatus(enteringBrumeStatus.effect.forcedKey);
+            Debug.Log("Istoped" + enteringBrumeStatus.effect.forcedKey);
+            StopStatus(leavingBrumeStatus.effect.forcedKey);
+            StopStatus(enteringBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
 	}
@@ -539,9 +548,10 @@ public class DamagesInfos
 [System.Serializable]
 public class Effect
 {
-    public float lifeTime;
-    [HorizontalGroup("Group1")] public bool isDurable = false;
-    [HorizontalGroup("Group1")] [ShowIf("isDurable")] public ushort forcedKey = 0;
+    [HorizontalGroup("Group2")] public float lifeTime;
+    [HorizontalGroup("Group2")] public bool isConstant= false;
+    [HorizontalGroup("Group1")] public bool canBeForcedStop = false;
+    [HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
 
     public En_CharacterState stateApplied;
     bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
