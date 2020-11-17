@@ -31,7 +31,9 @@ public class LocalPlayer : MonoBehaviour
 	public TextMeshProUGUI lifeCount;
 	public Image life;
 
-	[ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; if (_liveHealth <= 0) KillPlayer(); } }
+	[ReadOnly] public ushort liveHealth { get => _liveHealth; set { _liveHealth = value; 
+		lifeCount.text = "HP : " + liveHealth;
+			if (_liveHealth <= 0) KillPlayer(); } }
 	public Action<string> triggerAnim;
 
 	private UnityClient currentClient;
@@ -182,8 +184,6 @@ public class LocalPlayer : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		lifeCount.text = "HP : " + liveHealth;
-
 		if (!isOwner) { return; }
 
 		if (lastPosition !=  transform.position || lastRotation != transform.localEulerAngles)
@@ -225,9 +225,9 @@ public class LocalPlayer : MonoBehaviour
 
 	public void SendStatus ( Sc_Status _statusIncured )
 	{
-
 		ushort _indexOfTheStatus = 0;
-		List<Sc_Status> _tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
+		List<Sc_Status> _tempList = new List<Sc_Status>();
+		_tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
 
 		for (ushort i = 0; i < _tempList.Count; i++)
 		{
@@ -236,14 +236,15 @@ public class LocalPlayer : MonoBehaviour
 				_indexOfTheStatus = i;
 			}
 		}
-
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
 			_writer.Write(_indexOfTheStatus);
 
-			using (Message _message = Message.Create(Tags.StateUpdate, _writer))
+			_writer.Write(myPlayerId);
+
+			using (Message _message = Message.Create(Tags.AddStatus, _writer))
 			{
 				currentClient.SendMessage(_message, SendMode.Unreliable);
 			}
@@ -256,10 +257,11 @@ public class LocalPlayer : MonoBehaviour
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
-			_writer.Write(Mathf.RoundToInt(_movement.direction.x * 10));
-			_writer.Write(Mathf.RoundToInt(_movement.direction.z * 10));
-			_writer.Write(Mathf.RoundToInt(_movement.duration * 100));
-			_writer.Write(Mathf.RoundToInt(_movement.strength * 100));
+			_writer.Write((sbyte)(Mathf.RoundToInt(_movement.direction.x * 10)));
+			_writer.Write((sbyte)(Mathf.RoundToInt(_movement.direction.z * 10)));
+			_writer.Write((ushort)(Mathf.RoundToInt(_movement.duration * 100)));
+			_writer.Write((ushort)(Mathf.RoundToInt(_movement.strength * 100)));
+			_writer.Write(myPlayerId);
 
 			using (Message _message = Message.Create(Tags.AddForcedMovement, _writer))
 			{
@@ -267,7 +269,6 @@ public class LocalPlayer : MonoBehaviour
 			}
 		}
 	}
-
 
 	public void ChangeFowRaduis ( bool _value )
 	{
@@ -298,7 +299,6 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-
 	public void SetMovePosition ( Vector3 newPos, Vector3 newRotation )
 	{
 		transform.position = newPos;
@@ -315,6 +315,11 @@ public class LocalPlayer : MonoBehaviour
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
 		liveHealth = (ushort)_tempHp;
+
+		foreach(Sc_Status statusToApply in _damagesToDeal.statusToApply)
+		{
+			SendStatus(statusToApply);
+		}
 
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -344,8 +349,8 @@ public class LocalPlayer : MonoBehaviour
 	{
 		myPlayerModule.state = (En_CharacterState)_state;
 	}
-	
-	public void OnAddedStatus(uint _newStatus)
+
+	public void OnAddedStatus(ushort _newStatus)
 	{
 		myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
 	}
