@@ -76,7 +76,10 @@ public class CacAttack : SpellModule
 		myPlayerModule.forcedMovementInterrupted += ResolveSlash;
 
 		//ptit dash tu connais
-		myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+		if (attackToResolve.movementOfTheCharacter != null)
+			myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+		else
+			myPlayerModule.movementPart.AddDash(new ForcedMovement());
 	}
 
 	void ResolveSlash()

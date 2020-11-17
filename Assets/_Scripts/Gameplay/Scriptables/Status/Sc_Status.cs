@@ -14,7 +14,4 @@ public class Sc_Status : ScriptableObject
 		target.AddStatus(effect);
 	}
 
-	public virtual void StopStatus(PlayerModule target)
-	{
-	}
 }
