@@ -221,7 +221,8 @@ public class LocalPlayer : MonoBehaviour
 	public void SendStatus ( Sc_Status _statusIncured )
 	{
 		ushort _indexOfTheStatus = 0;
-		List<Sc_Status> _tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
+		List<Sc_Status> _tempList = new List<Sc_Status>();
+		_tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
 
 		for (ushort i = 0; i < _tempList.Count; i++)
 		{
@@ -230,12 +231,13 @@ public class LocalPlayer : MonoBehaviour
 				_indexOfTheStatus = i;
 			}
 		}
-
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
 			_writer.Write(_indexOfTheStatus);
+
+			_writer.Write(myPlayerId);
 
 			using (Message _message = Message.Create(Tags.AddStatus, _writer))
 			{
@@ -343,7 +345,7 @@ public class LocalPlayer : MonoBehaviour
 		myPlayerModule.state = (En_CharacterState)_state;
 	}
 
-	public void OnAddedStatus(uint _newStatus)
+	public void OnAddedStatus(ushort _newStatus)
 	{
 		myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
 	}
