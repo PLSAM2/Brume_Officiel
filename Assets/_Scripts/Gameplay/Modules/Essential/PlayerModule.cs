@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
-using System.Net.Http.Headers;
-using DG.Tweening;
 using static GameData;
 
 public class PlayerModule : MonoBehaviour
@@ -30,7 +28,6 @@ public class PlayerModule : MonoBehaviour
 	[ReadOnly] public En_CharacterState state { get => _state; set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
-
 	[Header("Vision")]
 	public GameObject sonar;
 	public LayerMask brumeLayer;
@@ -47,6 +44,10 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 	[HideInInspector] public List<EffectLifeTimed> allStatusLive;
 
+	//AltarBuff
+	private bool isAltarSpeedBuffActive = false;
+	[SerializeField] private Sc_Status enteringBrumeStatus;
+	[SerializeField] private Sc_Status leaveBrumeStatus;
 
 	//ALL ACTION 
 	#region
@@ -406,8 +407,11 @@ public class PlayerModule : MonoBehaviour
 
 			for (int i = 0; i < allStatusLive.Count; i++)
 			{
-				allStatusLive[i].lifeTime -= Time.fixedDeltaTime;
-				_tempList[i].lifeTime -= Time.fixedDeltaTime;
+                if (!allStatusLive[i].effect.isDurable)
+                {
+					allStatusLive[i].lifeTime -= Time.fixedDeltaTime;
+					_tempList[i].lifeTime -= Time.fixedDeltaTime;
+				}
 
 				if (allStatusLive[i].lifeTime <= 0)
 				{
@@ -458,6 +462,7 @@ public class DamagesInfos
 public class Effect
 {
 	public float lifeTime;
+	public bool isDurable = false;
 	public En_CharacterState stateApplied;
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[ShowIf("isMovementOriented")] public float percentageOfTheModifier=1;
@@ -467,6 +472,7 @@ public class Effect
 [System.Serializable]
 public class EffectLifeTimed
 {
+	public ushort key = 0;
 	public Effect effect;
 	public float lifeTime;
 
