@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Module_Spit : SpellModule
 {
-
+    /*
     [SerializeField] private AnimationCurve launchCurve;
     [SerializeField] private GameObject wardPrefab;
     private GameObject wardObj;
@@ -88,5 +88,5 @@ public class Module_Spit : SpellModule
         }
 
         InitWardLaunch(destination);
-    }
+    }*/
 }
