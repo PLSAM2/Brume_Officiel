@@ -17,7 +17,6 @@ public class Projectile : MonoBehaviour
 	[SerializeField] GameObject mesh;
 	[SerializeField] AudioClip _mySfxAudio;
 	[SerializeField] bool _reduceCooldowns = true;
-	public Sc_Status[] statusToApply;
 
 	private void Start ()
 	{
@@ -70,10 +69,6 @@ public class Projectile : MonoBehaviour
 				if (!asDeal)
 				{
 					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
-					foreach(Sc_Status _status in statusToApply)
-					{
-						_status.ApplyStatus(playerHit.mylocalPlayer);
-					}
 				}
 
 				Destroy();

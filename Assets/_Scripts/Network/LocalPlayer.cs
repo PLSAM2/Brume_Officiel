@@ -233,8 +233,12 @@ public class LocalPlayer : MonoBehaviour
 			if (_tempList[i] == _statusIncured)
 			{
 				_indexOfTheStatus = i;
+				break;
 			}
+			if (i == _tempList.Count - 1)
+				return;
 		}
+
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
