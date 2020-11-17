@@ -14,17 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effect:
     lifeTime: 6
-    stateApplied: 132
-    percentageOfTheModifier: 0.3
+    isDurable: 0
+    forcedKey: 1000
+    stateApplied: 4
+    percentageOfTheMovementModifier: 0.3
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0
