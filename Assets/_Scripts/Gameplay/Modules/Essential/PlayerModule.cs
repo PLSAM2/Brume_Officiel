@@ -241,13 +241,13 @@ public class PlayerModule : MonoBehaviour
 
         brumeId = idBrume;
 
-        //if (isAltarSpeedBuffActive)
-        //{
-        //    SetAltarSpeedBuffState(_value);
-        //}
-    }
+		if (isAltarSpeedBuffActive)
+		{
+			SetAltarSpeedBuffState(_value);
+		}
+	}
 
-    void LookAtMouse()
+	void LookAtMouse()
     {
         if (!rotLocked)
         {
@@ -445,40 +445,40 @@ public class PlayerModule : MonoBehaviour
     }
 
 
-    //public void StopStatus(ushort key)
-    //{
-    //    EffectLifeTimed _temp = allStatusLive.Where(x => x.key == key).FirstOrDefault();
+	public void StopStatus ( ushort key )
+	{
+		EffectLifeTimed _temp = allStatusLive.Where(x => x.key == key).FirstOrDefault();
 
-    //    if (_temp != null)
-    //    {
-    //        _temp.Stop();
-    //    }
-    //}
+		if (_temp != null)
+		{
+			_temp.Stop();
+		}
+	}
 
-    //// Altars buff
-    //public void ApplySpeedBuffInServer()
-    //{
-    //    isAltarSpeedBuffActive = true;
+	// Altars buff
+	public void ApplySpeedBuffInServer ()
+	{
+		isAltarSpeedBuffActive = true;
 
-    //    if (isInBrume)
-    //    {
-    //        mylocalPlayer.SendStatus(enteringBrumeStatus);
-    //    }
-    //}
+		if (isInBrume)
+		{
+			mylocalPlayer.SendStatus(enteringBrumeStatus);
+		}
+	}
 
-    //public void SetAltarSpeedBuffState(bool value) // Call when entering brume
-    //{
-    //    if (value)
-    //    {
-    //        StopStatus(leavingBrumeStatusKey);
-    //        mylocalPlayer.SendStatus(enteringBrumeStatus);
-    //    }
-    //    else
-    //    {
-    //        StopStatus(enteringBrumeStatusKey);
-    //        mylocalPlayer.SendStatus(leavingBrumeStatus);
-    //    }
-    //}
+	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
+	{
+		if (value)
+		{
+			StopStatus(leavingBrumeStatusKey);
+			mylocalPlayer.SendStatus(enteringBrumeStatus);
+		}
+		else
+		{
+			StopStatus(enteringBrumeStatusKey);
+			mylocalPlayer.SendStatus(leavingBrumeStatus);
+		}
+	}
 }
 
 [System.Flags]
