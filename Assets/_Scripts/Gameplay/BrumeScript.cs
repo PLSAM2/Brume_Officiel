@@ -10,7 +10,6 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] AnimationCurve curveAlpha;
 
     [SerializeField] Renderer myRenderer;
-    [SerializeField] GameObject groundImg;
 
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
@@ -22,23 +21,13 @@ public class BrumeScript : MonoBehaviour
             PlayerModule player = other.GetComponent<PlayerModule>();
             player.SetInBrumeStatut(true, GetInstanceID());
 
-            PlayerModule currentFollowPlayer = null;
-
-            if (GameManager.Instance.currentLocalPlayer != null)
-            {
-                currentFollowPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
-            }
-            else
-            {
-                currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected].myPlayerModule;
-            }
+            PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
             if (player == currentFollowPlayer)
             {
                 myAnimator.SetBool("InBrume", true);
-                SetWardFow(false);
+                SetWardFow(player);
 
-                groundImg.SetActive(true);
                 myRenderer.enabled = false;
             }
         }
@@ -48,16 +37,7 @@ public class BrumeScript : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
-            PlayerModule currentFollowPlayer = null;
-
-            if (GameManager.Instance.currentLocalPlayer != null)
-            {
-                currentFollowPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
-            }
-            else
-            {
-                currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected].myPlayerModule;
-            }
+            PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
             if (other.gameObject == currentFollowPlayer.gameObject)
             {
@@ -83,37 +63,45 @@ public class BrumeScript : MonoBehaviour
             PlayerModule player = other.GetComponent<PlayerModule>();
             player.SetInBrumeStatut(false, 0);
 
-            PlayerModule currentFollowPlayer = null;
-
-            if (GameManager.Instance.currentLocalPlayer != null)
-            {
-                currentFollowPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
-            }
-            else
-            {
-                currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected].myPlayerModule;
-            }
+            PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
             if (player == currentFollowPlayer)
             {
                 myAnimator.SetBool("InBrume", false);
-                SetWardFow(true);
+                SetWardFow(player);
 
                 UiManager.Instance.SetAlphaBrume(0);
-                groundImg.SetActive(false);
                 myRenderer.enabled = true;
             }
         }
     }
 
-    void SetWardFow(bool _value)
+    void SetWardFow(PlayerModule _player)
     {
         GameManager.Instance.allWard.RemoveAll(x => x == null);
 
         foreach (Ward ward in GameManager.Instance.allWard)
         {
             if(ward == null) { continue; }
-            ward.GetFow().gameObject.SetActive(_value);
+            bool fogValue = false;
+
+            if (GameFactory.PlayerWardAreOnSameBrume(_player, ward))
+            {
+                fogValue = true;
+            }
+            else
+            {
+                if (_player.isInBrume)
+                {
+                    fogValue = false;
+                }
+                else
+                {
+                    fogValue = true;
+                }
+            }
+
+            ward.GetFow().gameObject.SetActive(fogValue);
         }
     }
 }

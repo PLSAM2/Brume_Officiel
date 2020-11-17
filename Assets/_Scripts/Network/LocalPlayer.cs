@@ -49,8 +49,12 @@ public class LocalPlayer : MonoBehaviour
 	public static Action disableModule;
 	public bool isVisible = false;
 
+	public QuickOutline myOutline;
+
 	[Header("Audio")]
 	[SerializeField] GameObject prefabAudioPlayer;
+
+
 
 	private void Awake ()
 	{
@@ -78,34 +82,17 @@ public class LocalPlayer : MonoBehaviour
 
 		OnPlayerMove(Vector3.zero);
 	}
-	private void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.K) && isOwner)
-		{
-			DamagesInfos _temp = new DamagesInfos();
-			_temp.damageHealth = 100;
-			DealDamages(_temp);
-		}
 
-		//  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-	}
-
-	private void LateUpdate ()
-	{
-		canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-		canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
-	}
-
-
-	public void Init ( UnityClient newClient )
+	public void Init(UnityClient newClient)
 	{
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
+		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+
 		if (isOwner)
 		{
 			GameManager.Instance.ResetCam();
-			// GameManager.Instance.myCam.m_Follow = transform;
 			myPlayerModule.enabled = true;
 
 			myPlayerModule.onSendMovement += OnPlayerMove;
@@ -132,6 +119,23 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
+	private void Update ()
+	{
+		if (Input.GetKeyDown(KeyCode.K) && isOwner)
+		{
+			DamagesInfos _temp = new DamagesInfos();
+			_temp.damageHealth = 100;
+			DealDamages(_temp);
+		}
+
+		//  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+	}
+
+	private void LateUpdate ()
+	{
+		canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
+		canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+	}
 
 	void SpawnFow ()
 	{
@@ -298,6 +302,17 @@ public class LocalPlayer : MonoBehaviour
 	{
 		transform.position = newPos;
 		transform.localEulerAngles = newRotation;
+
+		/*
+		float right = Vector3.Dot(transform.right, newPos);
+		float forward = Vector3.Dot(transform.forward, newPos);
+
+		if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
+		{
+			myAnimator.SetFloat("Forward", forward);
+			myAnimator.SetFloat("Turn", right);
+		}
+		*/
 	}
 
 	public void OnRespawn ()

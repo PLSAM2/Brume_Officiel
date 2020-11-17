@@ -31,8 +31,6 @@ public class Interactible : MonoBehaviour
     protected bool isCapturing = false;
 
     [Header("Color")]
-    [SerializeField] protected Color redTeamCaptureColor;
-    [SerializeField] protected Color blueTeamCaptureColor;
     [SerializeField] protected Color canBeCapturedColor;
     [SerializeField] protected Color noCaptureColor;
 
@@ -128,18 +126,7 @@ public class Interactible : MonoBehaviour
             StopCapturing(RoomManager.Instance.GetLocalPlayer().playerTeam);
         }
 
-        switch (team)
-        {
-            case Team.red:
-                SetColor(redTeamCaptureColor);
-                break;
-            case Team.blue:
-                SetColor(blueTeamCaptureColor);
-                break;
-            default:
-                Debug.Log("ERROR NO TEAM");
-                break;
-        }
+        SetColor(GameFactory.GetColorTeam(team));
     }
 
     /// <summary>
