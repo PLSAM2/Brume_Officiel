@@ -15,36 +15,46 @@ MonoBehaviour:
   canalisationTime: 0.2
   range: 0
   cooldown: 0.5
-  movementModifierDuringCanalysing: 1
   numberOfCharge: 1
   lockOnCanalisation: 1
   forbiddenState: 56
+  canalysingStatus: {fileID: 0}
+  resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 0
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
   listOfAttacks:
   - angleToAttackFrom: 90
-    rangeOfTheAttack: 2
-    distanceToDash: 0.5
-    dashDuration: 0.05
-    bumpDistance: 0.5
-    bumpDuration: 0.05
-    delayWithNextAttack: 0.3
-    damagesToDeal: 0
+    rangeOfTheAttackMin: 3
+    rangeOfTheAttackMax: 5
+    movementOfTheCharacter: {fileID: 0}
+    movementOfHit: {fileID: 0}
+    _timeToHoldToGetToNext: 0.5
+    _timeToHoldMax: 0.3
+    damagesToDeal:
+      damageHealth: 0
+      statusToApply: []
+      playerName: 
   - angleToAttackFrom: 90
-    rangeOfTheAttack: 2
-    distanceToDash: 0.5
-    dashDuration: 0.05
-    bumpDistance: 0.5
-    bumpDuration: 0.05
-    delayWithNextAttack: 0.3
-    damagesToDeal: 0
+    rangeOfTheAttackMin: 3
+    rangeOfTheAttackMax: 5
+    movementOfTheCharacter: {fileID: 0}
+    movementOfHit: {fileID: 0}
+    _timeToHoldToGetToNext: 0.5
+    _timeToHoldMax: 0.3
+    damagesToDeal:
+      damageHealth: 0
+      statusToApply: []
+      playerName: 
   - angleToAttackFrom: 45
-    rangeOfTheAttack: 3
-    distanceToDash: 0.75
-    dashDuration: 0.1
-    bumpDistance: 1
-    bumpDuration: 0.05
-    delayWithNextAttack: 0.3
-    damagesToDeal: 0
+    rangeOfTheAttackMin: 3
+    rangeOfTheAttackMax: 5
+    movementOfTheCharacter: {fileID: 0}
+    movementOfHit: {fileID: 0}
+    _timeToHoldToGetToNext: 0.5
+    _timeToHoldMax: 0.3
+    damagesToDeal:
+      damageHealth: 0
+      statusToApply: []
+      playerName: 
