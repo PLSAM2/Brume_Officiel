@@ -22,6 +22,7 @@ MonoBehaviour:
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   isInBrume: 0
+  brumeId: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   brumeLayer:
@@ -38,6 +39,8 @@ MonoBehaviour:
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
   allStatusLive: []
+  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
+  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!1001 &1277965312708422139
 PrefabInstance:
@@ -98,6 +101,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6440874416006591237, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47a5220926a545847810c83900733b7a, type: 2}
     m_RemovedComponents:
     - {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

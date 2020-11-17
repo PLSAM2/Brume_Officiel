@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 7642602275245690328}
   - component: {fileID: 32086142644911797}
   - component: {fileID: 3101534736191369760}
-  - component: {fileID: 6667444453632817538}
   - component: {fileID: 8216810861203446032}
   m_Layer: 8
   m_Name: LocalPlayer
@@ -75,7 +74,7 @@ MonoBehaviour:
   myPlayerId: 0
   isOwner: 0
   distanceRequiredBeforeSync: 0.025
-  myPlayerModule: {fileID: 6667444453632817538}
+  myPlayerModule: {fileID: 0}
   myAnimator: {fileID: 1163919473078000102}
   networkAnimationController: {fileID: -3939077042609495558}
   circleDirection: {fileID: 3531234986128592076}
@@ -88,11 +87,11 @@ MonoBehaviour:
   forceShow: 0
   objToHide:
   - {fileID: 5588103883704817958}
-  - {fileID: 6548595031188705954}
   - {fileID: 1724655755996733115}
   - {fileID: 8144858686240885169}
   - {fileID: 9064528901800055237}
-  isVisible: 0
+  isVisible: 1
+  myOutline: {fileID: 724448695432556351}
   prefabAudioPlayer: {fileID: 2824507180237845029, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
 --- !u!114 &8281150123794309746
 MonoBehaviour:
@@ -113,8 +112,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   forbidenWalkingState: 136
+  currentMoveSpeedModifier: 0
   chara: {fileID: 8474438155242974316}
   collider: {fileID: 0}
+  currentForcedMovement:
+    myModule: {fileID: 0}
+    _duration: 0
+    strength: 0
 --- !u!143 &8474438155242974316
 CharacterController:
   m_ObjectHideFlags: 0
@@ -308,44 +312,6 @@ MonoBehaviour:
   startColorPreview: {r: 1, g: 0, b: 0, a: 1}
   endColorPreview: {r: 0, g: 0, b: 1, a: 1}
   usingKeyboardInput: 1
---- !u!114 &6667444453632817538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dfa3960228c6c7499f9f52ab7671633, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSpellKey: 97
-  secondSpellKey: 32
-  thirdSpellKey: 101
-  freeCamera: 308
-  crouching: 304
-  interactKey: 102
-  wardKey: 118
-  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  teamIndex: 0
-  isInBrume: 0
-  allHitTaken: []
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
-  brumeLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  mapIcon: {fileID: 7456197301907493091}
-  movementPart: {fileID: 8281150123794309746}
-  firstSpell: {fileID: 7315650069007287688}
-  secondSpell: {fileID: 3101534736191369760}
-  thirdSpell: {fileID: 2026548338358286537}
-  leftClick: {fileID: 32086142644911797}
-  ward: {fileID: 7642602275245690328}
-  coll: {fileID: 8154408291484997990}
-  mylocalPlayer: {fileID: 0}
-  interactiblesClose: []
-  allStatusLive: []
 --- !u!81 &8216810861203446032
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2062,6 +2028,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5100113601684079516}
   - component: {fileID: 1163919473078000102}
+  - component: {fileID: 724448695432556351}
   m_Layer: 0
   m_Name: AnimatorPerso
   m_TagString: Untagged
@@ -2107,6 +2074,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &724448695432556351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588103883704817958}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 2
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &5640907711728401021
 GameObject:
   m_ObjectHideFlags: 0

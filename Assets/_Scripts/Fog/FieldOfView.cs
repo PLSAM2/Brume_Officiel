@@ -25,14 +25,29 @@ public class FieldOfView : MonoBehaviour
 	public MeshFilter viewMeshFilter;
 	Mesh viewMesh;
 
-	void InitMesh ()
+	[SerializeField] fowType myType;
+
+	Coroutine refreshCoroutine;
+
+    private void OnEnable()
+    {
+		refreshCoroutine = StartCoroutine("FindTargetsWithDelay", .1f);
+	}
+
+    private void OnDisable()
+    {
+		if(refreshCoroutine != null)
+        {
+			StopCoroutine(refreshCoroutine);
+		}
+    }
+
+    void InitMesh ()
 	{
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 
 		viewMeshFilter.mesh = viewMesh;
-
-		StartCoroutine("FindTargetsWithDelay", .1f);
 	}
 
 	IEnumerator FindTargetsWithDelay ( float delay )
@@ -67,16 +82,26 @@ public class FieldOfView : MonoBehaviour
 	{
 		foreach (Transform enemy in visibleTargets)
 		{
-			if (!GameManager.Instance.visiblePlayer.Contains(enemy))
+			if (!GameManager.Instance.visiblePlayer.ContainsKey(enemy))
 			{
-				GameManager.Instance.visiblePlayer.Add(enemy);
-			}
+				GameManager.Instance.visiblePlayer.Add(enemy, myType);
+				print("add");
+            }
+            else
+            {
+				if (GameManager.Instance.visiblePlayer[enemy] == fowType.player && myType == fowType.ward)
+                {
+					print("update");
+					GameManager.Instance.visiblePlayer[enemy] = myType;
+				}
+            }
 		}
 
 		foreach (Transform enemy in oldVisibleTargets)
 		{
 			if (!visibleTargets.Contains(enemy))
 			{
+				print("remove");
 				GameManager.Instance.visiblePlayer.Remove(enemy);
 			}
 		}
@@ -97,8 +122,6 @@ public class FieldOfView : MonoBehaviour
 
 			Transform target = targetsInViewRadius[i].transform;
 
-            if (GameManager.Instance.currentLocalPlayer == null) { return; }
-
 			if (target == GameManager.Instance.currentLocalPlayer.transform) { continue; }
 
 			Vector3 dirToTarget = (target.position - transform.position).normalized;
@@ -109,6 +132,14 @@ public class FieldOfView : MonoBehaviour
 				visibleTargets.Add(target);
 			}
 		}
+		
+
+		/*
+		foreach(KeyValuePair<ushort, LocalPlayer> p in GameManager.Instance.networkPlayers)
+        {
+
+        }
+		*/
 	}
 
 	public void DrawFieldOfView ()
@@ -256,16 +287,10 @@ public class FieldOfView : MonoBehaviour
 		}
 	}
 
-
-	private void OnDisable ()
-	{
-		foreach (Transform enemy in visibleTargets)
-		{
-			/*
-			if (GameManager.Instance.visibleEnemy.Contains(enemy))
-			{
-				GameManager.Instance.visibleEnemy.Remove(enemy);
-			}*/
-		}
-	}
+	public enum fowType
+    {
+		player,
+		ward,
+		tower
+    }
 }

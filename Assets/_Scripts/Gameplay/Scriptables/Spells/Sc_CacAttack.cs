@@ -17,14 +17,14 @@ public class CacAttackParameters
 {
 	[Header("hit Part")]
 	[Tooltip("90")] public float angleToAttackFrom = 90;
-	public float rangeOfTheAttack = 3;
+	public float rangeOfTheAttackMin = 3, rangeOfTheAttackMax = 5;
 
 	[Header("Enchainement")]
-	public float distanceToDash = .5F;
-	public float dashDuration = 0.05f;
-	public float bumpDistance = .5f, bumpDuration = .05f;
-	public float delayWithNextAttack=.3f;
+	public Sc_ForcedMovement movementOfTheCharacter, movementOfHit;
+	public float _timeToHoldToGetToNext = .5f, _timeToHoldMax = .3f;
+
+	//public float delayWithNextAttack=.3f;
 
 	[Header("damage Part")]
-	public ushort damagesToDeal = 1;
+	public DamagesInfos damagesToDeal;
 }

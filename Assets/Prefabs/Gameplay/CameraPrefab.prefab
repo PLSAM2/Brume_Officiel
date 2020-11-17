@@ -46,10 +46,12 @@ MonoBehaviour:
   percentageOfTheScreenToScrollFromWidth: 0.05
   percentageOfTheScreenToScrollFromHeight: 0.05
   scrollingSpeed: 20
+  playerToFollow: {fileID: 0}
   myCinemachine: {fileID: 3131054539172475765}
   groundlayer:
     serializedVersion: 2
     m_Bits: 1024
+  isSpectate: 0
 --- !u!1 &522279072243031081
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +116,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 261943
+    m_Bits: 163639
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -210,9 +212,15 @@ MonoBehaviour:
   m_ShowToolkit: 0
   m_ShowCustomSorter: 0
   breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles: []
-  m_AfterStackBundles: []
+  m_BeforeTransparentBundles:
+  - assemblyQualifiedName: EdgeDetect_BeforeTransparent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_BeforeStackBundles:
+  - assemblyQualifiedName: EdgeDetect_BeforeStack, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_AfterStackBundles:
+  - assemblyQualifiedName: EdgeDetect_AfterStack, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1209965394115841867
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +246,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209965394115841867}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 80, y: 82.25, z: -10.5}
+  m_LocalPosition: {x: 80.2, y: 82.25, z: -10.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6265698706498562956}
@@ -271,7 +279,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 52.7
+  orthographic size: 52.8
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -395,7 +403,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4937095375379038111}
   m_LocalRotation: {x: 0.53729963, y: -0, z: -0, w: 0.8433915}
-  m_LocalPosition: {x: 80, y: 95.514626, z: -17.546959}
+  m_LocalPosition: {x: 80.2, y: 95.514626, z: -17.746956}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6662946735498762051}
