@@ -40,7 +40,10 @@ public class FieldOfView : MonoBehaviour
         {
 			StopCoroutine(refreshCoroutine);
 		}
-    }
+
+		visibleTargets.Clear();
+		SetListVisibleEnemy();
+	}
 
     void InitMesh ()
 	{
@@ -85,13 +88,11 @@ public class FieldOfView : MonoBehaviour
 			if (!GameManager.Instance.visiblePlayer.ContainsKey(enemy))
 			{
 				GameManager.Instance.visiblePlayer.Add(enemy, myType);
-				print("add");
             }
             else
             {
 				if (GameManager.Instance.visiblePlayer[enemy] == fowType.player && myType == fowType.ward)
                 {
-					print("update");
 					GameManager.Instance.visiblePlayer[enemy] = myType;
 				}
             }
@@ -101,7 +102,6 @@ public class FieldOfView : MonoBehaviour
 		{
 			if (!visibleTargets.Contains(enemy))
 			{
-				print("remove");
 				GameManager.Instance.visiblePlayer.Remove(enemy);
 			}
 		}
