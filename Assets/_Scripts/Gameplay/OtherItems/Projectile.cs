@@ -72,7 +72,7 @@ public class Projectile : MonoBehaviour
 					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
 					foreach(Sc_Status _status in statusToApply)
 					{
-						_status.ApplyStatus(playerHit);
+						_status.ApplyStatus(playerHit.mylocalPlayer);
 					}
 				}
 

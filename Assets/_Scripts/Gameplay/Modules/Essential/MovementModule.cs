@@ -6,16 +6,16 @@ using UnityEngine;
 
 public class MovementModule : MonoBehaviour
 {
-    [Header("Basic elements")]
-    St_MovementParameters parameters;
-    public LayerMask movementBlockingLayer, dashBlockingLayer;
-    [SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
+	[Header("Basic elements")]
+	St_MovementParameters parameters;
+	public LayerMask movementBlockingLayer, dashBlockingLayer;
+	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
 
-    [SerializeField] CharacterController chara;
+	[SerializeField] CharacterController chara;
 
-    [HideInInspector] public CapsuleCollider collider;
+	[HideInInspector] public CapsuleCollider collider;
 
-    /*	[Header("Running Stamina")]
+	/*	[Header("Running Stamina")]
 		[SerializeField] bool usingStamina;
 		float timeSpentRunning,  timeSpentNotRunning, _stamina;
 		public float Stamina {	get => _stamina; 
@@ -24,68 +24,70 @@ public class MovementModule : MonoBehaviour
 				UiManager.Instance.UpdateUiCooldownSpell(En_SpellInput.Maj, _stamina , parameters.maxStamina); 	} 
 		}
 		bool running = false;*/
-    //DASH 
-    ForcedMovement currentForcedMovement = new ForcedMovement();
-    //recup des actions
-    PlayerModule myPlayerModule;
+	//DASH 
+	[ReadOnly] public ForcedMovement currentForcedMovement = null;
+	//recup des actions
+	PlayerModule myPlayerModule;
 
-    public void OnEnable()
-    {
-        myPlayerModule = GetComponent<PlayerModule>();
+	public void OnEnable ()
+	{
+		myPlayerModule = GetComponent<PlayerModule>();
 
-        myPlayerModule.DirectionInputedUpdate += Move;
-        myPlayerModule.forcedMovementAdded += AddDash;
+		myPlayerModule.DirectionInputedUpdate += Move;
+		myPlayerModule.forcedMovementAdded += AddDash;
 
-        /*myPlayerModule.toggleRunning += ToggleRunning;
+		/*myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;*/
 
-        //IMPORTANT POUR LES CALLBACKS
-        currentForcedMovement.myModule = myPlayerModule;
+		//IMPORTANT POUR LES CALLBACKS
+		currentForcedMovement.myModule = myPlayerModule;
 
-        collider = GetComponent<CapsuleCollider>();
+		collider = GetComponent<CapsuleCollider>();
 
-    }
+	}
 
-    void OnDisable()
-    {
-        myPlayerModule.DirectionInputedUpdate -= Move;
-        myPlayerModule.forcedMovementAdded -= AddDash;
+	void OnDisable ()
+	{
+		myPlayerModule.DirectionInputedUpdate -= Move;
+		myPlayerModule.forcedMovementAdded -= AddDash;
 
-        //	myPlayerModule.toggleRunning -= ToggleRunning;
-        //	myPlayerModule.stopRunning -= StopRunning;
-    }
+		//	myPlayerModule.toggleRunning -= ToggleRunning;
+		//	myPlayerModule.stopRunning -= StopRunning;
+	}
 
-    public void SetupComponent(St_MovementParameters _newParameters)
-    {
-        parameters = _newParameters;
-        //stamina
-        //_stamina = parameters.maxStamina;
-        //Stamina = parameters.maxStamina;
-    }
+	public void SetupComponent ( St_MovementParameters _newParameters )
+	{
+		parameters = _newParameters;
+		//stamina
+		//_stamina = parameters.maxStamina;
+		//Stamina = parameters.maxStamina;
+	}
 
-    void FixedUpdate()
-    {
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-    }
+	void FixedUpdate ()
+	{
+		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+	}
 
-    void Move(Vector3 _directionInputed)
-    {
-        //forceMovement
-        if (currentForcedMovement.duration > 0)
-        {
-            currentForcedMovement.duration -= Time.deltaTime;
+	void Move ( Vector3 _directionInputed )
+	{
+		//forceMovement
+		if (currentForcedMovement != null)
+		{
+			currentForcedMovement.duration -= Time.deltaTime;
+			if(currentForcedMovement.duration <=0)
+			{ currentForcedMovement = null; return; }
 
-            if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
-                //transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
-                chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
-            else
-                ForcedMovementTouchObstacle();
-        }
-        //movement normal
-        else if (_directionInputed != Vector3.zero && canMove())
-        {
-            //Mouvement Modifier via bool
-            /*if (running == true)
+			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
+				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
+				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
+			else
+				ForcedMovementTouchObstacle();
+		}
+		//movement normal
+		else if (_directionInputed != Vector3.zero && canMove())
+		{
+			//Mouvement Modifier via bool
+			/*if (running == true)
 			{
 				timeSpentRunning += Time.deltaTime;
 				Stamina -= Time.deltaTime;
@@ -97,50 +99,48 @@ public class MovementModule : MonoBehaviour
 				StopRunning();
 			}*/
 
-            //marche
-            /*	if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
-                {
-                    //transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
-                    chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
+			//marche
+			/*	if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
+				{
+					//transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
+					chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
 
-                }
-                else
-                {*/
-            //transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
-            chara.Move(_directionInputed * liveMoveSpeed() * Time.deltaTime);
-            //	}
-            myPlayerModule.onSendMovement(_directionInputed);
-        }
-        else
-            myPlayerModule.onSendMovement(Vector3.zero);
+				}
+				else
+				{*/
+			//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
+			chara.Move(_directionInputed * liveMoveSpeed() * Time.deltaTime);
+			//	}
+			myPlayerModule.onSendMovement(_directionInputed);
+		}
+		else
+			myPlayerModule.onSendMovement(Vector3.zero);
 
 
-        //Stamina
-        /*	if (!running && usingStamina)
+		//Stamina
+		/*	if (!running && usingStamina)
 			{
 				if (timeSpentNotRunning > parameters.regenDelay)
 					Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
 				else
 					timeSpentNotRunning += Time.deltaTime;
 			}*/
-    }
+	}
 
-    void ForcedMovementTouchObstacle()
-    {
-        //juste pour caler le callback comme quoi le mouvement est bien fini;
-        currentForcedMovement.duration = 0;
-        currentForcedMovement = new ForcedMovement();
-        currentForcedMovement.myModule = myPlayerModule;
+	void ForcedMovementTouchObstacle ()
+	{
+		//juste pour caler le callback comme quoi le mouvement est bien fini;
+		currentForcedMovement.duration = 0;
+	}
 
-    }
+	public void AddDash ( ForcedMovement infos )
+	{
+		currentForcedMovement = new ForcedMovement();
+		currentForcedMovement = infos;
+		currentForcedMovement.myModule = myPlayerModule;
+	}
 
-    public void AddDash(ForcedMovement infos)
-    {
-        currentForcedMovement = infos;
-        currentForcedMovement.myModule = myPlayerModule;
-    }
-
-    /*void StopRunning()
+	/*void StopRunning()
 	{
 		timeSpentRunning = 0;
 		running = false;
@@ -161,9 +161,9 @@ public class MovementModule : MonoBehaviour
 	}*/
 
 
-    //Parameters
-    #region
-    /* si plusieurs mouvement forcé en même temps s additione;
+	//Parameters
+	#region
+	/* si plusieurs mouvement forcé en même temps s additione;
 	Vector3 ForcedMovement ()
 	{
 		Vector3 _forceToApply = Vector3.zero;
@@ -187,121 +187,133 @@ public class MovementModule : MonoBehaviour
 		return _forceToApply;
 	}*/
 
-    Vector3 SlideVector(Vector3 _directionToSlideFrom)
-    {
-        RaycastHit _hitToRead = CastSphereAll(_directionToSlideFrom, movementBlockingLayer, collider.radius)[0];
+	Vector3 SlideVector ( Vector3 _directionToSlideFrom )
+	{
+		RaycastHit _hitToRead = CastSphereAll(_directionToSlideFrom, movementBlockingLayer, collider.radius)[0];
 
 
-        Vector3 _aVector = new Vector3(-_hitToRead.normal.z, 0, _hitToRead.normal.x);
-        Vector3 _bVector = new Vector3(_hitToRead.normal.z, 0, -_hitToRead.normal.x);
+		Vector3 _aVector = new Vector3(-_hitToRead.normal.z, 0, _hitToRead.normal.x);
+		Vector3 _bVector = new Vector3(_hitToRead.normal.z, 0, -_hitToRead.normal.x);
 
-        if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
-        {
-            if (isFree(_aVector, movementBlockingLayer, collider.radius))
-                return _aVector;
-            else
-                return Vector3.zero;
-        }
-        else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
-        {
-            if (isFree(_bVector, movementBlockingLayer, collider.radius))
-            {
-                return _bVector;
-            }
-            else
-                return Vector3.zero;
-        }
-        else
-            return Vector3.zero;
+		if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
+		{
+			if (isFree(_aVector, movementBlockingLayer, collider.radius))
+				return _aVector;
+			else
+				return Vector3.zero;
+		}
+		else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
+		{
+			if (isFree(_bVector, movementBlockingLayer, collider.radius))
+			{
+				return _bVector;
+			}
+			else
+				return Vector3.zero;
+		}
+		else
+			return Vector3.zero;
 
-    }
+	}
 
-    public bool isFree(Vector3 _direction, LayerMask _layerTocheck, float _maxRange)
-    {
-        if (CastSphereAll(_direction, _layerTocheck, _maxRange) != null)
-            return false;
-        else
-            return true;
-    }
+	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
+	{
+		if (CastSphereAll(_direction, _layerTocheck, _maxRange) != null)
+			return false;
+		else
+			return true;
+	}
 
-    bool canMove()
-    {
-        if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement.duration > 0)
-            return false;
-        else
-            return true;
-    }
+	bool canMove ()
+	{
+		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement!= null)
+		{
+			return false;
+		}
+		else
+			return true;
+	}
 
-    float liveMoveSpeed()
-    {
-        /*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-        float _defspeed = 0;
+	float liveMoveSpeed ()
+	{
+		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
+		float _defspeed = 0;
 
-        if ((myPlayerModule.state & En_CharacterState.Crouched) != 0)
-            _defspeed = parameters.crouchingSpeed;
+		if ((myPlayerModule.state & En_CharacterState.Crouched) != 0)
+			_defspeed = parameters.crouchingSpeed;
 
-        else
-            _defspeed = parameters.movementSpeed;
+		else
+			_defspeed = parameters.movementSpeed;
 
+		if (myPlayerModule.allStatusLive.Count > 0)
+		{
+			float _finalPercentage = 0;
 
-        if (myPlayerModule.allStatusLive.Count > 0)
-        {
-            float _finalPercentage = 0;
-            for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
-            {
-                _finalPercentage += myPlayerModule.allStatusLive[i].effect.percentageOfTheModifier * myPlayerModule.allStatusLive[i].effect.decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].lifeTime / myPlayerModule.allStatusLive[i].effect.lifeTime);
-            }
-            _finalPercentage /= myPlayerModule.allStatusLive.Count;
-            _defspeed *= _finalPercentage;
-        }
-        // A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
-        return _defspeed;
+			float biggestMalus = 1;
+			float _allBonuses = 1;
+			for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
+			{
+				
+				float valueRead = myPlayerModule.allStatusLive[i].effect.percentageOfTheModifier * myPlayerModule.allStatusLive[i].effect.decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].lifeTime / myPlayerModule.allStatusLive[i].effect.lifeTime);
 
-    }
+				if (valueRead < biggestMalus)
+					biggestMalus = valueRead;
+				else if(valueRead >1)
+				{
+					_allBonuses += valueRead-1;
+				}
+			}
+			_finalPercentage = _allBonuses * biggestMalus;
+			_defspeed *= _finalPercentage;
+		}
+		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
+		return _defspeed;
 
-    List<RaycastHit> CastSphereAll(Vector3 _direction, LayerMask _checkingLayer, float _maxRange)
-    {
-        List<RaycastHit> _allHit = Physics.SphereCastAll(transform.position,
-            collider.radius,
-            _direction,
-            _maxRange,
-            _checkingLayer).ToList<RaycastHit>();
+	}
 
-        Debug.DrawLine(transform.position, (_direction * _maxRange + transform.position), Color.red);
+	List<RaycastHit> CastSphereAll ( Vector3 _direction, LayerMask _checkingLayer, float _maxRange )
+	{
+		List<RaycastHit> _allHit = Physics.SphereCastAll(transform.position,
+			collider.radius,
+			_direction,
+			_maxRange,
+			_checkingLayer).ToList<RaycastHit>();
 
-        List<RaycastHit> _returnList = new List<RaycastHit>();
-        if (_allHit.Count > 0)
-        {
-            for (int i = 0; i < _allHit.Count; i++)
-            {
-                if (_allHit[i].collider.gameObject != this.gameObject)
-                {
-                    _returnList.Add(_allHit[i]);
-                }
-            }
-            return _returnList;
-        }
-        else
-            return null;
-    }
-    #endregion
+		Debug.DrawLine(transform.position, (_direction * _maxRange + transform.position), Color.red);
+
+		List<RaycastHit> _returnList = new List<RaycastHit>();
+		if (_allHit.Count > 0)
+		{
+			for (int i = 0; i < _allHit.Count; i++)
+			{
+				if (_allHit[i].collider.gameObject != this.gameObject)
+				{
+					_returnList.Add(_allHit[i]);
+				}
+			}
+			return _returnList;
+		}
+		else
+			return null;
+	}
+	#endregion
 }
 
 [System.Serializable]
 public class ForcedMovement
 {
-    [HideInInspector] public PlayerModule myModule;
-    [SerializeField] float _duration = 0;
-    public float duration
-    {
-        get => _duration;
-        set
-        {
-            _duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke(); }
-        }
-    }
-    Vector3 _direction;
-    public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
-    public float strength = 0;
-    [ShowInInspector] float lenght => duration * strength;
+	[HideInInspector] public PlayerModule myModule;
+	[SerializeField] float _duration = 0;
+	public float duration
+	{
+		get => _duration;
+		set
+		{
+			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke();}
+		}
+	}
+	Vector3 _direction;
+	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
+	public float strength;
+	[ShowInInspector] float lenght => duration * strength;
 }
