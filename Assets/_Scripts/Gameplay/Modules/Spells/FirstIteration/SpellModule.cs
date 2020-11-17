@@ -6,8 +6,6 @@ using Sirenix.OdinInspector;
 
 public class SpellModule : MonoBehaviour
 {
-	En_CharacterState stateAtStart;
-
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
 	protected bool isOwner;
 
@@ -163,8 +161,6 @@ public class SpellModule : MonoBehaviour
 
 			resolved = false;
 
-			stateAtStart = myPlayerModule.state;
-
 			DecreaseCharge();
 
 
@@ -252,8 +248,8 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		if (spell.canalysingStatus != null) 
-			spell.canalysingStatus.ApplyStatus(myPlayerModule);
+		if (spell.canalysingStatus != null)
+			spell.canalysingStatus.ApplyStatus(myPlayerModule.mylocalPlayer) ;
 
 		Effect _newStatus = new Effect();
 		_newStatus.lifeTime = spell.canalisationTime;
@@ -281,7 +277,7 @@ public class SpellModule : MonoBehaviour
 	{
 		//	myPlayerModule.mylocalPlayer.triggerAnim.Invoke("Resolve");
 		if (spell.resolusionStatus != null)
-			spell?.resolusionStatus.ApplyStatus(myPlayerModule);
+			spell?.resolusionStatus.ApplyStatus(myPlayerModule.mylocalPlayer);
 
 		if (particleResolution.Count > 0)
 		{

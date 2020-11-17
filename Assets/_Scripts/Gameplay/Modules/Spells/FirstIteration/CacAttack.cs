@@ -73,17 +73,27 @@ public class CacAttack : SpellModule
 				attackToResolve = localTrad.listOfAttacks[i];
 		}
 
-		myPlayerModule.forcedMovementInterrupted += ResolveSlash;
 
 		//ptit dash tu connais
-		myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+		if (attackToResolve.movementOfTheCharacter != null)
+		{
+			myPlayerModule.forcedMovementInterrupted += ResolveSlash;
+			myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+		}
+		else
+			ResolveSlash();
 	}
 
 	void ResolveSlash()
 	{
-		myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
-
+	
 		CacAttackParameters _currentAttack = localTrad.listOfAttacks[0];
+
+
+		if (attackToResolve.movementOfTheCharacter != null)
+		{
+			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
+		}
 
 		List<GameObject> _listHit = new List<GameObject>();
 
