@@ -220,7 +220,6 @@ public class LocalPlayer : MonoBehaviour
 
 	public void SendStatus ( Sc_Status _statusIncured )
 	{
-
 		ushort _indexOfTheStatus = 0;
 		List<Sc_Status> _tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
 
@@ -238,7 +237,7 @@ public class LocalPlayer : MonoBehaviour
 
 			_writer.Write(_indexOfTheStatus);
 
-			using (Message _message = Message.Create(Tags.StateUpdate, _writer))
+			using (Message _message = Message.Create(Tags., _writer))
 			{
 				currentClient.SendMessage(_message, SendMode.Unreliable);
 			}
@@ -263,7 +262,6 @@ public class LocalPlayer : MonoBehaviour
 			}
 		}
 	}
-
 
 	public void ChangeFowRaduis ( bool _value )
 	{
@@ -294,7 +292,6 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-
 	public void SetMovePosition ( Vector3 newPos, Vector3 newRotation )
 	{
 		transform.position = newPos;
@@ -311,6 +308,11 @@ public class LocalPlayer : MonoBehaviour
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
 		liveHealth = (ushort)_tempHp;
+
+		foreach(Sc_Status statusToApply in _damagesToDeal.statusToApply)
+		{
+			SendStatus(statusToApply);
+		}
 
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -340,7 +342,7 @@ public class LocalPlayer : MonoBehaviour
 	{
 		myPlayerModule.state = (En_CharacterState)_state;
 	}
-	
+
 	public void OnAddedStatus(uint _newStatus)
 	{
 		myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
