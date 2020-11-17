@@ -451,7 +451,8 @@ public class PlayerModule : MonoBehaviour
 
 		for(int i=0; i < allEffectLive.Count; i++)
 		{
-			allEffectLive[i].liveLifeTime -= Time.fixedDeltaTime;
+			if(!allEffectLive[i].effect.isConstant)
+				allEffectLive[i].liveLifeTime -= Time.fixedDeltaTime;
 
 			if (allEffectLive[i].liveLifeTime <= 0)
 			{
