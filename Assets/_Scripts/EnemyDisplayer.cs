@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static FieldOfView;
 
 public class EnemyDisplayer : MonoBehaviour
 {
@@ -12,16 +13,7 @@ public class EnemyDisplayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LocalPlayer currentFollowPlayer = null;
-
-        if(GameManager.Instance.currentLocalPlayer != null)
-        {
-            currentFollowPlayer = GameManager.Instance.currentLocalPlayer;
-        }
-        else
-        {
-            currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
-        }
+        LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
         foreach (KeyValuePair<ushort, LocalPlayer> enemy in GameManager.Instance.networkPlayers)
         {
@@ -52,7 +44,7 @@ public class EnemyDisplayer : MonoBehaviour
             {
                 if (enemy.Value.myPlayerModule.isInBrume && enemy.Value.myPlayerModule.brumeId == currentFollowPlayer.myPlayerModule.brumeId)
                 {
-                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(enemy.Value.transform))
                     {
                         HideOrShow(enemy.Value, true);
                     }
@@ -70,7 +62,16 @@ public class EnemyDisplayer : MonoBehaviour
             {
                 if (enemy.Value.myPlayerModule.isInBrume)
                 {
-                    HideOrShow(enemy.Value, false);
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(enemy.Value.transform) && 
+                        GameManager.Instance.visiblePlayer[enemy.Value.transform] == fowType.ward)
+                    {
+                        ShowOutline(enemy.Value);
+                        continue;
+                    }
+                    else
+                    {
+                        HideOrShow(enemy.Value, false);
+                    }
                 }
                 else
                 {
@@ -80,7 +81,7 @@ public class EnemyDisplayer : MonoBehaviour
                         continue;
                     }
 
-                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(enemy.Value.transform))
                     {
                         HideOrShow(enemy.Value, true);
                     }
@@ -102,9 +103,31 @@ public class EnemyDisplayer : MonoBehaviour
             {
                 obj.SetActive(_value);
             }
+            p.canvas.SetActive(_value);
+
+            p.myOutline.enabled = false;
+
             p.ShowHideFow(_value);
 
             GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
         }
+    }
+
+
+    void ShowOutline(LocalPlayer p)
+    {
+        p.isVisible = false;
+
+        foreach (GameObject obj in p.objToHide)
+        {
+            obj.SetActive(true);
+        }
+        p.canvas.SetActive(false);
+
+        p.myOutline.enabled = true;
+
+        p.ShowHideFow(true);
+
+        GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, true);
     }
 }

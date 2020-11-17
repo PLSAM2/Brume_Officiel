@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028377, g: 0.22571409, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -777,6 +777,26 @@ MonoBehaviour:
     - Name: AllCharacterSpawned
       Entry: 6
       Data: 
+    - Name: visiblePlayer
+      Entry: 7
+      Data: 6|System.Collections.Generic.Dictionary`2[[UnityEngine.Transform, UnityEngine.CoreModule],[FieldOfView+fowType,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 7|System.Collections.Generic.ObjectEqualityComparer`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: OnPlayerDie
       Entry: 6
       Data: 
@@ -798,7 +818,6 @@ MonoBehaviour:
   client: {fileID: 0}
   defaultCam: {fileID: 463587853}
   volumeAnimator: {fileID: 543586701}
-  visiblePlayer: []
   allWard: []
   gameStarted: 0
 --- !u!4 &74980374
@@ -2934,18 +2953,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1364983773, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4197430260402325309, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 80.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4197430260402325309, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10.7
-      objectReference: {fileID: 0}
     - target: {fileID: 5427254391377304577, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
       propertyPath: m_Name
       value: CameraPrefab
@@ -2993,34 +3000,6 @@ PrefabInstance:
     - target: {fileID: 6265698706498562956, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7437436737860875975, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 80.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7437436737860875975, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -17.746956
-      objectReference: {fileID: 0}
-    - target: {fileID: 7437436737860875975, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 95.514626
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696856220853874057, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696856220853874057, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696856220853874057, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9044991089360436117, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
-      propertyPath: orthographic size
-      value: 52.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29a1a90bade48f144b91c45af388825f, type: 3}

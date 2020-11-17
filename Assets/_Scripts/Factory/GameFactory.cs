@@ -6,6 +6,21 @@ using static GameData;
 
 public class GameFactory
 {
+    public static Color GetColorTeam(Team myTeam)
+    {
+        switch (myTeam)
+        {
+            case Team.red:
+                return new Color(255, 75, 36);
+
+            case Team.blue:
+                return new Color(36, 152, 255);
+
+            default:
+                return new Color(255, 255, 255);
+        }
+    }
+
     public static int GerateRandomNumer(int min, int max)
     {
         return Random.Range(min, max);
@@ -35,6 +50,44 @@ public class GameFactory
         else
         {
             return Team.blue;
+        }
+    }
+
+    public static bool PlayersAreOnSameBrume(PlayerModule p1, PlayerModule p2)
+    {
+        if(p1.isInBrume && p2.isInBrume
+            && p1.brumeId == p2.brumeId)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool PlayerWardAreOnSameBrume(PlayerModule p, Ward ward)
+    {
+        if (p.isInBrume && ward.isInBrume &&
+            p.brumeId == ward.brumeId)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static LocalPlayer GetActualPlayerFollow()
+    {
+        if (GameManager.Instance.currentLocalPlayer != null)
+        {
+             return GameManager.Instance.currentLocalPlayer;
+        }
+        else
+        {
+            return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
         }
     }
 }
