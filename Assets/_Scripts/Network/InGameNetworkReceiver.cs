@@ -118,9 +118,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 				float zDestination = reader.ReadSingle();
 				Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
 
-				print(_id);
-				print(GameManager.Instance.networkPlayers[_id].myPlayerId);
-				print(GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().isUsed);
 				GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().InitWardLaunch(destination);
 			}
 		}
