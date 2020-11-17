@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_InkShaderUnlit_Test
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
-  m_ShaderKeywords: _OUTLINE1_ON _OUTLINE_ON _ROUGNESSCOLOR_ON
+  m_ShaderKeywords: _LIGHTDEBUG_ON _OUTLINE1_ON _OUTLINE_ON _ROUGNESSCOLOR_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -119,6 +119,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RimLightMask_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_7273CFB4_Texture_1:
         m_Texture: {fileID: 2800000, guid: 4ae70d131f8197745af830e08af9262e, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -156,6 +160,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample7:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -213,6 +221,7 @@ Material:
     - _Float6: 3.36
     - _Float7: 5.12
     - _Float8: 0.07
+    - _Float9: 1
     - _FlowMapTilling: 1
     - _Fresnel: 1
     - _FresnelPower: 5
@@ -226,7 +235,7 @@ Material:
     - _Ink_Tiling: 4
     - _Int_Tiling: 1
     - _LengthCameraFade: 2
-    - _LightDebug: 0
+    - _LightDebug: 1
     - _LightStep: 1
     - _LightStep1: 1
     - _LightStepMax: 1
@@ -246,12 +255,19 @@ Material:
     - _RimEdgeNoise: 1
     - _RimEdgeNoise_Tiling: 1
     - _RimLight: 1
+    - _RimLightEmission_Multiplier: 1
+    - _RimLightEmission_Multiplier1: 1
+    - _RimLight_CustomNormal: 0
     - _Roughness_Multiplier: 1
     - _RougnessColor: 1
     - _Rows: 2
     - _ScreenBasedNoise: 0
     - _Shininess: 0.01
     - _Shininess1: 0
+    - _Specular: 1
+    - _SpecularNoise: 1
+    - _SpecularStepMax: 1
+    - _SpeculartStepMin: 0
     - _Speed: 8
     - _SphereMask_Hardness: 0.8
     - _StartFrame: 0
@@ -284,6 +300,7 @@ Material:
     - Vector2_96ED0023: {r: 0, g: 0, b: 0, a: 0}
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color0: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
+    - _ColorCorrection_Multiply: {r: 1, g: 1, b: 1, a: 0}
     - _EdgeColor: {r: 1, g: 1, b: 1, a: 0}
     - _FlowDirection: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _FresnelColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
@@ -296,6 +313,7 @@ Material:
     - _Rougness_Color: {r: 0, g: 0, b: 0, a: 0}
     - _Rougness_Color1: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowColor: {r: 0.462264, g: 0.462264, b: 0.462264, a: 0}
+    - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
     - _Vector0: {r: 28.7, g: 0, b: -15.72, a: 0}
     - _edgeNoise_Speed: {r: 0.1, g: 0, b: 0, a: 0}
     - _shadow_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0}
