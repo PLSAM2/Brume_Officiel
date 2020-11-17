@@ -87,7 +87,7 @@ public class DashModule : SpellModule
 
 	public virtual void ShowPreview ()
 	{
-		mylineRender.positionCount += 1;
+	/*	mylineRender.positionCount += 1;
 		
 		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
 
@@ -103,7 +103,7 @@ public class DashModule : SpellModule
 			}
 		}
 		else
-		{*/
+		{
 			if (spell.useLastRecordedMousePos)
 			{
 				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(recordedMousePosOnInput - transform.position) * spell.range);
@@ -113,7 +113,7 @@ public class DashModule : SpellModule
 				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range);
 			}
 		//}
-		mylineRender.DOColor(new Color2(startColorPreview, startColorPreview), new Color2(endColorPreview, endColorPreview), spell.canalisationTime);
+		mylineRender.DOColor(new Color2(startColorPreview, startColorPreview), new Color2(endColorPreview, endColorPreview), spell.canalisationTime);*/
 	}
 
 	public virtual void ClearPreview()
@@ -161,6 +161,7 @@ public class DashModule : SpellModule
 		base.ReturnToNormal();
 		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
+
 	protected override bool canBeCast (float _distance)
 	{
 		if (myPlayerModule.directionInputed() == Vector3.zero)
