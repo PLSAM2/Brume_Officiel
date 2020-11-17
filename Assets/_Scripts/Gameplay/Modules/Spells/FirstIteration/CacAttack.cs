@@ -76,12 +76,7 @@ public class CacAttack : SpellModule
 		myPlayerModule.forcedMovementInterrupted += ResolveSlash;
 
 		//ptit dash tu connais
-		ForcedMovement _newForcedMovement = new ForcedMovement();
-		_newForcedMovement.direction = transform.forward;
-		_newForcedMovement.duration = attackToResolve.dashDuration;
-		_newForcedMovement.strength = attackToResolve.distanceToDash / _newForcedMovement.duration;
-		myPlayerModule.forcedMovementAdded(_newForcedMovement);
-
+		myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
 	}
 
 	void ResolveSlash()
@@ -126,13 +121,8 @@ public class CacAttack : SpellModule
 			_playerTouched.DealDamages(_currentAttack.damagesToDeal);
 
 			//push
-			ForcedMovement _movementTosend = new ForcedMovement();
-			_movementTosend.duration = _currentAttack.bumpDuration;
-			_movementTosend.strength = _currentAttack.bumpDistance / _currentAttack.bumpDuration;
-			_movementTosend.direction = Vector3.Normalize(_go.transform.position - transform.position);
-
-			if (_movementTosend.duration > 0)
-				_playerTouched.SendForcedMovement(_movementTosend);
+			if (_currentAttack.movementOfHit != null)
+				_playerTouched.SendForcedMovement(_currentAttack.movementOfHit.MovementToApply(_playerTouched.transform.position, transform.position));
 		}
 
 		Interrupt();

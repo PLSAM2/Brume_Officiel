@@ -290,11 +290,12 @@ public class MovementModule : MonoBehaviour
 [System.Serializable]
 public class ForcedMovement
 {
-	public PlayerModule myModule;
-	float _duration = 0;
+	[HideInInspector] public PlayerModule myModule;
+	[SerializeField] float _duration = 0;
 	public float duration
 	{
-		get => _duration; set
+		get => _duration;
+		set
 		{
 			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke(); }
 		}
@@ -302,4 +303,5 @@ public class ForcedMovement
 	Vector3 _direction;
 	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
 	public float strength;
+	[ShowInInspector] float lenght => duration * strength;
 }
