@@ -25,7 +25,7 @@ public class MovementModule : MonoBehaviour
 		}
 		bool running = false;*/
 	//DASH 
-	ForcedMovement currentForcedMovement = new ForcedMovement();
+	[ReadOnly] public ForcedMovement currentForcedMovement = null;
 	//recup des actions
 	PlayerModule myPlayerModule;
 
@@ -71,9 +71,11 @@ public class MovementModule : MonoBehaviour
 	void Move ( Vector3 _directionInputed )
 	{
 		//forceMovement
-		if (currentForcedMovement.duration > 0)
+		if (currentForcedMovement != null)
 		{
 			currentForcedMovement.duration -= Time.deltaTime;
+			if(currentForcedMovement.duration <=0)
+			{ currentForcedMovement = null; return; }
 
 			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
@@ -129,13 +131,11 @@ public class MovementModule : MonoBehaviour
 	{
 		//juste pour caler le callback comme quoi le mouvement est bien fini;
 		currentForcedMovement.duration = 0;
-		currentForcedMovement = new ForcedMovement();
-		currentForcedMovement.myModule = myPlayerModule;
-
 	}
 
 	public void AddDash ( ForcedMovement infos )
 	{
+		currentForcedMovement = new ForcedMovement();
 		currentForcedMovement = infos;
 		currentForcedMovement.myModule = myPlayerModule;
 	}
@@ -226,8 +226,10 @@ public class MovementModule : MonoBehaviour
 
 	bool canMove ()
 	{
-		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement.duration > 0)
+		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement!= null)
+		{
 			return false;
+		}
 		else
 			return true;
 	}
@@ -248,7 +250,7 @@ public class MovementModule : MonoBehaviour
 			float _finalPercentage = 0;
 
 			float biggestMalus = 1;
-			float _allBonuses = 0;
+			float _allBonuses = 1;
 			for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
 			{
 				
@@ -307,7 +309,7 @@ public class ForcedMovement
 		get => _duration;
 		set
 		{
-			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke(); }
+			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke();}
 		}
 	}
 	Vector3 _direction;

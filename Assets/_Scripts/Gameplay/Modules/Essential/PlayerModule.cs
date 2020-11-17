@@ -42,7 +42,7 @@ public class PlayerModule : MonoBehaviour
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
 	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
-	[HideInInspector] public List<EffectLifeTimed> allStatusLive;
+	[ReadOnly] public List<EffectLifeTimed> allStatusLive;
 
 	//AltarBuff
 	private bool isAltarSpeedBuffActive = false;
@@ -475,8 +475,5 @@ public class EffectLifeTimed
 	public ushort key = 0;
 	public Effect effect;
 	public float lifeTime;
-
-
-
 }
 
