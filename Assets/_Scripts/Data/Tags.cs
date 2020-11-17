@@ -67,6 +67,7 @@ class Tags
 
         //Buff 800 --> 810 >>
         public static readonly ushort AltarTrailDebuff = 800;
+        public static readonly ushort AltarSpeedBuff = 802;
         // <<
 
     public static readonly ushort SpawnObjPlayer = 1000;
