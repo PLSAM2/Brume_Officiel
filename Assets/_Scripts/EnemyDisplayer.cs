@@ -105,9 +105,12 @@ public class EnemyDisplayer : MonoBehaviour
             }
             p.canvas.SetActive(_value);
 
-            p.myOutline.enabled = false;
-
             p.ShowHideFow(_value);
+
+            if (p.myOutline.enabled)
+            {
+                p.myOutline.enabled = false;
+            }
 
             GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
         }
@@ -116,7 +119,7 @@ public class EnemyDisplayer : MonoBehaviour
 
     void ShowOutline(LocalPlayer p)
     {
-        p.isVisible = false;
+        p.isVisible = true;
 
         foreach (GameObject obj in p.objToHide)
         {
@@ -124,7 +127,10 @@ public class EnemyDisplayer : MonoBehaviour
         }
         p.canvas.SetActive(false);
 
-        p.myOutline.enabled = true;
+        if (!p.myOutline.enabled)
+        {
+            p.myOutline.enabled = true;
+        }
 
         p.ShowHideFow(true);
 

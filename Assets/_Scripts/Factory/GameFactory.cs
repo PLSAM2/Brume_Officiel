@@ -11,13 +11,13 @@ public class GameFactory
         switch (myTeam)
         {
             case Team.red:
-                return new Color(255, 75, 36);
+                return new Color(255, 75, 36, 255);
 
             case Team.blue:
-                return new Color(36, 152, 255);
+                return new Color(36, 152, 255, 255);
 
             default:
-                return new Color(255, 255, 255);
+                return new Color(255, 255, 255, 255);
         }
     }
 

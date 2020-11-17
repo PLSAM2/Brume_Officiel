@@ -88,12 +88,11 @@ public class LocalPlayer : MonoBehaviour
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-		myOutline.OutlineColor = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
+		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
 
 		if (isOwner)
 		{
 			GameManager.Instance.ResetCam();
-			// GameManager.Instance.myCam.m_Follow = transform;
 			myPlayerModule.enabled = true;
 
 			myPlayerModule.onSendMovement += OnPlayerMove;
@@ -303,6 +302,17 @@ public class LocalPlayer : MonoBehaviour
 	{
 		transform.position = newPos;
 		transform.localEulerAngles = newRotation;
+
+		/*
+		float right = Vector3.Dot(transform.right, newPos);
+		float forward = Vector3.Dot(transform.forward, newPos);
+
+		if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
+		{
+			myAnimator.SetFloat("Forward", forward);
+			myAnimator.SetFloat("Turn", right);
+		}
+		*/
 	}
 
 	public void OnRespawn ()
