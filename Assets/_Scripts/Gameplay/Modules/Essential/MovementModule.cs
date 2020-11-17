@@ -10,7 +10,7 @@ public class MovementModule : MonoBehaviour
 	St_MovementParameters parameters;
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
-
+	[HideInInspector] public float currentMoveSpeedModifier;
 	[SerializeField] CharacterController chara;
 
 	[HideInInspector] public CapsuleCollider collider;
@@ -74,8 +74,12 @@ public class MovementModule : MonoBehaviour
 		if (currentForcedMovement != null)
 		{
 			currentForcedMovement.duration -= Time.deltaTime;
-			if(currentForcedMovement.duration <=0)
-			{ currentForcedMovement = null; return; }
+			if (currentForcedMovement.duration <= 0)
+			{
+				currentForcedMovement = null;
+				myPlayerModule.forcedMovementInterrupted.Invoke();
+				return;
+			}
 
 			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
@@ -226,7 +230,7 @@ public class MovementModule : MonoBehaviour
 
 	bool canMove ()
 	{
-		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement!= null)
+		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement != null)
 		{
 			return false;
 		}
@@ -245,29 +249,8 @@ public class MovementModule : MonoBehaviour
 		else
 			_defspeed = parameters.movementSpeed;
 
-		if (myPlayerModule.allStatusLive.Count > 0)
-		{
-			float _finalPercentage = 0;
-
-			float biggestMalus = 1;
-			float _allBonuses = 1;
-			for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
-			{
-				
-				float valueRead = myPlayerModule.allStatusLive[i].effect.percentageOfTheModifier * myPlayerModule.allStatusLive[i].effect.decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].lifeTime / myPlayerModule.allStatusLive[i].effect.lifeTime);
-
-				if (valueRead < biggestMalus)
-					biggestMalus = valueRead;
-				else if(valueRead >1)
-				{
-					_allBonuses += valueRead-1;
-				}
-			}
-			_finalPercentage = _allBonuses * biggestMalus;
-			_defspeed *= _finalPercentage;
-		}
-		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
-		return _defspeed;
+		
+		return _defspeed* currentMoveSpeedModifier;
 
 	}
 
@@ -309,7 +292,7 @@ public class ForcedMovement
 		get => _duration;
 		set
 		{
-			_duration = value; if (_duration <= 0) { myModule.forcedMovementInterrupted.Invoke();}
+			_duration = value;
 		}
 	}
 	Vector3 _direction;

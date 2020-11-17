@@ -8,10 +8,13 @@ public class Ward : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 60;
     [SerializeField] private float lifeTimeInBrume = 3;
-    [SerializeField] private float inBrumeRevealDistance = 2;
     [SerializeField] private Fow fowFollow;
     [SerializeField] private LayerMask brumeLayer;
     private Team myTeam;
+
+    public bool isInBrume = false;
+    public int brumeId;
+
     public void Landed(Team _team)
     {
         myTeam = _team;
@@ -22,23 +25,33 @@ public class Ward : MonoBehaviour
         }
         else
         {
-            if (IsInBrume())
+            fowFollow.Init();
+
+            isInBrume = IsInBrume();
+            if (isInBrume)
             {
+                StartCoroutine(WardLifeTime(lifeTimeInBrume));
             }
             else
             {
-
+                StartCoroutine(WardLifeTime(lifeTime));
             }
 
-            fowFollow.gameObject.SetActive(true);
-            fowFollow.Init();
-            StartCoroutine(WardLifeTime());
-
             GameManager.Instance.allWard.Add(this);
+            fowFollow.gameObject.SetActive(false);
 
-            if (GameManager.Instance.currentLocalPlayer != null && GameManager.Instance.currentLocalPlayer.myPlayerModule.isInBrume)
+            if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule,this))
             {
-                fowFollow.gameObject.SetActive(false);
+                fowFollow.gameObject.SetActive(true);
+            }
+
+            if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && !isInBrume){
+                fowFollow.gameObject.SetActive(true);
+            }
+
+            if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && isInBrume)
+            {
+                fowFollow.gameObject.SetActive(true);
             }
         }
     }
@@ -50,28 +63,13 @@ public class Ward : MonoBehaviour
 
     public bool IsInBrume()
     {
-        RaycastHit[] f = Physics.RaycastAll(transform.position, transform.up, 50, brumeLayer);
-
-        if (f.Length > 0)
-        {
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity, brumeLayer)){
+            brumeId = hit.transform.GetChild(0).GetComponent<BrumeScript>().GetInstanceID();
             return true;
         }
 
         return false;
-    }
-
-    public List<LocalPlayer> GetClosestLocalPlayer()
-    {
-        List<LocalPlayer> _temp = new List<LocalPlayer>();
-
-        foreach (LocalPlayer player in GameManager.Instance.networkPlayers.Values)
-        {
-            if (Vector3.Distance(this.gameObject.transform.position, player.gameObject.transform.position) < inBrumeRevealDistance)
-            {
-                _temp.Add(player);
-            }
-        }
-        return _temp;
     }
 
     public void DestroyWard()
@@ -79,9 +77,9 @@ public class Ward : MonoBehaviour
         fowFollow.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
-    IEnumerator WardLifeTime()
+    IEnumerator WardLifeTime(float _time)
     {
-        yield return new WaitForSeconds(lifeTime);
+        yield return new WaitForSeconds(_time);
         DestroyWard();
 
     }
