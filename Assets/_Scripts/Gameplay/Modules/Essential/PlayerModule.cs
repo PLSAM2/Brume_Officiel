@@ -43,14 +43,15 @@ public class PlayerModule : MonoBehaviour
     //interactibles
     [HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
     [HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
-    [HideInInspector] public List<EffectLifeTimed> allStatusLive;
+
+    //effects
+  public List<EffectLifeTimed> allStatusLive;
+    private ushort currentKeyIndex = 0;
 
     [Header("Altar Buff/Debuff")]
     [SerializeField] private Sc_Status enteringBrumeStatus;
     [SerializeField] private Sc_Status leavingBrumeStatus;
     private bool isAltarSpeedBuffActive = false;
-    private ushort enteringBrumeStatusKey = 0;
-    private ushort leavingBrumeStatusKey = 0;
 
     //ALL ACTION 
     #region
@@ -281,7 +282,7 @@ public class PlayerModule : MonoBehaviour
                 break;
         }
     }
-
+        
     void ReduceAllCooldowns(float _duration)
     {
         firstSpell.ReduceCooldown(_duration);
@@ -402,12 +403,26 @@ public class PlayerModule : MonoBehaviour
         EffectLifeTimed _newElement = new EffectLifeTimed();
         _newElement.lifeTime = _statusToAdd.lifeTime;
         _newElement.effect = _statusToAdd;
+        
+        if(_statusToAdd.forcedKey !=0)
+		{
+            _newElement.key = _statusToAdd.forcedKey;
+        }
+        else
+		{
+            _newElement.key = currentKeyIndex;
+            currentKeyIndex++;
+        }
+
         allStatusLive.Add(_newElement);
     }
 
     void TreatEffects()
     {
         En_CharacterState _stateToFinalyApply = En_CharacterState.Clear;
+        float _finalMoveSpeedModifier=1;
+        float _worstMalus = 1;
+        float _allBonuses= 1 ;
 
         if (allStatusLive.Count > 0)
         {
@@ -427,6 +442,19 @@ public class PlayerModule : MonoBehaviour
                 }
                 else
                 {
+                    Effect _temp = allStatusLive[i].effect;
+                    if((_temp.stateApplied &= En_CharacterState.SpedUp) != 0)
+					{
+                        _allBonuses += _temp.percentageOfTheMovementModifier;
+                    }
+                    else if((_temp.stateApplied &= En_CharacterState.Slowed) != 0)
+					{
+                        if(_worstMalus < _temp.percentageOfTheMovementModifier)
+						{
+                            _worstMalus = _temp.percentageOfTheMovementModifier;
+                        }
+					}
+
                     _stateToFinalyApply |= allStatusLive[i].effect.stateApplied;
                 }
             }
@@ -434,8 +462,14 @@ public class PlayerModule : MonoBehaviour
             allStatusLive = _tempList;
 
         }
+
         if (isCrouched)
             _stateToFinalyApply |= En_CharacterState.Crouched;
+
+        _finalMoveSpeedModifier = _worstMalus * _allBonuses;
+
+        if (_finalMoveSpeedModifier != movementPart.currentMoveSpeedModifier)
+            movementPart.currentMoveSpeedModifier = _finalMoveSpeedModifier;
 
         if (state != _stateToFinalyApply)
         {
@@ -459,7 +493,7 @@ public class PlayerModule : MonoBehaviour
 	public void ApplySpeedBuffInServer ()
 	{
 		isAltarSpeedBuffActive = true;
-
+        print("IApplyBuff");
 		if (isInBrume)
 		{
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
@@ -470,12 +504,12 @@ public class PlayerModule : MonoBehaviour
 	{
 		if (value)
 		{
-			StopStatus(leavingBrumeStatusKey);
+			StopStatus(leavingBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
 		}
 		else
 		{
-			StopStatus(enteringBrumeStatusKey);
+			StopStatus(enteringBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
 	}
@@ -506,10 +540,12 @@ public class DamagesInfos
 public class Effect
 {
     public float lifeTime;
-    public bool isDurable = false;
+    [HorizontalGroup("Group1")] public bool isDurable = false;
+    [HorizontalGroup("Group1")] [ShowIf("isDurable")] public ushort forcedKey = 0;
+
     public En_CharacterState stateApplied;
     bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
-    [ShowIf("isMovementOriented")] public float percentageOfTheModifier = 1;
+    [Range(0,1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
     [ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 }
 
@@ -517,6 +553,7 @@ public class Effect
 public class EffectLifeTimed
 {
     public ushort key = 0;
+
     public Effect effect;
     public float lifeTime;
 
