@@ -98,10 +98,14 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				AltarTrailDebuffInServer(sender, e);
 			}
+			else if (message.Tag == Tags.AltarSpeedBuff)
+			{
+				AltarSpeedBuffInServer(sender, e);
+			}
 		}
 	}
 
-	private void LaunchWardInServer ( object sender, MessageReceivedEventArgs e )
+    private void LaunchWardInServer ( object sender, MessageReceivedEventArgs e )
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -397,23 +401,48 @@ public class InGameNetworkReceiver : MonoBehaviour
 		{
 			using (DarkRiftReader reader = message.GetReader())
 			{
-				if (message.Tag == Tags.StateUpdate)
+				if (message.Tag == Tags.AddStatus)
 				{
-					ushort id = reader.ReadUInt16();
+					ushort _roomId = reader.ReadUInt16();
+					ushort _statusId = reader.ReadUInt16();
+					ushort _playerId = reader.ReadUInt16();
 
-					if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+					if (!GameManager.Instance.networkPlayers.ContainsKey(_roomId))
 					{
 						return;
 					}
 
-					GameManager.Instance.networkPlayers[id].OnAddedStatus(reader.ReadUInt16());
+					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
 				}
 			}
 		}
 	}
+
 	private void AltarTrailDebuffInServer ( object sender, MessageReceivedEventArgs e )
 	{
+		using (Message message = e.GetMessage())
+        {
+			using (DarkRiftReader reader = message.GetReader())
+            {
+				ushort _ID = reader.ReadUInt16();
 
+				ShiliController _temp = (ShiliController)GameManager.Instance.networkPlayers[_ID].myPlayerModule;
+				_temp.ApplyAltarTrailDebuffInServer();
+			}
+
+		}
 	}
 
+
+	private void AltarSpeedBuffInServer(object sender, MessageReceivedEventArgs e)
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				PlayerModule _temp = GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule;
+				_temp.ApplySpeedBuffInServer();
+			}
+		}
+	}
 }

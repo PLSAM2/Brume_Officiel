@@ -10,6 +10,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
+using static FieldOfView;
 using static GameData;
 
 public class GameManager : SerializedMonoBehaviour
@@ -38,13 +39,12 @@ public class GameManager : SerializedMonoBehaviour
     public Camera defaultCam;
     [SerializeField] Animator volumeAnimator;
 
-    public List<Transform> visiblePlayer = new List<Transform>();
+    public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
     public List<Ward> allWard = new List<Ward>();
 
     private bool stopInit = false;
     public bool gameStarted = false;
-
 
     //Event utile
     public Action<ushort, ushort> OnPlayerDie;

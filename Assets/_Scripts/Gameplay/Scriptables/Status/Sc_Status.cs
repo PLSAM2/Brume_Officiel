@@ -9,9 +9,9 @@ public class Sc_Status : ScriptableObject
 {
 	public Effect effect;
 
-	public virtual void ApplyStatus (PlayerModule target)
+	public virtual void ApplyStatus (LocalPlayer target)
 	{
-		target.AddStatus(effect);
+		target.SendStatus(this);
 	}
 
 }

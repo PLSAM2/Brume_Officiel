@@ -427,6 +427,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   myRenderer: {fileID: 334373775}
   groundImg: {fileID: 551182678}
+  brumeMask:
+    serializedVersion: 2
+    m_Bits: 0
+  rangeFilter: 1
 --- !u!23 &334373775
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -869,7 +873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.08
       objectReference: {fileID: 0}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -910,6 +914,22 @@ PrefabInstance:
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404875324372030781, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404875324372030781, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5588103883704817958, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6548595031188705954, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -1097,6 +1117,7 @@ MonoBehaviour:
   edgeDstThreshold: 0
   maskCutawayDst: 0.1
   viewMeshFilter: {fileID: 466112709423135639}
+  isStatic: 0
 --- !u!1001 &1544201525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1180,10 +1201,10 @@ MonoBehaviour:
   isUsed: 0
   resolved: 0
   spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  actionLinked: 3
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461045993673}
+  particleResolution: []
   indexOfTheShotProjectileBlue: 12
   indexOfTheShotProjectileRed: 13
 --- !u!4 &263572808036557312
@@ -1695,7 +1716,10 @@ MonoBehaviour:
   lifeCount: {fileID: 0}
   life: {fileID: 8177495111168092761}
   fowPrefab: {fileID: 0}
+  forceShow: 0
   objToHide: []
+  isVisible: 0
+  prefabAudioPlayer: {fileID: 0}
 --- !u!1 &1287877692060713055
 GameObject:
   m_ObjectHideFlags: 0
@@ -3701,6 +3725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4705339815461292283}
+  myLocalPlayer: {fileID: 0}
 --- !u!222 &5306308763238296270
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4378,11 +4403,13 @@ MonoBehaviour:
   secondSpellKey: 101
   thirdSpellKey: 114
   freeCamera: 32
+  crouching: 304
   interactKey: 102
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   isInBrume: 0
+  brumeId: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   brumeLayer:
@@ -4398,6 +4425,7 @@ MonoBehaviour:
   coll: {fileID: 8154408292156006585}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
+  allStatusLive: []
 --- !u!114 &6674073702665131970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4415,10 +4443,10 @@ MonoBehaviour:
   isUsed: 0
   resolved: 0
   spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
-  actionLinked: 1
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461045993673}
+  particleResolution: []
   mylineRender: {fileID: 2550331641726829402}
   startColorPreview: {r: 1, g: 0, b: 0, a: 1}
   endColorPreview: {r: 0, g: 0, b: 1, a: 1}
@@ -4844,10 +4872,10 @@ MonoBehaviour:
   isUsed: 0
   resolved: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
-  actionLinked: 5
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 8162580461045993673}
+  particleResolution: []
   launchCurve:
     serializedVersion: 2
     m_Curve:
@@ -9910,6 +9938,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   forbidenWalkingState: 8
+  chara: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!4 &8353161393946165005
 Transform:
   m_ObjectHideFlags: 0
