@@ -237,7 +237,7 @@ public class LocalPlayer : MonoBehaviour
 
 			_writer.Write(_indexOfTheStatus);
 
-			using (Message _message = Message.Create(Tags., _writer))
+			using (Message _message = Message.Create(Tags.AddStatus, _writer))
 			{
 				currentClient.SendMessage(_message, SendMode.Unreliable);
 			}
