@@ -9,6 +9,17 @@ public class Sc_CacAttack : Sc_Spell
 {
 	[Header("AutoParameters")]
 	public List<CacAttackParameters> listOfAttacks;
+	public float maxTimeCanalised { get => totalTime(); set { return; } }
+
+	float totalTime()
+	{
+		float _temp=0;
+		foreach(CacAttackParameters _attack in listOfAttacks)
+		{
+			_temp += _attack._timeToHoldToGetToNext;
+		}
+		return _temp;
+	}
 }
 
 

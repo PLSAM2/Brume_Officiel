@@ -36,9 +36,8 @@ public class Module_Spit : SpellModule
 
     protected override void DestroyIfClient() { } // Keep this for client
 
-    protected override void Update()
+    protected  void Update()
     {
-        base.Update();
 
         if (isLaunched)
         {
@@ -120,13 +119,5 @@ public class Module_Spit : SpellModule
         }
 
         // DO SOMETHING
-    }
-
-    protected override bool canBeCast(float _distance)
-    {
-        if (_distance > spell.range)
-            return false;
-        else
-            return base.canBeCast(_distance);
     }
 }

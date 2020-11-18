@@ -14,8 +14,7 @@ public class PlayerModule : MonoBehaviour
     public KeyCode interactKey = KeyCode.F;
     public KeyCode wardKey = KeyCode.Alpha4;
     private LayerMask groundLayer;
-    bool rotLocked = false;
-
+    bool rotLocked = false, boolWasClicked =false;
     [Header("GameplayInfos")]
     public Sc_CharacterParameters characterParameters;
     [ReadOnly] public Team teamIndex;
@@ -213,6 +212,7 @@ public class PlayerModule : MonoBehaviour
             else if (Input.GetAxis("Fire1") > 0)
             {
                 leftClickInput?.Invoke(mousePos());
+                boolWasClicked = true;
             }
             //RUNNING
             else if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -226,7 +226,11 @@ public class PlayerModule : MonoBehaviour
                 thirdSpellInputRealeased?.Invoke(mousePos());
             else if (Input.GetKeyDown(wardKey))
                 wardInputReleased?.Invoke(mousePos());
-
+            else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
+            {
+                leftClickInputRealeased?.Invoke(mousePos());
+                boolWasClicked = false;
+            }
 
             if (Input.GetKeyDown(interactKey))
             {
@@ -341,14 +345,17 @@ public class PlayerModule : MonoBehaviour
     #region
     void CheckForBrumeRevelation()
     {
+
         if (GameManager.Instance.currentLocalPlayer == null)
         {
             return;
         }
         if (ShouldBePinged())
         {
-            GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
+           Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
         }
+        lastRecordedPos = transform.position;
+
     }
 
     bool ShouldBePinged()
@@ -356,23 +363,15 @@ public class PlayerModule : MonoBehaviour
         if (lastRecordedPos == transform.position)
             return false;
 
-        lastRecordedPos = transform.position;
         PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
-        if (!_localPlayer.isInBrume)
+        if (!_localPlayer.isInBrume || (state &En_CharacterState.Crouched)!=0)
             return false;
 
-        if (Vector3.Distance(transform.position, _localPlayer.transform.position) > _localPlayer.characterParameters.detectionRange)
+        if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
             return false;
 
-        if (_localPlayer.isInBrume == isInBrume)
-            return false;
 
-        if (Vector3.Distance(_localPlayer.transform.position, transform.position) > _localPlayer.characterParameters.detectionRange)
-            return false;
-
-        if (Vector3.Distance(_localPlayer.transform.position, transform.position) < _localPlayer.characterParameters.visionRange)
-            return false;
 
         return true;
     }
@@ -407,14 +406,15 @@ public class PlayerModule : MonoBehaviour
         }
     }
 
-    public Vector3 ClosestFreePos(Vector3 _posToCloseUpTo, float _anticipationDistance)
+    public Vector3 ClosestFreePos(Vector3 _direction, float maxDistance)
     {
         RaycastHit _hit;
-        if (Physics.Raycast(transform.position, _posToCloseUpTo - transform.position, out _hit, 1000, movementPart.movementBlockingLayer))
+        if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9| 1<<19))
         {
-            return transform.position + Vector3.Normalize(_posToCloseUpTo - transform.position) * (Vector3.Distance(_hit.point, transform.position) - _anticipationDistance);
+            return _hit.point;
         }
-        return transform.position;
+        else
+            return transform.position + _direction * maxDistance;
     }
     #endregion
 

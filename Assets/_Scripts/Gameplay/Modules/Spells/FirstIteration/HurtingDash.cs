@@ -23,9 +23,9 @@ public class HurtingDash : DashModule
 		mylineRender.endWidth = _width;
 	}
 
-	protected override void Update ()
+	protected  void Update ()
 	{
-		base.Update();
+		
 		
 		/*if(currentTimeCanalised <= spell.canalisationTime)
 		{
