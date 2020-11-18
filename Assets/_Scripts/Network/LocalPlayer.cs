@@ -359,7 +359,7 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void OnStateReceived ( uint _state )
+	public void OnStateReceived (ushort _state)
 	{
 		myPlayerModule.state = (En_CharacterState)_state;
 	}
