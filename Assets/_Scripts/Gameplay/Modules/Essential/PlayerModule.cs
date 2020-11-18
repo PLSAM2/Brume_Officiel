@@ -562,3 +562,20 @@ public class EffectLifeTimed
 
 }
 
+[System.Serializable]
+public class EffectLifeTimedTick
+{
+	public ushort key = 0;
+
+	public Effect effect;
+	public float liveLifeTime;
+
+	public float tickRate = 0.2f;
+	[HideInInspector] public float lastTick = 0;
+
+	public void Stop()
+	{
+		liveLifeTime = 0;
+	}
+
+}
