@@ -187,7 +187,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
         if (_tempObject.GetComponent<Projectile>() != null)
         {
-            _tempObject.GetComponent<Projectile>().Init();
+            _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
         }
 
         //GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
