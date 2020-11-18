@@ -10,7 +10,6 @@ public class MovementModule : MonoBehaviour
 	St_MovementParameters parameters;
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
-
 	[SerializeField] CharacterController chara;
 
 	[HideInInspector] public CapsuleCollider collider;
@@ -240,38 +239,33 @@ public class MovementModule : MonoBehaviour
 
 	float liveMoveSpeed ()
 	{
+		float _worstMalus = 0;
+		float _allBonuses = 0;
+
+		foreach(EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
+		{
+			if((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
+			{
+				if (_liveEffect.effect.percentageOfTheMovementModifier > _worstMalus)
+					_worstMalus = _liveEffect.effect.percentageOfTheMovementModifier;
+			}
+			else if ((_liveEffect.effect.stateApplied & En_CharacterState.SpedUp) != 0)
+			{
+				_allBonuses += _liveEffect.effect.percentageOfTheMovementModifier;
+			}
+		}
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-		float _defspeed = 0;
+		
+		float _baseSpeed = 0;
 
 		if ((myPlayerModule.state & En_CharacterState.Crouched) != 0)
-			_defspeed = parameters.crouchingSpeed;
+			_baseSpeed = parameters.crouchingSpeed;
 
 		else
-			_defspeed = parameters.movementSpeed;
+			_baseSpeed = parameters.movementSpeed;
 
-		if (myPlayerModule.allStatusLive.Count > 0)
-		{
-			float _finalPercentage = 0;
-
-			float biggestMalus = 1;
-			float _allBonuses = 1;
-			for (int i = 0; i < myPlayerModule.allStatusLive.Count; i++)
-			{
-
-				float valueRead = myPlayerModule.allStatusLive[i].effect.percentageOfTheModifier * myPlayerModule.allStatusLive[i].effect.decayOfTheModifier.Evaluate(myPlayerModule.allStatusLive[i].lifeTime / myPlayerModule.allStatusLive[i].effect.lifeTime);
-
-				if (valueRead < biggestMalus)
-					biggestMalus = valueRead;
-				else if (valueRead > 1)
-				{
-					_allBonuses += valueRead - 1;
-				}
-			}
-			_finalPercentage = _allBonuses * biggestMalus;
-			_defspeed *= _finalPercentage;
-		}
-		// A RAJOUTER LES SLOWS A VOIR CE COMMENT QU ON FAIT 
-		return _defspeed;
+		
+		return _baseSpeed * (1+_allBonuses) * (1-_worstMalus);
 
 	}
 

@@ -10,33 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: Speed brume AltarDebuff out
+  m_Name: EndOfTheUpgrade
   m_EditorClassIdentifier: 
   effect:
-    lifeTime: 3
-    isDurable: 0
-    stateApplied: 4
-    percentageOfTheModifier: 1.25
+    finalLifeTime: 3
+    isConstant: 0
+    canBeForcedStop: 0
+    forcedKey: 0
+    stateApplied: 34
+    percentageOfTheMovementModifier: 0.7
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -0.9961014
-        outSlope: -0.9961014
-        tangentMode: 34
+        inSlope: -0.100660615
+        outSlope: -0.100660615
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0.070290536
       - serializedVersion: 3
         time: 1
-        value: 0.0038986206
-        inSlope: -0.9961014
-        outSlope: -0.9961014
-        tangentMode: 34
+        value: 0
+        inSlope: -3.2242792
+        outSlope: -3.2242792
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.029990613
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

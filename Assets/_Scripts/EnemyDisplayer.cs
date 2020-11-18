@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static FieldOfView;
 
 public class EnemyDisplayer : MonoBehaviour
 {
@@ -12,81 +13,81 @@ public class EnemyDisplayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LocalPlayer currentFollowPlayer = null;
+        LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
-        if(GameManager.Instance.currentLocalPlayer != null)
+        foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            currentFollowPlayer = GameManager.Instance.currentLocalPlayer;
-        }
-        else
-        {
-            currentFollowPlayer = GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
-        }
-
-        foreach (KeyValuePair<ushort, LocalPlayer> enemy in GameManager.Instance.networkPlayers)
-        {
-            if (currentFollowPlayer == enemy.Value) {
-                HideOrShow(enemy.Value, true);
+            if (currentFollowPlayer == player.Value) {
+                HideOrShow(player.Value, true);
+                SetFow(player.Value, true);
                 continue;
             }
 
             if(currentFollowPlayer == null){
-                if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-                {
-                    HideOrShow(enemy.Value, true);
-                }
-                else
-                {
-                    HideOrShow(enemy.Value, false);
-                }
+                HideOrShow(player.Value, false);
+                SetFow(player.Value, false);
                 continue;
             }
 
-            if (enemy.Value.forceShow)
+            if (player.Value.forceShow)
             {
-                HideOrShow(enemy.Value, true);
+                HideOrShow(player.Value, true);
+                SetFow(player.Value, true);
                 continue;
             }
 
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
-                if (enemy.Value.myPlayerModule.isInBrume && enemy.Value.myPlayerModule.brumeId == currentFollowPlayer.myPlayerModule.brumeId)
+                SetFow(player.Value, false);
+                if ( GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule))
                 {
-                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
                     {
-                        HideOrShow(enemy.Value, true);
+                        HideOrShow(player.Value, true);
                     }
                     else
                     {
-                        HideOrShow(enemy.Value, false);
+                        HideOrShow(player.Value, false);
                     }
                 }
                 else
                 {
-                    HideOrShow(enemy.Value, false);
+                    HideOrShow(player.Value, false);
                 }
             }
             else
             {
-                if (enemy.Value.myPlayerModule.isInBrume)
+                if (player.Value.myPlayerModule.isInBrume)
                 {
-                    HideOrShow(enemy.Value, false);
-                }
-                else
-                {
-                    if (enemy.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-                    {
-                        HideOrShow(enemy.Value, true);
-                        continue;
-                    }
+                    SetFow(player.Value, false);
 
-                    if (GameManager.Instance.visiblePlayer.Contains(enemy.Value.transform))
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform) && 
+                        GameManager.Instance.visiblePlayer[player.Value.transform] == fowType.ward)
                     {
-                        HideOrShow(enemy.Value, true);
+                        ShowOutline(player.Value);
+                        continue;
                     }
                     else
                     {
-                        HideOrShow(enemy.Value, false);
+                        HideOrShow(player.Value, false);
+                    }
+                }
+                else
+                {
+                    if (player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                    {
+                        HideOrShow(player.Value, true);
+                        SetFow(player.Value, true);
+                        continue;
+                    }
+
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
+                    {
+                        HideOrShow(player.Value, true);
+                    }
+                    else
+                    {
+                        HideOrShow(player.Value, false);
                     }
                 }
             }
@@ -102,9 +103,40 @@ public class EnemyDisplayer : MonoBehaviour
             {
                 obj.SetActive(_value);
             }
-            p.ShowHideFow(_value);
+            p.canvas.SetActive(_value);
+
+            if (p.myOutline.enabled)
+            {
+                p.myOutline.enabled = false;
+            }
 
             GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
         }
+    }
+
+    void SetFow(LocalPlayer p, bool _value)
+    {
+        p.ShowHideFow(_value);
+    }
+
+
+    void ShowOutline(LocalPlayer p)
+    {
+        p.isVisible = true;
+
+        foreach (GameObject obj in p.objToHide)
+        {
+            obj.SetActive(true);
+        }
+        p.canvas.SetActive(false);
+
+        if (!p.myOutline.enabled)
+        {
+            p.myOutline.enabled = true;
+        }
+
+        p.ShowHideFow(true);
+
+        GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, true);
     }
 }
