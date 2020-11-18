@@ -38,8 +38,9 @@ public class Projectile : MonoBehaviour
 			asDeal = false;
 	}
 
-	public void Init ()
+	public void Init(Team ownerTeam)
 	{
+		team = ownerTeam;
 		if (_mySfxAudio != null)
 		{
 			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
