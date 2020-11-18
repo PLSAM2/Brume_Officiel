@@ -28,12 +28,16 @@ public class MovementModule : MonoBehaviour
 	//recup des actions
 	PlayerModule myPlayerModule;
 
-	public void OnEnable ()
+	public void Start ()
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
-		myPlayerModule.DirectionInputedUpdate += Move;
-		myPlayerModule.forcedMovementAdded += AddDash;
+		if(myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myPlayerModule.DirectionInputedUpdate += Move;
+			myPlayerModule.forcedMovementAdded += AddDash;
+		}
+
 
 		/*myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;*/
@@ -47,9 +51,11 @@ public class MovementModule : MonoBehaviour
 
 	void OnDisable ()
 	{
-		myPlayerModule.DirectionInputedUpdate -= Move;
-		myPlayerModule.forcedMovementAdded -= AddDash;
-
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myPlayerModule.DirectionInputedUpdate -= Move;
+			myPlayerModule.forcedMovementAdded -= AddDash;
+		}
 		//	myPlayerModule.toggleRunning -= ToggleRunning;
 		//	myPlayerModule.stopRunning -= StopRunning;
 	}

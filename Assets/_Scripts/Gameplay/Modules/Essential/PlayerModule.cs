@@ -20,12 +20,12 @@ public class PlayerModule : MonoBehaviour
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
 	private bool _isInBrume;
-	En_CharacterState _state = En_CharacterState.Clear;
+	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState()); mylocalPlayer.SendState(state); } }
+		set { _state = value;}
 	}
 	En_CharacterState LiveEffectCharacterState ()
 	{
@@ -37,6 +37,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return _temp;
 	}
+	En_CharacterState _oldState = En_CharacterState.Clear;
 
 
 
@@ -266,9 +267,21 @@ public class PlayerModule : MonoBehaviour
 	}
 	private void FixedUpdate ()
 	{
+		if (!mylocalPlayer.isOwner)
+			return;
+		else
+		{
+			if (_oldState != state)
+			{
+				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
+				mylocalPlayer.SendState(state);
+				_oldState = state;
+			}
+		}
 		TreatEffects();
 		TreatTickEffects();
 	}
+
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{

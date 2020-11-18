@@ -78,7 +78,12 @@ public class WardModule : SpellModule
 
         base.ResolveSpell(_mousePosition);
 
-        destination = _mousePosition;
+        float _distance = Vector3.Distance(_mousePosition, transform.position);
+
+        if (_distance > spell.range)
+            destination = transform.position + Vector3.Normalize(_mousePosition - transform.position) * spell.range;
+        else
+            destination = _mousePosition;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -130,9 +135,6 @@ public class WardModule : SpellModule
 
 	protected override bool canBeCast (float _distance)
 	{
-        if (_distance > spell.range)
-            return false;
-        else
-		    return base.canBeCast(_distance);
+		return base.canBeCast(_distance);
 	}
 }
