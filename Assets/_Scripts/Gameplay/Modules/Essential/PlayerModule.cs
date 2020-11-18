@@ -411,14 +411,15 @@ public class PlayerModule : MonoBehaviour
         }
     }
 
-    public Vector3 ClosestFreePos(Vector3 _posToCloseUpTo, float _anticipationDistance)
+    public Vector3 ClosestFreePos(Vector3 _direction, float maxDistance)
     {
         RaycastHit _hit;
-        if (Physics.Raycast(transform.position, _posToCloseUpTo - transform.position, out _hit, 1000, movementPart.movementBlockingLayer))
+        if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9| 1<<19))
         {
-            return transform.position + Vector3.Normalize(_posToCloseUpTo - transform.position) * (Vector3.Distance(_hit.point, transform.position) - _anticipationDistance);
+            return _hit.point;
         }
-        return transform.position;
+        else
+            return transform.position + _direction * maxDistance;
     }
     #endregion
 
