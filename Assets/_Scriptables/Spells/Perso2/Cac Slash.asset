@@ -16,9 +16,9 @@ MonoBehaviour:
   range: 0
   cooldown: 0.5
   numberOfCharge: 1
-  lockOnCanalisation: 1
+  lockOnCanalisation: 0
   forbiddenState: 56
-  canalysingStatus: {fileID: 0}
+  canalysingStatus: {fileID: 11400000, guid: 7f85f2a1895fc0b45bea9022a75749b7, type: 2}
   resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
@@ -28,33 +28,23 @@ MonoBehaviour:
   - angleToAttackFrom: 90
     rangeOfTheAttackMin: 3
     rangeOfTheAttackMax: 5
-    movementOfTheCharacter: {fileID: 0}
-    movementOfHit: {fileID: 0}
+    movementOfTheCharacter: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
+    movementOfHit: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
     _timeToHoldToGetToNext: 0.5
     _timeToHoldMax: 0.3
     damagesToDeal:
-      damageHealth: 0
+      damageHealth: 1
       statusToApply: []
       playerName: 
-  - angleToAttackFrom: 90
-    rangeOfTheAttackMin: 3
-    rangeOfTheAttackMax: 5
-    movementOfTheCharacter: {fileID: 0}
-    movementOfHit: {fileID: 0}
+  - angleToAttackFrom: 60
+    rangeOfTheAttackMin: 5
+    rangeOfTheAttackMax: 8
+    movementOfTheCharacter: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
+    movementOfHit: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
     _timeToHoldToGetToNext: 0.5
     _timeToHoldMax: 0.3
     damagesToDeal:
-      damageHealth: 0
-      statusToApply: []
-      playerName: 
-  - angleToAttackFrom: 45
-    rangeOfTheAttackMin: 3
-    rangeOfTheAttackMax: 5
-    movementOfTheCharacter: {fileID: 0}
-    movementOfHit: {fileID: 0}
-    _timeToHoldToGetToNext: 0.5
-    _timeToHoldMax: 0.3
-    damagesToDeal:
-      damageHealth: 0
-      statusToApply: []
+      damageHealth: 2
+      statusToApply:
+      - {fileID: 11400000, guid: b56b0b07795a79440940bffb42c805e6, type: 2}
       playerName: 

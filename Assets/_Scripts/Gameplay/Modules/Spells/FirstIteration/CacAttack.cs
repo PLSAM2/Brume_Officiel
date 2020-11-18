@@ -8,6 +8,7 @@ public class CacAttack : SpellModule
 	Sc_CacAttack localTrad;
 	//int currentAttackToResolve = 0;
 	CacAttackParameters attackToResolve;
+	int attackToResolveIndex = 0;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -18,78 +19,105 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
 
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+				myPlayerModule.firstSpellInput += StartCanalysing;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				myPlayerModule.secondSpellInput += StartCanalysing;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				myPlayerModule.thirdSpellInput += StartCanalysing;
 				break;
 		}
 
 		switch (_actionLinked)
 		{
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += ResolveSpell;
+				myPlayerModule.leftClickInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += ResolveSpell;
+				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += ResolveSpell;
+				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += ResolveSpell;
+				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
 				break;
 		}
 	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
-		ResolveAttack();
+		return;
 	}
 
-	void ResolveAttack ()
+	public override void DecreaseCooldown ()
+	{
+		return;
+	}
+
+	protected override void TreatNormalCanalisation ()
+	{
+		return;
+	}
+	protected override void DecreaseCharge ()
+	{
+		return;
+	}
+
+	protected override void ApplyStatusCanalisation ()
+	{
+		return;
+	}
+
+
+	void ResolveAttack ( Vector3 _mousePos )
 	{
 		attackToResolve = localTrad.listOfAttacks[0];
 
-		for(int i =0; i < localTrad.listOfAttacks.Count; i++)
+	/*	for (int i = 0; i < localTrad.listOfAttacks.Count; i++)
 		{
-			if(currentTimeCanalised >= attackToResolve._timeToHoldMax)
+			print(currentTimeCanalised);
+			if (currentTimeCanalised >= attackToResolve._timeToHoldMax)
 			{
 				currentTimeCanalised -= attackToResolve._timeToHoldMax;
 			}
 			else
 				attackToResolve = localTrad.listOfAttacks[i];
-		}
+		}*/
+		if(currentTimeCanalised >= localTrad.listOfAttacks[0]._timeToHoldMax)
+			attackToResolve = localTrad.listOfAttacks[1];
 
-
+		print(attackToResolve.angleToAttackFrom);
 		//ptit dash tu connais
-		if (attackToResolve.movementOfTheCharacter != null)
+		if (attackToResolve.movementOfTheCharacter == null )
 		{
-			myPlayerModule.forcedMovementInterrupted += ResolveSlash;
-			myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+			ResolveSlash();
 		}
 		else
-			ResolveSlash();
+		{
+			myPlayerModule.forcedMovementInterrupted += ResolveSlash;
+			if(spell.useLastRecordedMousePos)
+				myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+			else
+				myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));
+
+		}
+
+
 	}
 
-	void ResolveSlash()
+	void ResolveSlash ()
 	{
-	
-		CacAttackParameters _currentAttack = localTrad.listOfAttacks[0];
-
-
 		if (attackToResolve.movementOfTheCharacter != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
@@ -97,17 +125,17 @@ public class CacAttack : SpellModule
 
 		List<GameObject> _listHit = new List<GameObject>();
 
-		float _baseAngle = _currentAttack.angleToAttackFrom / 2 - _currentAttack.angleToAttackFrom;
-		float _rangeOfTheAttack = _currentAttack.rangeOfTheAttackMin + (_currentAttack.rangeOfTheAttackMax - _currentAttack.rangeOfTheAttackMin) * Mathf.Clamp((currentTimeCanalised/ _currentAttack._timeToHoldMax),0,1);
+		float _baseAngle = attackToResolve.angleToAttackFrom / 2 - attackToResolve.angleToAttackFrom;
+		float _rangeOfTheAttack = attackToResolve.rangeOfTheAttackMin + (attackToResolve.rangeOfTheAttackMax - attackToResolve.rangeOfTheAttackMin) * Mathf.Clamp((currentTimeCanalised / attackToResolve._timeToHoldMax), 0, 1);
 
 
 		//RAYCAST POUR TOUCHER
-		for (int i = 0; i < _currentAttack.angleToAttackFrom; i++)
+		for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
 		{
 			Vector3 _direction = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
 			_baseAngle++;
 
-			Ray _ray = new Ray( transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
+			Ray _ray = new Ray(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
 
 			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, LayerMask.GetMask("Character"));
 			Debug.DrawRay(_ray.origin, _ray.direction, Color.red, 5);
@@ -128,20 +156,18 @@ public class CacAttack : SpellModule
 		{
 			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
-			_playerTouched.DealDamages(_currentAttack.damagesToDeal);
+			_playerTouched.DealDamages(attackToResolve.damagesToDeal);
 
 			//push
-			if (_currentAttack.movementOfHit != null)
-				_playerTouched.SendForcedMovement(_currentAttack.movementOfHit.MovementToApply(_playerTouched.transform.position, transform.position));
+			if (attackToResolve.movementOfHit != null)
+				_playerTouched.SendForcedMovement(attackToResolve.movementOfHit.MovementToApply(_playerTouched.transform.position, transform.position));
 		}
 
 		Interrupt();
-		charges -= 1;
 	}
-
-	protected override void DecreaseCharge ()
+	public override void Interrupt ()
 	{
-		return;
+		myPlayerModule.StopStatus(spell.canalysingStatus.effect.forcedKey);
+		base.Interrupt();
 	}
-
 }

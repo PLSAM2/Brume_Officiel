@@ -99,7 +99,8 @@ public class PlayerModule : MonoBehaviour
 	public Action startSneaking, stopSneaking;
 	public Action<bool> rotationLock;
 	#endregion
-
+	//inputSpe
+	bool asClicked=false;
 	//[DASH ET MODIFICATEUR DE MOUVEMENT]
 	#region
 	public Action<ForcedMovement> forcedMovementAdded;
@@ -211,6 +212,7 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetAxis("Fire1") > 0)
 			{
 				leftClickInput?.Invoke(mousePos());
+				asClicked = true;
 			}
 			//RUNNING
 			else if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -224,7 +226,11 @@ public class PlayerModule : MonoBehaviour
 				thirdSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyDown(wardKey))
 				wardInputReleased?.Invoke(mousePos());
-
+			else if (Input.GetAxis("Fire1") <= 0 && asClicked == true)
+			{
+				leftClickInputRealeased?.Invoke(mousePos());
+				asClicked = false;
+			}
 
 			if (Input.GetKeyDown(interactKey))
 			{

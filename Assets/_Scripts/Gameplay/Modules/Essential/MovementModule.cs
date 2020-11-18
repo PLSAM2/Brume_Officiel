@@ -144,9 +144,12 @@ public class MovementModule : MonoBehaviour
 
 	public void AddDash ( ForcedMovement infos )
 	{
-		currentForcedMovement = new ForcedMovement();
-		currentForcedMovement = infos;
-		currentForcedMovement.myModule = myPlayerModule;
+		ForcedMovement _temp = new ForcedMovement();
+		_temp.direction = infos.direction;
+		_temp.duration = infos.duration;
+		_temp.strength = infos.strength;
+		_temp.myModule = myPlayerModule;
+		currentForcedMovement = _temp;
 	}
 
 	/*void StopRunning()

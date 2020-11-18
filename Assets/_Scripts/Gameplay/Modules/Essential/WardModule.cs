@@ -36,10 +36,8 @@ public class WardModule : SpellModule
 
     protected override void DestroyIfClient() { } // Keep this for client
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
-
         if (isLaunched)
         {
             if (Vector3.Distance(wardObj.transform.position, destination) < distanceMaxBeforeEndTravel)
@@ -133,8 +131,5 @@ public class WardModule : SpellModule
         wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
     }
 
-	protected override bool canBeCast (float _distance)
-	{
-		return base.canBeCast(_distance);
-	}
+
 }

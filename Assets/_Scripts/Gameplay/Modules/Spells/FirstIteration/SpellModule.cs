@@ -129,11 +129,11 @@ public class SpellModule : MonoBehaviour
 	}
 
 
-	protected virtual void Update ()
+	protected virtual void FixedUpdate ()
 	{
 		if (isUsed && !resolved)
 		{
-			currentTimeCanalised += Time.deltaTime;
+			currentTimeCanalised += Time.fixedDeltaTime;
 
 			TreatNormalCanalisation();
 		}
@@ -155,8 +155,11 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if (canBeCast(Vector3.Distance(_BaseMousePos, transform.position)))
+		if (canBeCast())
 		{
+			if (spell.canalysingStatus != null)
+				spell.canalysingStatus.ApplyStatus(myPlayerModule.mylocalPlayer);
+
 			lastRecordedDirection = myPlayerModule.directionInputed();
 
 			resolved = false;
@@ -191,6 +194,7 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
+		endCanalisation?.Invoke();
 
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
@@ -202,8 +206,6 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
-		endCanalisation?.Invoke();
-
 		resolved = true;
 		Interrupt();
 	}
@@ -214,7 +216,7 @@ public class SpellModule : MonoBehaviour
 		if (charges < spell.numberOfCharge)
 		{
 			if (cooldown >= 0)
-				cooldown -= Time.deltaTime;
+				cooldown -= Time.fixedDeltaTime;
 			else
 			{
 				charges += 1;
@@ -233,7 +235,7 @@ public class SpellModule : MonoBehaviour
 			cooldown -= _durationShorten;
 	}
 
-	protected virtual bool canBeCast (float _distance)
+	protected virtual bool canBeCast ()
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
@@ -248,13 +250,7 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		if (spell.canalysingStatus != null)
-			spell.canalysingStatus.ApplyStatus(myPlayerModule.mylocalPlayer) ;
 
-		Effect _newStatus = new Effect();
-		_newStatus.finalLifeTime = spell.canalisationTime;
-		_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root );
-		myPlayerModule.AddStatus(_newStatus);
 
 		switch (actionLinked)
 		{
@@ -271,6 +267,14 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation3", true);
 				break;
 		}
+	}
+
+	protected virtual void ApplyStatusCanalisation()
+	{
+		Effect _newStatus = new Effect();
+		_newStatus.finalLifeTime = spell.canalisationTime;
+		_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root);
+		myPlayerModule.AddStatus(_newStatus);
 	}
 
 	void ResolveSpellFeedback ()

@@ -21,10 +21,8 @@ public class ModuleProjectileSpell : SpellModule
 		offsetHeight = GetComponent<CapsuleCollider>().height / 2;
 	}
 
-	protected override void Update ()
+	protected  void Update ()
 	{
-		base.Update();
-
 		if (shooting == true)
 		{
 			timeBetweenShot -= Time.deltaTime;
@@ -59,7 +57,6 @@ public class ModuleProjectileSpell : SpellModule
 
 		shooting = true;
 
-		endCanalisation?.Invoke();
 		resolved = true;
 	}
 
@@ -77,14 +74,14 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = spellProj.salveInfos;
 	}
 
-	protected override bool canBeCast (float _distance)
+	protected override bool canBeCast ()
 	{
 		if (shooting)
 		{
 			return false;
 		}
 		else
-			return base.canBeCast(_distance);
+			return base.canBeCast();
 	}
 
 	//shootingPart
