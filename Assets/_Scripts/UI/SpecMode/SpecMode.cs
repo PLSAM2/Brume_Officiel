@@ -101,9 +101,9 @@ public class SpecMode : MonoBehaviour
 
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if(RoomManager.Instance.GetPlayerData(player.Key).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam) {
+            if (player.Value == GameManager.Instance.currentLocalPlayer) { continue; }
 
-                if(player.Value == GameManager.Instance.currentLocalPlayer) { continue; }
+            if (RoomManager.Instance.GetPlayerData(player.Key).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam) {
 
                 SpecPlayerElement specElement = Instantiate(prefabPlayer, parentList).GetComponent<SpecPlayerElement>();
                 specElement.Init(player.Key, this);

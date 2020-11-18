@@ -115,10 +115,11 @@ public class LocalPlayer : MonoBehaviour
 					obj.SetActive(false);
 				}
 			}
-
+			oldPos = transform.position;
 		}
 	}
 
+	Vector3 oldPos;
 	private void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.K) && isOwner)
@@ -128,7 +129,26 @@ public class LocalPlayer : MonoBehaviour
 			DealDamages(_temp);
 		}
 
-		//  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+
+        if (!isOwner)
+        {
+			float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+			float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+
+			velocityX = Mathf.Clamp(velocityX, -1, 1);
+			velocityZ = Mathf.Clamp(velocityZ, -1, 1);
+
+			Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+
+			float right = Vector3.Dot(transform.right, pos);
+			float forward = Vector3.Dot(transform.forward, pos);
+
+			myAnimator.SetFloat("Forward", Mathf.Lerp(myAnimator.GetFloat("Forward"), forward, Time.deltaTime * 30));
+			myAnimator.SetFloat("Turn", Mathf.Lerp(myAnimator.GetFloat("Turn"), right, Time.deltaTime * 30));
+
+			oldPos = transform.position;
+		}
 	}
 
 	private void LateUpdate ()
@@ -298,7 +318,7 @@ public class LocalPlayer : MonoBehaviour
 			myAnimator.SetFloat("Forward", forward);
 			myAnimator.SetFloat("Turn", right);
 
-			networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
+			//networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
 		}
 	}
 
@@ -306,17 +326,6 @@ public class LocalPlayer : MonoBehaviour
 	{
 		transform.position = newPos;
 		transform.localEulerAngles = newRotation;
-
-		/*
-		float right = Vector3.Dot(transform.right, newPos);
-		float forward = Vector3.Dot(transform.forward, newPos);
-
-		if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
-		{
-			myAnimator.SetFloat("Forward", forward);
-			myAnimator.SetFloat("Turn", right);
-		}
-		*/
 	}
 
 	public void OnRespawn ()
