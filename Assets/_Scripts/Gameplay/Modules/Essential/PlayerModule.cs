@@ -80,6 +80,7 @@ public class PlayerModule : MonoBehaviour
 
 	//effects
 	public List<EffectLifeTimed> allEffectLive;
+	public List<EffectLifeTimedTick> allTickLive;
 	private ushort currentKeyIndex = 0;
 
 	[Header("Altar Buff/Debuff")]
@@ -278,6 +279,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 		TreatEffects();
+		TreatTickEffects();
 	}
 
 
@@ -425,24 +427,37 @@ public class PlayerModule : MonoBehaviour
 		Effect _tempTrad = new Effect();
 		_tempTrad = _statusToAdd;
 
-		EffectLifeTimed _newElement = new EffectLifeTimed();
-		_newElement.liveLifeTime = _tempTrad.finalLifeTime;
-		_newElement.effect = _tempTrad;
+        if (_tempTrad.tick)
+        {
+			EffectLifeTimedTick _newElementTick = new EffectLifeTimedTick();
+			_newElementTick.liveLifeTime = _tempTrad.finalLifeTime;
+			_newElementTick.effect = _tempTrad;
 
-
-		if (_statusToAdd.forcedKey != 0)
-		{
-			_newElement.key = _statusToAdd.forcedKey;
+			allTickLive.Add(_newElementTick);
 		}
 		else
-		{
-			_newElement.key = currentKeyIndex;
-			currentKeyIndex++;
+        {
+			EffectLifeTimed _newElement = new EffectLifeTimed();
+
+			_newElement.liveLifeTime = _tempTrad.finalLifeTime;
+			_newElement.effect = _tempTrad;
+
+
+			if (_statusToAdd.forcedKey != 0)
+			{
+				_newElement.key = _statusToAdd.forcedKey;
+			}
+			else
+			{
+				_newElement.key = currentKeyIndex;
+				currentKeyIndex++;
+			}
+
+			allEffectLive.Add(_newElement);
+
 		}
 
-		allEffectLive.Add(_newElement);
 	}
-
 	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
@@ -463,6 +478,44 @@ public class PlayerModule : MonoBehaviour
 
 		UiManager.Instance.StatusUpdate(state);
 	}
+
+	void TreatTickEffects()
+	{
+		List<EffectLifeTimedTick> _tempList = new List<EffectLifeTimedTick>();
+
+		for (int i = 0; i < allTickLive.Count; i++)
+		{
+			allTickLive[i].liveLifeTime -= Time.fixedDeltaTime;
+			allTickLive[i].lastTick += Time.fixedDeltaTime;
+			if (allTickLive[i].liveLifeTime <= 0)
+			{
+				_tempList.Add(allTickLive[i]);
+			} 
+
+			if (allTickLive[i].lastTick >= allTickLive[i].effect.tickRate && allTickLive[i].liveLifeTime > 0)
+            {
+                if (allTickLive[i].effect.isDamaging)
+				{
+					DamagesInfos _temp = new DamagesInfos();
+					_temp.damageHealth = allTickLive[i].effect.tickValue;
+
+					this.mylocalPlayer.DealDamages(_temp);
+                }
+				if (allTickLive[i].effect.isHealing)
+				{
+
+				}
+			}
+
+
+		}
+
+		foreach (EffectLifeTimedTick _effect in _tempList)
+			allTickLive.Remove(_effect);
+
+
+	}
+
 
 	public void StopStatus ( ushort key )
 	{
@@ -530,6 +583,12 @@ public class Effect
 	[HorizontalGroup("Group1")] public bool canBeForcedStop = false;
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
 
+	[HorizontalGroup("Group3")] public bool tick = false;
+	[HorizontalGroup("Group3")] [ShowIf("tick")] public float tickRate = 0.2f;
+	[HorizontalGroup("Group3")] public bool isDamaging = false;
+	[HorizontalGroup("Group3")] public bool isHealing = false;
+	[HorizontalGroup("Group3")] [ShowIf("tick && (isDamaging || isHealing)")] public ushort tickValue = 0;
+
 	public En_CharacterState stateApplied;
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
@@ -563,7 +622,6 @@ public class EffectLifeTimedTick
 	public Effect effect;
 	public float liveLifeTime;
 
-	public float tickRate = 0.2f;
 	[HideInInspector] public float lastTick = 0;
 
 	public void Stop ()
