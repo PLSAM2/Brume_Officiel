@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: slow 30% 0,4s
   m_EditorClassIdentifier: 
   effect:
-    lifeTime: 0.4
-    isDurable: 0
-    forcedKey: 1000
-    stateApplied: 0
+    finalLifeTime: 0.4
+    isConstant: 0
+    canBeForcedStop: 0
+    forcedKey: 0
+    stateApplied: 2
     percentageOfTheMovementModifier: 0.3
     decayOfTheModifier:
       serializedVersion: 2
