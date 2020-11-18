@@ -20,12 +20,12 @@ public class PlayerModule : MonoBehaviour
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
 	private bool _isInBrume;
-	En_CharacterState _state = En_CharacterState.Clear;
+	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState()); } }
+		set { _state = value;}
 	}
 	En_CharacterState LiveEffectCharacterState ()
 	{
@@ -37,6 +37,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return _temp;
 	}
+	En_CharacterState _oldState = En_CharacterState.Clear;
 
 
 
@@ -56,7 +57,10 @@ public class PlayerModule : MonoBehaviour
 	Vector3 lastRecordedPos;
 
 	[Header("DamagesPart")]
-	bool isCrouched = false;
+	bool _isCrouched =false;
+	bool isCrouched
+
+	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { state |= En_CharacterState.Crouched; } else { state = (state & ~En_CharacterState.Crouched); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
@@ -245,6 +249,7 @@ public class PlayerModule : MonoBehaviour
 			if (Input.GetKeyDown(crouching))
 				isCrouched = true;
 
+
 			else if (Input.GetKeyUp(crouching))
 				isCrouched = false;
 
@@ -261,8 +266,20 @@ public class PlayerModule : MonoBehaviour
 	}
 	private void FixedUpdate ()
 	{
+		if (!mylocalPlayer.isOwner)
+			return;
+		else
+		{
+			if (_oldState != state)
+			{
+				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
+				mylocalPlayer.SendState(state);
+				_oldState = state;
+			}
+		}
 		TreatEffects();
 	}
+
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -320,26 +337,14 @@ public class PlayerModule : MonoBehaviour
 	#region
 	void CheckForBrumeRevelation ()
 	{
-
 		if (GameManager.Instance.currentLocalPlayer == null)
 		{
 			return;
 		}
-
 		if (ShouldBePinged())
 		{
 			GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
-
-			if (teamIndex == Team.blue)
-			{
-				_fx.GetComponent<ParticleSystem>().startColor = Color.blue;
-			}
-			else if (teamIndex == Team.red)
-			{
-				_fx.GetComponent<ParticleSystem>().startColor = Color.red;
-			}
 		}
-
 	}
 
 	bool ShouldBePinged ()
@@ -557,3 +562,20 @@ public class EffectLifeTimed
 
 }
 
+[System.Serializable]
+public class EffectLifeTimedTick
+{
+	public ushort key = 0;
+
+	public Effect effect;
+	public float liveLifeTime;
+
+	public float tickRate = 0.2f;
+	[HideInInspector] public float lastTick = 0;
+
+	public void Stop()
+	{
+		liveLifeTime = 0;
+	}
+
+}

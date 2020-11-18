@@ -13,7 +13,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 
 	[Header("Projectile Prefabs")]
-	public Projectile prefabBlueTeam, prefabRedTeam;
+	public Projectile prefab;
 
 
 	[Header("SalveInfos")]
