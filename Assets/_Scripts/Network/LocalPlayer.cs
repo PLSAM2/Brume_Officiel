@@ -133,14 +133,28 @@ public class LocalPlayer : MonoBehaviour
 
         if (!isOwner)
         {
+			float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+			float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+
+			velocityX = Mathf.Clamp(velocityX, -1, 1);
+			velocityZ = Mathf.Clamp(velocityZ, -1, 1);
+
+			Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+
+			float right = Vector3.Dot(transform.right, pos);
+			float forward = Vector3.Dot(transform.forward, pos);
+
+			myAnimator.SetFloat("Forward", Mathf.Lerp(myAnimator.GetFloat("Forward"), forward, Time.deltaTime * 30));
+			myAnimator.SetFloat("Turn", Mathf.Lerp(myAnimator.GetFloat("Turn"), right, Time.deltaTime * 30));
+
 			oldPos = transform.position;
 		}
 	}
 
 	private void LateUpdate ()
 	{
-		canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-		canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+		//canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
+		//canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
 	}
 
 	void SpawnFow ()
@@ -304,7 +318,7 @@ public class LocalPlayer : MonoBehaviour
 			myAnimator.SetFloat("Forward", forward);
 			myAnimator.SetFloat("Turn", right);
 
-			networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
+			//networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
 		}
 	}
 
@@ -312,18 +326,6 @@ public class LocalPlayer : MonoBehaviour
 	{
 		transform.position = newPos;
 		transform.localEulerAngles = newRotation;
-
-
-		/*
-		float right = Vector3.Dot(transform.right, newPos);
-		float forward = Vector3.Dot(transform.forward, newPos);
-
-		if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
-		{
-			myAnimator.SetFloat("Forward", forward);
-			myAnimator.SetFloat("Turn", right);
-		}
-		*/
 	}
 
 	public void OnRespawn ()
@@ -353,6 +355,24 @@ public class LocalPlayer : MonoBehaviour
 			}
 		}
 	}
+
+	public void HealPlayer(ushort value)
+	{
+		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, 1000);
+		liveHealth = (ushort)_tempHp;
+		
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write(myPlayerId);
+			_writer.Write(value);
+
+			using (Message _message = Message.Create(Tags.Heal, _writer))
+			{
+				currentClient.SendMessage(_message, SendMode.Reliable);
+			}
+		}
+	}
+
 
 	public void KillPlayer ()
 	{
