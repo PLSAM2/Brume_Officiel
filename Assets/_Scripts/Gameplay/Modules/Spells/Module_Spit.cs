@@ -1,14 +1,15 @@
-﻿using System.Collections;
+﻿using DarkRift;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Module_Spit : SpellModule
 {
-    /*
+
     [SerializeField] private AnimationCurve launchCurve;
-    [SerializeField] private GameObject wardPrefab;
-    private GameObject wardObj;
-    public float wardSpeed;
+    public GameObject spitPrefab;
+    public GameObject spitObj;
+    public float spitSpeed;
     public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
     public float distanceMaxBeforeEndTravel = 0.01f;
     private bool isLaunched = false;
@@ -22,15 +23,15 @@ public class Module_Spit : SpellModule
 
     private void Start()
     {
-        wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
-        wardObj.SetActive(false);
+
+        spitObj = Instantiate(spitPrefab, Vector3.zero, Quaternion.identity);
+        spitObj.SetActive(false);
         animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
     }
 
-
     private void OnDestroy()
     {
-        Destroy(wardObj);
+        Destroy(spitObj);
     }
 
     protected override void DestroyIfClient() { } // Keep this for client
@@ -41,15 +42,15 @@ public class Module_Spit : SpellModule
 
         if (isLaunched)
         {
-            if (Vector3.Distance(wardObj.transform.position, destination) < distanceMaxBeforeEndTravel)
+            if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
             {
-                WardLanded();
+                Landed();
                 return;
             }
 
             deceleration = 1;
             deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
-            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (wardSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
+            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
             noCurvePosition = newPosition;
 
             float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
@@ -57,14 +58,14 @@ public class Module_Spit : SpellModule
 
             UpOffset = launchCurve.Evaluate(distanceProgress);
             lastOffest = UpOffset;
-            wardObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
+            spitObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
         }
     }
 
 
     protected override void ResolveSpell(Vector3 _mousePosition)
     {
-        if (isLaunched)
+        if (isLaunched && spitObj != null)
         {
             return;
         }
@@ -81,12 +82,51 @@ public class Module_Spit : SpellModule
             _writer.Write(destination.y);
             _writer.Write(destination.z);
 
-            using (Message _message = Message.Create(Tags.LaunchWard, _writer))
+            using (Message _message = Message.Create(Tags.CurveSpellLaunch, _writer))
             {
                 RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
             }
         }
 
-        InitWardLaunch(destination);
-    }*/
+        InitLaunch(destination);
+    }
+
+    public void InitLaunch(Vector3 destination)
+    {
+        this.destination = destination;
+        spitObj.SetActive(true);
+        startPos = (transform.position + Vector3.up);
+        spitObj.transform.position = startPos;
+        baseDistance = Vector3.Distance(startPos, destination);
+        noCurvePosition = startPos;
+        isLaunched = true;
+    }
+
+    public void Landed()
+    {
+        isLaunched = false;
+
+        if (isOwner)
+        {
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            {
+                _writer.Write(RoomManager.Instance.client.ID); // Player ID
+
+                using (Message _message = Message.Create(Tags.CurveSpellLanded, _writer))
+                {
+                    RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+                }
+            }
+        }
+
+        // DO SOMETHING
+    }
+
+    protected override bool canBeCast(float _distance)
+    {
+        if (_distance > spell.range)
+            return false;
+        else
+            return base.canBeCast(_distance);
+    }
 }

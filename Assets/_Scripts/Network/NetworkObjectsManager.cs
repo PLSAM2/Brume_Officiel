@@ -103,7 +103,9 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
     private GameObject GetFirstDisabledObject(int objectID)
     {
-        foreach (Transform t in poolParents.Where(x => x.Key == objectID).First().gameObject.transform)
+        KeyGameObjectPair _parent = poolParents.Where(x => x.Key == objectID).First();
+
+        foreach (Transform t in _parent.gameObject.transform)
         {
             if (!t.gameObject.activeInHierarchy)
             {
@@ -111,7 +113,12 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             }
         }
 
-        throw new Exception("AUCUN OBJETS INACTIF RESTANT POUR LA CLE => " + objectID);
+        KeyGameObjectPair _item = networkedObjectsList.networkObjects.Where(x => x.Key == objectID).First();
+
+        GameObject newobj = Instantiate(_item.gameObject, _parent.gameObject.transform);
+        newobj.SetActive(false);
+
+        return newobj;
     }
 
     /// <summary>
