@@ -345,14 +345,17 @@ public class PlayerModule : MonoBehaviour
     #region
     void CheckForBrumeRevelation()
     {
+
         if (GameManager.Instance.currentLocalPlayer == null)
         {
             return;
         }
         if (ShouldBePinged())
         {
-            GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
+           Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
         }
+        lastRecordedPos = transform.position;
+
     }
 
     bool ShouldBePinged()
@@ -360,13 +363,12 @@ public class PlayerModule : MonoBehaviour
         if (lastRecordedPos == transform.position)
             return false;
 
-        lastRecordedPos = transform.position;
         PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
         if (!_localPlayer.isInBrume || (state &En_CharacterState.Crouched)!=0)
             return false;
 
-        if (Vector3.Distance(transform.position, _localPlayer.transform.position) < _localPlayer.characterParameters.detectionRange)
+        if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
             return false;
 
 
