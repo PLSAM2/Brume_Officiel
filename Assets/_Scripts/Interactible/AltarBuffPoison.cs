@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 
+
+[CreateAssetMenu(fileName = "AltarBuff", menuName = "Custom/AltarBuff/AltarBuffPoison")]
 public class AltarBuffPoison : AltarBuff
 {
     public override void InitBuff(PlayerModule capturingPlayerModule)
