@@ -25,7 +25,7 @@ public class PlayerModule : MonoBehaviour
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState()); } }
+		set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState()); mylocalPlayer.SendState(state); } }
 	}
 	En_CharacterState LiveEffectCharacterState ()
 	{
