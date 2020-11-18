@@ -37,6 +37,7 @@ class Tags
     public static readonly ushort SynchroniseObject = 510;
     public static readonly ushort DestroyObject = 515;
     public static readonly ushort Damages = 520;
+    public static readonly ushort Heal = 522;
     public static readonly ushort AddPoints = 550;
     public static readonly ushort KillCharacter = 560;
 
@@ -63,9 +64,10 @@ class Tags
     public static readonly ushort StartWardLifeTime = 791;
     // <<
 
-    //Buff 800 --> 810 >>
+    //Altar Buff 800 --> 810 >>
     public static readonly ushort AltarTrailDebuff = 800;
     public static readonly ushort AltarSpeedBuff = 802;
+    public static readonly ushort AltarPoisonBuff = 804;
     // <<
 
     //Spells 810 --> XXX >>
