@@ -10,40 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: EndOfTheUpgrade
+  m_Name: Poison Base
   m_EditorClassIdentifier: 
   effect:
-    finalLifeTime: 3
+    tick: 1
+    finalLifeTime: 2
     isConstant: 0
-    canBeForcedStop: 0
-    forcedKey: 0
-    tick: 0
-    tickRate: 0.2
-    isDamaging: 0
+    canBeForcedStop: 1
+    forcedKey: 1002
+    tickRate: 0.5
+    refreshOnApply: 1
+    isDamaging: 1
     isHealing: 0
-    tickValue: 0
-    stateApplied: 32
-    percentageOfTheMovementModifier: 0.7
+    tickValue: 1
+    stateApplied: 0
+    percentageOfTheMovementModifier: 1
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
+        time: 1
         value: 1
-        inSlope: -0.100660615
-        outSlope: -0.100660615
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.070290536
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -3.2242792
-        outSlope: -3.2242792
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.029990613
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
