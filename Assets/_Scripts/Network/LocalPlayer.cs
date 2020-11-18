@@ -133,8 +133,8 @@ public class LocalPlayer : MonoBehaviour
 
 	private void LateUpdate ()
 	{
-		canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-		canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+		//canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
+		//canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
 	}
 
 	void SpawnFow ()
@@ -346,6 +346,24 @@ public class LocalPlayer : MonoBehaviour
 			}
 		}
 	}
+
+	public void HealPlayer(ushort value)
+	{
+		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, 1000);
+		liveHealth = (ushort)_tempHp;
+		
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write(myPlayerId);
+			_writer.Write(value);
+
+			using (Message _message = Message.Create(Tags.Heal, _writer))
+			{
+				currentClient.SendMessage(_message, SendMode.Reliable);
+			}
+		}
+	}
+
 
 	public void KillPlayer ()
 	{

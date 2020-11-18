@@ -109,8 +109,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				AltarSpeedBuffInServer(sender, e);
 			}
+			else if (message.Tag == Tags.AltarPoisonBuff)
+			{
+				AltarBuffPoison(sender, e);
+			}
 		}
 	}
+
 
     private void LaunchWardInServer ( object sender, MessageReceivedEventArgs e )
 	{
@@ -483,4 +488,18 @@ public class InGameNetworkReceiver : MonoBehaviour
 			}
 		}
 	}
+
+	private void AltarBuffPoison(object sender, MessageReceivedEventArgs e)
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				PlayerModule _temp = GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule;
+				_temp.ApplyPoisonousBuffInServer();
+			}
+		}
+	}
+
+
 }
