@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: ProjectileSpell attaque base
+  m_Name: ProjectileSpell salve
   m_EditorClassIdentifier: 
-  canalisationTime: 0
-  range: 5.5
-  cooldown: 1
+  canalisationTime: 0.1
+  range: 4
+  cooldown: 5
   numberOfCharge: 1
   lockOnCanalisation: 0
   forbiddenState: 56
-  canalysingStatus: {fileID: 11400000, guid: b8f60be7f55ce564fa24db67e92c5f92, type: 2}
+  canalysingStatus: {fileID: 11400000, guid: 2911c36520ff84f4ca1c445b39fa0ed2, type: 2}
   resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
@@ -27,20 +27,20 @@ MonoBehaviour:
   projParameters:
     myDamages:
       damageHealth: 1
+      statusToApply: []
       playerName: 
     mySpeed: 0
     myLifeTime: 0
-  prefabBlueTeam: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
-  prefabRedTeam: {fileID: 8044532633874114583, guid: 50b3edd1446c85c408dbf2cf0eebd6eb, type: 3}
-  offSet: 0
+  prefab: {fileID: 0}
+  offSet: 0.5
   salveInfos:
-    numberOfSalve: 3
-    numberOfShot: 1
-    timeToReachMaxRange: 0.2
-    timeToResolveTheSalve: 0.4
-  isMultiple: 0
-  angleToSplit: 0
-  cooldownReduction: 1
+    numberOfSalve: 1
+    numberOfShot: 9
+    timeToReachMaxRange: 0.03
+    timeToResolveTheSalve: 0.05
+  isMultiple: 1
+  angleToSplit: 120
+  cooldownReduction: 0
   bonusShot: 0
-  bonusSalve: 1
+  bonusSalve: 0
   durationAdded: 0
