@@ -87,7 +87,7 @@ public class PlayerModule : MonoBehaviour
     [SerializeField] private Sc_Status enteringBrumeStatus;
     [SerializeField] private Sc_Status leavingBrumeStatus;
     private bool isAltarSpeedBuffActive = false;
-    [SerializeField] private Sc_Status poisonousEffect;
+    public Sc_Status poisonousEffect;
     public bool isPoisonousEffectActive = false;
 
     //ALL ACTION 
