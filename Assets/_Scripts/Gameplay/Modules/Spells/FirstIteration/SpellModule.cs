@@ -252,8 +252,8 @@ public class SpellModule : MonoBehaviour
 			spell.canalysingStatus.ApplyStatus(myPlayerModule.mylocalPlayer) ;
 
 		Effect _newStatus = new Effect();
-		_newStatus.lifeTime = spell.canalisationTime;
-		_newStatus.stateApplied =	En_CharacterState.Canalysing;
+		_newStatus.finalLifeTime = spell.canalisationTime;
+		_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root );
 		myPlayerModule.AddStatus(_newStatus);
 
 		switch (actionLinked)
