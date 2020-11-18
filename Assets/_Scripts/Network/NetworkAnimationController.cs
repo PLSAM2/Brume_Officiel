@@ -40,7 +40,7 @@ public class NetworkAnimationController : MonoBehaviour
             }
             if (message.Tag == Tags.Sync2DBlendTree)
             {
-                Sync2DBlendTreeInserver(sender, e);
+                //Sync2DBlendTreeInserver(sender, e);
             }
             if (message.Tag == Tags.SyncBoolean)
             {
@@ -87,6 +87,7 @@ public class NetworkAnimationController : MonoBehaviour
         }
     }
 
+    /*
     public void Sync2DBlendTree(float Xvalue, float Yvalue, SendMode sendMode = SendMode.Reliable)
     {
         sbyte optimisedXvalue = (sbyte)Mathf.RoundToInt(Xvalue * 100);
@@ -123,6 +124,8 @@ public class NetworkAnimationController : MonoBehaviour
             }
         }
     }
+
+    */
 
     public void SyncFloatInServer(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
     {
