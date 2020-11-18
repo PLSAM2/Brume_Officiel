@@ -14,8 +14,7 @@ public class PlayerModule : MonoBehaviour
     public KeyCode interactKey = KeyCode.F;
     public KeyCode wardKey = KeyCode.Alpha4;
     private LayerMask groundLayer;
-    bool rotLocked = false;
-
+    bool rotLocked = false, boolWasClicked =false;
     [Header("GameplayInfos")]
     public Sc_CharacterParameters characterParameters;
     [ReadOnly] public Team teamIndex;
@@ -213,6 +212,7 @@ public class PlayerModule : MonoBehaviour
             else if (Input.GetAxis("Fire1") > 0)
             {
                 leftClickInput?.Invoke(mousePos());
+                boolWasClicked = true;
             }
             //RUNNING
             else if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -226,7 +226,11 @@ public class PlayerModule : MonoBehaviour
                 thirdSpellInputRealeased?.Invoke(mousePos());
             else if (Input.GetKeyDown(wardKey))
                 wardInputReleased?.Invoke(mousePos());
-
+            else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
+            {
+                leftClickInputRealeased?.Invoke(mousePos());
+                boolWasClicked = false;
+            }
 
             if (Input.GetKeyDown(interactKey))
             {
