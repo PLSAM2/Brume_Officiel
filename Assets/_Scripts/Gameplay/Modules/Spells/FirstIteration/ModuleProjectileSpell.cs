@@ -7,7 +7,7 @@ public class ModuleProjectileSpell : SpellModule
 {
 	protected Sc_ProjectileSpell spellProj; //plus facile a lire dans le script
 	int shotRemainingInSalve;
-	[SerializeField] ushort indexOfTheShotProjectileBlue = 12, indexOfTheShotProjectileRed = 13;
+	[SerializeField] ushort indexOfTheShotProjectileBlue = 12;
 	SalveInfos myLiveSalve;
 	Vector3 lastForwardRecorded;
 	float offsetHeight;
@@ -140,10 +140,7 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
-		if (myPlayerModule.teamIndex == Team.blue)
-			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
-		else
-			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
+		NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
 	}
 	#endregion
 
