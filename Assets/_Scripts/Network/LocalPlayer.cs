@@ -115,10 +115,11 @@ public class LocalPlayer : MonoBehaviour
 					obj.SetActive(false);
 				}
 			}
-
+			oldPos = transform.position;
 		}
 	}
 
+	Vector3 oldPos;
 	private void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.K) && isOwner)
@@ -128,7 +129,12 @@ public class LocalPlayer : MonoBehaviour
 			DealDamages(_temp);
 		}
 
-		//  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+
+        if (!isOwner)
+        {
+			oldPos = transform.position;
+		}
 	}
 
 	private void LateUpdate ()
@@ -306,6 +312,7 @@ public class LocalPlayer : MonoBehaviour
 	{
 		transform.position = newPos;
 		transform.localEulerAngles = newRotation;
+
 
 		/*
 		float right = Vector3.Dot(transform.right, newPos);
