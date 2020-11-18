@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 
-[InlineEditor]
 [CreateAssetMenu(fileName = "AltarBuff", menuName = "Custom/AltarBuff/AltarBuffSpeed")]
 public class AltarBuffSpeed : AltarBuff
 {

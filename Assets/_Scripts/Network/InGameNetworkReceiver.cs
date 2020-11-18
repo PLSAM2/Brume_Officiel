@@ -81,7 +81,14 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				StartWardLifeTimeInServer(sender, e);
 			}
-
+			else if (message.Tag == Tags.CurveSpellLaunch)
+			{
+				CurveSpellLaunchInServer(sender, e);
+			}
+			else if (message.Tag == Tags.CurveSpellLanded)
+			{
+				CurveSpellLandedInServer(sender, e);
+			}
 			else if (message.Tag == Tags.StateUpdate)
 			{
 				ReceiveState(sender, e);
@@ -138,6 +145,40 @@ public class InGameNetworkReceiver : MonoBehaviour
 			}
 		}
 	}
+
+
+	private void CurveSpellLaunchInServer(object sender, MessageReceivedEventArgs e)
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				ushort _id = reader.ReadUInt16();
+
+				float xDestination = reader.ReadSingle();
+				float yDestination = reader.ReadSingle();
+				float zDestination = reader.ReadSingle();
+				Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
+
+				GameManager.Instance.networkPlayers[_id].GetComponent<Module_Spit>().InitLaunch(destination);
+			}
+		}
+	}
+
+	private void CurveSpellLandedInServer(object sender, MessageReceivedEventArgs e)
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				ushort _id = reader.ReadUInt16();
+
+				GameManager.Instance.networkPlayers[_id].GetComponent<Module_Spit>().Landed();
+			}
+		}
+	}
+
+
 	void SpawnPlayerObj ( object _sender, MessageReceivedEventArgs _e )
 	{
 		using (Message message = _e.GetMessage())

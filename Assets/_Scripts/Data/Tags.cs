@@ -40,35 +40,38 @@ class Tags
     public static readonly ushort AddPoints = 550;
     public static readonly ushort KillCharacter = 560;
 
+    //Anim 750 --> 769 >>
+    public static readonly ushort SyncTrigger = 750;
+    public static readonly ushort Sync2DBlendTree = 752;
+    public static readonly ushort SyncBoolean = 754;
+    public static readonly ushort SyncFloat = 756;
+    // <<
 
+    //Interactible 770 --> 789 >>
+    public static readonly ushort UnlockInteractible = 770;
+    public static readonly ushort UnlockAllInteractibleOfType = 771;
+    public static readonly ushort TryCaptureInteractible = 772;
+    public static readonly ushort CaptureProgressInteractible = 774;
+    public static readonly ushort CaptureInteractible = 776;
+    public static readonly ushort FrogTimerElapsed = 778;
+    public static readonly ushort VisionTowerTimerElapsed = 779;
+    public static readonly ushort ResurectPlayer = 783;
+    // <<
 
-        //Anim 750 --> 769 >>
-        public static readonly ushort SyncTrigger = 750;
-        public static readonly ushort Sync2DBlendTree = 752;
-        public static readonly ushort SyncBoolean = 754;
-        public static readonly ushort SyncFloat = 756;
-        // <<
+    //Ward & Vision 790 --> 799 >>
+    public static readonly ushort LaunchWard = 790;
+    public static readonly ushort StartWardLifeTime = 791;
+    // <<
 
-        //Interactible 770 --> 789 >>
-        public static readonly ushort UnlockInteractible = 770;
-        public static readonly ushort UnlockAllInteractibleOfType = 771;
-        public static readonly ushort TryCaptureInteractible = 772;
-        public static readonly ushort CaptureProgressInteractible = 774;
-        public static readonly ushort CaptureInteractible = 776;
-        public static readonly ushort FrogTimerElapsed = 778;
-        public static readonly ushort VisionTowerTimerElapsed = 779;
-        public static readonly ushort ResurectPlayer = 783;
-        // <<
+    //Buff 800 --> 810 >>
+    public static readonly ushort AltarTrailDebuff = 800;
+    public static readonly ushort AltarSpeedBuff = 802;
+    // <<
 
-        //Ward & Vision 790 --> 799 >>
-        public static readonly ushort LaunchWard = 790;
-        public static readonly ushort StartWardLifeTime = 791;
-        // <<
-
-        //Buff 800 --> 810 >>
-        public static readonly ushort AltarTrailDebuff = 800;
-        public static readonly ushort AltarSpeedBuff = 802;
-        // <<
+    //Spells 810 --> XXX >>
+    public static readonly ushort CurveSpellLaunch = 900;
+    public static readonly ushort CurveSpellLanded = 901;
+    //<<
 
     public static readonly ushort SpawnObjPlayer = 1000;
     public static readonly ushort MovePlayerTag = 1010;
@@ -80,7 +83,5 @@ class Tags
     public static readonly ushort AddStatus = 2590;
     // <<
 
-    //SPELLS CHARACTER
-    public static readonly ushort LaunchSplouch = 2600;
 
 }
