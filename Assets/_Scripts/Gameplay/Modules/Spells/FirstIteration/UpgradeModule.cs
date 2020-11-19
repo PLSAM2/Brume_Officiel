@@ -24,8 +24,9 @@ public class UpgradeModule : SpellModule
 		inBonus = true;
 	}
 
-	private void FixedUpdate ()
+	protected override void FixedUpdate ()
 	{
+		base.FixedUpdate();
 		if (inBonus)
 		{
 			if (bonusTimeRemaining > 0)
