@@ -44,6 +44,9 @@ public class Projectile : AutoKill
 		myInfos.mySpeed = spellRule.range / spellRule.salveInfos.timeToReachMaxRange;
 		mylifeTimeInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
 
+
+
+
 		base.OnEnable();
 	}
 
