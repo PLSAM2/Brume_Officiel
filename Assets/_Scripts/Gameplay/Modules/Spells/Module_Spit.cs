@@ -7,7 +7,7 @@ public class Module_Spit : SpellModule
 {
 
     public GameObject spitPrefab;
-    public GameObject spitObj;
+    [HideInInspector] public GameObject spitObj;
     public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
     public float distanceMaxBeforeEndTravel = 0.01f;
     private bool isLaunched = false;

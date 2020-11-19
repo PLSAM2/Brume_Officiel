@@ -209,7 +209,7 @@ public class PlayerModule : MonoBehaviour
             else if (Input.GetKeyDown(wardKey))
                 wardInput?.Invoke(mousePos());
             //AUTO
-            else if (Input.GetAxis("Fire1") > 0)
+            else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
             {
                 leftClickInput?.Invoke(mousePos());
                 boolWasClicked = true;
