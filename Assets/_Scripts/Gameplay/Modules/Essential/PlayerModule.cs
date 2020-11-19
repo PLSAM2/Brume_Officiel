@@ -365,7 +365,7 @@ public class PlayerModule : MonoBehaviour
 
         PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
-        if (!_localPlayer.isInBrume || (state &En_CharacterState.Crouched)!=0)
+        if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0)
             return false;
 
         if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
@@ -443,6 +443,7 @@ public class PlayerModule : MonoBehaviour
         if (_statusToAdd.forcedKey != 0)
         {
             _newElement.key = _statusToAdd.forcedKey;
+            Debug.Log(_newElement.key);
         }
         else
         {
@@ -509,6 +510,7 @@ public class PlayerModule : MonoBehaviour
 
     void TreatTickEffects()
     {
+
         List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
         for (int i = 0; i < allTickLive.Count; i++)
