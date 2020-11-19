@@ -134,7 +134,6 @@ public class SpellModule : MonoBehaviour
 		if (isUsed && !resolved)
 		{
 			currentTimeCanalised += Time.fixedDeltaTime;
-
 			TreatNormalCanalisation();
 		}
 
@@ -175,7 +174,7 @@ public class SpellModule : MonoBehaviour
 			startCanalisation?.Invoke();
 
 
-			if (spell.lockOnCanalisation)
+			if (spell.lockRotOnCanalisation)
 				myPlayerModule.rotationLock(true);
 
 
@@ -199,7 +198,7 @@ public class SpellModule : MonoBehaviour
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
 
-		if (spell.lockOnCanalisation)
+		if (spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
 
@@ -250,8 +249,7 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-
-
+		ApplyStatusCanalisation();
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
@@ -273,7 +271,11 @@ public class SpellModule : MonoBehaviour
 	{
 		Effect _newStatus = new Effect();
 		_newStatus.finalLifeTime = spell.canalisationTime;
-		_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root);
+		if (spell.lockPosOnCanalisation)
+			_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root);
+		else
+			_newStatus.stateApplied = En_CharacterState.Canalysing;
+
 		myPlayerModule.AddStatus(_newStatus);
 	}
 

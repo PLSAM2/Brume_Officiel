@@ -365,7 +365,7 @@ public class PlayerModule : MonoBehaviour
 
         PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
-        if (!_localPlayer.isInBrume || (state &En_CharacterState.Crouched)!=0)
+        if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0)
             return false;
 
         if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
