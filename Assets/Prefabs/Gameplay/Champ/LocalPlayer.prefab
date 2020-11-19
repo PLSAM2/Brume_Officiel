@@ -80,6 +80,7 @@ MonoBehaviour:
   circleDirection: {fileID: 3531234986128592076}
   respawnTime: 2
   canvas: {fileID: 6548595031188705954}
+  canvasRot: {x: 0, y: 0, z: 0, w: 0}
   nameText: {fileID: 2784098647336443950}
   lifeCount: {fileID: 2467996829230243338}
   life: {fileID: 8177495112107496326}
@@ -112,7 +113,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   forbidenWalkingState: 136
-  currentMoveSpeedModifier: 0
   chara: {fileID: 8474438155242974316}
   collider: {fileID: 0}
   currentForcedMovement:
@@ -180,7 +180,6 @@ MonoBehaviour:
   canalisationParticle: {fileID: 8162580461717235990}
   particleResolution: []
   indexOfTheShotProjectileBlue: 14
-  indexOfTheShotProjectileRed: 15
 --- !u!136 &8154408291484997990
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -284,7 +283,6 @@ MonoBehaviour:
   canalisationParticle: {fileID: 8162580461717235990}
   particleResolution: []
   indexOfTheShotProjectileBlue: 12
-  indexOfTheShotProjectileRed: 13
 --- !u!114 &3101534736191369760
 MonoBehaviour:
   m_ObjectHideFlags: 0

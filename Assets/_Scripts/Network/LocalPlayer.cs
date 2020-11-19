@@ -27,6 +27,7 @@ public class LocalPlayer : MonoBehaviour
 
 	[Header("UI")]
 	public GameObject canvas;
+	public Quaternion canvasRot;
 	public TextMeshProUGUI nameText;
 	public TextMeshProUGUI lifeCount;
 	public Image life;
@@ -61,6 +62,8 @@ public class LocalPlayer : MonoBehaviour
 		lastPosition = transform.position;
 		lastRotation = transform.localEulerAngles;
 		OnRespawn();
+
+		canvasRot = canvas.transform.rotation;
 	}
 
 	private void Start ()
@@ -153,8 +156,7 @@ public class LocalPlayer : MonoBehaviour
 
 	private void LateUpdate ()
 	{
-		//canvas.transform.LookAt(GameManager.Instance.defaultCam.transform.position);
-		//canvas.transform.rotation = Quaternion.Euler(canvas.transform.rotation.eulerAngles.x + 90, canvas.transform.rotation.eulerAngles.y + 180, canvas.transform.rotation.eulerAngles.z);
+		canvas.transform.rotation = canvasRot;
 	}
 
 	void SpawnFow ()
@@ -339,7 +341,13 @@ public class LocalPlayer : MonoBehaviour
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
 		liveHealth = (ushort)_tempHp;
 
-		foreach(Sc_Status statusToApply in _damagesToDeal.statusToApply)
+
+        //if (GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule.isPoisonousEffectActive)
+        //{
+        //    SendStatus(myPlayerModule.poisonousEffect);
+        //}
+
+        foreach (Sc_Status statusToApply in _damagesToDeal.statusToApply)
 		{
 			SendStatus(statusToApply);
 		}
