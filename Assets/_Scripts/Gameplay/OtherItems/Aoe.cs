@@ -5,7 +5,7 @@ using static GameData;
 using Sirenix.OdinInspector;
 
 [InlineEditor]
-public class Aoe : MonoBehaviour
+public class Aoe : AutoKill
 {
 	public Team myteam;
 	public NetworkedObject myNetworkObject;

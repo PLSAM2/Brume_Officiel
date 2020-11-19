@@ -16,7 +16,8 @@ MonoBehaviour:
   range: 0
   cooldown: 0.5
   numberOfCharge: 1
-  lockOnCanalisation: 0
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 0
   forbiddenState: 56
   canalysingStatus: {fileID: 11400000, guid: e249aae94ef799048a101553e1e7f340, type: 2}
   resolusionStatus: {fileID: 11400000, guid: 8a8f735fc884d634a8af41919a2e0e28, type: 2}
@@ -32,6 +33,7 @@ MonoBehaviour:
     movementOfHit: {fileID: 0}
     _timeToHoldToGetToNext: 0.2
     _timeToHoldMax: 0.2
+    _timeToForceResolve: 0.3
     damagesToDeal:
       damageHealth: 1
       statusToApply: []
@@ -43,6 +45,7 @@ MonoBehaviour:
     movementOfHit: {fileID: 0}
     _timeToHoldToGetToNext: 0
     _timeToHoldMax: 0
+    _timeToForceResolve: 0
     damagesToDeal:
       damageHealth: 1
       statusToApply: []

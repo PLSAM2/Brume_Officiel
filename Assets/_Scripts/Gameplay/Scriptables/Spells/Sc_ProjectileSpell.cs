@@ -9,7 +9,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 {
 
 	[Header("ProjectileParameters")]
-	public St_ProjectileInfos projParameters;
+	public ProjectileInfos projParameters;
 
 
 	[Header("Projectile Prefabs")]

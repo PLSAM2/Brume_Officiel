@@ -199,7 +199,7 @@ public class CacAttack : SpellModule
 			float _baseAngle = attackToResolve.angleToAttackFrom / 2 - attackToResolve.angleToAttackFrom;
 			float _rangeOfTheAttack = attackToResolve.rangeOfTheAttackMin + (attackToResolve.rangeOfTheAttackMax - attackToResolve.rangeOfTheAttackMin) * (currentTimeCanalised / attackToResolve._timeToHoldMax);
 			print(_rangeOfTheAttack);
-			print(currentTimeCanalised / attackToResolve._timeToHoldMax);
+			print( attackToResolve._timeToHoldMax);
 
 
 			//RAYCAST POUR TOUCHER
@@ -209,10 +209,11 @@ public class CacAttack : SpellModule
 				_baseAngle++;
 
 				Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-				Ray _debugray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
+				Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
 
-				RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, LayerMask.GetMask("Character"));
-				Debug.DrawRay(_ray.origin, _debugray.direction * _rangeOfTheAttack, Color.red, 5);
+				RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, 1<<8);
+			
+				Debug.DrawRay(_ray.origin, _debugRay.direction * _rangeOfTheAttack, Color.red, 5);
 
 				//verif que le gameobject est pas deja dansa la liste
 				for (int j = 0; j < _allhits.Length; j++)
