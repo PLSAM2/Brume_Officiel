@@ -248,7 +248,10 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 					GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
 
-					GameManager.Instance.OnPlayerRespawn?.Invoke(id);
+                    if (isResurecting)
+                    {
+						GameManager.Instance.OnPlayerRespawn?.Invoke(id);
+					}
 				}
 			}
 		}
@@ -269,11 +272,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	public void KillCharacter ( ushort killerID = 0 )
+	public void KillCharacter (ushort? killerID = null)
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write(killerID);
+			_writer.Write((ushort) killerID);
 			_writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
 			using (Message _message = Message.Create(Tags.KillCharacter, _writer))
 			{
@@ -292,6 +295,9 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort killerId = reader.ReadUInt16();
 
 				SupprPlayer(id);
+
+				print("id killed : " + id);
+				print("id killer : " + killerId);
 
 				GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 

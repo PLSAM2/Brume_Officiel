@@ -1351,13 +1351,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2904240289711490941}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 6}
   m_Children: []
   m_Father: {fileID: 9074418685436673990}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -13, y: 142.5}
@@ -1391,7 +1391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0fe6a2df0fe653147b05cd0fcc2ff15c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 646ad3338300aec40ae5023568db53c8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2027,7 +2027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3af47acf623054cab307ea4639f050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabKillFeedElement: {fileID: 4075747446488048680, guid: e7254348262edfb49bdb60bd798fcc57, type: 3}
+  prefabKillFeedElement: {fileID: 4075747446488048680, guid: 0a1923a23952d4b498bba2b43c5f60bb, type: 3}
+  prefabKillFeedTextElement: {fileID: 5780082329593381740, guid: f226cd5c94d1438489d981a838386f03, type: 3}
   listKillFeedParent: {fileID: 629170495787334794}
 --- !u!1 &4406768931314357304
 GameObject:
@@ -2402,13 +2403,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5318099121404467660}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 6}
   m_Children: []
   m_Father: {fileID: 9074418685436673990}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 83.59995, y: 142.5}
@@ -2442,7 +2443,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 646ad3338300aec40ae5023568db53c8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4758,8 +4759,8 @@ MonoBehaviour:
   inViewColor: {r: 0.8490566, g: 0.19624422, b: 0.29045284, a: 1}
   outViewColor: {r: 0.3773585, g: 0, b: 0, a: 1}
   killedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
-  champIcon: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
-  champKilledIcon: {fileID: 21300000, guid: 0fe6a2df0fe653147b05cd0fcc2ff15c, type: 3}
+  champIcon: {fileID: 21300000, guid: 646ad3338300aec40ae5023568db53c8, type: 3}
+  champKilledIcon: {fileID: 21300000, guid: abdacf4b9dab5c542832e29ca1c55cb1, type: 3}
   teamYang: {fileID: 1143473799849339306}
   teamShili: {fileID: 366395439923015428}
   teamYin: {fileID: 124034638222582045}
@@ -5147,7 +5148,7 @@ PrefabInstance:
     - target: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
+      objectReference: {fileID: 21300000, guid: a1dc5dbd882454c4894ba24464e237d6, type: 3}
     - target: {fileID: 7200259918093146599, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Name
       value: Back
@@ -5359,7 +5360,7 @@ PrefabInstance:
     - target: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3a413c353c620804e9ea99059bfb7587, type: 3}
+      objectReference: {fileID: 21300000, guid: 646ad3338300aec40ae5023568db53c8, type: 3}
     - target: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Color.r
       value: 0

@@ -18,6 +18,7 @@ public class Projectile : MonoBehaviour
 	[SerializeField] AudioClip _mySfxAudio;
 	[SerializeField] bool _reduceCooldowns = true;
 
+
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
@@ -73,7 +74,7 @@ public class Projectile : MonoBehaviour
 			{
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages, GetComponent<NetworkedObject>().GetOwnerID());
 				}
 
 				Destroy();
