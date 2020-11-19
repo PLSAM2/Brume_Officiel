@@ -123,7 +123,7 @@ public class DashModule : SpellModule
 	
 	void UpdatePreview()
 	{
-		mylineRender.SetPosition(0,new Vector3(transform.position.x, 0.2f, transform.position.z));
+		/*mylineRender.SetPosition(0,new Vector3(transform.position.x, 0.2f, transform.position.z));
 		if (spell.useLastRecordedMousePos)
 		{
 			mylineRender.SetPosition(1, transform.position + Vector3.Normalize(new Vector3(recordedMousePosOnInput.x - transform.position.x, transform.position.y, recordedMousePosOnInput.z - transform.position.z)) * spell.range);
@@ -131,13 +131,11 @@ public class DashModule : SpellModule
 		else
 		{
 			mylineRender.SetPosition(1, transform.position + Vector3.Normalize(new Vector3(myPlayerModule.mousePos().x - transform.position.x, transform.position.y, myPlayerModule.mousePos().z - transform.position.z)) * spell.range);
-		}
+		}*/
 	}
 
-	protected override void Update ()
+	protected  void Update ()
 	{
-		base.Update();
-
 		if(isUsed)
 		{
 			UpdatePreview();
@@ -162,11 +160,11 @@ public class DashModule : SpellModule
 		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
 
-	protected override bool canBeCast (float _distance)
+	protected override bool canBeCast ()
 	{
 		if (myPlayerModule.directionInputed() == Vector3.zero)
 			return false;
 		else
-			return base.canBeCast(_distance);
+			return base.canBeCast();
 	}
 }

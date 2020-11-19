@@ -18,130 +18,155 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				myPlayerModule.leftClickInput += StartCanalysing;
 				break;
 
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+				myPlayerModule.firstSpellInput += StartCanalysing;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				myPlayerModule.secondSpellInput += StartCanalysing;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				myPlayerModule.thirdSpellInput += StartCanalysing;
 				break;
 		}
 
 		switch (_actionLinked)
 		{
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += ResolveSpell;
+				myPlayerModule.leftClickInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += ResolveSpell;
+				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += ResolveSpell;
+				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += ResolveSpell;
+				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
 				break;
 		}
 	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
-		ResolveAttack();
+		return;
 	}
 
-	void ResolveAttack ()
+
+	protected override void TreatNormalCanalisation ()
 	{
-		attackToResolve = localTrad.listOfAttacks[0];
-
-		for(int i =0; i < localTrad.listOfAttacks.Count; i++)
-		{
-			if(currentTimeCanalised >= attackToResolve._timeToHoldMax)
-			{
-				currentTimeCanalised -= attackToResolve._timeToHoldMax;
-			}
-			else
-				attackToResolve = localTrad.listOfAttacks[i];
-		}
-
-
-		//ptit dash tu connais
-		if (attackToResolve.movementOfTheCharacter != null)
-		{
-			myPlayerModule.forcedMovementInterrupted += ResolveSlash;
-			myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
-		}
-		else
-			ResolveSlash();
+		return;
 	}
-
-	void ResolveSlash()
-	{
-	
-		CacAttackParameters _currentAttack = localTrad.listOfAttacks[0];
-
-
-		if (attackToResolve.movementOfTheCharacter != null)
-		{
-			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
-		}
-
-		List<GameObject> _listHit = new List<GameObject>();
-
-		float _baseAngle = _currentAttack.angleToAttackFrom / 2 - _currentAttack.angleToAttackFrom;
-		float _rangeOfTheAttack = _currentAttack.rangeOfTheAttackMin + (_currentAttack.rangeOfTheAttackMax - _currentAttack.rangeOfTheAttackMin) * Mathf.Clamp((currentTimeCanalised/ _currentAttack._timeToHoldMax),0,1);
-
-
-		//RAYCAST POUR TOUCHER
-		for (int i = 0; i < _currentAttack.angleToAttackFrom; i++)
-		{
-			Vector3 _direction = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
-			_baseAngle++;
-
-			Ray _ray = new Ray( transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
-
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, LayerMask.GetMask("Character"));
-			Debug.DrawRay(_ray.origin, _ray.direction, Color.red, 5);
-
-			//verif que le gameobject est pas deja dansa la liste
-			for (int j = 0; j < _allhits.Length; j++)
-			{
-				if (!_listHit.Contains(_allhits[j].collider.gameObject))
-				{
-					_listHit.Add(_allhits[j].collider.gameObject);
-				}
-			}
-		}
-		//AU CAS OU JE ME TOUCHE COMME UN GRRRRRRRRRRRROS CON
-		_listHit.Remove(gameObject);
-
-		foreach (GameObject _go in _listHit)
-		{
-			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
-
-			_playerTouched.DealDamages(_currentAttack.damagesToDeal);
-
-			//push
-			if (_currentAttack.movementOfHit != null)
-				_playerTouched.SendForcedMovement(_currentAttack.movementOfHit.MovementToApply(_playerTouched.transform.position, transform.position));
-		}
-
-		Interrupt();
-		charges -= 1;
-	}
-
 	protected override void DecreaseCharge ()
 	{
 		return;
 	}
 
+	protected override void ApplyStatusCanalisation ()
+	{
+		return;
+	}
+
+
+	void ResolveAttack ( Vector3 _mousePos )
+	{
+		if(isUsed)
+		{ 
+		attackToResolve = localTrad.listOfAttacks[0];
+
+	/*	for (int i = 0; i < localTrad.listOfAttacks.Count; i++)
+		{
+			print(currentTimeCanalised);
+			if (currentTimeCanalised >= attackToResolve._timeToHoldMax)
+			{
+				currentTimeCanalised -= attackToResolve._timeToHoldMax;
+			}
+			else
+				attackToResolve = localTrad.listOfAttacks[i];
+		}*/
+		if(currentTimeCanalised >= localTrad.listOfAttacks[0]._timeToHoldMax)
+			attackToResolve = localTrad.listOfAttacks[1];
+
+		print(attackToResolve.angleToAttackFrom);
+		//ptit dash tu connais
+		if (attackToResolve.movementOfTheCharacter == null )
+		{
+			ResolveSlash();
+		}
+		else
+		{
+			myPlayerModule.forcedMovementInterrupted += ResolveSlash;
+			if(spell.useLastRecordedMousePos)
+				myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+			else
+				myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));
+
+		}
+
+
+	}
+
+	void ResolveSlash ()
+		{
+			if (attackToResolve.movementOfTheCharacter != null)
+			{
+				myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
+			}
+
+			List<GameObject> _listHit = new List<GameObject>();
+
+			float _baseAngle = attackToResolve.angleToAttackFrom / 2 - attackToResolve.angleToAttackFrom;
+			float _rangeOfTheAttack = attackToResolve.rangeOfTheAttackMin + (attackToResolve.rangeOfTheAttackMax - attackToResolve.rangeOfTheAttackMin) * Mathf.Clamp((currentTimeCanalised / attackToResolve._timeToHoldMax), 0, 1);
+
+
+			//RAYCAST POUR TOUCHER
+			for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
+			{
+				Vector3 _direction = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
+				_baseAngle++;
+
+				Ray _ray = new Ray(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
+
+				RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, LayerMask.GetMask("Character"));
+				Debug.DrawRay(_ray.origin, _ray.direction, Color.red, 5);
+
+				//verif que le gameobject est pas deja dansa la liste
+				for (int j = 0; j < _allhits.Length; j++)
+				{
+					if (!_listHit.Contains(_allhits[j].collider.gameObject))
+					{
+						_listHit.Add(_allhits[j].collider.gameObject);
+					}
+				}
+			}
+			//AU CAS OU JE ME TOUCHE COMME UN GRRRRRRRRRRRROS CON
+			_listHit.Remove(gameObject);
+
+			foreach (GameObject _go in _listHit)
+			{
+				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
+
+				_playerTouched.DealDamages(attackToResolve.damagesToDeal);
+
+				//push
+				if (attackToResolve.movementOfHit != null)
+					_playerTouched.SendForcedMovement(attackToResolve.movementOfHit.MovementToApply(_playerTouched.transform.position, transform.position));
+			}
+
+			Interrupt();
+		}
+	}
+	public override void Interrupt ()
+	{
+		myPlayerModule.StopStatus(spell.canalysingStatus.effect.forcedKey);
+		charges--;
+		base.Interrupt();
+	}
 }
