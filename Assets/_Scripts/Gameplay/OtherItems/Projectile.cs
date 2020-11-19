@@ -21,14 +21,20 @@ public class Projectile : MonoBehaviour
 	private void Start ()
 	{
 		myColl = GetComponent<SphereCollider>();
-		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
-		asDeal = false;
+
 	}
 
 	private void OnEnable ()
 	{
 		myInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
 		mesh.SetActive(true);
+	}
+
+	public void Init(Team ownerTeam)
+	{
+		asDeal = true;
+
+		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
 
 		if (!isOwner)
 		{
@@ -36,10 +42,8 @@ public class Projectile : MonoBehaviour
 		}
 		else
 			asDeal = false;
-	}
 
-	public void Init(Team ownerTeam)
-	{
+
 		team = ownerTeam;
 		if (_mySfxAudio != null)
 		{

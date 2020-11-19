@@ -21,7 +21,6 @@ MonoBehaviour:
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
-  isInBrume: 0
   brumeId: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
@@ -32,15 +31,18 @@ MonoBehaviour:
   movementPart: {fileID: 1743416214871874484}
   firstSpell: {fileID: 1106545326658223182}
   secondSpell: {fileID: 4744410875963739110}
-  thirdSpell: {fileID: 8557660751599878415}
+  thirdSpell: {fileID: 8869647529131433569}
   leftClick: {fileID: 7741952678688272578}
   ward: {fileID: 59302847324730398}
   coll: {fileID: 2015099999550939296}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
-  allStatusLive: []
+  allEffectLive: []
+  allTickLive: []
   enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
+  poisonousEffect: {fileID: 0}
+  isPoisonousEffectActive: 0
 --- !u!114 &7741952678688272578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,11 +59,43 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   resolved: 0
-  spell: {fileID: 11400000, guid: 98e688b61ee58024182cfe88e8671bb5, type: 2}
+  spell: {fileID: 11400000, guid: 459e4d2007775ee4ab09596231b945ac, type: 2}
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 1988931082855780560}
   particleResolution: []
+--- !u!114 &8869647529131433569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834e563613a033248931fbd987fecf65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 0}
+  particleResolution: []
+  launchCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spitPrefab: {fileID: 0}
+  spitObj: {fileID: 0}
+  spitSpeed: 0
+  deceleratedRatio: 1
+  distanceMaxBeforeEndTravel: 0.01
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,6 +162,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 32086142644911797, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
     - {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+    - {fileID: 2026548338358286537, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
 --- !u!1 &8863682241088651334 stripped
 GameObject:
@@ -143,17 +178,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3819529e22ad09c4583f48578c0ece05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8557660751599878415 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2026548338358286537, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7700405388288014790}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65d22a176d80624cb2b80c907eed451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1106545326658223182 stripped
