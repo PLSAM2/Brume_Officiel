@@ -14,7 +14,7 @@ public class PlayerModule : MonoBehaviour
     public KeyCode interactKey = KeyCode.F;
     public KeyCode wardKey = KeyCode.Alpha4;
     private LayerMask groundLayer;
-    bool rotLocked = false, boolWasClicked =false;
+    bool rotLocked = false, boolWasClicked = false;
     [Header("GameplayInfos")]
     public Sc_CharacterParameters characterParameters;
     [ReadOnly] public Team teamIndex;
@@ -209,7 +209,7 @@ public class PlayerModule : MonoBehaviour
             else if (Input.GetKeyDown(wardKey))
                 wardInput?.Invoke(mousePos());
             //AUTO
-            else if (Input.GetAxis("Fire1") > 0)
+            else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
             {
                 leftClickInput?.Invoke(mousePos());
                 boolWasClicked = true;
@@ -352,7 +352,7 @@ public class PlayerModule : MonoBehaviour
         }
         if (ShouldBePinged())
         {
-           Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
+            Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
         }
         lastRecordedPos = transform.position;
 
@@ -409,7 +409,7 @@ public class PlayerModule : MonoBehaviour
     public Vector3 ClosestFreePos(Vector3 _direction, float maxDistance)
     {
         RaycastHit _hit;
-        if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9| 1<<19))
+        if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9 | 1 << 19))
         {
             return _hit.point;
         }
@@ -443,7 +443,6 @@ public class PlayerModule : MonoBehaviour
         if (_statusToAdd.forcedKey != 0)
         {
             _newElement.key = _statusToAdd.forcedKey;
-            Debug.Log(_newElement.key);
         }
         else
         {
@@ -464,7 +463,6 @@ public class PlayerModule : MonoBehaviour
                 }
 
             }
-
             allTickLive.Add(_newElement);
         }
         else
@@ -525,6 +523,8 @@ public class PlayerModule : MonoBehaviour
 
             if (allTickLive[i].lastTick >= allTickLive[i].effect.tickRate && allTickLive[i].liveLifeTime > 0)
             {
+                allTickLive[i].lastTick = 0;
+
                 if (allTickLive[i].effect.isDamaging)
                 {
                     DamagesInfos _temp = new DamagesInfos();
@@ -612,7 +612,7 @@ public enum En_CharacterState
 public class DamagesInfos
 {
     public ushort damageHealth;
-    public Sc_Status[] statusToApply;
+    public Sc_Status[] statusToApply = new Sc_Status[0];
     [HideInInspector] public string playerName;
 }
 
@@ -620,12 +620,11 @@ public class DamagesInfos
 public class Effect
 {
     public bool tick = false;
-
-
+    
     [HorizontalGroup("Group2")] public float finalLifeTime;
     [HorizontalGroup("Group2")] [HideIf("tick")] public bool isConstant = false;
-    [HorizontalGroup("Group1")]  public bool canBeForcedStop = false;
-    [HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0 ;
+    [HorizontalGroup("Group1")] public bool canBeForcedStop = false;
+    [HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
 
     [ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
     [ShowIf("tick")] [BoxGroup("Tick")] public bool refreshOnApply = false;

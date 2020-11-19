@@ -14,21 +14,21 @@ public class NetworkedObject : MonoBehaviour
     [ShowIf("isPlayerLinked")] public NetworkObjectLinked NetworkObjectLinked;
 
     public float distanceRequiredBeforeSync = 0.02f;
-
+    public ushort objListKey = 0;
     private ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
     private bool isOwner = false;
     private PlayerData owner;
     private UnityClient ownerIClient; // Set uniquement par le créateur
     private Vector3 lastPosition; // Set uniquement par le créateur
 
-    public void Init(ushort lastObjId, PlayerData playerData)
+    public void Init(ushort lastObjId, PlayerData playerData, ushort objKey)
     {
         // Vérifie les droits lié à cette objets
 
         serverObjectID = lastObjId;
         owner = playerData;
         lastPosition = transform.position;
-
+        objListKey = objKey;
         if (RoomManager.Instance.GetLocalPlayer() == owner)
         {
             if (isPlayerLinked)

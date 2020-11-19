@@ -131,7 +131,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isNetworked: 1
   synchroniseRotation: 0
+  isPlayerLinked: 0
+  NetworkObjectLinked: {fileID: 0}
   distanceRequiredBeforeSync: 0.05
+  objListKey: 0
 --- !u!114 &1384060272247584325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,19 +147,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4191f6b19cec0414c924724b6ab1d41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 4046907593915369113}
   myInfos:
+    myLifeTime: 0.03
     myDamages:
       damageHealth: 1
+      statusToApply: []
       playerName: 
     mySpeed: 133.33334
-    myLifeTime: 0.03
   team: 20
   layerToHit:
     serializedVersion: 2
     m_Bits: 768
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   spellRule: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  mesh: {fileID: 4046907593915369113}
   _mySfxAudio: {fileID: 8300000, guid: 39557d5dbf076bd4c8204d19aee7ba14, type: 3}
   _reduceCooldowns: 0
 --- !u!135 &1795821538017011573
