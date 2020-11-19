@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7829138464044859009}
   - component: {fileID: 3779214334617881335}
   - component: {fileID: 1317242656288912547}
+  - component: {fileID: 6807528902163988839}
   m_Layer: 5
-  m_Name: IconMiddle
+  m_Name: IconAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,3 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6807528902163988839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9032972384309199651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ee4ba106b57034cb8fbd3f2c596714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myIconImg: {fileID: 1317242656288912547}
+  iconKill: {fileID: 21300000, guid: 338c013a64c088c4fab8c47e4f3425d9, type: 3}
+  iconRevive: {fileID: 21300000, guid: 94009fc499d40724d91cf8e8e6305569, type: 3}
