@@ -42,6 +42,7 @@ MonoBehaviour:
   enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
+  isPoisonousEffectActive: 0
   altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!1001 &1277965312708422139
 PrefabInstance:
@@ -248,7 +249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7134200778131444727, guid: fc177f68edc1aeb4b8f3fa231fd28a6d, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7429914465579339315, guid: fc177f68edc1aeb4b8f3fa231fd28a6d, type: 3}
       propertyPath: m_Name
