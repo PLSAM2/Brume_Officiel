@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: Speed brume Altarbuff
   m_EditorClassIdentifier: 
   effect:
+    tick: 0
     finalLifeTime: 0
     isConstant: 1
     canBeForcedStop: 1
     forcedKey: 1000
+    tickRate: 0.2
+    refreshOnApply: 0
+    isDamaging: 1
+    isHealing: 0
+    tickValue: 0
     stateApplied: 4
-    percentageOfTheMovementModifier: 0.3
+    percentageOfTheMovementModifier: 1
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
