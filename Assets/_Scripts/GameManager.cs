@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -25,7 +26,7 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
-    public LocalPlayer currentLocalPlayer {get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
+    public LocalPlayer currentLocalPlayer { get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
 
     [SerializeField] UnityClient client;
 
@@ -116,7 +117,7 @@ public class GameManager : SerializedMonoBehaviour
             if (message.Tag == Tags.StopGame)
             {
                 StopGameInServer();
-            }            
+            }
             if (message.Tag == Tags.AllPlayerJoinGameScene)
             {
                 AllPlayerJoinGameScene();
@@ -175,4 +176,28 @@ public class GameManager : SerializedMonoBehaviour
     {
         timeStart = true;
     }
+
+    public LocalPlayer GetFirstPlayerOfOtherTeam()
+    {
+        ushort? _id = RoomManager.Instance.actualRoom.playerList.Where
+            (x => x.Value.playerTeam == GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam))
+            .FirstOrDefault().Key;
+
+        if (_id != null)
+        {
+            return networkPlayers[(ushort)_id];
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
+    public LocalPlayer GetLocalPlayerObj()
+    {
+        return networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
+    }
+
+
 }

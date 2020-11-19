@@ -308,12 +308,14 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 	private void TakeDamagesInServer ( object sender, MessageReceivedEventArgs e )
 	{
+
 		using (Message message = e.GetMessage())
 		{
 			using (DarkRiftReader reader = message.GetReader())
 			{
 				ushort _id = reader.ReadUInt16();
 				ushort _damages = reader.ReadUInt16();
+
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_id))
 				{
 					return;
