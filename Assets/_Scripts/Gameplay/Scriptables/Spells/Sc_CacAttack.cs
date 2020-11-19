@@ -32,7 +32,7 @@ public class CacAttackParameters
 
 	[Header("Enchainement")]
 	public Sc_ForcedMovement movementOfTheCharacter, movementOfHit;
-	public float _timeToHoldToGetToNext = .5f, _timeToHoldMax = .3f;
+	public float _timeToHoldToGetToNext = .5f, _timeToHoldMax = .3f, _timeToForceResolve;
 
 	//public float delayWithNextAttack=.3f;
 
