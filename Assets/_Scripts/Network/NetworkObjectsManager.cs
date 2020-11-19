@@ -180,7 +180,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         _tempObject.transform.position = _ObjectPos;
         _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
-        networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
+        networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID);
         NetworkedObjectAdded(_lastObjId, networkedObject);
         _tempObject.SetActive(true);
 

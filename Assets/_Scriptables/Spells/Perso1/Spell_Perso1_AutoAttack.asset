@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: ProjectileSpell attaque base
+  m_Name: Spell_Perso1_AutoAttack
   m_EditorClassIdentifier: 
   canalisationTime: 0
   range: 5.5
   cooldown: 1
   numberOfCharge: 1
-  lockOnCanalisation: 0
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 0
   forbiddenState: 56
   canalysingStatus: {fileID: 11400000, guid: b8f60be7f55ce564fa24db67e92c5f92, type: 2}
   resolusionStatus: {fileID: 0}
@@ -26,12 +27,12 @@ MonoBehaviour:
   spellIcon: {fileID: 21300000, guid: ac378749b253b074b932b863293d0f7f, type: 3}
   projParameters:
     myDamages:
-      damageHealth: 1
+      damageHealth: 5
       statusToApply: []
       playerName: 
     mySpeed: 0
     myLifeTime: 0
-  prefab: {fileID: 0}
+  prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
   offSet: 0
   salveInfos:
     numberOfSalve: 3

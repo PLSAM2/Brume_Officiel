@@ -6,10 +6,8 @@ using UnityEngine;
 public class Module_Spit : SpellModule
 {
 
-    [SerializeField] private AnimationCurve launchCurve;
     public GameObject spitPrefab;
-    public GameObject spitObj;
-    public float spitSpeed;
+    [HideInInspector] public GameObject spitObj;
     public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
     public float distanceMaxBeforeEndTravel = 0.01f;
     private bool isLaunched = false;
@@ -20,13 +18,15 @@ public class Module_Spit : SpellModule
     private Vector3 destination;
     private Vector3 noCurvePosition;
     private float animationCurveMaxValue;
+    Sc_Spit localTrad;
 
     private void Start()
     {
+        localTrad = spell as Sc_Spit;
 
         spitObj = Instantiate(spitPrefab, Vector3.zero, Quaternion.identity);
         spitObj.SetActive(false);
-        animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+        animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
     }
 
     private void OnDestroy()
@@ -49,13 +49,13 @@ public class Module_Spit : SpellModule
 
             deceleration = 1;
             deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
-            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
+            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (localTrad.spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
             noCurvePosition = newPosition;
 
             float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
             float UpOffset;
 
-            UpOffset = launchCurve.Evaluate(distanceProgress);
+            UpOffset = localTrad.launchCurve.Evaluate(distanceProgress);
             lastOffest = UpOffset;
             spitObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
         }
@@ -116,8 +116,8 @@ public class Module_Spit : SpellModule
                     RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
                 }
             }
-        }
 
-        // DO SOMETHING
+            NetworkObjectsManager.Instance.NetworkInstantiate(localTrad.onImpactInstantiate.myNetworkObject.objListKey, destination, Vector3.zero);
+        }
     }
 }

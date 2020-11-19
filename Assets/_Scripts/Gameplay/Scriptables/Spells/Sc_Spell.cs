@@ -11,7 +11,7 @@ public class Sc_Spell : ScriptableObject
     public float canalisationTime;
 	public float range, cooldown;
     public int numberOfCharge = 1;
-	public bool lockOnCanalisation = true;
+	public bool lockRotOnCanalisation = true, lockPosOnCanalisation = false;
 
     [Header("Constraints")]
     public En_CharacterState forbiddenState = En_CharacterState.Canalysing | En_CharacterState.Stunned | En_CharacterState.Silenced;

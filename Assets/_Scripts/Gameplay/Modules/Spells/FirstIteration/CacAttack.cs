@@ -8,10 +8,13 @@ public class CacAttack : SpellModule
 	Sc_CacAttack localTrad;
 	//int currentAttackToResolve = 0;
 	CacAttackParameters attackToResolve;
+	float maxTime;
 
+	En_SpellInput input;
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
+		input = _actionLinked;
 
 		localTrad = (Sc_CacAttack)spell;
 
@@ -34,37 +37,36 @@ public class CacAttack : SpellModule
 				break;
 		}
 
-		switch (_actionLinked)
+		ActionAdd();
+
+		float finalMaxTime = 0;
+		for (int i = 0; i < localTrad.listOfAttacks.Count; i++)
 		{
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInputRealeased += ResolveAttack;
-				break;
-
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
-				break;
+			if (i == localTrad.listOfAttacks.Count - 1)
+				finalMaxTime += localTrad.listOfAttacks[i]._timeToForceResolve+ localTrad.listOfAttacks[i]._timeToHoldToGetToNext;
+			else
+				finalMaxTime += localTrad.listOfAttacks[i]._timeToHoldToGetToNext;
+	
 		}
+		maxTime = finalMaxTime;
+
+		startCanalisation += ActionAdd;
+		endCanalisation += ActionClean;
 	}
 
+	protected override void Disable ()
+	{
+		base.Disable();
+
+		startCanalisation -= ActionAdd;
+		endCanalisation -= ActionClean;
+	}
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
 		return;
 	}
 
-
 	protected override void TreatNormalCanalisation ()
-	{
-		return;
-	}
-	protected override void DecreaseCharge ()
 	{
 		return;
 	}
@@ -74,46 +76,61 @@ public class CacAttack : SpellModule
 		return;
 	}
 
+	protected override void FixedUpdate ()
+	{
+		base.FixedUpdate();
+
+		if (currentTimeCanalised >= maxTime)
+		{
+			ResolveAttack(myPlayerModule.mousePos());
+		}
+	}
 
 	void ResolveAttack ( Vector3 _mousePos )
 	{
-		if(isUsed)
-		{ 
-		attackToResolve = localTrad.listOfAttacks[0];
-
-	/*	for (int i = 0; i < localTrad.listOfAttacks.Count; i++)
+		if (isUsed)
 		{
-			print(currentTimeCanalised);
-			if (currentTimeCanalised >= attackToResolve._timeToHoldMax)
+			currentTimeCanalised -= Time.fixedDeltaTime * 2;
+
+			for (int i = 0; i < localTrad.listOfAttacks.Count; i++)
 			{
-				currentTimeCanalised -= attackToResolve._timeToHoldMax;
+				if (currentTimeCanalised > localTrad.listOfAttacks[i]._timeToHoldToGetToNext)
+				{
+					currentTimeCanalised -= localTrad.listOfAttacks[i]._timeToHoldToGetToNext;
+				}
+				else
+					attackToResolve = localTrad.listOfAttacks[i];
+
+
+				if (i == localTrad.listOfAttacks.Count-1)
+				{
+					attackToResolve = localTrad.listOfAttacks[i];
+				}
+			}
+
+			/*if (currentTimeCanalised >= localTrad.listOfAttacks[0]._timeToHoldMax)
+				attackToResolve = localTrad.listOfAttacks[1];*/
+
+
+			//ptit dash tu connais
+			if (attackToResolve.movementOfTheCharacter == null)
+			{
+				ResolveSlash();
 			}
 			else
-				attackToResolve = localTrad.listOfAttacks[i];
-		}*/
-		if(currentTimeCanalised >= localTrad.listOfAttacks[0]._timeToHoldMax)
-			attackToResolve = localTrad.listOfAttacks[1];
+			{
+				myPlayerModule.forcedMovementInterrupted += ResolveSlash;
+				if (spell.useLastRecordedMousePos)
+					myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
+				else
+					myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));
 
-		print(attackToResolve.angleToAttackFrom);
-		//ptit dash tu connais
-		if (attackToResolve.movementOfTheCharacter == null )
-		{
-			ResolveSlash();
-		}
-		else
-		{
-			myPlayerModule.forcedMovementInterrupted += ResolveSlash;
-			if(spell.useLastRecordedMousePos)
-				myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
-			else
-				myPlayerModule.movementPart.AddDash(attackToResolve.movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));
+			}
+
 
 		}
 
-
-	}
-
-	void ResolveSlash ()
+		void ResolveSlash ()
 		{
 			if (attackToResolve.movementOfTheCharacter != null)
 			{
@@ -123,7 +140,7 @@ public class CacAttack : SpellModule
 			List<GameObject> _listHit = new List<GameObject>();
 
 			float _baseAngle = attackToResolve.angleToAttackFrom / 2 - attackToResolve.angleToAttackFrom;
-			float _rangeOfTheAttack = attackToResolve.rangeOfTheAttackMin + (attackToResolve.rangeOfTheAttackMax - attackToResolve.rangeOfTheAttackMin) * Mathf.Clamp((currentTimeCanalised / attackToResolve._timeToHoldMax), 0, 1);
+			float _rangeOfTheAttack = attackToResolve.rangeOfTheAttackMin + (attackToResolve.rangeOfTheAttackMax - attackToResolve.rangeOfTheAttackMin) * (currentTimeCanalised / attackToResolve._timeToHoldMax);
 
 
 			//RAYCAST POUR TOUCHER
@@ -132,10 +149,12 @@ public class CacAttack : SpellModule
 				Vector3 _direction = Quaternion.Euler(0, _baseAngle, 0) * transform.forward;
 				_baseAngle++;
 
-				Ray _ray = new Ray(transform.position + Vector3.forward * .55f + Vector3.up * 1.2f, _direction);
+				Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
+				Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
 
-				RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, LayerMask.GetMask("Character"));
-				Debug.DrawRay(_ray.origin, _ray.direction, Color.red, 5);
+				RaycastHit[] _allhits = Physics.RaycastAll(_ray, _rangeOfTheAttack, 1<<8);
+			
+				Debug.DrawRay(_ray.origin, _debugRay.direction * _rangeOfTheAttack, Color.red, 5);
 
 				//verif que le gameobject est pas deja dansa la liste
 				for (int j = 0; j < _allhits.Length; j++)
@@ -166,7 +185,49 @@ public class CacAttack : SpellModule
 	public override void Interrupt ()
 	{
 		myPlayerModule.StopStatus(spell.canalysingStatus.effect.forcedKey);
-		charges--;
 		base.Interrupt();
+	}
+
+	void ActionAdd ()
+	{
+		switch (input)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInputRealeased += ResolveAttack;
+				break;
+
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
+				break;
+
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
+				break;
+		}
+	}
+	void ActionClean ()
+	{
+		switch (input)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInputRealeased -= ResolveAttack;
+				break;
+
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInputRealeased -= ResolveAttack;
+				break;
+
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInputRealeased -= ResolveAttack;
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInputRealeased -= ResolveAttack;
+				break;
+		}
 	}
 }

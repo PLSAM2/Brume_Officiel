@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
-  m_Name: Cac Slash
+  m_Name: Spell_Perso2_AutoAttack
   m_EditorClassIdentifier: 
   canalisationTime: 0.2
   range: 0
   cooldown: 0.5
   numberOfCharge: 1
-  lockOnCanalisation: 0
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 0
   forbiddenState: 56
   canalysingStatus: {fileID: 11400000, guid: 7f85f2a1895fc0b45bea9022a75749b7, type: 2}
   resolusionStatus: {fileID: 0}
@@ -32,6 +33,7 @@ MonoBehaviour:
     movementOfHit: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
     _timeToHoldToGetToNext: 0.5
     _timeToHoldMax: 0.3
+    _timeToForceResolve: 0
     damagesToDeal:
       damageHealth: 1
       statusToApply: []
@@ -43,6 +45,7 @@ MonoBehaviour:
     movementOfHit: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
     _timeToHoldToGetToNext: 0.5
     _timeToHoldMax: 0.3
+    _timeToForceResolve: 0.5
     damagesToDeal:
       damageHealth: 2
       statusToApply:
