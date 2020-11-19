@@ -131,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isNetworked: 1
   synchroniseRotation: 0
+  isPlayerLinked: 0
+  NetworkObjectLinked: {fileID: 0}
   distanceRequiredBeforeSync: 0.05
 --- !u!114 &1384060272247584325
 MonoBehaviour:
@@ -146,7 +148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myInfos:
     myDamages:
-      damageHealth: 1
+      damageHealth: 5
+      statusToApply: []
       playerName: 
     mySpeed: 133.33334
     myLifeTime: 0.03

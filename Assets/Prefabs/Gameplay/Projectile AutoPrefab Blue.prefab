@@ -131,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isNetworked: 1
   synchroniseRotation: 0
+  isPlayerLinked: 0
+  NetworkObjectLinked: {fileID: 0}
   distanceRequiredBeforeSync: 0.05
 --- !u!114 &1384060272247584325
 MonoBehaviour:
@@ -146,7 +148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myInfos:
     myDamages:
-      damageHealth: 1
+      damageHealth: 5
+      statusToApply: []
       playerName: 
     mySpeed: 27.5
     myLifeTime: 0.2
@@ -158,6 +161,7 @@ MonoBehaviour:
   spellRule: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
   mesh: {fileID: 4046907593915369113}
   _mySfxAudio: {fileID: 8300000, guid: 60f7548e258c18e4bb3bb2708c8523a5, type: 3}
+  _reduceCooldowns: 1
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
