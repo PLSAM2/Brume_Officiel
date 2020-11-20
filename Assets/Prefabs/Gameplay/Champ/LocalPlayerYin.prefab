@@ -31,7 +31,7 @@ MonoBehaviour:
   movementPart: {fileID: 2011879181827189058}
   firstSpell: {fileID: 901080183297855160}
   secondSpell: {fileID: 4759726693576980752}
-  thirdSpell: {fileID: 8560903087594394541}
+  thirdSpell: {fileID: 2309556355556726922}
   leftClick: {fileID: 7599491701831300485}
   ward: {fileID: 218658896825124584}
   coll: {fileID: 1742163522325287510}
@@ -43,6 +43,28 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 0}
   isPoisonousEffectActive: 0
+--- !u!114 &2309556355556726922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707809604279415472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: b4ee48bf29a5c1b4b949c7c95d1c70cd, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1930682593351596945}
+  particleResolution: []
+  indexOfTheShotProjectileBlue: 15
 --- !u!114 &8560903087594394541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,28 +90,6 @@ MonoBehaviour:
   spitObj: {fileID: 0}
   deceleratedRatio: 1
   distanceMaxBeforeEndTravel: 0.01
---- !u!114 &2309556355556726922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8707809604279415472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: b4ee48bf29a5c1b4b949c7c95d1c70cd, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1930682593351596945}
-  particleResolution: []
-  indexOfTheShotProjectileBlue: 15
 --- !u!1001 &7568069776902261552
 PrefabInstance:
   m_ObjectHideFlags: 0
