@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Perso2_Grab
   m_EditorClassIdentifier: 
-  canalisationTime: 0.5
-  range: 15
+  canalisationTime: 0.2
+  range: 4
   cooldown: 5
   numberOfCharge: 1
   lockRotOnCanalisation: 1
@@ -33,11 +33,11 @@ MonoBehaviour:
   prefab: {fileID: 0}
   onHitForcedMovementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
   _reduceCooldowns: 0
-  offSet: 0.1
+  offSet: 0
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1
+    timeToReachMaxRange: 0.1
     timeToResolveTheSalve: 0
   isMultiple: 0
   angleToSplit: 0
