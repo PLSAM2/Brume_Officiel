@@ -58,19 +58,29 @@ public class SpellModule : MonoBehaviour
 			switch (actionLinked)
 			{
 				case En_SpellInput.FirstSpell:
-					myPlayerModule.firstSpellInput -= StartCanalysing;
+					myPlayerModule.firstSpellInput -= ShowPreview;
+					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+
 					break;
 				case En_SpellInput.SecondSpell:
-					myPlayerModule.secondSpellInput -= StartCanalysing;
+					myPlayerModule.secondSpellInput -= ShowPreview;
+					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+
 					break;
 				case En_SpellInput.ThirdSpell:
-					myPlayerModule.thirdSpellInput -= StartCanalysing;
+					myPlayerModule.thirdSpellInput -= ShowPreview;
+					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+
 					break;
 				case En_SpellInput.Click:
-					myPlayerModule.leftClickInput -= StartCanalysing;
+					myPlayerModule.leftClickInput -= ShowPreview;
+					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+
 					break;
 				case En_SpellInput.Ward:
-					myPlayerModule.wardInput -= StartCanalysing;
+					myPlayerModule.wardInput -= ShowPreview;
+					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+
 					break;
 			}
 			startCanalisation -= StartCanalysingFeedBack;
@@ -93,19 +103,25 @@ public class SpellModule : MonoBehaviour
 			switch (actionLinked)
 			{
 				case En_SpellInput.FirstSpell:
-					myPlayerModule.firstSpellInput += StartCanalysing;
+					myPlayerModule.firstSpellInput += ShowPreview;
+					myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+
 					break;
 				case En_SpellInput.SecondSpell:
 					myPlayerModule.secondSpellInput += StartCanalysing;
+					myPlayerModule.secondSpellInputRealeased += StartCanalysing;
 					break;
 				case En_SpellInput.ThirdSpell:
 					myPlayerModule.thirdSpellInput += StartCanalysing;
+					myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
 					break;
 				case En_SpellInput.Click:
 					myPlayerModule.leftClickInput += StartCanalysing;
+					myPlayerModule.leftClickInputRealeased += StartCanalysing;
 					break;
 				case En_SpellInput.Ward:
 					myPlayerModule.wardInput += StartCanalysing;
+					myPlayerModule.wardInputReleased += StartCanalysing;
 					break;
 			}
 			UiManager.Instance.SetupIcon(spell, actionLinked);
@@ -128,6 +144,17 @@ public class SpellModule : MonoBehaviour
 		Destroy(this);
 	}
 
+	protected virtual void ShowPreview ( Vector3 mousePos )
+	{
+		if (canBeCast())
+		{
+		}
+	}
+
+	protected virtual void HidePreview()
+	{
+
+	}
 
 	protected virtual void FixedUpdate ()
 	{
