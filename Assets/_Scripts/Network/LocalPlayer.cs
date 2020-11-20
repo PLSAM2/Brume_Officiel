@@ -39,7 +39,10 @@ public class LocalPlayer : MonoBehaviour
         {
             _liveHealth = value;
             lifeCount.text = "HP : " + liveHealth;
-            if (_liveHealth <= 0) KillPlayer();
+            if (liveHealth <= 0)
+            {
+                KillPlayer();
+            }
         }
     }
     public Action<string> triggerAnim;
@@ -342,11 +345,13 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
-    public void DealDamages(DamagesInfos _damagesToDeal)
+    public void DealDamages(DamagesInfos _damagesToDeal, PlayerData killer = null)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
+        print(_tempHp);
         liveHealth = (ushort)_tempHp;
+        print(liveHealth);
 
         if (GameManager.Instance.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
         {
@@ -391,12 +396,12 @@ public class LocalPlayer : MonoBehaviour
     }
 
 
-    public void KillPlayer()
+    public void KillPlayer(PlayerData killer = null)
     {
         if (isOwner)
         {
             disableModule.Invoke();
-            InGameNetworkReceiver.Instance.KillCharacter();
+            InGameNetworkReceiver.Instance.KillCharacter(killer);
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
 
             GameManager.Instance.ResetCam();

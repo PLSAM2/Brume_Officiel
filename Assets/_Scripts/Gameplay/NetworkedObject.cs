@@ -69,6 +69,11 @@ public class NetworkedObject : MonoBehaviour
         return owner.ID;
     }
 
+    public PlayerData GetOwner()
+    {
+        return owner;
+    }
+
     private void Update()
     {
         if (!isNetworked || !isOwner || serverObjectID == 0 )
