@@ -19,29 +19,42 @@ public class Aoe : AutoKill
 		myNetworkObject = GetComponent<NetworkedObject>();
 	}
 
+	protected override void OnEnable ()
+	{
+		base.OnEnable();
+		myteam = myNetworkObject.GetOwner().playerTeam;
+
+		RaycastHit[] _allhits = Physics.SphereCastAll(transform.position, _myColl.radius, Vector3.zero, 0, 1 << 8);
+		foreach(RaycastHit _hit in _allhits)
+		{
+			_hit.collider.GetComponent<LocalPlayer>().DealDamages(damagesToDealOnImpact);
+		}
+	}
+
 	private void OnTriggerEnter ( Collider other )
 	{
-		
+		if (myNetworkObject.GetIsOwner())
+		{
+			LocalPlayer _player = other.GetComponent<LocalPlayer>();
+			if (_player != null)
+			{
+				print(_player);
+				_player.DealDamages(damagesToDealOnStay);
+
+
+				if (myLivelifeTimeInfos.myLifeTime <= .25f)
+					_player.DealDamages(damagesToDealOnImpact);
+				
+			}
+		}
 	}
 
 	private void OnTriggerExit ( Collider other )
 	{
-		
-	}
-
-	public void OnEnable()
-	{
-		if(myNetworkObject.GetIsOwner())
+		LocalPlayer _player = other.GetComponent<LocalPlayer>();
+		if (_player != null)
 		{
-			RaycastHit[] _hits = Physics.SphereCastAll(transform.position, _myColl.radius, Vector3.zero, 0, 1 << 8);
-			if (_hits.Length > 0)
-			{
-				foreach (RaycastHit _hit in _hits)
-				{
-					_hit.collider.GetComponent<LocalPlayer>().DealDamages(damagesToDealOnImpact);
-				}
-			}
+			_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply[0].effect.forcedKey);
 		}
-		
 	}
 }

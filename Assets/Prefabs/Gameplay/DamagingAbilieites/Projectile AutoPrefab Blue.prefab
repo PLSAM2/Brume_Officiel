@@ -147,9 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4191f6b19cec0414c924724b6ab1d41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mylifeTimeInfos:
+    myLifeTime: 0
+  myLivelifeTimeInfos:
+    myLifeTime: 0
   mesh: {fileID: 4046907593915369113}
   myInfos:
-    myLifeTime: 0.2
     myDamages:
       damageHealth: 1
       statusToApply: []
@@ -163,6 +166,7 @@ MonoBehaviour:
   spellRule: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
   _mySfxAudio: {fileID: 8300000, guid: 60f7548e258c18e4bb3bb2708c8523a5, type: 3}
   _reduceCooldowns: 1
+  forcedMovementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class Projectile : AutoKill
 	bool isOwner, asDeal = false;
 	[SerializeField] AudioClip _mySfxAudio;
 	[SerializeField] bool _reduceCooldowns = true;
-
+	[SerializeField] Sc_ForcedMovement forcedMovementToApply = null;
 	public void Init(Team ownerTeam)
 	{
 		asDeal = true;
@@ -62,6 +62,10 @@ public class Projectile : AutoKill
 				if (!asDeal)
 				{
 					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages, GetComponent<NetworkedObject>().GetOwner());
+					if(forcedMovementToApply != null)
+					{
+						playerHit.mylocalPlayer.SendForcedMovement(forcedMovementToApply.MovementToApply(playerHit.transform.position, GameManager.Instance.currentLocalPlayer.transform.position));
+					}
 				}
 
 				Destroy();
@@ -104,5 +108,5 @@ public class ProjectileInfos
 [System.Serializable]
 public class KillLifeTime
 {
-	[ReadOnly] public float myLifeTime;
+	public float myLifeTime;
 }

@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 public class AutoKill : MonoBehaviour
 {
-    [ReadOnly] public KillLifeTime mylifeTimeInfos = new KillLifeTime();
+    public KillLifeTime mylifeTimeInfos = new KillLifeTime();
     [ReadOnly] public KillLifeTime myLivelifeTimeInfos = new KillLifeTime();
     [SerializeField] GameObject mesh;
 
@@ -34,9 +34,4 @@ public class AutoKill : MonoBehaviour
             Destroy();
         }
     }
-
-    protected virtual void SetupPrefab()
-	{
-
-	}
 }

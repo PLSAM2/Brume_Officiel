@@ -10,30 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: Poison Base
+  m_Name: SplouchAttack Impact
   m_EditorClassIdentifier: 
   effect:
     tick: 0
-    finalLifeTime: 2
+    finalLifeTime: 0.2
     isConstant: 0
-    canBeForcedStop: 1
-    forcedKey: 1200
-    refreshOnApply: 1
-    tickRate: 0.5
+    canBeForcedStop: 0
+    forcedKey: 0
+    refreshOnApply: 0
+    tickRate: 0.2
     isDamaging: 1
     isHealing: 0
-    tickValue: 1
-    stateApplied: 0
-    percentageOfTheMovementModifier: 1
+    tickValue: 0
+    stateApplied: 2
+    percentageOfTheMovementModifier: 0.3
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0
