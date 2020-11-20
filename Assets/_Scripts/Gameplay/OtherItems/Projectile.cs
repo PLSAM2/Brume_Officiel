@@ -7,20 +7,21 @@ using static GameData;
 public class Projectile : AutoKill
 {
 
-	[ReadOnly] public ProjectileInfos myInfos;
-	[SerializeField] Team team;
-	[SerializeField] LayerMask layerToHit;
+	bool  asDeal = false;
+	
+	[Header("FeedBackOnHit")]
 	[SerializeField] GameObject feedBackTouch;
-	[SerializeField] Sc_ProjectileSpell spellRule;
-	bool isOwner, asDeal = false;
 	[SerializeField] AudioClip _mySfxAudio;
-	[SerializeField] bool _reduceCooldowns = true;
-	[SerializeField] Sc_ForcedMovement forcedMovementToApply = null;
-	public void Init(Team ownerTeam)
-	{
-		asDeal = true;
 
-		isOwner = GetComponent<NetworkedObject>().GetIsOwner();
+	[Header("SpellLinked")]
+	[SerializeField] Sc_ProjectileSpell localTrad;
+	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange ;
+
+	public override void Init(Team ownerTeam)
+	{
+		base.Init(ownerTeam);
+
+		asDeal = true;
 
 		if (!isOwner)
 		{
@@ -30,24 +31,20 @@ public class Projectile : AutoKill
 			asDeal = false;
 
 
-		team = ownerTeam;
 		if (_mySfxAudio != null)
 		{
 			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
 		}
 
+	
 
 	}
+
 	protected override void OnEnable ()
 	{
-		myInfos.myDamages.damageHealth = spellRule.projParameters.myDamages.damageHealth;
-		myInfos.mySpeed = spellRule.range / spellRule.salveInfos.timeToReachMaxRange;
-		mylifeTimeInfos.myLifeTime = spellRule.salveInfos.timeToReachMaxRange;
-
-
-
-
-		base.OnEnable();
+		mylifeTimeInfos.myLifeTime = localTrad.salveInfos.timeToReachMaxRange;
+		print(mylifeTimeInfos.myLifeTime);
+		base.OnEnable(); 
 	}
 
 	private void OnTriggerEnter ( Collider Collider )
@@ -57,22 +54,22 @@ public class Projectile : AutoKill
 		if (playerHit != null)
 		{
 
-			if (playerHit.teamIndex != team)
+			if (playerHit.teamIndex != myteam)
 			{
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages, GetComponent<NetworkedObject>().GetOwner());
-					if(forcedMovementToApply != null)
+					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GetComponent<NetworkedObject>().GetOwner());
+					if(localTrad.onHitForcedMovementToApply != null)
 					{
-						playerHit.mylocalPlayer.SendForcedMovement(forcedMovementToApply.MovementToApply(playerHit.transform.position, GameManager.Instance.currentLocalPlayer.transform.position));
+						playerHit.mylocalPlayer.SendForcedMovement(localTrad.onHitForcedMovementToApply.MovementToApply(playerHit.transform.position, GameManager.Instance.currentLocalPlayer.transform.position));
 					}
 				}
 
 				Destroy();
 				asDeal = true;
 
-				if (isOwner && _reduceCooldowns)
-					PlayerModule.reduceAllCooldown(spellRule.cooldownReduction);
+				if (isOwner && localTrad._reduceCooldowns)
+					PlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
 
 				return;
 			}
@@ -85,9 +82,10 @@ public class Projectile : AutoKill
 
 	}
 
-	private void Update ()
+	protected override void FixedUpdate ()
 	{
-		transform.position += myInfos.mySpeed * transform.forward * Time.deltaTime;
+		transform.position += speed * transform.forward * Time.fixedDeltaTime;
+		base.FixedUpdate();
 	}
 
 	protected override void Destroy ()
@@ -102,7 +100,7 @@ public class Projectile : AutoKill
 public class ProjectileInfos 
 {
 	public DamagesInfos myDamages;
-	[ReadOnly] public float mySpeed;
+	[HideInInspector] public float mySpeed;
 }
 
 [System.Serializable]

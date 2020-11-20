@@ -1,42 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameData;
 using Sirenix.OdinInspector;
 
 [InlineEditor]
 public class Aoe : AutoKill
 {
-	public Team myteam;
-	public NetworkedObject myNetworkObject;
 	[SerializeField] SphereCollider _myColl;
 	[SerializeField] DamagesInfos damagesToDealOnImpact;
 	[SerializeField] DamagesInfos damagesToDealOnStay;
+	List<LocalPlayer> playerTouched =new List<LocalPlayer>();
+	[SerializeField] Sc_Spit mySpell;
 
 	private void Start ()
 	{
 		_myColl = GetComponent<SphereCollider>();
-		myNetworkObject = GetComponent<NetworkedObject>();
 	}
 
 	protected override void OnEnable ()
 	{
+		mylifeTimeInfos.myLifeTime = mySpell.durationOfTheAoe;
+
 		base.OnEnable();
-		myteam = myNetworkObject.GetOwner().playerTeam;
 
 		RaycastHit[] _allhits = Physics.SphereCastAll(transform.position, _myColl.radius, Vector3.zero, 0, 1 << 8);
 		foreach(RaycastHit _hit in _allhits)
 		{
-			_hit.collider.GetComponent<LocalPlayer>().DealDamages(damagesToDealOnImpact);
+			print(_hit.collider.name);
+			LocalPlayer _localPlayer = GetComponent<LocalPlayer>();
+			if(_localPlayer.myPlayerModule.teamIndex != myteam)
+				_localPlayer.DealDamages(damagesToDealOnImpact);
 		}
 	}
 
 	private void OnTriggerEnter ( Collider other )
 	{
-		if (myNetworkObject.GetIsOwner())
+		if (isOwner)
 		{
 			LocalPlayer _player = other.GetComponent<LocalPlayer>();
-			if (_player != null)
+			if (_player != null && _player.myPlayerModule.teamIndex != myteam)
 			{
 				print(_player);
 				_player.DealDamages(damagesToDealOnStay);
@@ -44,7 +46,8 @@ public class Aoe : AutoKill
 
 				if (myLivelifeTimeInfos.myLifeTime <= .25f)
 					_player.DealDamages(damagesToDealOnImpact);
-				
+
+				playerTouched.Add(_player);
 			}
 		}
 	}
@@ -52,9 +55,23 @@ public class Aoe : AutoKill
 	private void OnTriggerExit ( Collider other )
 	{
 		LocalPlayer _player = other.GetComponent<LocalPlayer>();
-		if (_player != null)
+		if (_player != null && _player.myPlayerModule.teamIndex != myteam)
 		{
 			_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply[0].effect.forcedKey);
+			playerTouched.Remove(_player);
 		}
+	}
+
+	protected override void Destroy ()
+	{
+		if(isOwner)
+		{
+			foreach (LocalPlayer _player in playerTouched)
+			{
+				_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply[0].effect.forcedKey);
+			}
+		}
+
+		base.Destroy();
 	}
 }
