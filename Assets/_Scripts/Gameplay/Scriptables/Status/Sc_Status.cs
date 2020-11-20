@@ -11,7 +11,7 @@ public class Sc_Status : ScriptableObject
 
 	public virtual void ApplyStatus (LocalPlayer target)
 	{
-		target.SendStatus(this);
+		target.myPlayerModule.AddStatus(effect);
 	}
 
 }

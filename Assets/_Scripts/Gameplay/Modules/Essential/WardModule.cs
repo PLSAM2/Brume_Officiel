@@ -28,12 +28,6 @@ public class WardModule : SpellModule
 		animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 	}
 
-
-	private void OnDestroy ()
-	{
-		Destroy(wardObj);
-	}
-
 	protected override void DestroyIfClient () { } // Keep this for client
 
 	protected void Update ()

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShiliController : PlayerModule
+public class WxController : PlayerModule
 {
-    [Header("Shili Properties")]
+    [Header("Wu xin Properties")]
 
     [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
