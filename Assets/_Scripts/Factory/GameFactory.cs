@@ -81,13 +81,20 @@ public class GameFactory
 
     public static LocalPlayer GetActualPlayerFollow()
     {
-        if (GameManager.Instance.currentLocalPlayer != null)
+        try
         {
-             return GameManager.Instance.currentLocalPlayer;
+            if (GameManager.Instance.currentLocalPlayer != null)
+            {
+                return GameManager.Instance.currentLocalPlayer;
+            }
+            else
+            {
+                return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+            }
         }
-        else
+        catch
         {
-            return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+            return null;
         }
     }
 }

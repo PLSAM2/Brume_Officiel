@@ -61,7 +61,7 @@ public class Projectile : AutoKill
 			{
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages);
+					playerHit.mylocalPlayer.DealDamages(myInfos.myDamages, GetComponent<NetworkedObject>().GetOwner());
 				}
 
 				Destroy();

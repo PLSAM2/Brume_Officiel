@@ -15,6 +15,8 @@ public class KillFeedElement : MonoBehaviour
 
     [SerializeField] List<GameObject> infoElement = new List<GameObject>();
 
+    [SerializeField] Animator myAnimator;
+
     public void InitAction(PlayerData idP1, actionKillfeed myAction, PlayerData idP2)
     {
         if (idP1 != null)
@@ -43,11 +45,13 @@ public class KillFeedElement : MonoBehaviour
         }
 
         StartCoroutine(WaitToDisable());
+
+        myAnimator.SetTrigger("Play");
     }
 
     IEnumerator WaitToDisable()
     {
         yield return new WaitForSeconds(2);
-        enabled = false;
+        gameObject.SetActive(false);
     }
 }
