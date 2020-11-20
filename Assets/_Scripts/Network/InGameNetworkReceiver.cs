@@ -496,7 +496,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _ID = reader.ReadUInt16();
 
-                ShiliController _temp = (ShiliController)GameManager.Instance.networkPlayers[_ID].myPlayerModule;
+                WxController _temp = (WxController)GameManager.Instance.networkPlayers[_ID].myPlayerModule;
                 _temp.ApplyAltarTrailDebuffInServer();
             }
 

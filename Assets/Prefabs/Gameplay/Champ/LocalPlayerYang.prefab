@@ -29,7 +29,7 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 983172405252139301}
   movementPart: {fileID: 1743416214871874484}
-  firstSpell: {fileID: 7686707555835758451}
+  firstSpell: {fileID: 7172627324770753700}
   secondSpell: {fileID: 4744410875963739110}
   thirdSpell: {fileID: 7686707555835758451}
   leftClick: {fileID: 7741952678688272578}
@@ -43,6 +43,27 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 0}
   isPoisonousEffectActive: 0
+--- !u!114 &7172627324770753700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f785c0aa662794781f7786854f00d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 01d2cdaea8e49844e8e52cc1fb3db077, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1988931082855780560}
+  particleResolution: []
 --- !u!114 &7741952678688272578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +124,7 @@ PrefabInstance:
     - target: {fileID: 32086142644911797, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: spell
       value: 
-      objectReference: {fileID: 11400000, guid: 01d2cdaea8e49844e8e52cc1fb3db077, type: 2}
+      objectReference: {fileID: 11400000, guid: 459e4d2007775ee4ab09596231b945ac, type: 2}
     - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: myPlayerModule
       value: 

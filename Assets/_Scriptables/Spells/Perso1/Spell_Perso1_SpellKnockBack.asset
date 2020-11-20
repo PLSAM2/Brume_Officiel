@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
   m_Name: Spell_Perso1_SpellKnockBack
   m_EditorClassIdentifier: 
-  canalisationTime: 0
+  canalisationTime: 1
   range: 0
   cooldown: 5
   numberOfCharge: 1
@@ -31,9 +31,9 @@ MonoBehaviour:
     rangeOfTheAttackMax: 2
     movementOfTheCharacter: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
     movementOfHit: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
-    _timeToHoldToGetToNext: 0
-    _timeToHoldMax: 0
-    _timeToForceResolve: 0
+    _timeToHoldToGetToNext: 1
+    _timeToHoldMax: 1
+    _timeToForceResolve: 1
     damagesToDeal:
       damageHealth: 10
       statusToApply: []
