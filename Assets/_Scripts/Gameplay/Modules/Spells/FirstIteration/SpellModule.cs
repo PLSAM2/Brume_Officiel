@@ -45,6 +45,7 @@ public class SpellModule : MonoBehaviour
 	public ParticleSystem canalisationParticle;
 	public List<ParticleSystem> particleResolution;
 	protected Vector3 lastRecordedDirection = Vector3.zero;
+	protected bool showingPreview =false;
 
 	private void OnEnable ()
 	{
@@ -96,6 +97,7 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule = GetComponent<PlayerModule>();
 
 		actionLinked = _actionLinked;
+
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			isOwner = true;
@@ -148,13 +150,21 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			showingPreview = true;
+			InitPreview();
 		}
 	}
 
 	protected virtual void HidePreview()
 	{
+		showingPreview = false;
+	}
+
+	protected virtual void InitPreview()
+	{
 
 	}
+
 
 	protected virtual void FixedUpdate ()
 	{
