@@ -19,19 +19,10 @@ public class HurtingDash : DashModule
 		myPlayerModule.forcedMovementAdded += StartDamaging;
 		myPlayerModule.forcedMovementInterrupted += StopDamaging;
 		_width  = (spell as Sc_DashSpell).damagesRadius;
-		mylineRender.startWidth = _width;
-		mylineRender.endWidth = _width;
 	}
 
 	protected  void Update ()
 	{
-		
-		
-		/*if(currentTimeCanalised <= spell.canalisationTime)
-		{
-			canalisationCircle.size
-		}
-		*/
 		if (damaging)
 		{
 			List<RaycastHit> _allitemsTouched = Physics.CapsuleCastAll(transform.position - new Vector3(0, 0.5f, 0), transform.position + new Vector3(0, 0.5f, 0), _width, directionToDamage, _width / 2, characterLayer).ToList();
