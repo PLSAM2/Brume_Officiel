@@ -50,7 +50,10 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void PickSoul(PlayerModule shili)
     {
-        shili.PickPlayerSoul(playerSoul);
+        WxController wxController =(WxController)shili;
+
+        wxController.PickPlayerSoul(playerSoul);
+
         NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID(), true); //Bypass owner cause only one player play as Shili
     }
 }

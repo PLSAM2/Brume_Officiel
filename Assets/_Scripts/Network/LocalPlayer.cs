@@ -349,9 +349,8 @@ public class LocalPlayer : MonoBehaviour
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
-        print(_tempHp);
         liveHealth = (ushort)_tempHp;
-        print(liveHealth);
+
 
         if (GameManager.Instance.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
         {

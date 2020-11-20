@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-    [ReadOnly] public KillLifeTime mylifeTimeInfos = new KillLifeTime();
-    [ReadOnly] public KillLifeTime myLivelifeTimeInfos = new KillLifeTime();
+    [HideInInspector] public float mylifeTime;
+    [HideInInspector] public float myLivelifeTime;
+    [Header("HideAtTheEndOfLife")]
     [SerializeField] GameObject mesh;
+    [HideInInspector] public Team myteam;
+    [HideInInspector] public NetworkedObject myNetworkObject;
+    [HideInInspector] public bool isOwner = false;
 
+    public virtual void Init ( Team ownerTeam )
+    {
+        myteam = ownerTeam;
+        isOwner = GetComponent<NetworkedObject>().GetIsOwner();
+    }
 
     protected virtual void OnEnable ()
     {
-        myLivelifeTimeInfos.myLifeTime = mylifeTimeInfos.myLifeTime;
+        myLivelifeTime = mylifeTime;
+
         mesh.SetActive(true);
+        myNetworkObject = GetComponent<NetworkedObject>();
     }
 
     protected virtual void Destroy ()
@@ -28,15 +40,11 @@ public class AutoKill : MonoBehaviour
 
     protected virtual void FixedUpdate()
 	{
-        myLivelifeTimeInfos.myLifeTime -= Time.fixedDeltaTime;
-        if (myLivelifeTimeInfos.myLifeTime <= 0)
+        myLivelifeTime -= Time.fixedDeltaTime;
+
+        if (myLivelifeTime <= 0)
         {
             Destroy();
         }
     }
-
-    protected virtual void SetupPrefab()
-	{
-
-	}
 }

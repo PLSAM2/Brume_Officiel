@@ -52,7 +52,7 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected override void ResolveSpell ( Vector3 mousePosition )
 	{
-		shotRemainingInSalve = myLiveSalve.numberOfSalve;
+		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
 		timeBetweenShot = 0;
 
 		shooting = true;
@@ -64,8 +64,8 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		base.UpgradeSpell();
 		myLiveSalve.timeToResolveTheSalve += spellProj.durationAdded;
-		myLiveSalve.numberOfSalve += spellProj.bonusSalve;
-		myLiveSalve.numberOfShot += spellProj.bonusShot;
+		myLiveSalve.NumberOfSalve += spellProj.bonusSalve;
+		myLiveSalve.numberOfShotInSalve += spellProj.bonusShot;
 	}
 
 	protected override void ReturnToNormal ()
@@ -98,7 +98,7 @@ public class ModuleProjectileSpell : SpellModule
 
 	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
 	{
-		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfSalve;
+		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.NumberOfSalve;
 
 		shotRemainingInSalve--;
 
@@ -123,9 +123,9 @@ public class ModuleProjectileSpell : SpellModule
 		}*/
 
 		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
-		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShot;
+		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShotInSalve;
 
-		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
+		for (int i = 0; i < spellProj.salveInfos.numberOfShotInSalve; i++)
 		{
 			Vector3 _PosToSpawn = transform.forward * spellProj.offSet + new Vector3(0, offsetHeight, 0); //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
 

@@ -27,6 +27,7 @@ public class Module_Spit : SpellModule
         spitObj = Instantiate(spitPrefab, Vector3.zero, Quaternion.identity);
         spitObj.SetActive(false);
         animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+        spitObj.SetActive(false);
     }
 
     private void OnDestroy()
@@ -71,6 +72,8 @@ public class Module_Spit : SpellModule
 
         base.ResolveSpell(_mousePosition);
 
+        spitObj.SetActive(true);
+
         destination = _mousePosition;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -104,6 +107,7 @@ public class Module_Spit : SpellModule
     public void Landed()
     {
         isLaunched = false;
+        spitObj.SetActive(false);
 
         if (isOwner)
         {
