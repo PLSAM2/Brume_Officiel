@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab3e7e837651dbc4aa733cbb5716575b, type: 3}
-  m_Name: CharasBaseStats
+  m_Script: {fileID: 11500000, guid: e239d9a6b2597104f8ef96348fdac0b6, type: 3}
+  m_Name: ForcedMovementCacSlash KnockBack
   m_EditorClassIdentifier: 
-  maxHealth: 400
-  movementParameters:
-    movementSpeed: 4.3
-    crouchingSpeed: 2.5
-  visionRange: 6
-  visionRangeInBrume: 5
-  detectionRange: 50
-  delayBetweenDetection: 0.75
+  movementToApply:
+    myModule: {fileID: 0}
+    _duration: 0.1
+    strength: 20
+  isGrab: 1
