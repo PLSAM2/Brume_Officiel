@@ -19,7 +19,7 @@ public class Aoe : AutoKill
 
 	protected override void OnEnable ()
 	{
-		mylifeTimeInfos.myLifeTime = mySpell.durationOfTheAoe;
+		mylifeTime = mySpell.durationOfTheAoe;
 
 		base.OnEnable();
 
@@ -44,7 +44,7 @@ public class Aoe : AutoKill
 				_player.DealDamages(damagesToDealOnStay);
 
 
-				if (myLivelifeTimeInfos.myLifeTime <= .25f)
+				if (myLivelifeTime <= .25f)
 					_player.DealDamages(damagesToDealOnImpact);
 
 				playerTouched.Add(_player);

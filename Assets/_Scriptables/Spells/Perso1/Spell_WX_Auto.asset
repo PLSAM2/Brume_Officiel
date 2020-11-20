@@ -12,17 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
   m_Name: Spell_WX_Auto
   m_EditorClassIdentifier: 
-  canalisationTime: 0
+  canalisationTime: 0.4
   range: 0
   cooldown: 0
   numberOfCharge: 1
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 0
-  forbiddenState: 56
+  lockPosOnCanalisation: 1
+  forbiddenState: 48
   canalysingStatus: {fileID: 0}
   resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 0
   spellIcon: {fileID: 0}
-  listOfAttacks: []
+  listOfAttacks:
+  - angleToAttackFrom: 0
+    rangeOfTheAttackMin: 3
+    rangeOfTheAttackMax: 5
+    movementOfTheCharacter: {fileID: 0}
+    movementOfHit: {fileID: 0}
+    _timeToHoldToGetToNext: 0.5
+    _timeToHoldMax: 0.3
+    _timeToForceResolve: 0
+    damagesToDeal:
+      damageHealth: 0
+      statusToApply: []
+      playerName: 

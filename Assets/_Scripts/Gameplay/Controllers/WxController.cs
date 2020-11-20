@@ -7,8 +7,32 @@ public class WxController : PlayerModule
 {
     [Header("Wu xin Properties")]
 
+
+    public int playerSoulsCharge = 0;
+    private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
+
     [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
+
+    public void PickPlayerSoul(PlayerSoul playerSoul)
+    {
+        playerSouls.Add(playerSoul);
+        playerSoulsCharge++;
+    }
+
+    public int GetPlayersSoulsCount()
+    {
+        return playerSouls.Count;
+    }
+    public ushort GetPlayersSoulsID(int index)
+    {
+        return playerSouls[index].soulInfo.ID;
+    }
+
+    public void ClearPlayersSouls()
+    {
+       playerSouls.Clear();
+    }
 
     public void ApplyAltarTrailDebuffInServer()
     {

@@ -10,35 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_Perso2_Grab
+  m_Name: Spell_WX_SoulBurst
   m_EditorClassIdentifier: 
-  canalisationTime: 0.25
-  range: 5
-  cooldown: 5
-  numberOfCharge: 1
+  canalisationTime: 0
+  range: 0
+  cooldown: 0.5
+  numberOfCharge: 50
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
   forbiddenState: 48
   canalysingStatus: {fileID: 0}
-  resolusionStatus: {fileID: 11400000, guid: 2911c36520ff84f4ca1c445b39fa0ed2, type: 2}
+  resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
-  useLastRecordedMousePos: 0
-  spellIcon: {fileID: 21300000, guid: 137404ee796fd964d88091858acd7a3c, type: 3}
+  useLastRecordedMousePos: 1
+  spellIcon: {fileID: 0}
   damagesToDeal:
     damageHealth: 15
-    statusToApply:
-    - {fileID: 11400000, guid: 8a8f735fc884d634a8af41919a2e0e28, type: 2}
-    - {fileID: 11400000, guid: 8677008586179a74e9fc335af2e6e84e, type: 2}
+    statusToApply: []
     playerName: 
   prefab: {fileID: 0}
-  onHitForcedMovementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
+  onHitForcedMovementToApply: {fileID: 0}
   _reduceCooldowns: 0
-  offSet: 0
+  offSet: 0.1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.1
+    timeToReachMaxRange: 0
     timeToResolveTheSalve: 0
   isMultiple: 0
   angleToSplit: 0

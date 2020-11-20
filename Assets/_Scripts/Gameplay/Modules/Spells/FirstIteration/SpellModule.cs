@@ -255,10 +255,15 @@ public class SpellModule : MonoBehaviour
 				cooldown -= Time.fixedDeltaTime;
 			else
 			{
-				charges += 1;
+				AddCharge();
 				cooldown = finalCooldownValue();
 			}
 		}
+	}
+
+	protected virtual void AddCharge()
+    {
+		charges += 1;
 	}
 
 	protected virtual void UpgradeSpell () { }
