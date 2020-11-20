@@ -30,8 +30,8 @@ MonoBehaviour:
   mapIcon: {fileID: 983172405252139301}
   movementPart: {fileID: 1743416214871874484}
   firstSpell: {fileID: 7172627324770753700}
-  secondSpell: {fileID: 4744410875963739110}
-  thirdSpell: {fileID: 7686707555835758451}
+  secondSpell: {fileID: 0}
+  thirdSpell: {fileID: 0}
   leftClick: {fileID: 7741952678688272578}
   ward: {fileID: 59302847324730398}
   coll: {fileID: 2015099999550939296}
@@ -110,6 +110,31 @@ MonoBehaviour:
   spitObj: {fileID: 0}
   deceleratedRatio: 1
   distanceMaxBeforeEndTravel: 0.01
+--- !u!114 &5100041963116749380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d3ca1e22e2227439e3f1b135c4b87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 0}
+  particleResolution: []
+  mylineRender: {fileID: 0}
+  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
+  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  usingKeyboardInput: 0
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -212,28 +237,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c90a70e44b85c9f4e87e8990786d246c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7686707555835758451 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 32086142644911797, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7700405388288014790}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4744410875963739110 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3101534736191369760, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7700405388288014790}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3d3ca1e22e2227439e3f1b135c4b87d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!198 &1988931082855780560 stripped

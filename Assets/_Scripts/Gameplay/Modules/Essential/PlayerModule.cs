@@ -360,7 +360,7 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
-		if (lastRecordedPos == transform.position)
+		if (lastRecordedPos == transform.position || isInBrume)
 			return false;
 
 		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
