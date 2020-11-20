@@ -10,10 +10,12 @@ public class KillFeedManager : MonoBehaviour
     public static KillFeedManager Instance { get { return _instance; } }
 
     [SerializeField] GameObject prefabKillFeedElement;
+    [SerializeField] GameObject prefabKillFeedTextElement;
 
     [SerializeField] Transform listKillFeedParent;
 
     List<KillFeedElement> allKillfeedElement = new List<KillFeedElement>();
+    List<KillFeedElementText> allKillfeedElementText = new List<KillFeedElementText>();
 
     private void Awake()
     {
@@ -41,8 +43,21 @@ public class KillFeedManager : MonoBehaviour
         GameManager.Instance.OnPlayerRespawn -= OnPlayerRespawn;
     }
 
+    public bool test = false;
+    public ushort id = 0;
+    private void Update()
+    {
+        if (test)
+        {
+            test = false;
+
+            OnPlayerDie(id, id);
+        }
+    }
+
     void OnPlayerDie(ushort idPlayerDie, ushort playerKiller)
     {
+        print(playerKiller);
         KillFeedElement currentKilfeed = GetFreeElement();
         currentKilfeed.InitAction(GetPlayerData(playerKiller), actionKillfeed.Kill, GetPlayerData(idPlayerDie));
     }
@@ -75,6 +90,8 @@ public class KillFeedManager : MonoBehaviour
             if (!element.gameObject.activeSelf)
             {
                 element.gameObject.SetActive(true);
+                element.transform.parent = null;
+                element.transform.SetParent(listKillFeedParent);
                 return element;
             }
         }
@@ -84,8 +101,31 @@ public class KillFeedManager : MonoBehaviour
         return newElement;
     }
 
+    KillFeedElementText GetFreeElementText()
+    {
+        foreach (KillFeedElementText element in allKillfeedElementText)
+        {
+            if (!element.gameObject.activeSelf)
+            {
+                element.gameObject.SetActive(true);
+                element.transform.parent = null;
+                element.transform.SetParent(listKillFeedParent);
+                return element;
+            }
+        }
+
+        KillFeedElementText newElement = Instantiate(prefabKillFeedTextElement, listKillFeedParent).GetComponent<KillFeedElementText>();
+        allKillfeedElementText.Add(newElement);
+        return newElement;
+    }
+
     PlayerData GetPlayerData(ushort id)
     {
+        if(id == null)
+        {
+            return null;
+        }
+
         return RoomManager.Instance.GetPlayerData(id);
     }
 }
