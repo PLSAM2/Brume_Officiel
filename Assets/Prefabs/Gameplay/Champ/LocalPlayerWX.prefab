@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2195098234085196020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c90e784a41f2b74cb7fc66f296cae90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: f887d23f737a585438fc258bf283d8a1, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 0}
+  particleResolution: []
+--- !u!114 &3531483061060426797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5534e6e1c424b894d93c4b93d0372367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 34ffa2926f87c9446a439d09f5b46f82, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 0}
+  particleResolution: []
+  indexOfTheShotProjectileBlue: 16
+--- !u!114 &4933660271494748642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af82fcad9f136940b1c3266430fdf6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 0}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 0}
+  particleResolution: []
 --- !u!114 &5231333726942406148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29,10 +93,10 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 8558393311301056792}
   movementPart: {fileID: 7156413905369074569}
-  firstSpell: {fileID: 0}
-  secondSpell: {fileID: 0}
-  thirdSpell: {fileID: 0}
-  leftClick: {fileID: 0}
+  firstSpell: {fileID: 3531483061060426797}
+  secondSpell: {fileID: 3531483061060426797}
+  thirdSpell: {fileID: 3531483061060426797}
+  leftClick: {fileID: 3531483061060426797}
   ward: {fileID: 8913684591376409635}
   coll: {fileID: 6959883921923715229}
   mylocalPlayer: {fileID: 0}
@@ -43,6 +107,7 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
   isPoisonousEffectActive: 0
+  playerSoulsCharge: 0
   altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!114 &5536350898603478200
 MonoBehaviour:
@@ -83,7 +148,7 @@ PrefabInstance:
     - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: myPlayerModule
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5231333726942406148}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

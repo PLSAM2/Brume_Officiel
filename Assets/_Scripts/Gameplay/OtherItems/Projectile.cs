@@ -6,7 +6,6 @@ using static GameData;
 
 public class Projectile : AutoKill
 {
-
 	bool  asDeal = false;
 	
 	[Header("FeedBackOnHit")]
@@ -35,15 +34,11 @@ public class Projectile : AutoKill
 		{
 			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
 		}
-
-	
-
 	}
 
 	protected override void OnEnable ()
 	{
-		mylifeTimeInfos.myLifeTime = localTrad.salveInfos.timeToReachMaxRange;
-		print(mylifeTimeInfos.myLifeTime);
+		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
 		base.OnEnable(); 
 	}
 
@@ -103,8 +98,3 @@ public class ProjectileInfos
 	[HideInInspector] public float mySpeed;
 }
 
-[System.Serializable]
-public class KillLifeTime
-{
-	public float myLifeTime;
-}
