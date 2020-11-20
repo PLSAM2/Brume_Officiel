@@ -158,13 +158,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1a18d70ea2d8649939545ef322823c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mylifeTimeInfos:
-    myLifeTime: 10
-  myLivelifeTimeInfos:
-    myLifeTime: 0
+  mylifeTime: 0
+  myLivelifeTime: 0
   mesh: {fileID: 807547197683120078}
   myteam: 0
   myNetworkObject: {fileID: 9188923623546187145}
+  isOwner: 0
   _myColl: {fileID: 1619754614925010324}
   damagesToDealOnImpact:
     damageHealth: 19
@@ -175,6 +174,7 @@ MonoBehaviour:
     statusToApply:
     - {fileID: 11400000, guid: d41d88530ae8344468071d4127573b0d, type: 2}
     playerName: 
+  mySpell: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0

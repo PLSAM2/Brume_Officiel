@@ -82,7 +82,7 @@ public class MovementModule : MonoBehaviour
 			if (currentForcedMovement.duration <= 0)
 			{
 				currentForcedMovement = null;
-				myPlayerModule.forcedMovementInterrupted.Invoke();
+				myPlayerModule.forcedMovementInterrupted?.Invoke();
 				return;
 			}
 

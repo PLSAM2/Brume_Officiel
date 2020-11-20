@@ -61,7 +61,6 @@ public class SpellModule : MonoBehaviour
 				case En_SpellInput.FirstSpell:
 					myPlayerModule.firstSpellInput -= ShowPreview;
 					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
-
 					break;
 				case En_SpellInput.SecondSpell:
 					myPlayerModule.secondSpellInput -= ShowPreview;
@@ -101,31 +100,8 @@ public class SpellModule : MonoBehaviour
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			isOwner = true;
-
-			switch (actionLinked)
-			{
-				case En_SpellInput.FirstSpell:
-					myPlayerModule.firstSpellInput += ShowPreview;
-					myPlayerModule.firstSpellInputRealeased += StartCanalysing;
-
-					break;
-				case En_SpellInput.SecondSpell:
-					myPlayerModule.secondSpellInput += StartCanalysing;
-					myPlayerModule.secondSpellInputRealeased += StartCanalysing;
-					break;
-				case En_SpellInput.ThirdSpell:
-					myPlayerModule.thirdSpellInput += StartCanalysing;
-					myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
-					break;
-				case En_SpellInput.Click:
-					myPlayerModule.leftClickInput += StartCanalysing;
-					myPlayerModule.leftClickInputRealeased += StartCanalysing;
-					break;
-				case En_SpellInput.Ward:
-					myPlayerModule.wardInput += StartCanalysing;
-					myPlayerModule.wardInputReleased += StartCanalysing;
-					break;
-			}
+			SetupInput(_actionLinked);
+			
 			UiManager.Instance.SetupIcon(spell, actionLinked);
 			timeToResolveSpell = spell.canalisationTime;
 
@@ -139,6 +115,34 @@ public class SpellModule : MonoBehaviour
 		}
 		else
 			DestroyIfClient();
+	}
+
+	protected virtual void SetupInput( En_SpellInput _actionLinked )
+	{
+		switch (actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput += ShowPreview;
+				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInput += ShowPreview;
+				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				break;
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput += ShowPreview;
+				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput += ShowPreview;
+				myPlayerModule.wardInputReleased += StartCanalysing;
+				break;
+		}
 	}
 
 	protected virtual void DestroyIfClient ()

@@ -19,24 +19,7 @@ public class CacAttack : SpellModule
 
 		localTrad = (Sc_CacAttack)spell;
 
-		switch (_actionLinked)
-		{
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += StartCanalysing;
-				break;
-
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += StartCanalysing;
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += StartCanalysing;
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += StartCanalysing;
-				break;
-		}
+		SetupInput(_actionLinked);
 
 		ActionAdd();
 
@@ -44,18 +27,17 @@ public class CacAttack : SpellModule
 		for (int i = 0; i < localTrad.listOfAttacks.Count; i++)
 		{
 			if (i == localTrad.listOfAttacks.Count - 1)
-				finalMaxTime += localTrad.listOfAttacks[i]._timeToForceResolve + localTrad.listOfAttacks[i]._timeToHoldToGetToNext;
+				finalMaxTime += localTrad.listOfAttacks[i]._timeToForceResolve;
 			else
 				finalMaxTime += localTrad.listOfAttacks[i]._timeToHoldToGetToNext;
 
 		}
 		maxTime = finalMaxTime;
-
 		startCanalisation += ActionAdd;
 		endCanalisation += ActionClean;
 
 		shapePreview = PreviewManager.Instance.GetShapePreview(this.transform);
-		shapePreview.gameObject.SetActive(false);
+	//	shapePreview.gameObject.SetActive(false);
 	}
 
 	protected override void Disable ()
@@ -101,8 +83,8 @@ public class CacAttack : SpellModule
 		base.InitPreview();
 		float distanceOfTheDash = 0;
 		if (AttackToResolve().movementOfTheCharacter != null)
-			distanceOfTheDash = AttackToResolve().movementOfTheCharacter.movementToApply.length; 
-		shapePreview.Init(rangeOfTheAttack(), baseAngle(), 0, transform.position + transform.forward * distanceOfTheDash );
+			distanceOfTheDash = AttackToResolve().movementOfTheCharacter.movementToApply.length;
+		shapePreview.Init(rangeOfTheAttack(), baseAngle(), 0, transform.position + transform.forward * distanceOfTheDash);
 	}
 
 	CacAttackParameters AttackToResolve ()
@@ -143,7 +125,8 @@ public class CacAttack : SpellModule
 		{
 			/*if (currentTimeCanalised >= localTrad.listOfAttacks[0]._timeToHoldMax)
 				attackToResolve = localTrad.listOfAttacks[1];*/
-
+			isUsed = false;
+			HidePreview();
 
 			//ptit dash tu connais
 			if (AttackToResolve().movementOfTheCharacter == null)
@@ -165,7 +148,26 @@ public class CacAttack : SpellModule
 		}
 	}
 
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		print("IsHowPReview");
+		base.ShowPreview(mousePos);
+		if (canBeCast())
+		{
+			shapePreview.gameObject.SetActive(true);
+		}
+	}
 
+	protected override void HidePreview ()
+	{
+		print("hidePreview");
+
+		base.HidePreview();
+		if (canBeCast())
+		{
+			shapePreview.gameObject.SetActive(false);
+		}
+	}
 	void ResolveSlash ()
 	{
 		if (AttackToResolve().movementOfTheCharacter != null)
@@ -215,52 +217,81 @@ public class CacAttack : SpellModule
 
 		Interrupt();
 	}
-public override void Interrupt ()
-{
-	myPlayerModule.StopStatus(spell.canalysingStatus.effect.forcedKey);
-	base.Interrupt();
-}
-
-void ActionAdd ()
-{
-	switch (input)
+	public override void Interrupt ()
 	{
-		case En_SpellInput.Click:
-			myPlayerModule.leftClickInputRealeased += ResolveAttack;
-			break;
-
-		case En_SpellInput.FirstSpell:
-			myPlayerModule.firstSpellInputRealeased += ResolveAttack;
-			break;
-
-		case En_SpellInput.SecondSpell:
-			myPlayerModule.secondSpellInputRealeased += ResolveAttack;
-			break;
-
-		case En_SpellInput.ThirdSpell:
-			myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
-			break;
+		myPlayerModule.StopStatus(spell.canalysingStatus.effect.forcedKey);
+		base.Interrupt();
 	}
-}
-void ActionClean ()
-{
-	switch (input)
+
+	void ActionAdd ()
 	{
-		case En_SpellInput.Click:
-			myPlayerModule.leftClickInputRealeased -= ResolveAttack;
-			break;
+		switch (input)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInputRealeased += ResolveAttack;
+				break;
 
-		case En_SpellInput.FirstSpell:
-			myPlayerModule.firstSpellInputRealeased -= ResolveAttack;
-			break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
+				break;
 
-		case En_SpellInput.SecondSpell:
-			myPlayerModule.secondSpellInputRealeased -= ResolveAttack;
-			break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
+				break;
 
-		case En_SpellInput.ThirdSpell:
-			myPlayerModule.thirdSpellInputRealeased -= ResolveAttack;
-			break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
+				break;
+		}
 	}
-}
+
+	void ActionClean ()
+	{
+		switch (input)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInputRealeased -= ResolveAttack;
+				break;
+
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInputRealeased -= ResolveAttack;
+				break;
+
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInputRealeased -= ResolveAttack;
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInputRealeased -= ResolveAttack;
+				break;
+		}
+	}
+
+	protected override void SetupInput ( En_SpellInput _actionLinked )
+	{
+		switch (_actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInput += StartCanalysing;
+
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInput += StartCanalysing;
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInput += StartCanalysing;
+				break;
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput += ShowPreview;
+				myPlayerModule.firstSpellInput += StartCanalysing;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput += ShowPreview;
+				myPlayerModule.firstSpellInput += StartCanalysing;
+				break;
+		}
+	}
 }

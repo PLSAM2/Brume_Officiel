@@ -19,9 +19,10 @@ public class Aoe : AutoKill
 
 	protected override void OnEnable ()
 	{
-		mylifeTime = mySpell.durationOfTheAoe;
 
 		base.OnEnable();
+
+		mylifeTime = mySpell.durationOfTheAoe;
 
 		RaycastHit[] _allhits = Physics.SphereCastAll(transform.position, _myColl.radius, Vector3.zero, 0, 1 << 8);
 		foreach(RaycastHit _hit in _allhits)

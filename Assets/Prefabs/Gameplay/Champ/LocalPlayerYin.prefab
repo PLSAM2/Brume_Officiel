@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-761167578132652215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707809604279415472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f785c0aa662794781f7786854f00d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 459e4d2007775ee4ab09596231b945ac, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1588142659292545213}
+  particleResolution: []
 --- !u!114 &1004634171397155041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,7 +53,7 @@ MonoBehaviour:
   firstSpell: {fileID: 0}
   secondSpell: {fileID: 0}
   thirdSpell: {fileID: 2309556355556726922}
-  leftClick: {fileID: 0}
+  leftClick: {fileID: -761167578132652215}
   ward: {fileID: 218658896825124584}
   coll: {fileID: 1742163522325287510}
   mylocalPlayer: {fileID: 0}
@@ -65,31 +86,6 @@ MonoBehaviour:
   canalisationParticle: {fileID: 1930682593351596945}
   particleResolution: []
   indexOfTheShotProjectileBlue: 15
---- !u!114 &8560903087594394541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8707809604279415472}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 834e563613a033248931fbd987fecf65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
-  particleResolution: []
-  spitPrefab: {fileID: 6421260997992176977, guid: 4acb6614bf5e84342bd5d5c637a87db2, type: 3}
-  spitObj: {fileID: 0}
-  deceleratedRatio: 1
-  distanceMaxBeforeEndTravel: 0.01
 --- !u!1001 &7568069776902261552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,5 +192,10 @@ SpriteRenderer:
 --- !u!198 &1930682593351596945 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8344051681668984993, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7568069776902261552}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1588142659292545213 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9155000043582245773, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7568069776902261552}
   m_PrefabAsset: {fileID: 0}
