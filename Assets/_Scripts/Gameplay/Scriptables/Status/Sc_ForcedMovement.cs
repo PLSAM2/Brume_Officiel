@@ -9,6 +9,7 @@ public class Sc_ForcedMovement : ScriptableObject
 {
 	public ForcedMovement movementToApply;
 	public bool isGrab= false;
+
 	public ForcedMovement MovementToApply(Vector3 _target, Vector3 _basePos)
 	{
 		ForcedMovement _temp = new ForcedMovement();

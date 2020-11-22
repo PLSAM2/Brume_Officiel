@@ -109,7 +109,7 @@ public class Module_Spit : SpellModule
         isLaunched = false;
         spitObj.SetActive(false);
 
-        if (isOwner)
+        if (myPlayerModule.mylocalPlayer.isOwner)
         {
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {

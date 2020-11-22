@@ -546,12 +546,12 @@ public class PlayerModule : MonoBehaviour
 			{
 				allTickLive[i].lastTick = 0;
 
-				if (allTickLive[i].effect.isDamaging)
+				if (allTickLive[i].effect.isDamaging)	
 				{
 					DamagesInfos _temp = new DamagesInfos();
 					_temp.damageHealth = allTickLive[i].effect.tickValue;
 
-					this.mylocalPlayer.DealDamages(_temp);
+					this.mylocalPlayer.DealDamages(_temp,transform.position);
 				}
 				if (allTickLive[i].effect.isHealing)
 				{
@@ -634,7 +634,8 @@ public enum En_CharacterState
 public class DamagesInfos
 {
 	public ushort damageHealth;
-	public Sc_Status[] statusToApply = new Sc_Status[0];
+	public Sc_Status statusToApply;
+	public Sc_ForcedMovement movementToApply = null;
 	[HideInInspector] public string playerName;
 }
 

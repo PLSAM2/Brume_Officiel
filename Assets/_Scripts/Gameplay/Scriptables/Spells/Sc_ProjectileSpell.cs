@@ -14,7 +14,6 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 	[Header("Projectile Prefabs")]
 	public Projectile prefab;
-	public Sc_ForcedMovement onHitForcedMovementToApply = null;
 	public bool _reduceCooldowns = false;
 
 

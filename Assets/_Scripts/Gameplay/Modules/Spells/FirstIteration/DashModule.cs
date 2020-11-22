@@ -10,10 +10,7 @@ public class DashModule : SpellModule
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-
-		isOwner = myPlayerModule.mylocalPlayer.isOwner;
-
-		if (isOwner)
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 		}
@@ -22,8 +19,7 @@ public class DashModule : SpellModule
 	protected override void Disable ()
 	{
 		base.Disable();
-
-        if (isOwner)
+        if (myPlayerModule.mylocalPlayer.isOwner)
         {
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}

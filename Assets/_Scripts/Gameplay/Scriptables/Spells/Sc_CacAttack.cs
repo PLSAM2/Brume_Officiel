@@ -8,18 +8,12 @@ using Sirenix.OdinInspector;
 public class Sc_CacAttack : Sc_Spell
 {
 	[Header("AutoParameters")]
-	public List<CacAttackParameters> listOfAttacks;
-	public float maxTimeCanalised { get => totalTime(); set { return; } }
+	public float timeToCanalyseToUpgrade = .5f;
+	public float timeToForceResolve;
+	[Header("DamagePart")]
+	public CacAttackParameters normalAttack;
+	public CacAttackParameters upgradedAttack;
 
-	float totalTime()
-	{
-		float _temp=0;
-		foreach(CacAttackParameters _attack in listOfAttacks)
-		{
-			_temp += _attack._timeToHoldToGetToNext;
-		}
-		return _temp;
-	}
 }
 
 
@@ -28,13 +22,10 @@ public class CacAttackParameters
 {
 	[Header("hit Part")]
 	[Tooltip("90")] public float angleToAttackFrom = 90;
-	public float rangeOfTheAttackMin = 3, rangeOfTheAttackMax = 5;
+	public float rangeOfTheAttack = 3;
 
 	[Header("Enchainement")]
-	public Sc_ForcedMovement movementOfTheCharacter, movementOfHit;
-	public float _timeToHoldToGetToNext = .5f, _timeToHoldMax = .3f, _timeToForceResolve;
-
-	//public float delayWithNextAttack=.3f;
+	public Sc_ForcedMovement movementOfTheCharacter;
 
 	[Header("damage Part")]
 	public DamagesInfos damagesToDeal;

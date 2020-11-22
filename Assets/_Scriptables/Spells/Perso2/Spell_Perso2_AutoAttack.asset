@@ -25,29 +25,23 @@ MonoBehaviour:
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 0
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
-  listOfAttacks:
-  - angleToAttackFrom: 90
-    rangeOfTheAttackMin: 3
-    rangeOfTheAttackMax: 5
-    movementOfTheCharacter: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
-    movementOfHit: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
-    _timeToHoldToGetToNext: 0.5
-    _timeToHoldMax: 0.3
-    _timeToForceResolve: 0
+  timeToCanalyseToUpgrade: 0.5
+  timeToForceResolve: 0
+  normalAttack:
+    angleToAttackFrom: 90
+    rangeOfTheAttack: 3
+    movementOfTheCharacter: {fileID: 0}
     damagesToDeal:
-      damageHealth: 1
-      statusToApply: []
+      damageHealth: 5
+      statusToApply: {fileID: 0}
+      movementToApply: {fileID: 0}
       playerName: 
-  - angleToAttackFrom: 60
-    rangeOfTheAttackMin: 5
-    rangeOfTheAttackMax: 8
-    movementOfTheCharacter: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
-    movementOfHit: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
-    _timeToHoldToGetToNext: 0.5
-    _timeToHoldMax: 0.3
-    _timeToForceResolve: 0.5
+  upgradedAttack:
+    angleToAttackFrom: 90
+    rangeOfTheAttack: 3
+    movementOfTheCharacter: {fileID: 0}
     damagesToDeal:
-      damageHealth: 2
-      statusToApply:
-      - {fileID: 11400000, guid: b56b0b07795a79440940bffb42c805e6, type: 2}
+      damageHealth: 0
+      statusToApply: {fileID: 0}
+      movementToApply: {fileID: 0}
       playerName: 

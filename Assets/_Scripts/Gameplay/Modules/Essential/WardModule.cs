@@ -107,7 +107,7 @@ public class WardModule : SpellModule
 	{
 		isLaunched = false;
 
-		if (isOwner)
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{

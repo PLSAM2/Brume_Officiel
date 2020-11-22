@@ -139,7 +139,7 @@ public class LocalPlayer : MonoBehaviour
         {
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 100;
-            DealDamages(_temp);
+            DealDamages(_temp,transform.position);
         }
 
         //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
@@ -345,7 +345,7 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
-    public void DealDamages(DamagesInfos _damagesToDeal, PlayerData killer = null)
+    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
@@ -357,10 +357,13 @@ public class LocalPlayer : MonoBehaviour
             SendStatus(myPlayerModule.poisonousEffect);
         }
 
-        foreach (Sc_Status statusToApply in _damagesToDeal.statusToApply)
-        {
-            SendStatus(statusToApply);
-        }
+		if(_damagesToDeal.statusToApply !=null)
+            SendStatus(_damagesToDeal.statusToApply);
+
+		if(_damagesToDeal.movementToApply != null)
+		{
+			SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+		}
 
         if (_damagesToDeal.damageHealth > 0)
         {

@@ -30,7 +30,7 @@ public class Aoe : AutoKill
 			print(_hit.collider.name);
 			LocalPlayer _localPlayer = GetComponent<LocalPlayer>();
 			if(_localPlayer.myPlayerModule.teamIndex != myteam)
-				_localPlayer.DealDamages(damagesToDealOnImpact);
+				_localPlayer.DealDamages(damagesToDealOnImpact, transform.position);
 		}
 	}
 
@@ -42,11 +42,11 @@ public class Aoe : AutoKill
 			if (_player != null && _player.myPlayerModule.teamIndex != myteam)
 			{
 				print(_player);
-				_player.DealDamages(damagesToDealOnStay);
+				_player.DealDamages(damagesToDealOnStay, transform.position);
 
 
 				if (myLivelifeTime <= .25f)
-					_player.DealDamages(damagesToDealOnImpact);
+					_player.DealDamages(damagesToDealOnImpact, transform.position);
 
 				playerTouched.Add(_player);
 			}
@@ -58,7 +58,7 @@ public class Aoe : AutoKill
 		LocalPlayer _player = other.GetComponent<LocalPlayer>();
 		if (_player != null && _player.myPlayerModule.teamIndex != myteam)
 		{
-			_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply[0].effect.forcedKey);
+			_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply.effect.forcedKey);
 			playerTouched.Remove(_player);
 		}
 	}
@@ -69,7 +69,7 @@ public class Aoe : AutoKill
 		{
 			foreach (LocalPlayer _player in playerTouched)
 			{
-				_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply[0].effect.forcedKey);
+				_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply.effect.forcedKey);
 			}
 		}
 

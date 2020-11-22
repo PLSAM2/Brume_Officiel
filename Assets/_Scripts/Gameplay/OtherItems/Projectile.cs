@@ -53,11 +53,7 @@ public class Projectile : AutoKill
 			{
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GetComponent<NetworkedObject>().GetOwner());
-					if(localTrad.onHitForcedMovementToApply != null)
-					{
-						playerHit.mylocalPlayer.SendForcedMovement(localTrad.onHitForcedMovementToApply.MovementToApply(playerHit.transform.position, GameManager.Instance.currentLocalPlayer.transform.position));
-					}
+					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
 				}
 
 				Destroy();

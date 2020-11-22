@@ -17,36 +17,31 @@ MonoBehaviour:
   cooldown: 1.5
   numberOfCharge: 3
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 0
+  lockPosOnCanalisation: 1
   forbiddenState: 56
-  canalysingStatus: {fileID: 11400000, guid: 6a8a2b0c9a435a24cba2e12ce7f767c7, type: 2}
+  canalysingStatus: {fileID: 0}
   resolusionStatus: {fileID: 11400000, guid: 2911c36520ff84f4ca1c445b39fa0ed2, type: 2}
   canCancel: 0
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 0
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
-  listOfAttacks:
-  - angleToAttackFrom: 15
-    rangeOfTheAttackMin: 3.5
-    rangeOfTheAttackMax: 3.5
+  timeToCanalyseToUpgrade: 0.5
+  timeToForceResolve: 0
+  normalAttack:
+    angleToAttackFrom: 90
+    rangeOfTheAttack: 3
     movementOfTheCharacter: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
-    movementOfHit: {fileID: 0}
-    _timeToHoldToGetToNext: 0
-    _timeToHoldMax: 0
-    _timeToForceResolve: 0
     damagesToDeal:
       damageHealth: 5
-      statusToApply: []
+      statusToApply: {fileID: 0}
+      movementToApply: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
       playerName: 
-  - angleToAttackFrom: 15
-    rangeOfTheAttackMin: 3.5
-    rangeOfTheAttackMax: 3.5
-    movementOfTheCharacter: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
-    movementOfHit: {fileID: 0}
-    _timeToHoldToGetToNext: 0.1
-    _timeToHoldMax: 0.1
-    _timeToForceResolve: 0.1
+  upgradedAttack:
+    angleToAttackFrom: 45
+    rangeOfTheAttack: 4
+    movementOfTheCharacter: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
     damagesToDeal:
-      damageHealth: 5
-      statusToApply: []
+      damageHealth: 15
+      statusToApply: {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
+      movementToApply: {fileID: 0}
       playerName: 

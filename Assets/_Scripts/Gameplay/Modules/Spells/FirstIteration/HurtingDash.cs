@@ -48,7 +48,7 @@ public class HurtingDash : DashModule
 						DamagesInfos _infos = new DamagesInfos();
 						_infos = (spell as Sc_DashSpell).damages;
 
-						_tempStack.mylocalPlayer.DealDamages(_infos);
+						_tempStack.mylocalPlayer.DealDamages(_infos,transform.position);
 						allPlayerTouched.Add(_hit.collider.gameObject);
 					}
 				}
