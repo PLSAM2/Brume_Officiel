@@ -364,6 +364,7 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
+
         int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
         liveHealth = (ushort)_tempHp;
 
