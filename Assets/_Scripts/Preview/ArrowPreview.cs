@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ArrowPreview : MonoBehaviour
 {
     [SerializeField] Transform arrowParent;
-    [SerializeField] Image arrowImg;
+    [SerializeField] SpriteRenderer arrowImg;
     [SerializeField] Transform endArrow;
     [SerializeField] LineRenderer line;
 
@@ -26,6 +26,7 @@ public class ArrowPreview : MonoBehaviour
         arrowImg.color = _newColor;
     }
 
+    [SerializeField] Vector3 test;
     void Update()
     {
         transform.position = startPos + Vector3.up * 0.1f;
@@ -34,7 +35,7 @@ public class ArrowPreview : MonoBehaviour
         line.SetPosition(0, startPos);
         line.SetPosition(1, endArrow.position);
 
-        arrowParent.rotation = Quaternion.LookRotation(startPos, Vector3.up);
-        //arrowParent.eulerAngles = new Vector3(0, 0, arrowParent.eulerAngles.z - 45);
+        arrowParent.LookAt(startPos);
+        arrowParent.localEulerAngles = new Vector3(0, arrowParent.localEulerAngles.y, arrowParent.localEulerAngles.z);
     }
 }
