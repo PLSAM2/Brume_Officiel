@@ -11,13 +11,13 @@ public class GameFactory
         switch (myTeam)
         {
             case Team.red:
-                return new Color(255, 75, 36, 255);
+                return new Color(1, 0.18f, 0.18f, 1f);
 
             case Team.blue:
-                return new Color(36, 152, 255, 255);
+                return new Color(0, 0.55f, 1f, 1f);
 
             default:
-                return new Color(255, 255, 255, 255);
+                return new Color(1, 1, 1f, 1f);
         }
     }
 
@@ -81,13 +81,20 @@ public class GameFactory
 
     public static LocalPlayer GetActualPlayerFollow()
     {
-        if (GameManager.Instance.currentLocalPlayer != null)
+        try
         {
-             return GameManager.Instance.currentLocalPlayer;
+            if (GameManager.Instance.currentLocalPlayer != null)
+            {
+                return GameManager.Instance.currentLocalPlayer;
+            }
+            else
+            {
+                return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+            }
         }
-        else
+        catch
         {
-            return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+            return null;
         }
     }
 }

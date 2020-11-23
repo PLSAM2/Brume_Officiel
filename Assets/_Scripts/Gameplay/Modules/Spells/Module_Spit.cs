@@ -1,14 +1,13 @@
-﻿using System.Collections;
+﻿using DarkRift;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Module_Spit : SpellModule
 {
-    /*
-    [SerializeField] private AnimationCurve launchCurve;
-    [SerializeField] private GameObject wardPrefab;
-    private GameObject wardObj;
-    public float wardSpeed;
+
+    public GameObject spitTravelPrefab;
+    [HideInInspector] public GameObject spitObj;
     public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
     public float distanceMaxBeforeEndTravel = 0.01f;
     private bool isLaunched = false;
@@ -19,57 +18,61 @@ public class Module_Spit : SpellModule
     private Vector3 destination;
     private Vector3 noCurvePosition;
     private float animationCurveMaxValue;
+    Sc_Spit localTrad;
 
     private void Start()
     {
-        wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
-        wardObj.SetActive(false);
-        animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
-    }
+        localTrad = spell as Sc_Spit;
 
+        spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
+        spitObj.SetActive(false);
+        animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+        spitObj.SetActive(false);
+    }
 
     private void OnDestroy()
     {
-        Destroy(wardObj);
+        Destroy(spitObj);
     }
 
     protected override void DestroyIfClient() { } // Keep this for client
 
-    protected override void Update()
+    protected  void Update()
     {
-        base.Update();
 
         if (isLaunched)
         {
-            if (Vector3.Distance(wardObj.transform.position, destination) < distanceMaxBeforeEndTravel)
+            if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
             {
-                WardLanded();
+                Landed();
                 return;
             }
 
             deceleration = 1;
             deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
-            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (wardSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
+            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (localTrad.spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
             noCurvePosition = newPosition;
 
             float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
             float UpOffset;
 
-            UpOffset = launchCurve.Evaluate(distanceProgress);
+            UpOffset = localTrad.launchCurve.Evaluate(distanceProgress);
             lastOffest = UpOffset;
-            wardObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
+            spitObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
         }
     }
 
 
     protected override void ResolveSpell(Vector3 _mousePosition)
     {
-        if (isLaunched)
+        if (isLaunched && spitObj != null)
         {
             return;
         }
 
         base.ResolveSpell(_mousePosition);
+
+        spitObj.SetActive(true);
 
         destination = _mousePosition;
 
@@ -81,12 +84,44 @@ public class Module_Spit : SpellModule
             _writer.Write(destination.y);
             _writer.Write(destination.z);
 
-            using (Message _message = Message.Create(Tags.LaunchWard, _writer))
+            using (Message _message = Message.Create(Tags.CurveSpellLaunch, _writer))
             {
                 RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
             }
         }
 
-        InitWardLaunch(destination);
-    }*/
+        InitLaunch(destination);
+    }
+
+    public void InitLaunch(Vector3 destination)
+    {
+        this.destination = destination;
+        spitObj.SetActive(true);
+        startPos = (transform.position + Vector3.up);
+        spitObj.transform.position = startPos;
+        baseDistance = Vector3.Distance(startPos, destination);
+        noCurvePosition = startPos;
+        isLaunched = true;
+    }
+
+    public void Landed()
+    {
+        isLaunched = false;
+        spitObj.SetActive(false);
+
+        if (myPlayerModule.mylocalPlayer.isOwner)
+        {
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            {
+                _writer.Write(RoomManager.Instance.client.ID); // Player ID
+
+                using (Message _message = Message.Create(Tags.CurveSpellLanded, _writer))
+                {
+                    RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+                }
+            }
+
+            NetworkObjectsManager.Instance.NetworkInstantiate(localTrad.onImpactInstantiate.myNetworkObject.objListKey, destination, Vector3.zero);
+        }
+    }
 }

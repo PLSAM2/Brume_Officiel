@@ -7,7 +7,6 @@ using Sirenix.OdinInspector;
 public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell;
-	protected bool isOwner;
 
 	[ReadOnly]
 	public float cooldown
@@ -37,7 +36,7 @@ public class SpellModule : MonoBehaviour
 	[ReadOnly] public bool isUsed = false, resolved;
 	public Sc_Spell spell;
 
-	En_SpellInput actionLinked;
+	protected En_SpellInput actionLinked;
 	public Action<float> cooldownUpdatefirstSpell;
 	[ReadOnly] public Vector3 recordedMousePosOnInput;
 	[ReadOnly] public PlayerModule myPlayerModule;
@@ -45,34 +44,73 @@ public class SpellModule : MonoBehaviour
 	public ParticleSystem canalisationParticle;
 	public List<ParticleSystem> particleResolution;
 	protected Vector3 lastRecordedDirection = Vector3.zero;
+	protected bool showingPreview =false;
 
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
 
+	//setup & inputs
+	#region
+	public virtual void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		myPlayerModule = GetComponent<PlayerModule>();
+
+		actionLinked = _actionLinked;
+
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			LinkInput(_actionLinked);
+
+			UiManager.Instance.SetupIcon(spell, actionLinked);
+			timeToResolveSpell = spell.canalisationTime;
+			charges = spell.numberOfCharge;
+
+			//action 
+			startCanalisation += StartCanalysingFeedBack;
+			endCanalisation += ResolveSpellFeedback;
+			myPlayerModule.upgradeKit += UpgradeSpell;
+			myPlayerModule.backToNormalKit += ReturnToNormal;
+		}
+		else
+			DestroyIfClient();
+	}
+
+	protected virtual void LinkInput ( En_SpellInput _actionLinked )
+	{
+		switch (_actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput += ShowPreview;
+				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInput += ShowPreview;
+				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				break;
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput += ShowPreview;
+				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput += ShowPreview;
+				myPlayerModule.wardInputReleased += StartCanalysing;
+				break;
+		}
+	}
+
 	protected virtual void Disable ()
 	{
-		if (isOwner)
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			switch (actionLinked)
-			{
-				case En_SpellInput.FirstSpell:
-					myPlayerModule.firstSpellInput -= StartCanalysing;
-					break;
-				case En_SpellInput.SecondSpell:
-					myPlayerModule.secondSpellInput -= StartCanalysing;
-					break;
-				case En_SpellInput.ThirdSpell:
-					myPlayerModule.thirdSpellInput -= StartCanalysing;
-					break;
-				case En_SpellInput.Click:
-					myPlayerModule.leftClickInput -= StartCanalysing;
-					break;
-				case En_SpellInput.Ward:
-					myPlayerModule.wardInput -= StartCanalysing;
-					break;
-			}
+			DelinkInput(actionLinked);
+
 			startCanalisation -= StartCanalysingFeedBack;
 			endCanalisation -= ResolveSpellFeedback;
 
@@ -81,65 +119,78 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	public virtual void SetupComponent ( En_SpellInput _actionLinked )
+	protected virtual void DelinkInput ( En_SpellInput _actionLinked )
 	{
-		myPlayerModule = GetComponent<PlayerModule>();
-
-		actionLinked = _actionLinked;
-		if (myPlayerModule.mylocalPlayer.isOwner)
+		switch (actionLinked)
 		{
-			isOwner = true;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput -= ShowPreview;
+				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput -= ShowPreview;
+				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 
-			switch (actionLinked)
-			{
-				case En_SpellInput.FirstSpell:
-					myPlayerModule.firstSpellInput += StartCanalysing;
-					break;
-				case En_SpellInput.SecondSpell:
-					myPlayerModule.secondSpellInput += StartCanalysing;
-					break;
-				case En_SpellInput.ThirdSpell:
-					myPlayerModule.thirdSpellInput += StartCanalysing;
-					break;
-				case En_SpellInput.Click:
-					myPlayerModule.leftClickInput += StartCanalysing;
-					break;
-				case En_SpellInput.Ward:
-					myPlayerModule.wardInput += StartCanalysing;
-					break;
-			}
-			UiManager.Instance.SetupIcon(spell, actionLinked);
-			timeToResolveSpell = spell.canalisationTime;
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInput -= ShowPreview;
+				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 
-			startCanalisation += StartCanalysingFeedBack;
-			endCanalisation += ResolveSpellFeedback;
+				break;
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput -= ShowPreview;
+				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 
-			charges = spell.numberOfCharge;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput -= ShowPreview;
+				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 
-			myPlayerModule.upgradeKit += UpgradeSpell;
-			myPlayerModule.backToNormalKit += ReturnToNormal;
+				break;
 		}
-		else
-			DestroyIfClient();
 	}
+	#endregion
 
 	protected virtual void DestroyIfClient ()
 	{
 		Destroy(this);
 	}
 
+	//PREVIEW
+	#region
+	protected virtual void ShowPreview ( Vector3 mousePos )
+	{
+		if (canBeCast())
+		{
+			showingPreview = true;
+			UpdatePreview();
+		}
+	}
 
-	protected virtual void Update ()
+	protected virtual void HidePreview()
+	{
+		showingPreview = false;
+	}
+
+	protected virtual void UpdatePreview()
+	{
+
+	}
+	#endregion
+
+	protected virtual void FixedUpdate ()
 	{
 		if (isUsed && !resolved)
 		{
-			currentTimeCanalised += Time.deltaTime;
-
+			currentTimeCanalised += Time.fixedDeltaTime;
 			TreatNormalCanalisation();
 		}
 
 		if (charges < spell.numberOfCharge && !isUsed)
 			DecreaseCooldown();
+
+		if (showingPreview)
+			UpdatePreview();
 	}
 
 	protected virtual void TreatNormalCanalisation ()
@@ -155,8 +206,14 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if (canBeCast(Vector3.Distance(_BaseMousePos, transform.position)))
+		if (canBeCast())
 		{
+			//HidePreview();
+			startCanalisation?.Invoke();
+
+			if (spell.canalysingStatus != null)
+				spell.canalysingStatus.ApplyStatus(myPlayerModule.mylocalPlayer);
+
 			lastRecordedDirection = myPlayerModule.directionInputed();
 
 			resolved = false;
@@ -169,12 +226,8 @@ public class SpellModule : MonoBehaviour
 
 			recordedMousePosOnInput = _BaseMousePos;
 
-			startCanalisation?.Invoke();
-
-
-			if (spell.lockOnCanalisation)
+			if (spell.lockRotOnCanalisation)
 				myPlayerModule.rotationLock(true);
-
 
 			isUsed = true;
 		}
@@ -191,36 +244,38 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		currentTimeCanalised = 0;
+		endCanalisation?.Invoke();
 
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
 
-		if (spell.lockOnCanalisation)
+		if (spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
 
-
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
 	{
-		endCanalisation?.Invoke();
-
 		resolved = true;
 		Interrupt();
 	}
-
 
 	public virtual void DecreaseCooldown ()
 	{
 		if (charges < spell.numberOfCharge)
 		{
 			if (cooldown >= 0)
-				cooldown -= Time.deltaTime;
+				cooldown -= Time.fixedDeltaTime;
 			else
 			{
-				charges += 1;
+				AddCharge();
 				cooldown = finalCooldownValue();
 			}
 		}
+	}
+
+	protected virtual void AddCharge()
+    {
+		charges += 1;
 	}
 
 	protected virtual void UpgradeSpell () { }
@@ -233,7 +288,7 @@ public class SpellModule : MonoBehaviour
 			cooldown -= _durationShorten;
 	}
 
-	protected virtual bool canBeCast (float _distance)
+	protected virtual bool canBeCast ()
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
@@ -248,14 +303,7 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		if (spell.canalysingStatus != null)
-			spell.canalysingStatus.ApplyStatus(myPlayerModule.mylocalPlayer) ;
-
-		Effect _newStatus = new Effect();
-		_newStatus.finalLifeTime = spell.canalisationTime;
-		_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root );
-		myPlayerModule.AddStatus(_newStatus);
-
+		ApplyStatusCanalisation();
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
@@ -271,6 +319,18 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.mylocalPlayer.BoolTheAnim("SpellCanalisation3", true);
 				break;
 		}
+	}
+
+	protected virtual void ApplyStatusCanalisation()
+	{
+		Effect _newStatus = new Effect();
+		_newStatus.finalLifeTime = spell.canalisationTime;
+		if (spell.lockPosOnCanalisation)
+			_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root);
+		else
+			_newStatus.stateApplied = En_CharacterState.Canalysing;
+
+		myPlayerModule.AddStatus(_newStatus);
 	}
 
 	void ResolveSpellFeedback ()
@@ -313,7 +373,6 @@ public class SpellModule : MonoBehaviour
 	{
 		return spell.canalisationTime;
 	}
-
 
 	public void StopParticleCanalisation ()
 	{

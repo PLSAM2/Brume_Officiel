@@ -14,18 +14,17 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
 	private LayerMask groundLayer;
-	bool rotLocked = false;
-
+	bool rotLocked = false, boolWasClicked = false;
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
 	private bool _isInBrume;
-	En_CharacterState _state = En_CharacterState.Clear;
+	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { _state = value; if (mylocalPlayer.isOwner) { UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState()); } }
+		set { _state = value; }
 	}
 	En_CharacterState LiveEffectCharacterState ()
 	{
@@ -37,6 +36,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return _temp;
 	}
+	En_CharacterState _oldState = En_CharacterState.Clear;
 
 
 
@@ -56,7 +56,10 @@ public class PlayerModule : MonoBehaviour
 	Vector3 lastRecordedPos;
 
 	[Header("DamagesPart")]
-	bool isCrouched = false;
+	bool _isCrouched = false;
+	bool isCrouched
+
+	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { state |= En_CharacterState.Crouched; } else { state = (state & ~En_CharacterState.Crouched); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
@@ -76,12 +79,15 @@ public class PlayerModule : MonoBehaviour
 
 	//effects
 	public List<EffectLifeTimed> allEffectLive;
+	public List<EffectLifeTimed> allTickLive;
 	private ushort currentKeyIndex = 0;
 
 	[Header("Altar Buff/Debuff")]
 	[SerializeField] private Sc_Status enteringBrumeStatus;
 	[SerializeField] private Sc_Status leavingBrumeStatus;
 	private bool isAltarSpeedBuffActive = false;
+	public Sc_Status poisonousEffect;
+	public bool isPoisonousEffectActive = false;
 
 	//ALL ACTION 
 	#region
@@ -203,9 +209,10 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyDown(wardKey))
 				wardInput?.Invoke(mousePos());
 			//AUTO
-			else if (Input.GetAxis("Fire1") > 0)
+			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
 			{
 				leftClickInput?.Invoke(mousePos());
+				boolWasClicked = true;
 			}
 			//RUNNING
 			else if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -213,13 +220,17 @@ public class PlayerModule : MonoBehaviour
 
 			if (Input.GetKeyUp(firstSpellKey))
 				firstSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(secondSpellKey))
+			else if (Input.GetKeyUp(secondSpellKey))
 				secondSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(thirdSpellKey))
+			else if (Input.GetKeyUp(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(wardKey))
+			else if (Input.GetKeyUp(wardKey))
 				wardInputReleased?.Invoke(mousePos());
-
+			else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
+			{
+				leftClickInputRealeased?.Invoke(mousePos());
+				boolWasClicked = false;
+			}
 
 			if (Input.GetKeyDown(interactKey))
 			{
@@ -245,6 +256,7 @@ public class PlayerModule : MonoBehaviour
 			if (Input.GetKeyDown(crouching))
 				isCrouched = true;
 
+
 			else if (Input.GetKeyUp(crouching))
 				isCrouched = false;
 
@@ -261,8 +273,21 @@ public class PlayerModule : MonoBehaviour
 	}
 	private void FixedUpdate ()
 	{
+		if (!mylocalPlayer.isOwner)
+			return;
+		else
+		{
+			if (_oldState != state)
+			{
+				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
+				mylocalPlayer.SendState(state);
+				_oldState = state;
+			}
+		}
 		TreatEffects();
+		TreatTickEffects();
 	}
+
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -325,45 +350,28 @@ public class PlayerModule : MonoBehaviour
 		{
 			return;
 		}
-
 		if (ShouldBePinged())
 		{
-			GameObject _fx = Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
-
-			if (teamIndex == Team.blue)
-			{
-				_fx.GetComponent<ParticleSystem>().startColor = Color.blue;
-			}
-			else if (teamIndex == Team.red)
-			{
-				_fx.GetComponent<ParticleSystem>().startColor = Color.red;
-			}
+			Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
 		}
+		lastRecordedPos = transform.position;
 
 	}
 
 	bool ShouldBePinged ()
 	{
-		if (lastRecordedPos == transform.position)
+		if (lastRecordedPos == transform.position || isInBrume)
 			return false;
 
-		lastRecordedPos = transform.position;
 		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
-		if (!_localPlayer.isInBrume)
+		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0)
 			return false;
 
-		if (Vector3.Distance(transform.position, _localPlayer.transform.position) > _localPlayer.characterParameters.detectionRange)
+		if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
 			return false;
 
-		if (_localPlayer.isInBrume == isInBrume)
-			return false;
 
-		if (Vector3.Distance(_localPlayer.transform.position, transform.position) > _localPlayer.characterParameters.detectionRange)
-			return false;
-
-		if (Vector3.Distance(_localPlayer.transform.position, transform.position) < _localPlayer.characterParameters.visionRange)
-			return false;
 
 		return true;
 	}
@@ -398,14 +406,15 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public Vector3 ClosestFreePos ( Vector3 _posToCloseUpTo, float _anticipationDistance )
+	public Vector3 ClosestFreePos ( Vector3 _direction, float maxDistance )
 	{
 		RaycastHit _hit;
-		if (Physics.Raycast(transform.position, _posToCloseUpTo - transform.position, out _hit, 1000, movementPart.movementBlockingLayer))
+		if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9 | 1 << 19))
 		{
-			return transform.position + Vector3.Normalize(_posToCloseUpTo - transform.position) * (Vector3.Distance(_hit.point, transform.position) - _anticipationDistance);
+			return _hit.point;
 		}
-		return transform.position;
+		else
+			return transform.position + _direction * maxDistance;
 	}
 	#endregion
 
@@ -426,11 +435,10 @@ public class PlayerModule : MonoBehaviour
 	{
 		Effect _tempTrad = new Effect();
 		_tempTrad = _statusToAdd;
-
 		EffectLifeTimed _newElement = new EffectLifeTimed();
+
 		_newElement.liveLifeTime = _tempTrad.finalLifeTime;
 		_newElement.effect = _tempTrad;
-
 
 		if (_statusToAdd.forcedKey != 0)
 		{
@@ -442,16 +450,69 @@ public class PlayerModule : MonoBehaviour
 			currentKeyIndex++;
 		}
 
-		allEffectLive.Add(_newElement);
+		if (_tempTrad.tick)
+		{
+			if (_tempTrad.refreshOnApply)
+			{
+				EffectLifeTimed _temp = GetTickEffectByKey(_newElement.key);
+
+				if (_temp != null)
+				{
+					_temp.Refresh();
+					return;
+				}
+
+			}
+			allTickLive.Add(_newElement);
+		}
+		else
+		{
+			if (_tempTrad.refreshOnApply)
+			{
+				EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
+
+				if (_temp != null)
+				{
+					_temp.Refresh();
+					return;
+				}
+			}
+			allEffectLive.Add(_newElement);
+		}
+
 	}
 
+	private EffectLifeTimed GetTickEffectByKey ( ushort key )
+	{
+		foreach (EffectLifeTimed effect in allTickLive)
+		{
+			if (effect.key == key)
+			{
+				return effect;
+			}
+		}
+
+		return null;
+	}
+	private EffectLifeTimed GetEffectByKey ( ushort key )
+	{
+		foreach (EffectLifeTimed effect in allEffectLive)
+		{
+			if (effect.key == key)
+			{
+				return effect;
+			}
+		}
+
+		return null;
+	}
 	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
-		for(int i=0; i < allEffectLive.Count; i++)
+		for (int i = 0; i < allEffectLive.Count; i++)
 		{
-			if(!allEffectLive[i].effect.isConstant)
+			if (!allEffectLive[i].effect.isConstant)
 				allEffectLive[i].liveLifeTime -= Time.fixedDeltaTime;
 
 			if (allEffectLive[i].liveLifeTime <= 0)
@@ -466,7 +527,55 @@ public class PlayerModule : MonoBehaviour
 		UiManager.Instance.StatusUpdate(state);
 	}
 
+	void TreatTickEffects ()
+	{
+
+		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
+
+		for (int i = 0; i < allTickLive.Count; i++)
+		{
+			allTickLive[i].liveLifeTime -= Time.fixedDeltaTime;
+			allTickLive[i].lastTick += Time.fixedDeltaTime;
+
+			if (allTickLive[i].liveLifeTime <= 0)
+			{
+				_tempList.Add(allTickLive[i]);
+			}
+
+			if (allTickLive[i].lastTick >= allTickLive[i].effect.tickRate && allTickLive[i].liveLifeTime > 0)
+			{
+				allTickLive[i].lastTick = 0;
+
+				if (allTickLive[i].effect.isDamaging)	
+				{
+					DamagesInfos _temp = new DamagesInfos();
+					_temp.damageHealth = allTickLive[i].effect.tickValue;
+
+					this.mylocalPlayer.DealDamages(_temp,transform.position);
+				}
+				if (allTickLive[i].effect.isHealing)
+				{
+					this.mylocalPlayer.HealPlayer(allTickLive[i].effect.tickValue);
+				}
+			}
+		}
+
+		foreach (EffectLifeTimed _effect in _tempList)
+			allTickLive.Remove(_effect);
+	}
+
+
 	public void StopStatus ( ushort key )
+	{
+		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
+
+		if (_temp != null)
+		{
+			_temp.Stop();
+		}
+	}
+
+	public void StopTickStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
 
@@ -484,6 +593,10 @@ public class PlayerModule : MonoBehaviour
 		{
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
 		}
+	}
+	public void ApplyPoisonousBuffInServer ()
+	{
+		isPoisonousEffectActive = true;
 	}
 
 	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
@@ -514,32 +627,40 @@ public enum En_CharacterState
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
 	Stunned = Silenced | Root,
+	Embourbed = 1 << 7
 }
 
 [System.Serializable]
 public class DamagesInfos
 {
 	public ushort damageHealth;
-	public Sc_Status[] statusToApply;
+	public Sc_Status statusToApply;
+	public Sc_ForcedMovement movementToApply = null;
 	[HideInInspector] public string playerName;
 }
 
 [System.Serializable]
 public class Effect
 {
-	[HorizontalGroup("Group2")] public float finalLifeTime;
-	[HorizontalGroup("Group2")] public bool isConstant = false;
+	public bool tick = false;
+
+	[HorizontalGroup("Group2")] [HideIf("isConstant")] public float finalLifeTime;
+	[HorizontalGroup("Group2")]  public bool isConstant = false;
 	[HorizontalGroup("Group1")] public bool canBeForcedStop = false;
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
+	public bool refreshOnApply = false;
+
+	[ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
+	[ShowIf("tick")] [BoxGroup("Tick")] public bool isDamaging = true;
+	[ShowIf("tick")] [BoxGroup("Tick")] public bool isHealing = false;
+	[ShowIf("tick")] [BoxGroup("Tick")] public ushort tickValue = 0;
 
 	public En_CharacterState stateApplied;
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 
-	public Effect ()
-	{
-	}
+	public Effect () { }
 }
 
 [System.Serializable]
@@ -550,10 +671,14 @@ public class EffectLifeTimed
 	public Effect effect;
 	public float liveLifeTime;
 
+	[HideInInspector] public float lastTick = 0;
 	public void Stop ()
 	{
 		liveLifeTime = 0;
 	}
 
+	internal void Refresh ()
+	{
+		liveLifeTime = effect.finalLifeTime;
+	}
 }
-

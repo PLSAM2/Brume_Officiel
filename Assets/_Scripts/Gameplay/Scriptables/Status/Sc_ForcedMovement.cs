@@ -7,13 +7,18 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "newForcedMovement", menuName = "CreateCuston/NewFprcedMovement")]
 public class Sc_ForcedMovement : ScriptableObject
 {
-	[SerializeField] ForcedMovement movementToApply;
+	public ForcedMovement movementToApply;
+	public bool isGrab= false;
 
 	public ForcedMovement MovementToApply(Vector3 _target, Vector3 _basePos)
 	{
 		ForcedMovement _temp = new ForcedMovement();
 		_temp = movementToApply;
-		_temp.direction = Vector3.Normalize(_target - _basePos);
+		if(!isGrab)
+			_temp.direction = Vector3.Normalize(_target - _basePos);
+		else
+			_temp.direction = Vector3.Normalize( _basePos - _target);
+
 		return _temp;
 	}
 }

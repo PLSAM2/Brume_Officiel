@@ -1,30 +1,41 @@
 ﻿using DarkRift;
 using DarkRift.Client.Unity;
 using DarkRift.Server;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class NetworkedObject : MonoBehaviour
 {
+    [Tooltip("Sync Position")]
     public bool isNetworked = true;
     public bool synchroniseRotation = true;
-    public float distanceRequiredBeforeSync = 0.02f;
+    [Tooltip("Execute a method on localPlayer when network instantiate")]
+    public bool isPlayerLinked = false;
+    [ShowIf("isPlayerLinked")] public NetworkObjectLinked NetworkObjectLinked;
 
+    public float distanceRequiredBeforeSync = 0.02f;
+    public ushort objListKey = 0;
     private ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
     private bool isOwner = false;
     private PlayerData owner;
     private UnityClient ownerIClient; // Set uniquement par le créateur
     private Vector3 lastPosition; // Set uniquement par le créateur
 
-    public void Init(ushort lastObjId, PlayerData playerData)
+    public void Init(ushort lastObjId, PlayerData playerData, ushort objKey)
     {
         // Vérifie les droits lié à cette objets
 
         serverObjectID = lastObjId;
         owner = playerData;
         lastPosition = transform.position;
-
+        objListKey = objKey;
         if (RoomManager.Instance.GetLocalPlayer() == owner)
         {
+            if (isPlayerLinked)
+            {
+                PlayerLinked();
+            }
+
             ownerIClient = RoomManager.Instance.client;
             isOwner = true;
         }
@@ -44,13 +55,23 @@ public class NetworkedObject : MonoBehaviour
         return isOwner;
     }
 
+    /// <summary>
+    /// Get server unique ID
+    /// </summary>
+    /// <returns></returns>
     public ushort GetItemID()
     {
         return serverObjectID;
     }
+
     public ushort GetOwnerID()
     {
         return owner.ID;
+    }
+
+    public PlayerData GetOwner()
+    {
+        return owner;
     }
 
     private void Update()
@@ -95,5 +116,8 @@ public class NetworkedObject : MonoBehaviour
         isNetworked = false;
     }
 
-
+    public void PlayerLinked()
+    {
+        NetworkObjectLinked.Linked(this);
+    }
 }

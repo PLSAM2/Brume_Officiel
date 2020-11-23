@@ -28,12 +28,16 @@ public class MovementModule : MonoBehaviour
 	//recup des actions
 	PlayerModule myPlayerModule;
 
-	public void OnEnable ()
+	public void Start ()
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
-		myPlayerModule.DirectionInputedUpdate += Move;
-		myPlayerModule.forcedMovementAdded += AddDash;
+		if(myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myPlayerModule.DirectionInputedUpdate += Move;
+			myPlayerModule.forcedMovementAdded += AddDash;
+		}
+
 
 		/*myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;*/
@@ -47,9 +51,11 @@ public class MovementModule : MonoBehaviour
 
 	void OnDisable ()
 	{
-		myPlayerModule.DirectionInputedUpdate -= Move;
-		myPlayerModule.forcedMovementAdded -= AddDash;
-
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myPlayerModule.DirectionInputedUpdate -= Move;
+			myPlayerModule.forcedMovementAdded -= AddDash;
+		}
 		//	myPlayerModule.toggleRunning -= ToggleRunning;
 		//	myPlayerModule.stopRunning -= StopRunning;
 	}
@@ -76,7 +82,7 @@ public class MovementModule : MonoBehaviour
 			if (currentForcedMovement.duration <= 0)
 			{
 				currentForcedMovement = null;
-				myPlayerModule.forcedMovementInterrupted.Invoke();
+				myPlayerModule.forcedMovementInterrupted?.Invoke();
 				return;
 			}
 
@@ -138,9 +144,12 @@ public class MovementModule : MonoBehaviour
 
 	public void AddDash ( ForcedMovement infos )
 	{
-		currentForcedMovement = new ForcedMovement();
-		currentForcedMovement = infos;
-		currentForcedMovement.myModule = myPlayerModule;
+		ForcedMovement _temp = new ForcedMovement();
+		_temp.direction = infos.direction;
+		_temp.duration = infos.duration;
+		_temp.strength = infos.strength;
+		_temp.myModule = myPlayerModule;
+		currentForcedMovement = _temp;
 	}
 
 	/*void StopRunning()
@@ -313,5 +322,5 @@ public class ForcedMovement
 	Vector3 _direction;
 	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
 	public float strength;
-	[ShowInInspector] float lenght => duration * strength;
+	[ReadOnly] public float length => duration * strength;
 }

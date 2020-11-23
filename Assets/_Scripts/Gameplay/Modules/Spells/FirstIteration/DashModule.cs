@@ -5,35 +5,34 @@ using UnityEngine;
 
 public class DashModule : SpellModule
 {
-	public LineRenderer mylineRender;
-	[SerializeField] Color startColorPreview = Color.red, endColorPreview = Color.blue;
 	public bool usingKeyboardInput;
+	ArrowPreview myPreviewArrow;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-		mylineRender.useWorldSpace = true;
-
-		isOwner = myPlayerModule.mylocalPlayer.isOwner;
-
-		if (isOwner)
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			startCanalisation += ShowPreview;
-			endCanalisation += ClearPreview;
 			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 		}
+		myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
+		HidePreview();
 	}
 
 	protected override void Disable ()
 	{
 		base.Disable();
-
-        if (isOwner)
+        if (myPlayerModule.mylocalPlayer.isOwner)
         {
-			startCanalisation -= ShowPreview;
-			endCanalisation -= ClearPreview;
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
+	}
+	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+
+		HidePreview();
+
+		base.StartCanalysing(_BaseMousePos);
 	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )
@@ -85,65 +84,6 @@ public class DashModule : SpellModule
 
 	}
 
-	public virtual void ShowPreview ()
-	{
-	/*	mylineRender.positionCount += 1;
-		
-		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
-
-		/*if (_localTraduction.adaptiveRange)
-		{
-			if (spell.useLastRecordedMousePos)
-			{
-				mylineRender.SetPosition(1, transform.position + (recordedMousePosOnInput - transform.position));
-			}
-			else
-			{
-				mylineRender.SetPosition(1, transform.position + (myPlayerModule.mousePos() - transform.position));
-			}
-		}
-		else
-		{
-			if (spell.useLastRecordedMousePos)
-			{
-				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(recordedMousePosOnInput - transform.position) * spell.range);
-			}
-			else
-			{
-				mylineRender.SetPosition(1, transform.position + Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range);
-			}
-		//}
-		mylineRender.DOColor(new Color2(startColorPreview, startColorPreview), new Color2(endColorPreview, endColorPreview), spell.canalisationTime);*/
-	}
-
-	public virtual void ClearPreview()
-	{
-		mylineRender.positionCount = 1;
-	}
-	
-	void UpdatePreview()
-	{
-		mylineRender.SetPosition(0,new Vector3(transform.position.x, 0.2f, transform.position.z));
-		if (spell.useLastRecordedMousePos)
-		{
-			mylineRender.SetPosition(1, transform.position + Vector3.Normalize(new Vector3(recordedMousePosOnInput.x - transform.position.x, transform.position.y, recordedMousePosOnInput.z - transform.position.z)) * spell.range);
-		}
-		else
-		{
-			mylineRender.SetPosition(1, transform.position + Vector3.Normalize(new Vector3(myPlayerModule.mousePos().x - transform.position.x, transform.position.y, myPlayerModule.mousePos().z - transform.position.z)) * spell.range);
-		}
-	}
-
-	protected override void Update ()
-	{
-		base.Update();
-
-		if(isUsed)
-		{
-			UpdatePreview();
-		}
-	}
-
 	void EndDashFeedback()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
@@ -162,11 +102,37 @@ public class DashModule : SpellModule
 		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
 
-	protected override bool canBeCast (float _distance)
+	protected override bool canBeCast ()
 	{
 		if (myPlayerModule.directionInputed() == Vector3.zero)
 			return false;
 		else
-			return base.canBeCast(_distance);
+			return base.canBeCast();
 	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+		if (canBeCast())
+		{
+			myPreviewArrow.gameObject.SetActive(true);
+		}
+	}
+
+	protected override void HidePreview ()
+	{
+		base.HidePreview();
+		myPreviewArrow.gameObject.SetActive(false);
+	}
+
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
+
+		if (spell.useLastRecordedMousePos)
+			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(lastRecordedDirection) * spell.range), .1f);
+		else
+			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range), .1f);
+	}
+
 }

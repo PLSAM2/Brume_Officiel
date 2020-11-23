@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class DeplacementSam : MonoBehaviour
 {
-    public CharacterController controller;
+    public Animator myAnimator;
 
-    public float playerSpeed = 2;
+    Vector3 oldPos;
+
+    [SerializeField] Camera myCam;
+
+    [SerializeField] LayerMask ground;
+
+    [SerializeField] float speed = 10;
+
+    private void Start()
+    {
+        oldPos = transform.position;
+    }
 
     void Update()
     {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        RaycastHit hit;
+        Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
 
-        if (move != Vector3.zero)
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
         {
-            gameObject.transform.forward = move;
+            transform.position = hit.point;
         }
     }
 }

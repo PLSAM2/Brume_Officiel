@@ -87,12 +87,14 @@ public class FieldOfView : MonoBehaviour
 		{
 			if (!GameManager.Instance.visiblePlayer.ContainsKey(enemy))
 			{
+				//print("add");
 				GameManager.Instance.visiblePlayer.Add(enemy, myType);
             }
             else
             {
 				if (GameManager.Instance.visiblePlayer[enemy] == fowType.player && myType == fowType.ward)
                 {
+					//print("update");
 					GameManager.Instance.visiblePlayer[enemy] = myType;
 				}
             }
@@ -102,6 +104,7 @@ public class FieldOfView : MonoBehaviour
 		{
 			if (!visibleTargets.Contains(enemy))
 			{
+				//print("remove");
 				GameManager.Instance.visiblePlayer.Remove(enemy);
 			}
 		}
@@ -122,8 +125,6 @@ public class FieldOfView : MonoBehaviour
 
 			Transform target = targetsInViewRadius[i].transform;
 
-			if (target == GameManager.Instance.currentLocalPlayer.transform) { continue; }
-
 			Vector3 dirToTarget = (target.position - transform.position).normalized;
 
 			float dstToTarget = Vector3.Distance(transform.position, target.position);
@@ -132,7 +133,6 @@ public class FieldOfView : MonoBehaviour
 				visibleTargets.Add(target);
 			}
 		}
-		
 
 		/*
 		foreach(KeyValuePair<ushort, LocalPlayer> p in GameManager.Instance.networkPlayers)

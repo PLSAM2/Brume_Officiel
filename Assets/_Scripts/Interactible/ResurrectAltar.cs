@@ -14,11 +14,13 @@ public class ResurrectAltar : Interactible
     {
         base.Captured(team);
 
-        ushort[] IDList = new ushort[capturingPlayerModule.playerSouls.Count];
+        WxController wxController = (WxController)capturingPlayerModule;
 
-        for (int i = 0; i < capturingPlayerModule.playerSouls.Count; i++)
+        ushort[] IDList = new ushort[wxController.GetPlayersSoulsCount()];
+
+        for (int i = 0; i < wxController.GetPlayersSoulsCount(); i++)
         {
-            IDList[i] = capturingPlayerModule.playerSouls[i].soulInfo.ID;
+            IDList[i] = wxController.GetPlayersSoulsID(i);
         }
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -32,12 +34,14 @@ public class ResurrectAltar : Interactible
             }
         }
 
-        capturingPlayerModule.playerSouls.Clear();
+        wxController.ClearPlayersSouls();
     }
 
     public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
     {
-        if (capturingPlayer.playerSouls.Count <= 0)
+        WxController wxController = (WxController)capturingPlayerModule;
+
+        if (wxController.GetPlayersSoulsCount() <= 0)
         {
             return;
         }

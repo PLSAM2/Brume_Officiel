@@ -5,26 +5,26 @@ using UnityEngine;
 using static GameData;
 public class ModuleProjectileSpell : SpellModule
 {
-	protected Sc_ProjectileSpell spellProj; //plus facile a lire dans le script
+	protected Sc_ProjectileSpell localTrad; //plus facile a lire dans le script
 	int shotRemainingInSalve;
-	[SerializeField] ushort indexOfTheShotProjectileBlue = 12, indexOfTheShotProjectileRed = 13;
+	[SerializeField] ushort indexOfTheShotProjectileBlue = 12;
 	SalveInfos myLiveSalve;
 	Vector3 lastForwardRecorded;
 	float offsetHeight;
 	bool shooting = false;
 	float timeBetweenShot = 0;
+	ArrowPreview myPreviewArrow;
+	ShapePreview myPreviewBurst;
 
 	private void Start ()
 	{
-		spellProj = spell as Sc_ProjectileSpell;
-		myLiveSalve = spellProj.salveInfos;
+		localTrad = spell as Sc_ProjectileSpell;
+		myLiveSalve = localTrad.salveInfos;
 		offsetHeight = GetComponent<CapsuleCollider>().height / 2;
 	}
 
-	protected override void Update ()
+	protected void Update ()
 	{
-		base.Update();
-
 		if (shooting == true)
 		{
 			timeBetweenShot -= Time.deltaTime;
@@ -39,10 +39,22 @@ public class ModuleProjectileSpell : SpellModule
 			}
 		}
 	}
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		if (localTrad.salveInfos.numberOfShotInSalve > 1)
+			myPreviewBurst = PreviewManager.Instance.GetShapePreview(transform);
+		else
+			myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
+		HidePreview();
+		base.SetupComponent(_actionLinked);
+	}
 
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		base.StartCanalysing(_BaseMousePos);
+
+		HidePreview();
+
 		lastForwardRecorded = transform.forward + transform.position;
 	}
 
@@ -54,37 +66,36 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected override void ResolveSpell ( Vector3 mousePosition )
 	{
-		shotRemainingInSalve = myLiveSalve.numberOfSalve;
+		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
 		timeBetweenShot = 0;
 
 		shooting = true;
 
-		endCanalisation?.Invoke();
 		resolved = true;
 	}
 
 	protected override void UpgradeSpell ()
 	{
 		base.UpgradeSpell();
-		myLiveSalve.timeToResolveTheSalve += spellProj.durationAdded;
-		myLiveSalve.numberOfSalve += spellProj.bonusSalve;
-		myLiveSalve.numberOfShot += spellProj.bonusShot;
+		myLiveSalve.timeToResolveTheSalve += localTrad.durationAdded;
+		myLiveSalve.NumberOfSalve += localTrad.bonusSalve;
+		myLiveSalve.numberOfShotInSalve += localTrad.bonusShot;
 	}
 
 	protected override void ReturnToNormal ()
 	{
 		base.ReturnToNormal();
-		myLiveSalve = spellProj.salveInfos;
+		myLiveSalve = localTrad.salveInfos;
 	}
 
-	protected override bool canBeCast (float _distance)
+	protected override bool canBeCast ()
 	{
 		if (shooting)
 		{
 			return false;
 		}
 		else
-			return base.canBeCast(_distance);
+			return base.canBeCast();
 	}
 
 	//shootingPart
@@ -101,7 +112,7 @@ public class ModuleProjectileSpell : SpellModule
 
 	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
 	{
-		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.numberOfSalve;
+		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.NumberOfSalve;
 
 		shotRemainingInSalve--;
 
@@ -125,12 +136,12 @@ public class ModuleProjectileSpell : SpellModule
 			_baseAngle += _angleToAdd;
 		}*/
 
-		float _baseAngle = transform.forward.y - spellProj.angleToSplit / 2;
-		float _angleToAdd = spellProj.angleToSplit / spellProj.salveInfos.numberOfShot;
+		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
+		float _angleToAdd = localTrad.angleToSplit / localTrad.salveInfos.numberOfShotInSalve;
 
-		for (int i = 0; i < spellProj.salveInfos.numberOfShot; i++)
+		for (int i = 0; i < localTrad.salveInfos.numberOfShotInSalve; i++)
 		{
-			Vector3 _PosToSpawn = transform.forward * spellProj.offSet + new Vector3(0, offsetHeight, 0); //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
+			Vector3 _PosToSpawn = transform.forward * localTrad.offSet + new Vector3(0, offsetHeight, 0); //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
 
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
@@ -140,16 +151,58 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
-		if (myPlayerModule.teamIndex == Team.blue)
-			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
-		else
-			NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileRed, _posToSet, _rot);
+		NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
 	}
 	#endregion
 
+
 	protected override float durationOfTheMovementModifier ()
 	{
-		float _temp = base.durationOfTheMovementModifier() + spellProj.salveInfos.timeToResolveTheSalve;
+		float _temp = base.durationOfTheMovementModifier() + localTrad.salveInfos.timeToResolveTheSalve;
 		return _temp;
 	}
+
+	//PREVIEW
+	#region
+	protected override void HidePreview ()
+	{
+		if (myPreviewArrow != null)
+			myPreviewArrow.gameObject.SetActive(false);
+		else
+			myPreviewBurst.gameObject.SetActive(false);
+
+		base.HidePreview();
+	}
+
+	protected override void UpdatePreview ()
+	{
+		if (myPreviewArrow != null)
+		{
+			if (localTrad.useLastRecordedMousePos)
+				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(lastRecordedDirection) * localTrad.range), .1f);
+			else
+				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * localTrad.range), .1f);
+		}else
+		{
+			myPreviewBurst.Init(localTrad.range, localTrad.angleToSplit, 0, Vector3.zero);
+		}
+
+		base.UpdatePreview();
+	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		if(canBeCast())
+		{
+			if (myPreviewArrow != null)
+				myPreviewArrow.gameObject.SetActive(true);
+			else
+				myPreviewBurst.gameObject.SetActive(true);
+		}
+
+		base.ShowPreview(mousePos);
+	}
+
+
+	#endregion
 }

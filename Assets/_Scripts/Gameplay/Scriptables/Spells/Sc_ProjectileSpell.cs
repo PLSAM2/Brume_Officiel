@@ -9,35 +9,36 @@ public class Sc_ProjectileSpell : Sc_Spell
 {
 
 	[Header("ProjectileParameters")]
-	public St_ProjectileInfos projParameters;
+	public DamagesInfos damagesToDeal;
 
 
 	[Header("Projectile Prefabs")]
-	public Projectile prefabBlueTeam, prefabRedTeam;
+	public Projectile prefab;
+	public bool _reduceCooldowns = false;
 
 
 	[Header("SalveInfos")]
 	public float offSet = .1f;
 	public SalveInfos salveInfos;
-	
+
 
 
 	[Header("MultiProjectile")]
 	[SerializeField] bool isMultiple = false;
 
-	[ShowIf("isMultiple")] public int angleToSplit;
+	[Min(1)] [ShowIf("isMultiple")] public int angleToSplit;
 
 	[Header("UpgradePart")]
-	public float cooldownReduction = 0;
-	public int bonusShot;
-	public int bonusSalve;
-	public float durationAdded;
+	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;
+	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusShot;
+	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusSalve;
+	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float durationAdded;
 }
 
 [System.Serializable]
 public struct SalveInfos
 {
-	[Min(1)] public int numberOfSalve;
-	[Min(1)] public int numberOfShot;
+	[Min(1)] public int NumberOfSalve;
+	[Min(1)] public int numberOfShotInSalve;
 	public float timeToReachMaxRange, timeToResolveTheSalve;
 }

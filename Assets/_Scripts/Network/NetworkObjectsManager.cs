@@ -103,7 +103,9 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
     private GameObject GetFirstDisabledObject(int objectID)
     {
-        foreach (Transform t in poolParents.Where(x => x.Key == objectID).First().gameObject.transform)
+        KeyGameObjectPair _parent = poolParents.Where(x => x.Key == objectID).First();
+
+        foreach (Transform t in _parent.gameObject.transform)
         {
             if (!t.gameObject.activeInHierarchy)
             {
@@ -111,7 +113,12 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             }
         }
 
-        throw new Exception("AUCUN OBJETS INACTIF RESTANT POUR LA CLE => " + objectID);
+        KeyGameObjectPair _item = networkedObjectsList.networkObjects.Where(x => x.Key == objectID).First();
+
+        GameObject newobj = Instantiate(_item.gameObject, _parent.gameObject.transform);
+        newobj.SetActive(false);
+
+        return newobj;
     }
 
     /// <summary>
@@ -173,14 +180,14 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         _tempObject.transform.position = _ObjectPos;
         _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
-        networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
+        networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID);
         NetworkedObjectAdded(_lastObjId, networkedObject);
         _tempObject.SetActive(true);
 
 
         if (_tempObject.GetComponent<Projectile>() != null)
         {
-            _tempObject.GetComponent<Projectile>().Init();
+            _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
         }
 
         //GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
