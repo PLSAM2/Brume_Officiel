@@ -52,6 +52,9 @@ public class ModuleProjectileSpell : SpellModule
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		base.StartCanalysing(_BaseMousePos);
+
+		HidePreview();
+
 		lastForwardRecorded = transform.forward + transform.position;
 	}
 

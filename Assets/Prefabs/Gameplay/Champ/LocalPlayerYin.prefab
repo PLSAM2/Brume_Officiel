@@ -86,6 +86,31 @@ MonoBehaviour:
   canalisationParticle: {fileID: 1930682593351596945}
   particleResolution: []
   indexOfTheShotProjectileBlue: 15
+--- !u!114 &4194662364228485567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707809604279415472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834e563613a033248931fbd987fecf65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1930682593351596945}
+  particleResolution: []
+  spitTravelPrefab: {fileID: 6421260997992176977, guid: 4acb6614bf5e84342bd5d5c637a87db2, type: 3}
+  spitObj: {fileID: 0}
+  deceleratedRatio: 1
+  distanceMaxBeforeEndTravel: 0.01
 --- !u!1001 &7568069776902261552
 PrefabInstance:
   m_ObjectHideFlags: 0

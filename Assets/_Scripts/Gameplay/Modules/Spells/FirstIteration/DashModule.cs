@@ -27,6 +27,13 @@ public class DashModule : SpellModule
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
 	}
+	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+
+		HidePreview();
+
+		base.StartCanalysing(_BaseMousePos);
+	}
 
 	protected override void ResolveSpell ( Vector3 _mousePosition )
 	{
