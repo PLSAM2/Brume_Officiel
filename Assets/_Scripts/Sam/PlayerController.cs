@@ -60,8 +60,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ArrowPreview myArrowPreview;
     [SerializeField] Vector3 posEndArr;
 
+
+    Vector3 oldPos; 
     void Update()
     {
+        float velocityX = (transform.position.x - oldPos.x) / Time.fixedDeltaTime;
+        oldPos = transform.position;
+
+        print(velocityX);
+
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
 
         Debug.DrawRay(transform.position, forward, Color.red);
