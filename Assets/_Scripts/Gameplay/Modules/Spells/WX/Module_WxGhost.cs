@@ -13,7 +13,9 @@ public class Module_WxGhost : SpellModule
         GameObject ghostObj = NetworkObjectsManager.Instance.NetworkInstantiate(17, _mousePosition,
             new Vector3(ghostPrefab.transform.rotation.x, ghostPrefab.transform.rotation.y, ghostPrefab.transform.rotation.z));
 
-        ghostObj.GetComponent<Ghost>().Init(this.GetComponent<PlayerModule>());
+        PlayerModule _tempPlayerModule = myPlayerModule;
+        _tempPlayerModule.AddState(En_CharacterState.Stunned);
+        ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule);
     }
 
 }
