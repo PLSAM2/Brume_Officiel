@@ -38,12 +38,14 @@ public class CirclePreview : MonoBehaviour
         currentObj.transform.localPosition = _newPos;
     }
 
-    public void SetColor(Color _newColor)
+    public void SetColor(Color _newColor, float _newTransparency)
     {
         myImgCenter.color =  _newColor;
+        myImgCenter.color = new Color(myImgCenter.color.r, myImgCenter.color.g, myImgCenter.color.b, _newTransparency);
         myImgCenterOutline.color = _newColor;
 
         myImgBorder.color = _newColor;
+        myImgBorder.color = new Color(myImgBorder.color.r, myImgBorder.color.g, myImgBorder.color.b, _newTransparency);
         myImgBorderOutline.color = _newColor;
     }
 
