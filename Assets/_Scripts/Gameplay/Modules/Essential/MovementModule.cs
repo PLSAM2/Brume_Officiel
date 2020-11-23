@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MovementModule : MonoBehaviour
 {
+
 	[Header("Basic elements")]
 	St_MovementParameters parameters;
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
@@ -27,10 +28,22 @@ public class MovementModule : MonoBehaviour
 	[ReadOnly] public ForcedMovement currentForcedMovement = null;
 	//recup des actions
 	PlayerModule myPlayerModule;
-
+	private bool isAGhost = false;
 	public void Start ()
 	{
-		myPlayerModule = GetComponent<PlayerModule>();
+        if (GetComponent<Ghost>() != null)
+        {
+			isAGhost = true;
+		}
+
+        if (isAGhost)
+        {
+			myPlayerModule = GetComponent<Ghost>().playerModule;
+		} else
+        {
+			myPlayerModule = GetComponent<PlayerModule>();
+		}
+
 
 		if(myPlayerModule.mylocalPlayer.isOwner)
 		{

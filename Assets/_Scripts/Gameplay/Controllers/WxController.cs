@@ -8,7 +8,6 @@ public class WxController : PlayerModule
     [Header("Wu xin Properties")]
 
 
-    public int playerSoulsCharge = 0;
     private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 
     [SerializeField] private ParticleSystem altarDebuffTrail;
@@ -17,7 +16,7 @@ public class WxController : PlayerModule
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
         playerSouls.Add(playerSoul);
-        playerSoulsCharge++;
+        this.GetComponent<Module_WxSoulBurst>().charges++;
     }
 
     public int GetPlayersSoulsCount()

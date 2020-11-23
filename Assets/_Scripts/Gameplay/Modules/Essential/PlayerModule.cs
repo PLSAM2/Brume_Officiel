@@ -26,6 +26,7 @@ public class PlayerModule : MonoBehaviour
 		get => _state | LiveEffectCharacterState();
 		set { _state = value; }
 	}
+
 	En_CharacterState LiveEffectCharacterState ()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
@@ -424,11 +425,6 @@ public class PlayerModule : MonoBehaviour
 			rotLocked = true;
 		else
 			rotLocked = false;
-	}
-
-	public void PickPlayerSoul ( PlayerSoul playerSoul )
-	{
-		playerSouls.Add(playerSoul);
 	}
 
 	public void AddStatus ( Effect _statusToAdd )
