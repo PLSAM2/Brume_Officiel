@@ -32,6 +32,9 @@ public class LocalPlayer : MonoBehaviour
     public TextMeshProUGUI lifeCount;
     public Image life;
 
+    Vector3 newNetorkPos;
+    [SerializeField] float syncSpeed = 10;
+
     [ReadOnly]
     public ushort liveHealth
     {
@@ -74,6 +77,8 @@ public class LocalPlayer : MonoBehaviour
         OnRespawn();
 
         canvasRot = canvas.transform.rotation;
+
+        newNetorkPos = transform.position;
     }
 
     private void Start()
@@ -137,32 +142,34 @@ public class LocalPlayer : MonoBehaviour
         Debug();
 
         DoAnimation();
+
+        if (!isOwner)
+        {
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * syncSpeed);
+        }
     }
 
     Vector3 oldPos;
     [SerializeField] float speedAnim = 30;
     private void DoAnimation()
     {
-        if (!isOwner)
-        {
-            float velocityX = (transform.position.x - oldPos.x) / Time.fixedDeltaTime;
-            float velocityZ = (transform.position.z - oldPos.z) / Time.fixedDeltaTime;
+        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
 
-            float speed = myPlayerModule.characterParameters.movementParameters.movementSpeed;
+        float speed = myPlayerModule.characterParameters.movementParameters.movementSpeed;
 
-            velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
-            velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
 
-            Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+        Vector3 pos = new Vector3(velocityX, 0, velocityZ);
 
-            float right = Vector3.Dot(transform.right, pos);
-            float forward = Vector3.Dot(transform.forward, pos);
+        float right = Vector3.Dot(transform.right, pos);
+        float forward = Vector3.Dot(transform.forward, pos);
 
-            myAnimator.SetFloat("Forward", forward);
-            myAnimator.SetFloat("Turn", right);
+        myAnimator.SetFloat("Forward", forward);
+        myAnimator.SetFloat("Turn", right);
 
-            oldPos = transform.position;
-        }
+        oldPos = transform.position;
     }
 
     void Debug()
@@ -343,8 +350,8 @@ public class LocalPlayer : MonoBehaviour
 
         if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
         {
-            myAnimator.SetFloat("Forward", forward);
-            myAnimator.SetFloat("Turn", right);
+            //myAnimator.SetFloat("Forward", forward);
+            //myAnimator.SetFloat("Turn", right);
 
             //networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
         }
@@ -352,7 +359,7 @@ public class LocalPlayer : MonoBehaviour
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
     {
-        transform.position = newPos;
+       newNetorkPos = newPos;
         transform.localEulerAngles = newRotation;
     }
 
