@@ -25,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711002817461895876}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0.000000027054, y: -0.047375, z: 1e-15}
+  m_LocalScale: {x: 0.29078, y: 0.29078, z: 0.29078}
   m_Children:
   - {fileID: 463890329947272273}
   m_Father: {fileID: 7438536250504620889}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!33 &3597312325145305017
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711002817461895876}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 34a2662908b24e948b6c57ce9513c0f3, type: 3}
 --- !u!23 &666501220190319908
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -272,7 +272,6 @@ MonoBehaviour:
   isPlayerLinked: 0
   NetworkObjectLinked: {fileID: 0}
   distanceRequiredBeforeSync: 0.05
-  objListKey: 0
 --- !u!135 &3997851561229656872
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -284,7 +283,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.39
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3420004688133137551
 Rigidbody:
@@ -314,14 +313,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 100b2ef7411ae34408387ed83554725c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mylifeTimeInfos:
-    myLifeTime: 0
-  myLivelifeTimeInfos:
-    myLifeTime: 0
-  mesh: {fileID: 1711002817461895876}
-  myteam: 0
-  myNetworkObject: {fileID: 0}
-  isOwner: 0
-  feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
-  _mySfxAudio: {fileID: 8300000, guid: 39557d5dbf076bd4c8204d19aee7ba14, type: 3}
-  localTrad: {fileID: 11400000, guid: 34ffa2926f87c9446a439d09f5b46f82, type: 2}

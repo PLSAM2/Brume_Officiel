@@ -26,6 +26,7 @@ public class PlayerModule : MonoBehaviour
 		get => _state | LiveEffectCharacterState();
 		set { _state = value; }
 	}
+
 	En_CharacterState LiveEffectCharacterState ()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
@@ -59,7 +60,7 @@ public class PlayerModule : MonoBehaviour
 	bool _isCrouched = false;
 	bool isCrouched
 
-	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { state |= En_CharacterState.Crouched; } else { state = (state & ~En_CharacterState.Crouched); } } }
+	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Canalysing); } else { RemoveState(En_CharacterState.Crouched); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
@@ -165,10 +166,18 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
+	
 		state = En_CharacterState.Clear;
 
 		if (mylocalPlayer.isOwner)
 		{
+
+			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
+			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, firstSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
+
 			mapIcon.color = Color.blue;
 
 			//modulesPArt
@@ -271,12 +280,15 @@ public class PlayerModule : MonoBehaviour
 		else
 			return;
 	}
+
 	private void FixedUpdate ()
 	{
 		if (!mylocalPlayer.isOwner)
 			return;
 		else
 		{
+	
+
 			if (_oldState != state)
 			{
 				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
@@ -287,7 +299,6 @@ public class PlayerModule : MonoBehaviour
 		TreatEffects();
 		TreatTickEffects();
 	}
-
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -426,11 +437,6 @@ public class PlayerModule : MonoBehaviour
 			rotLocked = false;
 	}
 
-	public void PickPlayerSoul ( PlayerSoul playerSoul )
-	{
-		playerSouls.Add(playerSoul);
-	}
-
 	public void AddStatus ( Effect _statusToAdd )
 	{
 		Effect _tempTrad = new Effect();
@@ -494,6 +500,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
+
 	private EffectLifeTimed GetEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allEffectLive)
@@ -506,6 +513,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
+
 	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
@@ -564,7 +572,6 @@ public class PlayerModule : MonoBehaviour
 			allTickLive.Remove(_effect);
 	}
 
-
 	public void StopStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
@@ -584,7 +591,6 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
-
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
 	{
@@ -613,6 +619,15 @@ public class PlayerModule : MonoBehaviour
 			StopStatus(enteringBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
+	}
+
+	public void AddState(En_CharacterState _stateToadd)
+	{
+		state |= _stateToadd;
+	}
+	public void RemoveState( En_CharacterState _stateToRemove )
+	{
+		state = (state & ~_stateToRemove);
 	}
 }
 

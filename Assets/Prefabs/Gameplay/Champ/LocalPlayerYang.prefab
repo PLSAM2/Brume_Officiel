@@ -1,5 +1,48 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &598244770747154043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1572485409708721017}
+  particleResolution: []
+  indexOfTheShotProjectileBlue: 14
+--- !u!114 &1170411871162902278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65d22a176d80624cb2b80c907eed451, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 58683f536a7da4d4f930b348757dba41, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1806732799086505235}
+  particleResolution: []
 --- !u!114 &3038193427288463681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,7 +107,7 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
   particleResolution: []
-  usingKeyboardInput: 0
+  usingKeyboardInput: 1
 --- !u!114 &6122503958538356117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,49 +130,6 @@ MonoBehaviour:
   canalisationParticle: {fileID: 1572485409708721017}
   particleResolution: []
   indexOfTheShotProjectileBlue: 12
---- !u!114 &598244770747154043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1572485409708721017}
-  particleResolution: []
-  indexOfTheShotProjectileBlue: 14
---- !u!114 &1170411871162902278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65d22a176d80624cb2b80c907eed451, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 58683f536a7da4d4f930b348757dba41, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1806732799086505235}
-  particleResolution: []
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0

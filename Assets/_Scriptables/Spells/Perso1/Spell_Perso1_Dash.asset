@@ -16,7 +16,8 @@ MonoBehaviour:
   range: 2.75
   cooldown: 5
   numberOfCharge: 3
-  lockOnCanalisation: 1
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 0
   forbiddenState: 40
   canalysingStatus: {fileID: 0}
   resolusionStatus: {fileID: 0}
@@ -29,6 +30,7 @@ MonoBehaviour:
   damagesRadius: 0
   damages:
     damageHealth: 0
-    statusToApply: []
+    statusToApply: {fileID: 0}
+    movementToApply: {fileID: 0}
     playerName: 
   bonusDash: 1

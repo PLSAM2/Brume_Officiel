@@ -16,7 +16,7 @@ MonoBehaviour:
   range: 20
   cooldown: 10
   numberOfCharge: 1
-  lockRotOnCanalisation: 0
+  lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
   forbiddenState: 56
   canalysingStatus: {fileID: 0}
@@ -51,3 +51,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  timeToReachMaxRange: 1
+  durationOfTheAoe: 5
+  aoeRadius: 2.2
+  damagesToDealOnImpact:
+    damageHealth: 30
+    statusToApply: {fileID: 11400000, guid: 8dc6d9127091db1439a53fa34901c8b3, type: 2}
+    movementToApply: {fileID: 0}
+    playerName: 
+  damagesToDealOnDuration:
+    damageHealth: 0
+    statusToApply: {fileID: 11400000, guid: 1ba7be15c774e104abf879a4fea1197f, type: 2}
+    movementToApply: {fileID: 0}
+    playerName: 

@@ -57,13 +57,14 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
+		UiManager.Instance.SetupIcon(spell, _actionLinked);
+
 		actionLinked = _actionLinked;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			LinkInput(_actionLinked);
 
-			UiManager.Instance.SetupIcon(spell, actionLinked);
 			timeToResolveSpell = spell.canalisationTime;
 			charges = spell.numberOfCharge;
 

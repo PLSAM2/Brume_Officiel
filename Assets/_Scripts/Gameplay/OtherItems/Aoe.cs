@@ -3,76 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-[InlineEditor]
 public class Aoe : AutoKill
 {
-	[SerializeField] SphereCollider _myColl;
-	[SerializeField] DamagesInfos damagesToDealOnImpact;
-	[SerializeField] DamagesInfos damagesToDealOnStay;
-	List<LocalPlayer> playerTouched =new List<LocalPlayer>();
-	[SerializeField] Sc_Spit mySpell;
-
-	private void Start ()
-	{
-		_myColl = GetComponent<SphereCollider>();
-	}
+	[SerializeField] Sc_Spit localTrad;
 
 	protected override void OnEnable ()
 	{
 
 		base.OnEnable();
 
-		mylifeTime = mySpell.durationOfTheAoe;
+		mylifeTime = localTrad.durationOfTheAoe;
 
-		RaycastHit[] _allhits = Physics.SphereCastAll(transform.position, _myColl.radius, Vector3.zero, 0, 1 << 8);
-		foreach(RaycastHit _hit in _allhits)
-		{
-			print(_hit.collider.name);
-			LocalPlayer _localPlayer = GetComponent<LocalPlayer>();
-			if(_localPlayer.myPlayerModule.teamIndex != myteam)
-				_localPlayer.DealDamages(damagesToDealOnImpact, transform.position);
-		}
+
+		if (myNetworkObject.GetIsOwner())
+			DealDamagesInRange(localTrad.damagesToDealOnImpact);
 	}
 
-	private void OnTriggerEnter ( Collider other )
+	IEnumerator CustomUpdate ()
 	{
-		if (isOwner)
+		yield return new WaitForSeconds(.2f);
+		DealDamagesInRange(localTrad.damagesToDealOnDuration);
+	}
+
+	void DealDamagesInRange (DamagesInfos _damages)
+	{
+		Collider[] _allhits = Physics.OverlapSphere(transform.position, localTrad.aoeRadius, 1 << 8);
+		List<Collider> _allChecked = new List<Collider>();
+
+		foreach(Collider _coll in _allhits)
 		{
-			LocalPlayer _player = other.GetComponent<LocalPlayer>();
-			if (_player != null && _player.myPlayerModule.teamIndex != myteam)
+			LocalPlayer player = _coll.GetComponent<LocalPlayer>();
+
+			if (player.myPlayerModule.teamIndex != GameManager.Instance.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll))
 			{
-				print(_player);
-				_player.DealDamages(damagesToDealOnStay, transform.position);
-
-
-				if (myLivelifeTime <= .25f)
-					_player.DealDamages(damagesToDealOnImpact, transform.position);
-
-				playerTouched.Add(_player);
+				_allChecked.Add(_coll);
+				player.DealDamages(_damages, transform.position);
 			}
 		}
+
+		StartCoroutine(CustomUpdate());
 	}
 
-	private void OnTriggerExit ( Collider other )
+	private void OnDrawGizmosSelected ()
 	{
-		LocalPlayer _player = other.GetComponent<LocalPlayer>();
-		if (_player != null && _player.myPlayerModule.teamIndex != myteam)
-		{
-			_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply.effect.forcedKey);
-			playerTouched.Remove(_player);
-		}
+		Gizmos.DrawSphere(transform.position, localTrad.aoeRadius);
 	}
 
 	protected override void Destroy ()
 	{
-		if(isOwner)
-		{
-			foreach (LocalPlayer _player in playerTouched)
-			{
-				_player.myPlayerModule.StopStatus(damagesToDealOnStay.statusToApply.effect.forcedKey);
-			}
-		}
-
+		StopAllCoroutines();
 		base.Destroy();
 	}
 }

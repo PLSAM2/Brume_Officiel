@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DashModule : SpellModule
 {
-	public bool usingKeyboardInput;
+	public bool usingKeyboardInput = true;
 	ArrowPreview myPreviewArrow;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -22,8 +22,8 @@ public class DashModule : SpellModule
 	protected override void Disable ()
 	{
 		base.Disable();
-        if (myPlayerModule.mylocalPlayer.isOwner)
-        {
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
 	}
@@ -47,8 +47,8 @@ public class DashModule : SpellModule
 
 			if (spell.useLastRecordedMousePos)
 			{
-			/*	dashInfos.duration = Vector3.Distance(recordedMousePosOnInput, transform.position)/ speedOfDash;
-				print(dashInfos.duration);*/
+				/*	dashInfos.duration = Vector3.Distance(recordedMousePosOnInput, transform.position)/ speedOfDash;
+					print(dashInfos.duration);*/
 
 			}
 			else
@@ -84,12 +84,12 @@ public class DashModule : SpellModule
 
 	}
 
-	void EndDashFeedback()
+	void EndDashFeedback ()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
 
-	protected override void UpgradeSpell ( )
+	protected override void UpgradeSpell ()
 	{
 		base.UpgradeSpell();
 		Sc_DashSpell dashSpell = spell as Sc_DashSpell;
@@ -129,7 +129,11 @@ public class DashModule : SpellModule
 	{
 		base.UpdatePreview();
 
-		if (spell.useLastRecordedMousePos)
+		if (usingKeyboardInput)
+		{
+			myPreviewArrow.Init(transform.position, transform.position + (myPlayerModule.directionInputed() * spell.range), .1f);
+		}
+		else if (spell.useLastRecordedMousePos)
 			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(lastRecordedDirection) * spell.range), .1f);
 		else
 			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range), .1f);

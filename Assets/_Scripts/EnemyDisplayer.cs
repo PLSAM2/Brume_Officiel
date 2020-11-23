@@ -96,6 +96,13 @@ public class EnemyDisplayer : MonoBehaviour
 
     void HideOrShow(LocalPlayer p, bool _value)
     {
+        if (p.myOutline.enabled)
+        {
+            p.myOutline.enabled = false;
+
+            p.canvas.SetActive(_value);
+        }
+
         if (p.isVisible != _value)
         {
             p.isVisible = _value;
@@ -104,11 +111,6 @@ public class EnemyDisplayer : MonoBehaviour
                 obj.SetActive(_value);
             }
             p.canvas.SetActive(_value);
-
-            if (p.myOutline.enabled)
-            {
-                p.myOutline.enabled = false;
-            }
 
             GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
         }

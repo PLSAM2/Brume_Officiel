@@ -30,6 +30,7 @@ class Tags
     // InGame 300 --> XXXX >>   
     public static readonly ushort PlayerJoinGameScene = 300;
     public static readonly ushort AllPlayerJoinGameScene = 301;
+    public static readonly ushort SetInGameUniqueID = 302;
     public static readonly ushort StartTimer = 305;
     public static readonly ushort StopGame = 310;
     public static readonly ushort NewRound = 315;
@@ -73,6 +74,7 @@ class Tags
     //Spells 810 --> XXX >>
     public static readonly ushort CurveSpellLaunch = 900;
     public static readonly ushort CurveSpellLanded = 901;
+
     //<<
 
     public static readonly ushort SpawnObjPlayer = 1000;
