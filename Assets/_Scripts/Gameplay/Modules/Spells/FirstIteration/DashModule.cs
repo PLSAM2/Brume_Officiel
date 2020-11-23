@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DashModule : SpellModule
 {
-	public bool usingKeyboardInput;
+	public bool usingKeyboardInput =true;
 	ArrowPreview myPreviewArrow;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )

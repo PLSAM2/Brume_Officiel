@@ -70,10 +70,10 @@ public class WardModule : SpellModule
 
 		base.ResolveSpell(_mousePosition);
 
-		float _distance = Vector3.Distance(_mousePosition, transform.position);
+		float _distance = Mathf.Clamp(Vector3.Distance(_mousePosition, transform.position), 0, spell.range);
 
 
-		destination = myPlayerModule.ClosestFreePos(Vector3.Normalize(_mousePosition - transform.position), spell.range);
+		destination = myPlayerModule.ClosestFreePos(Vector3.Normalize(_mousePosition - transform.position), _distance);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{

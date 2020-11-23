@@ -165,10 +165,18 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
+	
 		state = En_CharacterState.Clear;
 
 		if (mylocalPlayer.isOwner)
 		{
+
+			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
+			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, firstSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
+
 			mapIcon.color = Color.blue;
 
 			//modulesPArt

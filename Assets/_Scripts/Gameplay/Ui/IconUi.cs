@@ -8,7 +8,7 @@ using TMPro;
 public class IconUi : MonoBehaviour
 {
 	[SerializeField] Image icon, outline, fillAmount;
-	[SerializeField] TextMeshProUGUI chargesSpot, cooldownCount;
+	[SerializeField] TextMeshProUGUI chargesSpot, cooldownCount, input;
 	[SerializeField] En_SpellInput typeOfSpell;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
@@ -57,5 +57,11 @@ public class IconUi : MonoBehaviour
 			}
 		}
 		*/
+	}
+	public void SetupInputName(string _name)
+	{
+		print(_name);
+
+		input.text = _name;
 	}
 }
