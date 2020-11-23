@@ -129,7 +129,9 @@ public class CacAttack : SpellModule
 	{
 		base.ShowPreview(mousePos);
 		if (canBeCast())
+			
 		{
+			print("ShowPreview");
 			shapePreview.gameObject.SetActive(true);
 		}
 	}
@@ -138,6 +140,7 @@ public class CacAttack : SpellModule
 	{
 		base.HidePreview();
 
+		print("hidePreview");
 		shapePreview.gameObject.SetActive(false);
 	}
 

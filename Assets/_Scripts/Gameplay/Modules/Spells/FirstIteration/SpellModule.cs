@@ -208,7 +208,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
-			HidePreview();
+			//HidePreview();
 			startCanalisation?.Invoke();
 
 			if (spell.canalysingStatus != null)
