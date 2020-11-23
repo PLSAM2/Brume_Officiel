@@ -25,31 +25,31 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += ShowPreview;
+				//myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInput += StartCanalysing;
 				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += ShowPreview;
+				//myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInput += StartCanalysing;
 				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += ShowPreview;
+				//myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInput += StartCanalysing;
 				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += ShowPreview;
+				//myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInput += StartCanalysing;
 				myPlayerModule.leftClickInputRealeased += ResolveAttack;
 				break;
 
 			case En_SpellInput.Ward:
-				myPlayerModule.wardInput += ShowPreview;
+				//myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInput += StartCanalysing;
 				myPlayerModule.wardInputReleased += ResolveAttack;
 				break;
@@ -66,31 +66,31 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= ShowPreview;
+				//myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInput -= StartCanalysing;
 				myPlayerModule.firstSpellInputRealeased -= ResolveAttack;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= ShowPreview;
+				//myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInput -= StartCanalysing;
 				myPlayerModule.secondSpellInputRealeased -= ResolveAttack;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= ShowPreview;
+			//	myPlayerModule.thirdSpellInput -= ShowPreview;
 				myPlayerModule.thirdSpellInput -= StartCanalysing;
 				myPlayerModule.thirdSpellInputRealeased -= ResolveAttack;
 				break;
 
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= ShowPreview;
+			//	myPlayerModule.leftClickInput -= ShowPreview;
 				myPlayerModule.leftClickInput -= StartCanalysing;
 				myPlayerModule.leftClickInputRealeased -= ResolveAttack;
 				break;
 
 			case En_SpellInput.Ward:
-				myPlayerModule.wardInput -= ShowPreview;
+			//	myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.wardInput -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= ResolveAttack;
 				break;
@@ -116,19 +116,17 @@ public class CacAttack : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		print("I UpdatePreview");
 
 		float distanceOfTheDash = 0;
 
 		if (AttackToResolve().movementOfTheCharacter != null)
 			distanceOfTheDash = AttackToResolve().movementOfTheCharacter.movementToApply.length;
 
-		shapePreview.Init(AttackToResolve().rangeOfTheAttack, AttackToResolve().angleToAttackFrom, 0, transform.position + transform.forward * distanceOfTheDash);
+		shapePreview.Init(AttackToResolve().rangeOfTheAttack, AttackToResolve().angleToAttackFrom, 0, Vector3.up*distanceOfTheDash);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
-		print("IsHowPReview");
 		base.ShowPreview(mousePos);
 		if (canBeCast())
 		{
@@ -138,14 +136,22 @@ public class CacAttack : SpellModule
 
 	protected override void HidePreview ()
 	{
-		print("hidePreview");
 		base.HidePreview();
-		if (canBeCast())
-		{
-			shapePreview.gameObject.SetActive(false);
-		}
+
+		shapePreview.gameObject.SetActive(false);
 	}
 
+	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		if(canBeCast())
+		{
+			ShowPreview(myPlayerModule.mousePos());
+			if (spell.lockRotOnCanalisation)
+				myPlayerModule.rotationLock(true);
+		}
+
+		base.StartCanalysing(_BaseMousePos);
+	}
 	//EFFET DU SORT
 	void ResolveAttack ( Vector3 _mousePos )
 	{
@@ -162,11 +168,11 @@ public class CacAttack : SpellModule
 			{
 				myPlayerModule.forcedMovementInterrupted += ResolveSlash;
 
-				if (spell.useLastRecordedMousePos)
+				/*if (spell.useLastRecordedMousePos)
 					myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
 				else
-					myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));
-
+					myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));*/
+				myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(transform.position + transform.forward, transform.position));
 			}
 		}
 	}
