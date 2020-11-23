@@ -108,7 +108,6 @@ public class DashModule : SpellModule
 		base.ShowPreview(mousePos);
 		if (canBeCast())
 		{
-			print("Ishow");
 			myPreviewArrow.gameObject.SetActive(true);
 		}
 	}
@@ -116,8 +115,6 @@ public class DashModule : SpellModule
 	protected override void HidePreview ()
 	{
 		base.HidePreview();
-		print("IHide");
-
 		myPreviewArrow.gameObject.SetActive(false);
 	}
 
