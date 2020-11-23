@@ -91,8 +91,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6620517674861165110}
-  - component: {fileID: 1619754614925010324}
-  - component: {fileID: 1192731755802598682}
   - component: {fileID: 5624599934099963903}
   - component: {fileID: 9188923623546187145}
   m_Layer: 20
@@ -117,35 +115,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1619754614925010324
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776885188641116624}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1192731755802598682
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776885188641116624}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &5624599934099963903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,17 +133,18 @@ MonoBehaviour:
   myteam: 0
   myNetworkObject: {fileID: 9188923623546187145}
   isOwner: 0
-  _myColl: {fileID: 1619754614925010324}
+  _myColl: {fileID: 0}
   damagesToDealOnImpact:
     damageHealth: 19
-    statusToApply: []
+    statusToApply: {fileID: 0}
+    movementToApply: {fileID: 0}
     playerName: 
   damagesToDealOnStay:
     damageHealth: 0
-    statusToApply:
-    - {fileID: 11400000, guid: d41d88530ae8344468071d4127573b0d, type: 2}
+    statusToApply: {fileID: 0}
+    movementToApply: {fileID: 0}
     playerName: 
-  mySpell: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
+  localTrad: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0

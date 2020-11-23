@@ -59,7 +59,7 @@ public class PlayerModule : MonoBehaviour
 	bool _isCrouched = false;
 	bool isCrouched
 
-	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { state |= En_CharacterState.Crouched; } else { state = (state & ~En_CharacterState.Crouched); } } }
+	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Canalysing); } else { RemoveState(En_CharacterState.Crouched); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
@@ -279,6 +279,7 @@ public class PlayerModule : MonoBehaviour
 		else
 			return;
 	}
+
 	private void FixedUpdate ()
 	{
 		if (!mylocalPlayer.isOwner)
@@ -297,7 +298,6 @@ public class PlayerModule : MonoBehaviour
 		TreatEffects();
 		TreatTickEffects();
 	}
-
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -504,6 +504,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
+
 	private EffectLifeTimed GetEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allEffectLive)
@@ -516,6 +517,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
+
 	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
@@ -574,7 +576,6 @@ public class PlayerModule : MonoBehaviour
 			allTickLive.Remove(_effect);
 	}
 
-
 	public void StopStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
@@ -594,7 +595,6 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
-
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
 	{
@@ -623,6 +623,15 @@ public class PlayerModule : MonoBehaviour
 			StopStatus(enteringBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
+	}
+
+	public void AddState(En_CharacterState _stateToadd)
+	{
+		state |= _stateToadd;
+	}
+	public void RemoveState( En_CharacterState _stateToRemove )
+	{
+		state = (state & ~_stateToRemove);
 	}
 }
 

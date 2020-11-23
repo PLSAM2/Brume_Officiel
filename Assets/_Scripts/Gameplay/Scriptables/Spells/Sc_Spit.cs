@@ -11,5 +11,7 @@ public class Sc_Spit : Sc_Spell
 	public AnimationCurve launchCurve;
 	public float timeToReachMaxRange;
 
-	public float durationOfTheAoe;
+	[Header("AoeParameters")]
+	public float durationOfTheAoe, aoeRadius;
+	public DamagesInfos damagesToDealOnImpact, damagesToDealOnDuration;
 }
