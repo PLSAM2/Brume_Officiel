@@ -247,10 +247,10 @@ public class CacAttack : SpellModule
 	//rajout des status 
 	protected override void ApplyStatusCanalisation ()
 	{
-		myPlayerModule.state |= En_CharacterState.Canalysing;
+		myPlayerModule.AddState(En_CharacterState.Canalysing);
 
 		if (localTrad.lockPosOnCanalisation)
-			myPlayerModule.state |= En_CharacterState.Root;
+			myPlayerModule.AddState(En_CharacterState.Root);
 	}
 
 	//on les clear
@@ -259,9 +259,10 @@ public class CacAttack : SpellModule
 		base.Interrupt();
 		//clear le canalysing et le root
 		#region
-		myPlayerModule.state = (myPlayerModule.state & ~En_CharacterState.Canalysing);
+			myPlayerModule.RemoveState(En_CharacterState.Root);
 
-			myPlayerModule.state = (myPlayerModule.state & ~En_CharacterState.Root);
+		if(spell.lockPosOnCanalisation)
+			myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 		#endregion
 	}
 
