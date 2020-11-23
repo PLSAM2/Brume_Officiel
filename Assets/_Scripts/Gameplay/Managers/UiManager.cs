@@ -294,7 +294,7 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    public void SetupIcon(Sc_Spell _spellAttached, En_SpellInput _input)
+    public void SetupIcon (Sc_Spell _spellAttached, En_SpellInput _input)
     {
         switch (_input)
         {
@@ -318,6 +318,34 @@ public class UiManager : MonoBehaviour
                 break;
             case En_SpellInput.Ward:
                 wardIcon.SetSprite(_spellAttached.spellIcon);
+                break;
+        }
+    }
+
+    public void LinkInputName ( En_SpellInput _input, string _name)
+	{
+        switch (_input)
+        {
+            case En_SpellInput.FirstSpell:
+                firstSpell.SetupInputName(_name);
+                break;
+
+            case En_SpellInput.SecondSpell:
+                secondSpell.SetupInputName(_name);
+                break;
+
+            case En_SpellInput.ThirdSpell:
+                thirdSpell.SetupInputName(_name);
+                break;
+
+            case En_SpellInput.Maj:
+                break;
+
+            case En_SpellInput.Click:
+                autoAttackIcon.SetupInputName(_name);
+                break;
+            case En_SpellInput.Ward:
+                wardIcon.SetupInputName(_name);
                 break;
         }
     }
@@ -395,7 +423,6 @@ public class UiManager : MonoBehaviour
     {
         brumeFilter.color = new Color(brumeFilter.color.r, brumeFilter.color.g, brumeFilter.color.b, value);
     }
-
 
     public void DisplayGeneralMessage(string value)
     {

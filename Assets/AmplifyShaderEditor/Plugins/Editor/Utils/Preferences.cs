@@ -24,13 +24,13 @@ namespace AmplifyShaderEditor
 		public static readonly string PrefAutoSRP = "ASEAutoSRP" + Application.productName;
 		public static bool GlobalAutoSRP = true;
 
-		private static readonly GUIContent UseMacros = new GUIContent( "Use Unity's sampling macros in SRP", "Setting this ON will force the code generation to use Unity's macros when sampling textures in SRP.\nThis macros ensures better compatibility between platforms but makes the code less readable." );
-		public static readonly string PrefUseMacros = "ASEUseMacros" + Application.productName;
-		public static bool GlobalUseMacros = false;
-
 		private static readonly GUIContent DefineSymbol = new GUIContent( "Add Amplify Shader Editor define symbol", "Turning it OFF will disable the automatic insertion of the define symbol and remove it from the list while turning it ON will do the opposite.\nThis is used for compatibility with other plugins, if you are not sure if you need this leave it ON." );
 		public static readonly string PrefDefineSymbol = "ASEDefineSymbol" + Application.productName;
 		public static bool GlobalDefineSymbol = true;
+
+		private static readonly GUIContent ClearLog = new GUIContent( "Clear Log on Update", "Clears the previously generated log each time the Update button is pressed" );
+		public static readonly string PrefClearLog = "ASEClearLog" + Application.productName;
+		public static bool GlobalClearLog = true;
 
 		private static bool PrefsLoaded = false;
 
@@ -64,7 +64,7 @@ namespace AmplifyShaderEditor
 			var cache = EditorGUIUtility.labelWidth;
 			EditorGUIUtility.labelWidth = 250;
 			EditorGUI.BeginChangeCheck();
-			GlobalStartUp = (ShowOption) EditorGUILayout.EnumPopup( StartUp, GlobalStartUp );
+			GlobalStartUp = (ShowOption)EditorGUILayout.EnumPopup( StartUp, GlobalStartUp );
 			if( EditorGUI.EndChangeCheck() )
 			{
 				EditorPrefs.SetInt( PrefStartUp, (int)GlobalStartUp );
@@ -78,17 +78,6 @@ namespace AmplifyShaderEditor
 			}
 
 			EditorGUI.BeginChangeCheck();
-			GlobalUseMacros = EditorGUILayout.Toggle( UseMacros, GlobalUseMacros );
-			if( EditorGUI.EndChangeCheck() )
-			{
-				EditorPrefs.SetBool( PrefUseMacros, GlobalUseMacros );
-				if( UIUtils.CurrentWindow != null )
-				{
-					UIUtils.CurrentWindow.CurrentGraph.SamplingThroughMacros = GlobalUseMacros;
-				}
-			}
-
-			EditorGUI.BeginChangeCheck();
 			GlobalDefineSymbol = EditorGUILayout.Toggle( DefineSymbol, GlobalDefineSymbol );
 			if( EditorGUI.EndChangeCheck() )
 			{
@@ -99,6 +88,14 @@ namespace AmplifyShaderEditor
 					IOUtils.RemoveAmplifyDefineSymbolOnBuildTargetGroup( EditorUserBuildSettings.selectedBuildTargetGroup );
 			}
 
+			EditorGUI.BeginChangeCheck();
+			GlobalClearLog = EditorGUILayout.Toggle( ClearLog, GlobalClearLog );
+			if( EditorGUI.EndChangeCheck() )
+			{
+				EditorPrefs.SetBool( PrefClearLog, GlobalClearLog );
+			}
+
+
 			EditorGUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			if( GUILayout.Button( "Reset and Forget All" ) )
@@ -108,17 +105,13 @@ namespace AmplifyShaderEditor
 
 				EditorPrefs.DeleteKey( PrefAutoSRP );
 				GlobalAutoSRP = true;
-				
-				EditorPrefs.DeleteKey( PrefUseMacros );
-				GlobalUseMacros = false;
-				if( UIUtils.CurrentWindow != null )
-				{
-					UIUtils.CurrentWindow.CurrentGraph.SamplingThroughMacros = false;
-				}
 
 				EditorPrefs.DeleteKey( PrefDefineSymbol );
 				GlobalDefineSymbol = true;
 				IOUtils.SetAmplifyDefineSymbolOnBuildTargetGroup( EditorUserBuildSettings.selectedBuildTargetGroup );
+
+				EditorPrefs.DeleteKey( PrefClearLog );
+				GlobalClearLog = true;
 			}
 			EditorGUILayout.EndHorizontal();
 			EditorGUIUtility.labelWidth = cache;
@@ -126,9 +119,8 @@ namespace AmplifyShaderEditor
 
 		public static void LoadDefaults()
 		{
-			GlobalStartUp = (ShowOption) EditorPrefs.GetInt( PrefStartUp, 0 );
+			GlobalStartUp = (ShowOption)EditorPrefs.GetInt( PrefStartUp, 0 );
 			GlobalAutoSRP = EditorPrefs.GetBool( PrefAutoSRP, true );
-			GlobalUseMacros = EditorPrefs.GetBool( PrefUseMacros, false );
 			GlobalDefineSymbol = EditorPrefs.GetBool( PrefDefineSymbol, true );
 		}
 	}

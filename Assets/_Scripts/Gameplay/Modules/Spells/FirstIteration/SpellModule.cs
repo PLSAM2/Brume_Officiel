@@ -57,13 +57,14 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
+		UiManager.Instance.SetupIcon(spell, _actionLinked);
+
 		actionLinked = _actionLinked;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			LinkInput(_actionLinked);
 
-			UiManager.Instance.SetupIcon(spell, actionLinked);
 			timeToResolveSpell = spell.canalisationTime;
 			charges = spell.numberOfCharge;
 
@@ -188,6 +189,9 @@ public class SpellModule : MonoBehaviour
 
 		if (charges < spell.numberOfCharge && !isUsed)
 			DecreaseCooldown();
+
+		if (showingPreview)
+			UpdatePreview();
 	}
 
 	protected virtual void TreatNormalCanalisation ()
@@ -205,6 +209,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			//HidePreview();
 			startCanalisation?.Invoke();
 
 			if (spell.canalysingStatus != null)

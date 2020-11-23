@@ -6,7 +6,7 @@ using UnityEngine;
 public class Module_Spit : SpellModule
 {
 
-    public GameObject spitPrefab;
+    public GameObject spitTravelPrefab;
     [HideInInspector] public GameObject spitObj;
     public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
     public float distanceMaxBeforeEndTravel = 0.01f;
@@ -24,7 +24,7 @@ public class Module_Spit : SpellModule
     {
         localTrad = spell as Sc_Spit;
 
-        spitObj = Instantiate(spitPrefab, Vector3.zero, Quaternion.identity);
+        spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
         spitObj.SetActive(false);
         animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
         spitObj.SetActive(false);

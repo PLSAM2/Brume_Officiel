@@ -6,10 +6,11 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    [SerializeField] Team myTeam;
+    [SerializeField] Transform target;
 
-    void Start()
+    private void Update()
     {
-        GetComponent<Image>().color = GameFactory.GetColorTeam(myTeam);
+        transform.LookAt(target);
+        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
     }
 }

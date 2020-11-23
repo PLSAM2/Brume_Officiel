@@ -23,14 +23,14 @@ MonoBehaviour:
   resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
-  useLastRecordedMousePos: 0
+  useLastRecordedMousePos: 1
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
   timeToCanalyseToUpgrade: 0.5
   timeToForceResolve: 0
   normalAttack:
     angleToAttackFrom: 90
     rangeOfTheAttack: 3
-    movementOfTheCharacter: {fileID: 0}
+    movementOfTheCharacter: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
     damagesToDeal:
       damageHealth: 5
       statusToApply: {fileID: 0}
@@ -38,10 +38,10 @@ MonoBehaviour:
       playerName: 
   upgradedAttack:
     angleToAttackFrom: 90
-    rangeOfTheAttack: 3
+    rangeOfTheAttack: 5
     movementOfTheCharacter: {fileID: 0}
     damagesToDeal:
-      damageHealth: 0
-      statusToApply: {fileID: 0}
+      damageHealth: 7
+      statusToApply: {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
       movementToApply: {fileID: 0}
       playerName: 

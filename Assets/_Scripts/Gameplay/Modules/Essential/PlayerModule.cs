@@ -166,10 +166,18 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
+	
 		state = En_CharacterState.Clear;
 
 		if (mylocalPlayer.isOwner)
 		{
+
+			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
+			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, firstSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
+
 			mapIcon.color = Color.blue;
 
 			//modulesPArt
@@ -221,11 +229,11 @@ public class PlayerModule : MonoBehaviour
 
 			if (Input.GetKeyUp(firstSpellKey))
 				firstSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(secondSpellKey))
+			else if (Input.GetKeyUp(secondSpellKey))
 				secondSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(thirdSpellKey))
+			else if (Input.GetKeyUp(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(wardKey))
+			else if (Input.GetKeyUp(wardKey))
 				wardInputReleased?.Invoke(mousePos());
 			else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
 			{
@@ -278,6 +286,8 @@ public class PlayerModule : MonoBehaviour
 			return;
 		else
 		{
+	
+
 			if (_oldState != state)
 			{
 				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
