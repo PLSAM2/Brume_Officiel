@@ -64,7 +64,6 @@ public class EnemyDisplayer : MonoBehaviour
                     if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform) && 
                         GameManager.Instance.visiblePlayer[player.Value.transform] == fowType.ward)
                     {
-                        print("outline");
                         ShowOutline(player.Value);
                         continue;
                     }
@@ -85,7 +84,6 @@ public class EnemyDisplayer : MonoBehaviour
                     if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
                     {
                         HideOrShow(player.Value, true);
-                        print("ici");
                     }
                     else
                     {
