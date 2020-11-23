@@ -35,7 +35,7 @@ public class MovementModule : MonoBehaviour
         {
 			isAGhost = true;
 		}
-
+		print("hey");
         if (isAGhost)
         {
 			myPlayerModule = GetComponent<Ghost>().playerModule;
@@ -64,6 +64,11 @@ public class MovementModule : MonoBehaviour
 
 	void OnDisable ()
 	{
+        if (myPlayerModule == null)
+        {
+			return;
+        }
+
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myPlayerModule.DirectionInputedUpdate -= Move;
@@ -99,14 +104,14 @@ public class MovementModule : MonoBehaviour
 				return;
 			}
 
-			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
+			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
 				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
 			else
 				ForcedMovementTouchObstacle();
 		}
 		//movement normal
-		else if (_directionInputed != Vector3.zero && canMove())
+		else if (_directionInputed != Vector3.zero && CanMove())
 		{
 			//Mouvement Modifier via bool
 			/*if (running == true)
@@ -131,7 +136,7 @@ public class MovementModule : MonoBehaviour
 				else
 				{*/
 			//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
-			chara.Move(_directionInputed * liveMoveSpeed() * Time.deltaTime);
+			chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
 			//	}
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
@@ -222,14 +227,14 @@ public class MovementModule : MonoBehaviour
 
 		if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
 		{
-			if (isFree(_aVector, movementBlockingLayer, collider.radius))
+			if (IsFree(_aVector, movementBlockingLayer, collider.radius))
 				return _aVector;
 			else
 				return Vector3.zero;
 		}
 		else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
 		{
-			if (isFree(_bVector, movementBlockingLayer, collider.radius))
+			if (IsFree(_bVector, movementBlockingLayer, collider.radius))
 			{
 				return _bVector;
 			}
@@ -241,7 +246,7 @@ public class MovementModule : MonoBehaviour
 
 	}
 
-	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
+	public bool IsFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
 	{
 		if (CastSphereAll(_direction, _layerTocheck, _maxRange) != null)
 			return false;
@@ -249,8 +254,11 @@ public class MovementModule : MonoBehaviour
 			return true;
 	}
 
-	bool canMove ()
+	bool CanMove ()
 	{
+		if (isAGhost)
+			return true;
+
 		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement != null)
 		{
 			return false;
@@ -259,7 +267,7 @@ public class MovementModule : MonoBehaviour
 			return true;
 	}
 
-	float liveMoveSpeed ()
+	float LiveMoveSpeed ()
 	{
 		float _worstMalus = 0;
 		float _allBonuses = 0;

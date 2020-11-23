@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Ground
   m_Shader: {fileID: 4800000, guid: 8ad3f3afb8880324fb0008b6c5bec989, type: 3}
-  m_ShaderKeywords: _MOVINGGRAIN_ON _SPECULAR_ON
+  m_ShaderKeywords: _ANIMATED_ON _BETWEENFULLLOWANDHIGH05_ON _MOVINGGRAIN_ON _OPACITY05_ON
+    _SPECULAR_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BrumeTexture:
+        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -47,6 +52,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 2800000, guid: f4a8a61c2f245df47a0743cdab8f52da, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _GroundMask_Texture:
         m_Texture: {fileID: 2800000, guid: 49bd8c401abf6944f8c5bcb3430bc9c3, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -54,6 +63,10 @@ Material:
     - _GroundTexture_Albedo:
         m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _InBrumeGroundTexture_Albedo:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _Ink_Texture:
         m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
@@ -65,6 +78,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Texture:
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Albedo_Texture:
@@ -91,6 +108,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OutBrumeGroundTexture_Albedo:
+        m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _PaperGrunge_Texture:
         m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -108,7 +129,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Animated: 1
+    - _BetweenFullLowAndHigh05: 1
     - _BumpScale: 1
+    - _ColorLevel: 1
     - _CustomWorldSpaceNormal: 0
     - _CustomWorldSpaceNormal1: 0
     - _Cutoff: 0.5
@@ -128,6 +152,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GroundColor: 0
+    - _InBrumeGroundColor: 0
     - _InBrume_Contrast: 1
     - _InOutBrumeTransition: 0
     - _InOutBrumeTransition1: 0
@@ -140,6 +165,9 @@ Material:
     - _Noise_Tiling: 2
     - _Noise_Tiling1: 10
     - _OcclusionStrength: 1
+    - _Opacity05: 1
+    - _OpacityLevel: 1
+    - _OutBrumeGroundColor: 0
     - _PaperGrunge_Tiling: 1
     - _PaperMultiply: 1.58
     - _Parallax: 0.02
@@ -150,6 +178,9 @@ Material:
     - _RougnessColor: 0
     - _ScreenBasedNoise: 0
     - _ScreenBasedNoise1: 0
+    - _ShadowOutBrume_Details: 0.95
+    - _ShadowOutBrume_SmoothstepMax: 0.36
+    - _ShadowOutBrume_SmoothstepMin: 0.05
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
@@ -162,11 +193,16 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
+    - _distancePlane: 0
     - _isPlayerInBrume: 0
+    - _scale: 0.15
     m_Colors:
+    - _BrumeColorHigh: {r: 0, g: 0, b: 0, a: 0}
+    - _BrumeColorLow: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.46858314, g: 0.4936178, b: 0.509434, a: 0}
     - _ColorCorrection_Multiply: {r: 1, g: 1, b: 1, a: 0}
+    - _DistortSpeed: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Ground_Color: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 0}
     - _InBrume_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -176,5 +212,7 @@ Material:
     - _RimLightColor: {r: 1, g: 0, b: 0, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _ShadowColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
+    - _ShadowInBrume_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowOutBrume_Color: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
   m_BuildTextureStacks: []
