@@ -261,7 +261,6 @@ public class CacAttack : SpellModule
 		#region
 		myPlayerModule.state = (myPlayerModule.state & ~En_CharacterState.Canalysing);
 
-		if (localTrad.lockPosOnCanalisation)
 			myPlayerModule.state = (myPlayerModule.state & ~En_CharacterState.Root);
 		#endregion
 	}

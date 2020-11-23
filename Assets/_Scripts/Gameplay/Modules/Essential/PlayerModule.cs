@@ -203,8 +203,6 @@ public class PlayerModule : MonoBehaviour
 			//rot player
 			LookAtMouse();
 
-			//direction des fleches du clavier 
-			DirectionInputedUpdate?.Invoke(directionInputed());
 
 			//INPUT DETECTION SPELLS AND RUNNING
 			#region
@@ -285,6 +283,9 @@ public class PlayerModule : MonoBehaviour
 			return;
 		else
 		{
+			//direction des fleches du clavier 
+			DirectionInputedUpdate?.Invoke(directionInputed());
+
 			if (_oldState != state)
 			{
 				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
