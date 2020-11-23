@@ -135,12 +135,8 @@ public class LocalPlayer : MonoBehaviour
     Vector3 oldPos;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K) && isOwner)
-        {
-            DamagesInfos _temp = new DamagesInfos();
-            _temp.damageHealth = 100;
-            DealDamages(_temp,transform.position);
-        }
+        //
+        Debug();
 
         //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
@@ -161,6 +157,21 @@ public class LocalPlayer : MonoBehaviour
             myAnimator.SetFloat("Turn", Mathf.Lerp(myAnimator.GetFloat("Turn"), right, Time.deltaTime * 30));
 
             oldPos = transform.position;
+        }
+    }
+
+    void Debug()
+    {
+        if (Input.GetKeyDown(KeyCode.K) && isOwner)
+        {
+            DamagesInfos _temp = new DamagesInfos();
+            _temp.damageHealth = 100;
+            DealDamages(_temp, transform.position);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P) && isOwner)
+        {
+            transform.position = (GameManager.Instance.spawns[GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)])[0].transform.position;
         }
     }
 
