@@ -23,6 +23,8 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     public List<KeyGameObjectPair> poolParents = new List<KeyGameObjectPair>();
     [ReadOnly] public GameObject lastGOInstantiate;
 
+    private ushort lastNetworkedObjId = 0;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -121,19 +123,50 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         return newobj;
     }
 
+
+
+    public ushort GenerateUniqueObjID()
+    {
+        int _temp = 0;
+        lastNetworkedObjId++;
+        _temp = (lastNetworkedObjId * 10) + RoomManager.Instance.GetLocalPlayerUniqueID();
+
+        return (ushort)_temp;
+    }
+
+
     /// <summary>
     /// Use linq / Not efficient in Update
     /// </summary>
     /// <param name="networkedObjectID"></param>
     /// <param name="position"></param>
     /// <param name="eulerAngles"></param>
-    public void NetworkInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles)
+    public GameObject NetworkInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles)
     {
+
+        GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
+
+        ushort uniqueObjId = GenerateUniqueObjID();
+
+        _tempObject.transform.position = position;
+        _tempObject.transform.rotation = Quaternion.Euler(eulerAngles);
+        NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
+        networkedObject.Init(uniqueObjId, RoomManager.Instance.GetLocalPlayer(), networkedObjectID);
+        NetworkedObjectAdded(uniqueObjId, networkedObject);
+        _tempObject.SetActive(true);
+
+
+        if (_tempObject.GetComponent<Projectile>() != null)
+        {
+            _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetLocalPlayer().playerTeam);
+        }
+
         // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
+            writer.Write(uniqueObjId);
 
             writer.Write(position.x);
             writer.Write(position.y);
@@ -146,13 +179,18 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             using (Message message = Message.Create(Tags.InstantiateObject, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
+
+
+        return _tempObject;
     }
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
     {
+
+        Debug.Log("yayayay");
         ushort _ownerID;
         ushort _objectID;
-        ushort _lastObjId;
+        ushort _uniqueObjId;
         Vector3 _ObjectPos = new Vector3(0, 0, 0);
         Vector3 _ObjectRotation = new Vector3(0, 0, 0);
 
@@ -162,6 +200,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             {
                 _ownerID = reader.ReadUInt16();
                 _objectID = reader.ReadUInt16();
+                _uniqueObjId = reader.ReadUInt16();
 
                 _ObjectPos.x = reader.ReadSingle();
                 _ObjectPos.y = reader.ReadSingle();
@@ -170,9 +209,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _ObjectRotation.x = reader.ReadSingle();
                 _ObjectRotation.y = reader.ReadSingle();
                 _ObjectRotation.z = reader.ReadSingle();
-
-
-                _lastObjId = reader.ReadUInt16();
             }
         }
 
@@ -180,20 +216,14 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         _tempObject.transform.position = _ObjectPos;
         _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
-        networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID);
-        NetworkedObjectAdded(_lastObjId, networkedObject);
+        networkedObject.Init(_uniqueObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID);
+        NetworkedObjectAdded(_uniqueObjId, networkedObject);
         _tempObject.SetActive(true);
-
 
         if (_tempObject.GetComponent<Projectile>() != null)
         {
             _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
         }
-
-        //GameObject _tempObject = Instantiate(networkedObjectsList.networkObjects.Where(x => x.Key == _objectID).FirstOrDefault().gameObject, _ObjectPos, Quaternion.Euler(_ObjectRotation));
-        //NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
-        //networkedObject.Init(_lastObjId, RoomManager.Instance.actualRoom.playerList[_ownerID]);
-        //NetworkedObjectAdded(_lastObjId, networkedObject);
     }
 
     public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)

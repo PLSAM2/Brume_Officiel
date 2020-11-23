@@ -121,7 +121,7 @@ public class Module_Spit : SpellModule
                 }
             }
 
-            NetworkObjectsManager.Instance.NetworkInstantiate(localTrad.onImpactInstantiate.myNetworkObject.objListKey, destination, Vector3.zero);
+            NetworkObjectsManager.Instance.NetworkInstantiate(localTrad.onImpactInstantiate.myNetworkObject.GetObjInstantiateID(), destination, Vector3.zero);
         }
     }
 }

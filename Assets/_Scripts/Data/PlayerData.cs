@@ -6,7 +6,8 @@ using static GameData;
 [Serializable]
 public class PlayerData : IDarkRiftSerializable
 {
-   [SerializeField] public ushort ID { get; set; }
+    public ushort ID { get; set; }
+    public ushort InGameUniqueID { get; set; }
     public bool IsHost { get; set; }
     public string Name { get; set; }
     public bool IsReady { get; set; }

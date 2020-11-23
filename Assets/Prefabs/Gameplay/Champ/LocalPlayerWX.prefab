@@ -16,11 +16,12 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   resolved: 0
-  spell: {fileID: 11400000, guid: f887d23f737a585438fc258bf283d8a1, type: 2}
+  spell: {fileID: 11400000, guid: 107893b2a050e4c4984a5f0a93ff0697, type: 2}
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
   particleResolution: []
+  ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
 --- !u!114 &3531483061060426797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,12 +38,15 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   resolved: 0
-  spell: {fileID: 11400000, guid: 34ffa2926f87c9446a439d09f5b46f82, type: 2}
+  spell: {fileID: 11400000, guid: 66a92edbef38c6741b03be3e50a08a26, type: 2}
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
   particleResolution: []
-  indexOfTheShotProjectileBlue: 16
+  soulburstPrefab: {fileID: 8724460869845800598, guid: 775690895a3642b4a94973f6628c3080, type: 3}
+  speed: 5
+  maxRange: 5
+  explodeRange: 1
 --- !u!114 &4933660271494748642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,7 +63,7 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   resolved: 0
-  spell: {fileID: 0}
+  spell: {fileID: 11400000, guid: f887d23f737a585438fc258bf283d8a1, type: 2}
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
@@ -95,7 +99,7 @@ MonoBehaviour:
   movementPart: {fileID: 7156413905369074569}
   firstSpell: {fileID: 3531483061060426797}
   secondSpell: {fileID: 3531483061060426797}
-  thirdSpell: {fileID: 3531483061060426797}
+  thirdSpell: {fileID: 2195098234085196020}
   leftClick: {fileID: 3531483061060426797}
   ward: {fileID: 8913684591376409635}
   coll: {fileID: 6959883921923715229}
@@ -107,7 +111,6 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
   isPoisonousEffectActive: 0
-  playerSoulsCharge: 0
   altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!114 &5536350898603478200
 MonoBehaviour:

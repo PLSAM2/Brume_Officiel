@@ -2,6 +2,7 @@
 using DarkRift.Client;
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("ActualGameInfo")]
     public int roundCount = 0;
-
+    public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
 
     private void Awake()
     {
@@ -65,9 +66,13 @@ public class RoomManager : MonoBehaviour
             {
                 NewRoundInServer(sender, e);
             }
-
+            if (message.Tag == Tags.SetInGameUniqueID)
+            {
+                SetInGameUniqueIDInServer(sender, e);
+            }
         }
     }
+
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
         StartNewRound();
@@ -150,6 +155,29 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    private void SetInGameUniqueIDInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort temp = 0;
+                ushort[] _IDs = reader.ReadUInt16s();
+
+                foreach (ushort id in _IDs)
+                {
+                    temp++;
+                    InGameUniqueIDList.Add(id, temp);
+                }
+            }
+        }
+    }
+
+    public ushort GetLocalPlayerUniqueID()
+    {
+        return InGameUniqueIDList[GetLocalPlayer().ID];
+    }
+
     public void ResetActualGame()
     {
         actualRoom.scores[Team.red] = 0;
@@ -157,25 +185,6 @@ public class RoomManager : MonoBehaviour
 
         roundCount = 0;
     }
-
-    //public void QuitGame()
-    //{
-    //    using (DarkRiftWriter writer = DarkRiftWriter.Create())
-    //    {
-    //        writer.Write(actualRoom.ID);
-    //        print("Quit");
-    //        using (Message message = Message.Create(Tags.QuitGame, writer))
-    //            client.SendMessage(message, SendMode.Reliable);
-    //    }
-
-    //    ResetActualGame();
-    //}
-
-    //private void QuitGameInServer(object sender, MessageReceivedEventArgs e)
-    //{       
-    //    SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
-    //}
-
 
     public void ResetPlayersReadyStates()
     {

@@ -132,29 +132,34 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    Vector3 oldPos;
     private void Update()
     {
-        //
         Debug();
 
-        //  transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        DoAnimation();
+    }
 
+    Vector3 oldPos;
+    [SerializeField] float speedAnim = 30;
+    private void DoAnimation()
+    {
         if (!isOwner)
         {
-            float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-            float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+            float velocityX = (transform.position.x - oldPos.x) / Time.fixedDeltaTime;
+            float velocityZ = (transform.position.z - oldPos.z) / Time.fixedDeltaTime;
 
-            velocityX = Mathf.Clamp(velocityX, -1, 1);
-            velocityZ = Mathf.Clamp(velocityZ, -1, 1);
+            float speed = myPlayerModule.characterParameters.movementParameters.movementSpeed;
+
+            velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
+            velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
 
             Vector3 pos = new Vector3(velocityX, 0, velocityZ);
 
             float right = Vector3.Dot(transform.right, pos);
             float forward = Vector3.Dot(transform.forward, pos);
 
-            myAnimator.SetFloat("Forward", Mathf.Lerp(myAnimator.GetFloat("Forward"), forward, Time.deltaTime * 30));
-            myAnimator.SetFloat("Turn", Mathf.Lerp(myAnimator.GetFloat("Turn"), right, Time.deltaTime * 30));
+            myAnimator.SetFloat("Forward", forward);
+            myAnimator.SetFloat("Turn", right);
 
             oldPos = transform.position;
         }
