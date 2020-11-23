@@ -7,6 +7,7 @@ public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
 	ShapePreview shapePreview;
+	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack -  localTrad.normalAttack.rangeOfTheAttack ;
 
 	private void Awake ()
 	{
@@ -122,7 +123,7 @@ public class CacAttack : SpellModule
 		if (AttackToResolve().movementOfTheCharacter != null)
 			distanceOfTheDash = AttackToResolve().movementOfTheCharacter.movementToApply.length;
 
-		shapePreview.Init(AttackToResolve().rangeOfTheAttack, AttackToResolve().angleToAttackFrom, 0, Vector3.up*distanceOfTheDash);
+		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.up*distanceOfTheDash);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
@@ -180,6 +181,11 @@ public class CacAttack : SpellModule
 		}
 	}
 
+	float FinalRange()
+	{
+		return localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(currentTimeCanalised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
+	}
+
 	void ResolveSlash ()
 	{
 		CacAttackParameters _trad =	AttackToResolve();
@@ -200,10 +206,10 @@ public class CacAttack : SpellModule
 			_angle++;
 
 			Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, _trad.rangeOfTheAttack, 1 << 8);
+			RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(), 1 << 8);
 
 			Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			Debug.DrawRay(_ray.origin, _debugRay.direction * _trad.rangeOfTheAttack, Color.red, 5);
+			Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(), Color.red, 5);
 
 			//verif que le gameobject est pas deja dansa la liste
 			for (int j = 0; j < _allhits.Length; j++)

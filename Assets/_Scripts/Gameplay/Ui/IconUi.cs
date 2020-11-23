@@ -60,8 +60,6 @@ public class IconUi : MonoBehaviour
 	}
 	public void SetupInputName(string _name)
 	{
-		print(_name);
-
 		input.text = _name;
 	}
 }
