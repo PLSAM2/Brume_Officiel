@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &598244770747154043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1572485409708721017}
+  particleResolution: []
+  indexOfTheShotProjectileBlue: 14
 --- !u!114 &3038193427288463681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,7 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d788e522d264d44b02d1e8e0e6ab96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSpellKey: 324
+  firstSpellKey: 97
   secondSpellKey: 32
   thirdSpellKey: 101
   freeCamera: 308
@@ -29,10 +51,10 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 983172405252139301}
   movementPart: {fileID: 1743416214871874484}
-  firstSpell: {fileID: 7172627324770753700}
-  secondSpell: {fileID: 0}
+  firstSpell: {fileID: 598244770747154043}
+  secondSpell: {fileID: 5100041963116749380}
   thirdSpell: {fileID: 0}
-  leftClick: {fileID: 7741952678688272578}
+  leftClick: {fileID: 6122503958538356117}
   ward: {fileID: 59302847324730398}
   coll: {fileID: 2015099999550939296}
   mylocalPlayer: {fileID: 0}
@@ -43,73 +65,6 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 0}
   isPoisonousEffectActive: 0
---- !u!114 &7172627324770753700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f785c0aa662794781f7786854f00d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 01d2cdaea8e49844e8e52cc1fb3db077, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1988931082855780560}
-  particleResolution: []
---- !u!114 &7741952678688272578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f785c0aa662794781f7786854f00d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 459e4d2007775ee4ab09596231b945ac, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1988931082855780560}
-  particleResolution: []
---- !u!114 &8869647529131433569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 834e563613a033248931fbd987fecf65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
-  particleResolution: []
-  spitPrefab: {fileID: 6421260997992176977, guid: 4acb6614bf5e84342bd5d5c637a87db2, type: 3}
-  spitObj: {fileID: 0}
-  deceleratedRatio: 1
-  distanceMaxBeforeEndTravel: 0.01
 --- !u!114 &5100041963116749380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,10 +86,29 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
   particleResolution: []
-  mylineRender: {fileID: 0}
-  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
-  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
   usingKeyboardInput: 0
+--- !u!114 &6122503958538356117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1572485409708721017}
+  particleResolution: []
+  indexOfTheShotProjectileBlue: 12
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -201,7 +175,7 @@ PrefabInstance:
     - target: {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: leftClick
       value: 
-      objectReference: {fileID: 7741952678688272578}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 2026548338358286537, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -239,13 +213,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90a70e44b85c9f4e87e8990786d246c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!198 &1988931082855780560 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8162580461717235990, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7700405388288014790}
-  m_PrefabAsset: {fileID: 0}
 --- !u!212 &983172405252139301 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1572485409708721017 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9155750701237107391, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}

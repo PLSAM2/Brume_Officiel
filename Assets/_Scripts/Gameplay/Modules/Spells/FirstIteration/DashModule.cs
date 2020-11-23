@@ -6,6 +6,7 @@ using UnityEngine;
 public class DashModule : SpellModule
 {
 	public bool usingKeyboardInput;
+	ArrowPreview myPreviewArrow;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -14,6 +15,8 @@ public class DashModule : SpellModule
 		{
 			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 		}
+		myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
+		HidePreview();
 	}
 
 	protected override void Disable ()
@@ -99,4 +102,33 @@ public class DashModule : SpellModule
 		else
 			return base.canBeCast();
 	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+		if (canBeCast())
+		{
+			print("Ishow");
+			myPreviewArrow.gameObject.SetActive(true);
+		}
+	}
+
+	protected override void HidePreview ()
+	{
+		base.HidePreview();
+		print("IHide");
+
+		myPreviewArrow.gameObject.SetActive(false);
+	}
+
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
+
+		if (spell.useLastRecordedMousePos)
+			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(lastRecordedDirection) * spell.range), .1f);
+		else
+			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range), .1f);
+	}
+
 }

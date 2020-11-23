@@ -188,6 +188,9 @@ public class SpellModule : MonoBehaviour
 
 		if (charges < spell.numberOfCharge && !isUsed)
 			DecreaseCooldown();
+
+		if (showingPreview)
+			UpdatePreview();
 	}
 
 	protected virtual void TreatNormalCanalisation ()
@@ -205,6 +208,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			HidePreview();
 			startCanalisation?.Invoke();
 
 			if (spell.canalysingStatus != null)

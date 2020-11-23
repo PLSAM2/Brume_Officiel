@@ -220,11 +220,11 @@ public class PlayerModule : MonoBehaviour
 
 			if (Input.GetKeyUp(firstSpellKey))
 				firstSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(secondSpellKey))
+			else if (Input.GetKeyUp(secondSpellKey))
 				secondSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(thirdSpellKey))
+			else if (Input.GetKeyUp(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyDown(wardKey))
+			else if (Input.GetKeyUp(wardKey))
 				wardInputReleased?.Invoke(mousePos());
 			else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
 			{
