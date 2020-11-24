@@ -102,11 +102,11 @@ public class CacAttack : SpellModule
 	{
 		base.FixedUpdate();
 
-		/*if (currentTimeCanalised >= localTrad.timeToForceResolve)
+		if (currentTimeCanalised >= localTrad.timeToForceResolve)
 		{
 			ResolveAttack(myPlayerModule.mousePos());
 		}
-		*/
+		
 		if (showingPreview)
 		{
 			UpdatePreview();
