@@ -155,6 +155,7 @@ public class MovementModule : MonoBehaviour
 		_temp.baseDuration = infos.baseDuration;
 		_temp.strength = infos.strength;
 		_temp.myModule = myPlayerModule;
+		_temp.speedEvolution = infos.speedEvolution;
 		currentForcedMovement = _temp;
 	}
 
