@@ -17,6 +17,26 @@ public class FootstepAudio : MonoBehaviour
     [SerializeField] float minTime = 0.1f;
     [SerializeField] float maxTime = 0.3f;
 
+    private void Start()
+    {
+        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume;
+    }
+
+    private void OnEnable()
+    {
+        AudioManager.Instance.OnVolumeChange += ChangeVolume;
+    }
+
+    private void OnDisable()
+    {
+        AudioManager.Instance.OnVolumeChange -= ChangeVolume;
+    }
+
+    private void ChangeVolume(float _volume)
+    {
+        myAudioSource.volume = _volume;
+    }
+
     // Update is called once per frame
     void Update()
     {
