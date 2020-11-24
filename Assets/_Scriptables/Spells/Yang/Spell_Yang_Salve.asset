@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_Perso1_AutoAttack
+  m_Name: Spell_Yang_Salve
   m_EditorClassIdentifier: 
-  canalisationTime: 0.2
-  range: 5.5
-  cooldown: 1
+  canalisationTime: 0.1
+  range: 4
+  cooldown: 5
   numberOfCharge: 1
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
   forbiddenState: 56
-  canalysingStatus: {fileID: 11400000, guid: b8f60be7f55ce564fa24db67e92c5f92, type: 2}
+  canalysingStatus: {fileID: 11400000, guid: 2911c36520ff84f4ca1c445b39fa0ed2, type: 2}
   resolusionStatus: {fileID: 0}
   canCancel: 0
   mustUseACollFreePos: 0
@@ -27,20 +27,20 @@ MonoBehaviour:
   spellIcon: {fileID: 21300000, guid: ac378749b253b074b932b863293d0f7f, type: 3}
   damagesToDeal:
     damageHealth: 5
-    statusToApply: []
+    statusToApply: {fileID: 0}
+    movementToApply: {fileID: 0}
     playerName: 
-  prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
-  onHitForcedMovementToApply: {fileID: 0}
+  prefab: {fileID: 1384060272247584325, guid: cabcb872d257ca144a957fd55cd1cfbe, type: 3}
   _reduceCooldowns: 0
-  offSet: 0
+  offSet: 0.5
   salveInfos:
-    NumberOfSalve: 3
-    numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.2
-    timeToResolveTheSalve: 0.4
-  isMultiple: 0
-  angleToSplit: 0
-  cooldownReduction: 1
+    NumberOfSalve: 1
+    numberOfShotInSalve: 9
+    timeToReachMaxRange: 0.03
+    timeToResolveTheSalve: 0.05
+  isMultiple: 1
+  angleToSplit: 120
+  cooldownReduction: 0
   bonusShot: 0
-  bonusSalve: 1
+  bonusSalve: 0
   durationAdded: 0
