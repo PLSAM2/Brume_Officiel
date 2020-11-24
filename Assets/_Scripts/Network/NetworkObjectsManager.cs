@@ -263,6 +263,8 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         if (!instantiatedObjectsList.ContainsKey(_objectID))
             return;
 
+        instantiatedObjectsList[_objectID].SetPosition(_newObjectPos);
+        
         if (_synchroniseRotation)
         {
             instantiatedObjectsList[_objectID].transform.rotation = Quaternion.Euler(_newObjectRotation);
