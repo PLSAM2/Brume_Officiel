@@ -6,6 +6,7 @@ using UnityEngine;
 public class DashModule : SpellModule
 {
 	public bool usingKeyboardInput = true;
+	public AnimationCurve speedEvolution;
 	ArrowPreview myPreviewArrow;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -79,6 +80,9 @@ public class DashModule : SpellModule
 			else
 				dashInfos.direction = myPlayerModule.mousePos() - transform.position;
 		}
+		dashInfos.speedEvolution = speedEvolution;
+		dashInfos.baseDuration = dashInfos.duration;
+
 		myPlayerModule.forcedMovementAdded(dashInfos);
 		base.ResolveSpell(_mousePosition);
 
