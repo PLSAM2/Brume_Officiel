@@ -65,10 +65,6 @@ public class LocalPlayer : MonoBehaviour
 
     public QuickOutline myOutline;
 
-    [Header("Audio")]
-    [SerializeField] GameObject prefabAudioPlayer;
-
-
 
     private void Awake()
     {

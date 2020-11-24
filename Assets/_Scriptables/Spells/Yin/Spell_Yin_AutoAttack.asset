@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canalisationTime: 0
   range: 0
-  cooldown: 0.5
+  cooldown: 0.75
   numberOfCharge: 1
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
   forbiddenState: 48
   canalysingStatus: {fileID: 11400000, guid: 8677008586179a74e9fc335af2e6e84e, type: 2}
-  resolusionStatus: {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
+  resolusionStatus: {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
   canCancel: 0
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 1
@@ -33,7 +33,7 @@ MonoBehaviour:
     movementOfTheCharacter: {fileID: 11400000, guid: bfaab924f806a2649a92d203c1ca3226, type: 2}
     damagesToDeal:
       damageHealth: 5
-      statusToApply: {fileID: 0}
+      statusToApply: {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
       movementToApply: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
       playerName: 
   upgradedAttack:
@@ -43,5 +43,5 @@ MonoBehaviour:
     damagesToDeal:
       damageHealth: 7
       statusToApply: {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
-      movementToApply: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
+      movementToApply: {fileID: 11400000, guid: f3fc87acc2d84554ca2c7183c2de2cb1, type: 2}
       playerName: 

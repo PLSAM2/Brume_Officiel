@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 8474438155242974316}
   - component: {fileID: 8154408291484997990}
   - component: {fileID: 7642602275245690328}
-  - component: {fileID: 8216810861203446032}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -112,11 +111,13 @@ MonoBehaviour:
     m_Bits: 512
   forbidenWalkingState: 8
   chara: {fileID: 8474438155242974316}
+  rotLocked: 0
   collider: {fileID: 0}
   currentForcedMovement:
     myModule: {fileID: 0}
     _duration: 0
     strength: 0
+  ghostSpeed: 4.2
 --- !u!143 &8474438155242974316
 CharacterController:
   m_ObjectHideFlags: 0
@@ -216,14 +217,6 @@ MonoBehaviour:
   wardSpeed: 15
   deceleratedRatio: 3
   distanceMaxBeforeEndTravel: 0.01
---- !u!81 &8216810861203446032
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 0
 --- !u!1 &57102716035201480
 GameObject:
   m_ObjectHideFlags: 0
