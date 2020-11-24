@@ -120,7 +120,7 @@ public class MovementModule : MonoBehaviour
 			}
 			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 			{
-			chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * (currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(currentForcedMovement.duration/ currentForcedMovement.baseDuration) )* Time.deltaTime);
+			chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * (currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(currentForcedMovement.baseDuration - currentForcedMovement.duration/ currentForcedMovement.baseDuration) )* Time.deltaTime);
 			}
 			else
 			{
@@ -355,7 +355,7 @@ public class ForcedMovement
 			_duration = value;
 		}
 	}
-	public float baseDuration;
+[HideInInspector]	public float baseDuration;
 	public AnimationCurve speedEvolution = new AnimationCurve(new Keyframe(1, 1), new Keyframe(1, 1));
 	Vector3 _direction;
 	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
