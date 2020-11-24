@@ -37,6 +37,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return _temp;
 	}
+
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
 
@@ -60,7 +61,7 @@ public class PlayerModule : MonoBehaviour
 	bool _isCrouched = false;
 	bool isCrouched
 
-	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Canalysing); } else { RemoveState(En_CharacterState.Crouched); } } }
+	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
@@ -220,9 +221,6 @@ public class PlayerModule : MonoBehaviour
 				leftClickInput?.Invoke(mousePos());
 				boolWasClicked = true;
 			}
-			//RUNNING
-			else if (Input.GetKeyDown(KeyCode.LeftShift))
-				startSneaking?.Invoke();
 
 			if (Input.GetKeyUp(firstSpellKey))
 				firstSpellInputRealeased?.Invoke(mousePos());
@@ -260,16 +258,20 @@ public class PlayerModule : MonoBehaviour
 			}
 
 			if (Input.GetKeyDown(crouching))
+			{
 				isCrouched = true;
+			}
 
 
 			else if (Input.GetKeyUp(crouching))
+			{
 				isCrouched = false;
+			}
 
-			#endregion
+				#endregion
 
-			//camera
-			if (Input.GetKeyUp(freeCamera))
+				//camera
+				if (Input.GetKeyUp(freeCamera))
 				CameraManager.Instance.LockCamera?.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.Instance.UpdateCameraPos?.Invoke();
@@ -422,7 +424,6 @@ public class PlayerModule : MonoBehaviour
 		else
 			movementPart.rotLocked = false;
 	}
-
 	//STATUS GESTION
 	#region
 	void TreatEffects ()

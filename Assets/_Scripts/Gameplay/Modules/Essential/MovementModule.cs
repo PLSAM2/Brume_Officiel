@@ -121,7 +121,7 @@ public class MovementModule : MonoBehaviour
 
 			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 			{
-				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
+				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(currentForcedMovement.duration) * Time.deltaTime);
 			}
 			else
 			{
@@ -162,12 +162,12 @@ public class MovementModule : MonoBehaviour
 	{
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-						//rot player
+			//rot player
 			LookAtMouse();
+		}
+		else
+			return;
 	}
-	else
-	return;
-}
 	void LookAtMouse ()
 	{
 		if (!rotLocked)
@@ -275,8 +275,8 @@ public class MovementModule : MonoBehaviour
 
 	float LiveMoveSpeed ()
 	{
-        if (isAGhost)
-        {
+		if (isAGhost)
+		{
 			return ghostSpeed;
 		}
 
@@ -285,9 +285,9 @@ public class MovementModule : MonoBehaviour
 		float _worstMalus = 0;
 		float _allBonuses = 0;
 
-		foreach(EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
+		foreach (EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
 		{
-			if((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
+			if ((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
 			{
 				if (_liveEffect.effect.percentageOfTheMovementModifier > _worstMalus)
 					_worstMalus = _liveEffect.effect.percentageOfTheMovementModifier;
@@ -298,7 +298,7 @@ public class MovementModule : MonoBehaviour
 			}
 		}
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-		
+
 		float _baseSpeed = 0;
 
 		if ((myPlayerModule.state & En_CharacterState.Crouched) != 0)
@@ -307,8 +307,8 @@ public class MovementModule : MonoBehaviour
 		else
 			_baseSpeed = parameters.movementSpeed;
 
-		
-		return _baseSpeed * (1+_allBonuses) * (1-_worstMalus);
+
+		return _baseSpeed * (1 + _allBonuses) * (1 - _worstMalus);
 
 	}
 
@@ -345,6 +345,7 @@ public class ForcedMovement
 {
 	[HideInInspector] public PlayerModule myModule;
 	[SerializeField] float _duration = 0;
+	public AnimationCurve speedEvolution = new AnimationCurve (new Keyframe (1, 1), new Keyframe (1, 1));
 	public float duration
 	{
 		get => _duration;
