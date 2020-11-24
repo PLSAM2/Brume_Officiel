@@ -35,7 +35,7 @@ public class MovementModule : MonoBehaviour
         {
 			isAGhost = true;
 		}
-		print("hey");
+
         if (isAGhost)
         {
 			myPlayerModule = GetComponent<Ghost>().playerModule;
