@@ -13,7 +13,42 @@ public class Module_WXAuto : SpellModule
     private void Start()
     {
         arrowPreview = PreviewManager.Instance.GetArrowPreview();
+        HidePreview();
+    }
+
+    protected override void ShowPreview(Vector3 mousePos)
+    {
+        SetPreview();
+
+        if (base.canBeCast())
+        {
+            base.ShowPreview(mousePos);
+            arrowPreview.gameObject.SetActive(true);
+        }
+    }
+
+    protected override void StartCanalysing(Vector3 _BaseMousePos)
+    {
+        HidePreview();
+        base.StartCanalysing(_BaseMousePos);
+    }
+
+    protected override void HidePreview()
+    {
+        base.HidePreview();
         arrowPreview.gameObject.SetActive(false);
+    }
+
+    protected override void UpdatePreview()
+    {
+        SetPreview();
+    }
+
+    private void SetPreview()
+    {
+        Vector3 normDirection = (myPlayerModule.mousePos() - this.transform.position).normalized;
+
+        arrowPreview.Init(this.transform.position, this.transform.position + (normDirection * spell.range));
     }
 
     protected override void ResolveSpell(Vector3 _mousePosition)
@@ -21,8 +56,6 @@ public class Module_WXAuto : SpellModule
         base.ResolveSpell(_mousePosition);
 
         LocalPlayer _hitPlayer = ShootAndGetFirstHit();
-        //arrowPreview.Init(this.transform.position, );
-        //arrowPreview.gameObject.SetActive(true);
 
         if (_hitPlayer != null)
         {
@@ -48,9 +81,13 @@ public class Module_WXAuto : SpellModule
             {
                 foreach (RaycastHit hit in _allhits)
                 {
-                    if (hit.collider.GetComponent<LocalPlayer>() != null)
+                    LocalPlayer hitP = hit.collider.GetComponent<LocalPlayer>();
+                    if (hitP != null)
                     {
-                        _temp.Add(hit.collider.GetComponent<LocalPlayer>());
+                        if (RoomManager.Instance.GetLocalPlayer().playerTeam == hitP.myPlayerModule.teamIndex)
+                        {
+                            _temp.Add(hitP);
+                        }
                     }
                 }
             }
