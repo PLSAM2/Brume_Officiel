@@ -132,7 +132,6 @@ public class CacAttack : SpellModule
 		if (canBeCast())
 			
 		{
-			print("ShowPreview");
 			shapePreview.gameObject.SetActive(true);
 		}
 	}
@@ -140,8 +139,6 @@ public class CacAttack : SpellModule
 	protected override void HidePreview ()
 	{
 		base.HidePreview();
-
-		print("hidePreview");
 		shapePreview.gameObject.SetActive(false);
 	}
 
@@ -242,29 +239,6 @@ public class CacAttack : SpellModule
 			return localTrad.upgradedAttack;
 		else
 			return localTrad.normalAttack;
-	}
-
-	//rajout des status 
-	protected override void ApplyStatusCanalisation ()
-	{
-		myPlayerModule.AddState(En_CharacterState.Canalysing);
-
-		if (localTrad.lockPosOnCanalisation)
-			myPlayerModule.AddState(En_CharacterState.Root);
-	}
-
-	//on les clear
-	public override void Interrupt ()
-	{
-		base.Interrupt();
-		//clear le canalysing et le root
-		#region
-		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
-
-		if (spell.lockPosOnCanalisation)
-			myPlayerModule.RemoveState(En_CharacterState.Root);
-
-		#endregion
 	}
 
 	//FONCTION ECRASED

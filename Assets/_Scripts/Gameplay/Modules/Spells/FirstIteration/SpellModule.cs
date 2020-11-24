@@ -246,12 +246,16 @@ public class SpellModule : MonoBehaviour
 		isUsed = false;
 		currentTimeCanalised = 0;
 		endCanalisation?.Invoke();
+		
+		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
+		myPlayerModule.RemoveState(En_CharacterState.Root);
 
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
 
 		if (spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
+
 	}
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
@@ -305,6 +309,7 @@ public class SpellModule : MonoBehaviour
 	void StartCanalysingFeedBack ()
 	{
 		ApplyStatusCanalisation();
+
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
@@ -324,14 +329,13 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void ApplyStatusCanalisation()
 	{
-		Effect _newStatus = new Effect();
-		_newStatus.finalLifeTime = spell.canalisationTime;
-		if (spell.lockPosOnCanalisation)
-			_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root);
-		else
-			_newStatus.stateApplied = En_CharacterState.Canalysing;
 
-		myPlayerModule.AddStatus(_newStatus);
+		if (spell.lockPosOnCanalisation)
+			myPlayerModule.AddState((En_CharacterState.Canalysing | En_CharacterState.Root));
+		else
+			myPlayerModule.AddState(En_CharacterState.Canalysing);
+
+		
 	}
 
 	void ResolveSpellFeedback ()
