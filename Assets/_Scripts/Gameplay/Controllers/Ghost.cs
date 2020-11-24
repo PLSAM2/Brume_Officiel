@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class Ghost : MonoBehaviour
 {
     public PlayerModule playerModule;
+    public MovementModule movementModule;
 
+    public GameObject fowPrefab;
+    private GameObject fowObj;
     public GameObject canvas;
     public Image fillImg;
     public float lifeTime = 10;
@@ -32,6 +35,12 @@ public class Ghost : MonoBehaviour
         this.playerModule = playerModule;
         timer = lifeTime;
         playerModule.thirdSpellInputRealeased += Destruct;
+        this.GetComponent<MovementModule>().Init();
+
+        fowObj = Instantiate(fowPrefab, transform.root);
+        fowObj.GetComponent<Fow>().Init(this.transform, 7);
+
+        CameraManager.Instance.SetFollowObj(this.transform);
     }
 
 
@@ -57,7 +66,9 @@ public class Ghost : MonoBehaviour
     /// <param name="pos"> Useless </param>
     private void Destruct(Vector3 pos)
     {
-        playerModule.RemoveState(En_CharacterState.Stunned);
+        CameraManager.Instance.SetFollowObj(playerModule.transform);
+        Destroy(fowObj);
+        playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
         this.gameObject.SetActive(false);
     }
 }

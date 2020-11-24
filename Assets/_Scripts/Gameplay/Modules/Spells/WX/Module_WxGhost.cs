@@ -14,6 +14,7 @@ public class Module_WxGhost : SpellModule
             new Vector3(ghostPrefab.transform.rotation.x, ghostPrefab.transform.rotation.y, ghostPrefab.transform.rotation.z));
 
         PlayerModule _tempPlayerModule = myPlayerModule;
+
         _tempPlayerModule.AddState(En_CharacterState.Stunned);
         ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule);
     }

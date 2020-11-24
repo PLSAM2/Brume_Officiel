@@ -29,37 +29,49 @@ public class MovementModule : MonoBehaviour
 	//recup des actions
 	PlayerModule myPlayerModule;
 	private bool isAGhost = false;
+	public float ghostSpeed = 4.2f;
 	public void Start ()
 	{
-        if (GetComponent<Ghost>() != null)
+		if(!isAGhost)
         {
+			Init();
+		}
+
+	}
+
+	public void Init()
+	{
+		if (GetComponent<Ghost>() != null)
+		{
 			isAGhost = true;
 		}
-		print("hey");
-        if (isAGhost)
-        {
+
+		if (isAGhost)
+		{
 			myPlayerModule = GetComponent<Ghost>().playerModule;
-		} else
-        {
+		}
+		else
+		{
 			myPlayerModule = GetComponent<PlayerModule>();
 		}
 
 
-		if(myPlayerModule.mylocalPlayer.isOwner)
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myPlayerModule.DirectionInputedUpdate += Move;
 			myPlayerModule.forcedMovementAdded += AddDash;
 		}
 
 
-		/*myPlayerModule.toggleRunning += ToggleRunning;
+        /*myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;*/
 
-		//IMPORTANT POUR LES CALLBACKS
-		currentForcedMovement.myModule = myPlayerModule;
-
-		collider = GetComponent<CapsuleCollider>();
-
+        //IMPORTANT POUR LES CALLBACKS
+        if (!isAGhost)
+		{
+			currentForcedMovement.myModule = myPlayerModule;
+			collider = GetComponent<CapsuleCollider>();
+		}
 	}
 
 	void OnDisable ()
@@ -96,6 +108,7 @@ public class MovementModule : MonoBehaviour
 		//forceMovement
 		if (currentForcedMovement != null)
 		{
+
 			currentForcedMovement.duration -= Time.deltaTime;
 			if (currentForcedMovement.duration <= 0)
 			{
@@ -105,53 +118,26 @@ public class MovementModule : MonoBehaviour
 			}
 
 			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
-				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
+            {
 				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
+			}	
 			else
+            {
 				ForcedMovementTouchObstacle();
+			}
+
 		}
 		//movement normal
 		else if (_directionInputed != Vector3.zero && CanMove())
 		{
-			//Mouvement Modifier via bool
-			/*if (running == true)
-			{
-				timeSpentRunning += Time.deltaTime;
-				Stamina -= Time.deltaTime;
-				if (Stamina <= 0 && usingStamina)
-					myPlayerModule.stopRunning.Invoke();
-			}
-			else
-			{
-				StopRunning();
-			}*/
-
-			//marche
-			/*	if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
-				{
-					//transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
-					chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
-
-				}
-				else
-				{*/
-			//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
 			chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
-			//	}
+	
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
 		else
+        {
 			myPlayerModule.onSendMovement(Vector3.zero);
-
-
-		//Stamina
-		/*	if (!running && usingStamina)
-			{
-				if (timeSpentNotRunning > parameters.regenDelay)
-					Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
-				else
-					timeSpentNotRunning += Time.deltaTime;
-			}*/
+		}
 	}
 
 	void ForcedMovementTouchObstacle ()
@@ -269,6 +255,13 @@ public class MovementModule : MonoBehaviour
 
 	float LiveMoveSpeed ()
 	{
+        if (isAGhost)
+        {
+			return ghostSpeed;
+		}
+
+
+
 		float _worstMalus = 0;
 		float _allBonuses = 0;
 
