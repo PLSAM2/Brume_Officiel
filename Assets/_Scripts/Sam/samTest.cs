@@ -6,11 +6,29 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    [SerializeField] Camera myCam;
+    [SerializeField] AudioClip clip;
+
+    AudioElement myAudio;
+
 
     private void Update()
     {
-        transform.LookAt(target);
-        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        RaycastHit hit;
+        Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+
+                if (myAudio == null || !myAudio.gameObject.activeSelf)
+                {
+                    myAudio = AudioManager.Instance.Play3DAudio(clip, hit.point);
+                }
+            }
+            myAudio.transform.position = hit.point;
+        }
+
     }
 }

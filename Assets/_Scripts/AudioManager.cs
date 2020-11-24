@@ -37,18 +37,22 @@ public class AudioManager : MonoBehaviour
         _myAudioElement.Init(_clip, 0, _volume);
     }
 
-    public void Play3DAudio(AudioClip _clip, Vector3 _position, float _volume = 1)
+    public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
         _myAudioElement.Init(_clip, 1, _volume);
+
+        return _myAudioElement;
     }
 
-    public void Play3DAudio(AudioClip _clip, Transform _followObj, float _volume = 1)
+    public AudioElement Play3DAudio(AudioClip _clip, Transform _followObj, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
         _myAudioElement.Init(_clip, 1, _volume);
+
+        return _myAudioElement;
     }
 
     public void OnAudioFinish(AudioElement _audio)
