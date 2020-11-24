@@ -1,27 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &598244770747154043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  isUsed: 0
-  resolved: 0
-  spell: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1572485409708721017}
-  particleResolution: []
-  indexOfTheShotProjectileBlue: 14
 --- !u!114 &1170411871162902278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,10 +50,10 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 983172405252139301}
   movementPart: {fileID: 1743416214871874484}
-  firstSpell: {fileID: 598244770747154043}
+  firstSpell: {fileID: 5927305535749590626}
   secondSpell: {fileID: 5100041963116749380}
   thirdSpell: {fileID: 1170411871162902278}
-  leftClick: {fileID: 6122503958538356117}
+  leftClick: {fileID: 3898904841508211324}
   ward: {fileID: 59302847324730398}
   coll: {fileID: 2015099999550939296}
   mylocalPlayer: {fileID: 0}
@@ -86,6 +64,27 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 0}
   isPoisonousEffectActive: 0
+--- !u!114 &3898904841508211324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f785c0aa662794781f7786854f00d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  isUsed: 0
+  resolved: 0
+  spell: {fileID: 11400000, guid: 459e4d2007775ee4ab09596231b945ac, type: 2}
+  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
+  myPlayerModule: {fileID: 0}
+  canalisationParticle: {fileID: 1571841955607802443}
+  particleResolution: []
 --- !u!114 &5100041963116749380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +107,7 @@ MonoBehaviour:
   canalisationParticle: {fileID: 0}
   particleResolution: []
   usingKeyboardInput: 1
---- !u!114 &6122503958538356117
+--- !u!114 &5927305535749590626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,19 +116,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8863682241088651334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 23f785c0aa662794781f7786854f00d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
   isUsed: 0
   resolved: 0
-  spell: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
+  spell: {fileID: 11400000, guid: 01d2cdaea8e49844e8e52cc1fb3db077, type: 2}
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1572485409708721017}
+  canalisationParticle: {fileID: 1571841955607802443}
   particleResolution: []
-  indexOfTheShotProjectileBlue: 12
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -244,8 +242,8 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8345055822433227989, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &1572485409708721017 stripped
+--- !u!198 &1571841955607802443 stripped
 ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9155750701237107391, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9155000043582245773, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}

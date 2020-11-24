@@ -12,29 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
   m_Name: Spell_Yin_AutoAttack
   m_EditorClassIdentifier: 
-  canalisationTime: 0.2
+  canalisationTime: 0
   range: 0
   cooldown: 0.5
   numberOfCharge: 1
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
+  lockPosOnCanalisation: 0
   forbiddenState: 56
-  canalysingStatus: {fileID: 0}
-  resolusionStatus: {fileID: 0}
+  canalysingStatus: {fileID: 11400000, guid: 8677008586179a74e9fc335af2e6e84e, type: 2}
+  resolusionStatus: {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
   canCancel: 0
   mustUseACollFreePos: 0
   useLastRecordedMousePos: 1
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
-  timeToCanalyseToUpgrade: 0.5
-  timeToForceResolve: 0.7
+  timeToCanalyseToUpgrade: 1
+  timeToForceResolve: 3
   normalAttack:
     angleToAttackFrom: 90
-    rangeOfTheAttack: 3
-    movementOfTheCharacter: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
+    rangeOfTheAttack: 2
+    movementOfTheCharacter: {fileID: 0}
     damagesToDeal:
       damageHealth: 5
       statusToApply: {fileID: 0}
-      movementToApply: {fileID: 0}
+      movementToApply: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
       playerName: 
   upgradedAttack:
     angleToAttackFrom: 90
@@ -43,5 +43,5 @@ MonoBehaviour:
     damagesToDeal:
       damageHealth: 7
       statusToApply: {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
-      movementToApply: {fileID: 0}
+      movementToApply: {fileID: 11400000, guid: b314eeedd6346964994f9491dbac84a6, type: 2}
       playerName: 

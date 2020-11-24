@@ -1229,7 +1229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3564287577370654787
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,6 +1274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerModule: {fileID: 0}
+  movementModule: {fileID: 6888309236579929682}
+  fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
   canvas: {fileID: 2803508211929711914}
   fillImg: {fileID: 4425464739576524702}
   lifeTime: 10
@@ -1302,6 +1304,7 @@ MonoBehaviour:
     myModule: {fileID: 0}
     _duration: 0
     strength: 0
+  ghostSpeed: 4.2
 --- !u!143 &6408620564433633356
 CharacterController:
   m_ObjectHideFlags: 0
