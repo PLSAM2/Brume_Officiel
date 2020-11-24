@@ -47,6 +47,8 @@ public class GameManager : SerializedMonoBehaviour
     private bool stopInit = false;
     public bool gameStarted = false;
 
+    public Animator globalVolumeAnimator;
+
     //Event utile
     public Action<ushort, ushort> OnPlayerDie;
     public Action<ushort, bool> OnPlayerAtViewChange;

@@ -5,8 +5,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class BrumeScript : MonoBehaviour
 {
-    [SerializeField] Animator myAnimator;
-
     [SerializeField] AnimationCurve curveAlpha;
 
     [SerializeField] Renderer myRenderer;
@@ -25,7 +23,7 @@ public class BrumeScript : MonoBehaviour
 
             if (player == currentFollowPlayer)
             {
-                myAnimator.SetBool("InBrume", true);
+                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
                 SetWardFow(player);
 
                 myRenderer.enabled = false;
@@ -67,7 +65,7 @@ public class BrumeScript : MonoBehaviour
 
             if (player == currentFollowPlayer)
             {
-                myAnimator.SetBool("InBrume", false);
+                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
                 SetWardFow(player);
 
                 UiManager.Instance.SetAlphaBrume(0);
