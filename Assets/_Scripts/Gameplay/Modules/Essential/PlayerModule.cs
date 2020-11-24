@@ -14,7 +14,7 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
 	private LayerMask groundLayer;
-	bool rotLocked = false, boolWasClicked = false;
+	bool boolWasClicked = false;
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
@@ -201,10 +201,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		if (mylocalPlayer.isOwner)
 		{
-			//rot player
-			LookAtMouse();
-
-			//direction des fleches du clavier 
+						//direction des fleches du clavier 
 			DirectionInputedUpdate?.Invoke(directionInputed());
 
 			//INPUT DETECTION SPELLS AND RUNNING
@@ -304,15 +301,6 @@ public class PlayerModule : MonoBehaviour
 		mylocalPlayer.ChangeFowRaduis(_value);
 
 		brumeId = idBrume;
-	}
-
-	void LookAtMouse ()
-	{
-		if (!rotLocked)
-		{
-			Vector3 _currentMousePos = mousePos();
-			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
-		}
 	}
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
@@ -430,9 +418,9 @@ public class PlayerModule : MonoBehaviour
 	void LockingRotation ( bool _isLocked )
 	{
 		if (_isLocked)
-			rotLocked = true;
+			movementPart.rotLocked = true;
 		else
-			rotLocked = false;
+			movementPart.rotLocked = false;
 	}
 
 	//STATUS GESTION
