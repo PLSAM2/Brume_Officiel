@@ -1698,7 +1698,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &205593500
 Mesh:
@@ -3176,63 +3176,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1001 &399365103
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2824507180237845029, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_Name
-      value: AudioListenerPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2824507180237845031, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 000f60ca67e13b049ac672014d50d188, type: 3}
 --- !u!43 &401271730
 Mesh:
   m_ObjectHideFlags: 0
@@ -4411,11 +4354,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
+--- !u!1 &463587852 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 522279072243031081, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
+  m_PrefabInstance: {fileID: 463587851}
+  m_PrefabAsset: {fileID: 0}
 --- !u!20 &463587853 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8688815936704438496, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
   m_PrefabInstance: {fileID: 463587851}
   m_PrefabAsset: {fileID: 0}
+--- !u!81 &463587854
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463587852}
+  m_Enabled: 1
 --- !u!43 &482406763
 Mesh:
   m_ObjectHideFlags: 0
@@ -14747,7 +14703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 431090196295616990, guid: 766fa62fd0b947a44914de4bdd426ae1, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 431090196295616990, guid: 766fa62fd0b947a44914de4bdd426ae1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
