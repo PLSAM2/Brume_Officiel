@@ -259,10 +259,11 @@ public class CacAttack : SpellModule
 		base.Interrupt();
 		//clear le canalysing et le root
 		#region
+		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
+
+		if (spell.lockPosOnCanalisation)
 			myPlayerModule.RemoveState(En_CharacterState.Root);
 
-		if(spell.lockPosOnCanalisation)
-			myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 		#endregion
 	}
 
