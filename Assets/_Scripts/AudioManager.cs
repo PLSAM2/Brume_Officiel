@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class AudioManager : MonoBehaviour
     Dictionary<AudioElement, bool> allAudioElement = new Dictionary<AudioElement, bool>(); // true = utilisé // false = libre
 
     public float currentPlayerVolume = 1;
+
+    public Action<float> OnVolumeChange;
 
     private void Awake()
     {

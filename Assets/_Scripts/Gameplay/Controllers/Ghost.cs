@@ -7,7 +7,6 @@ public class Ghost : MonoBehaviour
 {
     public PlayerModule playerModule;
     public MovementModule movementModule;
-    public AudioListener audioListener;
 
     public GameObject fowPrefab;
     private GameObject fowObj;

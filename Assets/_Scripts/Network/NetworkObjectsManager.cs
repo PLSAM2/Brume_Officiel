@@ -186,8 +186,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
     {
-
-        Debug.Log("yayayay");
         ushort _ownerID;
         ushort _objectID;
         ushort _uniqueObjId;
