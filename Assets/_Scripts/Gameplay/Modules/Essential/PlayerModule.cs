@@ -14,7 +14,7 @@ public class PlayerModule : MonoBehaviour
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
 	private LayerMask groundLayer;
-	bool rotLocked = false, boolWasClicked = false;
+	bool boolWasClicked = false;
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
@@ -37,6 +37,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return _temp;
 	}
+
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
 
@@ -60,7 +61,7 @@ public class PlayerModule : MonoBehaviour
 	bool _isCrouched = false;
 	bool isCrouched
 
-	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Canalysing); } else { RemoveState(En_CharacterState.Crouched); } } }
+	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
@@ -201,10 +202,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		if (mylocalPlayer.isOwner)
 		{
-			//rot player
-			LookAtMouse();
-
-			//direction des fleches du clavier 
+						//direction des fleches du clavier 
 			DirectionInputedUpdate?.Invoke(directionInputed());
 
 			//INPUT DETECTION SPELLS AND RUNNING
@@ -223,9 +221,6 @@ public class PlayerModule : MonoBehaviour
 				leftClickInput?.Invoke(mousePos());
 				boolWasClicked = true;
 			}
-			//RUNNING
-			else if (Input.GetKeyDown(KeyCode.LeftShift))
-				startSneaking?.Invoke();
 
 			if (Input.GetKeyUp(firstSpellKey))
 				firstSpellInputRealeased?.Invoke(mousePos());
@@ -263,16 +258,20 @@ public class PlayerModule : MonoBehaviour
 			}
 
 			if (Input.GetKeyDown(crouching))
+			{
 				isCrouched = true;
+			}
 
 
 			else if (Input.GetKeyUp(crouching))
+			{
 				isCrouched = false;
+			}
 
-			#endregion
+				#endregion
 
-			//camera
-			if (Input.GetKeyUp(freeCamera))
+				//camera
+				if (Input.GetKeyUp(freeCamera))
 				CameraManager.Instance.LockCamera?.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.Instance.UpdateCameraPos?.Invoke();
@@ -287,8 +286,6 @@ public class PlayerModule : MonoBehaviour
 			return;
 		else
 		{
-	
-
 			if (_oldState != state)
 			{
 				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
@@ -306,15 +303,6 @@ public class PlayerModule : MonoBehaviour
 		mylocalPlayer.ChangeFowRaduis(_value);
 
 		brumeId = idBrume;
-	}
-
-	void LookAtMouse ()
-	{
-		if (!rotLocked)
-		{
-			Vector3 _currentMousePos = mousePos();
-			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
-		}
 	}
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
@@ -432,11 +420,68 @@ public class PlayerModule : MonoBehaviour
 	void LockingRotation ( bool _isLocked )
 	{
 		if (_isLocked)
-			rotLocked = true;
+			movementPart.rotLocked = true;
 		else
-			rotLocked = false;
+			movementPart.rotLocked = false;
 	}
+	//STATUS GESTION
+	#region
+	void TreatEffects ()
+	{
+		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
+		for (int i = 0; i < allEffectLive.Count; i++)
+		{
+			if (!allEffectLive[i].effect.isConstant)
+				allEffectLive[i].liveLifeTime -= Time.fixedDeltaTime;
+
+			if (allEffectLive[i].liveLifeTime <= 0)
+			{
+				_tempList.Add(allEffectLive[i]);
+			}
+		}
+
+		foreach (EffectLifeTimed _effect in _tempList)
+			allEffectLive.Remove(_effect);
+
+		UiManager.Instance.StatusUpdate(state);
+	}
+	void TreatTickEffects ()
+	{
+
+		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
+
+		for (int i = 0; i < allTickLive.Count; i++)
+		{
+			allTickLive[i].liveLifeTime -= Time.fixedDeltaTime;
+			allTickLive[i].lastTick += Time.fixedDeltaTime;
+
+			if (allTickLive[i].liveLifeTime <= 0)
+			{
+				_tempList.Add(allTickLive[i]);
+			}
+
+			if (allTickLive[i].lastTick >= allTickLive[i].effect.tickRate && allTickLive[i].liveLifeTime > 0)
+			{
+				allTickLive[i].lastTick = 0;
+
+				if (allTickLive[i].effect.isDamaging)
+				{
+					DamagesInfos _temp = new DamagesInfos();
+					_temp.damageHealth = allTickLive[i].effect.tickValue;
+
+					this.mylocalPlayer.DealDamages(_temp, transform.position);
+				}
+				if (allTickLive[i].effect.isHealing)
+				{
+					this.mylocalPlayer.HealPlayer(allTickLive[i].effect.tickValue);
+				}
+			}
+		}
+
+		foreach (EffectLifeTimed _effect in _tempList)
+			allTickLive.Remove(_effect);
+	}
 	public void AddStatus ( Effect _statusToAdd )
 	{
 		Effect _tempTrad = new Effect();
@@ -487,7 +532,6 @@ public class PlayerModule : MonoBehaviour
 		}
 
 	}
-
 	private EffectLifeTimed GetTickEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allTickLive)
@@ -500,7 +544,6 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
-
 	private EffectLifeTimed GetEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allEffectLive)
@@ -513,65 +556,6 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
-
-	void TreatEffects ()
-	{
-		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
-
-		for (int i = 0; i < allEffectLive.Count; i++)
-		{
-			if (!allEffectLive[i].effect.isConstant)
-				allEffectLive[i].liveLifeTime -= Time.fixedDeltaTime;
-
-			if (allEffectLive[i].liveLifeTime <= 0)
-			{
-				_tempList.Add(allEffectLive[i]);
-			}
-		}
-
-		foreach (EffectLifeTimed _effect in _tempList)
-			allEffectLive.Remove(_effect);
-
-		UiManager.Instance.StatusUpdate(state);
-	}
-
-	void TreatTickEffects ()
-	{
-
-		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
-
-		for (int i = 0; i < allTickLive.Count; i++)
-		{
-			allTickLive[i].liveLifeTime -= Time.fixedDeltaTime;
-			allTickLive[i].lastTick += Time.fixedDeltaTime;
-
-			if (allTickLive[i].liveLifeTime <= 0)
-			{
-				_tempList.Add(allTickLive[i]);
-			}
-
-			if (allTickLive[i].lastTick >= allTickLive[i].effect.tickRate && allTickLive[i].liveLifeTime > 0)
-			{
-				allTickLive[i].lastTick = 0;
-
-				if (allTickLive[i].effect.isDamaging)	
-				{
-					DamagesInfos _temp = new DamagesInfos();
-					_temp.damageHealth = allTickLive[i].effect.tickValue;
-
-					this.mylocalPlayer.DealDamages(_temp,transform.position);
-				}
-				if (allTickLive[i].effect.isHealing)
-				{
-					this.mylocalPlayer.HealPlayer(allTickLive[i].effect.tickValue);
-				}
-			}
-		}
-
-		foreach (EffectLifeTimed _effect in _tempList)
-			allTickLive.Remove(_effect);
-	}
-
 	public void StopStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
@@ -581,7 +565,6 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
-
 	public void StopTickStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
@@ -591,6 +574,7 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
+	#endregion
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
 	{

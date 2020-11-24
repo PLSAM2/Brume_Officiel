@@ -186,8 +186,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
     private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
     {
-
-        Debug.Log("yayayay");
         ushort _ownerID;
         ushort _objectID;
         ushort _uniqueObjId;
@@ -263,6 +261,8 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         if (!instantiatedObjectsList.ContainsKey(_objectID))
             return;
 
+        instantiatedObjectsList[_objectID].SetPosition(_newObjectPos);
+        
         if (_synchroniseRotation)
         {
             instantiatedObjectsList[_objectID].transform.rotation = Quaternion.Euler(_newObjectRotation);

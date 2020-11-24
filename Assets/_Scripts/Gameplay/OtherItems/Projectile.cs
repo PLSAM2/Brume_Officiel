@@ -11,6 +11,7 @@ public class Projectile : AutoKill
 	[Header("FeedBackOnHit")]
 	[SerializeField] GameObject feedBackTouch;
 	[SerializeField] AudioClip _mySfxAudio;
+	[SerializeField] bool soundFollowObj = false;
 
 	[Header("SpellLinked")]
 	[SerializeField] Sc_ProjectileSpell localTrad;
@@ -32,7 +33,14 @@ public class Projectile : AutoKill
 
 		if (_mySfxAudio != null)
 		{
-			AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
+            if (soundFollowObj)
+            {
+				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
+			}
+            else
+            {
+				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position);
+			}
 		}
 	}
 

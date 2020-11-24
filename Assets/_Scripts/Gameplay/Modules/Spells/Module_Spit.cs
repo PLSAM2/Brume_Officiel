@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Module_Spit : SpellModule
 {
@@ -27,7 +28,6 @@ public class Module_Spit : SpellModule
         spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
         spitObj.SetActive(false);
         animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
-        spitObj.SetActive(false);
     }
 
     private void OnDestroy()
@@ -102,6 +102,8 @@ public class Module_Spit : SpellModule
         baseDistance = Vector3.Distance(startPos, destination);
         noCurvePosition = startPos;
         isLaunched = true;
+
+       // spitObj.transform.DOMove()
     }
 
     public void Landed()

@@ -44,7 +44,7 @@ public class SpellModule : MonoBehaviour
 	public ParticleSystem canalisationParticle;
 	public List<ParticleSystem> particleResolution;
 	protected Vector3 lastRecordedDirection = Vector3.zero;
-	protected bool showingPreview =false;
+	protected bool showingPreview = false;
 
 	private void OnEnable ()
 	{
@@ -57,13 +57,13 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
-		UiManager.Instance.SetupIcon(spell, _actionLinked);
 
 		actionLinked = _actionLinked;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			LinkInput(_actionLinked);
+			UiManager.Instance.SetupIcon(spell, _actionLinked);
 
 			timeToResolveSpell = spell.canalisationTime;
 			charges = spell.numberOfCharge;
@@ -168,12 +168,12 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void HidePreview()
+	protected virtual void HidePreview ()
 	{
 		showingPreview = false;
 	}
 
-	protected virtual void UpdatePreview()
+	protected virtual void UpdatePreview ()
 	{
 
 	}
@@ -247,11 +247,15 @@ public class SpellModule : MonoBehaviour
 		currentTimeCanalised = 0;
 		endCanalisation?.Invoke();
 
+		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
+		myPlayerModule.RemoveState(En_CharacterState.Root);
+
 		if (cooldown <= 0)
 			cooldown = finalCooldownValue();
 
 		if (spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
+
 	}
 
 	protected virtual void ResolveSpell ( Vector3 _mousePosition )
@@ -274,8 +278,8 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void AddCharge()
-    {
+	protected virtual void AddCharge ()
+	{
 		charges += 1;
 	}
 
@@ -305,6 +309,7 @@ public class SpellModule : MonoBehaviour
 	void StartCanalysingFeedBack ()
 	{
 		ApplyStatusCanalisation();
+
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
@@ -322,16 +327,15 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void ApplyStatusCanalisation()
+	protected virtual void ApplyStatusCanalisation ()
 	{
-		Effect _newStatus = new Effect();
-		_newStatus.finalLifeTime = spell.canalisationTime;
 		if (spell.lockPosOnCanalisation)
-			_newStatus.stateApplied = (En_CharacterState.Canalysing | En_CharacterState.Root);
+			myPlayerModule.AddState((En_CharacterState.Canalysing | En_CharacterState.Root));
 		else
-			_newStatus.stateApplied = En_CharacterState.Canalysing;
+			myPlayerModule.AddState(En_CharacterState.Canalysing);
 
-		myPlayerModule.AddStatus(_newStatus);
+		if (spell.canalysingStatus != null)
+			myPlayerModule.AddStatus(spell.canalysingStatus.effect);
 	}
 
 	void ResolveSpellFeedback ()

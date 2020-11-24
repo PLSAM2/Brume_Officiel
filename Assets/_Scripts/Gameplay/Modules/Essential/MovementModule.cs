@@ -12,7 +12,7 @@ public class MovementModule : MonoBehaviour
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
 	[SerializeField] CharacterController chara;
-
+	[HideInInspector] public bool rotLocked = false;
 	[HideInInspector] public CapsuleCollider collider;
 
 	/*	[Header("Running Stamina")]
@@ -29,23 +29,36 @@ public class MovementModule : MonoBehaviour
 	//recup des actions
 	PlayerModule myPlayerModule;
 	private bool isAGhost = false;
+	public float ghostSpeed = 4.2f;
 	public void Start ()
 	{
-        if (GetComponent<Ghost>() != null)
-        {
+		if (!isAGhost)
+		{
+			Init();
+		}
+
+	}
+
+
+
+	public void Init ()
+	{
+		if (GetComponent<Ghost>() != null)
+		{
 			isAGhost = true;
 		}
 
-        if (isAGhost)
-        {
+		if (isAGhost)
+		{
 			myPlayerModule = GetComponent<Ghost>().playerModule;
-		} else
-        {
+		}
+		else
+		{
 			myPlayerModule = GetComponent<PlayerModule>();
 		}
 
 
-		if(myPlayerModule.mylocalPlayer.isOwner)
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myPlayerModule.DirectionInputedUpdate += Move;
 			myPlayerModule.forcedMovementAdded += AddDash;
@@ -56,14 +69,20 @@ public class MovementModule : MonoBehaviour
 		myPlayerModule.stopRunning += StopRunning;*/
 
 		//IMPORTANT POUR LES CALLBACKS
-		currentForcedMovement.myModule = myPlayerModule;
-
-		collider = GetComponent<CapsuleCollider>();
-
+		if (!isAGhost)
+		{
+			currentForcedMovement.myModule = myPlayerModule;
+			collider = GetComponent<CapsuleCollider>();
+		}
 	}
 
 	void OnDisable ()
 	{
+		if (myPlayerModule == null)
+		{
+			return;
+		}
+
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myPlayerModule.DirectionInputedUpdate -= Move;
@@ -91,62 +110,37 @@ public class MovementModule : MonoBehaviour
 		//forceMovement
 		if (currentForcedMovement != null)
 		{
+
 			currentForcedMovement.duration -= Time.deltaTime;
+
 			if (currentForcedMovement.duration <= 0)
 			{
 				currentForcedMovement = null;
 				myPlayerModule.forcedMovementInterrupted?.Invoke();
 				return;
 			}
-
-			if (isFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
-				//transform.position += new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime;
-				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
-			else
-				ForcedMovementTouchObstacle();
-		}
-		//movement normal
-		else if (_directionInputed != Vector3.zero && canMove())
-		{
-			//Mouvement Modifier via bool
-			/*if (running == true)
+			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 			{
-				timeSpentRunning += Time.deltaTime;
-				Stamina -= Time.deltaTime;
-				if (Stamina <= 0 && usingStamina)
-					myPlayerModule.stopRunning.Invoke();
+			chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) *
+				(currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(1 -( currentForcedMovement.duration  / currentForcedMovement.baseDuration)) )* Time.deltaTime);
 			}
 			else
 			{
-				StopRunning();
-			}*/
+				ForcedMovementTouchObstacle();
+			}
 
-			//marche
-			/*	if (!isFree(_directionInputed, movementBlockingLayer, liveMoveSpeed() * Time.deltaTime))
-				{
-					//transform.position += SlideVector(_directionInputed) * liveMoveSpeed() * Time.deltaTime;
-					chara.Move( SlideVector (_directionInputed) * liveMoveSpeed() * Time.deltaTime);
+		}
+		//movement normal
+		else if (_directionInputed != Vector3.zero && CanMove())
+		{
+			chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
 
-				}
-				else
-				{*/
-			//transform.position += _directionInputed * liveMoveSpeed() * Time.deltaTime;
-			chara.Move(_directionInputed * liveMoveSpeed() * Time.deltaTime);
-			//	}
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
 		else
+		{
 			myPlayerModule.onSendMovement(Vector3.zero);
-
-
-		//Stamina
-		/*	if (!running && usingStamina)
-			{
-				if (timeSpentNotRunning > parameters.regenDelay)
-					Stamina = Mathf.Clamp(Stamina +  Time.deltaTime * parameters.regenPerSecond,0 , parameters.maxStamina);
-				else
-					timeSpentNotRunning += Time.deltaTime;
-			}*/
+		}
 	}
 
 	void ForcedMovementTouchObstacle ()
@@ -160,11 +154,31 @@ public class MovementModule : MonoBehaviour
 		ForcedMovement _temp = new ForcedMovement();
 		_temp.direction = infos.direction;
 		_temp.duration = infos.duration;
+		_temp.baseDuration = infos.baseDuration;
 		_temp.strength = infos.strength;
 		_temp.myModule = myPlayerModule;
+		_temp.speedEvolution = infos.speedEvolution;
 		currentForcedMovement = _temp;
 	}
 
+	private void Update ()
+	{
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			//rot player
+			LookAtMouse();
+		}
+		else
+			return;
+	}
+	void LookAtMouse ()
+	{
+		if (!rotLocked)
+		{
+			Vector3 _currentMousePos = myPlayerModule.mousePos();
+			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
+		}
+	}
 	/*void StopRunning()
 	{
 		timeSpentRunning = 0;
@@ -222,14 +236,14 @@ public class MovementModule : MonoBehaviour
 
 		if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
 		{
-			if (isFree(_aVector, movementBlockingLayer, collider.radius))
+			if (IsFree(_aVector, movementBlockingLayer, collider.radius))
 				return _aVector;
 			else
 				return Vector3.zero;
 		}
 		else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
 		{
-			if (isFree(_bVector, movementBlockingLayer, collider.radius))
+			if (IsFree(_bVector, movementBlockingLayer, collider.radius))
 			{
 				return _bVector;
 			}
@@ -241,7 +255,7 @@ public class MovementModule : MonoBehaviour
 
 	}
 
-	public bool isFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
+	public bool IsFree ( Vector3 _direction, LayerMask _layerTocheck, float _maxRange )
 	{
 		if (CastSphereAll(_direction, _layerTocheck, _maxRange) != null)
 			return false;
@@ -249,8 +263,11 @@ public class MovementModule : MonoBehaviour
 			return true;
 	}
 
-	bool canMove ()
+	bool CanMove ()
 	{
+		if (isAGhost)
+			return true;
+
 		if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement != null)
 		{
 			return false;
@@ -259,14 +276,21 @@ public class MovementModule : MonoBehaviour
 			return true;
 	}
 
-	float liveMoveSpeed ()
+	float LiveMoveSpeed ()
 	{
+		if (isAGhost)
+		{
+			return ghostSpeed;
+		}
+
+
+
 		float _worstMalus = 0;
 		float _allBonuses = 0;
 
-		foreach(EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
+		foreach (EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
 		{
-			if((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
+			if ((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
 			{
 				if (_liveEffect.effect.percentageOfTheMovementModifier > _worstMalus)
 					_worstMalus = _liveEffect.effect.percentageOfTheMovementModifier;
@@ -277,7 +301,7 @@ public class MovementModule : MonoBehaviour
 			}
 		}
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-		
+
 		float _baseSpeed = 0;
 
 		if ((myPlayerModule.state & En_CharacterState.Crouched) != 0)
@@ -286,8 +310,8 @@ public class MovementModule : MonoBehaviour
 		else
 			_baseSpeed = parameters.movementSpeed;
 
-		
-		return _baseSpeed * (1+_allBonuses) * (1-_worstMalus);
+
+		return _baseSpeed * (1 + _allBonuses) * (1 - _worstMalus);
 
 	}
 
@@ -324,6 +348,7 @@ public class ForcedMovement
 {
 	[HideInInspector] public PlayerModule myModule;
 	[SerializeField] float _duration = 0;
+
 	public float duration
 	{
 		get => _duration;
@@ -332,6 +357,8 @@ public class ForcedMovement
 			_duration = value;
 		}
 	}
+[HideInInspector]	public float baseDuration;
+	public AnimationCurve speedEvolution = new AnimationCurve(new Keyframe(1, 1), new Keyframe(1, 1));
 	Vector3 _direction;
 	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
 	public float strength;

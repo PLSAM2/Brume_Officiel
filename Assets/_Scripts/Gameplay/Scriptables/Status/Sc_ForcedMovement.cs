@@ -18,7 +18,7 @@ public class Sc_ForcedMovement : ScriptableObject
 			_temp.direction = Vector3.Normalize(_target - _basePos);
 		else
 			_temp.direction = Vector3.Normalize( _basePos - _target);
-
+		_temp.baseDuration = _temp.duration;
 		return _temp;
 	}
 }
