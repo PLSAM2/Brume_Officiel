@@ -118,10 +118,9 @@ public class MovementModule : MonoBehaviour
 				myPlayerModule.forcedMovementInterrupted?.Invoke();
 				return;
 			}
-
 			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 			{
-				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(currentForcedMovement.duration) * Time.deltaTime);
+			chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * (currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(currentForcedMovement.duration/ currentForcedMovement.baseDuration) )* Time.deltaTime);
 			}
 			else
 			{
@@ -153,6 +152,7 @@ public class MovementModule : MonoBehaviour
 		ForcedMovement _temp = new ForcedMovement();
 		_temp.direction = infos.direction;
 		_temp.duration = infos.duration;
+		_temp.baseDuration = infos.baseDuration;
 		_temp.strength = infos.strength;
 		_temp.myModule = myPlayerModule;
 		currentForcedMovement = _temp;
@@ -345,7 +345,7 @@ public class ForcedMovement
 {
 	[HideInInspector] public PlayerModule myModule;
 	[SerializeField] float _duration = 0;
-	public AnimationCurve speedEvolution = new AnimationCurve (new Keyframe (1, 1), new Keyframe (1, 1));
+
 	public float duration
 	{
 		get => _duration;
@@ -354,6 +354,8 @@ public class ForcedMovement
 			_duration = value;
 		}
 	}
+	public float baseDuration;
+	public AnimationCurve speedEvolution = new AnimationCurve(new Keyframe(1, 1), new Keyframe(1, 1));
 	Vector3 _direction;
 	public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
 	public float strength;
