@@ -15,5 +15,38 @@ MonoBehaviour:
   movementToApply:
     myModule: {fileID: 0}
     _duration: 0.15
+    speedEvolution:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.20505829
+        outSlope: -0.20505829
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5787041
+        value: 0.8813319
+        inSlope: -1.1485065
+        outSlope: -1.1485065
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -2.0919547
+        outSlope: -2.0919547
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     strength: 20
   isGrab: 1

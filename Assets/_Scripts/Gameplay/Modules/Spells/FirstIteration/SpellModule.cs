@@ -44,7 +44,7 @@ public class SpellModule : MonoBehaviour
 	public ParticleSystem canalisationParticle;
 	public List<ParticleSystem> particleResolution;
 	protected Vector3 lastRecordedDirection = Vector3.zero;
-	protected bool showingPreview =false;
+	protected bool showingPreview = false;
 
 	private void OnEnable ()
 	{
@@ -168,12 +168,12 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void HidePreview()
+	protected virtual void HidePreview ()
 	{
 		showingPreview = false;
 	}
 
-	protected virtual void UpdatePreview()
+	protected virtual void UpdatePreview ()
 	{
 
 	}
@@ -246,7 +246,7 @@ public class SpellModule : MonoBehaviour
 		isUsed = false;
 		currentTimeCanalised = 0;
 		endCanalisation?.Invoke();
-		
+
 		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 		myPlayerModule.RemoveState(En_CharacterState.Root);
 
@@ -278,8 +278,8 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void AddCharge()
-    {
+	protected virtual void AddCharge ()
+	{
 		charges += 1;
 	}
 
@@ -327,15 +327,15 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void ApplyStatusCanalisation()
+	protected virtual void ApplyStatusCanalisation ()
 	{
-
 		if (spell.lockPosOnCanalisation)
 			myPlayerModule.AddState((En_CharacterState.Canalysing | En_CharacterState.Root));
 		else
 			myPlayerModule.AddState(En_CharacterState.Canalysing);
 
-		
+		if (spell.canalysingStatus != null)
+			myPlayerModule.AddStatus(spell.canalysingStatus.effect);
 	}
 
 	void ResolveSpellFeedback ()

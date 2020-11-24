@@ -63,7 +63,7 @@ MonoBehaviour:
   timeToResolveSpell: 0
   isUsed: 0
   resolved: 0
-  spell: {fileID: 11400000, guid: f887d23f737a585438fc258bf283d8a1, type: 2}
+  spell: {fileID: 11400000, guid: 56e43cadf45d20a458d5f3fe26a23698, type: 2}
   recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
@@ -97,10 +97,10 @@ MonoBehaviour:
     m_Bits: 4096
   mapIcon: {fileID: 8558393311301056792}
   movementPart: {fileID: 7156413905369074569}
-  firstSpell: {fileID: 3531483061060426797}
+  firstSpell: {fileID: 4933660271494748642}
   secondSpell: {fileID: 3531483061060426797}
   thirdSpell: {fileID: 2195098234085196020}
-  leftClick: {fileID: 3531483061060426797}
+  leftClick: {fileID: 5536350898603478200}
   ward: {fileID: 8913684591376409635}
   coll: {fileID: 6959883921923715229}
   mylocalPlayer: {fileID: 0}
@@ -133,6 +133,16 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
   particleResolution: []
+  damages:
+    damageHealth: 5
+    statusToApply: {fileID: 11400000, guid: 8a8f735fc884d634a8af41919a2e0e28, type: 2}
+    movementToApply: {fileID: 0}
+    playerName: 
+  rayWidthDivider: 10
+  raycastCount: 3
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &1277965312708422139
 PrefabInstance:
   m_ObjectHideFlags: 0
