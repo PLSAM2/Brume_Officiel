@@ -12,7 +12,7 @@ public class MovementModule : MonoBehaviour
 	public LayerMask movementBlockingLayer, dashBlockingLayer;
 	[SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
 	[SerializeField] CharacterController chara;
-
+	[HideInInspector] public bool rotLocked = false;
 	[HideInInspector] public CapsuleCollider collider;
 
 	/*	[Header("Running Stamina")]
@@ -32,14 +32,16 @@ public class MovementModule : MonoBehaviour
 	public float ghostSpeed = 4.2f;
 	public void Start ()
 	{
-		if(!isAGhost)
-        {
+		if (!isAGhost)
+		{
 			Init();
 		}
 
 	}
 
-	public void Init()
+
+
+	public void Init ()
 	{
 		if (GetComponent<Ghost>() != null)
 		{
@@ -63,11 +65,11 @@ public class MovementModule : MonoBehaviour
 		}
 
 
-        /*myPlayerModule.toggleRunning += ToggleRunning;
+		/*myPlayerModule.toggleRunning += ToggleRunning;
 		myPlayerModule.stopRunning += StopRunning;*/
 
-        //IMPORTANT POUR LES CALLBACKS
-        if (!isAGhost)
+		//IMPORTANT POUR LES CALLBACKS
+		if (!isAGhost)
 		{
 			currentForcedMovement.myModule = myPlayerModule;
 			collider = GetComponent<CapsuleCollider>();
@@ -76,10 +78,10 @@ public class MovementModule : MonoBehaviour
 
 	void OnDisable ()
 	{
-        if (myPlayerModule == null)
-        {
+		if (myPlayerModule == null)
+		{
 			return;
-        }
+		}
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
@@ -118,11 +120,11 @@ public class MovementModule : MonoBehaviour
 			}
 
 			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
-            {
+			{
 				chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) * currentForcedMovement.strength * Time.deltaTime);
-			}	
+			}
 			else
-            {
+			{
 				ForcedMovementTouchObstacle();
 			}
 
@@ -131,11 +133,11 @@ public class MovementModule : MonoBehaviour
 		else if (_directionInputed != Vector3.zero && CanMove())
 		{
 			chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
-	
+
 			myPlayerModule.onSendMovement(_directionInputed);
 		}
 		else
-        {
+		{
 			myPlayerModule.onSendMovement(Vector3.zero);
 		}
 	}
@@ -156,6 +158,24 @@ public class MovementModule : MonoBehaviour
 		currentForcedMovement = _temp;
 	}
 
+	private void Update ()
+	{
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			//rot player
+			LookAtMouse();
+		}
+		else
+			return;
+	}
+	void LookAtMouse ()
+	{
+		if (!rotLocked)
+		{
+			Vector3 _currentMousePos = myPlayerModule.mousePos();
+			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
+		}
+	}
 	/*void StopRunning()
 	{
 		timeSpentRunning = 0;
@@ -255,8 +275,8 @@ public class MovementModule : MonoBehaviour
 
 	float LiveMoveSpeed ()
 	{
-        if (isAGhost)
-        {
+		if (isAGhost)
+		{
 			return ghostSpeed;
 		}
 
@@ -265,9 +285,9 @@ public class MovementModule : MonoBehaviour
 		float _worstMalus = 0;
 		float _allBonuses = 0;
 
-		foreach(EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
+		foreach (EffectLifeTimed _liveEffect in myPlayerModule.allEffectLive)
 		{
-			if((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
+			if ((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
 			{
 				if (_liveEffect.effect.percentageOfTheMovementModifier > _worstMalus)
 					_worstMalus = _liveEffect.effect.percentageOfTheMovementModifier;
@@ -278,7 +298,7 @@ public class MovementModule : MonoBehaviour
 			}
 		}
 		/*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
-		
+
 		float _baseSpeed = 0;
 
 		if ((myPlayerModule.state & En_CharacterState.Crouched) != 0)
@@ -287,8 +307,8 @@ public class MovementModule : MonoBehaviour
 		else
 			_baseSpeed = parameters.movementSpeed;
 
-		
-		return _baseSpeed * (1+_allBonuses) * (1-_worstMalus);
+
+		return _baseSpeed * (1 + _allBonuses) * (1 - _worstMalus);
 
 	}
 

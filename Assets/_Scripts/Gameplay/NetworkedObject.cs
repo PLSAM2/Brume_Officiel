@@ -101,6 +101,11 @@ public class NetworkedObject : MonoBehaviour
         }
     }
 
+    public void SetPosition(Vector3 pos)
+    {
+        this.transform.position = pos;
+    }
+
     public void Activate()
     {
         isNetworked = true;

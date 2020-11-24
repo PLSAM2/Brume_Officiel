@@ -9,7 +9,19 @@ public class Module_WXAuto : SpellModule
     {
         base.ResolveSpell(_mousePosition);
 
+
+        //LocalPlayer _hitPlayer = ShootAndGetFirstHit();
+
+        //if (_hitPlayer != null)
+        //{
+        //    _hitPlayer.DealDamages(spell.)
+        //}
     }
 
+
+    //public LocalPlayer ShootAndGetFirstHit()
+    //{
+
+    //}
 
 }
