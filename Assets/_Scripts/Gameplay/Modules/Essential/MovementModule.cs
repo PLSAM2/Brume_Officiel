@@ -122,7 +122,7 @@ public class MovementModule : MonoBehaviour
 			if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
 			{
 			chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) *
-				(currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate( currentForcedMovement.duration/ currentForcedMovement.baseDuration) )* Time.deltaTime);
+				(currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(1 -( currentForcedMovement.duration  / currentForcedMovement.baseDuration)) )* Time.deltaTime);
 			}
 			else
 			{
