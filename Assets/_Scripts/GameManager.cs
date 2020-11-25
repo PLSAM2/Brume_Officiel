@@ -19,8 +19,11 @@ public class GameManager : SerializedMonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    public Dictionary<Team, List<SpawnPoint>> spawns = new Dictionary<Team, List<SpawnPoint>>();
+    // Spawns >>
+    [SerializeField] private Dictionary<ushort, List<SpawnPoint>> spawns = new Dictionary<ushort, List<SpawnPoint>>();
     public List<SpawnPoint> resSpawns = new List<SpawnPoint>();
+    // <<
+
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
     public Action AllCharacterSpawned;
 
@@ -43,6 +46,7 @@ public class GameManager : SerializedMonoBehaviour
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
     public List<Ward> allWard = new List<Ward>();
+    public List<VisionTower> allTower = new List<VisionTower>();
 
     private bool stopInit = false;
     public bool gameStarted = false;
@@ -54,8 +58,10 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, bool> OnPlayerAtViewChange;
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
-
     public Action<ushort> OnPlayerDisconnect;
+
+    public Action<Ward> OnWardTeamSpawn;
+    public Action<VisionTower> OnTowerTeamCaptured;
 
     private void Awake()
     {
@@ -131,6 +137,11 @@ public class GameManager : SerializedMonoBehaviour
         }
     }
 
+    public List<SpawnPoint> GetSpawnsOfTeam(Team team)
+    {
+        return spawns[RoomManager.Instance.assignedSpawn[team]];
+    }
+
     private void PlayerQuitGame(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
@@ -201,5 +212,15 @@ public class GameManager : SerializedMonoBehaviour
         return networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
     }
 
-
+    public LocalPlayer GetLocalPlayerChamp(Character _champ, Team _team)
+    {
+        foreach(KeyValuePair<ushort, LocalPlayer> p in networkPlayers)
+        {
+            if(RoomManager.Instance.GetPlayerData(p.Key).playerCharacter == _champ && RoomManager.Instance.GetPlayerData(p.Key).playerTeam == _team)
+            {
+                return p.Value;
+            }
+        }
+        return null;
+    }
 }

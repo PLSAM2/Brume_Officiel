@@ -43,7 +43,7 @@ public class PlayerModule : MonoBehaviour
 
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
-
+	public bool isThirdEyes = false;
 
 	[ReadOnly]
 	public bool isInBrume
@@ -93,6 +93,9 @@ public class PlayerModule : MonoBehaviour
 	private bool isAltarSpeedBuffActive = false;
 	public Sc_Status poisonousEffect;
 	public bool isPoisonousEffectActive = false;
+
+	[Header("Cursed")]
+	public bool cursedByShili = false;
 
 	//ALL ACTION 
 	#region
@@ -362,6 +365,9 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
+		if (cursedByShili)
+			return true;
+
 		if (lastRecordedPos == transform.position || isInBrume)
 			return false;
 

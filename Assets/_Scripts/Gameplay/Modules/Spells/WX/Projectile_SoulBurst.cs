@@ -14,20 +14,20 @@ public class Projectile_SoulBurst : MonoBehaviour
     private Vector3 startPos;
     private Vector3 destination;
 
-    private void Start()
+    private void OnEnable()
     {
         networkedObject = this.GetComponent<NetworkedObject>();
-        isOwner = networkedObject.GetIsOwner();
     }
 
     public void Init(Vector3 destination, Vector3 startPos, float explodeRange = 1, float maxRange = 5, float speed = 1)
     {
+        isOwner = networkedObject.GetIsOwner();
+
         this.destination = destination;
         this.startPos = startPos;        
         this.explodeRange = explodeRange;
         this.maxRange = maxRange;
         this.speed = speed;
-
         traveling = true;
     }
 
@@ -69,6 +69,8 @@ public class Projectile_SoulBurst : MonoBehaviour
     {
         traveling = false;
 
+        NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
+
         foreach (LocalPlayer P in GetAllNearbyPlayers())
         {
             DamagesInfos _tempDmg = new DamagesInfos();
@@ -77,7 +79,7 @@ public class Projectile_SoulBurst : MonoBehaviour
             P.DealDamages(_tempDmg, Vector3.zero);
         }
 
-       NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
+
     }
 
     void OnDrawGizmosSelected()

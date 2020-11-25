@@ -2,6 +2,7 @@
 using DarkRift.Client.Unity;
 using DarkRift.Server;
 using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 
 public class NetworkedObject : MonoBehaviour
@@ -20,6 +21,8 @@ public class NetworkedObject : MonoBehaviour
     private UnityClient ownerIClient; // Set uniquement par le créateur
     private Vector3 lastPosition; // Set uniquement par le créateur
 
+    public Action OnSpawnObj;
+
     public void Init(ushort lastObjId, PlayerData playerData, ushort objKey)
     {
         // Vérifie les droits lié à cette objets
@@ -33,6 +36,8 @@ public class NetworkedObject : MonoBehaviour
             ownerIClient = RoomManager.Instance.client;
             isOwner = true;
         }
+
+        OnSpawnObj?.Invoke();
     }
     private void OnDisable()
     {

@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
-  m_ShaderKeywords: _BETWEENFULLLOWANDHIGH05_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON
+  m_ShaderKeywords: _ANIMATED_ON _BETWEENFULLLOWANDHIGH05_ON _FULL05_ON _OPACITY05_ON
+    _OPACITYBLACK_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -55,6 +56,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _GroundMask_Texture:
+        m_Texture: {fileID: 2800000, guid: a24af4bf25040b448bb7a647ef0953a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GroundMask_Texture1:
+        m_Texture: {fileID: 2800000, guid: 49bd8c401abf6944f8c5bcb3430bc9c3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 5249c43f26c99bf448754900521f6d27, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -92,7 +101,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
-        m_Texture: {fileID: 2800000, guid: bb0988e7843e1044e95b7a17cd828759, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample5:
+        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -100,7 +113,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Animated: 0
+    - _1: 12.84
+    - _2: -0.44
+    - _Animated: 1
     - _BetweenFullLowAndHigh05: 1
     - _Black: 0
     - _BumpScale: 1
@@ -108,8 +123,13 @@ Material:
     - _CurvFix: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DisplacementTexture_Multiply: 1
+    - _DisplacementTexture_Multiply1: 1
     - _DstBlend: 0
-    - _Float0: -0.01
+    - _Flipbook_Columns: 2
+    - _Flipbook_Rows: 2
+    - _Flipbook_Speed: 2
+    - _Float0: 1.75
     - _Full05: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -117,6 +137,8 @@ Material:
     - _Levels: 1
     - _Metallic: 0
     - _Mode: 0
+    - _MultiplyGroundMask: 2.73
+    - _MultiplyGroundMask1: 2.95
     - _OcclusionStrength: 1
     - _Opacity05: 1
     - _OpacityBlack: 1
@@ -128,14 +150,21 @@ Material:
     - _SpecularHighlights: 1
     - _Speed: 0.2
     - _SrcBlend: 1
+    - _Tesselation_Factor: 15
+    - _Tesselation_Factor1: 15
+    - _Tesselation_MaxDist: 5
+    - _Tesselation_MaxDist1: 5
+    - _Tesselation_MinDist: 0
+    - _Tesselation_MinDist1: 0
     - _Test: -5.92
+    - _Tiling: 3.84
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
-    - _distancePlane: -0.9
+    - _distancePlane: 0.4
     - _opacityContrast: 10
     - _parallaxScale: 0.1
-    - _scale: 0.18
+    - _scale: 0.36
     m_Colors:
     - _BrumeColor: {r: 0.6862745, g: 0.80392164, b: 0.92549026, a: 1}
     - _BrumeColorHigh: {r: 0.8349056, g: 0.9806515, b: 1, a: 0}

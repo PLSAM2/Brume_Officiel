@@ -97,4 +97,20 @@ public class GameFactory
             return null;
         }
     }
+
+    public static List<LocalPlayer> GetPlayerInRange(float _range, Vector3 pos)
+    {
+        List<LocalPlayer> pInRange = new List<LocalPlayer>();
+        foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+        {
+            if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+
+            if (Vector3.Distance(pos, player.Value.transform.position) <= _range)
+            {
+                pInRange.Add(player.Value);
+            }
+        }
+
+        return pInRange;
+    }
 }

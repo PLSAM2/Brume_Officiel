@@ -31,8 +31,23 @@ public class Displayer : MonoBehaviour
 
             if (player.Value.forceOutline)
             {
-                SetFow(player.Value, false);
-                ShowOutline(player.Value);
+                if (currentFollowPlayer.myPlayerModule.isThirdEyes)
+                {
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
+                    {
+                        HideOrShow(player.Value, true);
+                    }
+                    else
+                    {
+                        SetFow(player.Value, false);
+                        ShowOutline(player.Value);
+                    }
+                }
+                else
+                {
+                    SetFow(player.Value, false);
+                    ShowOutline(player.Value);
+                }
                 continue;
             }
 

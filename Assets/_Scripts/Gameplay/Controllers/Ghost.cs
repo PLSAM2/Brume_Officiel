@@ -11,12 +11,11 @@ public class Ghost : MonoBehaviour
     public GameObject fowPrefab;
     public GameObject canvas;
     public Image fillImg;
-    public float lifeTime = 10;
 
     private Quaternion canvasRot;
     private float timer = 0;
     private GameObject fowObj;
-
+    private float saveLifeTime;
 
     private void Awake()
     {
@@ -42,11 +41,13 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    public void Init(PlayerModule playerModule)
+    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed)
     {
         canvas.SetActive(true);
         this.playerModule = playerModule;
-        timer = lifeTime;
+        saveLifeTime = lifetime;
+        movementModule.ghostSpeed = ghostSpeed;
+        timer = saveLifeTime;
         playerModule.thirdSpellInputRealeased += Destruct;
         this.GetComponent<MovementModule>().Init();
 
@@ -66,10 +67,10 @@ public class Ghost : MonoBehaviour
 
         if (timer < 0)
         {
-            Destruct(Vector3.zero);
+            LifeTimeEnd();
         }
 
-        fillImg.fillAmount = (timer / lifeTime);
+        fillImg.fillAmount = (timer / saveLifeTime);
     }
 
     private void LateUpdate()
@@ -90,5 +91,13 @@ public class Ghost : MonoBehaviour
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
             this.gameObject.SetActive(false);
         }
+    }
+
+    private void LifeTimeEnd()
+    {
+        playerModule.gameObject.transform.position = this.transform.position;
+        playerModule.gameObject.transform.rotation = this.transform.rotation;
+
+        Destruct(Vector3.zero);
     }
 }
