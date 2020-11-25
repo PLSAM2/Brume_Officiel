@@ -71,7 +71,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             {
                 InstantiateInServer(sender, e);
             }
-
             if (message.Tag == Tags.SynchroniseObject)
             {
                 SynchroniseObject(sender, e);
@@ -306,10 +305,24 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                     instantiatedObjectsList[objID].gameObject.SetActive(false);
                     instantiatedObjectsList.Remove(objID);
                 }
-
-
             }
         }
     }
 
+    /// <summary>
+    /// Not efficient / Do not use this in Update
+    /// </summary>
+    /// <param name="obj"> </param>
+    /// <returns></returns>
+    private ushort GetPoolID(GameObject obj)
+    {
+        foreach (KeyGameObjectPair pair in networkedObjectsList.networkObjects)
+        {
+            if (obj == pair.gameObject)
+            {
+                return pair.Key;
+            }
+        }
+        return 0;
+    }
 }
