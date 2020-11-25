@@ -67,7 +67,7 @@ public class Ghost : MonoBehaviour
 
         if (timer < 0)
         {
-            Destruct(Vector3.zero);
+            LifeTimeEnd();
         }
 
         fillImg.fillAmount = (timer / saveLifeTime);
@@ -91,5 +91,13 @@ public class Ghost : MonoBehaviour
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
             this.gameObject.SetActive(false);
         }
+    }
+
+    private void LifeTimeEnd()
+    {
+        playerModule.gameObject.transform.position = this.transform.position;
+        playerModule.gameObject.transform.rotation = this.transform.rotation;
+
+        Destruct(Vector3.zero);
     }
 }
