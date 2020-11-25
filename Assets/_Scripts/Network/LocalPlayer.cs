@@ -57,7 +57,7 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
-    public bool forceShow = false;
+    public bool forceOutline = false;
 
     public List<GameObject> objToHide = new List<GameObject>();
     public static Action disableModule;
@@ -467,8 +467,8 @@ public class LocalPlayer : MonoBehaviour
 
     IEnumerator TimerShowPlayer(float _time)
     {
-        forceShow = true;
+        forceOutline = true;
         yield return new WaitForSeconds(_time);
-        forceShow = false;
+        forceOutline = false;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static FieldOfView;
 
-public class EnemyDisplayer : MonoBehaviour
+public class Displayer : MonoBehaviour
 {
     private void OnEnable()
     {
@@ -29,10 +29,10 @@ public class EnemyDisplayer : MonoBehaviour
                 continue;
             }
 
-            if (player.Value.forceShow)
+            if (player.Value.forceOutline)
             {
-                HideOrShow(player.Value, true);
-                SetFow(player.Value, true);
+                SetFow(player.Value, false);
+                ShowOutline(player.Value);
                 continue;
             }
 
