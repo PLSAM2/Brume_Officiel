@@ -26,6 +26,7 @@ public class RoomManager : MonoBehaviour
     [Header("ActualGameInfo")]
     public int roundCount = 0;
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
+    [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 
     private void Awake()
     {
@@ -39,6 +40,12 @@ public class RoomManager : MonoBehaviour
         }
 
         client.MessageReceived += MessageReceived;
+    }
+
+    private void Start()
+    {
+        assignedSpawn.Add(Team.red, 0);
+        assignedSpawn.Add(Team.blue, 0);
     }
 
     private void OnDisable()
@@ -76,6 +83,19 @@ public class RoomManager : MonoBehaviour
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
         StartNewRound();
+
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort redTeamAssignement = reader.ReadUInt16();
+                ushort blueTeamAssignement = reader.ReadUInt16();
+
+                assignedSpawn[Team.red] = redTeamAssignement;
+                assignedSpawn[Team.blue] = blueTeamAssignement;
+            }
+        }
+
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
     }
 
@@ -100,6 +120,15 @@ public class RoomManager : MonoBehaviour
 
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)
     {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                assignedSpawn[Team.red] = reader.ReadUInt16();
+                assignedSpawn[Team.blue] = reader.ReadUInt16();
+            }
+        }
+
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
     }
 
@@ -157,6 +186,8 @@ public class RoomManager : MonoBehaviour
 
     private void SetInGameUniqueIDInServer(object sender, MessageReceivedEventArgs e)
     {
+        InGameUniqueIDList.Clear();
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())

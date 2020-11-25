@@ -202,7 +202,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     if (!isResurecting)
                     {
-                        foreach (SpawnPoint spawn in GameManager.Instance.spawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
+                        foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
                         {
                             if (spawn.CanSpawn())
                             {
