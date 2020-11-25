@@ -179,7 +179,7 @@ public class LocalPlayer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P) && isOwner)
         {
-            transform.position = (GameManager.Instance.spawns[GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)])[0].transform.position;
+            transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
         }
     }
 

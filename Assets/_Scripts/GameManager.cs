@@ -19,8 +19,11 @@ public class GameManager : SerializedMonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    public Dictionary<Team, List<SpawnPoint>> spawns = new Dictionary<Team, List<SpawnPoint>>();
+    // Spawns >>
+    [SerializeField] private Dictionary<ushort, List<SpawnPoint>> spawns = new Dictionary<ushort, List<SpawnPoint>>();
     public List<SpawnPoint> resSpawns = new List<SpawnPoint>();
+    // <<
+
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
     public Action AllCharacterSpawned;
 
@@ -54,7 +57,6 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, bool> OnPlayerAtViewChange;
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
-
     public Action<ushort> OnPlayerDisconnect;
 
     private void Awake()
@@ -129,6 +131,13 @@ public class GameManager : SerializedMonoBehaviour
                 PlayerQuitGame(_sender, _e);
             }
         }
+    }
+
+    public List<SpawnPoint> GetSpawnsOfTeam(Team team)
+    {
+        print(team);
+        print(RoomManager.Instance.assignedSpawn[Team.red]);
+        return spawns[RoomManager.Instance.assignedSpawn[team]];
     }
 
     private void PlayerQuitGame(object sender, MessageReceivedEventArgs e)
