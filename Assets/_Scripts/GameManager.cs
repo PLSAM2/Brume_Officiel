@@ -139,8 +139,6 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<SpawnPoint> GetSpawnsOfTeam(Team team)
     {
-        print(team);
-        print(RoomManager.Instance.assignedSpawn[Team.red]);
         return spawns[RoomManager.Instance.assignedSpawn[team]];
     }
 

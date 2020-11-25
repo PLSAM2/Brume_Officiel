@@ -45,7 +45,6 @@ public class VisionTower : Interactible
         {
             vision.gameObject.SetActive(false);
         }
-
     }
 
     public void ReactivateTower()

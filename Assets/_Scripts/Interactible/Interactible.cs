@@ -187,7 +187,6 @@ public class Interactible : MonoBehaviour
             mapIcon.sprite = iconRed;
         else if ( showOnMap)
             mapIcon.sprite = iconBlue;
-
     }
 
     public virtual void SetActiveState(bool value)

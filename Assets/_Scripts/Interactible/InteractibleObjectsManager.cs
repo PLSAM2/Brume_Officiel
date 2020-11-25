@@ -123,7 +123,12 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
 
                 Interactible _interactible = interactibleList[_ID].interactible;
                 _interactible.UpdateCaptured(_team);
-            }
+
+                if (_interactible.GetType() == typeof(VisionTower))
+                {
+
+                }
+                }
         }
     }
 
