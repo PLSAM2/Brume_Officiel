@@ -7,6 +7,8 @@ public class Module_WxThirdEye : SpellModule
     [SerializeField] GameObject thirdEyeShockWavePrefab;
     Transform shockWave;
 
+    [SerializeField] float fowRaduis = 4;
+
     [SerializeField] float cursedDuration = 3;
 
     bool inEchoMode = false;
@@ -20,18 +22,71 @@ public class Module_WxThirdEye : SpellModule
 
     [SerializeField] AudioClip waveAudio;
 
-    shockWaveState shockWaveStatut = shockWaveState.hide;
+    [SerializeField] shockWaveState shockWaveStatut = shockWaveState.hide;
 
     List<LocalPlayer> pingedPlayer = new List<LocalPlayer>();
+
+    bool isSpelling = false;
+
+    LocalPlayer myLocalPlayer;
+
+    private void Start()
+    {
+        myLocalPlayer = GameManager.Instance.GetLocalPlayerObj();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
+        GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
+        GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
+    }
+
+    void OnTowerCaptured(VisionTower _tower)
+    {
+        if (isSpelling)
+        {
+            _tower.vision.gameObject.SetActive(false);
+        }
+    }
+
+    void OnWardSpawn(Ward _ward)
+    {
+        if (isSpelling)
+        {
+            _ward.GetFow().gameObject.SetActive(false);
+        }
+    }
+
     protected override void ResolveSpell(Vector3 _mousePosition)
     {
         base.ResolveSpell(_mousePosition);
+        GetComponent<PlayerModule>().firstSpellInput += OnCancelSpell;
 
         StartWave();
     }
 
+    void OnCancelSpell(Vector3 mousePos)
+    {
+        StopAllCoroutines();
+
+        foreach (LocalPlayer p in pingedPlayer)
+        {
+            p.forceOutline = false;
+        }
+        OnEndEcho();
+    }
+
     void StartWave()
     {
+        isSpelling = true;
+        myLocalPlayer.myPlayerModule.isThirdEyes = true;
+
         if (!shockWave)
         {
             shockWave = Instantiate(thirdEyeShockWavePrefab, transform).transform;
@@ -48,10 +103,89 @@ public class Module_WxThirdEye : SpellModule
         AudioManager.Instance.Play3DAudio(waveAudio, transform.position);
 
         GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
+
+        HideShowAllFow(false);
+    }
+
+    void HideShowAllFow(bool _value)
+    {
+        //ward
+        foreach (Ward ward in GameManager.Instance.allWard)
+        {
+            if (ward == null) { continue; }
+
+            if (_value)
+            {
+                bool fogValue = false;
+                if (GameFactory.PlayerWardAreOnSameBrume(myLocalPlayer.myPlayerModule, ward))
+                {
+                    fogValue = true;
+                }
+                else
+                {
+                    if (myLocalPlayer.myPlayerModule.isInBrume)
+                    {
+                        fogValue = false;
+                    }
+                    else
+                    {
+                        fogValue = true;
+                    }
+                }
+                ward.GetFow().gameObject.SetActive(fogValue);
+            }
+            else
+            {
+                ward.GetFow().gameObject.SetActive(false);
+            }
+        }
+
+        //tower
+        foreach (VisionTower tower in GameManager.Instance.allTower)
+        {
+            if (tower == null) { continue; }
+
+            if (_value)
+            {
+                if (myLocalPlayer.myPlayerModule.isInBrume)
+                {
+                    tower.vision.gameObject.SetActive(false);
+                }
+                else
+                {
+                    tower.vision.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                tower.vision.gameObject.SetActive(false);
+            }
+        }
+
+        foreach(KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+        {
+            if (player.Value == myLocalPlayer)
+                continue;
+
+            if(player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                if (_value)
+                {
+                    player.Value.ResetFowRaduis();
+                }
+                else
+                {
+                    player.Value.SetFowRaduis(0);
+                }
+            }
+        }
     }
 
     private void Update()
     {
+        if (!isSpelling)
+            return;
+
         if (shockWaveStatut == shockWaveState.open)
         {
             currentWaveTime += Time.deltaTime;
@@ -75,6 +209,15 @@ public class Module_WxThirdEye : SpellModule
                 player.Value.myPlayerModule.cursedByShili = (Vector3.Distance(transform.position, player.Value.transform.position) <= echoRange);
             }
         }
+        else
+        {
+            foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+            {
+                if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+
+                player.Value.myPlayerModule.cursedByShili = false;
+            }
+        }
 
         if (shockWaveStatut == shockWaveState.close)
         {
@@ -86,13 +229,14 @@ public class Module_WxThirdEye : SpellModule
             {
                 shockWaveStatut = shockWaveState.hide;
                 shockWave.gameObject.SetActive(false);
-                OnShockWaveFinish();
+                isSpelling = false;
             }
         }
     }
 
     void OnShockWaveFinish()
     {
+        GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(fowRaduis);
         FindAllPlayerInRange();
     }
 
@@ -106,17 +250,12 @@ public class Module_WxThirdEye : SpellModule
             pingedPlayer.Add(player);
         }
 
-        StartCoroutine(WaitToHideOutline());
+        StartCoroutine("WaitToHideOutline");
     }
 
     IEnumerator WaitToHideOutline()
     {
         yield return new WaitForSeconds(cursedDuration);
-
-        foreach(LocalPlayer p in pingedPlayer)
-        {
-            p.forceOutline = false;
-        }
 
         SetInEchoMode();
     }
@@ -125,18 +264,39 @@ public class Module_WxThirdEye : SpellModule
     {
         inEchoMode = true;
 
-        StartCoroutine(WaitToHideEcho());
+        StartCoroutine("WaitToHideEcho");
+
+        foreach (LocalPlayer p in pingedPlayer)
+        {
+            p.forceOutline = false;
+        }
     }
 
     IEnumerator WaitToHideEcho()
     {
         yield return new WaitForSeconds(echoDuration);
+        OnEndEcho();
+    }
 
+    void OnEndEcho()
+    {
         inEchoMode = false;
-        GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
+        GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
 
         currentWaveTime = 0;
         shockWaveStatut = shockWaveState.close;
+
+        shockWave.gameObject.SetActive(true);
+
+        print("son");
+        AudioManager.Instance.Play3DAudio(waveAudio, transform.position);
+
+        GameManager.Instance.GetLocalPlayerObj().ResetFowRaduis();
+        GetComponent<PlayerModule>().firstSpellInput -= OnCancelSpell;
+
+        myLocalPlayer.myPlayerModule.isThirdEyes = true;
+
+        HideShowAllFow(true);
     }
 
     public enum shockWaveState

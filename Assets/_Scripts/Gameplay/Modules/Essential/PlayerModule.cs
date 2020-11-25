@@ -40,7 +40,7 @@ public class PlayerModule : MonoBehaviour
 
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
-
+	public bool isThirdEyes = false;
 
 	[ReadOnly]
 	public bool isInBrume

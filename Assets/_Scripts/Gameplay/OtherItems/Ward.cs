@@ -8,7 +8,7 @@ public class Ward : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 60;
     [SerializeField] private float lifeTimeInBrume = 3;
-    [SerializeField] private Fow fowFollow;
+    [SerializeField] private Fow vision;
     [SerializeField] private LayerMask brumeLayer;
     private Team myTeam;
 
@@ -25,7 +25,7 @@ public class Ward : MonoBehaviour
         }
         else
         {
-            fowFollow.Init();
+            vision.Init();
 
             isInBrume = IsInBrume();
             if (isInBrume)
@@ -38,27 +38,29 @@ public class Ward : MonoBehaviour
             }
 
             GameManager.Instance.allWard.Add(this);
-            fowFollow.gameObject.SetActive(false);
+            GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
+
+            vision.gameObject.SetActive(false);
 
             if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule,this))
             {
-                fowFollow.gameObject.SetActive(true);
+                vision.gameObject.SetActive(true);
             }
 
             if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && !isInBrume){
-                fowFollow.gameObject.SetActive(true);
+                vision.gameObject.SetActive(true);
             }
 
             if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && isInBrume)
             {
-                fowFollow.gameObject.SetActive(true);
+                vision.gameObject.SetActive(true);
             }
         }
     }
 
     public Fow GetFow()
     {
-        return fowFollow;
+        return vision;
     }
 
     public bool IsInBrume()
@@ -74,7 +76,7 @@ public class Ward : MonoBehaviour
 
     public void DestroyWard()
     {
-        fowFollow.gameObject.SetActive(false);
+        vision.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
     IEnumerator WardLifeTime(float _time)
@@ -88,7 +90,7 @@ public class Ward : MonoBehaviour
     {
         if (myTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
         {
-            fowFollow.gameObject.SetActive(false);
+            vision.gameObject.SetActive(false);
 
             GameManager.Instance.allWard.Remove(this);
         }
