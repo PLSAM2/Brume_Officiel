@@ -82,7 +82,7 @@ MonoBehaviour:
   life: {fileID: 8177495112107496326}
   syncSpeed: 20
   fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
-  forceShow: 0
+  forceOutline: 0
   objToHide:
   - {fileID: 5588103883704817958}
   - {fileID: 1724655755996733115}
@@ -116,6 +116,7 @@ MonoBehaviour:
   currentForcedMovement:
     myModule: {fileID: 0}
     _duration: 0
+    baseDuration: 0
     speedEvolution:
       serializedVersion: 2
       m_Curve:
@@ -141,7 +142,9 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     strength: 0
+  isAGhost: 0
   ghostSpeed: 4.2
+  ghost: {fileID: 0}
 --- !u!143 &8474438155242974316
 CharacterController:
   m_ObjectHideFlags: 0
@@ -456,22 +459,22 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.52597636
+      time: 0.43290043
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -4.51875
+      outSlope: -4.51875
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.03766877
     - serializedVersion: 3
-      time: 0.64871216
+      time: 0.77922076
       value: 0
-      inSlope: -1.0222173
-      outSlope: -1.0222173
+      inSlope: -0.02792802
+      outSlope: -0.02792802
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.13798077
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -2156,7 +2159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 2
+  outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 4
   precomputeOutline: 0

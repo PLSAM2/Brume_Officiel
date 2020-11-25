@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class Ghost : MonoBehaviour
 {
-    public PlayerModule playerModule;
+    [HideInInspector] public PlayerModule playerModule;
     public MovementModule movementModule;
-
+    public NetworkedObject networkedObject;
     public GameObject fowPrefab;
-    private GameObject fowObj;
     public GameObject canvas;
     public Image fillImg;
-    public float lifeTime = 10;
+
     private Quaternion canvasRot;
     private float timer = 0;
+    private GameObject fowObj;
+    private float saveLifeTime;
 
     private void Awake()
     {
@@ -27,13 +28,26 @@ public class Ghost : MonoBehaviour
         {
             return;
         }
+
+        Destroy(fowObj);
         playerModule.thirdSpellInputRealeased -= Destruct;
     }
 
-    public void Init(PlayerModule playerModule)
+    private void OnEnable()
     {
+        if (!networkedObject.GetIsOwner())
+        {
+            canvas.SetActive(false);
+        }
+    }
+
+    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed)
+    {
+        canvas.SetActive(true);
         this.playerModule = playerModule;
-        timer = lifeTime;
+        saveLifeTime = lifetime;
+        movementModule.ghostSpeed = ghostSpeed;
+        timer = saveLifeTime;
         playerModule.thirdSpellInputRealeased += Destruct;
         this.GetComponent<MovementModule>().Init();
 
@@ -46,29 +60,44 @@ public class Ghost : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!networkedObject.GetIsOwner())
+            return;
+
         timer -= Time.fixedDeltaTime;
 
         if (timer < 0)
         {
-            Destruct(Vector3.zero);
+            LifeTimeEnd();
         }
 
-        fillImg.fillAmount = (timer / lifeTime);
+        fillImg.fillAmount = (timer / saveLifeTime);
     }
 
     private void LateUpdate()
     {
+        if (!networkedObject.GetIsOwner())
+            return;
+
         canvas.transform.rotation = canvasRot;
     }
-
-
 
     /// <param name="pos"> Useless </param>
     private void Destruct(Vector3 pos)
     {
-        CameraManager.Instance.SetFollowObj(playerModule.transform);
-        Destroy(fowObj);
-        playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
-        this.gameObject.SetActive(false);
+        if (networkedObject.GetIsOwner())
+        {
+            CameraManager.Instance.SetFollowObj(playerModule.transform);
+            NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
+            playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    private void LifeTimeEnd()
+    {
+        playerModule.gameObject.transform.position = this.transform.position;
+        playerModule.gameObject.transform.rotation = this.transform.rotation;
+
+        Destruct(Vector3.zero);
     }
 }

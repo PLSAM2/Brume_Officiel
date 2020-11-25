@@ -71,7 +71,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             {
                 InstantiateInServer(sender, e);
             }
-
             if (message.Tag == Tags.SynchroniseObject)
             {
                 SynchroniseObject(sender, e);
@@ -169,7 +168,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             writer.Write(uniqueObjId);
 
             writer.Write(position.x);
-            writer.Write(position.y);
             writer.Write(position.z);
 
             writer.Write(eulerAngles.x);
@@ -201,7 +199,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _uniqueObjId = reader.ReadUInt16();
 
                 _ObjectPos.x = reader.ReadSingle();
-                _ObjectPos.y = reader.ReadSingle();
                 _ObjectPos.z = reader.ReadSingle();
 
                 _ObjectRotation.x = reader.ReadSingle();
@@ -234,6 +231,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         ushort _objectID;
         Vector3 _newObjectPos = new Vector3(0, 0, 0);
 
+        bool _synchronisePosition = true;
         bool _synchroniseRotation = true;
         Vector3 _newObjectRotation = new Vector3(0, 0, 0);
 
@@ -243,10 +241,13 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             {
                 _objectID = reader.ReadUInt16();
 
-                _newObjectPos.x = reader.ReadSingle();
-                _newObjectPos.y = reader.ReadSingle();
-                _newObjectPos.z = reader.ReadSingle();
+                _synchronisePosition = reader.ReadBoolean();
 
+                if (_synchroniseRotation)
+                {
+                    _newObjectPos.x = reader.ReadSingle();
+                    _newObjectPos.z = reader.ReadSingle();
+                }
                 _synchroniseRotation = reader.ReadBoolean();
 
                 if (_synchroniseRotation)
@@ -261,8 +262,10 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         if (!instantiatedObjectsList.ContainsKey(_objectID))
             return;
 
-        instantiatedObjectsList[_objectID].SetPosition(_newObjectPos);
-        
+        if (_synchronisePosition)
+        {
+            instantiatedObjectsList[_objectID].SetPosition(_newObjectPos);
+        }
         if (_synchroniseRotation)
         {
             instantiatedObjectsList[_objectID].transform.rotation = Quaternion.Euler(_newObjectRotation);
@@ -302,10 +305,24 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                     instantiatedObjectsList[objID].gameObject.SetActive(false);
                     instantiatedObjectsList.Remove(objID);
                 }
-
-
             }
         }
     }
 
+    /// <summary>
+    /// Not efficient / Do not use this in Update
+    /// </summary>
+    /// <param name="obj"> </param>
+    /// <returns></returns>
+    private ushort GetPoolID(GameObject obj)
+    {
+        foreach (KeyGameObjectPair pair in networkedObjectsList.networkObjects)
+        {
+            if (obj == pair.gameObject)
+            {
+                return pair.Key;
+            }
+        }
+        return 0;
+    }
 }

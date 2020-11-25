@@ -1259,7 +1259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNetworked: 1
+  synchronisePosition: 1
   synchroniseRotation: 1
+  interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.02
 --- !u!114 &4719444733785432451
 MonoBehaviour:
@@ -1275,7 +1277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerModule: {fileID: 0}
   movementModule: {fileID: 6888309236579929682}
-  audioListener: {fileID: 6877919229187257648}
+  networkedObject: {fileID: 4969738786632249118}
   fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
   canvas: {fileID: 2803508211929711914}
   fillImg: {fileID: 4425464739576524702}
@@ -1300,12 +1302,40 @@ MonoBehaviour:
     m_Bits: 512
   forbidenWalkingState: 136
   chara: {fileID: 6408620564433633356}
+  rotLocked: 0
   collider: {fileID: 0}
   currentForcedMovement:
     myModule: {fileID: 0}
     _duration: 0
+    baseDuration: 0
+    speedEvolution:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     strength: 0
-  ghostSpeed: 4.2
+  isAGhost: 1
+  ghostSpeed: 7
+  ghost: {fileID: 4719444733785432451}
 --- !u!143 &6408620564433633356
 CharacterController:
   m_ObjectHideFlags: 0

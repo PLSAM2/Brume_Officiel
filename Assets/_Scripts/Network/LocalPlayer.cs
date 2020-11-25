@@ -57,7 +57,7 @@ public class LocalPlayer : MonoBehaviour
     [Header("Fog")]
     public GameObject fowPrefab;
     Fow myFow;
-    public bool forceShow = false;
+    public bool forceOutline = false;
 
     public List<GameObject> objToHide = new List<GameObject>();
     public static Action disableModule;
@@ -179,7 +179,7 @@ public class LocalPlayer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P) && isOwner)
         {
-            transform.position = (GameManager.Instance.spawns[GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)])[0].transform.position;
+            transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
         }
     }
 
@@ -204,16 +204,22 @@ public class LocalPlayer : MonoBehaviour
         if (_value)
         {
             myFow.gameObject.SetActive(true);
-            //ChangeFowRaduis(myPlayerModule.isInBrume);
         }
         else
         {
             myFow.gameObject.SetActive(false);
-            //myFow.ChangeFowRaduis(0);
         }
     }
 
+    public void SetFowRaduis(float _value)
+    {
+        myFow.ChangeFowRaduis(_value);
+    }
 
+    public void ResetFowRaduis()
+    {
+        ChangeFowRaduis(myPlayerModule.isInBrume);
+    }
 
     private void OnDestroy()
     {
@@ -467,8 +473,8 @@ public class LocalPlayer : MonoBehaviour
 
     IEnumerator TimerShowPlayer(float _time)
     {
-        forceShow = true;
+        forceOutline = true;
         yield return new WaitForSeconds(_time);
-        forceShow = false;
+        forceOutline = false;
     }
 }

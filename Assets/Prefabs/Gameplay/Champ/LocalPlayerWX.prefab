@@ -22,6 +22,8 @@ MonoBehaviour:
   canalisationParticle: {fileID: 0}
   particleResolution: []
   ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
+  lifeTime: 6
+  ghostSpeed: 5
 --- !u!114 &3531483061060426797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,9 +46,9 @@ MonoBehaviour:
   canalisationParticle: {fileID: 0}
   particleResolution: []
   soulburstPrefab: {fileID: 8724460869845800598, guid: 775690895a3642b4a94973f6628c3080, type: 3}
-  speed: 5
+  speed: 10
   maxRange: 5
-  explodeRange: 1
+  explodeRange: 1.5
 --- !u!114 &4933660271494748642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +70,39 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationParticle: {fileID: 0}
   particleResolution: []
+  thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
+  fowRaduis: 4
+  cursedDuration: 3
+  echoRange: 12
+  echoDuration: 3
+  waveRange: 12
+  waveDuration: 0.3
+  waveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  waveAudio: {fileID: 8300000, guid: 86278696981700940852390a19a695cf, type: 3}
+  shockWaveStatut: 1
 --- !u!114 &5231333726942406148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +146,7 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
   isPoisonousEffectActive: 0
+  cursedByShili: 0
   altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!114 &5536350898603478200
 MonoBehaviour:
@@ -135,7 +171,7 @@ MonoBehaviour:
   particleResolution: []
   damages:
     damageHealth: 5
-    statusToApply: {fileID: 11400000, guid: 8a8f735fc884d634a8af41919a2e0e28, type: 2}
+    statusToApply: {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
     movementToApply: {fileID: 0}
     playerName: 
   rayWidthDivider: 10
