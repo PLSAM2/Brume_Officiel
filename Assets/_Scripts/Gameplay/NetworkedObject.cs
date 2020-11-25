@@ -112,7 +112,7 @@ public class NetworkedObject : MonoBehaviour
     {
         if (!isOwner)
         {
-            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * interpolateSpeed);
+            transform.position = pos;
         }
     }
 
