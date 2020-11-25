@@ -31,8 +31,8 @@ public class MovementModule : MonoBehaviour
 
 
     [BoxGroup("Ghost")] public bool isAGhost = false;
-    [ShowIf("isAGhost")] [BoxGroup("Ghost")] public float ghostSpeed = 4.2f;
     [ShowIf("isAGhost")] [BoxGroup("Ghost")] public Ghost ghost;
+    [HideInInspector] public float ghostSpeed = 4.2f;
 
     public void Start()
     {

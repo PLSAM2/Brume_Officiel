@@ -6,6 +6,9 @@ public class Module_WxGhost : SpellModule
 {
     public GameObject ghostPrefab;
     private GameObject ghostObj;
+
+    public float lifeTime = 10;
+    public float ghostSpeed = 7.5f;
     protected override void ResolveSpell(Vector3 _mousePosition)
     {
         base.ResolveSpell(_mousePosition);
@@ -16,7 +19,7 @@ public class Module_WxGhost : SpellModule
         PlayerModule _tempPlayerModule = myPlayerModule;
 
         _tempPlayerModule.AddState(En_CharacterState.Stunned);
-        ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule);
+        ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed);
     }
 
 }
