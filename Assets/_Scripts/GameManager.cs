@@ -46,6 +46,7 @@ public class GameManager : SerializedMonoBehaviour
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
     public List<Ward> allWard = new List<Ward>();
+    public List<VisionTower> allTower = new List<VisionTower>();
 
     private bool stopInit = false;
     public bool gameStarted = false;
@@ -58,6 +59,9 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
     public Action<ushort> OnPlayerDisconnect;
+
+    public Action<Ward> OnWardTeamSpawn;
+    public Action<VisionTower> OnTowerTeamCaptured;
 
     private void Awake()
     {

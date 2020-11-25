@@ -6,11 +6,38 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    [SerializeField] Transform target;
-
-    private void Update()
+    //coroutine 1
+    IEnumerator DoSomething1()
     {
-        transform.LookAt(target);
-        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        while (true)
+        {
+            print("DoSomething1");
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+
+    //coroutine 2
+    IEnumerator DoSomething2()
+    {
+        while (true)
+        {
+            print("DoSomething2");
+            yield return new WaitForSeconds(1.5f);
+        }
+    }
+
+    void Start()
+    {
+        StartCoroutine("DoSomething1");
+        StartCoroutine("DoSomething2");
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            StopAllCoroutines();
+            print("Stopped all Coroutines: " + Time.time);
+        }
     }
 }
