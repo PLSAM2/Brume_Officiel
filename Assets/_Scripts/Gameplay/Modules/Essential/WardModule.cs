@@ -61,19 +61,18 @@ public class WardModule : SpellModule
 		charges += value;
 	}
 
-	protected override void ResolveSpell ( Vector3 _mousePosition )
+	protected override void Resolution (  )
 	{
 		if (isLaunched)
 		{
 			return;
 		}
 
-		base.ResolveSpell(_mousePosition);
+		base.Resolution();
 
-		float _distance = Mathf.Clamp(Vector3.Distance(_mousePosition, transform.position), 0, spell.range);
+		float _distance = Mathf.Clamp(Vector3.Distance(mousePosInputed, transform.position), 0, spell.range);
 
-
-		destination = myPlayerModule.ClosestFreePos(Vector3.Normalize(_mousePosition - transform.position), _distance);
+		destination = myPlayerModule.ClosestFreePos(Vector3.Normalize(mousePosInputed - transform.position), _distance);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{

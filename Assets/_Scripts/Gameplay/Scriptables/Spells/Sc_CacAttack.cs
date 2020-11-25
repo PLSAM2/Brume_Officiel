@@ -8,11 +8,11 @@ using Sirenix.OdinInspector;
 public class Sc_CacAttack : Sc_Spell
 {
 	[Header("AutoParameters")]
-	public float timeToCanalyseToUpgrade = .5f;
+	[TabGroup("Cac Specification")] public float timeToCanalyseToUpgrade = .5f;
 	public float timeToForceResolve;
 	[Header("DamagePart")]
-	public CacAttackParameters normalAttack;
-	public CacAttackParameters upgradedAttack;
+	[TabGroup("Cac Specification")] public CacAttackParameters normalAttack;
+	[TabGroup("Cac Specification")] public CacAttackParameters upgradedAttack;
 
 }
 
@@ -23,9 +23,6 @@ public class CacAttackParameters
 	[Header("hit Part")]
 	[Tooltip("90")] public float angleToAttackFrom = 90;
 	public float rangeOfTheAttack = 3;
-
-	[Header("Enchainement")]
-	public Sc_ForcedMovement movementOfTheCharacter;
 
 	[Header("damage Part")]
 	public DamagesInfos damagesToDeal;

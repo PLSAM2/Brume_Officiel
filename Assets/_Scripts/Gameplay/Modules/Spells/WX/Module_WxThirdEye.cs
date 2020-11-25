@@ -22,9 +22,9 @@ public class Module_WxThirdEye : SpellModule
     bool doShockWave = false;
 
     List<LocalPlayer> pingedPlayer = new List<LocalPlayer>();
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void Resolution()
     {
-        base.ResolveSpell(_mousePosition);
+        base.Resolution();
 
         StartWave();
     }

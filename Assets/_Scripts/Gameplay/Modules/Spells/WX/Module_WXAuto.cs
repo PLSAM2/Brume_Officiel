@@ -51,9 +51,9 @@ public class Module_WXAuto : SpellModule
         arrowPreview.Init(this.transform.position, this.transform.position + (normDirection * spell.range));
     }
 
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void Resolution()
     {
-        base.ResolveSpell(_mousePosition);
+        base.Resolution();
 
         LocalPlayer _hitPlayer = ShootAndGetFirstHit();
 

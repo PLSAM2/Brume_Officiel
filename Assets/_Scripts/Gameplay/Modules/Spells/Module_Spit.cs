@@ -63,18 +63,18 @@ public class Module_Spit : SpellModule
     }
 
 
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void Resolution()
     {
         if (isLaunched && spitObj != null)
         {
             return;
         }
 
-        base.ResolveSpell(_mousePosition);
+        base.Resolution();
 
         spitObj.SetActive(true);
 
-        destination = _mousePosition;
+        destination = mousePosInputed;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {

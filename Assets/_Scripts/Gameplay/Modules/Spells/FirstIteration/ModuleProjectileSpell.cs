@@ -9,7 +9,6 @@ public class ModuleProjectileSpell : SpellModule
 	int shotRemainingInSalve;
 	[SerializeField] ushort indexOfTheShotProjectileBlue = 12;
 	SalveInfos myLiveSalve;
-	Vector3 lastForwardRecorded;
 	float offsetHeight;
 	bool shooting = false;
 	float timeBetweenShot = 0;
@@ -30,11 +29,6 @@ public class ModuleProjectileSpell : SpellModule
 			timeBetweenShot -= Time.deltaTime;
 			if (timeBetweenShot <= 0)
 			{
-
-				//A RECORIGER POUR L INSTANT CA S EN FOUT
-				if (spell.useLastRecordedMousePos)
-					ShootSalve(PosToInstantiate(), RotationOfTheProj());
-				else
 					ShootSalve(PosToInstantiate(), RotationOfTheProj());
 			}
 		}
@@ -54,8 +48,6 @@ public class ModuleProjectileSpell : SpellModule
 		base.StartCanalysing(_BaseMousePos);
 
 		HidePreview();
-
-		lastForwardRecorded = transform.forward + transform.position;
 	}
 
 	public override void Interrupt ()
@@ -64,7 +56,7 @@ public class ModuleProjectileSpell : SpellModule
 		shooting = false;
 	}
 
-	protected override void ResolveSpell ( Vector3 mousePosition )
+	protected override void Resolution ( )
 	{
 		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
 		timeBetweenShot = 0;
@@ -155,13 +147,6 @@ public class ModuleProjectileSpell : SpellModule
 	}
 	#endregion
 
-
-	protected override float durationOfTheMovementModifier ()
-	{
-		float _temp = base.durationOfTheMovementModifier() + localTrad.salveInfos.timeToResolveTheSalve;
-		return _temp;
-	}
-
 	//PREVIEW
 	#region
 	protected override void HidePreview ()
@@ -178,9 +163,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		if (myPreviewArrow != null)
 		{
-			if (localTrad.useLastRecordedMousePos)
-				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(lastRecordedDirection) * localTrad.range), .1f);
-			else
+
 				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * localTrad.range), .1f);
 		}else
 		{
