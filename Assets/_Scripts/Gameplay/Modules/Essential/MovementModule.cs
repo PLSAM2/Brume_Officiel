@@ -159,7 +159,7 @@ public class MovementModule : MonoBehaviour
         ForcedMovement _temp = new ForcedMovement();
         _temp.direction = infos.direction;
         _temp.duration = infos.duration;
-        _temp.baseDuration = infos.baseDuration;
+        _temp.baseDuration = infos.duration;
         _temp.strength = infos.strength;
         _temp.myModule = myPlayerModule;
         _temp.speedEvolution = infos.speedEvolution;
