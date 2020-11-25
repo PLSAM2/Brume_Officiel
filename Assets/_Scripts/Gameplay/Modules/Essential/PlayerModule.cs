@@ -91,6 +91,9 @@ public class PlayerModule : MonoBehaviour
 	public Sc_Status poisonousEffect;
 	public bool isPoisonousEffectActive = false;
 
+	[Header("Cursed")]
+	public bool cursedByShili = false;
+
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -359,6 +362,9 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
+		if (cursedByShili)
+			return true;
+
 		if (lastRecordedPos == transform.position || isInBrume)
 			return false;
 
