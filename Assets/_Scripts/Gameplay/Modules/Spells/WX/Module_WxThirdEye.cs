@@ -12,13 +12,13 @@ public class Module_WxThirdEye : SpellModule
     [SerializeField] float cursedDuration = 3;
 
     bool inEchoMode = false;
-    [SerializeField] float echoRange = 8;
-    [SerializeField] float echoDuration = 10;
+    public float echoRange = 8;
+    public float echoDuration = 10;
 
-    [SerializeField] float waveRange = 15;
-    [SerializeField] float waveDuration = 0.3f;
+    public float waveRange = 15;
+    public float waveDuration = 0.3f;
     float currentWaveTime = 0;
-    [SerializeField] AnimationCurve waveCurve;
+    public AnimationCurve waveCurve;
 
     [SerializeField] AudioClip waveAudio;
 
@@ -105,6 +105,11 @@ public class Module_WxThirdEye : SpellModule
         GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
 
         HideShowAllFow(false);
+
+        //network FX
+        GameObject newFx = NetworkObjectsManager.Instance.NetworkInstantiate(1000, transform.position, Vector3.zero);
+        newFx.SetActive(false);
+
     }
 
     void HideShowAllFow(bool _value)
@@ -297,6 +302,10 @@ public class Module_WxThirdEye : SpellModule
         myLocalPlayer.myPlayerModule.isThirdEyes = true;
 
         HideShowAllFow(true);
+
+        //network FX
+        GameObject newFx = NetworkObjectsManager.Instance.NetworkInstantiate(1001, transform.position, Vector3.zero);
+        newFx.SetActive(false);
     }
 
     public enum shockWaveState
