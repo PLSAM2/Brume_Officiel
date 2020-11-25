@@ -70,11 +70,11 @@ public class Module_WXAuto : SpellModule
 
         Vector3 _direction = transform.forward;
         Vector3 _width = transform.right / rayWidthDivider;
-        Vector3 _offset = new Vector3(raycastCount *  (1/rayWidthDivider), 0 , 0);
+        Vector3 _offset = new Vector3(_width.x, 0 , 0);
 
         for (int i = 0; i < raycastCount; i++)
         {
-            Ray _ray = new Ray(transform.position + Vector3.up + _offset + (_width * i), _direction);
+            Ray _ray = new Ray(transform.position + Vector3.up + (_width * i), _direction);
             RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, hitLayer);
 
             if (_allhits.Length > 0)
@@ -84,7 +84,7 @@ public class Module_WXAuto : SpellModule
                     LocalPlayer hitP = hit.collider.GetComponent<LocalPlayer>();
                     if (hitP != null)
                     {
-                        if (RoomManager.Instance.GetLocalPlayer().playerTeam == hitP.myPlayerModule.teamIndex)
+                        if (RoomManager.Instance.GetLocalPlayer().playerTeam != hitP.myPlayerModule.teamIndex)
                         {
                             _temp.Add(hitP);
                         }
@@ -92,8 +92,8 @@ public class Module_WXAuto : SpellModule
                 }
             }
 
-            Ray _debugRay = new Ray(transform.position + Vector3.up + _offset + (_width * i), _direction);
-            Debug.DrawRay(_ray.origin, _debugRay.direction * spell.range, Color.red, 5);
+            Ray _debugRay = new Ray(transform.position + Vector3.up - _offset + (_width * i), _direction);
+            Debug.DrawRay(_debugRay.origin, _debugRay.direction * spell.range, Color.red, 5);
         }
 
 

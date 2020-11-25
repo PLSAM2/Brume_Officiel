@@ -7,10 +7,12 @@ using UnityEngine;
 public class NetworkedObject : MonoBehaviour
 {
     [Tooltip("Sync Position")]
-    public bool isNetworked = true;
-    public bool synchroniseRotation = true;
+    [BoxGroup("Networked")] public bool isNetworked = true;
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public bool synchronisePosition = true;
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public bool synchroniseRotation = false;
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float interpolateSpeed = 10;
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float distanceRequiredBeforeSync = 0.02f;
 
-    public float distanceRequiredBeforeSync = 0.02f;
     private ushort objListKey = 0;
     private ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
     private bool isOwner = false;
@@ -39,6 +41,7 @@ public class NetworkedObject : MonoBehaviour
         isOwner = false;
         ownerIClient = null;
         serverObjectID = 0;
+        objListKey = 0;
         lastPosition = Vector3.zero;
     }
     
@@ -82,9 +85,13 @@ public class NetworkedObject : MonoBehaviour
             {
                 writer.Write(serverObjectID);
 
-                writer.Write(this.transform.position.x);
-                writer.Write(this.transform.position.y);
-                writer.Write(this.transform.position.z);
+                writer.Write(synchronisePosition);
+
+                if (synchronisePosition)
+                {
+                    writer.Write(this.transform.position.x);
+                    writer.Write(this.transform.position.z);
+                }
 
                 writer.Write(synchroniseRotation);
 
@@ -103,7 +110,10 @@ public class NetworkedObject : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        this.transform.position = pos;
+        if (!isOwner)
+        {
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * interpolateSpeed);
+        }
     }
 
     public void Activate()

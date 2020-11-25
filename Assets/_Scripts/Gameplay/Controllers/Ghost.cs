@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 public class Ghost : MonoBehaviour
 {
-    public PlayerModule playerModule;
+    [HideInInspector] public PlayerModule playerModule;
     public MovementModule movementModule;
-
+    public NetworkedObject networkedObject;
     public GameObject fowPrefab;
-    private GameObject fowObj;
     public GameObject canvas;
     public Image fillImg;
     public float lifeTime = 10;
+
     private Quaternion canvasRot;
     private float timer = 0;
-
+    private GameObject fowObj;
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
@@ -67,7 +67,7 @@ public class Ghost : MonoBehaviour
     private void Destruct(Vector3 pos)
     {
         CameraManager.Instance.SetFollowObj(playerModule.transform);
-        Destroy(fowObj);
+        NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
         playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
         this.gameObject.SetActive(false);
     }
