@@ -10,7 +10,7 @@ public class Projectile_SoulBurst : MonoBehaviour
 
     private float speed = 1;
     private float maxRange = 1;
-    private float explodeRange = 1;
+    private float explodeRange = 3;
     private Vector3 startPos;
     private Vector3 destination;
 
@@ -76,5 +76,14 @@ public class Projectile_SoulBurst : MonoBehaviour
 
             P.DealDamages(_tempDmg, Vector3.zero);
         }
+
+       NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
     }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, explodeRange);
+    }
+
 }

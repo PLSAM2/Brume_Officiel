@@ -19,10 +19,14 @@ public class CameraManager : MonoBehaviour
 	bool isLocked = true;
 	public Transform playerToFollow;
 	[SerializeField] CinemachineVirtualCamera myCinemachine;
+	CinemachineBasicMultiChannelPerlin myCinemachinePerlin;
 	[SerializeField] LayerMask groundlayer;
 	float screenEdgeBorderHeight, screenEdgeBorderWidth;
 
 	public bool isSpectate = false;
+
+	private float cameraShakeTimer = 0;
+	private bool cameraShakeStarted = false;
 
     private void Awake ()
 	{
@@ -53,7 +57,7 @@ public class CameraManager : MonoBehaviour
 		GameObject _go = new GameObject();
 		cameraLocker = _go.transform;
 		myCinemachine.Follow = _go.transform;
-
+		myCinemachinePerlin = myCinemachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 		OnResolutionChanged();
 
 		screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
@@ -146,7 +150,23 @@ public class CameraManager : MonoBehaviour
 		get { return Input.mousePosition; }
 	}
 
-	private void LateUpdate ()
+
+    private void Update()
+    {
+        if (cameraShakeTimer > 0 && cameraShakeStarted)
+        {
+			cameraShakeTimer -= Time.deltaTime;
+
+            if (cameraShakeTimer < 0)
+			{
+				myCinemachinePerlin.m_AmplitudeGain = 0;
+				cameraShakeStarted = false;
+				cameraShakeTimer = 0;
+			}
+        }
+    }
+
+    private void LateUpdate ()
 	{
         if (isSpectate) { return; }
 
@@ -166,4 +186,17 @@ public class CameraManager : MonoBehaviour
 		isSpectate = false;
 		myCinemachine.Follow = cameraLocker;
 	}
+
+	// Camera Shake >>
+
+	public void SetNewCameraShake( float time, float intensity = 0.4f)
+    {
+		myCinemachinePerlin.m_AmplitudeGain = intensity;
+		cameraShakeTimer = time;
+		cameraShakeStarted = true;
+    }
+
+	// <<
+
+
 }
