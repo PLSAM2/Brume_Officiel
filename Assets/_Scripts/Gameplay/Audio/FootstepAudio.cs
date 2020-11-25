@@ -19,7 +19,7 @@ public class FootstepAudio : MonoBehaviour
 
     private void Start()
     {
-        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume;
+        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume / 2;
     }
 
     private void OnEnable()
@@ -34,7 +34,7 @@ public class FootstepAudio : MonoBehaviour
 
     private void ChangeVolume(float _volume)
     {
-        myAudioSource.volume = _volume;
+        myAudioSource.volume = _volume / 2;
     }
 
     // Update is called once per frame
