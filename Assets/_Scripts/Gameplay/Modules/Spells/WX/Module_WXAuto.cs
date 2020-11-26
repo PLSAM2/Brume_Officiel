@@ -13,7 +13,7 @@ public class Module_WXAuto : SpellModule
     private void Start()
     {
         arrowPreview = PreviewManager.Instance.GetArrowPreview();
-        HidePreview();
+        HidePreview(Vector3.zero);
     }
 
     protected override void ShowPreview(Vector3 mousePos)
@@ -29,13 +29,13 @@ public class Module_WXAuto : SpellModule
 
     protected override void StartCanalysing(Vector3 _BaseMousePos)
     {
-        HidePreview();
+        HidePreview(Vector3.zero);
         base.StartCanalysing(_BaseMousePos);
     }
 
-    protected override void HidePreview()
+    protected override void HidePreview( Vector3 _posToHide )
     {
-        base.HidePreview();
+        base.HidePreview(_posToHide);
         arrowPreview.gameObject.SetActive(false);
     }
 

@@ -90,23 +90,33 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+				myPlayerModule.firstSpellInputRealeased += HidePreview;
+
 
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				myPlayerModule.secondSpellInputRealeased += HidePreview;
+
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				myPlayerModule.thirdSpellInputRealeased += HidePreview;
+
 				break;
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				myPlayerModule.leftClickInputRealeased+= HidePreview;
+
 				break;
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInputReleased += StartCanalysing;
+				myPlayerModule.wardInputReleased += HidePreview;
+
 				break;
 		}
 	}
@@ -118,25 +128,33 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.firstSpellInputRealeased -= HidePreview;
+
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.secondSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.thirdSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.thirdSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
 
 				break;
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.leftClickInputRealeased -= StartCanalysing;
+				myPlayerModule.leftClickInputRealeased -= HidePreview;
+
 
 				break;
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.wardInputReleased -= HidePreview;
+
 
 				break;
 		}
@@ -159,7 +177,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void HidePreview ()
+	protected virtual void HidePreview (Vector3 _posToHide)
 	{
 		showingPreview = false;
 	}
@@ -241,7 +259,6 @@ public class SpellModule : MonoBehaviour
 			isUsed = true;
 			StartCanalysingFeedBack();
 			DecreaseCharge();
-			HidePreview();
 			mousePosInputed = myPlayerModule.mousePos();
 
 			if (spell.statusToApplyOnCanalisation.Count > 0)

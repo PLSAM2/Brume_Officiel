@@ -127,9 +127,9 @@ public class CacAttack : SpellModule
 
 	}
 
-	protected override void HidePreview ()
+	protected override void HidePreview ( Vector3 _temp)
 	{
-		base.HidePreview();
+		base.HidePreview(_temp);
 		shapePreview.gameObject.SetActive(false);
 	}
 

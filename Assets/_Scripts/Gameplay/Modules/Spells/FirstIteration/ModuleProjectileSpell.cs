@@ -41,7 +41,7 @@ public class ModuleProjectileSpell : SpellModule
 			myPreviewBurst = PreviewManager.Instance.GetShapePreview(transform);
 		else
 			myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
-		HidePreview();
+		HidePreview(Vector3.zero);
 		base.SetupComponent(_actionLinked);
 	}
 
@@ -49,7 +49,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		base.StartCanalysing(_BaseMousePos);
 
-		HidePreview();
+		HidePreview(Vector3.zero);
 	}
 
 	protected override void ResolveSpell ( )
@@ -138,14 +138,14 @@ public class ModuleProjectileSpell : SpellModule
 
 	//PREVIEW
 	#region
-	protected override void HidePreview ()
+	protected override void HidePreview (Vector3 _temp)
 	{
 		if (myPreviewArrow != null)
 			myPreviewArrow.gameObject.SetActive(false);
 		else
 			myPreviewBurst.gameObject.SetActive(false);
 
-		base.HidePreview();
+		base.HidePreview(_temp);
 	}
 
 	protected override void UpdatePreview ()
