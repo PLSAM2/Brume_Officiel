@@ -96,6 +96,7 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("Cursed")]
 	[SerializeField] private Sc_Status wxMarkRef;
+	[SerializeField] private GameObject wxMark;
 	public bool cursedByShili = false;
 
 	//ALL ACTION 
@@ -299,6 +300,12 @@ public class PlayerModule : MonoBehaviour
 			{
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
+
+				if ((state & En_CharacterState.WxMarked) != 0)
+					wxMark.SetActive(true);
+				else
+					wxMark.SetActive(false);
+
 				_oldState = state;
 			}
 		}
@@ -519,8 +526,8 @@ public class PlayerModule : MonoBehaviour
 					_temp.Refresh();
 					return;
 				}
-
 			}
+
 			allTickLive.Add(_newElement);
 		}
 		else
@@ -630,12 +637,12 @@ public class PlayerModule : MonoBehaviour
 
 		if (_temp != null)
 		{
+			_temp.Stop();
+
 			DamagesInfos _tempDamage = new DamagesInfos();
 			_tempDamage.damageHealth = wxMarkRef.effect.optionnalDamages;
 
-			mylocalPlayer.DealDamages(_tempDamage, this.transform.position);
-
-			_temp.Stop();
+			mylocalPlayer.DealDamages(_tempDamage, this.transform.position, null, true);
 		}
 	}
 

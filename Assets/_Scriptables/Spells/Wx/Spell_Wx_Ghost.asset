@@ -12,16 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
   m_Name: Spell_Wx_Ghost
   m_EditorClassIdentifier: 
-  canalisationTime: 0
   range: 0
   cooldown: 15
   numberOfCharge: 1
+  forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  forbiddenState: 48
-  canalysingStatus: {fileID: 0}
-  resolusionStatus: {fileID: 0}
-  canCancel: 0
-  mustUseACollFreePos: 1
-  useLastRecordedMousePos: 1
+  canalisationTime: 0.01
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 0
+  anonciationTime: 0.01
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 137404ee796fd964d88091858acd7a3c, type: 3}

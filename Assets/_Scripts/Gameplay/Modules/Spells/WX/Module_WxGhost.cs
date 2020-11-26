@@ -14,6 +14,7 @@ public class Module_WxGhost : SpellModule
     {
         base.ResolveSpell();
 
+
         GameObject ghostObj = NetworkObjectsManager.Instance.NetworkInstantiate(17, this.transform.position,
             new Vector3(ghostPrefab.transform.rotation.x, ghostPrefab.transform.rotation.y, ghostPrefab.transform.rotation.z));
 
