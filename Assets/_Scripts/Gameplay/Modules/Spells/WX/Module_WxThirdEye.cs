@@ -63,9 +63,9 @@ public class Module_WxThirdEye : SpellModule
         }
     }
 
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void ResolveSpell()
     {
-        base.ResolveSpell(_mousePosition);
+        base.ResolveSpell();
         GetComponent<PlayerModule>().firstSpellInput += OnCancelSpell;
 
         StartWave();
