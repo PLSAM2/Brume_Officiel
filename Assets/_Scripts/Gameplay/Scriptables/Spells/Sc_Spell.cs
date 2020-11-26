@@ -16,20 +16,20 @@ public class Sc_Spell : ScriptableObject
     [Header("StartCanalisation")]
     [TabGroup("Generic SpellParameters")] public bool lockRotOnCanalisation = true;
     [TabGroup("Generic SpellParameters")] public bool lockPosOnCanalisation = false;
-    [TabGroup("Generic SpellParameters")] public float canalisationTime;
+    [Min(0.01f)] [TabGroup("Generic SpellParameters")] public float canalisationTime;
     [TabGroup("Generic SpellParameters")] public List<Sc_Status> statusToApplyOnCanalisation = new List<Sc_Status>();
 
     [Header("Anonciation")]
     [TabGroup("Generic SpellParameters")] public bool lockRotOnAnonciation = true;
     [TabGroup("Generic SpellParameters")] public bool LockPosOnAnonciation = false;
-    [TabGroup("Generic SpellParameters")] [Tooltip("TimeBeforeTheEndOfCanalisation DOIT ETRE SUPERIEUR AU CANALISATION TIME")] public float anonciationTime;
+    [Min(0.01f)] [TabGroup("Generic SpellParameters")] [Tooltip("TimeBeforeTheEndOfCanalisation DOIT ETRE SUPERIEUR AU CANALISATION TIME")] public float anonciationTime;
 
     [Header("Resolution")]
     [TabGroup("Generic SpellParameters")] public Sc_ForcedMovement forcedMovementAppliedBeforeResolution, forcedMovementAppliedAfterResolution;
 
     [Header("Throwback")]
     [TabGroup("Generic SpellParameters")] public List<Sc_Status> statusToApplyAtTheEnd = new List<Sc_Status>();
-    [TabGroup("Generic SpellParameters")] public float throwBackDuration;
+    [Min(0.01f)] [TabGroup("Generic SpellParameters")] public float throwBackDuration;
 
     [Header("Ui")]
     [TabGroup("Generic SpellParameters")] public Sprite spellIcon;
