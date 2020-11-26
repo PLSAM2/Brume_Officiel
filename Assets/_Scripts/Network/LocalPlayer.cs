@@ -423,6 +423,21 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void SendChangeFowRaduis(float size = 0, bool resetSize = false)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(myPlayerId);
+            _writer.Write((uint) size * 100);
+            _writer.Write(resetSize);
+
+            using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
 
     public void KillPlayer(PlayerData killer = null)
     {
@@ -441,22 +456,6 @@ public class LocalPlayer : MonoBehaviour
         if (!isOwner)
         {
             myPlayerModule.state = (En_CharacterState)_state;
-
-            print(gameObject);
-            //thirdEye mode
-            if (myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                if ((myPlayerModule.state & En_CharacterState.InThirdEye) != 0)
-                {
-                    print("oui");
-                    SetFowRaduis(4);
-                }
-                else
-                {
-                    print("non");
-                    ResetFowRaduis();
-                }
-            }
         }
     }
 
