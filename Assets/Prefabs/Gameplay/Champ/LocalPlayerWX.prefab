@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 107893b2a050e4c4984a5f0a93ff0697, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
-  particleResolution: []
   ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
   lifeTime: 6
   ghostSpeed: 5
@@ -38,13 +37,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 66a92edbef38c6741b03be3e50a08a26, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
-  particleResolution: []
   soulburstPrefab: {fileID: 8724460869845800598, guid: 775690895a3642b4a94973f6628c3080, type: 3}
   speed: 10
   maxRange: 5
@@ -63,13 +61,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 56e43cadf45d20a458d5f3fe26a23698, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
-  particleResolution: []
   thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
   fowRaduis: 4
   cursedDuration: 3
@@ -124,6 +121,7 @@ MonoBehaviour:
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
+  isThirdEyes: 0
   brumeId: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
@@ -162,16 +160,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 6ff1cc6bd85494e4e9152ee837f5ea9b, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 0}
-  particleResolution: []
   damages:
     damageHealth: 5
-    statusToApply: {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
+    statusToApply:
+    - {fileID: 11400000, guid: 50c9c444c0f543e4db9a963a5af42270, type: 2}
+    - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
     movementToApply: {fileID: 0}
     playerName: 
   rayWidthDivider: 10

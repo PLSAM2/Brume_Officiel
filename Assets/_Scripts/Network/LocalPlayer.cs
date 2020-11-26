@@ -383,8 +383,20 @@ public class LocalPlayer : MonoBehaviour
             SendStatus(myPlayerModule.poisonousEffect);
         }
 
+        if (((GameManager.Instance.GetLocalPlayerObj().myPlayerModule.state & En_CharacterState.WxMarked) != 0) && 
+            RoomManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
+        {
+            GameManager.Instance.GetLocalPlayerObj().myPlayerModule.ApplyWxMark();
+        }
+
 		if(_damagesToDeal.statusToApply !=null)
-            SendStatus(_damagesToDeal.statusToApply);
+        {
+            for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
+            {
+                SendStatus(_damagesToDeal.statusToApply[i]);
+            }
+        }
+
 
 		if(_damagesToDeal.movementToApply != null)
 		{

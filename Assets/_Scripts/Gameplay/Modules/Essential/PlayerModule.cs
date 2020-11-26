@@ -95,6 +95,7 @@ public class PlayerModule : MonoBehaviour
 	public bool isPoisonousEffectActive = false;
 
 	[Header("Cursed")]
+	[SerializeField] private Sc_Status wxMarkRef;
 	public bool cursedByShili = false;
 
 	//ALL ACTION 
@@ -562,6 +563,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
+
 	public void StopStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
@@ -580,6 +582,17 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
+
+	public void AddState(En_CharacterState _stateToadd)
+	{
+		_state |= _stateToadd;
+	}
+
+	public void RemoveState(En_CharacterState _stateToRemove)
+	{
+		_state = (_state & ~_stateToRemove);
+	}
+
 	#endregion
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
@@ -611,15 +624,23 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public void AddState(En_CharacterState _stateToadd)
+	public void ApplyWxMark()
 	{
-		_state |= _stateToadd;
+		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == wxMarkRef.effect.forcedKey).FirstOrDefault();
+
+		if (_temp != null)
+		{
+			DamagesInfos _tempDamage = new DamagesInfos();
+			_tempDamage.damageHealth = wxMarkRef.effect.optionnalDamages;
+
+			mylocalPlayer.DealDamages(_tempDamage, this.transform.position);
+
+			_temp.Stop();
+		}
 	}
 
-	public void RemoveState( En_CharacterState _stateToRemove )
-	{
-		_state = (_state & ~_stateToRemove);
-	}
+
+
 }
 
 [System.Flags]
@@ -632,8 +653,9 @@ public enum En_CharacterState
 	Canalysing = 1 << 4,
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
-	Stunned = Silenced | Root,
 	Embourbed = 1 << 7,
+	WxMarked = 1 << 8,
+	Stunned = Silenced | Root,
 	slowedAndSped = SpedUp | Slowed | Clear,
 	RootAndSlow = Root |Slowed | Clear,
 	SlowedAndSIlenced = Slowed |Silenced | Clear
@@ -643,7 +665,7 @@ public enum En_CharacterState
 public class DamagesInfos
 {
 	public ushort damageHealth;
-	public Sc_Status statusToApply;
+	public Sc_Status[] statusToApply;
 	public Sc_ForcedMovement movementToApply = null;
 	[HideInInspector] public string playerName;
 }
@@ -669,6 +691,7 @@ public class Effect
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 
+	public ushort optionnalDamages = 0;
 	public Effect () { }
 }
 
