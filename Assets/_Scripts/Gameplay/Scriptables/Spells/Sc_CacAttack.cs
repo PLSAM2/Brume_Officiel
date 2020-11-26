@@ -8,11 +8,10 @@ using Sirenix.OdinInspector;
 public class Sc_CacAttack : Sc_Spell
 {
 	[Header("AutoParameters")]
-	[TabGroup("Cac Specification")] public float timeToCanalyseToUpgrade = .5f;
-	public float timeToForceResolve;
+	[TabGroup("Cac Parameters")] public float timeToCanalyseToUpgrade = .5f;
 	[Header("DamagePart")]
-	[TabGroup("Cac Specification")] public CacAttackParameters normalAttack;
-	[TabGroup("Cac Specification")] public CacAttackParameters upgradedAttack;
+	[TabGroup("Cac Parameters")] public CacAttackParameters normalAttack;
+	[TabGroup("Cac Parameters")]  public CacAttackParameters upgradedAttack;
 
 }
 

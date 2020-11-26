@@ -183,11 +183,13 @@ public class SpellModule : MonoBehaviour
 
 		if (showingPreview)
 			UpdatePreview();
+
+		TreatThrowBack();
 	}
 
 	protected virtual void TreatNormalCanalisation ()
 	{
-		if (currentTimeCanalised >= timeToResolveSpell && anonciated  && !resolved )
+		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !resolved)
 		{
 			Resolution();
 		}
@@ -195,27 +197,39 @@ public class SpellModule : MonoBehaviour
 		{
 			AnonceSpell(Vector3.zero);
 		}
+	}
 
-		if (resolved && throwbackTime < spell.throwBackDuration)
+	protected void TreatThrowBack()
+	{
+		if (resolved && throwbackTime < spell.throwBackDuration && isUsed)
 		{
 			throwbackTime += Time.fixedDeltaTime;
 			if (throwbackTime >= spell.throwBackDuration)
 				Interrupt();
 		}
 	}
-	protected virtual void AnonceSpell ( Vector3 _toAnnounce)
+
+	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		anonciated = true;
-		timeToResolveSpell = timeToResolveSpell - spell.anonciationTime;
+		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
+		if(isUsed)
+		{
+			anonciated = true;
+			currentTimeCanalised = TimeToWaitOnanonciation();
 
-		if (spell.lockRotOnAnonciation)
-			myPlayerModule.rotationLock(true);
-		else
-			myPlayerModule.rotationLock(false);
+			if (spell.lockRotOnAnonciation)
+				myPlayerModule.rotationLock(true);
+			else
+				myPlayerModule.rotationLock(false);
 
-		if (spell.LockPosOnAnonciation)
-			myPlayerModule.AddState(En_CharacterState.Root);
+			if (spell.LockPosOnAnonciation)
+				myPlayerModule.AddState(En_CharacterState.Root);
+		}
+	}
 
+	protected virtual float TimeToWaitOnanonciation ()
+	{
+		return timeToResolveSpell - spell.anonciationTime;
 	}
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
@@ -279,7 +293,6 @@ public class SpellModule : MonoBehaviour
 			TreatForcedMovement(spell.forcedMovementAppliedAfterResolution);
 	}
 
-
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
 		print(movementToTreat);
@@ -289,6 +302,7 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		throwbackTime = 0;
+		print("i interupt");
 		if (statusToStopAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
@@ -302,8 +316,9 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
 			myPlayerModule.RemoveState(En_CharacterState.Root);
 
-		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
+		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
+
 	}
 	protected virtual void DecreaseCharge ()
 	{
