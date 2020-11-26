@@ -18,13 +18,13 @@ public class PlayerModule : MonoBehaviour
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
-	private bool _isInBrume;
+	[HideInInspector] public bool _isInBrume;
 	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { return; }
+		set { if (!mylocalPlayer.isOwner) { _state = value; } else return; }
 	}
 
 	En_CharacterState LiveEffectCharacterState ()
@@ -96,7 +96,8 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("Cursed")]
 	public bool cursedByShili = false;
-
+	[SerializeField] private GameObject wxMark;
+	[SerializeField] private Sc_Status wxMarkRef;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -299,6 +300,14 @@ public class PlayerModule : MonoBehaviour
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
 				_oldState = state;
+
+				if ((state & En_CharacterState.WxMarked) != 0)
+                {
+					wxMark.SetActive(true);
+				} else
+                {
+					wxMark.SetActive(false);
+				}
 			}
 		}
 	}
@@ -453,7 +462,8 @@ public class PlayerModule : MonoBehaviour
 		foreach (EffectLifeTimed _effect in _tempList)
 			allEffectLive.Remove(_effect);
 	}
-	void TreatTickEffects ()
+
+    void TreatTickEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
@@ -580,6 +590,16 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
+	public void AddState(En_CharacterState _stateToadd)
+	{
+		_state |= _stateToadd;
+	}
+
+	public void RemoveState(En_CharacterState _stateToRemove)
+	{
+		_state = (_state & ~_stateToRemove);
+	}
+
 	#endregion
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
@@ -611,14 +631,19 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public void AddState(En_CharacterState _stateToadd)
+	internal void ApplyWxMark()
 	{
-		_state |= _stateToadd;
-	}
+		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == wxMarkRef.effect.forcedKey).FirstOrDefault();
 
-	public void RemoveState( En_CharacterState _stateToRemove )
-	{
-		_state = (_state & ~_stateToRemove);
+		if (_temp != null)
+		{
+			_temp.Stop();
+
+			DamagesInfos _tempDamages = new DamagesInfos();
+			_tempDamages.damageHealth = wxMarkRef.effect.optionalDamages;
+
+			this.mylocalPlayer.DealDamages(_tempDamages, transform.position);
+		}
 	}
 }
 
@@ -632,10 +657,11 @@ public enum En_CharacterState
 	Canalysing = 1 << 4,
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
-	Stunned = Silenced | Root,
 	Embourbed = 1 << 7,
     InThirdEye = 1 << 8,
-    slowedAndSped = SpedUp | Slowed | Clear,
+	WxMarked = 1 << 9,
+	Stunned = Silenced | Root,
+	slowedAndSped = SpedUp | Slowed | Clear,
 	RootAndSlow = Root |Slowed | Clear,
 	SlowedAndSIlenced = Slowed |Silenced | Clear
 }
@@ -644,7 +670,7 @@ public enum En_CharacterState
 public class DamagesInfos
 {
 	public ushort damageHealth;
-	public Sc_Status statusToApply;
+	public Sc_Status[] statusToApply;
 	public Sc_ForcedMovement movementToApply = null;
 	[HideInInspector] public string playerName;
 }
@@ -670,6 +696,7 @@ public class Effect
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 
+	public ushort optionalDamages = 0;
 	public Effect () { }
 }
 

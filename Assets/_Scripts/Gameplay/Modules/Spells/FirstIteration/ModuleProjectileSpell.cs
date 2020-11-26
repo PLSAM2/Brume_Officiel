@@ -55,7 +55,6 @@ public class ModuleProjectileSpell : SpellModule
 	protected override void ResolveSpell ( )
 	{
 		base.ResolveSpell();
-		print("I Resolve");
 		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
 		shooting = true;
 		ShootSalve();
@@ -115,7 +114,6 @@ public class ModuleProjectileSpell : SpellModule
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
 		}*/
-		print("IreadSalve");
 		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
 		float _angleToAdd = localTrad.angleToSplit / localTrad.salveInfos.numberOfShotInSalve;
 
@@ -131,7 +129,6 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
-		print("IShoot");
 		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot);
 	}
 	#endregion

@@ -78,8 +78,6 @@ public class Projectile_SoulBurst : MonoBehaviour
 
             P.DealDamages(_tempDmg, Vector3.zero);
         }
-
-
     }
 
     void OnDrawGizmosSelected()

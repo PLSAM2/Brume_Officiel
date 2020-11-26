@@ -361,7 +361,7 @@ public class LocalPlayer : MonoBehaviour
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
     {
-       newNetorkPos = newPos;
+        newNetorkPos = newPos;
         transform.localEulerAngles = newRotation;
     }
 
@@ -370,26 +370,40 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
-    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null)
+    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
         int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
         liveHealth = (ushort)_tempHp;
 
-
-        if (GameManager.Instance.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+        if (!ignoreStatusAndEffect)
         {
-            SendStatus(myPlayerModule.poisonousEffect);
+            if (GameManager.Instance.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+            {
+                SendStatus(myPlayerModule.poisonousEffect);
+            }
+
+
+            if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) &&
+                RoomManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
+            {
+                myPlayerModule.ApplyWxMark();
+            }
+ 
+            if (_damagesToDeal.statusToApply != null)
+            {
+                for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
+                {
+                    SendStatus(_damagesToDeal.statusToApply[i]);
+                }
+            }
+
+            if (_damagesToDeal.movementToApply != null)
+            {
+                SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+            }
         }
-
-		if(_damagesToDeal.statusToApply !=null)
-            SendStatus(_damagesToDeal.statusToApply);
-
-		if(_damagesToDeal.movementToApply != null)
-		{
-			SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
-		}
 
         if (_damagesToDeal.damageHealth > 0)
         {
@@ -428,7 +442,7 @@ public class LocalPlayer : MonoBehaviour
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(myPlayerId);
-            _writer.Write((uint) size * 100);
+            _writer.Write((uint)size * 100);
             _writer.Write(resetSize);
 
             using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
@@ -437,7 +451,6 @@ public class LocalPlayer : MonoBehaviour
             }
         }
     }
-
 
     public void KillPlayer(PlayerData killer = null)
     {
@@ -454,9 +467,7 @@ public class LocalPlayer : MonoBehaviour
     public void OnStateReceived(ushort _state)
     {
         if (!isOwner)
-        {
             myPlayerModule.state = (En_CharacterState)_state;
-        }
     }
 
     public void OnAddedStatus(ushort _newStatus)
