@@ -8,6 +8,7 @@ public class ModuleProjectileSpell : SpellModule
 	protected Sc_ProjectileSpell localTrad; //plus facile a lire dans le script
 	int shotRemainingInSalve;
 	[SerializeField] ushort indexOfTheShotProjectileBlue = 12;
+
 	SalveInfos myLiveSalve;
 	float offsetHeight;
 	bool shooting = false;
@@ -74,6 +75,7 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve.timeToResolveTheSalve += localTrad.durationAdded;
 		myLiveSalve.NumberOfSalve += localTrad.bonusSalve;
 		myLiveSalve.numberOfShotInSalve += localTrad.bonusShot;
+		print("Upgrade");
 	}
 
 	protected override void ReturnToNormal ()

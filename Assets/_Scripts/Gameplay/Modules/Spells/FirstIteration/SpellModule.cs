@@ -49,7 +49,7 @@ public class SpellModule : MonoBehaviour
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
-
+		cooldown = finalCooldownValue();
 
 		actionLinked = _actionLinked;
 
@@ -201,7 +201,7 @@ public class SpellModule : MonoBehaviour
 
 	protected void TreatThrowBack()
 	{
-		if (resolved && throwbackTime < spell.throwBackDuration && isUsed)
+		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
 		{
 			throwbackTime += Time.fixedDeltaTime;
 			if (throwbackTime >= spell.throwBackDuration)
@@ -260,10 +260,6 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.rotationLock(true);
 			if (spell.lockPosOnCanalisation)
 				myPlayerModule.AddState(En_CharacterState.Root);
-
-
-			if (charges == spell.numberOfCharge)
-				cooldown = finalCooldownValue();
 		}
 		else
 			return;
@@ -322,6 +318,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
+
 	}
 	public virtual void DecreaseCooldown ()
 	{
@@ -331,8 +328,8 @@ public class SpellModule : MonoBehaviour
 				cooldown -= Time.fixedDeltaTime;
 			else
 			{
-				AddCharge();
 				cooldown = finalCooldownValue();
+				AddCharge();
 			}
 		}
 	}
