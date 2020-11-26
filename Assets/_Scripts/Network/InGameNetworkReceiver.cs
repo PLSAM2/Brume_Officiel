@@ -433,7 +433,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                     {
                         return;
                     }
-
                     GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadUInt16());
                 }
             }

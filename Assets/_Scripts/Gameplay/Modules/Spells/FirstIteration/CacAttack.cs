@@ -32,30 +32,40 @@ public class CacAttack : SpellModule
 				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInput += StartCanalysing;
 				myPlayerModule.firstSpellInputRealeased += AnonceSpell;
+				myPlayerModule.firstSpellInputRealeased += HidePreview;
+
 				break;
 
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInput += StartCanalysing;
 				myPlayerModule.secondSpellInputRealeased += AnonceSpell;
+				myPlayerModule.secondSpellInputRealeased += HidePreview;
+
 				break;
 
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInput += StartCanalysing;
 				myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
+				
+				myPlayerModule.thirdSpellInputRealeased += HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInput += StartCanalysing;
 				myPlayerModule.leftClickInputRealeased += AnonceSpell;
+				myPlayerModule.leftClickInputRealeased += HidePreview;
+
 				break;
 
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInput += StartCanalysing;
 				myPlayerModule.wardInputReleased += AnonceSpell;
+				myPlayerModule.wardInputReleased += HidePreview;
+
 				break;
 		}
 	}
@@ -70,33 +80,38 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				//myPlayerModule.firstSpellInput -= ShowPreview;
+				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInput -= StartCanalysing;
 				myPlayerModule.firstSpellInputRealeased -= AnonceSpell;
+				myPlayerModule.firstSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				//myPlayerModule.secondSpellInput -= ShowPreview;
+				myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInput -= StartCanalysing;
 				myPlayerModule.secondSpellInputRealeased -= AnonceSpell;
+				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-			//	myPlayerModule.thirdSpellInput -= ShowPreview;
+				myPlayerModule.thirdSpellInput -= ShowPreview;
 				myPlayerModule.thirdSpellInput -= StartCanalysing;
 				myPlayerModule.thirdSpellInputRealeased -= AnonceSpell;
+				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.Click:
-			//	myPlayerModule.leftClickInput -= ShowPreview;
+				myPlayerModule.leftClickInput -= ShowPreview;
 				myPlayerModule.leftClickInput -= StartCanalysing;
 				myPlayerModule.leftClickInputRealeased -= AnonceSpell;
+				myPlayerModule.leftClickInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.Ward:
-			//	myPlayerModule.wardInput -= ShowPreview;
+				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.wardInput -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= AnonceSpell;
+				myPlayerModule.wardInputReleased -= HidePreview;
 				break;
 		}
 	}

@@ -18,13 +18,13 @@ public class PlayerModule : MonoBehaviour
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
-	private bool _isInBrume;
+	[HideInInspector] public bool _isInBrume;
 	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { return; }
+		set { if (!mylocalPlayer.isOwner) { _state = value; } else return; }
 	}
 
 	En_CharacterState LiveEffectCharacterState ()

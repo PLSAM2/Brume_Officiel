@@ -440,11 +440,13 @@ public class LocalPlayer : MonoBehaviour
     {
         if (!isOwner)
         {
+            print("I RECEIVED A STATE" + name);
+
             myPlayerModule.state = (En_CharacterState)_state;
 
             print(gameObject);
             //thirdEye mode
-            if (myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+           /* if (myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
             {
                 if ((myPlayerModule.state & En_CharacterState.InThirdEye) != 0)
                 {
@@ -456,7 +458,7 @@ public class LocalPlayer : MonoBehaviour
                     print("non");
                     ResetFowRaduis();
                 }
-            }
+            }*/
         }
     }
 
