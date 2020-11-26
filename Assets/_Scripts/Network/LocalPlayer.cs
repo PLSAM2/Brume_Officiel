@@ -441,7 +441,6 @@ public class LocalPlayer : MonoBehaviour
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(myPlayerId);
             _writer.Write((uint)size * 100);
             _writer.Write(resetSize);
 

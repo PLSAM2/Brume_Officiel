@@ -119,7 +119,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
             else if (message.Tag == Tags.ChangeFowSize)
             {
-                AltarBuffPoison(sender, e);
+                ChangeFowSize(sender, e);
             }
         }
     }
@@ -547,7 +547,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
                 else
                 {
-                    GameManager.Instance.networkPlayers[_playerId].SetFowRaduis(_size * 100);
+                    GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float) _size / 100);
                 }
             }
         }
