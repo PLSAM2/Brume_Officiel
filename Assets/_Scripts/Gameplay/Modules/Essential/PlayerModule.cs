@@ -24,17 +24,20 @@ public class PlayerModule : MonoBehaviour
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { _state = value; }
+		set { return; }
 	}
 
 	En_CharacterState LiveEffectCharacterState ()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
 
+		if (allEffectLive.Count ==0)
+			return  En_CharacterState.Clear;
 		foreach (EffectLifeTimed effectLive in allEffectLive)
 		{
 			_temp |= effectLive.effect.stateApplied;
 		}
+
 		return _temp;
 	}
 
@@ -171,7 +174,7 @@ public class PlayerModule : MonoBehaviour
 		ward?.SetupComponent(En_SpellInput.Ward);
 
 	
-		state = En_CharacterState.Clear;
+		_state = En_CharacterState.Clear;
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -285,19 +288,19 @@ public class PlayerModule : MonoBehaviour
 
 	private void FixedUpdate ()
 	{
+		TreatEffects();
+		TreatTickEffects();
 		if (!mylocalPlayer.isOwner)
 			return;
 		else
 		{
 			if (_oldState != state)
 			{
-				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
+				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
 				_oldState = state;
 			}
 		}
-		TreatEffects();
-		TreatTickEffects();
 	}
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
@@ -449,12 +452,9 @@ public class PlayerModule : MonoBehaviour
 
 		foreach (EffectLifeTimed _effect in _tempList)
 			allEffectLive.Remove(_effect);
-
-		UiManager.Instance.StatusUpdate(state);
 	}
 	void TreatTickEffects ()
 	{
-
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
 		for (int i = 0; i < allTickLive.Count; i++)
@@ -613,11 +613,12 @@ public class PlayerModule : MonoBehaviour
 
 	public void AddState(En_CharacterState _stateToadd)
 	{
-		state |= _stateToadd;
+		_state |= _stateToadd;
 	}
+
 	public void RemoveState( En_CharacterState _stateToRemove )
 	{
-		state = (state & ~_stateToRemove);
+		_state = (_state & ~_stateToRemove);
 	}
 }
 
@@ -632,7 +633,10 @@ public enum En_CharacterState
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
 	Stunned = Silenced | Root,
-	Embourbed = 1 << 7
+	Embourbed = 1 << 7,
+	slowedAndSped = SpedUp | Slowed | Clear,
+	RootAndSlow = Root |Slowed | Clear,
+	SlowedAndSIlenced = Slowed |Silenced | Clear
 }
 
 [System.Serializable]

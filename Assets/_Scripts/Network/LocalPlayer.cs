@@ -438,7 +438,8 @@ public class LocalPlayer : MonoBehaviour
 
     public void OnStateReceived(ushort _state)
     {
-        myPlayerModule.state = (En_CharacterState)_state;
+        if (!isOwner)
+           myPlayerModule.state = (En_CharacterState)_state;
     }
 
     public void OnAddedStatus(ushort _newStatus)

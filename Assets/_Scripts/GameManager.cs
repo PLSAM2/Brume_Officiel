@@ -212,5 +212,15 @@ public class GameManager : SerializedMonoBehaviour
         return networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
     }
 
-
+    public LocalPlayer GetLocalPlayerChamp(Character _champ, Team _team)
+    {
+        foreach(KeyValuePair<ushort, LocalPlayer> p in networkPlayers)
+        {
+            if(RoomManager.Instance.GetPlayerData(p.Key).playerCharacter == _champ && RoomManager.Instance.GetPlayerData(p.Key).playerTeam == _team)
+            {
+                return p.Value;
+            }
+        }
+        return null;
+    }
 }

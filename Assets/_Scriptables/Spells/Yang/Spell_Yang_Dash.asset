@@ -12,25 +12,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e928c7f3c3488d4c85b5caff876dd93, type: 3}
   m_Name: Spell_Yang_Dash
   m_EditorClassIdentifier: 
-  canalisationTime: 0
   range: 2.75
   cooldown: 5
   numberOfCharge: 3
+  forbiddenState: 40
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  forbiddenState: 40
-  canalysingStatus: {fileID: 0}
-  resolusionStatus: {fileID: 0}
-  canCancel: 0
-  mustUseACollFreePos: 0
-  useLastRecordedMousePos: 0
+  canalisationTime: 15
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 0
+  anonciationTime: 0
+  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: f3fc87acc2d84554ca2c7183c2de2cb1, type: 2}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0.2
   spellIcon: {fileID: 21300000, guid: fc5f29ac79ae23c42986ccb2e397704a, type: 3}
-  adaptiveRange: 0
-  timeToReachMaxRange: 0.075
-  damagesRadius: 0
-  damages:
-    damageHealth: 0
-    statusToApply: {fileID: 0}
-    movementToApply: {fileID: 0}
-    playerName: 
+  movementToApply:
+    myModule: {fileID: 0}
+    _duration: 0
+    baseDuration: 0
+    speedEvolution:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    strength: 0
   bonusDash: 1
