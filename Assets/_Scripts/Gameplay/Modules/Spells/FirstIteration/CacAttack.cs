@@ -132,6 +132,8 @@ public class CacAttack : SpellModule
 		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
 	}
 
+
+
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
 		if (canBeCast())
@@ -173,6 +175,8 @@ public class CacAttack : SpellModule
 
 	void ResolveSlash ()
 	{
+		HidePreview(Vector3.zero);
+
 		CacAttackParameters _trad =	AttackToResolve();
 
 		if (spell.forcedMovementAppliedBeforeResolution != null)
@@ -213,13 +217,9 @@ public class CacAttack : SpellModule
 		{
 			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
-			//RAJOUTER LES PLAYERS DATAS ICI
-			_playerTouched.DealDamages(AttackToResolve().damagesToDeal,transform.position);
+			if(_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
+				_playerTouched.DealDamages(AttackToResolve().damagesToDeal,transform.position);
 		}
-
-	
-
-		Interrupt();
 	}
 
 	CacAttackParameters AttackToResolve ()
