@@ -96,7 +96,7 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("Cursed")]
 	public bool cursedByShili = false;
-	[SerializeField] private GameObject wxMark;
+	[SerializeField] protected GameObject wxMark;
 	[SerializeField] private Sc_Status wxMarkRef;
 	//ALL ACTION 
 	#region
@@ -299,18 +299,17 @@ public class PlayerModule : MonoBehaviour
 			{
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
+				StateChanged(state);
 				_oldState = state;
-
-				if ((state & En_CharacterState.WxMarked) != 0)
-                {
-					wxMark.SetActive(true);
-				} else
-                {
-					wxMark.SetActive(false);
-				}
 			}
 		}
 	}
+
+
+	protected virtual void StateChanged(En_CharacterState state)
+    {
+
+    }
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
