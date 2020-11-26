@@ -117,10 +117,7 @@ public class CacAttack : SpellModule
 
 		float distanceOfTheDash = 0;
 
-		if (spell.forcedMovementAppliedBeforeResolution != null)
-			distanceOfTheDash = spell.forcedMovementAppliedBeforeResolution.movementToApply.length;
-
-		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.up*distanceOfTheDash);
+		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
