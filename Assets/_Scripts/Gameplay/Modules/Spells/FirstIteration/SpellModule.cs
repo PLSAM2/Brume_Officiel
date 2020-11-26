@@ -291,7 +291,6 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
-		print(movementToTreat);
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
 	public virtual void Interrupt ()
