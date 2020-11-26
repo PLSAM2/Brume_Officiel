@@ -29,31 +29,31 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				//myPlayerModule.firstSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInput += StartCanalysing;
 				myPlayerModule.firstSpellInputRealeased += AnonceSpell;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				//myPlayerModule.secondSpellInput += ShowPreview;
+				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInput += StartCanalysing;
 				myPlayerModule.secondSpellInputRealeased += AnonceSpell;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				//myPlayerModule.thirdSpellInput += ShowPreview;
+				myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInput += StartCanalysing;
 				myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
 				break;
 
 			case En_SpellInput.Click:
-				//myPlayerModule.leftClickInput += ShowPreview;
+				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInput += StartCanalysing;
 				myPlayerModule.leftClickInputRealeased += AnonceSpell;
 				break;
 
 			case En_SpellInput.Ward:
-				//myPlayerModule.wardInput += ShowPreview;
+				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInput += StartCanalysing;
 				myPlayerModule.wardInputReleased += AnonceSpell;
 				break;
@@ -114,20 +114,17 @@ public class CacAttack : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-
-		float distanceOfTheDash = 0;
-
 		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
-		base.ShowPreview(mousePos);
 		if (canBeCast())
-			
 		{
 			shapePreview.gameObject.SetActive(true);
 		}
+		base.ShowPreview(mousePos);
+
 	}
 
 	protected override void HidePreview ()
