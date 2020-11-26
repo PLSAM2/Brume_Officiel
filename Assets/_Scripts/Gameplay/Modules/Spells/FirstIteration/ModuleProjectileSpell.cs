@@ -7,7 +7,7 @@ public class ModuleProjectileSpell : SpellModule
 {
 	protected Sc_ProjectileSpell localTrad; //plus facile a lire dans le script
 	int shotRemainingInSalve;
-	[SerializeField] ushort indexOfTheShotProjectileBlue = 12;
+
 	SalveInfos myLiveSalve;
 	float offsetHeight;
 	bool shooting = false;
@@ -21,25 +21,27 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = localTrad.salveInfos;
 		offsetHeight = GetComponent<CapsuleCollider>().height / 2;
 	}
-
-	protected void Update ()
+	protected override void FixedUpdate ()
 	{
+		base.FixedUpdate();
+
 		if (shooting == true)
 		{
-			timeBetweenShot -= Time.deltaTime;
+			timeBetweenShot -= Time.fixedDeltaTime;
 			if (timeBetweenShot <= 0)
 			{
-					ShootSalve(PosToInstantiate(), RotationOfTheProj());
+				ShootSalve();
 			}
 		}
 	}
+	
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		if (localTrad.salveInfos.numberOfShotInSalve > 1)
 			myPreviewBurst = PreviewManager.Instance.GetShapePreview(transform);
 		else
 			myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
-		HidePreview();
+		HidePreview(Vector3.zero);
 		base.SetupComponent(_actionLinked);
 	}
 
@@ -47,25 +49,16 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		base.StartCanalysing(_BaseMousePos);
 
-		HidePreview();
+		HidePreview(Vector3.zero);
 	}
 
-	public override void Interrupt ()
+	protected override void ResolveSpell ( )
 	{
-		base.Interrupt();
-		shooting = false;
-	}
-
-	protected override void Resolution ( )
-	{
-		base.Resolution();
-
+		base.ResolveSpell();
+		print("I Resolve");
 		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
-		timeBetweenShot = 0;
-
 		shooting = true;
-
-		resolved = true;
+		ShootSalve();
 	}
 
 	protected override void UpgradeSpell ()
@@ -82,16 +75,6 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = localTrad.salveInfos;
 	}
 
-	protected override bool canBeCast ()
-	{
-		if (shooting)
-		{
-			return false;
-		}
-		else
-			return base.canBeCast();
-	}
-
 	//shootingPart
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
@@ -104,14 +87,17 @@ public class ModuleProjectileSpell : SpellModule
 		return transform.rotation.eulerAngles;
 	}
 
-	void ShootSalve ( Vector3 _posToSet, Vector3 _rot )
+	void ShootSalve  ()
 	{
 		timeBetweenShot = myLiveSalve.timeToResolveTheSalve / myLiveSalve.NumberOfSalve;
 
 		shotRemainingInSalve--;
 
 		if (shotRemainingInSalve <= 0)
+		{
+			shooting = false;
 			Interrupt();
+		}
 
 		ReadSalve();
 	}
@@ -129,7 +115,7 @@ public class ModuleProjectileSpell : SpellModule
 			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
 		}*/
-
+		print("IreadSalve");
 		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
 		float _angleToAdd = localTrad.angleToSplit / localTrad.salveInfos.numberOfShotInSalve;
 
@@ -145,20 +131,21 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
-		NetworkObjectsManager.Instance.NetworkInstantiate(indexOfTheShotProjectileBlue, _posToSet, _rot);
+		print("IShoot");
+		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot);
 	}
 	#endregion
 
 	//PREVIEW
 	#region
-	protected override void HidePreview ()
+	protected override void HidePreview (Vector3 _temp)
 	{
 		if (myPreviewArrow != null)
 			myPreviewArrow.gameObject.SetActive(false);
 		else
 			myPreviewBurst.gameObject.SetActive(false);
 
-		base.HidePreview();
+		base.HidePreview(_temp);
 	}
 
 	protected override void UpdatePreview ()

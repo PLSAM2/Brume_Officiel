@@ -18,7 +18,7 @@ public class DashModule : SpellModule
 			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 		}
 		myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
-		HidePreview();
+		HidePreview(Vector3.zero);
 
 		localTrad = spell as Sc_DashSpell;
 	}
@@ -70,9 +70,9 @@ public class DashModule : SpellModule
 		}
 	}
 
-	protected override void HidePreview ()
+	protected override void HidePreview (Vector3 _temp)
 	{
-		base.HidePreview();
+		base.HidePreview(_temp);
 		myPreviewArrow.gameObject.SetActive(false);
 	}
 

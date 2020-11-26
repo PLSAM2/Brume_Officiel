@@ -39,7 +39,6 @@ public class Module_Spit : SpellModule
 
     protected  void Update()
     {
-
         if (isLaunched)
         {
             if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
@@ -63,14 +62,15 @@ public class Module_Spit : SpellModule
     }
 
 
-    protected override void Resolution()
+    protected override void ResolveSpell ()
     {
+        base.ResolveSpell();
+
         if (isLaunched && spitObj != null)
         {
             return;
         }
 
-        base.Resolution();
 
         spitObj.SetActive(true);
 
@@ -123,7 +123,7 @@ public class Module_Spit : SpellModule
                 }
             }
 
-            NetworkObjectsManager.Instance.NetworkInstantiate(localTrad.onImpactInstantiate.myNetworkObject.GetObjInstantiateID(), destination, Vector3.zero);
+            NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, Vector3.zero);
         }
     }
 }

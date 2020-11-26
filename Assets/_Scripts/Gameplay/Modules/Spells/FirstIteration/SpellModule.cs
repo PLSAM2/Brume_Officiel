@@ -49,7 +49,7 @@ public class SpellModule : MonoBehaviour
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
-
+		cooldown = finalCooldownValue();
 
 		actionLinked = _actionLinked;
 
@@ -90,23 +90,33 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+				myPlayerModule.firstSpellInputRealeased += HidePreview;
+
 
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				myPlayerModule.secondSpellInputRealeased += HidePreview;
+
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				myPlayerModule.thirdSpellInputRealeased += HidePreview;
+
 				break;
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				myPlayerModule.leftClickInputRealeased+= HidePreview;
+
 				break;
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInputReleased += StartCanalysing;
+				myPlayerModule.wardInputReleased += HidePreview;
+
 				break;
 		}
 	}
@@ -118,25 +128,33 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.firstSpellInputRealeased -= HidePreview;
+
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.secondSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.thirdSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.thirdSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
 
 				break;
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.leftClickInputRealeased -= StartCanalysing;
+				myPlayerModule.leftClickInputRealeased -= HidePreview;
+
 
 				break;
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				myPlayerModule.wardInputReleased -= HidePreview;
+
 
 				break;
 		}
@@ -159,7 +177,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void HidePreview ()
+	protected virtual void HidePreview (Vector3 _posToHide)
 	{
 		showingPreview = false;
 	}
@@ -201,7 +219,7 @@ public class SpellModule : MonoBehaviour
 
 	protected void TreatThrowBack()
 	{
-		if (resolved && throwbackTime < spell.throwBackDuration && isUsed)
+		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
 		{
 			throwbackTime += Time.fixedDeltaTime;
 			if (throwbackTime >= spell.throwBackDuration)
@@ -241,7 +259,6 @@ public class SpellModule : MonoBehaviour
 			isUsed = true;
 			StartCanalysingFeedBack();
 			DecreaseCharge();
-			HidePreview();
 			mousePosInputed = myPlayerModule.mousePos();
 
 			if (spell.statusToApplyOnCanalisation.Count > 0)
@@ -260,10 +277,6 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.rotationLock(true);
 			if (spell.lockPosOnCanalisation)
 				myPlayerModule.AddState(En_CharacterState.Root);
-
-
-			if (charges == spell.numberOfCharge)
-				cooldown = finalCooldownValue();
 		}
 		else
 			return;
@@ -295,7 +308,6 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
-		print(movementToTreat);
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
 	public virtual void Interrupt ()
@@ -322,6 +334,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
+
 	}
 	public virtual void DecreaseCooldown ()
 	{
@@ -331,8 +344,8 @@ public class SpellModule : MonoBehaviour
 				cooldown -= Time.fixedDeltaTime;
 			else
 			{
-				AddCharge();
 				cooldown = finalCooldownValue();
+				AddCharge();
 			}
 		}
 	}

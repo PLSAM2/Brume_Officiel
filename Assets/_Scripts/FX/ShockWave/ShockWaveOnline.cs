@@ -5,48 +5,34 @@ using static GameData;
 
 public class ShockWaveOnline : MonoBehaviour
 {
-    [SerializeField] AudioClip waveAudio;
-
     float currentWaveTime = 0;
-    
-    float waveRange, waveDuration;
-    AnimationCurve waveCurve;
 
     [SerializeField] statut myStatut;
+
+    [SerializeField] Sc_ThirdEye localTrad;
+
+    NetworkedObject myNetworkObj;
     public enum statut
     {
         Open,
         Close
-    }     
-
-    void InitValue()
-    {
-        Module_WxThirdEye thirdEye = GameManager.Instance.GetLocalPlayerChamp(Character.Shili, GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam)).GetComponent<Module_WxThirdEye>();
-
-        if (thirdEye != null)
-        {
-            waveRange = thirdEye.waveRange;
-            waveDuration = thirdEye.waveDuration;
-            waveCurve = thirdEye.waveCurve;
-        }
     }
 
-    private void OnEnable()
+    private void Awake()
     {
-        GetComponent<NetworkedObject>().OnSpawnObj += Init;
+        myNetworkObj = GetComponent<NetworkedObject>();
+        myNetworkObj.OnSpawnObj += Init;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        GetComponent<NetworkedObject>().OnSpawnObj -= Init;
+        myNetworkObj.OnSpawnObj -= Init;
     }
 
     void Init()
     {
-        InitValue();
-
         currentWaveTime = 0;
-        AudioManager.Instance.Play3DAudio(waveAudio, transform.position);
+        AudioManager.Instance.Play3DAudio(localTrad.parameters.waveAudio, transform.position);
     }
 
     // Update is called once per frame
@@ -54,21 +40,21 @@ public class ShockWaveOnline : MonoBehaviour
     {
         currentWaveTime += Time.deltaTime;
 
-        float size = waveRange;
+        float size = localTrad.parameters.waveRange;
         switch (myStatut)
         {
             case statut.Open:
-                size = Mathf.Lerp(0, waveRange, waveCurve.Evaluate(currentWaveTime / waveDuration));
+                size = Mathf.Lerp(0, localTrad.parameters.waveRange, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
                 break;
 
             case statut.Close:
-                size = Mathf.Lerp(waveRange, 0, waveCurve.Evaluate(currentWaveTime / waveDuration));
+                size = Mathf.Lerp(localTrad.parameters.waveRange, 0, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
                 break;
         }
 
         transform.localScale = new Vector3(size, size, size);
 
-        if (currentWaveTime >= waveDuration)
+        if (currentWaveTime >= localTrad.parameters.waveDuration)
         {
             gameObject.SetActive(false);
         }

@@ -31,6 +31,7 @@ public class NetworkedObject : MonoBehaviour
         owner = playerData;
         lastPosition = transform.position;
         objListKey = objKey;
+
         if (RoomManager.Instance.GetLocalPlayer() == owner)
         {
             ownerIClient = RoomManager.Instance.client;
