@@ -58,9 +58,19 @@ public class Module_WxThirdEye : SpellModule
     protected override void ResolveSpell()
     {
         base.ResolveSpell();
-        myPlayerModule.firstSpellInput += OnCancelSpell;
+        myPlayerModule.firstSpellInput += forceIterrupt;
 
         StartWave();
+    }
+
+    void forceIterrupt(Vector3 _temp)
+    {
+        Interrupt();
+    }
+
+    public override void Interrupt()
+    {
+        base.Interrupt();
     }
 
     void OnCancelSpell(Vector3 mousePos)
@@ -101,7 +111,6 @@ public class Module_WxThirdEye : SpellModule
         //network FX
         GameObject newFx = NetworkObjectsManager.Instance.NetworkInstantiate(1000, transform.position, Vector3.zero);
         newFx.SetActive(false);
-
     }
 
     void HideShowAllFow(bool _value)
