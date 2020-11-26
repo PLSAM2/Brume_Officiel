@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003b6a1938240494ebd0bdfbde34735d, type: 3}
   m_Name: Spell_Yang_Surcharge
   m_EditorClassIdentifier: 
-  canalisationTime: 1.5
   range: 0
   cooldown: 12
   numberOfCharge: 1
-  lockRotOnCanalisation: 0
-  lockPosOnCanalisation: 1
   forbiddenState: 48
-  canalysingStatus: {fileID: 0}
-  resolusionStatus: {fileID: 11400000, guid: 67ffe4469eaf3bc409e32c58950b31a3, type: 2}
-  canCancel: 0
-  mustUseACollFreePos: 0
-  useLastRecordedMousePos: 0
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 1
+  canalisationTime: 1
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 0
+  LockPosOnAnonciation: 0
+  anonciationTime: 0.01
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: 67ffe4469eaf3bc409e32c58950b31a3, type: 2}
+  throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 244b198b9d2b61f4491d107f92ac1c69, type: 3}
   duration: 6
   statusThrowback: {fileID: 11400000, guid: a708b5c7724d45448b68a67c1d2d6616, type: 2}
