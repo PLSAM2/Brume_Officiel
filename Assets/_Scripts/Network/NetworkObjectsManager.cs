@@ -314,7 +314,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     /// </summary>
     /// <param name="obj"> </param>
     /// <returns></returns>
-    private ushort GetPoolID(GameObject obj)
+    public ushort GetPoolID(GameObject obj)
     {
         foreach (KeyGameObjectPair pair in networkedObjectsList.networkObjects)
         {
