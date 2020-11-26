@@ -95,6 +95,7 @@ public class Interactible : MonoBehaviour
             return;
         }
         capturingPlayerModule = capturingPlayer;
+        capturingPlayerModule.AddState(En_CharacterState.Stunned);
         isCapturing = true;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -140,6 +141,8 @@ public class Interactible : MonoBehaviour
             return;
         }
 
+        capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
+
         if (team == capturingTeam)
         {
             capturingTeam = Team.none;
@@ -153,7 +156,6 @@ public class Interactible : MonoBehaviour
             {
                 SetColor(noCaptureColor);
             }
-
         }
     }
 
@@ -171,6 +173,7 @@ public class Interactible : MonoBehaviour
             }
         }
         timer = 0;
+        capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
 
         UpdateCaptured(team);
     }

@@ -843,6 +843,12 @@ MonoBehaviour:
     - Name: OnPlayerDisconnect
       Entry: 6
       Data: 
+    - Name: OnWardTeamSpawn
+      Entry: 6
+      Data: 
+    - Name: OnTowerTeamCaptured
+      Entry: 6
+      Data: 
   resSpawns:
   - {fileID: 910452173}
   - {fileID: 910452172}
@@ -850,6 +856,7 @@ MonoBehaviour:
   defaultCam: {fileID: 463587853}
   volumeAnimator: {fileID: 543586701}
   allWard: []
+  allTower: []
   gameStarted: 0
   globalVolumeAnimator: {fileID: 543586701}
 --- !u!4 &74980374
