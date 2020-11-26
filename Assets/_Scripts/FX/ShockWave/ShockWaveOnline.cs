@@ -13,37 +13,57 @@ public class ShockWaveOnline : MonoBehaviour
     AnimationCurve waveCurve;
 
     [SerializeField] statut myStatut;
+
+    NetworkedObject myNetworkObj;
     public enum statut
     {
         Open,
         Close
-    }     
+    }
+
+    private void Awake()
+    {
+        myNetworkObj = GetComponent<NetworkedObject>();
+        myNetworkObj.OnSpawnObj += Init;
+    }
 
     void InitValue()
     {
-        Module_WxThirdEye thirdEye = GameManager.Instance.GetLocalPlayerChamp(Character.Shili, GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam)).GetComponent<Module_WxThirdEye>();
+        print(myNetworkObj.GetOwnerID());
+        print(GameManager.Instance.networkPlayers[myNetworkObj.GetOwnerID()]);
+        print(GameManager.Instance.networkPlayers[myNetworkObj.GetOwnerID()].GetComponent<Module_WxThirdEye>());
+
+
+        Module_WxThirdEye thirdEye = GameManager.Instance.networkPlayers[myNetworkObj.GetOwnerID()].GetComponent<Module_WxThirdEye>();
 
         if (thirdEye != null)
         {
+            print("ok");
             waveRange = thirdEye.waveRange;
             waveDuration = thirdEye.waveDuration;
             waveCurve = thirdEye.waveCurve;
         }
+        else
+        {
+            print("null");
+            gameObject.SetActive(false);
+        }
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        GetComponent<NetworkedObject>().OnSpawnObj += Init;
-    }
-
-    private void OnDisable()
-    {
-        GetComponent<NetworkedObject>().OnSpawnObj -= Init;
+        myNetworkObj.OnSpawnObj -= Init;
     }
 
     void Init()
     {
+        print("init");
         InitValue();
+
+        print(waveRange);
+        print(waveCurve);
+        print(currentWaveTime);
+        print(waveDuration);
 
         currentWaveTime = 0;
         AudioManager.Instance.Play3DAudio(waveAudio, transform.position);

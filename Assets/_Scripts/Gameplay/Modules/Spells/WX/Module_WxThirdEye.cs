@@ -293,7 +293,6 @@ public class Module_WxThirdEye : SpellModule
 
         shockWave.gameObject.SetActive(true);
 
-        print("son");
         AudioManager.Instance.Play3DAudio(waveAudio, transform.position);
 
         GameManager.Instance.GetLocalPlayerObj().ResetFowRaduis();
