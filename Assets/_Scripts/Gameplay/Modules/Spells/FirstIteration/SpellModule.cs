@@ -30,7 +30,7 @@ public class SpellModule : MonoBehaviour
 	}
 
 	float _cooldown = 0;
-	[ReadOnly] public bool isUsed = false, resolved = false, anonciated = false;
+	[ReadOnly] public bool isUsed = false, startResolution = false,  resolved = false, anonciated = false;
 	public Sc_Spell spell;
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
@@ -109,7 +109,7 @@ public class SpellModule : MonoBehaviour
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInputRealeased += StartCanalysing;
-				myPlayerModule.leftClickInputRealeased+= HidePreview;
+				myPlayerModule.leftClickInputRealeased += HidePreview;
 
 				break;
 			case En_SpellInput.Ward:
@@ -177,7 +177,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void HidePreview (Vector3 _posToHide)
+	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
 		showingPreview = false;
 	}
@@ -207,7 +207,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void TreatNormalCanalisation ()
 	{
-		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !resolved)
+		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !startResolution)
 		{
 			Resolution();
 		}
@@ -217,7 +217,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected void TreatThrowBack()
+	protected void TreatThrowBack ()
 	{
 		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
 		{
@@ -230,15 +230,14 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
-		if(isUsed)
+		if (isUsed)
 		{
 			anonciated = true;
 			currentTimeCanalised = TimeToWaitOnanonciation();
 
 			if (spell.lockRotOnAnonciation)
 				myPlayerModule.rotationLock(true);
-			else
-				myPlayerModule.rotationLock(false);
+
 
 			if (spell.LockPosOnAnonciation)
 				myPlayerModule.AddState(En_CharacterState.Root);
@@ -253,8 +252,9 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
-			resolved = anonciated = false;
-			currentTimeCanalised = throwbackTime = 0;
+			resolved = anonciated= startResolution = false;
+			currentTimeCanalised = 0;
+			throwbackTime = 0;
 
 			isUsed = true;
 			StartCanalysingFeedBack();
@@ -275,6 +275,7 @@ public class SpellModule : MonoBehaviour
 
 			if (spell.lockRotOnCanalisation)
 				myPlayerModule.rotationLock(true);
+
 			if (spell.lockPosOnCanalisation)
 				myPlayerModule.AddState(En_CharacterState.Root);
 		}
@@ -283,7 +284,6 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void Resolution ()
 	{
-		resolved = true;
 		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
 			myPlayerModule.forcedMovementInterrupted += ResolveSpell;
@@ -291,11 +291,14 @@ public class SpellModule : MonoBehaviour
 		}
 		else
 			ResolveSpell();
+
+		startResolution = true;
 	}
 
 	protected virtual void ResolveSpell ()
 	{
 		ResolveSpellFeedback();
+		resolved = true;
 
 		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
