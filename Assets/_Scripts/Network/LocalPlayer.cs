@@ -437,6 +437,20 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void SendChangeFowRaduis(float size = 0, bool resetSize = false)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(myPlayerId);
+            _writer.Write((uint)size * 100);
+            _writer.Write(resetSize);
+
+            using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
 
     public void KillPlayer(PlayerData killer = null)
     {

@@ -60,8 +60,6 @@ public class Module_WxThirdEye : SpellModule
         base.ResolveSpell();
         myPlayerModule.firstSpellInput += OnCancelSpell;
 
-        myPlayerModule.AddState(En_CharacterState.InThirdEye);
-
         StartWave();
     }
 
@@ -236,6 +234,8 @@ public class Module_WxThirdEye : SpellModule
     void OnShockWaveFinish()
     {
         GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.parameters.fowRaduis);
+        myLocalPlayer.SendChangeFowRaduis(localTrad.parameters.fowRaduis);
+
         FindAllPlayerInRange();
     }
 
@@ -279,7 +279,7 @@ public class Module_WxThirdEye : SpellModule
 
     void OnEndEcho()
     {
-       // myPlayerModule.RemoveState(En_CharacterState.InThirdEye);
+        myLocalPlayer.SendChangeFowRaduis(0, true);
 
         inEchoMode = false;
         GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
