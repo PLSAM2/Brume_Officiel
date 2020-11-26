@@ -65,41 +65,9 @@ MonoBehaviour:
   isUsed: 0
   resolved: 0
   anonciated: 0
-  spell: {fileID: 11400000, guid: 56e43cadf45d20a458d5f3fe26a23698, type: 2}
+  spell: {fileID: 11400000, guid: 146e0df56fee9684db2cfd46c417c61c, type: 2}
   myPlayerModule: {fileID: 0}
   thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
-  fowRaduis: 4
-  cursedDuration: 3
-  echoRange: 12
-  echoDuration: 3
-  waveRange: 12
-  waveDuration: 0.3
-  waveCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waveAudio: {fileID: 8300000, guid: 86278696981700940852390a19a695cf, type: 3}
-  shockWaveStatut: 1
 --- !u!114 &5231333726942406148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +89,7 @@ MonoBehaviour:
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
+  _isInBrume: 0
   isThirdEyes: 0
   brumeId: 0
   allHitTaken: []
@@ -144,9 +113,9 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
   isPoisonousEffectActive: 0
-  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-  wxMark: {fileID: 3406981713847985507}
   cursedByShili: 0
+  wxMark: {fileID: 3406981713847985507}
+  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
   altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!114 &5536350898603478200
 MonoBehaviour:
