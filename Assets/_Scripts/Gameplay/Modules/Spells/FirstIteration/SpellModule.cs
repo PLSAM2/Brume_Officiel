@@ -183,11 +183,13 @@ public class SpellModule : MonoBehaviour
 
 		if (showingPreview)
 			UpdatePreview();
+
+		TreatThrowBack();
 	}
 
 	protected virtual void TreatNormalCanalisation ()
 	{
-		if (currentTimeCanalised >= timeToResolveSpell && anonciated  && !resolved )
+		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !resolved)
 		{
 			Resolution();
 		}
@@ -195,7 +197,10 @@ public class SpellModule : MonoBehaviour
 		{
 			AnonceSpell(Vector3.zero);
 		}
+	}
 
+	protected void TreatThrowBack()
+	{
 		if (resolved && throwbackTime < spell.throwBackDuration)
 		{
 			throwbackTime += Time.fixedDeltaTime;
@@ -203,19 +208,28 @@ public class SpellModule : MonoBehaviour
 				Interrupt();
 		}
 	}
-	protected virtual void AnonceSpell ( Vector3 _toAnnounce)
+
+	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		anonciated = true;
-		timeToResolveSpell = timeToResolveSpell - spell.anonciationTime;
+		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
+		if(isUsed)
+		{
+			anonciated = true;
+			currentTimeCanalised = TimeToWaitOnanonciation();
 
-		if (spell.lockRotOnAnonciation)
-			myPlayerModule.rotationLock(true);
-		else
-			myPlayerModule.rotationLock(false);
+			if (spell.lockRotOnAnonciation)
+				myPlayerModule.rotationLock(true);
+			else
+				myPlayerModule.rotationLock(false);
 
-		if (spell.LockPosOnAnonciation)
-			myPlayerModule.AddState(En_CharacterState.Root);
+			if (spell.LockPosOnAnonciation)
+				myPlayerModule.AddState(En_CharacterState.Root);
+		}
+	}
 
+	protected virtual float TimeToWaitOnanonciation ()
+	{
+		return timeToResolveSpell - spell.anonciationTime;
 	}
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
