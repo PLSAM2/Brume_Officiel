@@ -58,6 +58,8 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected override void Resolution ( )
 	{
+		base.Resolution();
+
 		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
 		timeBetweenShot = 0;
 

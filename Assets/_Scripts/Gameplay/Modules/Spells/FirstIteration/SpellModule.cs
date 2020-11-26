@@ -302,7 +302,6 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		throwbackTime = 0;
-		print("i interupt");
 		if (statusToStopAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
