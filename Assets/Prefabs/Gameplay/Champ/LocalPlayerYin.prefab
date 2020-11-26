@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 98e688b61ee58024182cfe88e8671bb5, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1588142659292545213}
-  particleResolution: []
 --- !u!114 &1004634171397155041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,8 +39,9 @@ MonoBehaviour:
   crouching: 304
   interactKey: 102
   wardKey: 118
-  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
+  characterParameters: {fileID: 11400000, guid: 8d3507b9945a3c04f8a8e7f53487b4e1, type: 2}
   teamIndex: 0
+  isThirdEyes: 0
   brumeId: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
@@ -64,6 +64,7 @@ MonoBehaviour:
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
   poisonousEffect: {fileID: 0}
   isPoisonousEffectActive: 0
+  cursedByShili: 0
 --- !u!114 &2309556355556726922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,13 +79,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: b4ee48bf29a5c1b4b949c7c95d1c70cd, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1930682593351596945}
-  particleResolution: []
   indexOfTheShotProjectileBlue: 15
 --- !u!114 &4194662364228485567
 MonoBehaviour:
@@ -100,13 +100,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 1930682593351596945}
-  particleResolution: []
   spitTravelPrefab: {fileID: 6421260997992176977, guid: 4acb6614bf5e84342bd5d5c637a87db2, type: 3}
   spitObj: {fileID: 0}
   deceleratedRatio: 1
@@ -212,15 +211,5 @@ MonoBehaviour:
 --- !u!212 &1044435631608765395 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7568069776902261552}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &1930682593351596945 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8344051681668984993, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7568069776902261552}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &1588142659292545213 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9155000043582245773, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7568069776902261552}
   m_PrefabAsset: {fileID: 0}
