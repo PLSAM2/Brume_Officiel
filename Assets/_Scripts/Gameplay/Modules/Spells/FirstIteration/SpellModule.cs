@@ -201,7 +201,7 @@ public class SpellModule : MonoBehaviour
 
 	protected void TreatThrowBack()
 	{
-		if (resolved && throwbackTime < spell.throwBackDuration)
+		if (resolved && throwbackTime < spell.throwBackDuration && isUsed)
 		{
 			throwbackTime += Time.fixedDeltaTime;
 			if (throwbackTime >= spell.throwBackDuration)
@@ -293,7 +293,6 @@ public class SpellModule : MonoBehaviour
 			TreatForcedMovement(spell.forcedMovementAppliedAfterResolution);
 	}
 
-
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
 		print(movementToTreat);
@@ -303,6 +302,7 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		throwbackTime = 0;
+		print("i interupt");
 		if (statusToStopAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
@@ -316,8 +316,9 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
 			myPlayerModule.RemoveState(En_CharacterState.Root);
 
-		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
+		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
+
 	}
 	protected virtual void DecreaseCharge ()
 	{
