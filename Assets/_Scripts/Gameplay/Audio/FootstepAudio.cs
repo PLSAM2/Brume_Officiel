@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class FootstepAudio : MonoBehaviour
 {
-    public bool crowtching = false;
-
+    [SerializeField] PlayerModule myPlayerModule;
     Vector3 oldPos;
 
     bool doSound = true;
@@ -40,7 +39,7 @@ public class FootstepAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (crowtching) { return; }
+        if (myPlayerModule.state.HasFlag(En_CharacterState.Crouched)) { return; }
 
         float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
         float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;

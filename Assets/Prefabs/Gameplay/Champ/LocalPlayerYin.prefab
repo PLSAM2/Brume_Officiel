@@ -16,6 +16,7 @@ MonoBehaviour:
   timeToResolveSpell: 0
   throwbackTime: 0
   isUsed: 0
+  startResolution: 0
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 98e688b61ee58024182cfe88e8671bb5, type: 2}
@@ -41,6 +42,7 @@ MonoBehaviour:
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 8d3507b9945a3c04f8a8e7f53487b4e1, type: 2}
   teamIndex: 0
+  _isInBrume: 0
   isThirdEyes: 0
   brumeId: 0
   allHitTaken: []
@@ -65,6 +67,8 @@ MonoBehaviour:
   poisonousEffect: {fileID: 0}
   isPoisonousEffectActive: 0
   cursedByShili: 0
+  wxMark: {fileID: 0}
+  wxMarkRef: {fileID: 0}
 --- !u!114 &2309556355556726922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +85,7 @@ MonoBehaviour:
   timeToResolveSpell: 0
   throwbackTime: 0
   isUsed: 0
+  startResolution: 0
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: b4ee48bf29a5c1b4b949c7c95d1c70cd, type: 2}
@@ -101,6 +106,7 @@ MonoBehaviour:
   timeToResolveSpell: 0
   throwbackTime: 0
   isUsed: 0
+  startResolution: 0
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
@@ -172,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 391e49e426d691a45b5f557036980c06, type: 2}
+    - target: {fileID: 7584170429694241150, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: myPlayerModule
+      value: 
+      objectReference: {fileID: 1004634171397155041}
     m_RemovedComponents:
     - {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
