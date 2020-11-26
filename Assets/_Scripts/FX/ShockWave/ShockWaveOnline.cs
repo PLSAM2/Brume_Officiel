@@ -32,7 +32,7 @@ public class ShockWaveOnline : MonoBehaviour
     void Init()
     {
         currentWaveTime = 0;
-        AudioManager.Instance.Play3DAudio(localTrad.parameters.waveAudio, transform.position);
+        AudioManager.Instance.Play3DAudio(localTrad.waveAudio, transform.position);
     }
 
     // Update is called once per frame
@@ -40,21 +40,22 @@ public class ShockWaveOnline : MonoBehaviour
     {
         currentWaveTime += Time.deltaTime;
 
-        float size = localTrad.parameters.waveRange;
+        float size = localTrad.range;
+        /*
         switch (myStatut)
         {
             case statut.Open:
-                size = Mathf.Lerp(0, localTrad.parameters.waveRange, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
+                size = Mathf.Lerp(0, localTrad.range, localTrad.waveCurve.Evaluate(currentWaveTime / localTrad.waveDuration));
                 break;
 
             case statut.Close:
-                size = Mathf.Lerp(localTrad.parameters.waveRange, 0, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
+                size = Mathf.Lerp(localTrad.waveRange, 0, localTrad.waveCurve.Evaluate(currentWaveTime / localTrad.waveDuration));
                 break;
         }
-
+        */
         transform.localScale = new Vector3(size, size, size);
 
-        if (currentWaveTime >= localTrad.parameters.waveDuration)
+        if (currentWaveTime >= localTrad.waveDuration)
         {
             gameObject.SetActive(false);
         }

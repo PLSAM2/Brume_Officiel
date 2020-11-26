@@ -338,9 +338,11 @@ public class LocalPlayer : MonoBehaviour
         {
             case true:
                 myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
+                SendChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
                 break;
             case false:
                 myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+                SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
                 break;
         }
     }

@@ -51,6 +51,8 @@ public class PlayerModule : MonoBehaviour
 		get => _isInBrume; set
 		{
 			_isInBrume = value;
+			GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
+
 			if (isAltarSpeedBuffActive)
 			{
 				SetAltarSpeedBuffState(_isInBrume);

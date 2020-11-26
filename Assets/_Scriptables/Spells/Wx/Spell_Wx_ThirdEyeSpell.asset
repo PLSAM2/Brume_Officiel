@@ -12,51 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25042211853cd3c46b4b376adf7e9b0c, type: 3}
   m_Name: Spell_Wx_ThirdEyeSpell
   m_EditorClassIdentifier: 
-  range: 50
+  range: 8
   cooldown: 10
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 0.5
-  statusToApplyOnCanalisation: []
-  lockRotOnAnonciation: 1
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 1
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
-  anonciationTime: 0.01
+  anonciationTime: 0.5
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
+  throwBackDuration: 10
   spellIcon: {fileID: 21300000, guid: fdc3bf648557da0478b2a8daa6194a4e, type: 3}
-  parameters:
-    fowRaduis: 4
-    waveRange: 12
-    waveDuration: 0.3
-    cursedDuration: 3
-    echoRange: 12
-    echoDuration: 3
-    waveCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    waveAudio: {fileID: 8300000, guid: 86278696981700940852390a19a695cf, type: 3}
+  fowRaduis: 4
+  waveDuration: 0.3
+  durationOfTheOutline: 3
+  waveAudio: {fileID: 8300000, guid: 86278696981700940852390a19a695cf, type: 3}

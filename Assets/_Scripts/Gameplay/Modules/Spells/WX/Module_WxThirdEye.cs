@@ -1,321 +1,301 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Module_WxThirdEye : SpellModule
 {
-    [SerializeField] GameObject thirdEyeShockWavePrefab;
-    Transform shockWave;
+	[SerializeField] GameObject thirdEyeShockWavePrefab;
+	Transform shockWave;
 
-    bool inEchoMode = false;
+	List<LocalPlayer> pingedPlayer = new List<LocalPlayer>();
 
-    float currentWaveTime = 0;
+	Sc_ThirdEye localTrad;
+	bool outliningPlayers = false;
 
-    shockWaveState shockWaveStatut = shockWaveState.hide;
+	private void OnEnable ()
+	{
+		GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
+		GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
+		localTrad = (Sc_ThirdEye)spell;
 
-    List<LocalPlayer> pingedPlayer = new List<LocalPlayer>();
+		if (!shockWave)
+		{
+			shockWave = Instantiate(thirdEyeShockWavePrefab, transform).transform;
+			shockWave.transform.localPosition = Vector3.zero;
+		}
 
-    bool isSpelling = false;
+		shockWave.transform.localPosition = Vector3.zero;
+		shockWave.transform.localScale = Vector3.zero;
+		shockWave.gameObject.SetActive(false);
+	}
+	private void OnDisable ()
+	{
+		Interrupt();
+		GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
+		GameManager.Instance.OnWardTeamSpawn -= OnWardSpawn;
+	}
+	protected override void ResolveSpell ()
+	{
+		UpdateShockWaveStatus(En_ShockWaveStatus.Deploy);
 
-    LocalPlayer myLocalPlayer;
+		switch (actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput += ForceInterrupt;
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput += ForceInterrupt;
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInput += ForceInterrupt;
+				break;
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput += ForceInterrupt;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput += ForceInterrupt;
+				break;
+		}
 
-    Sc_ThirdEye localTrad;
+		base.ResolveSpell();
 
-    private void Start()
-    {
-        localTrad = (Sc_ThirdEye)spell;
-        myLocalPlayer = GameManager.Instance.GetLocalPlayerObj();
-    }
+	}
+	public override void Interrupt ()
+	{
+		switch (actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput -= ForceInterrupt;
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput -= ForceInterrupt;
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.thirdSpellInput -= ForceInterrupt;
+				break;
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput -= ForceInterrupt;
+				break;
+			case En_SpellInput.Ward:
+				myPlayerModule.wardInput -= ForceInterrupt;
+				break;
+		}
+		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
 
-    private void OnEnable()
-    {
-        GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
-        GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
-    }
 
-    private void OnDisable()
-    {
-        GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
-        GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
-    }
 
-    void OnTowerCaptured(VisionTower _tower)
-    {
-        if (isSpelling)
-        {
-            _tower.vision.gameObject.SetActive(false);
-        }
-    }
 
-    void OnWardSpawn(Ward _ward)
-    {
-        if (isSpelling)
-        {
-            _ward.GetFow().gameObject.SetActive(false);
-        }
-    }
+		base.Interrupt();
+	}
 
-    protected override void ResolveSpell()
-    {
-        base.ResolveSpell();
-        myPlayerModule.firstSpellInput += forceIterrupt;
+	protected override void FixedUpdate ()
+	{
+		base.FixedUpdate();
+		if (throwbackTime >= localTrad.durationOfTheOutline && outliningPlayers)
+		{
+			outliningPlayers = false;
+			StopOutlineOnPlayers();
+		}
+	}
 
-        StartWave();
-    }
+	void ForceInterrupt ( Vector3 _temp )
+	{
+		Interrupt();
+	}
 
-    void forceIterrupt(Vector3 _temp)
-    {
-        Interrupt();
-    }
+	void OnTowerCaptured ( VisionTower _tower )
+	{
+		if (isUsed)
+		{
+			_tower.vision.gameObject.SetActive(false);
+		}
+	}
 
-    public override void Interrupt()
-    {
-        base.Interrupt();
-    }
+	void OnWardSpawn ( Ward _ward )
+	{
+		if (isUsed)
+		{
+			_ward.GetFow().gameObject.SetActive(false);
+		}
+	}
 
-    void OnCancelSpell(Vector3 mousePos)
-    {
-        StopAllCoroutines();
+	void UpdateShockWaveStatus(En_ShockWaveStatus _status)
+	{
+		switch(_status)
+		{
+			case En_ShockWaveStatus.Deploy:
+				shockWave.gameObject.SetActive(true);
+				HideAllAlliedVision(false);
+				//network FX
+				GameObject openingFx = NetworkObjectsManager.Instance.NetworkInstantiate(1000, transform.position, Vector3.zero);
+				openingFx.SetActive(false);
 
-        foreach (LocalPlayer p in pingedPlayer)
-        {
-            p.forceOutline = false;
-        }
-        OnEndEcho();
-    }
+				Vector3 finalSize = new Vector3(spell.range, spell.range, spell.range);
+				shockWave.transform.DOScale(finalSize, localTrad.anonciationTime).OnComplete(() => UpdateShockWaveStatus(En_ShockWaveStatus.Opened));
+				myPlayerModule.isThirdEyes = true;
+				break;
 
-    void StartWave()
-    {
-        isSpelling = true;
-        myLocalPlayer.myPlayerModule.isThirdEyes = true;
+			case En_ShockWaveStatus.Opened:
+				GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.fowRaduis);
+				myPlayerModule.mylocalPlayer.SendChangeFowRaduis(localTrad.fowRaduis);
+				OutlineAllPlayersInRange();
+				break;
 
-        if (!shockWave)
-        {
-            shockWave = Instantiate(thirdEyeShockWavePrefab, transform).transform;
-            shockWave.transform.localPosition = Vector3.zero;
-        }
+			case En_ShockWaveStatus.Closing:
+				shockWave.gameObject.SetActive(true);
+				shockWave.transform.DOScale(Vector3.zero, localTrad.anonciationTime).OnComplete(()=> UpdateShockWaveStatus(En_ShockWaveStatus.Hidden));
+				break;
 
-        currentWaveTime = 0;
-        shockWaveStatut = shockWaveState.open;
+			case En_ShockWaveStatus.Hidden:
+				shockWave.gameObject.SetActive(false);
+				HideAllAlliedVision(true);
+				GameManager.Instance.GetLocalPlayerObj().ResetFowRaduis();
+				StopOutlineOnPlayers();
+				foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+				{
+					if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
 
-        shockWave.transform.localPosition = Vector3.zero;
-        shockWave.transform.localScale = Vector3.zero;
-        shockWave.gameObject.SetActive(true);
+					player.Value.myPlayerModule.cursedByShili = false;
+				}
+				//   AudioManager.Instance.Play3DAudio(localTrad.waveAudio, transform.position);
 
-        AudioManager.Instance.Play3DAudio(localTrad.parameters.waveAudio, transform.position);
+				//network FX
+				GameObject closingFx = NetworkObjectsManager.Instance.NetworkInstantiate(1001, transform.position, Vector3.zero);
+				closingFx.SetActive(false);
+				break;
+		}
+	}
 
-        GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
+	private void Update ()
+	{
+		if (!isUsed)
+			return;
+		else
+			TryToPingPlayer();
+	}
 
-        HideShowAllFow(false);
+	void TryToPingPlayer()
+	{
+		if (resolved)
+		{
+			foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+			{
+				if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
 
-        //network FX
-        GameObject newFx = NetworkObjectsManager.Instance.NetworkInstantiate(1000, transform.position, Vector3.zero);
-        newFx.SetActive(false);
-    }
+				player.Value.myPlayerModule.cursedByShili = (Vector3.Distance(transform.position, player.Value.transform.position) <= shockWave.transform.localScale.x);
+			}
+		}
+		else
+		{
+			foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+			{
+				if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
 
-    void HideShowAllFow(bool _value)
-    {
-        //ward
-        foreach (Ward ward in GameManager.Instance.allWard)
-        {
-            if (ward == null) { continue; }
+				player.Value.myPlayerModule.cursedByShili = false;
+			}
+		}
+	}
 
-            if (_value)
-            {
-                bool fogValue = false;
-                if (GameFactory.PlayerWardAreOnSameBrume(myLocalPlayer.myPlayerModule, ward))
-                {
-                    fogValue = true;
-                }
-                else
-                {
-                    if (myLocalPlayer.myPlayerModule.isInBrume)
-                    {
-                        fogValue = false;
-                    }
-                    else
-                    {
-                        fogValue = true;
-                    }
-                }
-                ward.GetFow().gameObject.SetActive(fogValue);
-            }
-            else
-            {
-                ward.GetFow().gameObject.SetActive(false);
-            }
-        }
+	void OutlineAllPlayersInRange ()
+	{
+		pingedPlayer.Clear();
 
-        //tower
-        foreach (VisionTower tower in GameManager.Instance.allTower)
-        {
-            if (tower == null) { continue; }
+		outliningPlayers = true;
 
-            if (_value)
-            {
-                if (myLocalPlayer.myPlayerModule.isInBrume)
-                {
-                    tower.vision.gameObject.SetActive(false);
-                }
-                else
-                {
-                    tower.vision.gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                tower.vision.gameObject.SetActive(false);
-            }
-        }
+		foreach (LocalPlayer player in GameFactory.GetPlayerInRange(spell.range, transform.position))
+		{
+			player.forceOutline = true;
+			pingedPlayer.Add(player);
+		}
+	}
 
-        foreach(KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
-        {
-            if (player.Value == myLocalPlayer)
-                continue;
+	void StopOutlineOnPlayers()
+	{
+		foreach (LocalPlayer player in pingedPlayer)
+		{
+			player.forceOutline = false;
+		}
+	}
+	//DEVRAIT ETRE UNE FONCTION DU GAMEMANAGER
+	void HideAllAlliedVision ( bool _ShowGlobalVision )
+	{
+		//ward
+		foreach (Ward ward in GameManager.Instance.allWard)
+		{
+			if (ward == null) { continue; }
 
-            if(player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                if (_value)
-                {
-                    player.Value.ResetFowRaduis();
-                }
-                else
-                {
-                    player.Value.SetFowRaduis(0);
-                }
-            }
-        }
-    }
+			if (_ShowGlobalVision)
+			{
+				bool fogValue = false;
+				if (GameFactory.PlayerWardAreOnSameBrume(myPlayerModule, ward))
+				{
+					fogValue = true;
+				}
+				else
+				{
+					if (myPlayerModule.isInBrume)
+					{
+						fogValue = false;
+					}
+					else
+					{
+						fogValue = true;
+					}
+				}
+				ward.GetFow().gameObject.SetActive(fogValue);
+			}
+			else
+			{
+				ward.GetFow().gameObject.SetActive(false);
+			}
+		}
+		//tower
+		foreach (VisionTower tower in GameManager.Instance.allTower)
+		{
+			if (tower == null) { continue; }
 
-    private void Update()
-    {
-        if (!isSpelling)
-            return;
+			if (_ShowGlobalVision)
+			{
+				if (myPlayerModule.isInBrume)
+				{
+					tower.vision.gameObject.SetActive(false);
+				}
+				else
+				{
+					tower.vision.gameObject.SetActive(true);
+				}
+			}
+			else
+			{
+				tower.vision.gameObject.SetActive(false);
+			}
+		}
 
-        if (shockWaveStatut == shockWaveState.open)
-        {
-            currentWaveTime += Time.deltaTime;
-            float size = Mathf.Lerp(0, localTrad.parameters.waveRange, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
-            shockWave.transform.localScale = new Vector3(size, size, size);
+		foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+		{
+			if (player.Value == myPlayerModule.mylocalPlayer)
+				continue;
 
-            if (currentWaveTime >= localTrad.parameters.waveDuration)
-            {
-                shockWaveStatut = shockWaveState.hide;
-                shockWave.gameObject.SetActive(false);
-                OnShockWaveFinish();
-            }
-        }
+			if (player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+			{
+				if (_ShowGlobalVision)
+				{
+					player.Value.ResetFowRaduis();
+				}
+				else
+				{
+					player.Value.SetFowRaduis(0);
+				}
+			}
+		}
+	}
 
-        if (inEchoMode)
-        {
-            foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
-            {
-                if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
-
-                player.Value.myPlayerModule.cursedByShili = (Vector3.Distance(transform.position, player.Value.transform.position) <= localTrad.parameters.echoRange);
-            }
-        }
-        else
-        {
-            foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
-            {
-                if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
-
-                player.Value.myPlayerModule.cursedByShili = false;
-            }
-        }
-
-        if (shockWaveStatut == shockWaveState.close)
-        {
-            currentWaveTime += Time.deltaTime;
-            float size = Mathf.Lerp(localTrad.parameters.waveRange, 0, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
-            shockWave.transform.localScale = new Vector3(size, size, size);
-
-            if (currentWaveTime >= localTrad.parameters.waveDuration)
-            {
-                shockWaveStatut = shockWaveState.hide;
-                shockWave.gameObject.SetActive(false);
-                isSpelling = false;
-            }
-        }
-    }
-
-    void OnShockWaveFinish()
-    {
-        GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.parameters.fowRaduis);
-        myLocalPlayer.SendChangeFowRaduis(localTrad.parameters.fowRaduis);
-
-        FindAllPlayerInRange();
-    }
-
-    void FindAllPlayerInRange()
-    {
-        pingedPlayer.Clear();
-
-        foreach (LocalPlayer player in GameFactory.GetPlayerInRange(localTrad.parameters.waveRange, transform.position))
-        {
-            player.forceOutline = true;
-            pingedPlayer.Add(player);
-        }
-
-        StartCoroutine("WaitToHideOutline");
-    }
-
-    IEnumerator WaitToHideOutline()
-    {
-        yield return new WaitForSeconds(localTrad.parameters.cursedDuration);
-
-        SetInEchoMode();
-    }
-
-    void SetInEchoMode()
-    {
-        inEchoMode = true;
-
-        StartCoroutine("WaitToHideEcho");
-
-        foreach (LocalPlayer p in pingedPlayer)
-        {
-            p.forceOutline = false;
-        }
-    }
-
-    IEnumerator WaitToHideEcho()
-    {
-        yield return new WaitForSeconds(localTrad.parameters.echoDuration);
-        OnEndEcho();
-    }
-
-    void OnEndEcho()
-    {
-        myLocalPlayer.SendChangeFowRaduis(0, true);
-
-        inEchoMode = false;
-        GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
-
-        currentWaveTime = 0;
-        shockWaveStatut = shockWaveState.close;
-
-        shockWave.gameObject.SetActive(true);
-
-        AudioManager.Instance.Play3DAudio(localTrad.parameters.waveAudio, transform.position);
-
-        GameManager.Instance.GetLocalPlayerObj().ResetFowRaduis();
-        GetComponent<PlayerModule>().firstSpellInput -= OnCancelSpell;
-
-        myLocalPlayer.myPlayerModule.isThirdEyes = true;
-
-        HideShowAllFow(true);
-
-        //network FX
-        GameObject newFx = NetworkObjectsManager.Instance.NetworkInstantiate(1001, transform.position, Vector3.zero);
-        newFx.SetActive(false);
-    }
-
-    public enum shockWaveState
-    {
-        open,
-        hide,
-        close
-    }
+	public enum En_ShockWaveStatus
+	{
+		Deploy,
+		Opened,
+		Closing,
+		Hidden
+	}
 }

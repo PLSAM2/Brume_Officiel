@@ -421,7 +421,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual float finalCooldownValue ()
 	{
-		return spell.cooldown;
+		return spell.cooldown + spell.throwBackDuration;
 	}
 }
 public enum En_SpellInput
