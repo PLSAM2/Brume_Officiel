@@ -7,22 +7,11 @@ public class Module_WxThirdEye : SpellModule
     [SerializeField] GameObject thirdEyeShockWavePrefab;
     Transform shockWave;
 
-    [SerializeField] float fowRaduis = 4;
-
-    [SerializeField] float cursedDuration = 3;
-
     bool inEchoMode = false;
-    public float echoRange = 8;
-    public float echoDuration = 10;
 
-    public float waveRange = 15;
-    public float waveDuration = 0.3f;
     float currentWaveTime = 0;
-    public AnimationCurve waveCurve;
 
-    [SerializeField] AudioClip waveAudio;
-
-    [SerializeField] shockWaveState shockWaveStatut = shockWaveState.hide;
+    shockWaveState shockWaveStatut = shockWaveState.hide;
 
     List<LocalPlayer> pingedPlayer = new List<LocalPlayer>();
 
@@ -30,8 +19,11 @@ public class Module_WxThirdEye : SpellModule
 
     LocalPlayer myLocalPlayer;
 
+    Sc_ThirdEye localTrad;
+
     private void Start()
     {
+        localTrad = (Sc_ThirdEye)spell;
         myLocalPlayer = GameManager.Instance.GetLocalPlayerObj();
     }
 
@@ -66,7 +58,9 @@ public class Module_WxThirdEye : SpellModule
     protected override void ResolveSpell()
     {
         base.ResolveSpell();
-        GetComponent<PlayerModule>().firstSpellInput += OnCancelSpell;
+        myPlayerModule.firstSpellInput += OnCancelSpell;
+
+        myPlayerModule.AddState(En_CharacterState.InThirdEye);
 
         StartWave();
     }
@@ -100,7 +94,7 @@ public class Module_WxThirdEye : SpellModule
         shockWave.transform.localScale = Vector3.zero;
         shockWave.gameObject.SetActive(true);
 
-        AudioManager.Instance.Play3DAudio(waveAudio, transform.position);
+        AudioManager.Instance.Play3DAudio(localTrad.parameters.waveAudio, transform.position);
 
         GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
 
@@ -194,10 +188,10 @@ public class Module_WxThirdEye : SpellModule
         if (shockWaveStatut == shockWaveState.open)
         {
             currentWaveTime += Time.deltaTime;
-            float size = Mathf.Lerp(0, waveRange, waveCurve.Evaluate(currentWaveTime / waveDuration));
+            float size = Mathf.Lerp(0, localTrad.parameters.waveRange, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
             shockWave.transform.localScale = new Vector3(size, size, size);
 
-            if (currentWaveTime >= waveDuration)
+            if (currentWaveTime >= localTrad.parameters.waveDuration)
             {
                 shockWaveStatut = shockWaveState.hide;
                 shockWave.gameObject.SetActive(false);
@@ -211,7 +205,7 @@ public class Module_WxThirdEye : SpellModule
             {
                 if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
 
-                player.Value.myPlayerModule.cursedByShili = (Vector3.Distance(transform.position, player.Value.transform.position) <= echoRange);
+                player.Value.myPlayerModule.cursedByShili = (Vector3.Distance(transform.position, player.Value.transform.position) <= localTrad.parameters.echoRange);
             }
         }
         else
@@ -227,10 +221,10 @@ public class Module_WxThirdEye : SpellModule
         if (shockWaveStatut == shockWaveState.close)
         {
             currentWaveTime += Time.deltaTime;
-            float size = Mathf.Lerp(waveRange, 0, waveCurve.Evaluate(currentWaveTime / waveDuration));
+            float size = Mathf.Lerp(localTrad.parameters.waveRange, 0, localTrad.parameters.waveCurve.Evaluate(currentWaveTime / localTrad.parameters.waveDuration));
             shockWave.transform.localScale = new Vector3(size, size, size);
 
-            if (currentWaveTime >= waveDuration)
+            if (currentWaveTime >= localTrad.parameters.waveDuration)
             {
                 shockWaveStatut = shockWaveState.hide;
                 shockWave.gameObject.SetActive(false);
@@ -241,7 +235,7 @@ public class Module_WxThirdEye : SpellModule
 
     void OnShockWaveFinish()
     {
-        GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(fowRaduis);
+        GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.parameters.fowRaduis);
         FindAllPlayerInRange();
     }
 
@@ -249,7 +243,7 @@ public class Module_WxThirdEye : SpellModule
     {
         pingedPlayer.Clear();
 
-        foreach (LocalPlayer player in GameFactory.GetPlayerInRange(waveRange, transform.position))
+        foreach (LocalPlayer player in GameFactory.GetPlayerInRange(localTrad.parameters.waveRange, transform.position))
         {
             player.forceOutline = true;
             pingedPlayer.Add(player);
@@ -260,7 +254,7 @@ public class Module_WxThirdEye : SpellModule
 
     IEnumerator WaitToHideOutline()
     {
-        yield return new WaitForSeconds(cursedDuration);
+        yield return new WaitForSeconds(localTrad.parameters.cursedDuration);
 
         SetInEchoMode();
     }
@@ -279,12 +273,14 @@ public class Module_WxThirdEye : SpellModule
 
     IEnumerator WaitToHideEcho()
     {
-        yield return new WaitForSeconds(echoDuration);
+        yield return new WaitForSeconds(localTrad.parameters.echoDuration);
         OnEndEcho();
     }
 
     void OnEndEcho()
     {
+       // myPlayerModule.RemoveState(En_CharacterState.InThirdEye);
+
         inEchoMode = false;
         GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
 
@@ -293,7 +289,7 @@ public class Module_WxThirdEye : SpellModule
 
         shockWave.gameObject.SetActive(true);
 
-        AudioManager.Instance.Play3DAudio(waveAudio, transform.position);
+        AudioManager.Instance.Play3DAudio(localTrad.parameters.waveAudio, transform.position);
 
         GameManager.Instance.GetLocalPlayerObj().ResetFowRaduis();
         GetComponent<PlayerModule>().firstSpellInput -= OnCancelSpell;

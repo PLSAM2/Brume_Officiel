@@ -439,7 +439,25 @@ public class LocalPlayer : MonoBehaviour
     public void OnStateReceived(ushort _state)
     {
         if (!isOwner)
-           myPlayerModule.state = (En_CharacterState)_state;
+        {
+            myPlayerModule.state = (En_CharacterState)_state;
+
+            print(gameObject);
+            //thirdEye mode
+            if (myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                if ((myPlayerModule.state & En_CharacterState.InThirdEye) != 0)
+                {
+                    print("oui");
+                    SetFowRaduis(4);
+                }
+                else
+                {
+                    print("non");
+                    ResetFowRaduis();
+                }
+            }
+        }
     }
 
     public void OnAddedStatus(ushort _newStatus)
