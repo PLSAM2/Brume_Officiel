@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
   m_Name: Spell_Yin_Spit
   m_EditorClassIdentifier: 
-  canalisationTime: 0.35
   range: 5
   cooldown: 5
   numberOfCharge: 1
+  forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  forbiddenState: 48
-  canalysingStatus: {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
-  resolusionStatus: {fileID: 0}
-  canCancel: 0
-  mustUseACollFreePos: 0
-  useLastRecordedMousePos: 1
+  canalisationTime: 0.35
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 0
+  anonciationTime: 0
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 650aa1ee79d6e194cba71d4c61b2f39e, type: 3}
   onImpactInstantiate: {fileID: 5624599934099963903, guid: 6c982b7dfe4dd8c479ebe1a713d63e06, type: 3}
   spitSpeed: 20
@@ -64,7 +68,7 @@ MonoBehaviour:
   durationOfTheAoe: 5
   aoeRadius: 2.2
   damagesToDealOnImpact:
-    damageHealth: 30
+    damageHealth: 10
     statusToApply: {fileID: 11400000, guid: 49059435edc4c3844a137d975b1ae6fd, type: 2}
     movementToApply: {fileID: 0}
     playerName: 

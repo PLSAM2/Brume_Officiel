@@ -7,6 +7,7 @@ public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
 	ShapePreview shapePreview;
+	float timeCanalised;
 	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack -  localTrad.normalAttack.rangeOfTheAttack ;
 
 	private void Awake ()
@@ -14,6 +15,8 @@ public class CacAttack : SpellModule
 		localTrad = (Sc_CacAttack)spell;
 	}
 
+	//inputs
+	#region
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -97,20 +100,14 @@ public class CacAttack : SpellModule
 				break;
 		}
 	}
+	#endregion
 
 	protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
 
-		if (currentTimeCanalised >= localTrad.timeToForceResolve)
-		{
-			AnonceSpell(Vector3.zero);
-		}
-		
-		if (showingPreview)
-		{
-			UpdatePreview();
-		}
+		if (isUsed && !anonciated)
+			timeCanalised += Time.fixedDeltaTime;
 	}
 
 	//PREVIEW
@@ -147,8 +144,7 @@ public class CacAttack : SpellModule
 		if(canBeCast())
 		{
 			ShowPreview(myPlayerModule.mousePos());
-			if (spell.lockRotOnCanalisation)
-				myPlayerModule.rotationLock(true);
+			timeCanalised = 0;
 		}
 
 		base.StartCanalysing(_BaseMousePos);
@@ -219,17 +215,9 @@ public class CacAttack : SpellModule
 
 	CacAttackParameters AttackToResolve ()
 	{
-		if (currentTimeCanalised >= localTrad.timeToCanalyseToUpgrade)
+		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
 			return localTrad.upgradedAttack;
 		else
 			return localTrad.normalAttack;
 	}
-
-
-	protected override void TreatNormalCanalisation ()
-	{
-		return;
-	}
-
-
 }
