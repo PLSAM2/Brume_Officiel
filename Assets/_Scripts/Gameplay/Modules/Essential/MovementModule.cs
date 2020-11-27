@@ -79,6 +79,7 @@ public class MovementModule : MonoBehaviour
             currentForcedMovement.myModule = myPlayerModule;
             collider = GetComponent<CapsuleCollider>();
         }
+        rotLocked = false;
     }
 
     void OnDisable()

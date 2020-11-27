@@ -418,7 +418,7 @@ public class PlayerModule : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1<<10))
 		{
 			return new Vector3(hit.point.x, 0, hit.point.z);
 		}
