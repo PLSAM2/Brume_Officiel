@@ -12,6 +12,22 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
 
+    private void Start()
+    {
+        GameManager.Instance.allBrume.Add(this);
+    }
+
+
+    public void OnSimulateEnter(GameObject obj)
+    {
+        OnTriggerEnter(obj.GetComponent<Collider>());
+    }
+
+    public void OnSimulateExit(GameObject obj)
+    {
+        OnTriggerExit(obj.GetComponent<Collider>());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 8)
@@ -46,6 +62,8 @@ public class BrumeScript : MonoBehaviour
                 SetTowerFow(false);
 
                 myRenderer.enabled = false;
+
+                other.GetComponent<Ghost>().currentIdBrume = GetInstanceID();
             }
         }
     }
