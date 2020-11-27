@@ -18,13 +18,21 @@ public class Ghost : MonoBehaviour
     private float saveLifeTime;
 
     [SerializeField] Animator myAnimator;
-    [SerializeField] NetworkedObject myNetworkObj;
     [SerializeField] float speedAnim = 30;
     [SerializeField] Sc_CharacterParameters characterParameters;
+
+    public List<GameObject> ojbToHide = new List<GameObject>();
+    public bool isVisible = false;
 
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
+        networkedObject.OnSpawnObj += OnRespawn;
+    }
+
+    private void OnDestroy()
+    {
+        networkedObject.OnSpawnObj -= OnRespawn;
     }
 
     private void OnDisable()
@@ -48,6 +56,8 @@ public class Ghost : MonoBehaviour
 
     public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed)
     {
+        print("test");
+
         canvas.SetActive(true);
         this.playerModule = playerModule;
         saveLifeTime = lifetime;
@@ -61,6 +71,15 @@ public class Ghost : MonoBehaviour
 
         CameraManager.Instance.SetFollowObj(this.transform);
 
+        foreach(GameObject obj in ojbToHide)
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    void OnRespawn()
+    {
+        GameManager.Instance.allGhost.Add(this);
     }
 
     private void Update()
@@ -125,6 +144,11 @@ public class Ghost : MonoBehaviour
 
             playerModule.isInGhost = false;
         }
+
+        GameManager.Instance.allGhost.Remove(this);
+        GameManager.Instance.allGhost.RemoveAll(x => x == null);
+
+        print("out");
     }
 
     private void LifeTimeEnd()

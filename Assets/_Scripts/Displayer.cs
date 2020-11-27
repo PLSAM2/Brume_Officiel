@@ -115,6 +115,33 @@ public class Displayer : MonoBehaviour
                 }
             }
         }
+
+        //ghost
+        foreach(Ghost ghost in GameManager.Instance.allGhost)
+        {
+            if (GameManager.Instance.visiblePlayer.ContainsKey(ghost.transform))
+            {
+                if (!ghost.isVisible)
+                {
+                    ghost.isVisible = true;
+                    foreach (GameObject obj in ghost.ojbToHide)
+                    {
+                        obj.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                if (ghost.isVisible)
+                {
+                    ghost.isVisible = false;
+                    foreach (GameObject obj in ghost.ojbToHide)
+                    {
+                        obj.SetActive(false);
+                    }
+                }
+            }
+        }
     }
 
     void HideOrShow(LocalPlayer p, bool _value)

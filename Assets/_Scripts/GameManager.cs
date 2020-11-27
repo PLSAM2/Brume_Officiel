@@ -48,6 +48,8 @@ public class GameManager : SerializedMonoBehaviour
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
 
+    public List<Ghost> allGhost = new List<Ghost>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 
