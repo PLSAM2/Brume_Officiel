@@ -7,7 +7,7 @@ public class BrumeScript : MonoBehaviour
 {
     [SerializeField] AnimationCurve curveAlpha;
 
-    [SerializeField] Renderer myRenderer;
+    public Renderer myRenderer;
 
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
@@ -25,6 +25,25 @@ public class BrumeScript : MonoBehaviour
             {
                 GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
                 SetWardFow(player);
+                SetTowerFow(false);
+
+                myRenderer.enabled = false;
+            }
+        }
+
+        if (other.gameObject.layer == 23)
+        {
+            NetworkedObject netObj = other.gameObject.GetComponent<NetworkedObject>();
+
+            if (netObj.GetIsOwner())
+            {
+                PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
+                player.SetInBrumeStatut(true, GetInstanceID());
+
+
+                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
+                SetWardFow(player);
+                SetTowerFow(false);
 
                 myRenderer.enabled = false;
             }
@@ -67,6 +86,25 @@ public class BrumeScript : MonoBehaviour
             {
                 GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
                 SetWardFow(player);
+                SetTowerFow(true);
+
+                UiManager.Instance.SetAlphaBrume(0);
+                myRenderer.enabled = true;
+            }
+        }
+
+        if (other.gameObject.layer == 23)
+        {
+            NetworkedObject netObj = other.gameObject.GetComponent<NetworkedObject>();
+
+            if (netObj.GetIsOwner())
+            {
+                PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
+                player.SetInBrumeStatut(false, 0);
+
+                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
+                SetWardFow(player);
+                SetTowerFow(true);
 
                 UiManager.Instance.SetAlphaBrume(0);
                 myRenderer.enabled = true;
@@ -100,6 +138,17 @@ public class BrumeScript : MonoBehaviour
             }
 
             ward.GetFow().gameObject.SetActive(fogValue);
+        }
+    }
+
+    void SetTowerFow(bool value)
+    {
+        GameManager.Instance.allTower.RemoveAll(x => x == null);
+
+        foreach (VisionTower tower in GameManager.Instance.allTower)
+        {
+            if (tower == null) { continue; }
+            tower.vision.gameObject.SetActive(value);
         }
     }
 }

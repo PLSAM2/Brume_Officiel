@@ -115,7 +115,6 @@ public class Module_WxThirdEye : SpellModule
 
 				Vector3 finalSize = new Vector3(spell.range, spell.range, spell.range);
 				shockWave.transform.DOScale(finalSize, localTrad.anonciationTime).OnComplete(() => UpdateShockWaveStatus(En_ShockWaveStatus.Opened));
-				myPlayerModule.isThirdEyes = true;
 				GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.fowRaduis);
 				myPlayerModule.mylocalPlayer.SendChangeFowRaduis(localTrad.fowRaduis);
 				break;
@@ -164,7 +163,7 @@ public class Module_WxThirdEye : SpellModule
 				//network FX
 				GameObject closingFx = NetworkObjectsManager.Instance.NetworkInstantiate(1001, transform.position, Vector3.zero);
 				closingFx.SetActive(false);
-				break;
+                break;
 		}
 	}
 
