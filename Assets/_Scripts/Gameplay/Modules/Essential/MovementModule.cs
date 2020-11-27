@@ -303,12 +303,12 @@ public class MovementModule : MonoBehaviour
         {
             if ((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
             {
-                if (_liveEffect.effect.percentageOfTheMovementModifier > _worstMalus)
-                    _worstMalus = _liveEffect.effect.percentageOfTheMovementModifier;
+                if (_liveEffect.effect.percentageOfTheMovementModifier * _liveEffect.effect.decayOfTheModifier.Evaluate(_liveEffect.liveLifeTime / _liveEffect.baseLifeTime) > _worstMalus)
+                    _worstMalus = _liveEffect.effect.percentageOfTheMovementModifier * _liveEffect.effect.decayOfTheModifier.Evaluate(_liveEffect.liveLifeTime / _liveEffect.baseLifeTime);
             }
             else if ((_liveEffect.effect.stateApplied & En_CharacterState.SpedUp) != 0)
             {
-                _allBonuses += _liveEffect.effect.percentageOfTheMovementModifier;
+                _allBonuses += _liveEffect.effect.percentageOfTheMovementModifier * _liveEffect.effect.decayOfTheModifier.Evaluate(_liveEffect.liveLifeTime / _liveEffect.baseLifeTime);
             }
         }
         /*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/
