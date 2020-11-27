@@ -35,7 +35,7 @@ public class UiManager : MonoBehaviour
     [Header("GamePlayPart")]
 	[Header("Status Icon")]
     [FoldoutGroup("StatusIcon")] public Image slowIcon;
-    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon, rootIcon;
+    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon, rootIcon, hiddenIcon;
 
     [Header("Spell Icons")]
     [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
@@ -417,6 +417,12 @@ public class UiManager : MonoBehaviour
             crouchedIcon.gameObject.SetActive(true);
         else
             crouchedIcon.gameObject.SetActive(false);
+
+
+        if ((_currentState & En_CharacterState.Hidden) != 0)
+            hiddenIcon.gameObject.SetActive(true);
+        else
+            hiddenIcon.gameObject.SetActive(false);
     }
 
     public void SetAlphaBrume(float value)
