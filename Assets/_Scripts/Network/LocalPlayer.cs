@@ -19,7 +19,7 @@ public class LocalPlayer : MonoBehaviour
 
     public Animator myAnimator;
     [SerializeField] NetworkAnimationController networkAnimationController;
-    [SerializeField] GameObject circleDirection;
+    public GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
     public float respawnTime = 15;

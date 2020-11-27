@@ -5,178 +5,133 @@ using UnityEngine.UI;
 
 public class Ghost : MonoBehaviour
 {
-	[HideInInspector] public PlayerModule playerModule;
-	public MovementModule movementModule;
-	public NetworkedObject networkedObject;
-	public GameObject fowPrefab;
-	public GameObject canvas;
-	public Image fillImg;
+    [HideInInspector] public PlayerModule playerModule;
+    public MovementModule movementModule;
+    public NetworkedObject networkedObject;
+    public GameObject fowPrefab;
+    public GameObject canvas;
+    public Image fillImg;
 
-	private Quaternion canvasRot;
-	private float timer = 0;
-	private GameObject fowObj;
-	private float saveLifeTime;
+    private Quaternion canvasRot;
+    private float timer = 0;
+    private GameObject fowObj;
+    private float saveLifeTime;
 
-	[SerializeField] Animator myAnimator;
-	[SerializeField] NetworkedObject myNetworkObj;
-	[SerializeField] float speedAnim = 30;
-	[SerializeField] Sc_CharacterParameters characterParameters;
-	En_SpellInput inputLinked;
+    [SerializeField] Animator myAnimator;
+    [SerializeField] NetworkedObject myNetworkObj;
+    [SerializeField] float speedAnim = 30;
+    [SerializeField] Sc_CharacterParameters characterParameters;
 
-	private void Awake ()
-	{
-		canvasRot = canvas.transform.rotation;
-	}
+    private void Awake()
+    {
+        canvasRot = canvas.transform.rotation;
+    }
 
-	private void OnDisable ()
-	{
-		if (playerModule == null)
-		{
-			return;
-		}
+    private void OnDisable()
+    {
+        if (playerModule == null)
+        {
+            return;
+        }
 
-		Destroy(fowObj);
-		playerModule.thirdSpellInputRealeased -= Destruct;
-	}
+        Destroy(fowObj);
+        playerModule.thirdSpellInputRealeased -= Destruct;
+    }
 
-	private void OnEnable ()
-	{
-		if (!networkedObject.GetIsOwner())
-		{
-			canvas.SetActive(false);
-		}
-	}
+    private void OnEnable()
+    {
+        if (!networkedObject.GetIsOwner())
+        {
+            canvas.SetActive(false);
+        }
+    }
 
-	public void Init ( PlayerModule playerModule, float lifetime, float ghostSpeed, En_SpellInput _inputLinked )
-	{
-		canvas.SetActive(true);
-		this.playerModule = playerModule;
-		saveLifeTime = lifetime;
-		movementModule.ghostSpeed = ghostSpeed;
-		timer = saveLifeTime;
-		playerModule.thirdSpellInputRealeased += Destruct;
+    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed)
+    {
+        canvas.SetActive(true);
+        this.playerModule = playerModule;
+        saveLifeTime = lifetime;
+        movementModule.ghostSpeed = ghostSpeed;
+        timer = saveLifeTime;
+        playerModule.thirdSpellInputRealeased += Destruct;
+        this.GetComponent<MovementModule>().Init();
 
-		inputLinked = _inputLinked;
+        fowObj = Instantiate(fowPrefab, transform.root);
+        fowObj.GetComponent<Fow>().Init(this.transform, 7);
 
-		switch (inputLinked)
-		{
-			case En_SpellInput.Click:
-				playerModule.leftClickInput += Destruct;
-				break;
-			case En_SpellInput.FirstSpell:
-				playerModule.firstSpellInput += Destruct;
+        CameraManager.Instance.SetFollowObj(this.transform);
 
-				break;
-			case En_SpellInput.SecondSpell:
-				playerModule.secondSpellInput += Destruct;
+    }
 
-				break;
-			case En_SpellInput.ThirdSpell:
-				playerModule.thirdSpellInput += Destruct;
+    private void Update()
+    {
+        DoAnimation();
+    }
 
-				break;
-			case En_SpellInput.Ward:
-				playerModule.wardInput += Destruct;
+    Vector3 oldPos;
+    private void DoAnimation()
+    {
+        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
 
-				break;
-		}
-		this.GetComponent<MovementModule>().Init();
+        float speed = characterParameters.movementParameters.movementSpeed;
 
-		fowObj = Instantiate(fowPrefab, transform.root);
-		fowObj.GetComponent<Fow>().Init(this.transform, 7);
+        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
 
-		CameraManager.Instance.SetFollowObj(this.transform);
-	}
+        Vector3 pos = new Vector3(velocityX, 0, velocityZ);
 
-	private void Update ()
-	{
-		DoAnimation();
-	}
+        float right = Vector3.Dot(transform.right, pos);
+        float forward = Vector3.Dot(transform.forward, pos);
 
-	Vector3 oldPos;
-	private void DoAnimation ()
-	{
-		float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-		float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+        myAnimator.SetFloat("Forward", forward);
+        myAnimator.SetFloat("Turn", right);
 
-		float speed = characterParameters.movementParameters.movementSpeed;
+        oldPos = transform.position;
+    }
 
-		velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
-		velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
+    private void FixedUpdate()
+    {
+        if (!networkedObject.GetIsOwner())
+            return;
 
-		Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+        timer -= Time.fixedDeltaTime;
 
-		float right = Vector3.Dot(transform.right, pos);
-		float forward = Vector3.Dot(transform.forward, pos);
+        if (timer < 0)
+        {
+            LifeTimeEnd();
+        }
 
-		myAnimator.SetFloat("Forward", forward);
-		myAnimator.SetFloat("Turn", right);
+        fillImg.fillAmount = (timer / saveLifeTime);
+    }
 
-		oldPos = transform.position;
-	}
+    private void LateUpdate()
+    {
+        if (!networkedObject.GetIsOwner())
+            return;
 
-	private void FixedUpdate ()
-	{
-		if (!networkedObject.GetIsOwner())
-			return;
+        canvas.transform.rotation = canvasRot;
+    }
 
-		timer -= Time.fixedDeltaTime;
+    /// <param name="pos"> Useless </param>
+    private void Destruct(Vector3 pos)
+    {
+        if (networkedObject.GetIsOwner())
+        {
+            CameraManager.Instance.SetFollowObj(playerModule.transform);
+            NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
+            playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
+            this.gameObject.SetActive(false);
 
-		if (timer < 0)
-		{
-			LifeTimeEnd();
-		}
+            playerModule.isInGhost = false;
+        }
+    }
 
-		fillImg.fillAmount = (timer / saveLifeTime);
-	}
+    private void LifeTimeEnd()
+    {
+        playerModule.gameObject.transform.position = this.transform.position;
+        playerModule.gameObject.transform.rotation = this.transform.rotation;
 
-	private void LateUpdate ()
-	{
-		if (!networkedObject.GetIsOwner())
-			return;
-
-		canvas.transform.rotation = canvasRot;
-	}
-
-	/// <param name="pos"> Useless </param>
-	private void Destruct ( Vector3 pos )
-	{
-		if (networkedObject.GetIsOwner())
-		{
-			switch (inputLinked)
-			{
-				case En_SpellInput.Click:
-					playerModule.leftClickInput -= Destruct;
-					break;
-				case En_SpellInput.FirstSpell:
-					playerModule.firstSpellInput -= Destruct;
-
-					break;
-				case En_SpellInput.SecondSpell:
-					playerModule.secondSpellInput -= Destruct;
-
-					break;
-				case En_SpellInput.ThirdSpell:
-					playerModule.thirdSpellInput -= Destruct;
-
-					break;
-				case En_SpellInput.Ward:
-					playerModule.wardInput -= Destruct;
-
-					break;
-			}
-			CameraManager.Instance.SetFollowObj(playerModule.transform);
-			NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
-			playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
-			this.gameObject.SetActive(false);
-		}
-	}
-
-	private void LifeTimeEnd ()
-	{
-		playerModule.gameObject.transform.position = this.transform.position;
-		playerModule.gameObject.transform.rotation = this.transform.rotation;
-
-		Destruct(Vector3.zero);
-	}
+        Destruct(Vector3.zero);
+    }
 }
