@@ -6,6 +6,18 @@ using static GameData;
 
 public class GameFactory
 {
+    public static BrumeScript GetBrumeById(int id)
+    {
+        foreach(BrumeScript brume in GameManager.Instance.allBrume)
+        {
+            if(brume.GetInstanceID() == id)
+            {
+                return brume;
+            }
+        }
+        return null;
+    }
+
     public static Color GetColorTeam(Team myTeam)
     {
         switch (myTeam)
