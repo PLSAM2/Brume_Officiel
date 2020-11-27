@@ -340,7 +340,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
 
-                target.liveHealth -= _damages;
+                target.DealDamagesLocaly(_damages);
 
                 GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
