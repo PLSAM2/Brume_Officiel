@@ -252,9 +252,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
                 if (_synchroniseRotation)
                 {
-                    _newObjectRotation.x = reader.ReadSingle();
                     _newObjectRotation.y = reader.ReadSingle();
-                    _newObjectRotation.z = reader.ReadSingle();
                 }
             }
         }
