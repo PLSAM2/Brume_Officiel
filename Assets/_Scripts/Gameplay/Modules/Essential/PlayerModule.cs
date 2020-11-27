@@ -51,6 +51,7 @@ public class PlayerModule : MonoBehaviour
 		get => _isInBrume; set
 		{
 			_isInBrume = value;
+
 			if(mylocalPlayer.isOwner)
 				GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
 
@@ -252,7 +253,7 @@ public class PlayerModule : MonoBehaviour
 				{
 					if (interactible == null)
 						return;
-
+					LockingRotation(true);
 					interactible.TryCapture(teamIndex, this);
 				}
 			}
@@ -262,7 +263,7 @@ public class PlayerModule : MonoBehaviour
 				{
 					if (interactible == null)
 						return;
-
+					LockingRotation(false);
 					interactible.StopCapturing(teamIndex);
 				}
 			}
