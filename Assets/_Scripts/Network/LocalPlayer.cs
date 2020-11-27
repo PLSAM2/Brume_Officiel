@@ -42,10 +42,6 @@ public class LocalPlayer : MonoBehaviour
         {
             _liveHealth = value;
             lifeCount.text = "HP : " + liveHealth;
-            if (liveHealth <= 0)
-            {
-                KillPlayer();
-            }
         }
     }
     public Action<string> triggerAnim;
@@ -170,7 +166,7 @@ public class LocalPlayer : MonoBehaviour
         {
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 100;
-            DealDamages(_temp, transform.position);
+            DealDamages(_temp, transform.position, null, true);
         }
 
         if (Input.GetKeyDown(KeyCode.P) && isOwner)
@@ -356,9 +352,7 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-
-        int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
-        liveHealth = (ushort)_tempHp;
+        DealDamagesLocaly(_damagesToDeal.damageHealth);
 
         if (!ignoreStatusAndEffect)
         {
@@ -400,7 +394,18 @@ public class LocalPlayer : MonoBehaviour
                 }
             }
         }
+    }
 
+    public void DealDamagesLocaly(ushort damages)
+    {
+        if ((int)liveHealth - (int)damages <= 0)
+        {
+            KillPlayer();
+        } else
+        {
+            int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
+            liveHealth = (ushort)_tempHp;
+        }
     }
 
     public void HealPlayer(ushort value)
@@ -437,7 +442,7 @@ public class LocalPlayer : MonoBehaviour
     public void KillPlayer(PlayerData killer = null)
     {
         if (isOwner)
-        {
+        { 
             disableModule.Invoke();
             InGameNetworkReceiver.Instance.KillCharacter(killer);
             UiManager.Instance.DisplayGeneralMessage("You have been slain");

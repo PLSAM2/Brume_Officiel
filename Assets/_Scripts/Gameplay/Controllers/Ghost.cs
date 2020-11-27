@@ -23,7 +23,10 @@ public class Ghost : MonoBehaviour
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
 
-	private void Awake()
+    public bool isVisible = false;
+    public List<GameObject> objToHide = new List<GameObject>();
+
+    private void Awake()
     {
         canvasRot = canvas.transform.rotation;
     }
@@ -61,22 +64,22 @@ public class Ghost : MonoBehaviour
 		switch (inputLinked)
 		{
 			case En_SpellInput.Click:
-				playerModule.leftClickInput -= Destruct;
+				playerModule.leftClickInput += Destruct;
 				break;
 			case En_SpellInput.FirstSpell:
-				playerModule.firstSpellInput -= Destruct;
+				playerModule.firstSpellInput += Destruct;
 
 				break;
 			case En_SpellInput.SecondSpell:
-				playerModule.secondSpellInput -= Destruct;
+				playerModule.secondSpellInput += Destruct;
 
 				break;
 			case En_SpellInput.ThirdSpell:
-				playerModule.thirdSpellInput -= Destruct;
+				playerModule.thirdSpellInput += Destruct;
 
 				break;
 			case En_SpellInput.Ward:
-				playerModule.wardInput -= Destruct;
+				playerModule.wardInput += Destruct;
 
 				break;
 		}
