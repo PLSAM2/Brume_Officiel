@@ -61,22 +61,22 @@ public class Ghost : MonoBehaviour
 		switch (inputLinked)
 		{
 			case En_SpellInput.Click:
-				playerModule.leftClickInput -= Destruct;
+				playerModule.leftClickInput += Destruct;
 				break;
 			case En_SpellInput.FirstSpell:
-				playerModule.firstSpellInput -= Destruct;
+				playerModule.firstSpellInput += Destruct;
 
 				break;
 			case En_SpellInput.SecondSpell:
-				playerModule.secondSpellInput -= Destruct;
+				playerModule.secondSpellInput += Destruct;
 
 				break;
 			case En_SpellInput.ThirdSpell:
-				playerModule.thirdSpellInput -= Destruct;
+				playerModule.thirdSpellInput += Destruct;
 
 				break;
 			case En_SpellInput.Ward:
-				playerModule.wardInput -= Destruct;
+				playerModule.wardInput += Destruct;
 
 				break;
 		}
