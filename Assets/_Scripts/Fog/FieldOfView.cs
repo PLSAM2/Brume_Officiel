@@ -130,16 +130,9 @@ public class FieldOfView : MonoBehaviour
 			float dstToTarget = Vector3.Distance(transform.position, target.position);
 			if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 			{
-				visibleTargets.Add(target);
-			}
+                visibleTargets.Add(target);
+            }
 		}
-
-		/*
-		foreach(KeyValuePair<ushort, LocalPlayer> p in GameManager.Instance.networkPlayers)
-        {
-
-        }
-		*/
 	}
 
 	public void DrawFieldOfView ()

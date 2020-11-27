@@ -23,7 +23,10 @@ public class Ghost : MonoBehaviour
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
 
-	private void Awake()
+    public bool isVisible = false;
+    public List<GameObject> objToHide = new List<GameObject>();
+
+    private void Awake()
     {
         canvasRot = canvas.transform.rotation;
     }
