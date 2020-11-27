@@ -18,7 +18,6 @@ public class Ghost : MonoBehaviour
     private float saveLifeTime;
 
     [SerializeField] Animator myAnimator;
-    [SerializeField] NetworkedObject myNetworkObj;
     [SerializeField] float speedAnim = 30;
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
@@ -29,6 +28,7 @@ public class Ghost : MonoBehaviour
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
+        networkedObject.OnSpawnObj += OnRespawn;
     }
 
     private void OnDisable()
@@ -90,6 +90,14 @@ public class Ghost : MonoBehaviour
 
         CameraManager.Instance.SetFollowObj(this.transform);
 
+    }
+
+    void OnRespawn()
+    {
+        if (!GameManager.Instance.allGhost.Contains(this))
+        {
+            GameManager.Instance.allGhost.Add(this);
+        }
     }
 
     private void Update()
@@ -185,5 +193,10 @@ public class Ghost : MonoBehaviour
         playerModule.gameObject.transform.rotation = this.transform.rotation;
 
         Destruct(Vector3.zero);
+    }
+
+    private void OnDestroy()
+    {
+        networkedObject.OnSpawnObj -= OnRespawn;
     }
 }

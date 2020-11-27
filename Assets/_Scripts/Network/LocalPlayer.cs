@@ -270,6 +270,20 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void SendAnimationBool(string _animName, bool _value)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_animName);
+            _writer.Write(_value);
+
+            using (Message _message = Message.Create(Tags.SendAnimBool, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
     public void SendStatus(Sc_Status _statusIncured)
     {
         ushort _indexOfTheStatus = 0;
@@ -471,7 +485,7 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
-    public void BoolTheAnim(string _triggerName, bool _value)
+    public void SetBoolToAnim(string _triggerName, bool _value)
     {
         myAnimator.SetBool(_triggerName, _value);
     }
