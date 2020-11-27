@@ -337,7 +337,9 @@ public class LocalPlayer : MonoBehaviour
 
     public void ChangeFowRaduis(bool _value)
     {
-        if (myFow == null) { return; }
+        if (myFow == null || myPlayerModule.state.HasFlag(En_CharacterState.ThirdEye)) {
+            return;
+        }
 
         switch (_value)
         {

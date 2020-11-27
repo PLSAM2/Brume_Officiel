@@ -665,6 +665,8 @@ public enum En_CharacterState
 	Crouched = 1 << 6,
 	Embourbed = 1 << 7,
 	WxMarked = 1 << 8,
+    ThirdEye = 1 << 9,
+    Hidden = 1 << 10,
 	Stunned = Silenced | Root,
 	slowedAndSped = SpedUp | Slowed | Clear,
 	RootAndSlow = Root |Slowed | Clear,
