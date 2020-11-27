@@ -33,11 +33,19 @@ public class Displayer : MonoBehaviour
 
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if (currentFollowPlayer == null || player.Value.myPlayerModule.state.HasFlag(En_CharacterState.Hidden))
+            if (currentFollowPlayer == null)
             {
                 HideOrShow(player.Value, false);
                 SetFow(player.Value, false);
                 continue;
+            }
+
+            if (player.Value.myPlayerModule.state.HasFlag(En_CharacterState.Hidden))
+            {
+                if(player.Value.myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    HideOrShow(player.Value, false);
+                }
             }
 
             if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
