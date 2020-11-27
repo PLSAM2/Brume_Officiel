@@ -40,6 +40,14 @@ public class Displayer : MonoBehaviour
                 continue;
             }
 
+            if (player.Value.myPlayerModule.state.HasFlag(En_CharacterState.Hidden))
+            {
+                if(player.Value.myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    HideOrShow(player.Value, false);
+                }
+            }
+
             if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
                 HideOrShow(player.Value, true);
                 SetFow(player.Value, true);
