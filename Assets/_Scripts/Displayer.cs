@@ -120,7 +120,7 @@ public class Displayer : MonoBehaviour
         //ghost
         foreach(Ghost ghost in GameManager.Instance.allGhost)
         {
-            if (GameManager.Instance.visiblePlayer.ContainsKey(ghost.transform))
+            if (GameManager.Instance.visiblePlayer.ContainsKey(ghost.transform) && ghost.gameObject.activeSelf)
             {
                 if (!ghost.isVisible)
                 {
