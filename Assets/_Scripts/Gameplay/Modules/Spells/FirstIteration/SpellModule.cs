@@ -387,15 +387,22 @@ public class SpellModule : MonoBehaviour
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation0", true);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation0", true);
 				break;
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation1", true);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation1", true);
+
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation2", true);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation2", true);
+
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation3", true);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation3", true);
+
 				break;
 		}
 	}
@@ -406,15 +413,23 @@ public class SpellModule : MonoBehaviour
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation0", false);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation0", false);
+
 				break;
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation1", false);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation1", false);
+
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation2", false);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation2", false);
+
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.mylocalPlayer.SetBoolToAnim("SpellCanalisation3", false);
+				myPlayerModule.mylocalPlayer.SendAnimationBool("SpellCanalisation3", false);
+
 				break;
 		}
 	}
