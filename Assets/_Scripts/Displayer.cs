@@ -40,6 +40,14 @@ public class Displayer : MonoBehaviour
                 continue;
             }
 
+            if (player.Value.myPlayerModule.state.HasFlag(En_CharacterState.Hidden))
+            {
+                if(player.Value.myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    HideOrShow(player.Value, false);
+                }
+            }
+
             if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
                 HideOrShow(player.Value, true);
                 SetFow(player.Value, true);
@@ -156,7 +164,6 @@ public class Displayer : MonoBehaviour
 
         if (p.isVisible != _value)
         {
-            print("oui");
             p.isVisible = _value;
             foreach (GameObject obj in p.objToHide)
             {

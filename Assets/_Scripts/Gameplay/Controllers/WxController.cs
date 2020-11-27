@@ -30,8 +30,9 @@ public class WxController : PlayerModule
 
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
+        print("I picked a soul");
         playerSouls.Add(playerSoul);
-        this.GetComponent<Module_WxSoulBurst>().charges++;
+       // this.GetComponent<Module_WxSoulBurst>().charges++;
     }
 
     public int GetPlayersSoulsCount()
