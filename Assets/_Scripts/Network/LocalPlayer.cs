@@ -93,8 +93,6 @@ public class LocalPlayer : MonoBehaviour
             nameText.color = Color.red;
             life.color = Color.red;
         }
-
-        OnPlayerMove(Vector3.zero);
     }
 
     public void Init(UnityClient newClient)
@@ -108,8 +106,6 @@ public class LocalPlayer : MonoBehaviour
         {
             GameManager.Instance.ResetCam();
             myPlayerModule.enabled = true;
-
-            myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
             SpawnFow();
@@ -234,7 +230,6 @@ public class LocalPlayer : MonoBehaviour
         if (!isOwner)
             return;
 
-        myPlayerModule.onSendMovement -= OnPlayerMove;
         triggerAnim -= TriggerTheAnim;
     }
 
@@ -344,20 +339,6 @@ public class LocalPlayer : MonoBehaviour
                 myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
                 SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
                 break;
-        }
-    }
-
-    void OnPlayerMove(Vector3 pos)
-    {
-        float right = Vector3.Dot(transform.right, pos);
-        float forward = Vector3.Dot(transform.forward, pos);
-
-        if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
-        {
-            //myAnimator.SetFloat("Forward", forward);
-            //myAnimator.SetFloat("Turn", right);
-
-            //networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
         }
     }
 
