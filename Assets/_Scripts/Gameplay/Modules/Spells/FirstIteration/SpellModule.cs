@@ -232,6 +232,7 @@ public class SpellModule : MonoBehaviour
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
 		if (isUsed)
 		{
+			AnonciationFeedBack();
 			anonciated = true;
 			currentTimeCanalised = TimeToWaitOnanonciation();
 
@@ -297,7 +298,6 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void ResolveSpell ()
 	{
-		ResolveSpellFeedback();
 		resolved = true;
 
 		if (spell.forcedMovementAppliedBeforeResolution != null)
@@ -400,7 +400,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	void ResolveSpellFeedback ()
+	void AnonciationFeedBack ()
 	{
 		switch (actionLinked)
 		{
