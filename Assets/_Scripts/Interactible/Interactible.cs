@@ -172,6 +172,8 @@ public class Interactible : MonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
+        capturingPlayerModule.rotationLock(false);
+
         timer = 0;
         capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
 
