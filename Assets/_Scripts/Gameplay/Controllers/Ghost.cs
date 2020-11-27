@@ -17,6 +17,11 @@ public class Ghost : MonoBehaviour
     private GameObject fowObj;
     private float saveLifeTime;
 
+    [SerializeField] Animator myAnimator;
+    [SerializeField] NetworkedObject myNetworkObj;
+    [SerializeField] float speedAnim = 30;
+    [SerializeField] Sc_CharacterParameters characterParameters;
+
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
@@ -57,6 +62,32 @@ public class Ghost : MonoBehaviour
         CameraManager.Instance.SetFollowObj(this.transform);
     }
 
+    private void Update()
+    {
+        DoAnimation();
+    }
+
+    Vector3 oldPos;
+    private void DoAnimation()
+    {
+        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+
+        float speed = characterParameters.movementParameters.movementSpeed;
+
+        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
+
+        Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+
+        float right = Vector3.Dot(transform.right, pos);
+        float forward = Vector3.Dot(transform.forward, pos);
+
+        myAnimator.SetFloat("Forward", forward);
+        myAnimator.SetFloat("Turn", right);
+
+        oldPos = transform.position;
+    }
 
     private void FixedUpdate()
     {
