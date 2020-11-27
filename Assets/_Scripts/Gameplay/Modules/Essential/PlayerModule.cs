@@ -511,6 +511,7 @@ public class PlayerModule : MonoBehaviour
 		EffectLifeTimed _newElement = new EffectLifeTimed();
 
 		_newElement.liveLifeTime = _tempTrad.finalLifeTime;
+		_newElement.baseLifeTime = _tempTrad.finalLifeTime;
 		_newElement.effect = _tempTrad;
 
 		if (_statusToAdd.forcedKey != 0)
@@ -712,6 +713,7 @@ public class EffectLifeTimed
 
 	public Effect effect;
 	public float liveLifeTime;
+	public float baseLifeTime;
 
 	[HideInInspector] public float lastTick = 0;
 	public void Stop ()
