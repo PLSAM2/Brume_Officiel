@@ -15,7 +15,7 @@ public class Displayer : MonoBehaviour
     {
         LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
-        if (currentFollowPlayer.myPlayerModule.isInGhost)
+        if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule.isInGhost)
         {
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
@@ -33,15 +33,16 @@ public class Displayer : MonoBehaviour
 
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
-                HideOrShow(player.Value, true);
-                SetFow(player.Value, true);
+            if (currentFollowPlayer == null)
+            {
+                HideOrShow(player.Value, false);
+                SetFow(player.Value, false);
                 continue;
             }
 
-            if(currentFollowPlayer == null){
-                HideOrShow(player.Value, false);
-                SetFow(player.Value, false);
+            if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
+                HideOrShow(player.Value, true);
+                SetFow(player.Value, true);
                 continue;
             }
 
@@ -124,7 +125,7 @@ public class Displayer : MonoBehaviour
                 if (!ghost.isVisible)
                 {
                     ghost.isVisible = true;
-                    foreach (GameObject obj in ghost.ojbToHide)
+                    foreach (GameObject obj in ghost.objToHide)
                     {
                         obj.SetActive(true);
                     }
@@ -135,7 +136,7 @@ public class Displayer : MonoBehaviour
                 if (ghost.isVisible)
                 {
                     ghost.isVisible = false;
-                    foreach (GameObject obj in ghost.ojbToHide)
+                    foreach (GameObject obj in ghost.objToHide)
                     {
                         obj.SetActive(false);
                     }
