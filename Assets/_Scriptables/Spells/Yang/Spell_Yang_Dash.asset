@@ -19,43 +19,13 @@ MonoBehaviour:
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
   canalisationTime: 0.01
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0.01
   forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: a00ab99a6ce9e1842935cc7350fc8853, type: 2}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: fc5f29ac79ae23c42986ccb2e397704a, type: 3}
-  movementToApply:
-    myModule: {fileID: 0}
-    _duration: 0
-    baseDuration: 0
-    speedEvolution:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    strength: 0
   bonusDash: 1

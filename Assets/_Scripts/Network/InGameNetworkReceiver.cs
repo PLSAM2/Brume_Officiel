@@ -121,6 +121,10 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ChangeFowSize(sender, e);
             }
+            else if (message.Tag == Tags.SendAnimBool)
+            {
+                OnAnimBoolReceived(sender, e);
+            }
         }
     }
 
@@ -340,7 +344,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
 
-                target.liveHealth -= _damages;
+                target.DealDamagesLocaly(_damages);
 
                 GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
@@ -549,6 +553,21 @@ public class InGameNetworkReceiver : MonoBehaviour
                 {
                     GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float) _size / 100);
                 }
+            }
+        }
+    }
+
+    void OnAnimBoolReceived(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _playerId = reader.ReadUInt16();
+                string _animName = reader.ReadString();
+                bool _value = reader.ReadBoolean();
+
+                GameManager.Instance.networkPlayers[_playerId].SetBoolToAnim(_animName, _value);
             }
         }
     }

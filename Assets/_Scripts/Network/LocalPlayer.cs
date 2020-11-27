@@ -19,7 +19,7 @@ public class LocalPlayer : MonoBehaviour
 
     public Animator myAnimator;
     [SerializeField] NetworkAnimationController networkAnimationController;
-    [SerializeField] GameObject circleDirection;
+    public GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
     public float respawnTime = 15;
@@ -42,10 +42,6 @@ public class LocalPlayer : MonoBehaviour
         {
             _liveHealth = value;
             lifeCount.text = "HP : " + liveHealth;
-            if (liveHealth <= 0)
-            {
-                KillPlayer();
-            }
         }
     }
     public Action<string> triggerAnim;
@@ -93,8 +89,6 @@ public class LocalPlayer : MonoBehaviour
             nameText.color = Color.red;
             life.color = Color.red;
         }
-
-        OnPlayerMove(Vector3.zero);
     }
 
     public void Init(UnityClient newClient)
@@ -108,8 +102,6 @@ public class LocalPlayer : MonoBehaviour
         {
             GameManager.Instance.ResetCam();
             myPlayerModule.enabled = true;
-
-            myPlayerModule.onSendMovement += OnPlayerMove;
 
             circleDirection.SetActive(true);
             SpawnFow();
@@ -174,7 +166,7 @@ public class LocalPlayer : MonoBehaviour
         {
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 100;
-            DealDamages(_temp, transform.position);
+            DealDamages(_temp, transform.position, null, true);
         }
 
         if (Input.GetKeyDown(KeyCode.P) && isOwner)
@@ -234,7 +226,6 @@ public class LocalPlayer : MonoBehaviour
         if (!isOwner)
             return;
 
-        myPlayerModule.onSendMovement -= OnPlayerMove;
         triggerAnim -= TriggerTheAnim;
     }
 
@@ -275,6 +266,20 @@ public class LocalPlayer : MonoBehaviour
             using (Message _message = Message.Create(Tags.StateUpdate, _writer))
             {
                 currentClient.SendMessage(_message, SendMode.Unreliable);
+            }
+        }
+    }
+
+    public void SendAnimationBool(string _animName, bool _value)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_animName);
+            _writer.Write(_value);
+
+            using (Message _message = Message.Create(Tags.SendAnimBool, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
             }
         }
     }
@@ -347,20 +352,6 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    void OnPlayerMove(Vector3 pos)
-    {
-        float right = Vector3.Dot(transform.right, pos);
-        float forward = Vector3.Dot(transform.forward, pos);
-
-        if (myAnimator.GetFloat("Forward") != forward || myAnimator.GetFloat("Turn") != right)
-        {
-            //myAnimator.SetFloat("Forward", forward);
-            //myAnimator.SetFloat("Turn", right);
-
-            //networkAnimationController.Sync2DBlendTree(forward, right, SendMode.Unreliable);
-        }
-    }
-
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
     {
         newNetorkPos = newPos;
@@ -375,9 +366,7 @@ public class LocalPlayer : MonoBehaviour
     public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
-
-        int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)_damagesToDeal.damageHealth, 0, 1000);
-        liveHealth = (ushort)_tempHp;
+        DealDamagesLocaly(_damagesToDeal.damageHealth);
 
         if (!ignoreStatusAndEffect)
         {
@@ -419,7 +408,18 @@ public class LocalPlayer : MonoBehaviour
                 }
             }
         }
+    }
 
+    public void DealDamagesLocaly(ushort damages)
+    {
+        if ((int)liveHealth - (int)damages <= 0)
+        {
+            KillPlayer();
+        } else
+        {
+            int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
+            liveHealth = (ushort)_tempHp;
+        }
     }
 
     public void HealPlayer(ushort value)
@@ -456,7 +456,7 @@ public class LocalPlayer : MonoBehaviour
     public void KillPlayer(PlayerData killer = null)
     {
         if (isOwner)
-        {
+        { 
             disableModule.Invoke();
             InGameNetworkReceiver.Instance.KillCharacter(killer);
             UiManager.Instance.DisplayGeneralMessage("You have been slain");
@@ -485,7 +485,7 @@ public class LocalPlayer : MonoBehaviour
         myAnimator.SetTrigger(triggerName);
     }
 
-    public void BoolTheAnim(string _triggerName, bool _value)
+    public void SetBoolToAnim(string _triggerName, bool _value)
     {
         myAnimator.SetBool(_triggerName, _value);
     }

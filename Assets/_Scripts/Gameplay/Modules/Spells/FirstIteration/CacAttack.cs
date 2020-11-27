@@ -9,6 +9,8 @@ public class CacAttack : SpellModule
 	ShapePreview shapePreview;
 	float timeCanalised;
 	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack -  localTrad.normalAttack.rangeOfTheAttack ;
+	CacAttackParameters attackToResolve;
+	float finalTimeCanalised;
 
 	private void Awake ()
 	{
@@ -129,7 +131,7 @@ public class CacAttack : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
+		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
 	}
 
 
@@ -162,9 +164,9 @@ public class CacAttack : SpellModule
 	}
 	
 
-	float FinalRange()
+	float FinalRange(float _timeCanlised)
 	{
-		return localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(currentTimeCanalised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
+		return localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(_timeCanlised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
 	}
 
 	protected override void ResolveSpell ()
@@ -173,11 +175,16 @@ public class CacAttack : SpellModule
 		ResolveSlash();
 	}
 
+	protected override void AnonceSpell ( Vector3 _toAnnounce )
+	{
+		attackToResolve = AttackToResolve();
+		finalTimeCanalised = currentTimeCanalised;
+		base.AnonceSpell(_toAnnounce);
+	}
+
 	void ResolveSlash ()
 	{
 		HidePreview(Vector3.zero);
-
-		CacAttackParameters _trad =	AttackToResolve();
 
 		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
@@ -186,19 +193,19 @@ public class CacAttack : SpellModule
 
 		List<GameObject> _listHit = new List<GameObject>();
 
-		float _angle = -_trad.angleToAttackFrom / 2;
+		float _angle = -attackToResolve.angleToAttackFrom / 2;
 
 		//RAYCAST POUR TOUCHER
-		for (int i = 0; i < _trad.angleToAttackFrom; i++)
+		for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
 		{
 			Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
 			_angle++;
 
 			Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(), 1 << 8);
+			RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(finalTimeCanalised), 1 << 8);
 
 			Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(), Color.red, 5);
+			Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(finalTimeCanalised), Color.red, 5);
 
 			//verif que le gameobject est pas deja dansa la liste
 			for (int j = 0; j < _allhits.Length; j++)
@@ -210,7 +217,6 @@ public class CacAttack : SpellModule
 			}
 		}
 
-		//AU CAS OU JE ME TOUCHE COMME UN GRRRRRRRRRRRROS CON
 		_listHit.Remove(gameObject);
 
 		foreach (GameObject _go in _listHit)
@@ -218,15 +224,19 @@ public class CacAttack : SpellModule
 			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
 			if(_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-				_playerTouched.DealDamages(AttackToResolve().damagesToDeal,transform.position);
+				_playerTouched.DealDamages(attackToResolve.damagesToDeal,transform.position);
 		}
 	}
 
 	CacAttackParameters AttackToResolve ()
 	{
 		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
+		{
 			return localTrad.upgradedAttack;
+		}
 		else
+		{
 			return localTrad.normalAttack;
+		}
 	}
 }

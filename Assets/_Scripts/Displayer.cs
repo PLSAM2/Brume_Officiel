@@ -15,33 +15,42 @@ public class Displayer : MonoBehaviour
     {
         LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
+        if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule.isInGhost)
+        {
+            if (currentFollowPlayer.myPlayerModule.isInBrume)
+            {
+                HideOrShow(GameManager.Instance.GetLocalPlayerObj(), false);
+                SetFow(GameManager.Instance.GetLocalPlayerObj(), false);
+                GameManager.Instance.GetLocalPlayerObj().circleDirection.SetActive(false);
+            }
+            else
+            {
+                HideOrShow(GameManager.Instance.GetLocalPlayerObj(), true);
+                SetFow(GameManager.Instance.GetLocalPlayerObj(), true);
+                GameManager.Instance.GetLocalPlayerObj().circleDirection.SetActive(true);
+            }
+        }
+
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if (currentFollowPlayer == player.Value) {
-                HideOrShow(player.Value, true);
-                SetFow(player.Value, true);
-                continue;
-            }
-
-            if(currentFollowPlayer == null){
+            if (currentFollowPlayer == null)
+            {
                 HideOrShow(player.Value, false);
                 SetFow(player.Value, false);
                 continue;
             }
 
+            if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
+                HideOrShow(player.Value, true);
+                SetFow(player.Value, true);
+                continue;
+            }
+
             if (player.Value.forceOutline)
             {
-                if (currentFollowPlayer.myPlayerModule.isThirdEyes)
+                if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
                 {
-                    if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
-                    {
-                        HideOrShow(player.Value, true);
-                    }
-                    else
-                    {
-                        SetFow(player.Value, false);
-                        ShowOutline(player.Value);
-                    }
+                    HideOrShow(player.Value, true);
                 }
                 else
                 {
@@ -54,7 +63,7 @@ public class Displayer : MonoBehaviour
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
                 SetFow(player.Value, false);
-                if ( GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule))
+                if (GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule))
                 {
                     if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
                     {
@@ -107,6 +116,33 @@ public class Displayer : MonoBehaviour
                 }
             }
         }
+
+        //ghost
+        foreach(Ghost ghost in GameManager.Instance.allGhost)
+        {
+            if (GameManager.Instance.visiblePlayer.ContainsKey(ghost.transform) && ghost.gameObject.activeSelf)
+            {
+                if (!ghost.isVisible)
+                {
+                    ghost.isVisible = true;
+                    foreach (GameObject obj in ghost.objToHide)
+                    {
+                        obj.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                if (ghost.isVisible)
+                {
+                    ghost.isVisible = false;
+                    foreach (GameObject obj in ghost.objToHide)
+                    {
+                        obj.SetActive(false);
+                    }
+                }
+            }
+        }
     }
 
     void HideOrShow(LocalPlayer p, bool _value)
@@ -120,6 +156,7 @@ public class Displayer : MonoBehaviour
 
         if (p.isVisible != _value)
         {
+            print("oui");
             p.isVisible = _value;
             foreach (GameObject obj in p.objToHide)
             {
@@ -127,7 +164,7 @@ public class Displayer : MonoBehaviour
             }
             p.canvas.SetActive(_value);
 
-            GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
+            GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, _value);
         }
     }
 
@@ -154,6 +191,6 @@ public class Displayer : MonoBehaviour
 
         p.ShowHideFow(true);
 
-        GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, true);
+        GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, true);
     }
 }

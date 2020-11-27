@@ -21,7 +21,11 @@ public class Module_WxGhost : SpellModule
         PlayerModule _tempPlayerModule = myPlayerModule;
 
         _tempPlayerModule.AddState(En_CharacterState.Stunned);
-        ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed);
+        ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed, actionLinked);
+
+        _tempPlayerModule.isInGhost = true;
+        _tempPlayerModule.isInBrumeBeforeGhost = _tempPlayerModule.isInBrume;
+        _tempPlayerModule.brumeIdBeforeGhost = _tempPlayerModule.brumeId;
     }
 
 }

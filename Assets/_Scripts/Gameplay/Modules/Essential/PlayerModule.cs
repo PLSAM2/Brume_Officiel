@@ -43,18 +43,19 @@ public class PlayerModule : MonoBehaviour
 
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
-	public bool isThirdEyes = false;
-
-	[ReadOnly]
+    [ReadOnly]
 	public bool isInBrume
 	{
 		get => _isInBrume; set
 		{
 			_isInBrume = value;
-			GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
+
+			if(mylocalPlayer.isOwner)
+				GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
 
 			if (isAltarSpeedBuffActive)
 			{
+				print("Iexitbrume");
 				SetAltarSpeedBuffState(_isInBrume);
 			}
 		}
@@ -62,7 +63,12 @@ public class PlayerModule : MonoBehaviour
 	[ReadOnly] public int brumeId;
 	Vector3 lastRecordedPos;
 
-	[Header("DamagesPart")]
+    //ghost
+    public bool isInGhost = false;
+    public bool isInBrumeBeforeGhost = false;
+    public int brumeIdBeforeGhost;
+
+    [Header("DamagesPart")]
 	bool _isCrouched = false;
 	bool isCrouched
 
@@ -77,7 +83,6 @@ public class PlayerModule : MonoBehaviour
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
 	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, ward;
-	[SerializeField] CapsuleCollider coll;
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 
 	//interactibles
@@ -135,7 +140,6 @@ public class PlayerModule : MonoBehaviour
 
 	void Awake ()
 	{
-		groundLayer = LayerMask.GetMask("Ground");
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
 		GameManager.Instance.AllCharacterSpawned += Setup;
@@ -251,7 +255,7 @@ public class PlayerModule : MonoBehaviour
 				{
 					if (interactible == null)
 						return;
-
+					LockingRotation(true);
 					interactible.TryCapture(teamIndex, this);
 				}
 			}
@@ -261,7 +265,7 @@ public class PlayerModule : MonoBehaviour
 				{
 					if (interactible == null)
 						return;
-
+					LockingRotation(false);
 					interactible.StopCapturing(teamIndex);
 				}
 			}
@@ -414,7 +418,7 @@ public class PlayerModule : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1<<10))
 		{
 			return new Vector3(hit.point.x, 0, hit.point.z);
 		}
@@ -506,6 +510,7 @@ public class PlayerModule : MonoBehaviour
 		EffectLifeTimed _newElement = new EffectLifeTimed();
 
 		_newElement.liveLifeTime = _tempTrad.finalLifeTime;
+		_newElement.baseLifeTime = _tempTrad.finalLifeTime;
 		_newElement.effect = _tempTrad;
 
 		if (_statusToAdd.forcedKey != 0)
@@ -659,8 +664,7 @@ public enum En_CharacterState
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
 	Embourbed = 1 << 7,
-    InThirdEye = 1 << 8,
-	WxMarked = 1 << 9,
+	WxMarked = 1 << 8,
 	Stunned = Silenced | Root,
 	slowedAndSped = SpedUp | Slowed | Clear,
 	RootAndSlow = Root |Slowed | Clear,
@@ -708,6 +712,7 @@ public class EffectLifeTimed
 
 	public Effect effect;
 	public float liveLifeTime;
+	public float baseLifeTime;
 
 	[HideInInspector] public float lastTick = 0;
 	public void Stop ()

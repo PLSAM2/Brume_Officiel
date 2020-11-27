@@ -20,7 +20,7 @@ MonoBehaviour:
   lockPosOnCanalisation: 0
   canalisationTime: 0.35
   statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
+  - {fileID: 11400000, guid: b8f60be7f55ce564fa24db67e92c5f92, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 650aa1ee79d6e194cba71d4c61b2f39e, type: 3}
+  spellIcon: {fileID: 21300000, guid: 7ac46e905d0439642a32a89ead9cf633, type: 3}
   onImpactInstantiate: {fileID: 5624599934099963903, guid: 6c982b7dfe4dd8c479ebe1a713d63e06, type: 3}
-  spitSpeed: 20
+  spitSpeed: 25
   launchCurve:
     serializedVersion: 2
     m_Curve:
@@ -69,7 +69,8 @@ MonoBehaviour:
   aoeRadius: 2.2
   damagesToDealOnImpact:
     damageHealth: 10
-    statusToApply: []
+    statusToApply:
+    - {fileID: 11400000, guid: 3b560b2ffaef9854ebd94f5d1512a2b4, type: 2}
     movementToApply: {fileID: 0}
     playerName: 
   damagesToDealOnDuration:
