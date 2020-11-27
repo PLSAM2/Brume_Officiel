@@ -31,7 +31,7 @@ public class Module_WxThirdEye : SpellModule
 	}
 	private void OnDisable ()
 	{
-		Interrupt();
+	//	Interrupt();
 		GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
 		GameManager.Instance.OnWardTeamSpawn -= OnWardSpawn;
 	}
@@ -64,11 +64,9 @@ public class Module_WxThirdEye : SpellModule
 				break;
 		}
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
+        myPlayerModule.RemoveState(En_CharacterState.ThirdEye);
 
-
-
-
-		base.Interrupt();
+        base.Interrupt();
 	}
 
 	protected override void FixedUpdate ()
@@ -117,7 +115,9 @@ public class Module_WxThirdEye : SpellModule
 				shockWave.transform.DOScale(finalSize, localTrad.anonciationTime).OnComplete(() => UpdateShockWaveStatus(En_ShockWaveStatus.Opened));
 				GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.fowRaduis);
 				myPlayerModule.mylocalPlayer.SendChangeFowRaduis(localTrad.fowRaduis);
-				break;
+
+                myPlayerModule.AddState(En_CharacterState.ThirdEye);
+                break;
 
 			case En_ShockWaveStatus.Opened:
 
@@ -163,6 +163,7 @@ public class Module_WxThirdEye : SpellModule
 				//network FX
 				GameObject closingFx = NetworkObjectsManager.Instance.NetworkInstantiate(1001, transform.position, Vector3.zero);
 				closingFx.SetActive(false);
+
                 break;
 		}
 	}
