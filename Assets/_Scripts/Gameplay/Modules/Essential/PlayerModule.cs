@@ -43,9 +43,7 @@ public class PlayerModule : MonoBehaviour
 
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
-	public bool isThirdEyes = false;
-
-	[ReadOnly]
+    [ReadOnly]
 	public bool isInBrume
 	{
 		get => _isInBrume; set
@@ -64,7 +62,12 @@ public class PlayerModule : MonoBehaviour
 	[ReadOnly] public int brumeId;
 	Vector3 lastRecordedPos;
 
-	[Header("DamagesPart")]
+    //ghost
+    public bool isInGhost = false;
+    public bool isInBrumeBeforeGhost = false;
+    public int brumeIdBeforeGhost;
+
+    [Header("DamagesPart")]
 	bool _isCrouched = false;
 	bool isCrouched
 
@@ -661,8 +664,7 @@ public enum En_CharacterState
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
 	Embourbed = 1 << 7,
-    InThirdEye = 1 << 8,
-	WxMarked = 1 << 9,
+	WxMarked = 1 << 8,
 	Stunned = Silenced | Root,
 	slowedAndSped = SpedUp | Slowed | Clear,
 	RootAndSlow = Root |Slowed | Clear,

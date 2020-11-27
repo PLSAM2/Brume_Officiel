@@ -60,6 +60,7 @@ public class Ghost : MonoBehaviour
         fowObj.GetComponent<Fow>().Init(this.transform, 7);
 
         CameraManager.Instance.SetFollowObj(this.transform);
+
     }
 
     private void Update()
@@ -121,6 +122,8 @@ public class Ghost : MonoBehaviour
             NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
             this.gameObject.SetActive(false);
+
+            playerModule.isInGhost = false;
         }
     }
 
