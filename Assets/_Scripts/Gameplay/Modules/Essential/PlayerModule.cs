@@ -55,6 +55,7 @@ public class PlayerModule : MonoBehaviour
 
 			if (isAltarSpeedBuffActive)
 			{
+				print("Iexitbrume");
 				SetAltarSpeedBuffState(_isInBrume);
 			}
 		}
@@ -82,7 +83,6 @@ public class PlayerModule : MonoBehaviour
 	[Header("CharacterBuilder")]
 	public MovementModule movementPart;
 	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, ward;
-	[SerializeField] CapsuleCollider coll;
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 
 	//interactibles
@@ -140,7 +140,6 @@ public class PlayerModule : MonoBehaviour
 
 	void Awake ()
 	{
-		groundLayer = LayerMask.GetMask("Ground");
 		mylocalPlayer = GetComponent<LocalPlayer>();
 
 		GameManager.Instance.AllCharacterSpawned += Setup;

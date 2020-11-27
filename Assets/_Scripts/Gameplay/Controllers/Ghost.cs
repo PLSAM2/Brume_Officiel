@@ -21,8 +21,9 @@ public class Ghost : MonoBehaviour
     [SerializeField] NetworkedObject myNetworkObj;
     [SerializeField] float speedAnim = 30;
     [SerializeField] Sc_CharacterParameters characterParameters;
+	En_SpellInput inputLinked;
 
-    private void Awake()
+	private void Awake()
     {
         canvasRot = canvas.transform.rotation;
     }
@@ -46,7 +47,7 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed)
+    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed, En_SpellInput _inputLinked )
     {
         canvas.SetActive(true);
         this.playerModule = playerModule;
@@ -54,7 +55,32 @@ public class Ghost : MonoBehaviour
         movementModule.ghostSpeed = ghostSpeed;
         timer = saveLifeTime;
         playerModule.thirdSpellInputRealeased += Destruct;
-        this.GetComponent<MovementModule>().Init();
+
+		inputLinked = _inputLinked;
+
+		switch (inputLinked)
+		{
+			case En_SpellInput.Click:
+				playerModule.leftClickInput -= Destruct;
+				break;
+			case En_SpellInput.FirstSpell:
+				playerModule.firstSpellInput -= Destruct;
+
+				break;
+			case En_SpellInput.SecondSpell:
+				playerModule.secondSpellInput -= Destruct;
+
+				break;
+			case En_SpellInput.ThirdSpell:
+				playerModule.thirdSpellInput -= Destruct;
+
+				break;
+			case En_SpellInput.Ward:
+				playerModule.wardInput -= Destruct;
+
+				break;
+		}
+		this.GetComponent<MovementModule>().Init();
 
         fowObj = Instantiate(fowPrefab, transform.root);
         fowObj.GetComponent<Fow>().Init(this.transform, 7);
@@ -118,7 +144,30 @@ public class Ghost : MonoBehaviour
     {
         if (networkedObject.GetIsOwner())
         {
-            CameraManager.Instance.SetFollowObj(playerModule.transform);
+			switch (inputLinked)
+			{
+				case En_SpellInput.Click:
+					playerModule.leftClickInput -= Destruct;
+					break;
+				case En_SpellInput.FirstSpell:
+					playerModule.firstSpellInput -= Destruct;
+
+					break;
+				case En_SpellInput.SecondSpell:
+					playerModule.secondSpellInput -= Destruct;
+
+					break;
+				case En_SpellInput.ThirdSpell:
+					playerModule.thirdSpellInput -= Destruct;
+
+					break;
+				case En_SpellInput.Ward:
+					playerModule.wardInput -= Destruct;
+
+					break;
+			}
+
+			CameraManager.Instance.SetFollowObj(playerModule.transform);
             NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
             this.gameObject.SetActive(false);
