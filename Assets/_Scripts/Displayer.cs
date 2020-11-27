@@ -156,7 +156,6 @@ public class Displayer : MonoBehaviour
 
         if (p.isVisible != _value)
         {
-            print("oui");
             p.isVisible = _value;
             foreach (GameObject obj in p.objToHide)
             {
