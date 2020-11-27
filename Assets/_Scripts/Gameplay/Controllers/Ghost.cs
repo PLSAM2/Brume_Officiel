@@ -18,21 +18,14 @@ public class Ghost : MonoBehaviour
     private float saveLifeTime;
 
     [SerializeField] Animator myAnimator;
+    [SerializeField] NetworkedObject myNetworkObj;
     [SerializeField] float speedAnim = 30;
     [SerializeField] Sc_CharacterParameters characterParameters;
+	En_SpellInput inputLinked;
 
-    public List<GameObject> ojbToHide = new List<GameObject>();
-    public bool isVisible = false;
-
-    private void Awake()
+	private void Awake()
     {
         canvasRot = canvas.transform.rotation;
-        networkedObject.OnSpawnObj += OnRespawn;
-    }
-
-    private void OnDestroy()
-    {
-        networkedObject.OnSpawnObj -= OnRespawn;
     }
 
     private void OnDisable()
@@ -54,32 +47,46 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed)
+    public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed, En_SpellInput _inputLinked )
     {
-        print("test");
-
         canvas.SetActive(true);
         this.playerModule = playerModule;
         saveLifeTime = lifetime;
         movementModule.ghostSpeed = ghostSpeed;
         timer = saveLifeTime;
         playerModule.thirdSpellInputRealeased += Destruct;
-        this.GetComponent<MovementModule>().Init();
+
+		inputLinked = _inputLinked;
+
+		switch (inputLinked)
+		{
+			case En_SpellInput.Click:
+				playerModule.leftClickInput -= Destruct;
+				break;
+			case En_SpellInput.FirstSpell:
+				playerModule.firstSpellInput -= Destruct;
+
+				break;
+			case En_SpellInput.SecondSpell:
+				playerModule.secondSpellInput -= Destruct;
+
+				break;
+			case En_SpellInput.ThirdSpell:
+				playerModule.thirdSpellInput -= Destruct;
+
+				break;
+			case En_SpellInput.Ward:
+				playerModule.wardInput -= Destruct;
+
+				break;
+		}
+		this.GetComponent<MovementModule>().Init();
 
         fowObj = Instantiate(fowPrefab, transform.root);
         fowObj.GetComponent<Fow>().Init(this.transform, 7);
 
         CameraManager.Instance.SetFollowObj(this.transform);
 
-        foreach(GameObject obj in ojbToHide)
-        {
-            obj.SetActive(true);
-        }
-    }
-
-    void OnRespawn()
-    {
-        GameManager.Instance.allGhost.Add(this);
     }
 
     private void Update()
@@ -137,18 +144,36 @@ public class Ghost : MonoBehaviour
     {
         if (networkedObject.GetIsOwner())
         {
-            CameraManager.Instance.SetFollowObj(playerModule.transform);
+			switch (inputLinked)
+			{
+				case En_SpellInput.Click:
+					playerModule.leftClickInput -= Destruct;
+					break;
+				case En_SpellInput.FirstSpell:
+					playerModule.firstSpellInput -= Destruct;
+
+					break;
+				case En_SpellInput.SecondSpell:
+					playerModule.secondSpellInput -= Destruct;
+
+					break;
+				case En_SpellInput.ThirdSpell:
+					playerModule.thirdSpellInput -= Destruct;
+
+					break;
+				case En_SpellInput.Ward:
+					playerModule.wardInput -= Destruct;
+
+					break;
+			}
+
+			CameraManager.Instance.SetFollowObj(playerModule.transform);
             NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
             this.gameObject.SetActive(false);
 
             playerModule.isInGhost = false;
         }
-
-        GameManager.Instance.allGhost.Remove(this);
-        GameManager.Instance.allGhost.RemoveAll(x => x == null);
-
-        print("out");
     }
 
     private void LifeTimeEnd()
