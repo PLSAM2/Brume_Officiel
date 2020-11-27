@@ -18,23 +18,26 @@ public class PlayerModule : MonoBehaviour
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
-	private bool _isInBrume;
+	[HideInInspector] public bool _isInBrume;
 	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
 	public En_CharacterState state
 	{
 		get => _state | LiveEffectCharacterState();
-		set { _state = value; }
+		set { if (!mylocalPlayer.isOwner) { _state = value; } else return; }
 	}
 
 	En_CharacterState LiveEffectCharacterState ()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
 
+		if (allEffectLive.Count ==0)
+			return  En_CharacterState.Clear;
 		foreach (EffectLifeTimed effectLive in allEffectLive)
 		{
 			_temp |= effectLive.effect.stateApplied;
 		}
+
 		return _temp;
 	}
 
@@ -48,6 +51,8 @@ public class PlayerModule : MonoBehaviour
 		get => _isInBrume; set
 		{
 			_isInBrume = value;
+			GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
+
 			if (isAltarSpeedBuffActive)
 			{
 				SetAltarSpeedBuffState(_isInBrume);
@@ -93,7 +98,8 @@ public class PlayerModule : MonoBehaviour
 
 	[Header("Cursed")]
 	public bool cursedByShili = false;
-
+	[SerializeField] protected GameObject wxMark;
+	[SerializeField] private Sc_Status wxMarkRef;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -171,7 +177,7 @@ public class PlayerModule : MonoBehaviour
 		ward?.SetupComponent(En_SpellInput.Ward);
 
 	
-		state = En_CharacterState.Clear;
+		_state = En_CharacterState.Clear;
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -285,20 +291,27 @@ public class PlayerModule : MonoBehaviour
 
 	private void FixedUpdate ()
 	{
+		TreatEffects();
+		TreatTickEffects();
 		if (!mylocalPlayer.isOwner)
 			return;
 		else
 		{
 			if (_oldState != state)
 			{
-				UiManager.Instance.StatusUpdate(_state | LiveEffectCharacterState());
+				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
+				StateChanged(state);
 				_oldState = state;
 			}
 		}
-		TreatEffects();
-		TreatTickEffects();
 	}
+
+
+	protected virtual void StateChanged(En_CharacterState state)
+    {
+
+    }
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -449,12 +462,10 @@ public class PlayerModule : MonoBehaviour
 
 		foreach (EffectLifeTimed _effect in _tempList)
 			allEffectLive.Remove(_effect);
-
-		UiManager.Instance.StatusUpdate(state);
 	}
-	void TreatTickEffects ()
-	{
 
+    void TreatTickEffects ()
+	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
 		for (int i = 0; i < allTickLive.Count; i++)
@@ -580,6 +591,16 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
+	public void AddState(En_CharacterState _stateToadd)
+	{
+		_state |= _stateToadd;
+	}
+
+	public void RemoveState(En_CharacterState _stateToRemove)
+	{
+		_state = (_state & ~_stateToRemove);
+	}
+
 	#endregion
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
@@ -611,13 +632,19 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public void AddState(En_CharacterState _stateToadd)
+	internal void ApplyWxMark()
 	{
-		state |= _stateToadd;
-	}
-	public void RemoveState( En_CharacterState _stateToRemove )
-	{
-		state = (state & ~_stateToRemove);
+		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == wxMarkRef.effect.forcedKey).FirstOrDefault();
+
+		if (_temp != null)
+		{
+			_temp.Stop();
+
+			DamagesInfos _tempDamages = new DamagesInfos();
+			_tempDamages.damageHealth = wxMarkRef.effect.optionalDamages;
+
+			this.mylocalPlayer.DealDamages(_tempDamages, transform.position);
+		}
 	}
 }
 
@@ -631,15 +658,20 @@ public enum En_CharacterState
 	Canalysing = 1 << 4,
 	Silenced = 1 << 5,
 	Crouched = 1 << 6,
+	Embourbed = 1 << 7,
+    InThirdEye = 1 << 8,
+	WxMarked = 1 << 9,
 	Stunned = Silenced | Root,
-	Embourbed = 1 << 7
+	slowedAndSped = SpedUp | Slowed | Clear,
+	RootAndSlow = Root |Slowed | Clear,
+	SlowedAndSIlenced = Slowed |Silenced | Clear
 }
 
 [System.Serializable]
 public class DamagesInfos
 {
 	public ushort damageHealth;
-	public Sc_Status statusToApply;
+	public Sc_Status[] statusToApply;
 	public Sc_ForcedMovement movementToApply = null;
 	[HideInInspector] public string playerName;
 }
@@ -665,6 +697,7 @@ public class Effect
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 
+	public ushort optionalDamages = 0;
 	public Effect () { }
 }
 

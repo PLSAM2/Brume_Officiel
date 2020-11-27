@@ -12,36 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
   m_Name: Spell_Yang_SpellKnockBack
   m_EditorClassIdentifier: 
-  canalisationTime: 0.5
   range: 0
   cooldown: 5
   numberOfCharge: 1
+  forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  forbiddenState: 48
-  canalysingStatus: {fileID: 11400000, guid: 6d1228166dd73a544aa3850a5f1b5c8c, type: 2}
-  resolusionStatus: {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
-  canCancel: 0
-  mustUseACollFreePos: 0
-  useLastRecordedMousePos: 0
+  canalisationTime: 0.01
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 0
+  anonciationTime: 0.01
+  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 97ed63c932ee7ca4b9791ad7a552f1da, type: 2}
+  forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
   timeToCanalyseToUpgrade: 0.05
-  timeToForceResolve: 0.5
   normalAttack:
     angleToAttackFrom: 50
     rangeOfTheAttack: 2.5
-    movementOfTheCharacter: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
     damagesToDeal:
-      damageHealth: 2
+      damageHealth: 30
       statusToApply: {fileID: 0}
       movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
       playerName: 
   upgradedAttack:
     angleToAttackFrom: 50
     rangeOfTheAttack: 2.5
-    movementOfTheCharacter: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
     damagesToDeal:
-      damageHealth: 2
+      damageHealth: 30
       statusToApply: {fileID: 0}
       movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
       playerName: 

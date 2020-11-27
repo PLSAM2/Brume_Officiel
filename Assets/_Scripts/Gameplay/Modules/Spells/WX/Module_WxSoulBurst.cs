@@ -12,14 +12,14 @@ public class Module_WxSoulBurst : SpellModule
     public float explodeRange = 1;
     protected override void AddCharge() { }
     public override void DecreaseCooldown() { }
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void Resolution()
     {
 
-        base.ResolveSpell(_mousePosition);
+        base.Resolution();
 
         soulburstObj = NetworkObjectsManager.Instance.NetworkInstantiate(16, this.transform.position, 
             new Vector3(soulburstPrefab.transform.rotation.x, soulburstPrefab.transform.rotation.y, soulburstPrefab.transform.rotation.z));
 
-        soulburstObj.GetComponent<Projectile_SoulBurst>().Init(_mousePosition, this.transform.position, explodeRange, maxRange, speed);
+        soulburstObj.GetComponent<Projectile_SoulBurst>().Init(mousePosInputed, this.transform.position, explodeRange, maxRange, speed);
     }
 }

@@ -9,11 +9,13 @@ public class Module_WxGhost : SpellModule
 
     public float lifeTime = 10;
     public float ghostSpeed = 7.5f;
-    protected override void ResolveSpell(Vector3 _mousePosition)
-    {
-        base.ResolveSpell(_mousePosition);
 
-        GameObject ghostObj = NetworkObjectsManager.Instance.NetworkInstantiate(17, _mousePosition,
+	protected override void ResolveSpell ()
+    {
+        base.ResolveSpell();
+
+
+        GameObject ghostObj = NetworkObjectsManager.Instance.NetworkInstantiate(17, this.transform.position,
             new Vector3(ghostPrefab.transform.rotation.x, ghostPrefab.transform.rotation.y, ghostPrefab.transform.rotation.z));
 
         PlayerModule _tempPlayerModule = myPlayerModule;

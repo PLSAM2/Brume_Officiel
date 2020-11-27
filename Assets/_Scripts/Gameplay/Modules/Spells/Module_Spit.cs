@@ -39,7 +39,6 @@ public class Module_Spit : SpellModule
 
     protected  void Update()
     {
-
         if (isLaunched)
         {
             if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
@@ -63,18 +62,19 @@ public class Module_Spit : SpellModule
     }
 
 
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void ResolveSpell ()
     {
+        base.ResolveSpell();
+
         if (isLaunched && spitObj != null)
         {
             return;
         }
 
-        base.ResolveSpell(_mousePosition);
 
         spitObj.SetActive(true);
 
-        destination = _mousePosition;
+        destination = mousePosInputed;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -123,7 +123,7 @@ public class Module_Spit : SpellModule
                 }
             }
 
-            NetworkObjectsManager.Instance.NetworkInstantiate(localTrad.onImpactInstantiate.myNetworkObject.GetObjInstantiateID(), destination, Vector3.zero);
+            NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, Vector3.zero);
         }
     }
 }

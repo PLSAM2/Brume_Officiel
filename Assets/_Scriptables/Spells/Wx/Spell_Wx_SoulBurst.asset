@@ -12,16 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
   m_Name: Spell_Wx_SoulBurst
   m_EditorClassIdentifier: 
-  canalisationTime: 0.3
   range: 5
   cooldown: 0.5
   numberOfCharge: 50
+  forbiddenState: 24
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  forbiddenState: 24
-  canalysingStatus: {fileID: 0}
-  resolusionStatus: {fileID: 0}
-  canCancel: 0
-  mustUseACollFreePos: 0
-  useLastRecordedMousePos: 1
+  canalisationTime: 0.3
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 0
+  anonciationTime: 0.01
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0.01
   spellIcon: {fileID: 0}

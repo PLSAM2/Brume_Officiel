@@ -6,8 +6,9 @@ using UnityEngine;
 public class DashModule : SpellModule
 {
 	public bool usingKeyboardInput = true;
-	public AnimationCurve speedEvolution;
 	ArrowPreview myPreviewArrow;
+	Sc_DashSpell localTrad;
+	Vector3 directionRecorded;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -17,7 +18,9 @@ public class DashModule : SpellModule
 			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
 		}
 		myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
-		HidePreview();
+		HidePreview(Vector3.zero);
+
+		localTrad = spell as Sc_DashSpell;
 	}
 
 	protected override void Disable ()
@@ -28,82 +31,16 @@ public class DashModule : SpellModule
 			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
 		}
 	}
+
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-
-		HidePreview();
-
+		directionRecorded = myPlayerModule.directionInputed();
 		base.StartCanalysing(_BaseMousePos);
-	}
-
-	protected override void ResolveSpell ( Vector3 _mousePosition )
-	{
-
-		Sc_DashSpell _localTraduction = spell as Sc_DashSpell;
-		ForcedMovement dashInfos = new ForcedMovement();
-
-		if (_localTraduction.adaptiveRange)
-		{
-			float speedOfDash = _localTraduction.range / _localTraduction.timeToReachMaxRange;
-
-			if (spell.useLastRecordedMousePos)
-			{
-				/*	dashInfos.duration = Vector3.Distance(recordedMousePosOnInput, transform.position)/ speedOfDash;
-					print(dashInfos.duration);*/
-
-			}
-			else
-			{
-				/*dashInfos.duration = (_localTraduction.range / _localTraduction.timeToReachMaxRange) / Vector3.Distance(myPlayerModule.mousePos(), transform.position);*/
-
-			}
-		}
-		else
-		{
-			dashInfos.duration = _localTraduction.timeToReachMaxRange;
-		}
-
-		dashInfos.strength = _localTraduction.range / dashInfos.duration;
-
-
-		if (spell.useLastRecordedMousePos)
-		{
-			if (usingKeyboardInput)
-				dashInfos.direction = lastRecordedDirection;
-			else
-				dashInfos.direction = recordedMousePosOnInput - transform.position;
-		}
-		else
-		{
-			if (usingKeyboardInput)
-				dashInfos.direction = myPlayerModule.directionInputed();
-			else
-				dashInfos.direction = myPlayerModule.mousePos() - transform.position;
-		}
-		dashInfos.speedEvolution = speedEvolution;
-		dashInfos.baseDuration = dashInfos.duration;
-
-		myPlayerModule.forcedMovementAdded(dashInfos);
-		base.ResolveSpell(_mousePosition);
-
 	}
 
 	void EndDashFeedback ()
 	{
 		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
-	}
-
-	protected override void UpgradeSpell ()
-	{
-		base.UpgradeSpell();
-		Sc_DashSpell dashSpell = spell as Sc_DashSpell;
-		charges += dashSpell.bonusDash;
-	}
-
-	protected override void ReturnToNormal ()
-	{
-		base.ReturnToNormal();
-		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
 	}
 
 	protected override bool canBeCast ()
@@ -114,6 +51,16 @@ public class DashModule : SpellModule
 			return base.canBeCast();
 	}
 
+	protected override void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
+	{
+		if(!usingKeyboardInput)
+			base.TreatForcedMovement(movementToTreat);
+		else
+			myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + directionRecorded, transform.position));
+
+	}
+	//preview
+	#region
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
 		base.ShowPreview(mousePos);
@@ -123,9 +70,9 @@ public class DashModule : SpellModule
 		}
 	}
 
-	protected override void HidePreview ()
+	protected override void HidePreview (Vector3 _temp)
 	{
-		base.HidePreview();
+		base.HidePreview(_temp);
 		myPreviewArrow.gameObject.SetActive(false);
 	}
 
@@ -137,10 +84,24 @@ public class DashModule : SpellModule
 		{
 			myPreviewArrow.Init(transform.position, transform.position + (myPlayerModule.directionInputed() * spell.range), .1f);
 		}
-		else if (spell.useLastRecordedMousePos)
-			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(lastRecordedDirection) * spell.range), .1f);
+
 		else
 			myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * spell.range), .1f);
 	}
+	#endregion
 
+	//upgrade
+	#region
+	protected override void UpgradeSpell ()
+	{
+		base.UpgradeSpell();
+		charges += localTrad.bonusDash;
+	}
+
+	protected override void ReturnToNormal ()
+	{
+		base.ReturnToNormal();
+		charges = Mathf.Clamp(charges, 0, spell.numberOfCharge);
+	}
+	#endregion
 }

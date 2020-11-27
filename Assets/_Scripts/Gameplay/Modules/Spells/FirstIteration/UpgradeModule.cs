@@ -15,9 +15,9 @@ public class UpgradeModule : SpellModule
 		localTrad = spell as Sc_UpgradeSpell;
 	}
 
-	protected override void ResolveSpell ( Vector3 _mousePosition )
+	protected override void ResolveSpell ( )
 	{
-		base.ResolveSpell(_mousePosition);
+		base.ResolveSpell();
 
 		bonusTimeRemaining = localTrad.duration;
 		myPlayerModule.upgradeKit.Invoke();
@@ -27,6 +27,7 @@ public class UpgradeModule : SpellModule
 	protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
+
 		if (inBonus)
 		{
 			if (bonusTimeRemaining > 0)

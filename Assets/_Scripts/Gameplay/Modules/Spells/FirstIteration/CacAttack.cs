@@ -7,6 +7,7 @@ public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
 	ShapePreview shapePreview;
+	float timeCanalised;
 	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack -  localTrad.normalAttack.rangeOfTheAttack ;
 
 	private void Awake ()
@@ -14,6 +15,8 @@ public class CacAttack : SpellModule
 		localTrad = (Sc_CacAttack)spell;
 	}
 
+	//inputs
+	#region
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -26,33 +29,43 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				//myPlayerModule.firstSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInput += StartCanalysing;
-				myPlayerModule.firstSpellInputRealeased += ResolveAttack;
+				myPlayerModule.firstSpellInputRealeased += AnonceSpell;
+				myPlayerModule.firstSpellInputRealeased += HidePreview;
+
 				break;
 
 			case En_SpellInput.SecondSpell:
-				//myPlayerModule.secondSpellInput += ShowPreview;
+				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInput += StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased += ResolveAttack;
+				myPlayerModule.secondSpellInputRealeased += AnonceSpell;
+				myPlayerModule.secondSpellInputRealeased += HidePreview;
+
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				//myPlayerModule.thirdSpellInput += ShowPreview;
+				myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInput += StartCanalysing;
-				myPlayerModule.thirdSpellInputRealeased += ResolveAttack;
+				myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
+				
+				myPlayerModule.thirdSpellInputRealeased += HidePreview;
 				break;
 
 			case En_SpellInput.Click:
-				//myPlayerModule.leftClickInput += ShowPreview;
+				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInput += StartCanalysing;
-				myPlayerModule.leftClickInputRealeased += ResolveAttack;
+				myPlayerModule.leftClickInputRealeased += AnonceSpell;
+				myPlayerModule.leftClickInputRealeased += HidePreview;
+
 				break;
 
 			case En_SpellInput.Ward:
-				//myPlayerModule.wardInput += ShowPreview;
+				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInput += StartCanalysing;
-				myPlayerModule.wardInputReleased += ResolveAttack;
+				myPlayerModule.wardInputReleased += AnonceSpell;
+				myPlayerModule.wardInputReleased += HidePreview;
+
 				break;
 		}
 	}
@@ -67,78 +80,73 @@ public class CacAttack : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				//myPlayerModule.firstSpellInput -= ShowPreview;
+				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInput -= StartCanalysing;
-				myPlayerModule.firstSpellInputRealeased -= ResolveAttack;
+				myPlayerModule.firstSpellInputRealeased -= AnonceSpell;
+				myPlayerModule.firstSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				//myPlayerModule.secondSpellInput -= ShowPreview;
+				myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInput -= StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased -= ResolveAttack;
+				myPlayerModule.secondSpellInputRealeased -= AnonceSpell;
+				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-			//	myPlayerModule.thirdSpellInput -= ShowPreview;
+				myPlayerModule.thirdSpellInput -= ShowPreview;
 				myPlayerModule.thirdSpellInput -= StartCanalysing;
-				myPlayerModule.thirdSpellInputRealeased -= ResolveAttack;
+				myPlayerModule.thirdSpellInputRealeased -= AnonceSpell;
+				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.Click:
-			//	myPlayerModule.leftClickInput -= ShowPreview;
+				myPlayerModule.leftClickInput -= ShowPreview;
 				myPlayerModule.leftClickInput -= StartCanalysing;
-				myPlayerModule.leftClickInputRealeased -= ResolveAttack;
+				myPlayerModule.leftClickInputRealeased -= AnonceSpell;
+				myPlayerModule.leftClickInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.Ward:
-			//	myPlayerModule.wardInput -= ShowPreview;
+				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.wardInput -= StartCanalysing;
-				myPlayerModule.wardInputReleased -= ResolveAttack;
+				myPlayerModule.wardInputReleased -= AnonceSpell;
+				myPlayerModule.wardInputReleased -= HidePreview;
 				break;
 		}
 	}
+	#endregion
 
 	protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
 
-		if (currentTimeCanalised >= localTrad.timeToForceResolve)
-		{
-			ResolveAttack(myPlayerModule.mousePos());
-		}
-		
-		if (showingPreview)
-		{
-			UpdatePreview();
-		}
+		if (isUsed && !anonciated)
+			timeCanalised += Time.fixedDeltaTime;
 	}
 
 	//PREVIEW
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-
-		float distanceOfTheDash = 0;
-
-		if (AttackToResolve().movementOfTheCharacter != null)
-			distanceOfTheDash = AttackToResolve().movementOfTheCharacter.movementToApply.length;
-
-		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.up*distanceOfTheDash);
+		shapePreview.Init(FinalRange(), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
 	}
+
+
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
-		base.ShowPreview(mousePos);
 		if (canBeCast())
-			
 		{
 			shapePreview.gameObject.SetActive(true);
 		}
+		base.ShowPreview(mousePos);
+
 	}
 
-	protected override void HidePreview ()
+	protected override void HidePreview ( Vector3 _temp)
 	{
-		base.HidePreview();
+		base.HidePreview(_temp);
 		shapePreview.gameObject.SetActive(false);
 	}
 
@@ -147,47 +155,31 @@ public class CacAttack : SpellModule
 		if(canBeCast())
 		{
 			ShowPreview(myPlayerModule.mousePos());
-			if (spell.lockRotOnCanalisation)
-				myPlayerModule.rotationLock(true);
+			timeCanalised = 0;
 		}
 
 		base.StartCanalysing(_BaseMousePos);
 	}
-	//EFFET DU SORT
-	void ResolveAttack ( Vector3 _mousePos )
-	{
-		if (isUsed)
-		{
-			isUsed = false;
-			HidePreview();
-			//ptit dash tu connais
-			if (AttackToResolve().movementOfTheCharacter == null)
-			{
-				ResolveSlash();
-			}
-			else
-			{
-				myPlayerModule.forcedMovementInterrupted += ResolveSlash;
-
-				/*if (spell.useLastRecordedMousePos)
-					myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(transform.forward, transform.position));
-				else
-					myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(myPlayerModule.mousePos(), transform.position));*/
-				myPlayerModule.movementPart.AddDash(AttackToResolve().movementOfTheCharacter.MovementToApply(transform.position + transform.forward, transform.position));
-			}
-		}
-	}
+	
 
 	float FinalRange()
 	{
 		return localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(currentTimeCanalised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
 	}
 
+	protected override void ResolveSpell ()
+	{
+		base.ResolveSpell();
+		ResolveSlash();
+	}
+
 	void ResolveSlash ()
 	{
+		HidePreview(Vector3.zero);
+
 		CacAttackParameters _trad =	AttackToResolve();
 
-		if (AttackToResolve().movementOfTheCharacter != null)
+		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 		}
@@ -217,6 +209,7 @@ public class CacAttack : SpellModule
 				}
 			}
 		}
+
 		//AU CAS OU JE ME TOUCHE COMME UN GRRRRRRRRRRRROS CON
 		_listHit.Remove(gameObject);
 
@@ -224,33 +217,16 @@ public class CacAttack : SpellModule
 		{
 			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
-			//RAJOUTER LES PLAYERS DATAS ICI
-			_playerTouched.DealDamages(AttackToResolve().damagesToDeal,transform.position);
+			if(_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
+				_playerTouched.DealDamages(AttackToResolve().damagesToDeal,transform.position);
 		}
-
-	
-
-		Interrupt();
 	}
 
 	CacAttackParameters AttackToResolve ()
 	{
-		if (currentTimeCanalised >= localTrad.timeToCanalyseToUpgrade)
+		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
 			return localTrad.upgradedAttack;
 		else
 			return localTrad.normalAttack;
 	}
-
-	//FONCTION ECRASED
-	protected override void ResolveSpell ( Vector3 _mousePosition )
-	{
-		return;
-	}
-
-	protected override void TreatNormalCanalisation ()
-	{
-		return;
-	}
-
-
 }

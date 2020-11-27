@@ -117,6 +117,10 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 AltarBuffPoison(sender, e);
             }
+            else if (message.Tag == Tags.ChangeFowSize)
+            {
+                ChangeFowSize(sender, e);
+            }
         }
     }
 
@@ -433,7 +437,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                     {
                         return;
                     }
-
                     GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadUInt16());
                 }
             }
@@ -528,5 +531,25 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
+    private void ChangeFowSize(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _playerId = reader.ReadUInt16();
+                uint _size = reader.ReadUInt32();
+                bool _reset = reader.ReadBoolean(); 
 
+                if (_reset)
+                {
+                    GameManager.Instance.networkPlayers[_playerId].ResetFowRaduis();
+                }
+                else
+                {
+                    GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float) _size / 100);
+                }
+            }
+        }
+    }
 }

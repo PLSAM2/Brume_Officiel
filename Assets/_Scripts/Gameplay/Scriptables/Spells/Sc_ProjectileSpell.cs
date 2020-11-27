@@ -9,30 +9,30 @@ public class Sc_ProjectileSpell : Sc_Spell
 {
 
 	[Header("ProjectileParameters")]
-	public DamagesInfos damagesToDeal;
+	[TabGroup("ProjectileSpecifications")] public DamagesInfos damagesToDeal;
 
 
 	[Header("Projectile Prefabs")]
-	public Projectile prefab;
-	public bool _reduceCooldowns = false;
+	[TabGroup("ProjectileSpecifications")] public Projectile prefab;
+	[TabGroup("ProjectileSpecifications")] public bool _reduceCooldowns = false;
 
 
 	[Header("SalveInfos")]
-	public float offSet = .1f;
-	public SalveInfos salveInfos;
+	[TabGroup("ProjectileSpecifications")] public float offSet = .1f;
+	[TabGroup("ProjectileSpecifications")] public SalveInfos salveInfos;
 
 
 
 	[Header("MultiProjectile")]
-	[SerializeField] bool isMultiple = false;
+	[TabGroup("ProjectileSpecifications")] [SerializeField] bool isMultiple = false;
 
-	[Min(1)] [ShowIf("isMultiple")] public int angleToSplit;
+	[TabGroup("ProjectileSpecifications")] [Min(1)] [ShowIf("isMultiple")] public int angleToSplit;
 
 	[Header("UpgradePart")]
-	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;
-	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusShot;
-	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusSalve;
-	[ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float durationAdded;
+	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;
+	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusShot;
+	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusSalve;
+	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float durationAdded;
 }
 
 [System.Serializable]
