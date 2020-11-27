@@ -26,6 +26,8 @@ public class Sc_Spell : ScriptableObject
 
 	[Header("Resolution")]
 	[TabGroup("Generic SpellParameters")] public Sc_ForcedMovement forcedMovementAppliedBeforeResolution, forcedMovementAppliedAfterResolution;
+	[TabGroup("Generic SpellParameters")] public List<Sc_Status> statusToApplyOnResolution = new List<Sc_Status>();
+
 
 	[Header("Throwback")]
 	[TabGroup("Generic SpellParameters")] public List<Sc_Status> statusToApplyAtTheEnd = new List<Sc_Status>();
