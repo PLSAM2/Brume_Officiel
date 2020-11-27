@@ -247,7 +247,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual float TimeToWaitOnanonciation ()
 	{
-		return timeToResolveSpell - spell.anonciationTime;
+		return spell.canalisationTime - spell.anonciationTime;
 	}
 	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
