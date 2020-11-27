@@ -30,7 +30,7 @@ public class SpellModule : MonoBehaviour
 	}
 
 	float _cooldown = 0;
-	[ReadOnly] public bool isUsed = false, startResolution = false,  resolved = false, anonciated = false;
+	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
 	public Sc_Spell spell;
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
@@ -253,7 +253,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
-			resolved = anonciated= startResolution = false;
+			resolved = anonciated = startResolution = false;
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
 
@@ -300,6 +300,8 @@ public class SpellModule : MonoBehaviour
 	{
 		resolved = true;
 
+
+
 		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSpell;
@@ -307,6 +309,10 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.forcedMovementAppliedAfterResolution != null)
 			TreatForcedMovement(spell.forcedMovementAppliedAfterResolution);
+
+		if (spell.statusToApplyOnResolution.Count > 0)
+			foreach (Sc_Status _statusToAdd in spell.statusToApplyOnResolution)
+				myPlayerModule.AddStatus(_statusToAdd.effect);
 	}
 
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
@@ -317,13 +323,18 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 		throwbackTime = 0;
+
 		if (statusToStopAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
 
 		if (spell.statusToApplyAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyAtTheEnd)
-				myPlayerModule.AddStatus(_statusToAdd.effect);
+				myPlayerModule.StopStatus(_statusToAdd.effect.forcedKey);
+
+		if (spell.statusToApplyOnCanalisation.Count > 0)
+			foreach (Sc_Status _statusToAdd in spell.statusToApplyOnCanalisation)
+				myPlayerModule.StopStatus(_statusToAdd.effect.forcedKey);
 
 		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 

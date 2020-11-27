@@ -9,25 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 003b6a1938240494ebd0bdfbde34735d, type: 3}
-  m_Name: Spell_Yin_Dive
+  m_Script: {fileID: 11500000, guid: 36fcad3e54c416b4881c3ce4e60c5746, type: 3}
+  m_Name: Spell_yin_Dive
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 20
+  cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 1
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 67ffe4469eaf3bc409e32c58950b31a3, type: 2}
-  lockRotOnAnonciation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
-  anonciationTime: 0.01
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyOnResolution:
+  - {fileID: 11400000, guid: ae4032c87a172c440bc3a042684e017b, type: 2}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
-  spellIcon: {fileID: 21300000, guid: 244b198b9d2b61f4491d107f92ac1c69, type: 3}
-  duration: 0
-  statusThrowback: {fileID: 0}
+  throwBackDuration: 6
+  spellIcon: {fileID: 21300000, guid: ca329145113e15e4e813dd9b9db3b2a2, type: 3}
+  objectToSpawnAtThenEnd: {fileID: 0}
