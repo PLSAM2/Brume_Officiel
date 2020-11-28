@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: Spell_Yin_Dive
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 0
+  cooldown: 20
   numberOfCharge: 1
   forbiddenState: 56
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 0
-  canalisationTime: 0
+  lockPosOnCanalisation: 1
+  canalisationTime: 1
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
   lockRotOnAnonciation: 1
-  LockPosOnAnonciation: 0
-  anonciationTime: 0
+  LockPosOnAnonciation: 1
+  anonciationTime: 0.01
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution:
   - {fileID: 11400000, guid: ae4032c87a172c440bc3a042684e017b, type: 2}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 6
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: ca329145113e15e4e813dd9b9db3b2a2, type: 3}
-  objectToSpawnAtThenEnd: {fileID: 0}
+  objectToSpawnAtThenEnd: {fileID: 7776885188641116624, guid: 6c982b7dfe4dd8c479ebe1a713d63e06, type: 3}
