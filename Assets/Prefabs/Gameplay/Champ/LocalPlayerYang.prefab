@@ -64,8 +64,10 @@ MonoBehaviour:
   characterParameters: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
   teamIndex: 0
   _isInBrume: 0
-  isThirdEyes: 0
   brumeId: 0
+  isInGhost: 0
+  isInBrumeBeforeGhost: 0
+  brumeIdBeforeGhost: 0
   allHitTaken: []
   sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   brumeLayer:
@@ -78,7 +80,6 @@ MonoBehaviour:
   thirdSpell: {fileID: 1170411871162902278}
   leftClick: {fileID: -8860574723703708623}
   ward: {fileID: 59302847324730398}
-  coll: {fileID: 2015099999550939296}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
   allEffectLive: []
@@ -204,6 +205,14 @@ PrefabInstance:
       propertyPath: myPlayerModule
       value: 
       objectReference: {fileID: 3038193427288463681}
+    - target: {fileID: 8154408291484997990, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154408291484997990, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 2026548338358286537, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -225,11 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3819529e22ad09c4583f48578c0ece05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &2015099999550939296 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 8154408291484997990, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7700405388288014790}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &59302847324730398 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7642602275245690328, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

@@ -71,6 +71,56 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: 146e0df56fee9684db2cfd46c417c61c, type: 2}
   myPlayerModule: {fileID: 0}
   thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
+--- !u!114 &5231333726942406148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267693a017734b4479e594dda07ffaae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSpellKey: 324
+  secondSpellKey: 32
+  thirdSpellKey: 101
+  freeCamera: 308
+  crouching: 304
+  interactKey: 102
+  wardKey: 118
+  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
+  teamIndex: 0
+  _isInBrume: 0
+  brumeId: 0
+  isInGhost: 0
+  isInBrumeBeforeGhost: 0
+  brumeIdBeforeGhost: 0
+  allHitTaken: []
+  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
+  brumeLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  mapIcon: {fileID: 8558393311301056792}
+  movementPart: {fileID: 7156413905369074569}
+  firstSpell: {fileID: 3531483061060426797}
+  secondSpell: {fileID: 2195098234085196020}
+  thirdSpell: {fileID: 4933660271494748642}
+  leftClick: {fileID: 5536350898603478200}
+  ward: {fileID: 8913684591376409635}
+  mylocalPlayer: {fileID: 0}
+  interactiblesClose: []
+  allEffectLive: []
+  allTickLive: []
+  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
+  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
+  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
+  isPoisonousEffectActive: 0
+  cursedByShili: 0
+  wxMark: {fileID: 3406981713847985507}
+  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
+  altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!114 &5536350898603478200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,55 +154,6 @@ MonoBehaviour:
   hitLayer:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &5231333726942406148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 267693a017734b4479e594dda07ffaae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSpellKey: 324
-  secondSpellKey: 32
-  thirdSpellKey: 101
-  freeCamera: 308
-  crouching: 304
-  interactKey: 102
-  wardKey: 118
-  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  teamIndex: 0
-  _isInBrume: 0
-  isThirdEyes: 0
-  brumeId: 0
-  allHitTaken: []
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
-  brumeLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  mapIcon: {fileID: 8558393311301056792}
-  movementPart: {fileID: 7156413905369074569}
-  firstSpell: {fileID: 3531483061060426797}
-  secondSpell: {fileID: 2195098234085196020}
-  thirdSpell: {fileID: 4933660271494748642}
-  leftClick: {fileID: 5536350898603478200}
-  ward: {fileID: 8913684591376409635}
-  coll: {fileID: 6959883921923715229}
-  mylocalPlayer: {fileID: 0}
-  interactiblesClose: []
-  allEffectLive: []
-  allTickLive: []
-  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
-  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
-  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
-  isPoisonousEffectActive: 0
-  cursedByShili: 0
-  wxMark: {fileID: 3406981713847985507}
-  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-  altarDebuffTrail: {fileID: 2492408407028061013}
 --- !u!1001 &1277965312708422139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -296,6 +297,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 520.67236
       objectReference: {fileID: 0}
+    - target: {fileID: 8154408291484997990, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
     - {fileID: 7315650069007287688, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -316,11 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3819529e22ad09c4583f48578c0ece05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &6959883921923715229 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 8154408291484997990, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 1277965312708422139}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8913684591376409635 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7642602275245690328, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

@@ -19,12 +19,14 @@ MonoBehaviour:
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
   canalisationTime: 1
-  statusToApplyOnCanalisation: []
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0.01
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyOnResolution: []
   statusToApplyAtTheEnd:
   - {fileID: 11400000, guid: 67ffe4469eaf3bc409e32c58950b31a3, type: 2}
   throwBackDuration: 0.01
