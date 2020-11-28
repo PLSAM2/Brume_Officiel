@@ -256,7 +256,7 @@ public class SpellModule : MonoBehaviour
 			resolved = anonciated = startResolution = false;
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
-
+			myPlayerModule.AddState(En_CharacterState.Canalysing);
 			isUsed = true;
 			StartCanalysingFeedBack();
 			DecreaseCharge();
