@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: speed 30% 6s
+  m_Name: slow 75% 0,4s
   m_EditorClassIdentifier: 
   effect:
-    finalLifeTime: 6
+    tick: 0
+    finalLifeTime: 0.4
     isConstant: 0
     canBeForcedStop: 0
     forcedKey: 0
-    stateApplied: 4
-    percentageOfTheMovementModifier: 0.3
+    refreshOnApply: 0
+    tickRate: 0.2
+    isDamaging: 1
+    isHealing: 0
+    tickValue: 0
+    stateApplied: 2
+    percentageOfTheMovementModifier: 0.75
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
@@ -43,3 +49,4 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    optionalDamages: 0
