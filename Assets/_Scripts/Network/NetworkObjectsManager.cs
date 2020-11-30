@@ -206,7 +206,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _ObjectRotation.z = reader.ReadSingle();
             }
         }
-
         GameObject _tempObject = GetFirstDisabledObject(_objectID);
         _tempObject.transform.position = _ObjectPos;
         _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);

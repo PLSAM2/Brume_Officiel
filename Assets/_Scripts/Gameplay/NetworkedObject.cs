@@ -82,12 +82,12 @@ public class NetworkedObject : MonoBehaviour
 
     private void Update()
     {
-        if (!isOwner)
+        if (!isOwner && isNetworked)
         {
             transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * 30);
         }
 
-        if (!isNetworked || !isOwner || serverObjectID == 0 )
+        if (!isNetworked || !isOwner || serverObjectID == 0)
             return;
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync)
