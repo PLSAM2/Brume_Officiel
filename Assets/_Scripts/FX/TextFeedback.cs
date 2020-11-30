@@ -10,14 +10,18 @@ public class TextFeedback : MonoBehaviour
 
     [SerializeField] Animator myAnimator;
 
-    public void Init(string value, Color _color)
+    public void Init(Vector3 pos, string value, Color _color)
     {
+        transform.position = pos;
+
         damageText.text = value;
         damageShadowText.text = value;
 
         damageText.color = _color;
 
         myAnimator.SetTrigger("Show");
+
+        StartCoroutine(WaitToDisable());
     }
 
     IEnumerator WaitToDisable()

@@ -204,7 +204,12 @@ public class GameManager : SerializedMonoBehaviour
     {
         if (GameFactory.CheckIfPlayerIsInView(idPlayer))
         {
-
+            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 2.5f , _damage.ToString(), Color.red);
+            print("oui");
+        }
+        else
+        {
+            print("non");
         }
     }
 }

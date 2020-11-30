@@ -377,7 +377,6 @@ public class LocalPlayer : MonoBehaviour
                 SendStatus(myPlayerModule.poisonousEffect);
             }
 
-
             if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) &&
                 RoomManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
             {
@@ -441,6 +440,8 @@ public class LocalPlayer : MonoBehaviour
                     currentClient.SendMessage(_message, SendMode.Reliable);
                 }
             }
+
+            GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
         }
     }
 
