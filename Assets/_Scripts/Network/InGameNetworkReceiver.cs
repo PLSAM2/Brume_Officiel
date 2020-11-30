@@ -295,6 +295,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             else {
                 _writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             }
+
             _writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {

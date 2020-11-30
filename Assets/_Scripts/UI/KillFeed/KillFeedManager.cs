@@ -57,7 +57,6 @@ public class KillFeedManager : MonoBehaviour
 
     void OnPlayerDie(ushort idPlayerDie, ushort playerKiller)
     {
-        print(playerKiller);
         KillFeedElement currentKilfeed = GetFreeElement();
         currentKilfeed.InitAction(GetPlayerData(playerKiller), actionKillfeed.Kill, GetPlayerData(idPlayerDie));
     }

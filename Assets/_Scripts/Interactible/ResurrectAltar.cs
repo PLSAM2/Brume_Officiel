@@ -39,7 +39,7 @@ public class ResurrectAltar : Interactible
 
     public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
     {
-        WxController wxController = (WxController)capturingPlayerModule;
+        WxController wxController = (WxController)capturingPlayer;
 
         if (wxController.GetPlayersSoulsCount() <= 0)
         {
