@@ -155,10 +155,14 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         _tempObject.SetActive(true);
 
 
-        if (_tempObject.GetComponent<Projectile>() != null)
+        if (_tempObject.GetComponent<AutoKill>() != null)
+        {
+            _tempObject.GetComponent<AutoKill>().Init(RoomManager.Instance.GetLocalPlayer().playerTeam);
+        }/*
+      else  if (_tempObject.GetComponent<aoe>() != null)
         {
             _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetLocalPlayer().playerTeam);
-        }
+        }*/
 
         // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
@@ -218,6 +222,9 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         {
             _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
         }
+        else if (_tempObject.GetComponent<Aoe>() != null)
+            _tempObject.GetComponent<Aoe>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
+
     }
 
     public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)

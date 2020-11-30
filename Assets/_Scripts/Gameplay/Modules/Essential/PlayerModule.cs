@@ -489,17 +489,21 @@ public class PlayerModule : MonoBehaviour
 			{
 				allTickLive[i].lastTick = 0;
 
-				if (allTickLive[i].effect.isDamaging)
-				{
-					DamagesInfos _temp = new DamagesInfos();
-					_temp.damageHealth = allTickLive[i].effect.tickValue;
+                if (mylocalPlayer.isOwner)
+                {
+					if (allTickLive[i].effect.isDamaging)
+					{
+						DamagesInfos _temp = new DamagesInfos();
+						_temp.damageHealth = allTickLive[i].effect.tickValue;
 
-					this.mylocalPlayer.DealDamages(_temp, transform.position, null, false, true);
+						this.mylocalPlayer.DealDamages(_temp, transform.position, null, false, true);
+					}
+					if (allTickLive[i].effect.isHealing)
+					{
+						this.mylocalPlayer.HealPlayer(allTickLive[i].effect.tickValue);
+					}
 				}
-				if (allTickLive[i].effect.isHealing)
-				{
-					this.mylocalPlayer.HealPlayer(allTickLive[i].effect.tickValue);
-				}
+
 			}
 		}
 

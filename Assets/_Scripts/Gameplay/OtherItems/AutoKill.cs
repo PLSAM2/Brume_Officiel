@@ -19,13 +19,7 @@ public class AutoKill : MonoBehaviour
     public virtual void Init ( Team ownerTeam )
     {
         myteam = ownerTeam;
-        isOwner = GetComponent<NetworkedObject>().GetIsOwner();
-    }
-
-    protected virtual void OnEnable ()
-    {
-        myLivelifeTime = mylifeTime;
-
+        isOwner = myNetworkObject.GetIsOwner();
         switch (myteam)
         {
             case Team.red:
@@ -36,6 +30,13 @@ public class AutoKill : MonoBehaviour
                 meshBlue.SetActive(true);
                 break;
         }
+    }
+
+    protected virtual void OnEnable ()
+    {
+        myLivelifeTime = mylifeTime;
+
+
         myNetworkObject = GetComponent<NetworkedObject>();
     }
 
