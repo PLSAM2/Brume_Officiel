@@ -15,11 +15,15 @@ public class Projectile : AutoKill
 
 	[Header("SpellLinked")]
 	[SerializeField] Sc_ProjectileSpell localTrad;
-	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange ;
+	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
+
+    [SerializeField] GameObject prefabImpactFx;
+    Vector3 startPos;
 
 	public override void Init(Team ownerTeam)
 	{
 		base.Init(ownerTeam);
+        startPos = transform.position;
 
 		asDeal = true;
 
@@ -56,7 +60,6 @@ public class Projectile : AutoKill
 
 		if (playerHit != null)
 		{
-
 			if (playerHit.teamIndex != myteam)
 			{
 				if (!asDeal)
@@ -76,7 +79,7 @@ public class Projectile : AutoKill
 		}
 		else
 		{
-			Destroy();
+            Destroy();
 		}
 
 	}
@@ -91,7 +94,12 @@ public class Projectile : AutoKill
 	{
 		asDeal = true;
 
-		base.Destroy();
+        if (prefabImpactFx)
+        {
+            Instantiate(prefabImpactFx, transform.position, Quaternion.LookRotation(startPos, Vector3.up));
+        }
+
+        base.Destroy();
 	}
 }
 
