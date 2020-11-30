@@ -494,7 +494,7 @@ public class PlayerModule : MonoBehaviour
 					DamagesInfos _temp = new DamagesInfos();
 					_temp.damageHealth = allTickLive[i].effect.tickValue;
 
-					this.mylocalPlayer.DealDamages(_temp, transform.position);
+					this.mylocalPlayer.DealDamages(_temp, transform.position, null, false, true);
 				}
 				if (allTickLive[i].effect.isHealing)
 				{
