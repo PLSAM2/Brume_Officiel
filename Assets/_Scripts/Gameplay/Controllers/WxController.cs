@@ -13,20 +13,6 @@ public class WxController : PlayerModule
     private bool isDebuffTrailActive = false;
 
 
-    protected override void StateChanged(En_CharacterState state)
-    {
-        base.StateChanged(state);
-
-        if ((state & En_CharacterState.WxMarked) != 0)
-        {
-            wxMark.SetActive(true);
-        }
-        else
-        {
-            wxMark.SetActive(false);
-        }
-    }
-
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
         print("I picked a soul");
