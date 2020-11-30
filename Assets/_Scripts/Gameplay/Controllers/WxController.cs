@@ -62,7 +62,7 @@ public class WxController : PlayerModule
     {
         base.SetInBrumeStatut(_value, brumeId);
 
-        if (isDebuffTrailActive && _value == true)
+        if (isDebuffTrailActive)
         {
             SetAltarDebuffTrailState(!_value);
         }
@@ -70,12 +70,12 @@ public class WxController : PlayerModule
 
     public void SetAltarDebuffTrailState(bool value)
     {
-        if (value && !altarDebuffTrail.isPlaying)
+        if (value)
         {
             altarDebuffTrail.Play();
             print("play");
         }
-        else if (!altarDebuffTrail.isStopped)
+        else
         {
             altarDebuffTrail.Stop();
             print("stop");

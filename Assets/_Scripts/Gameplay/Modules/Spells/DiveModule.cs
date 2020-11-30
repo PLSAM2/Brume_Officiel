@@ -53,8 +53,8 @@ public class DiveModule : SpellModule
 				myPlayerModule.wardInput -= ForceInterrupt;
 				break;
 		}
-		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 		base.Interrupt();
+		StartCoroutine(WaitDelay());
 	//	NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 	}
 
@@ -62,5 +62,10 @@ public class DiveModule : SpellModule
 	void ForceInterrupt(Vector3 _temp)
 	{
 		Interrupt();
+	}
+	IEnumerator WaitDelay()
+	{
+		yield return new WaitForSeconds(localTrad.timeToWaitBeforeSpawning);
+		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 	}
 }

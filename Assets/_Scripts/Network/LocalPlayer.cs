@@ -372,6 +372,10 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
+    /// <summary>
+    /// Deal damage to this character
+    /// </summary>
+    /// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect to work</param>
     public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
