@@ -7,7 +7,6 @@ public class WxController : PlayerModule
 {
     [Header("Wu xin Properties")]
 
-
     private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 
     [SerializeField] private ParticleSystem altarDebuffTrail;
@@ -16,8 +15,8 @@ public class WxController : PlayerModule
 
     protected override void StateChanged(En_CharacterState state)
     {
-        base.StateChanged(state); 
-        
+        base.StateChanged(state);
+
         if ((state & En_CharacterState.WxMarked) != 0)
         {
             wxMark.SetActive(true);
@@ -32,7 +31,7 @@ public class WxController : PlayerModule
     {
         print("I picked a soul");
         playerSouls.Add(playerSoul);
-       // this.GetComponent<Module_WxSoulBurst>().charges++;
+        // this.GetComponent<Module_WxSoulBurst>().charges++;
     }
 
     public int GetPlayersSoulsCount()
@@ -46,7 +45,7 @@ public class WxController : PlayerModule
 
     public void ClearPlayersSouls()
     {
-       playerSouls.Clear();
+        playerSouls.Clear();
     }
 
     public void ApplyAltarTrailDebuffInServer()
@@ -63,7 +62,7 @@ public class WxController : PlayerModule
     {
         base.SetInBrumeStatut(_value, brumeId);
 
-        if (isDebuffTrailActive)
+        if (isDebuffTrailActive && _value == true)
         {
             SetAltarDebuffTrailState(!_value);
         }
@@ -71,10 +70,11 @@ public class WxController : PlayerModule
 
     public void SetAltarDebuffTrailState(bool value)
     {
-        if (value)
+        if (value && !altarDebuffTrail.isPlaying)
         {
             altarDebuffTrail.Play();
-        } else
+        }
+        else if (!altarDebuffTrail.isStopped)
         {
             altarDebuffTrail.Stop();
         }
