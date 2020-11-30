@@ -8,4 +8,5 @@ using Sirenix.OdinInspector;
 public class Sc_EffectAtEnd : Sc_Spell
 {
 	[TabGroup("EffectAtTheEnd")] public GameObject objectToSpawnAtThenEnd;
+	[TabGroup("EffectAtTheEnd")] public float timeToWaitBeforeSpawning=.5f;
 }

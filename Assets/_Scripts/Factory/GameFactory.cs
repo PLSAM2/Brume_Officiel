@@ -153,6 +153,23 @@ public class GameFactory
         return pInRange;
     }
 
+    public static bool IsInRangeOfHidden (float _range, Vector3 _pos, Team _team)
+	{
+        List<LocalPlayer> _allPlayers = GetPlayersInRangeByTeam(100000, _pos, _team);
+
+        foreach(LocalPlayer _tempPlayer in _allPlayers)
+		{
+            if ((_tempPlayer.myPlayerModule.state & En_CharacterState.Hidden) == 0)
+                continue;
+            else if (Vector3.Distance(_pos, _tempPlayer.transform.position) <= _range)
+			{
+                return true;
+			}
+		}
+        return false;
+
+    }
+
     public static LocalPlayer GetLocalPlayerObj()
     {
         return GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];

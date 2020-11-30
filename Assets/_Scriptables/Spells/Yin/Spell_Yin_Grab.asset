@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Yin_Grab
   m_EditorClassIdentifier: 
-  range: 7
+  range: 6.5
   cooldown: 10
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
-  canalisationTime: 0.2
+  canalisationTime: 0.35
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
-  - {fileID: 11400000, guid: 94db95da7f1dc8c4086cb5abdfa73871, type: 2}
+  - {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
   anonciationTime: 0.001
@@ -47,7 +47,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.8
+    timeToReachMaxRange: 0.15
     timeToResolveTheSalve: 0
   isMultiple: 0
   angleToSplit: 0
