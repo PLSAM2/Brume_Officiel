@@ -34,7 +34,7 @@ public class Aoe : AutoKill
 		{
 			LocalPlayer player = _coll.GetComponent<LocalPlayer>();
 
-			if (player.myPlayerModule.teamIndex != GameManager.Instance.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll.gameObject))
+			if (player.myPlayerModule.teamIndex != GameFactory.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll.gameObject))
 			{
 				_allChecked.Add(_coll.gameObject);
 				player.DealDamages(_damages, transform.position);
