@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DiveAoE
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 3
-    aoeRadius: 2
+    durationOfTheAoe: 0.2
+    aoeRadius: 4
     damagesToDealOnImpact:
       damageHealth: 0
       statusToApply:
@@ -27,8 +27,7 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 0}
     damagesToDealOnDuration:
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: 1ba7be15c774e104abf879a4fea1197f, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       playerName: 
       stateNeeded: 128
