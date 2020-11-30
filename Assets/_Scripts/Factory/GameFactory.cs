@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
@@ -125,7 +126,7 @@ public class GameFactory
         List<LocalPlayer> pInRange = new List<LocalPlayer>();
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+            if (player.Value == GetLocalPlayerObj()) { continue; }
 
             if (Vector3.Distance(_pos, player.Value.transform.position) <= _range)
             {
@@ -141,7 +142,7 @@ public class GameFactory
         List<LocalPlayer> pInRange = new List<LocalPlayer>();
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+            if (player.Value == GetLocalPlayerObj()) { continue; }
 
             if (Vector3.Distance(_pos, player.Value.transform.position) <= _range && player.Value.myPlayerModule.teamIndex == _team)
             {
@@ -150,5 +151,65 @@ public class GameFactory
         }
 
         return pInRange;
+    }
+
+    public static LocalPlayer GetLocalPlayerObj()
+    {
+        return GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
+    }
+
+    public static LocalPlayer GetFirstPlayerOfOtherTeam()
+    {
+        ushort? _id = RoomManager.Instance.actualRoom.playerList.Where
+            (x => x.Value.playerTeam == GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam))
+            .FirstOrDefault().Key;
+
+        if (_id != null)
+        {
+            return GameManager.Instance.networkPlayers[(ushort)_id];
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
+    public static bool CheckIfPlayerIsInView(ushort id)
+    {
+        if(GetActualPlayerFollow().myPlayerId == id)
+        {
+            return true;
+        }
+
+        if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
+        {
+            return false;
+        }
+
+        if (GetActualPlayerFollow().myPlayerModule.isInBrume)
+        {
+            if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
+            {
+                if (!PlayersAreOnSameBrume(GameManager.Instance.networkPlayers[id].myPlayerModule, GetActualPlayerFollow().myPlayerModule))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
+            {
+                return false;
+            }
+        }
+
+
+        return true;
     }
 }

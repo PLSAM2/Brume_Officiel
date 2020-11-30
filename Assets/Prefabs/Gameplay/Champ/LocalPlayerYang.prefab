@@ -82,16 +82,15 @@ MonoBehaviour:
   ward: {fileID: 59302847324730398}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
-  menacingIcon: {fileID: 5900302425811975602}
   allEffectLive: []
   allTickLive: []
   enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
   leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
-  poisonousEffect: {fileID: 0}
+  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
   isPoisonousEffectActive: 0
   cursedByShili: 0
-  wxMark: {fileID: 0}
-  wxMarkRef: {fileID: 0}
+  wxMark: {fileID: 6064497781811295582}
+  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
 --- !u!114 &5100041963116749380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +154,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3038193427288463681}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -167,6 +170,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -176,14 +183,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -246,17 +245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90a70e44b85c9f4e87e8990786d246c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5900302425811975602 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4269201535911380084, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+--- !u!1 &6064497781811295582 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4536313942450408600, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &983172405252139301 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

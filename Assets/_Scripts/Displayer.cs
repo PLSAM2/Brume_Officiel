@@ -19,15 +19,15 @@ public class Displayer : MonoBehaviour
         {
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
-                HideOrShow(GameManager.Instance.GetLocalPlayerObj(), false);
-                SetFow(GameManager.Instance.GetLocalPlayerObj(), false);
-                GameManager.Instance.GetLocalPlayerObj().circleDirection.SetActive(false);
+                HideOrShow(GameFactory.GetLocalPlayerObj(), false);
+                SetFow(GameFactory.GetLocalPlayerObj(), false);
+                GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
             }
             else
             {
-                HideOrShow(GameManager.Instance.GetLocalPlayerObj(), true);
-                SetFow(GameManager.Instance.GetLocalPlayerObj(), true);
-                GameManager.Instance.GetLocalPlayerObj().circleDirection.SetActive(true);
+                HideOrShow(GameFactory.GetLocalPlayerObj(), true);
+                SetFow(GameFactory.GetLocalPlayerObj(), true);
+                GameFactory.GetLocalPlayerObj().circleDirection.SetActive(true);
             }
         }
 
