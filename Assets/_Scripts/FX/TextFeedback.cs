@@ -10,6 +10,8 @@ public class TextFeedback : MonoBehaviour
 
     [SerializeField] Animator myAnimator;
 
+    [SerializeField] AudioClip hitClip;
+
     public void Init(Vector3 pos, string value, Color _color)
     {
         transform.position = pos;
@@ -20,6 +22,8 @@ public class TextFeedback : MonoBehaviour
         damageText.color = _color;
 
         myAnimator.SetTrigger("Show");
+
+        AudioManager.Instance.Play3DAudio(hitClip, transform.position);
 
         StartCoroutine(WaitToDisable());
     }
