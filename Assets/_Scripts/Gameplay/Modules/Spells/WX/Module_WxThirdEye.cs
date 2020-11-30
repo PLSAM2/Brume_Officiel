@@ -113,7 +113,7 @@ public class Module_WxThirdEye : SpellModule
 
 				Vector3 finalSize = new Vector3(spell.range, spell.range, spell.range);
 				shockWave.transform.DOScale(finalSize, localTrad.anonciationTime).OnComplete(() => UpdateShockWaveStatus(En_ShockWaveStatus.Opened));
-				GameManager.Instance.GetLocalPlayerObj().SetFowRaduis(localTrad.fowRaduis);
+                GameFactory.GetLocalPlayerObj().SetFowRaduis(localTrad.fowRaduis);
 				myPlayerModule.mylocalPlayer.SendChangeFowRaduis(localTrad.fowRaduis);
 
                 myPlayerModule.AddState(En_CharacterState.ThirdEye);
@@ -150,11 +150,11 @@ public class Module_WxThirdEye : SpellModule
 			case En_ShockWaveStatus.Hidden:
 				shockWave.gameObject.SetActive(false);
 				HideAllAlliedVision(true);
-				GameManager.Instance.GetLocalPlayerObj().ResetFowRaduis();
+                GameFactory.GetLocalPlayerObj().ResetFowRaduis();
 				StopOutlineOnPlayers();
 				foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
 				{
-					if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+					if (player.Value == GameFactory.GetLocalPlayerObj()) { continue; }
 
 					player.Value.myPlayerModule.cursedByShili = false;
 				}
@@ -182,7 +182,7 @@ public class Module_WxThirdEye : SpellModule
 		{
 			foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
 			{
-				if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+				if (player.Value == GameFactory.GetLocalPlayerObj()) { continue; }
 
 				player.Value.myPlayerModule.cursedByShili = (Vector3.Distance(transform.position, player.Value.transform.position) <= shockWave.transform.localScale.x);
 			}
@@ -191,7 +191,7 @@ public class Module_WxThirdEye : SpellModule
 		{
 			foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
 			{
-				if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+				if (player.Value == GameFactory.GetLocalPlayerObj()) { continue; }
 
 				player.Value.myPlayerModule.cursedByShili = false;
 			}

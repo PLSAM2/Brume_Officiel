@@ -13,37 +13,47 @@ MonoBehaviour:
   m_Name: Spell_Yang_SpellKnockBack
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 5
+  cooldown: 7
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.01
-  statusToApplyOnCanalisation: []
-  lockRotOnAnonciation: 1
+  canalisationTime: 2
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0.01
   forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 97ed63c932ee7ca4b9791ad7a552f1da, type: 2}
   forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
+  statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 4bbe71d0295b60c42ab650369ed50d98, type: 3}
-  timeToCanalyseToUpgrade: 0.05
+  timeToCanalyseToUpgrade: 1
   normalAttack:
     angleToAttackFrom: 50
-    rangeOfTheAttack: 2.5
+    rangeOfTheAttack: 3.5
     damagesToDeal:
-      damageHealth: 30
+      damageHealth: 20
       statusToApply:
       - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
       movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
       playerName: 
+      stateNeeded: 128
+      additionalDamages: 0
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 0}
   upgradedAttack:
     angleToAttackFrom: 50
-    rangeOfTheAttack: 2.5
+    rangeOfTheAttack: 3.5
     damagesToDeal:
-      damageHealth: 30
+      damageHealth: 20
       statusToApply:
       - {fileID: 11400000, guid: 8677008586179a74e9fc335af2e6e84e, type: 2}
       movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
       playerName: 
+      stateNeeded: 128
+      additionalDamages: 0
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 0}

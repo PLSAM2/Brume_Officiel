@@ -15,6 +15,7 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void OnEnable()
     {
+
         networkedObject = GetComponent<NetworkedObject>();
 
         playerSoul.soulInfo = RoomManager.Instance.actualRoom.playerList[networkedObject.GetOwnerID()];
@@ -30,6 +31,7 @@ public class PlayerSoulObj : MonoBehaviour
             mapIcon.sprite = iconYang;
         else
             mapIcon.sprite = iconYin;
+
     }
 
     private void OnTriggerEnter(Collider other)

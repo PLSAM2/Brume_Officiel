@@ -50,6 +50,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<Ghost> allGhost = new List<Ghost>();
 
+    public List<BrumeScript> allBrume = new List<BrumeScript>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 
@@ -80,9 +82,15 @@ public class GameManager : SerializedMonoBehaviour
         client.MessageReceived += OnMessageReceive;
     }
 
+    private void OnEnable()
+    {
+        OnPlayerGetDamage += OnPlayerTakeDamage;
+    }
+
     private void OnDisable()
     {
         client.MessageReceived -= OnMessageReceive;
+        OnPlayerGetDamage -= OnPlayerTakeDamage;
     }
 
     private void Start()
@@ -192,25 +200,11 @@ public class GameManager : SerializedMonoBehaviour
         timeStart = true;
     }
 
-    public LocalPlayer GetFirstPlayerOfOtherTeam()
+    void OnPlayerTakeDamage(ushort idPlayer, ushort _damage)
     {
-        ushort? _id = RoomManager.Instance.actualRoom.playerList.Where
-            (x => x.Value.playerTeam == GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam))
-            .FirstOrDefault().Key;
-
-        if (_id != null)
+        if (GameFactory.CheckIfPlayerIsInView(idPlayer))
         {
-            return networkPlayers[(ushort)_id];
+            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 2.5f , _damage.ToString(), Color.red);
         }
-        else
-        {
-            return null;
-        }
-
-    }
-
-    public LocalPlayer GetLocalPlayerObj()
-    {
-        return networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
     }
 }

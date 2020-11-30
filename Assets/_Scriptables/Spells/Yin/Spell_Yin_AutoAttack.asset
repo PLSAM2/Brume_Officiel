@@ -21,30 +21,40 @@ MonoBehaviour:
   canalisationTime: 2
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
-  lockRotOnAnonciation: 0
-  LockPosOnAnonciation: 0
+  - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 1
   anonciationTime: 0.01
   forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 69bb012cdd20c7e44b95b2873abf4ea6, type: 2}
   forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: 81dd04644da9c12489e3a513270a55b4, type: 2}
+  statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 594bc20e5c1ace74e86d99fcc3adab02, type: 3}
   timeToCanalyseToUpgrade: 1
   normalAttack:
-    angleToAttackFrom: 120
-    rangeOfTheAttack: 3
+    angleToAttackFrom: 60
+    rangeOfTheAttack: 2.5
     damagesToDeal:
       damageHealth: 25
       statusToApply:
       - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
       movementToApply: {fileID: 0}
       playerName: 
+      stateNeeded: 128
+      additionalDamages: 10
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 11400000, guid: f2570c06edb5e044196013184392deb2, type: 2}
   upgradedAttack:
-    angleToAttackFrom: 120
-    rangeOfTheAttack: 5
+    angleToAttackFrom: 60
+    rangeOfTheAttack: 4
     damagesToDeal:
       damageHealth: 35
       statusToApply:
       - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
       movementToApply: {fileID: 11400000, guid: f3fc87acc2d84554ca2c7183c2de2cb1, type: 2}
       playerName: 
+      stateNeeded: 128
+      additionalDamages: 10
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 11400000, guid: cdf7205268a0aab42a15d599b7cdf0ef, type: 2}

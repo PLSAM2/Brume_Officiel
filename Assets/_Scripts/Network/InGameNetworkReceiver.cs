@@ -295,6 +295,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             else {
                 _writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
             }
+
             _writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
@@ -342,11 +343,10 @@ public class InGameNetworkReceiver : MonoBehaviour
                     return;
                 }
 
-                LocalPlayer target = GameManager.Instance.networkPlayers[_id];
-
-                target.DealDamagesLocaly(_damages);
-
                 GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
+
+                LocalPlayer target = GameManager.Instance.networkPlayers[_id];
+                target.DealDamagesLocaly(_damages);
             }
         }
     }

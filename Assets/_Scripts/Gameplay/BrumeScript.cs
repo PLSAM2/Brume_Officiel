@@ -12,11 +12,29 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
 
+    private void Start()
+    {
+        GameManager.Instance.allBrume.Add(this);
+    }
+
+
+    public void OnSimulateEnter(GameObject obj)
+    {
+        OnTriggerEnter(obj.GetComponent<Collider>());
+    }
+
+    public void OnSimulateExit(GameObject obj)
+    {
+        OnTriggerExit(obj.GetComponent<Collider>());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
+            if(player.isInBrume && player.brumeId == GetInstanceID()) { return; }
+
             player.SetInBrumeStatut(true, GetInstanceID());
 
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
@@ -46,6 +64,8 @@ public class BrumeScript : MonoBehaviour
                 SetTowerFow(false);
 
                 myRenderer.enabled = false;
+
+                other.GetComponent<Ghost>().currentIdBrume = GetInstanceID();
             }
         }
     }
@@ -78,6 +98,8 @@ public class BrumeScript : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
+            if (!player.isInBrume) { return; }
+
             player.SetInBrumeStatut(false, 0);
 
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;

@@ -24,13 +24,15 @@ public class LocalPlayer : MonoBehaviour
     [Header("MultiGameplayParameters")]
     public float respawnTime = 15;
     private ushort _liveHealth;
+    ushort maxHealth;
 
     [Header("UI")]
     public GameObject canvas;
     public Quaternion canvasRot;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI lifeCount;
-    public Image life;
+    public Image lifeImg;
+    public Image lifeDamageImg;
 
     Vector3 newNetorkPos;
     [SerializeField] float syncSpeed = 10;
@@ -42,6 +44,8 @@ public class LocalPlayer : MonoBehaviour
         {
             _liveHealth = value;
             lifeCount.text = "HP : " + liveHealth;
+
+            lifeImg.fillAmount = (float) liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
         }
     }
     public Action<string> triggerAnim;
@@ -66,8 +70,6 @@ public class LocalPlayer : MonoBehaviour
     {
         lastPosition = transform.position;
         lastRotation = transform.localEulerAngles;
-        OnRespawn();
-
         canvasRot = canvas.transform.rotation;
 
         newNetorkPos = transform.position;
@@ -75,6 +77,8 @@ public class LocalPlayer : MonoBehaviour
 
     private void Start()
     {
+        OnRespawn();
+
         triggerAnim += TriggerTheAnim;
 
         nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
@@ -82,12 +86,12 @@ public class LocalPlayer : MonoBehaviour
         if (myPlayerModule.teamIndex == Team.blue)
         {
             nameText.color = Color.blue;
-            life.color = Color.blue;
+            lifeImg.color = Color.blue;
         }
         else if (myPlayerModule.teamIndex == Team.red)
         {
             nameText.color = Color.red;
-            life.color = Color.red;
+            lifeImg.color = Color.red;
         }
     }
 
@@ -127,6 +131,9 @@ public class LocalPlayer : MonoBehaviour
 
     private void Update()
     {
+        //ui life
+        lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
+
         Debug();
 
         DoAnimation();
@@ -372,11 +379,10 @@ public class LocalPlayer : MonoBehaviour
 
         if (!ignoreStatusAndEffect)
         {
-            if (GameManager.Instance.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+            if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
             {
                 SendStatus(myPlayerModule.poisonousEffect);
             }
-
 
             if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) &&
                 RoomManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
@@ -398,6 +404,38 @@ public class LocalPlayer : MonoBehaviour
             }
         }
 
+
+		if((myPlayerModule.state & _damagesToDeal.stateNeeded) !=0)
+		{
+			if (_damagesToDeal.additionalStatusToApply != null)
+			{
+				for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
+				{
+					SendStatus(_damagesToDeal.additionalStatusToApply[i]);
+				}
+			}
+
+			if (_damagesToDeal.additionalMovementToApply != null)
+			{
+				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+			}
+
+			if (_damagesToDeal.damageHealth > 0)
+			{
+				DealDamagesLocaly(_damagesToDeal.additionalDamages);
+
+				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+				{
+					_writer.Write(myPlayerId);
+					_writer.Write(_damagesToDeal.additionalDamages);
+					using (Message _message = Message.Create(Tags.Damages, _writer))
+					{
+						currentClient.SendMessage(_message, SendMode.Reliable);
+					}
+				}
+			}
+		}
+
         if (_damagesToDeal.damageHealth > 0)
         {
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -409,6 +447,8 @@ public class LocalPlayer : MonoBehaviour
                     currentClient.SendMessage(_message, SendMode.Reliable);
                 }
             }
+
+            GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
         }
     }
 
