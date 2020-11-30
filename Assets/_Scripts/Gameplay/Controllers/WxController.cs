@@ -67,7 +67,7 @@ public class WxController : PlayerModule
             SetAltarDebuffTrailState(!_value);
         }
     }
-
+    
     public void SetAltarDebuffTrailState(bool value)
     {
         if (value)

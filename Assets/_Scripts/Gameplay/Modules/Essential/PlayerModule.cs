@@ -618,7 +618,8 @@ public class PlayerModule : MonoBehaviour
 	public void ApplySpeedBuffInServer ()
 	{
 		isAltarSpeedBuffActive = true;
-		if (isInBrume)
+
+		if (isInBrume && mylocalPlayer.isOwner)
 		{
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
 		}
@@ -630,17 +631,20 @@ public class PlayerModule : MonoBehaviour
 
 	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
 	{
-		if (value)
-		{
-			StopStatus(enteringBrumeStatus.effect.forcedKey);
-			StopStatus(leavingBrumeStatus.effect.forcedKey);
-			mylocalPlayer.SendStatus(enteringBrumeStatus);
-		}
-		else
-		{
-			StopStatus(leavingBrumeStatus.effect.forcedKey);
-			StopStatus(enteringBrumeStatus.effect.forcedKey);
-			mylocalPlayer.SendStatus(leavingBrumeStatus);
+        if (mylocalPlayer.isOwner)
+        {
+			if (value)
+			{
+				StopStatus(enteringBrumeStatus.effect.forcedKey);
+				StopStatus(leavingBrumeStatus.effect.forcedKey);
+				mylocalPlayer.SendStatus(enteringBrumeStatus);
+			}
+			else
+			{
+				StopStatus(leavingBrumeStatus.effect.forcedKey);
+				StopStatus(enteringBrumeStatus.effect.forcedKey);
+				mylocalPlayer.SendStatus(leavingBrumeStatus);
+			}
 		}
 	}
 
