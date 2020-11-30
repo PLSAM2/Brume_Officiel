@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Yin_Dive
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 20
+  cooldown: 2
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 0
@@ -30,7 +30,9 @@ MonoBehaviour:
   statusToApplyOnResolution:
   - {fileID: 11400000, guid: ae4032c87a172c440bc3a042684e017b, type: 2}
   statusToApplyAtTheEnd:
-  - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+  - {fileID: 11400000, guid: 97e694724aab0044e989a3e0c530370b, type: 2}
+  - {fileID: 11400000, guid: a491e75ab05b5e947b889faae8a80ea3, type: 2}
   throwBackDuration: 6
   spellIcon: {fileID: 21300000, guid: ca329145113e15e4e813dd9b9db3b2a2, type: 3}
   objectToSpawnAtThenEnd: {fileID: 7776885188641116624, guid: cd100df6796b4eb4494d2b7dc4b6001d, type: 3}
+  timeToWaitBeforeSpawning: 0.5

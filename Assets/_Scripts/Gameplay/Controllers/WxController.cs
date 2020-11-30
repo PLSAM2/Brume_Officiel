@@ -13,20 +13,6 @@ public class WxController : PlayerModule
     private bool isDebuffTrailActive = false;
 
 
-    protected override void StateChanged(En_CharacterState state)
-    {
-        base.StateChanged(state);
-
-        if ((state & En_CharacterState.WxMarked) != 0)
-        {
-            wxMark.SetActive(true);
-        }
-        else
-        {
-            wxMark.SetActive(false);
-        }
-    }
-
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
         print("I picked a soul");
@@ -62,20 +48,20 @@ public class WxController : PlayerModule
     {
         base.SetInBrumeStatut(_value, brumeId);
 
-        if (isDebuffTrailActive && _value == true)
+        if (isDebuffTrailActive)
         {
             SetAltarDebuffTrailState(!_value);
         }
     }
-
+    
     public void SetAltarDebuffTrailState(bool value)
     {
-        if (value && !altarDebuffTrail.isPlaying)
+        if (value)
         {
             altarDebuffTrail.Play();
             print("play");
         }
-        else if (!altarDebuffTrail.isStopped)
+        else
         {
             altarDebuffTrail.Stop();
             print("stop");

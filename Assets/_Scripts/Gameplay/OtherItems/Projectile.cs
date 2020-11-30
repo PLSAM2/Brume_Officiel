@@ -17,7 +17,7 @@ public class Projectile : AutoKill
 	[SerializeField] Sc_ProjectileSpell localTrad;
 	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
 
-    [SerializeField] GameObject prefabImpactFx;
+    [SerializeField] bool doImpactFx = false;
     Vector3 startPos;
 
 	public override void Init(Team ownerTeam)
@@ -94,9 +94,9 @@ public class Projectile : AutoKill
 	{
 		asDeal = true;
 
-        if (prefabImpactFx)
+        if (doImpactFx)
         {
-            Instantiate(prefabImpactFx, transform.position, Quaternion.LookRotation(startPos, Vector3.up));
+            LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
         }
 
         base.Destroy();
