@@ -50,6 +50,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<Ghost> allGhost = new List<Ghost>();
 
+    public List<BrumeScript> allBrume = new List<BrumeScript>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 

@@ -143,8 +143,8 @@ MonoBehaviour:
       m_RotationOrder: 4
     strength: 0
   isAGhost: 0
-  ghostSpeed: 4.2
   ghost: {fileID: 0}
+  ghostSpeed: 4.2
 --- !u!143 &8474438155242974316
 CharacterController:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -173,7 +173,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.55
+  m_Radius: 0.25
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1.2, z: 0}
@@ -191,13 +191,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTimeCanalised: 0
   timeToResolveSpell: 0
+  throwbackTime: 0
   isUsed: 0
+  startResolution: 0
   resolved: 0
+  anonciated: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
   myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  particleResolution: []
   launchCurve:
     serializedVersion: 2
     m_Curve:
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4508bba112f6f4d9310622e5f3f225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crowtching: 0
+  myPlayerModule: {fileID: 0}
   allFootsteps:
   - {fileID: 8300000, guid: 59ec7c8226e1a5b42be0aa3e485beb1d, type: 3}
   - {fileID: 8300000, guid: bc05ab80c0070a947a09920cc18198d6, type: 3}
@@ -8364,6 +8364,10 @@ PrefabInstance:
     - target: {fileID: 4991894283064448377, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991894283064448377, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8152880853533928318, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_LocalPosition.x

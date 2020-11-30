@@ -680,6 +680,11 @@ public class DamagesInfos
 	public Sc_Status[] statusToApply;
 	public Sc_ForcedMovement movementToApply = null;
 	[HideInInspector] public string playerName;
+
+	[TabGroup("EffectIfConditionCompleted")] public En_CharacterState stateNeeded = En_CharacterState.Embourbed;
+	[TabGroup("EffectIfConditionCompleted")] public ushort additionalDamages;
+	[TabGroup("EffectIfConditionCompleted")] public Sc_Status[] additionalStatusToApply;
+	[TabGroup("EffectIfConditionCompleted")] public Sc_ForcedMovement additionalMovementToApply = null;
 }
 
 [System.Serializable]

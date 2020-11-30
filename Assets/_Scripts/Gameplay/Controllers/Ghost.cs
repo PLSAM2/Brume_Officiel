@@ -25,6 +25,11 @@ public class Ghost : MonoBehaviour
     public bool isVisible = false;
     public List<GameObject> objToHide = new List<GameObject>();
 
+    bool haveCut = true;
+
+    [HideInInspector]
+    public int currentIdBrume = 0;
+
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
@@ -89,7 +94,16 @@ public class Ghost : MonoBehaviour
         fowObj.GetComponent<Fow>().Init(this.transform, 7);
 
         CameraManager.Instance.SetFollowObj(this.transform);
+        UiManager.Instance.SetAlphaBrume(0);
 
+        if (playerModule.isInBrume)
+        {
+            currentIdBrume = playerModule.brumeId;
+        }
+        else
+        {
+            currentIdBrume = 0;
+        }
     }
 
     void OnRespawn()
@@ -181,10 +195,39 @@ public class Ghost : MonoBehaviour
 			CameraManager.Instance.SetFollowObj(playerModule.transform);
             NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID());
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
 
             playerModule.isInGhost = false;
+
+
+            //gestion vision si cut
+            if (haveCut)
+            {
+                if(playerModule.isInBrume != playerModule.isInBrumeBeforeGhost)
+                {
+                    if (playerModule.isInBrumeBeforeGhost)
+                    {
+                        GameFactory.GetBrumeById(playerModule.brumeIdBeforeGhost).OnSimulateEnter(playerModule.gameObject);
+                    }else
+                    {
+                        GameFactory.GetBrumeById(currentIdBrume).OnSimulateExit(playerModule.gameObject);
+                    }
+                }
+                else
+                {
+                    if(playerModule.brumeId != playerModule.brumeIdBeforeGhost)
+                    {
+                        GameFactory.GetBrumeById(currentIdBrume).OnSimulateExit(playerModule.gameObject);
+                        GameFactory.GetBrumeById(playerModule.brumeIdBeforeGhost).OnSimulateEnter(playerModule.gameObject);
+                    }
+                }
+
+                playerModule.isInBrume = playerModule.isInBrumeBeforeGhost;
+                playerModule.brumeId = playerModule.brumeIdBeforeGhost;
+            }
         }
+
+        haveCut = true;
     }
 
     private void LifeTimeEnd()
@@ -192,6 +235,7 @@ public class Ghost : MonoBehaviour
         playerModule.gameObject.transform.position = this.transform.position;
         playerModule.gameObject.transform.rotation = this.transform.rotation;
 
+        haveCut = false;
         Destruct(Vector3.zero);
     }
 

@@ -28,4 +28,5 @@ public class Module_WxGhost : SpellModule
         _tempPlayerModule.brumeIdBeforeGhost = _tempPlayerModule.brumeId;
     }
 
+
 }
