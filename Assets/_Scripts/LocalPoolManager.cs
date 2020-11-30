@@ -42,6 +42,8 @@ public class LocalPoolManager : MonoBehaviour
     {
         Transform currentFeedback = GetFree(allImpactFx, prefabImpactFx).transform;
 
+        currentFeedback.gameObject.SetActive(true);
+
         currentFeedback.position = _pos;
         currentFeedback.rotation = _rota;
 
