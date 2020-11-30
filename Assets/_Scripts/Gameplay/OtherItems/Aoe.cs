@@ -5,29 +5,26 @@ using Sirenix.OdinInspector;
 
 public class Aoe : AutoKill
 {
-	[SerializeField] Sc_Spit localTrad;
+	[SerializeField] Sc_Aoe localTrad;
 
 	protected override void OnEnable ()
 	{
 
 		base.OnEnable();
-
-		mylifeTime = localTrad.durationOfTheAoe;
-
-
+		mylifeTime = localTrad.rules.durationOfTheAoe;
 		if (myNetworkObject.GetIsOwner())
-			DealDamagesInRange(localTrad.damagesToDealOnImpact);
+			DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
 	}
 
 	IEnumerator CustomUpdate ()
 	{
 		yield return new WaitForSeconds(.2f);
-		DealDamagesInRange(localTrad.damagesToDealOnDuration);
+		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
 	void DealDamagesInRange (DamagesInfos _damages)
 	{
-		Collider[] _allhits = Physics.OverlapSphere(transform.position, localTrad.aoeRadius, 1 << 8);
+		Collider[] _allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, 1 << 8);
 		List<GameObject> _allChecked = new List<GameObject>();
 
 		foreach(Collider _coll in _allhits)
@@ -46,7 +43,7 @@ public class Aoe : AutoKill
 
 	private void OnDrawGizmosSelected ()
 	{
-		Gizmos.DrawSphere(transform.position, localTrad.aoeRadius);
+		Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
 	protected override void Destroy ()

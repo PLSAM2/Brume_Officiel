@@ -133,18 +133,7 @@ MonoBehaviour:
   myteam: 0
   myNetworkObject: {fileID: 9188923623546187145}
   isOwner: 0
-  _myColl: {fileID: 0}
-  damagesToDealOnImpact:
-    damageHealth: 19
-    statusToApply: {fileID: 0}
-    movementToApply: {fileID: 0}
-    playerName: 
-  damagesToDealOnStay:
-    damageHealth: 0
-    statusToApply: {fileID: 0}
-    movementToApply: {fileID: 0}
-    playerName: 
-  localTrad: {fileID: 11400000, guid: 58997eda2ac819043897906307a536e2, type: 2}
+  localTrad: {fileID: 11400000, guid: 1dc373524acbb174184237e13849f99f, type: 2}
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,8 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNetworked: 1
+  synchronisePosition: 1
   synchroniseRotation: 1
-  isPlayerLinked: 0
-  NetworkObjectLinked: {fileID: 0}
+  interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.02
-  objListKey: 13
