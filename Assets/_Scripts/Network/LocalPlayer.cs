@@ -398,6 +398,38 @@ public class LocalPlayer : MonoBehaviour
             }
         }
 
+
+		if((myPlayerModule.state & _damagesToDeal.stateNeeded) !=0)
+		{
+			if (_damagesToDeal.additionalStatusToApply != null)
+			{
+				for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
+				{
+					SendStatus(_damagesToDeal.additionalStatusToApply[i]);
+				}
+			}
+
+			if (_damagesToDeal.additionalMovementToApply != null)
+			{
+				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+			}
+
+			if (_damagesToDeal.damageHealth > 0)
+			{
+				DealDamagesLocaly(_damagesToDeal.additionalDamages);
+
+				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+				{
+					_writer.Write(myPlayerId);
+					_writer.Write(_damagesToDeal.additionalDamages);
+					using (Message _message = Message.Create(Tags.Damages, _writer))
+					{
+						currentClient.SendMessage(_message, SendMode.Reliable);
+					}
+				}
+			}
+		}
+
         if (_damagesToDeal.damageHealth > 0)
         {
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
