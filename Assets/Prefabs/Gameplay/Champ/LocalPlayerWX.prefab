@@ -111,6 +111,7 @@ MonoBehaviour:
   ward: {fileID: 8913684591376409635}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
+  menacingIcon: {fileID: 3063431273416322447}
   allEffectLive: []
   allTickLive: []
   enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
@@ -253,6 +254,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3916019352013925522, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Name
+      value: IconMenace
+      objectReference: {fileID: 0}
     - target: {fileID: 4536313942450408600, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_Name
       value: Ui_Mark
@@ -341,6 +346,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4536313942450408600, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1277965312708422139}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3063431273416322447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4269201535911380084, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 1277965312708422139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5686801026362958481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6870150835912919914, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

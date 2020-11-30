@@ -5,6 +5,8 @@ using System;
 using Sirenix.OdinInspector;
 using static GameData;
 using System.Linq;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -88,7 +90,7 @@ public class PlayerModule : MonoBehaviour
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
 	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
-
+	public Image menacingIcon;
 	//effects
 	public List<EffectLifeTimed> allEffectLive;
 	public List<EffectLifeTimed> allTickLive;
@@ -131,6 +133,7 @@ public class PlayerModule : MonoBehaviour
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
 	public Action upgradeKit, backToNormalKit;
+	public Action pingMenace; 
 	#endregion
 
 	//pour la revelation hors de la brume
@@ -172,7 +175,7 @@ public class PlayerModule : MonoBehaviour
 			reduceTargetCooldown -= ReduceCooldown;
 		}
 	}
-	void Setup ()
+	protected virtual void Setup ()
 	{
 		firstSpell?.SetupComponent(En_SpellInput.FirstSpell);
 		secondSpell?.SetupComponent(En_SpellInput.SecondSpell);
@@ -180,7 +183,7 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
-	
+		pingMenace += PingMenace;
 		_state = En_CharacterState.Clear;
 
 		if (mylocalPlayer.isOwner)
@@ -293,7 +296,7 @@ public class PlayerModule : MonoBehaviour
 			return;
 	}
 
-	private void FixedUpdate ()
+	protected virtual void FixedUpdate ()
 	{
 		TreatEffects();
 		TreatTickEffects();
@@ -635,6 +638,14 @@ public class PlayerModule : MonoBehaviour
 			StopStatus(enteringBrumeStatus.effect.forcedKey);
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
+	}
+
+	void PingMenace()
+
+	{
+		menacingIcon.color = new Color(0, 0, 0, 255);
+		Color _tempColor = new Color(0, 0, 0, 0);
+		menacingIcon.DOColor(_tempColor, .5f);
 	}
 
 	internal void ApplyWxMark()
