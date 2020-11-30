@@ -53,7 +53,7 @@ public class DiveModule : SpellModule
 				myPlayerModule.wardInput -= ForceInterrupt;
 				break;
 		}
-
+		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 		base.Interrupt();
 	//	NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 	}
