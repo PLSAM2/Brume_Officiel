@@ -73,10 +73,12 @@ public class WxController : PlayerModule
         if (value && !altarDebuffTrail.isPlaying)
         {
             altarDebuffTrail.Play();
+            print("play");
         }
         else if (!altarDebuffTrail.isStopped)
         {
             altarDebuffTrail.Stop();
+            print("stop");
         }
     }
 
