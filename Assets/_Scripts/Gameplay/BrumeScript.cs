@@ -33,7 +33,8 @@ public class BrumeScript : MonoBehaviour
         if(other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            if(player.isInBrume && player.brumeId == GetInstanceID()) { return; }
+
+            if (player.isInBrume && player.brumeId == GetInstanceID()) { return; }
 
             player.SetInBrumeStatut(true, GetInstanceID());
 
@@ -76,6 +77,8 @@ public class BrumeScript : MonoBehaviour
         {
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
+            if (!currentFollowPlayer.isInBrume) { return; }
+
             if (other.gameObject == currentFollowPlayer.gameObject)
             {
                 RaycastHit hit;
@@ -98,7 +101,8 @@ public class BrumeScript : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             PlayerModule player = other.GetComponent<PlayerModule>();
-            if (!player.isInBrume) { return; }
+
+            if (!player.isInBrume || player.brumeId != GetInstanceID()) { return; }
 
             player.SetInBrumeStatut(false, 0);
 
