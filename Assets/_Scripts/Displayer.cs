@@ -45,6 +45,7 @@ public class Displayer : MonoBehaviour
                 if(player.Value.myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
                 {
                     HideOrShow(player.Value, false);
+                    continue;
                 }
             }
 
