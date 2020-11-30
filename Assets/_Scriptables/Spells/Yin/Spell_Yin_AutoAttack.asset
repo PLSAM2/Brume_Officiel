@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Yin_AutoAttack
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 0.6
+  cooldown: 0.75
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
     angleToAttackFrom: 60
     rangeOfTheAttack: 3
     damagesToDeal:
-      damageHealth: 15
+      damageHealth: 25
       statusToApply:
       - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
       movementToApply: {fileID: 0}
@@ -48,11 +48,7 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 11400000, guid: f2570c06edb5e044196013184392deb2, type: 2}
   upgradedAttack:
     angleToAttackFrom: 60
-<<<<<<< HEAD
-    rangeOfTheAttack: 5.5
-=======
     rangeOfTheAttack: 5
->>>>>>> ae6dc56bc889fb973f0df85df9b0818b57194ffa
     damagesToDeal:
       damageHealth: 35
       statusToApply:
