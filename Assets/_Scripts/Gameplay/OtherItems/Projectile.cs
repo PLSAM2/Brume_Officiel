@@ -96,7 +96,7 @@ public class Projectile : AutoKill
 
         if (prefabImpactFx)
         {
-            Instantiate(prefabImpactFx, transform.position, Quaternion.LookRotation(startPos, Vector3.up));
+            Instantiate(prefabImpactFx, transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right));
         }
 
         base.Destroy();
