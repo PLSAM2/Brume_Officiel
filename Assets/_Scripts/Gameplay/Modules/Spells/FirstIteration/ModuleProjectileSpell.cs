@@ -37,7 +37,9 @@ public class ModuleProjectileSpell : SpellModule
 	
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		if(myPlayerModule.mylocalPlayer.isOwner)
+	
+		base.SetupComponent(_actionLinked);
+		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			if (localTrad.salveInfos.numberOfShotInSalve > 1)
 				myPreviewBurst = PreviewManager.Instance.GetShapePreview(transform);
@@ -45,7 +47,6 @@ public class ModuleProjectileSpell : SpellModule
 				myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
 			HidePreview(Vector3.zero);
 		}
-		base.SetupComponent(_actionLinked);
 	}
 
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
