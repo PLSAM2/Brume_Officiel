@@ -120,14 +120,30 @@ public class GameFactory
         }
     }
 
-    public static List<LocalPlayer> GetPlayerInRange(float _range, Vector3 pos)
+    public static List<LocalPlayer> GetPlayerInRange(float _range, Vector3 _pos)
     {
         List<LocalPlayer> pInRange = new List<LocalPlayer>();
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
             if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
 
-            if (Vector3.Distance(pos, player.Value.transform.position) <= _range)
+            if (Vector3.Distance(_pos, player.Value.transform.position) <= _range)
+            {
+                pInRange.Add(player.Value);
+            }
+        }
+
+        return pInRange;
+    }
+
+    public static List<LocalPlayer> GetPlayersInRangeByTeam ( float _range, Vector3 _pos, Team _team )
+    {
+        List<LocalPlayer> pInRange = new List<LocalPlayer>();
+        foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
+        {
+            if (player.Value == GameManager.Instance.GetLocalPlayerObj()) { continue; }
+
+            if (Vector3.Distance(_pos, player.Value.transform.position) <= _range && player.Value.myPlayerModule.teamIndex == _team)
             {
                 pInRange.Add(player.Value);
             }

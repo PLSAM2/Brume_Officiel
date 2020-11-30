@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
   m_Name: Spell_Yin_Spit
   m_EditorClassIdentifier: 
-  range: 5
+  range: 10
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.3
+  canalisationTime: 0.4
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
   - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
-  lockRotOnAnonciation: 1
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
@@ -39,15 +39,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 4.3460684
-      outSlope: 4.3460684
+      inSlope: 18.384619
+      outSlope: 18.384619
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.051882833
+      outWeight: 0.03012552
     - serializedVersion: 3
       time: 0.5
-      value: 1
+      value: 4
       inSlope: 0
       outSlope: 0
       tangentMode: 34
@@ -57,11 +57,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -4.3206983
-      outSlope: -4.3206983
+      inSlope: -20.602854
+      outSlope: -20.602854
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.058577776
+      inWeight: 0.031460762
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -75,9 +75,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3b560b2ffaef9854ebd94f5d1512a2b4, type: 2}
     movementToApply: {fileID: 0}
     playerName: 
+    stateNeeded: 128
+    additionalDamages: 0
+    additionalStatusToApply: []
+    additionalMovementToApply: {fileID: 0}
   damagesToDealOnDuration:
     damageHealth: 0
     statusToApply:
     - {fileID: 11400000, guid: 3b560b2ffaef9854ebd94f5d1512a2b4, type: 2}
     movementToApply: {fileID: 0}
     playerName: 
+    stateNeeded: 128
+    additionalDamages: 0
+    additionalStatusToApply: []
+    additionalMovementToApply: {fileID: 0}
