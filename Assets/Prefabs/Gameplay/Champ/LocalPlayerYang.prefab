@@ -42,6 +42,56 @@ MonoBehaviour:
   anonciated: 0
   spell: {fileID: 11400000, guid: 58683f536a7da4d4f930b348757dba41, type: 2}
   myPlayerModule: {fileID: 0}
+--- !u!114 &3038193427288463681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d788e522d264d44b02d1e8e0e6ab96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSpellKey: 324
+  secondSpellKey: 32
+  thirdSpellKey: 101
+  freeCamera: 308
+  crouching: 304
+  interactKey: 102
+  wardKey: 118
+  characterParameters: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
+  teamIndex: 0
+  _isInBrume: 0
+  brumeId: 0
+  isInGhost: 0
+  isInBrumeBeforeGhost: 0
+  brumeIdBeforeGhost: 0
+  allHitTaken: []
+  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
+  brumeLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  mapIcon: {fileID: 983172405252139301}
+  movementPart: {fileID: 1743416214871874484}
+  firstSpell: {fileID: 5927305535749590626}
+  secondSpell: {fileID: 5100041963116749380}
+  thirdSpell: {fileID: 1170411871162902278}
+  leftClick: {fileID: -8860574723703708623}
+  ward: {fileID: 59302847324730398}
+  mylocalPlayer: {fileID: 0}
+  interactiblesClose: []
+  menacingIcon: {fileID: 6627057351223179249}
+  allEffectLive: []
+  allTickLive: []
+  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
+  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
+  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
+  isPoisonousEffectActive: 0
+  cursedByShili: 0
+  wxMark: {fileID: 6064497781811295582}
+  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
 --- !u!114 &5100041963116749380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,55 +135,6 @@ MonoBehaviour:
   anonciated: 0
   spell: {fileID: 11400000, guid: 01d2cdaea8e49844e8e52cc1fb3db077, type: 2}
   myPlayerModule: {fileID: 0}
---- !u!114 &3038193427288463681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d788e522d264d44b02d1e8e0e6ab96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSpellKey: 324
-  secondSpellKey: 32
-  thirdSpellKey: 101
-  freeCamera: 308
-  crouching: 304
-  interactKey: 102
-  wardKey: 118
-  characterParameters: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
-  teamIndex: 0
-  _isInBrume: 0
-  brumeId: 0
-  isInGhost: 0
-  isInBrumeBeforeGhost: 0
-  brumeIdBeforeGhost: 0
-  allHitTaken: []
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
-  brumeLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  mapIcon: {fileID: 983172405252139301}
-  movementPart: {fileID: 1743416214871874484}
-  firstSpell: {fileID: 5927305535749590626}
-  secondSpell: {fileID: 5100041963116749380}
-  thirdSpell: {fileID: 1170411871162902278}
-  leftClick: {fileID: -8860574723703708623}
-  ward: {fileID: 59302847324730398}
-  mylocalPlayer: {fileID: 0}
-  interactiblesClose: []
-  allEffectLive: []
-  allTickLive: []
-  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
-  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
-  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
-  isPoisonousEffectActive: 0
-  cursedByShili: 0
-  wxMark: {fileID: 6064497781811295582}
-  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,9 +198,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2628497993156048693, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2628497993156048693, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2628497993156048693, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: leftClick
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7584170429694241150, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: myPlayerModule
@@ -250,6 +275,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4536313942450408600, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6627057351223179249 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3541338294189379127, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &983172405252139301 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
