@@ -11,7 +11,6 @@ public class Sc_Spit : Sc_Spell
 	[TabGroup("Spit  Parameters")] public AnimationCurve launchCurve;
 	[TabGroup("Spit  Parameters")] public float timeToReachMaxRange;
 
-	[Header("AoeParameters")]
-	[TabGroup("Spit  Parameters")] public float durationOfTheAoe, aoeRadius;
-	[TabGroup("Spit  Parameters")] public DamagesInfos damagesToDealOnImpact, damagesToDealOnDuration;
+	[TabGroup("Spit  Parameters")] public Sc_Aoe aoeParameters;
 }
+

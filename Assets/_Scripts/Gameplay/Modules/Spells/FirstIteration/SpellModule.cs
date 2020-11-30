@@ -312,7 +312,10 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.statusToApplyOnResolution.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyOnResolution)
+			{
+				statusToStopAtTheEnd.Add(_statusToAdd);
 				myPlayerModule.AddStatus(_statusToAdd.effect);
+			}
 	}
 
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
@@ -330,11 +333,7 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.statusToApplyAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyAtTheEnd)
-				myPlayerModule.StopStatus(_statusToAdd.effect.forcedKey);
-
-		if (spell.statusToApplyOnCanalisation.Count > 0)
-			foreach (Sc_Status _statusToAdd in spell.statusToApplyOnCanalisation)
-				myPlayerModule.StopStatus(_statusToAdd.effect.forcedKey);
+				myPlayerModule.AddStatus(_statusToAdd.effect);
 
 		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 
