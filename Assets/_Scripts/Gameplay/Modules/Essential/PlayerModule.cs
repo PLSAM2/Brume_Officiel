@@ -676,10 +676,10 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
-	public ushort damageHealth;
-	public Sc_Status[] statusToApply;
-	public Sc_ForcedMovement movementToApply = null;
-	[HideInInspector] public string playerName;
+	[TabGroup("NormalDamages")] public ushort damageHealth;
+	[TabGroup("NormalDamages")] public Sc_Status[] statusToApply;
+	[TabGroup("NormalDamages")] public Sc_ForcedMovement movementToApply = null;
+	[TabGroup("NormalDamages")] [HideInInspector] public string playerName;
 
 	[TabGroup("EffectIfConditionCompleted")] public En_CharacterState stateNeeded = En_CharacterState.Embourbed;
 	[TabGroup("EffectIfConditionCompleted")] public ushort additionalDamages;

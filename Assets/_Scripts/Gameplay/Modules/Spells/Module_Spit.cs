@@ -74,7 +74,12 @@ public class Module_Spit : SpellModule
 
         spitObj.SetActive(true);
 
-        destination = mousePosInputed;
+        float finalRange = 0;
+        finalRange = Mathf.Clamp(Vector3.Distance(transform.position, mousePosInputed),0,spell.range);
+        Vector3 direction = new Vector3();
+        direction = Vector3.Normalize(mousePosInputed - transform.position);
+
+        destination = transform.position + direction * finalRange;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
