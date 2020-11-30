@@ -20,6 +20,7 @@ public class PlayerModule : MonoBehaviour
 	[Header("GameplayInfos")]
 	public Sc_CharacterParameters characterParameters;
 	[ReadOnly] public Team teamIndex;
+	Team otherTeam;
 	[HideInInspector] public bool _isInBrume;
 	[ShowInInspector] En_CharacterState _state = En_CharacterState.Clear;
 	[ReadOnly]
@@ -86,7 +87,7 @@ public class PlayerModule : MonoBehaviour
 	public MovementModule movementPart;
 	[SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, ward;
 	[HideInInspector] public LocalPlayer mylocalPlayer;
-
+	public float revelationRangeWhileHidden = 10;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
 	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
@@ -133,7 +134,6 @@ public class PlayerModule : MonoBehaviour
 	public static Action<float> reduceAllCooldown;
 	public static Action<float, En_SpellInput> reduceTargetCooldown;
 	public Action upgradeKit, backToNormalKit;
-	public Action pingMenace; 
 	#endregion
 
 	//pour la revelation hors de la brume
@@ -183,8 +183,14 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
-		pingMenace += PingMenace;
 		_state = En_CharacterState.Clear;
+
+		StartCoroutine(CheckForMenace());
+
+		if (teamIndex == Team.blue)
+			otherTeam = Team.red;
+		else
+			otherTeam = Team.blue;
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -645,11 +651,12 @@ public class PlayerModule : MonoBehaviour
 	}
 
 	void PingMenace()
-
 	{
-		menacingIcon.color = new Color(0, 0, 0, 255);
-		Color _tempColor = new Color(0, 0, 0, 0);
-		menacingIcon.DOColor(_tempColor, .5f);
+		menacingIcon.gameObject.SetActive(true);
+	}
+	void HideMenace ()
+	{
+		menacingIcon.gameObject.SetActive(false);
 	}
 
 	internal void ApplyWxMark()
@@ -665,6 +672,17 @@ public class PlayerModule : MonoBehaviour
 
 			this.mylocalPlayer.DealDamages(_tempDamages, transform.position);
 		}
+	}
+
+	IEnumerator CheckForMenace()
+	{
+		yield return new WaitForSeconds(.1f);
+		if (GameFactory.IsInRangeOfHidden(revelationRangeWhileHidden, transform.position, otherTeam))
+			menacingIcon.gameObject.SetActive(true);
+		else
+			menacingIcon.gameObject.SetActive(false);
+
+		StartCoroutine(CheckForMenace());
 	}
 }
 
