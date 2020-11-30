@@ -34,8 +34,8 @@ public class PlayerModule : MonoBehaviour
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
 
-		if (allEffectLive.Count ==0)
-			return  En_CharacterState.Clear;
+		if (allEffectLive.Count == 0)
+			return En_CharacterState.Clear;
 		foreach (EffectLifeTimed effectLive in allEffectLive)
 		{
 			_temp |= effectLive.effect.stateApplied;
@@ -46,14 +46,14 @@ public class PlayerModule : MonoBehaviour
 
 	En_CharacterState _oldState = En_CharacterState.Clear;
 
-    [ReadOnly]
+	[ReadOnly]
 	public bool isInBrume
 	{
 		get => _isInBrume; set
 		{
 			_isInBrume = value;
 
-			if(mylocalPlayer.isOwner)
+			if (mylocalPlayer.isOwner)
 				GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
 
 			if (isAltarSpeedBuffActive)
@@ -66,12 +66,12 @@ public class PlayerModule : MonoBehaviour
 	[ReadOnly] public int brumeId;
 	Vector3 lastRecordedPos;
 
-    //ghost
-    public bool isInGhost = false;
-    public bool isInBrumeBeforeGhost = false;
-    public int brumeIdBeforeGhost;
+	//ghost
+	public bool isInGhost = false;
+	public bool isInBrumeBeforeGhost = false;
+	public int brumeIdBeforeGhost;
 
-    [Header("DamagesPart")]
+	[Header("DamagesPart")]
 	bool _isCrouched = false;
 	bool isCrouched
 
@@ -224,7 +224,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		if (mylocalPlayer.isOwner)
 		{
-						//direction des fleches du clavier 
+			//direction des fleches du clavier 
 			DirectionInputedUpdate?.Invoke(directionInputed());
 
 			//INPUT DETECTION SPELLS AND RUNNING
@@ -290,10 +290,10 @@ public class PlayerModule : MonoBehaviour
 				isCrouched = false;
 			}
 
-				#endregion
+			#endregion
 
-				//camera
-				if (Input.GetKeyUp(freeCamera))
+			//camera
+			if (Input.GetKeyUp(freeCamera))
 				CameraManager.Instance.LockCamera?.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.Instance.UpdateCameraPos?.Invoke();
@@ -306,25 +306,23 @@ public class PlayerModule : MonoBehaviour
 	{
 		TreatEffects();
 		TreatTickEffects();
-		if (!mylocalPlayer.isOwner)
-			return;
-		else
+
+		if (_oldState != state)
 		{
-			if (_oldState != state)
-			{
+			if (mylocalPlayer.isOwner)
 				UiManager.Instance.StatusUpdate(state);
-				mylocalPlayer.SendState(state);
-				StateChanged(state);
-				_oldState = state;
-			}
+
+			if ((state & En_CharacterState.WxMarked) != 0)
+				wxMark.SetActive(true);
+			else
+				wxMark.SetActive(false);
+
+			mylocalPlayer.SendState(state);
+			_oldState = state;
 		}
 	}
 
 
-	protected virtual void StateChanged(En_CharacterState state)
-    {
-
-    }
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -427,7 +425,7 @@ public class PlayerModule : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1<<10))
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 10))
 		{
 			return new Vector3(hit.point.x, 0, hit.point.z);
 		}
@@ -477,7 +475,7 @@ public class PlayerModule : MonoBehaviour
 			allEffectLive.Remove(_effect);
 	}
 
-    void TreatTickEffects ()
+	void TreatTickEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
@@ -495,8 +493,8 @@ public class PlayerModule : MonoBehaviour
 			{
 				allTickLive[i].lastTick = 0;
 
-                if (mylocalPlayer.isOwner)
-                {
+				if (mylocalPlayer.isOwner)
+				{
 					if (allTickLive[i].effect.isDamaging)
 					{
 						DamagesInfos _temp = new DamagesInfos();
@@ -609,12 +607,12 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
-	public void AddState(En_CharacterState _stateToadd)
+	public void AddState ( En_CharacterState _stateToadd )
 	{
 		_state |= _stateToadd;
 	}
 
-	public void RemoveState(En_CharacterState _stateToRemove)
+	public void RemoveState ( En_CharacterState _stateToRemove )
 	{
 		_state = (_state & ~_stateToRemove);
 	}
@@ -650,7 +648,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	void PingMenace()
+	void PingMenace ()
 	{
 		menacingIcon.gameObject.SetActive(true);
 	}
@@ -659,7 +657,7 @@ public class PlayerModule : MonoBehaviour
 		menacingIcon.gameObject.SetActive(false);
 	}
 
-	internal void ApplyWxMark()
+	internal void ApplyWxMark ()
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == wxMarkRef.effect.forcedKey).FirstOrDefault();
 
@@ -674,7 +672,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	IEnumerator CheckForMenace()
+	IEnumerator CheckForMenace ()
 	{
 		yield return new WaitForSeconds(.1f);
 		if (GameFactory.IsInRangeOfHidden(revelationRangeWhileHidden, transform.position, otherTeam))
@@ -698,12 +696,12 @@ public enum En_CharacterState
 	Crouched = 1 << 6,
 	Embourbed = 1 << 7,
 	WxMarked = 1 << 8,
-    ThirdEye = 1 << 9,
-    Hidden = 1 << 10,
+	ThirdEye = 1 << 9,
+	Hidden = 1 << 10,
 	Stunned = Silenced | Root,
 	slowedAndSped = SpedUp | Slowed | Clear,
-	RootAndSlow = Root |Slowed | Clear,
-	SlowedAndSIlenced = Slowed |Silenced | Clear
+	RootAndSlow = Root | Slowed | Clear,
+	SlowedAndSIlenced = Slowed | Silenced | Clear
 }
 
 [System.Serializable]
@@ -726,7 +724,7 @@ public class Effect
 	public bool tick = false;
 
 	[HorizontalGroup("Group2")] [HideIf("isConstant")] public float finalLifeTime;
-	[HorizontalGroup("Group2")]  public bool isConstant = false;
+	[HorizontalGroup("Group2")] public bool isConstant = false;
 	[HorizontalGroup("Group1")] public bool canBeForcedStop = false;
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
 	public bool refreshOnApply = false;
