@@ -372,7 +372,7 @@ public class LocalPlayer : MonoBehaviour
 
         if (!ignoreStatusAndEffect)
         {
-            if (GameManager.Instance.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+            if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
             {
                 SendStatus(myPlayerModule.poisonousEffect);
             }
