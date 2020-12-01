@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Yin_AutoAttack Arthur
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 0.1
+  cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 0
@@ -21,7 +21,6 @@ MonoBehaviour:
   canalisationTime: 2
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
-  - {fileID: 11400000, guid: 0f5efa73461587b448455c86f1954cea, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
   anonciationTime: 0.01
@@ -45,7 +44,7 @@ MonoBehaviour:
       additionalDamages: 10
       additionalStatusToApply:
       - {fileID: 11400000, guid: c48b801b4a1bcd842a7776e4a05f501b, type: 2}
-      additionalMovementToApply: {fileID: 0}
+      additionalMovementToApply: {fileID: 11400000, guid: f2570c06edb5e044196013184392deb2, type: 2}
   upgradedAttack:
     angleToAttackFrom: 60
     rangeOfTheAttack: 5.25
@@ -59,4 +58,4 @@ MonoBehaviour:
       additionalDamages: 10
       additionalStatusToApply:
       - {fileID: 11400000, guid: c48b801b4a1bcd842a7776e4a05f501b, type: 2}
-      additionalMovementToApply: {fileID: 0}
+      additionalMovementToApply: {fileID: 11400000, guid: cdf7205268a0aab42a15d599b7cdf0ef, type: 2}

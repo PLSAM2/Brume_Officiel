@@ -6,8 +6,8 @@ using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-    [HideInInspector] public float mylifeTime;
-    [HideInInspector] public float myLivelifeTime;
+    [ReadOnly] public float mylifeTime;
+    [ReadOnly] public float myLivelifeTime;
     [Header("HideAtTheEndOfLife")]
     [SerializeField] GameObject meshBlue;
     [SerializeField] GameObject meshRed;
@@ -15,6 +15,11 @@ public class AutoKill : MonoBehaviour
     [HideInInspector] public Team myteam;
     [HideInInspector] public NetworkedObject myNetworkObject;
     [HideInInspector] public bool isOwner = false;
+
+	protected virtual void Awake ()
+	{
+        myNetworkObject = GetComponent<NetworkedObject>();
+    }
 
     public virtual void Init ( Team ownerTeam )
     {
@@ -35,9 +40,6 @@ public class AutoKill : MonoBehaviour
     protected virtual void OnEnable ()
     {
         myLivelifeTime = mylifeTime;
-
-
-        myNetworkObject = GetComponent<NetworkedObject>();
     }
 
     protected virtual void Destroy ()
