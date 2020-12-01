@@ -517,7 +517,7 @@ public class LocalPlayer : MonoBehaviour
 
             _writer.Write(_time);
 
-            using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
+            using (Message _message = Message.Create(Tags.SpawnGenericFx, _writer))
             {
                 currentClient.SendMessage(_message, SendMode.Reliable);
             }

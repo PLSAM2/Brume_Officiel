@@ -166,6 +166,7 @@ public class Displayer : MonoBehaviour
 
                 foreach(GameObject obj in fx.objToHide)
                 {
+                    if (!obj) { continue; }
                     obj.SetActive(true);
                 }
             }
@@ -175,6 +176,7 @@ public class Displayer : MonoBehaviour
 
                 foreach (GameObject obj in fx.objToHide)
                 {
+                    if (!obj) { continue; }
                     obj.SetActive(false);
                 }
             }

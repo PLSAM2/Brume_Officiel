@@ -20,7 +20,7 @@ public class Module_WXAuto : SpellModule
     {
         base.AnonceSpell(_toAnnounce);
 
-        LocalPoolManager.Instance.SpawnNewGenericInNetwork(2, transform.position + Vector3.up * 0.1f, transform.rotation, new Vector3(1, 1, spell.range), spell.anonciationTime + 1);
+        LocalPoolManager.Instance.SpawnNewGenericInNetwork(2, transform.position + Vector3.up * 0.1f, transform.eulerAngles.y, spell.range, spell.anonciationTime + 1);
     }
 
     protected override void ShowPreview(Vector3 mousePos)
@@ -64,7 +64,7 @@ public class Module_WXAuto : SpellModule
 
         LocalPlayer _hitPlayer = ShootAndGetFirstHit();
 
-        LocalPoolManager.Instance.SpawnNewGenericInLocal(3, transform.position + Vector3.up * 0.1f, transform.rotation, new Vector3(1, 1, spell.range), 1);
+        LocalPoolManager.Instance.SpawnNewGenericInNetwork(3, transform.position + Vector3.up * 0.1f, transform.eulerAngles.y, spell.range, 1);
 
         if (_hitPlayer != null)
         {

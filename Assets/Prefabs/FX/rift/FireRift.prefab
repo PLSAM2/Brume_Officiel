@@ -1,39 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5821419941474386592
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4376362300384145594}
-  m_Layer: 11
-  m_Name: Mesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &4376362300384145594
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5821419941474386592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 8640629025377012878}
-  - {fileID: 8640629025168882998}
-  - {fileID: 8640629027106800229}
-  - {fileID: 8640629026567977422}
-  m_Father: {fileID: 8640629026506735565}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8640629025168882997
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,8 +29,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -0.2200003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4376362300384145594}
-  m_RootOrder: 1
+  m_Father: {fileID: 8640629026506735565}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8640629025168883000
 ParticleSystem:
@@ -4807,8 +4773,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0.30999997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4376362300384145594}
-  m_RootOrder: 0
+  m_Father: {fileID: 8640629026506735565}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8640629025377012912
 ParticleSystem:
@@ -9657,9 +9623,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8640629026506735565}
-  - component: {fileID: 8774071925998402676}
-  - component: {fileID: 2750115365617188531}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: FireRift
   m_TagString: Hide
   m_Icon: {fileID: 0}
@@ -9677,38 +9641,13 @@ Transform:
   m_LocalPosition: {x: 2, y: 2, z: 10}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
-  - {fileID: 4376362300384145594}
+  - {fileID: 8640629026567977422}
+  - {fileID: 8640629027106800229}
+  - {fileID: 8640629025168882998}
+  - {fileID: 8640629025377012878}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8774071925998402676
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8640629026506735562}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2750115365617188531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8640629026506735562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7471d38f4ab3ba4baede5a8cf3ac50f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isVisible: 0
-  objToHide:
-  - {fileID: 5821419941474386592}
 --- !u!1 &8640629026567977421
 GameObject:
   m_ObjectHideFlags: 0
@@ -9738,8 +9677,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -0.48000008}
   m_LocalScale: {x: 0.5, y: 0.5000012, z: 0.5000012}
   m_Children: []
-  m_Father: {fileID: 4376362300384145594}
-  m_RootOrder: 3
+  m_Father: {fileID: 8640629026506735565}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8640629026567977456
 ParticleSystem:
@@ -14471,10 +14410,10 @@ Transform:
   m_GameObject: {fileID: 8640629027106800228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.11000015}
-  m_LocalScale: {x: 0.6438464, y: 0.64384747, z: 0.64384747}
+  m_LocalScale: {x: 0.6438464, y: 0.6438474, z: 0.6438474}
   m_Children: []
-  m_Father: {fileID: 4376362300384145594}
-  m_RootOrder: 2
+  m_Father: {fileID: 8640629026506735565}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8640629027106800231
 ParticleSystem:

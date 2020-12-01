@@ -67,8 +67,8 @@ public class LocalPoolManager : SerializedMonoBehaviour
         newObj.SetActive(true);
 
         newObj.transform.position = _pos;
-        newObj.transform.rotation = new Quaternion(0, _rota, 0 , 0);
-        newObj.transform.localScale = new Vector3(0, 0, _scale);
+        newObj.transform.eulerAngles = new Vector3(0, _rota, 0);
+        newObj.transform.localScale = new Vector3(1, 1, _scale);
 
         newObj.GetComponent<AutoDisable>().Init(_time);
     }
