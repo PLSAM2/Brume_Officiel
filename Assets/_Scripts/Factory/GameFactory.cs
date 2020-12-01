@@ -159,7 +159,7 @@ public class GameFactory
 
         foreach(LocalPlayer _tempPlayer in _allPlayers)
 		{
-            if ((_tempPlayer.myPlayerModule.state & En_CharacterState.Hidden) == 0)
+           if ((_tempPlayer.myPlayerModule.state & En_CharacterState.Hidden) == 0)
                 continue;
             else if (Vector3.Distance(_pos, _tempPlayer.transform.position) <= _range)
 			{
