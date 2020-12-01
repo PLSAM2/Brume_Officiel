@@ -69,8 +69,6 @@ public class Projectile : AutoKill
 					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
 				}
 
-                haveTouch = true;
-
                 Destroy();
 				asDeal = true;
 
@@ -97,9 +95,8 @@ public class Projectile : AutoKill
 
 	protected override void Destroy ()
 	{
-		asDeal = true;
 
-        if (haveTouch)
+        if (asDeal || haveTouch)
         {
             if (doImpactFx)
             {
@@ -114,7 +111,10 @@ public class Projectile : AutoKill
             }
         }
 
-        haveTouch = false;
+		asDeal = true;
+
+
+		haveTouch = false;
 
         base.Destroy();
 	}
