@@ -43,7 +43,7 @@ public class LocalPlayer : MonoBehaviour
         get => _liveHealth; set
         {
             _liveHealth = value;
-            lifeCount.text = "HP : " + liveHealth;
+            lifeCount.text = liveHealth.ToString();
 
             lifeImg.fillAmount = (float) liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
         }
