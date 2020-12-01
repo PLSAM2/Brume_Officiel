@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class AutoDisable : MonoBehaviour
 {
-    public float time = 1;
-
-    private void Start()
+    public void Init(float _time)
     {
-        StartCoroutine(WaitToDisable());
+        StartCoroutine(WaitToDisable(_time));
     }
 
-    IEnumerator WaitToDisable()
+    IEnumerator WaitToDisable(float _time)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(_time);
         gameObject.SetActive(false);
     }
 }
