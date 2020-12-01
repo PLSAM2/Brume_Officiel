@@ -380,7 +380,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		if (ShouldBePinged())
 		{
-            LocalPoolManager.Instance.SpawnNewGeneric(1, transform.position + Vector3.up * 0.1f, Quaternion.Euler(90, 0, 0), new Vector3(1,1,1));
+            LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, Quaternion.Euler(90, 0, 0), new Vector3(1,1,1));
 		}
 		lastRecordedPos = transform.position;
 

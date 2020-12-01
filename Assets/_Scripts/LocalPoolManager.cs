@@ -17,8 +17,8 @@ public class LocalPoolManager : SerializedMonoBehaviour
     List<GameObject> allImpactFx = new List<GameObject>();
 
 
-    public Dictionary<int, GameObject> prefabGeneric = new Dictionary<int, GameObject>();
-    Dictionary<int, List<GameObject>> allGeneric = new Dictionary<int, List<GameObject>>();
+    public Dictionary<ushort, GameObject> prefabGeneric = new Dictionary<ushort, GameObject>();
+    Dictionary<ushort, List<GameObject>> allGeneric = new Dictionary<ushort, List<GameObject>>();
 
     private void Awake()
     {
@@ -60,17 +60,26 @@ public class LocalPoolManager : SerializedMonoBehaviour
     }
 
     //generic
-    public void SpawnNewGeneric(int _index,Vector3 _pos, Quaternion _rota, Vector3 _scale, float _time = 1)
+    public void SpawnNewGenericInLocal(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
     {
         GameObject newObj = GetFreeGeneric(_index);
 
         newObj.SetActive(true);
 
         newObj.transform.position = _pos;
-        newObj.transform.rotation = _rota;
-        newObj.transform.localScale = _scale;
+        newObj.transform.rotation = new Quaternion(0, _rota, 0 , 0);
+        newObj.transform.localScale = new Vector3(0, 0, _scale);
 
         newObj.GetComponent<AutoDisable>().Init(_time);
+    }
+
+    public void SpawnNewGenericInNetwork(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
+    {
+        LocalPlayer myLocalPlayer = GameFactory.GetLocalPlayerObj();
+
+        SpawnNewGenericInLocal(_index, _pos, _rota, _scale, _time);
+
+        myLocalPlayer.SendSpawnGenericFx(_index, _pos, _rota, _scale, _time);
     }
 
     GameObject GetFree(List<GameObject> allObj, GameObject prefab)
@@ -88,9 +97,9 @@ public class LocalPoolManager : SerializedMonoBehaviour
         return newObjElement;
     }
 
-    GameObject GetFreeGeneric(int _index)
+    GameObject GetFreeGeneric(ushort _index)
     {
-        foreach(KeyValuePair<int, List<GameObject>> element in allGeneric)
+        foreach(KeyValuePair<ushort, List <GameObject>> element in allGeneric)
         {
             if (element.Key == _index)
             {
