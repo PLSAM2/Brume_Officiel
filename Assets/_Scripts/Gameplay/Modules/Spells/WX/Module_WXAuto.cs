@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Module_WXAuto : SpellModule
 {
-    public DamagesInfos damages;
     private ArrowPreview arrowPreview;
     [SerializeField] private float rayWidthDivider = 10;
     [SerializeField] private int raycastCount = 3;
-    [SerializeField] private LayerMask hitLayer;
+    Sc_RayAttack localTrad;
 
     private void Start()
     {
         arrowPreview = PreviewManager.Instance.GetArrowPreview();
         HidePreview(Vector3.zero);
+        localTrad = (Sc_RayAttack)spell;
     }
 
     protected override void AnonceSpell(Vector3 _toAnnounce)
@@ -68,7 +68,7 @@ public class Module_WXAuto : SpellModule
 
         if (_hitPlayer != null)
         {
-            _hitPlayer.DealDamages(damages, this.transform.position);
+            _hitPlayer.DealDamages(localTrad.damagesToDeal, this.transform.position);
         }
     }
 
@@ -84,7 +84,8 @@ public class Module_WXAuto : SpellModule
         for (int i = 0; i < raycastCount; i++)
         {
             Ray _ray = new Ray(transform.position + Vector3.up + (_width * i), _direction);
-            RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, hitLayer);
+
+            RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, 1 << 8);
 
             if (_allhits.Length > 0)
             {
