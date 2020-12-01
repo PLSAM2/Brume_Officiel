@@ -53,8 +53,8 @@ public class LocalPoolManager : SerializedMonoBehaviour
         currentFeedback.position = _pos;
         currentFeedback.rotation = _rota;
 
-        currentFeedback.GetChild(0).gameObject.SetActive(_team == Team.red);
-        currentFeedback.GetChild(1).gameObject.SetActive(_team == Team.blue);
+        currentFeedback.GetChild(0).GetChild(0).gameObject.SetActive(_team == Team.red);
+        currentFeedback.GetChild(0).GetChild(1).gameObject.SetActive(_team == Team.blue);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time);
     }
