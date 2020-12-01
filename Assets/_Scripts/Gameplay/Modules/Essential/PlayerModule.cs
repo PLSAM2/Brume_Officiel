@@ -306,17 +306,20 @@ public class PlayerModule : MonoBehaviour
 		TreatEffects();
 		TreatTickEffects();
 
+
 		if (_oldState != state)
 		{
 			if (mylocalPlayer.isOwner)
+			{
 				UiManager.Instance.StatusUpdate(state);
+				mylocalPlayer.SendState(state);
+			}
 
-			if ((state & En_CharacterState.WxMarked) != 0)
+				if ((state & En_CharacterState.WxMarked) != 0)
 				wxMark.SetActive(true);
 			else
 				wxMark.SetActive(false);
 
-			mylocalPlayer.SendState(state);
 			_oldState = state;
 		}
 	}
@@ -377,7 +380,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		if (ShouldBePinged())
 		{
-            LocalPoolManager.Instance.SpawnNewGeneric(1, transform.position + Vector3.up * 0.1f, Quaternion.Euler(90, 0, 0), new Vector3(1,1,1));
+            LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
 		}
 		lastRecordedPos = transform.position;
 

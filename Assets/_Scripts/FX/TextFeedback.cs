@@ -24,13 +24,5 @@ public class TextFeedback : MonoBehaviour
         myAnimator.SetTrigger("Show");
 
         AudioManager.Instance.Play3DAudio(hitClip, transform.position);
-
-        StartCoroutine(WaitToDisable());
-    }
-
-    IEnumerator WaitToDisable()
-    {
-        yield return new WaitForSeconds(0.5f);
-        gameObject.SetActive(false);
     }
 }

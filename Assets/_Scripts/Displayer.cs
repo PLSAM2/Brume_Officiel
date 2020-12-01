@@ -152,6 +152,35 @@ public class Displayer : MonoBehaviour
                 }
             }
         }
+
+        DisplayFX();
+    }
+
+    void DisplayFX()
+    {
+        foreach(Fx fx in GameManager.Instance.allFx)
+        {
+            if(GameManager.Instance.allVisibleFx.Contains(fx.transform) && !fx.isVisible)
+            {
+                fx.isVisible = true;
+
+                foreach(GameObject obj in fx.objToHide)
+                {
+                    if (!obj) { continue; }
+                    obj.SetActive(true);
+                }
+            }
+            else if(GameManager.Instance.allVisibleFx.Contains(fx.transform) && !fx.isVisible)
+            {
+                fx.isVisible = false;
+
+                foreach (GameObject obj in fx.objToHide)
+                {
+                    if (!obj) { continue; }
+                    obj.SetActive(false);
+                }
+            }
+        }
     }
 
     void HideOrShow(LocalPlayer p, bool _value)
