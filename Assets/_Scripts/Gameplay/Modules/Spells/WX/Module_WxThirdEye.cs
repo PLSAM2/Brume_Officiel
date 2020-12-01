@@ -106,7 +106,9 @@ public class Module_WxThirdEye : SpellModule
 		{
 			case En_ShockWaveStatus.Deploy:
 				shockWave.gameObject.SetActive(true);
-				HideAllAlliedVision(false);
+                CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+
+                HideAllAlliedVision(false);
 				//network FX
 				GameObject openingFx = NetworkObjectsManager.Instance.NetworkInstantiate(1000, transform.position, Vector3.zero);
 				openingFx.SetActive(false);
@@ -149,7 +151,9 @@ public class Module_WxThirdEye : SpellModule
 
 			case En_ShockWaveStatus.Hidden:
 				shockWave.gameObject.SetActive(false);
-				HideAllAlliedVision(true);
+                CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+
+                HideAllAlliedVision(true);
                 GameFactory.GetLocalPlayerObj().ResetFowRaduis();
 				StopOutlineOnPlayers();
 				foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)

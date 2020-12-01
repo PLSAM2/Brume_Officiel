@@ -20,6 +20,8 @@ public class Projectile : AutoKill
     [SerializeField] bool doImpactFx = false;
     Vector3 startPos;
 
+    bool haveTouch = false;
+
 	public override void Init(Team ownerTeam)
 	{
 		base.Init(ownerTeam);
@@ -67,7 +69,9 @@ public class Projectile : AutoKill
 					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
 				}
 
-				Destroy();
+                haveTouch = true;
+
+                Destroy();
 				asDeal = true;
 
 				if (isOwner && localTrad._reduceCooldowns)
@@ -79,6 +83,7 @@ public class Projectile : AutoKill
 		}
 		else
 		{
+            haveTouch = true;
             Destroy();
 		}
 
@@ -94,10 +99,22 @@ public class Projectile : AutoKill
 	{
 		asDeal = true;
 
-        if (doImpactFx)
+        if (haveTouch)
         {
-            LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
+            if (doImpactFx)
+            {
+                LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
+
+                Transform player = GameFactory.GetActualPlayerFollow().transform;
+
+                if(player != null && Vector3.Distance(player.position, transform.position) < 7)
+                {
+                    CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+                }
+            }
         }
+
+        haveTouch = false;
 
         base.Destroy();
 	}
