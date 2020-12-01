@@ -79,7 +79,6 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
 
 	[Header("Vision")]
-	public GameObject sonar;
 	public LayerMask brumeLayer;
 	[SerializeField] SpriteRenderer mapIcon;
 
@@ -378,7 +377,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		if (ShouldBePinged())
 		{
-			Instantiate(sonar, transform.position + Vector3.up, Quaternion.Euler(90, 0, 0));
+            LocalPoolManager.Instance.SpawnNewGeneric(transform.position + Vector3.up * 0.1f, Quaternion.Euler(90, 0, 0), 1);
 		}
 		lastRecordedPos = transform.position;
 
