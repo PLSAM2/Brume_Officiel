@@ -121,6 +121,7 @@ public class NetworkedObject : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
+        transform.position = pos;
         if (!isOwner)
         {
             newNetorkPos = pos;
