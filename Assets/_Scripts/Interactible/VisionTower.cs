@@ -33,7 +33,7 @@ public class VisionTower : Interactible
     {
         base.UpdateCaptured(team);
 
-        if (team == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (team == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             vision.gameObject.SetActive(true);
             vision.Init();

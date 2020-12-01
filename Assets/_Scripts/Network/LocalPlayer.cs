@@ -114,7 +114,7 @@ public class LocalPlayer : MonoBehaviour
         }
         else
         {
-            if (myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+            if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
                 SpawnFow();
             }
@@ -195,7 +195,7 @@ public class LocalPlayer : MonoBehaviour
 
     public void ShowHideFow(bool _value)
     {
-        if (myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (myPlayerModule.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
@@ -392,7 +392,7 @@ public class LocalPlayer : MonoBehaviour
             }
 
             if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) &&
-                RoomManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
+                NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
             {
                 myPlayerModule.ApplyWxMark();
             }

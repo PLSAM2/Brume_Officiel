@@ -19,7 +19,7 @@ public class Ward : MonoBehaviour
     {
         myTeam = _team;
 
-        if (_team != RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (_team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             this.DestroyWard();
         }
@@ -88,7 +88,7 @@ public class Ward : MonoBehaviour
 
     private void OnDisable()
     {
-        if (myTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             vision.gameObject.SetActive(false);
 

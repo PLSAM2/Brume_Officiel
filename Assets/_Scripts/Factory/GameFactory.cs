@@ -172,13 +172,20 @@ public class GameFactory
 
     public static LocalPlayer GetLocalPlayerObj()
     {
-        return GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
+        if (GameManager.Instance.networkPlayers.ContainsKey(NetworkManager.Instance.GetLocalPlayer().ID))
+        {
+            return GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID];
+        } else
+        {
+            return null;
+        }
+
     }
 
     public static LocalPlayer GetFirstPlayerOfOtherTeam()
     {
         ushort? _id = RoomManager.Instance.actualRoom.playerList.Where
-            (x => x.Value.playerTeam == GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam))
+            (x => x.Value.playerTeam == GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam))
             .FirstOrDefault().Key;
 
         if (_id != null)
