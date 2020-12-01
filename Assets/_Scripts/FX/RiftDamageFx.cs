@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpearFx : MonoBehaviour
+public class RiftDamageFx : MonoBehaviour
 {
     [SerializeField] GameObject ExplosionPrefab;
 
@@ -15,7 +15,7 @@ public class SpearFx : MonoBehaviour
         currentSize = Mathf.Floor(transform.localScale.z);
 
         SupprOld();
-        StartCoroutine(SpawnSpear());
+        SpawnSpear();
     }
 
     // Update is called once per frame
@@ -26,22 +26,29 @@ public class SpearFx : MonoBehaviour
             currentSize = Mathf.Floor(transform.localScale.z);
 
             SupprOld();
-            StartCoroutine(SpawnSpear());
+            SpawnSpear();
         }
     }
 
-    IEnumerator SpawnSpear()
+    private void OnDisable()
+    {
+        SupprOld();
+    }
+
+    void SpawnSpear()
     {
         float time = 0.5f / currentSize;
+        float startPos = 1 / currentSize;
 
         for (int i = 0; i < currentSize; i++)
         {
             GameObject explo = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
             explo.transform.parent = transform;
-            explo.transform.localPosition = new Vector3(0, 0, (i + 1) * 0.15f);
+            explo.transform.localPosition = new Vector3(0, 0, startPos);
             oldExplosions.Add(explo);
 
-            yield return new WaitForSeconds(time);
+
+            startPos += 1 / currentSize;
         }
     }
 

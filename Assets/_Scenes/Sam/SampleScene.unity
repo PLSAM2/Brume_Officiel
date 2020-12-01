@@ -2387,36 +2387,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
---- !u!1 &1635384223
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1635384224}
-  m_Layer: 0
-  m_Name: RiftDamage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1635384224
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635384223}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1843024858
 GameObject:
   m_ObjectHideFlags: 0
@@ -3990,6 +3960,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4732500143220353935, guid: 33eb5071972e44941b3c975cb04b998c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732500143220353935, guid: 33eb5071972e44941b3c975cb04b998c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4051,21 +4025,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -4066171665763963627, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
-      propertyPath: ExplosionPrefab
-      value: 
-      objectReference: {fileID: 8640629026506735562, guid: 0a618b0f648eea14eac85b93a6143509, type: 3}
     - target: {fileID: 6344507739991433984, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
       propertyPath: m_Name
-      value: SpearFX
+      value: RiftDamage
       objectReference: {fileID: 0}
     - target: {fileID: 6344507739991433985, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
       propertyPath: m_RootOrder
       value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 6344507739991433985, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6344507739991433985, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4109,6 +4075,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
+--- !u!1 &6344507738979252795 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6344507739991433984, guid: bcc471c93a079794e8d29e100e046a4b, type: 3}
+  m_PrefabInstance: {fileID: 6344507738979252794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6344507738979252796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6344507738979252795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca3a60d7ba9efd479bbb28a5d7e957e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8286270149566458436
 PrefabInstance:
   m_ObjectHideFlags: 0
