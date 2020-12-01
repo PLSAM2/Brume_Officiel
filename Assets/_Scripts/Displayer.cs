@@ -152,6 +152,16 @@ public class Displayer : MonoBehaviour
                 }
             }
         }
+
+        DisplayFX();
+    }
+
+    void DisplayFX()
+    {
+        foreach(Fx fx in GameManager.Instance.allVisibleFx)
+        {
+
+        }
     }
 
     void HideOrShow(LocalPlayer p, bool _value)
