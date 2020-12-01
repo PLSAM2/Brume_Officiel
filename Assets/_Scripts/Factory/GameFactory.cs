@@ -172,7 +172,14 @@ public class GameFactory
 
     public static LocalPlayer GetLocalPlayerObj()
     {
-        return GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID];
+        if (GameManager.Instance.networkPlayers.ContainsKey(NetworkManager.Instance.GetLocalPlayer().ID))
+        {
+            return GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID];
+        } else
+        {
+            return null;
+        }
+
     }
 
     public static LocalPlayer GetFirstPlayerOfOtherTeam()
