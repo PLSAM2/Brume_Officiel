@@ -93,7 +93,7 @@ public class Module_WXAuto : SpellModule
                     LocalPlayer hitP = hit.collider.GetComponent<LocalPlayer>();
                     if (hitP != null)
                     {
-                        if (RoomManager.Instance.GetLocalPlayer().playerTeam != hitP.myPlayerModule.teamIndex)
+                        if (NetworkManager.Instance.GetLocalPlayer().playerTeam != hitP.myPlayerModule.teamIndex)
                         {
                             _temp.Add(hitP);
                         }

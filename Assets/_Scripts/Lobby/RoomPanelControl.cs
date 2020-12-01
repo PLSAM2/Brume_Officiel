@@ -98,7 +98,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
     {
         LobbyManager.Instance.SetReady(false);
 
-        switch (LobbyManager.Instance.localPlayer.playerTeam)
+        switch (NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             case Team.red:
                 LobbyManager.Instance.ChangeTeam(Team.blue);
@@ -116,7 +116,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
     {
         PlayerObjDict[playerID].readyImg.SetActive(value);
 
-        if (LobbyManager.Instance.localPlayer.IsHost)
+        if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
             foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
             {
@@ -134,7 +134,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
     public void SetReadyBtn()
     {
-        if (LobbyManager.Instance.localPlayer.IsReady)
+        if (NetworkManager.Instance.GetLocalPlayer().IsReady)
         {
             LobbyManager.Instance.SetReady(false);
         }
@@ -142,5 +142,10 @@ public class RoomPanelControl : SerializedMonoBehaviour
         {
             LobbyManager.Instance.SetReady(true);
         }
+    }
+
+    public void StartGame()
+    {
+        RoomManager.Instance.StartChampSelect();
     }
 }

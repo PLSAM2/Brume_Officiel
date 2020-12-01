@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
 
 	void GeneratePickable(int _numberToPop)
 	{
-		if (RoomManager.Instance.GetLocalPlayer().IsHost)
+		if (NetworkManager.Instance.GetLocalPlayer().IsHost)
 		{
 			List<Transform> _usedSpot = new List<Transform>();
 
@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour
 
 	public void KillPickup(Transform _positionFreed)
 	{
-		if (RoomManager.Instance.GetLocalPlayer().IsHost)
+		if (NetworkManager.Instance.GetLocalPlayer().IsHost)
 		{
 			collectibleSpotAvaible.Add(_positionFreed);
 			_pickableAvaible -= 1;
