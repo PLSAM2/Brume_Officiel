@@ -10,7 +10,7 @@ public class RiftDamageFx : MonoBehaviour
 
     float currentSize = 0;
 
-    private void Start()
+    private void OnEnable()
     {
         currentSize = Mathf.Floor(transform.localScale.z);
 

@@ -306,17 +306,20 @@ public class PlayerModule : MonoBehaviour
 		TreatEffects();
 		TreatTickEffects();
 
+
 		if (_oldState != state)
 		{
 			if (mylocalPlayer.isOwner)
+			{
 				UiManager.Instance.StatusUpdate(state);
+				mylocalPlayer.SendState(state);
+			}
 
-			if ((state & En_CharacterState.WxMarked) != 0)
+				if ((state & En_CharacterState.WxMarked) != 0)
 				wxMark.SetActive(true);
 			else
 				wxMark.SetActive(false);
 
-			mylocalPlayer.SendState(state);
 			_oldState = state;
 		}
 	}

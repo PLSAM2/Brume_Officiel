@@ -52,6 +52,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<BrumeScript> allBrume = new List<BrumeScript>();
 
+    public List<Fx> allVisibleFx = new List<Fx>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 
@@ -197,7 +199,7 @@ public class GameManager : SerializedMonoBehaviour
     {
         if (GameFactory.CheckIfPlayerIsInView(idPlayer))
         {
-            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f, _damage.ToString(), Color.red);
+            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f, _damage.ToString(), Color.red, 0.5f);
         }
     }
 
