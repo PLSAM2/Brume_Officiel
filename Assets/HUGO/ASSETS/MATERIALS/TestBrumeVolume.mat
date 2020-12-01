@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
-  m_ShaderKeywords: _ANIMATED_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON _COLOR_ON
-    _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _TESSELATION_ON
+  m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
+    _COLOR_ON _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _TESSELATION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -21,11 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BrumeFlipbookTexture:
-        m_Texture: {fileID: 2800000, guid: 090dbeeabb49a3947986c747e58bb1fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BrumeTexture:
-        m_Texture: {fileID: 2800000, guid: 090dbeeabb49a3947986c747e58bb1fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -88,6 +88,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PerlinNoise:
+        m_Texture: {fileID: 2800000, guid: f6ff7a2b76d9a074eb1c734d22e9cb35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TestBrumeNormal:
         m_Texture: {fileID: 2800000, guid: 896a9d1489510974b89826bd8b457565, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -124,9 +128,11 @@ Material:
     - _1: 1.55
     - _2: 0
     - _Animated: 1
+    - _AnimationPause: 1
     - _BetweenFullLowAndHigh05: 1
     - _Black: 0
     - _BrumeAnimated: 1
+    - _BrumeFlipbook: 0
     - _BumpScale: 1
     - _Color: 1
     - _ColorLevel: 0
@@ -134,9 +140,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Displacement: 1
-    - _DisplacementTexture_Multiply: 0.3
+    - _DisplacementTexture_Contrast: 4
+    - _DisplacementTexture_Multiply: 0.05
     - _DisplacementTexture_Multiply1: 1
     - _DstBlend: 0
+    - _Flipbook_Animation: 0
     - _Flipbook_Columns: 8
     - _Flipbook_Rows: 8
     - _Flipbook_Speed: 24
@@ -148,15 +156,15 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GroundMask_Offset: -0.04
-    - _GroundMask_Scale: 2.14
+    - _GroundMask_Offset: -0.23
+    - _GroundMask_Scale: 2.94
     - _Levels: 1
     - _Metallic: 0
     - _Mode: 0
     - _MultiplyGroundMask: 2.73
     - _MultiplyGroundMask1: 2.95
-    - _NormalOffset: 0.3
-    - _NormalStrength: 2
+    - _NormalOffset: 0.5
+    - _NormalStrength: 5
     - _OcclusionStrength: 1
     - _Opacity05: 1
     - _OpacityBlack: 1
@@ -165,6 +173,8 @@ Material:
     - _ParallaxScale: 1.63
     - _Parralax_DistancePlane: 1
     - _Parralax_Scale: 0.02
+    - _PerlinNoise_Tiling: 0.2
+    - _RotationPause: 1
     - _Rotator_Time: 0.3
     - _Scale: 0.08
     - _SmoothnessTextureChannel: 0
@@ -172,7 +182,7 @@ Material:
     - _Speed: 0.2
     - _SrcBlend: 1
     - _Tesselation: 1
-    - _Tesselation_Factor: 5
+    - _Tesselation_Factor: 20
     - _Tesselation_Factor1: 15
     - _Tesselation_MaxDist: 35
     - _Tesselation_MaxDist1: 5
@@ -181,6 +191,7 @@ Material:
     - _Test: -5.92
     - _Tiling: 1
     - _UVSec: 0
+    - _UV_Animation: 0
     - _ZWrite: 1
     - __dirty: 0
     - _distancePlane: 1
@@ -192,14 +203,15 @@ Material:
     - _BrumeColorHigh: {r: 0.8349056, g: 0.9806515, b: 1, a: 0}
     - _BrumeColorLow: {r: 0, g: 0.07408519, b: 0.3679245, a: 0}
     - _BrumeColor_ColorHigh: {r: 1, g: 1, b: 1, a: 0}
-    - _BrumeColor_ColorLow: {r: 0.39999998, g: 0.44705886, b: 0.50980395, a: 1}
+    - _BrumeColor_ColorLow: {r: 0.65272343, g: 0.6967309, b: 0.7169812, a: 1}
     - _BrumeFullColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 1, g: 1, b: 1, a: 0}
+    - _Color0: {r: 0.9245283, g: 0.87557554, b: 0.8155037, a: 0}
     - _Color1: {r: 1, g: 0, b: 0.07212782, a: 0}
     - _Color2: {r: 0.39999998, g: 0.44705886, b: 0.50980395, a: 1}
     - _Color3: {r: 1, g: 1, b: 1, a: 0}
     - _DistortSpeed: {r: 0.1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _PerlinNoise_PannerSpeed: {r: 0.01, g: 0, b: 0, a: 0}
     - _Vector0: {r: -0.06, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
