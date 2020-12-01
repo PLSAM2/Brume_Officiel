@@ -122,9 +122,9 @@ public class Interactible : MonoBehaviour
         timer = 0;
         capturingTeam = team;
 
-        if (team != RoomManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
+        if (team != NetworkManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
         {
-            StopCapturing(RoomManager.Instance.GetLocalPlayer().playerTeam);
+            StopCapturing(NetworkManager.Instance.GetLocalPlayer().playerTeam);
         }
 
         SetColor(GameFactory.GetColorTeam(team));

@@ -293,10 +293,10 @@ public class InGameNetworkReceiver : MonoBehaviour
                 _writer.Write(killer.ID);
             }
             else {
-                _writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
+                _writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
             }
 
-            _writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
+            _writer.Write((ushort)NetworkManager.Instance.GetLocalPlayer().playerCharacter);
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
@@ -517,7 +517,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                PlayerModule _temp = GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule;
+                PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
                 _temp.ApplySpeedBuffInServer();
             }
         }
@@ -529,7 +529,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                PlayerModule _temp = GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule;
+                PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
                 _temp.ApplyPoisonousBuffInServer();
             }
         }

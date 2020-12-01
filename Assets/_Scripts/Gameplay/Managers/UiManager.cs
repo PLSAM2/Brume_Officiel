@@ -18,6 +18,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI round;
+    [FoldoutGroup("GlobalUi")] public GameObject echapMenu;
 
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
@@ -97,7 +98,7 @@ public class UiManager : MonoBehaviour
     private void Start()
     {
         // A changer >>
-        Team team = RoomManager.Instance.GetLocalPlayer().playerTeam;
+        Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
 
         if (team == Team.blue)
         {
@@ -116,7 +117,7 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerRespawn(ushort id)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             GetImageOfTeamChamp(id).sprite = champIcon;
             GetLifeImageOfTeamChamp(id).fillAmount = 1;
@@ -136,7 +137,7 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerTakeDamage(ushort id, ushort damage)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             GetLifeImageOfTeamChamp(id).fillAmount = (float) GameManager.Instance.networkPlayers[id].liveHealth 
                 / GameFactory.GetMaxLifeOfPlayer(id);
@@ -157,7 +158,7 @@ public class UiManager : MonoBehaviour
 
 
         //UI Minimap info
-        if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             GetImageOfTeamChamp(idKilled).sprite = champKilledIcon;
             GetLifeImageOfTeamChamp(idKilled).fillAmount = 0;
@@ -170,7 +171,7 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerViewChange(ushort id, bool isVisible)
     {
-        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
@@ -251,12 +252,24 @@ public class UiManager : MonoBehaviour
         return null;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SetEchapMenuState();
+        }
+    }
     private void FixedUpdate()
     {
         if (generalMessageList.Count > 0 && !waitForGenMessageAnimEnd)
         {
             StartCoroutine(GeneralMessage());
         }
+    }
+
+    public void SetEchapMenuState()
+    {
+        echapMenu.SetActive(!echapMenu.activeInHierarchy);
     }
 
     public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)

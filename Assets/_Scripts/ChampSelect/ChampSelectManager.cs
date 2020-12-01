@@ -45,7 +45,7 @@ public class ChampSelectManager : MonoBehaviour
     {
         List<CharacterListObj> _tempList;
 
-        switch (RoomManager.Instance.GetLocalPlayer().playerTeam)
+        switch (NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             case Team.red:
                 _tempList = blueTeamCharacterList;
@@ -110,7 +110,7 @@ public class ChampSelectManager : MonoBehaviour
 
         SetCharacter(_playerID, _character);
 
-        if (RoomManager.Instance.GetLocalPlayer().IsHost)
+        if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
             if (CheckIfCanLaunch())
             {

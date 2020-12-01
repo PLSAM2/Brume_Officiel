@@ -32,14 +32,14 @@ public class KillFeedManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
-        GameManager.Instance.OnPlayerDisconnect += OnPlayerDisconnect;
+        NetworkManager.Instance.OnPlayerQuit += OnPlayerDisconnect;
         GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnPlayerDie -= OnPlayerDie;
-        GameManager.Instance.OnPlayerDisconnect -= OnPlayerDisconnect;
+        NetworkManager.Instance.OnPlayerQuit -= OnPlayerDisconnect;
         GameManager.Instance.OnPlayerRespawn -= OnPlayerRespawn;
     }
 
@@ -67,7 +67,7 @@ public class KillFeedManager : MonoBehaviour
         currentKilfeed.InitAction(GetPlayerData(idPlayer), actionKillfeed.Revive, null);
     }
 
-    void OnPlayerDisconnect(ushort idPlayer)
+    void OnPlayerDisconnect(PlayerData player)
     {
 
     }
