@@ -29,15 +29,16 @@ MonoBehaviour:
   forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: 81dd04644da9c12489e3a513270a55b4, type: 2}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.1
+  throwBackDuration: 0.2
   spellIcon: {fileID: 21300000, guid: 594bc20e5c1ace74e86d99fcc3adab02, type: 3}
   timeToCanalyseToUpgrade: 1
   normalAttack:
     angleToAttackFrom: 60
     rangeOfTheAttack: 2.75
     damagesToDeal:
-      damageHealth: 15
-      statusToApply: []
+      damageHealth: 20
+      statusToApply:
+      - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
       movementToApply: {fileID: 0}
       playerName: 
       stateNeeded: 128
@@ -49,7 +50,7 @@ MonoBehaviour:
     angleToAttackFrom: 60
     rangeOfTheAttack: 5.25
     damagesToDeal:
-      damageHealth: 25
+      damageHealth: 30
       statusToApply:
       - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
       movementToApply: {fileID: 11400000, guid: f3fc87acc2d84554ca2c7183c2de2cb1, type: 2}
