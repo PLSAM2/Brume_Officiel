@@ -150,14 +150,14 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         _tempObject.transform.position = position;
         _tempObject.transform.rotation = Quaternion.Euler(eulerAngles);
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
-        networkedObject.Init(uniqueObjId, RoomManager.Instance.GetLocalPlayer(), networkedObjectID);
+        networkedObject.Init(uniqueObjId, NetworkManager.Instance.GetLocalPlayer(), networkedObjectID);
         NetworkedObjectAdded(uniqueObjId, networkedObject);
         _tempObject.SetActive(true);
 
 
         if (_tempObject.GetComponent<AutoKill>() != null)
         {
-            _tempObject.GetComponent<AutoKill>().Init(RoomManager.Instance.GetLocalPlayer().playerTeam);
+            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam);
         }/*
       else  if (_tempObject.GetComponent<aoe>() != null)
         {
@@ -167,7 +167,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
+            writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
             writer.Write(uniqueObjId);
 

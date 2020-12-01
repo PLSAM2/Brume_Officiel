@@ -52,6 +52,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<BrumeScript> allBrume = new List<BrumeScript>();
 
+    public List<Fx> allVisibleFx = new List<Fx>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 
@@ -62,7 +64,6 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, bool> OnPlayerAtViewChange;
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
-    public Action<ushort> OnPlayerDisconnect;
 
     public Action<Ward> OnWardTeamSpawn;
     public Action<VisionTower> OnTowerTeamCaptured;
@@ -80,6 +81,7 @@ public class GameManager : SerializedMonoBehaviour
 
         client = RoomManager.Instance.client;
         client.MessageReceived += OnMessageReceive;
+        NetworkManager.Instance.OnPlayerQuit += PlayerQuitGame;
     }
 
     private void OnEnable()
@@ -91,6 +93,7 @@ public class GameManager : SerializedMonoBehaviour
     {
         client.MessageReceived -= OnMessageReceive;
         OnPlayerGetDamage -= OnPlayerTakeDamage;
+        NetworkManager.Instance.OnPlayerQuit -= PlayerQuitGame;
     }
 
     private void Start()
@@ -140,10 +143,6 @@ public class GameManager : SerializedMonoBehaviour
             {
                 AllPlayerJoinGameScene();
             }
-            if (message.Tag == Tags.PlayerQuitRoom)
-            {
-                PlayerQuitGame(_sender, _e);
-            }
         }
     }
 
@@ -152,18 +151,14 @@ public class GameManager : SerializedMonoBehaviour
         return spawns[RoomManager.Instance.assignedSpawn[team]];
     }
 
-    private void PlayerQuitGame(object sender, MessageReceivedEventArgs e)
+    private void PlayerQuitGame(PlayerData Obj)
     {
-        using (Message message = e.GetMessage() as Message)
+        if (NetworkManager.Instance.GetLocalPlayer().ID != Obj.ID)
         {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                PlayerData player = reader.ReadSerializable<PlayerData>();
-                UiManager.Instance.DisplayGeneralMessage("Player " + player.Name + " quit");
-
-                OnPlayerDisconnect?.Invoke(player.ID);
-            }
+            UiManager.Instance.DisplayGeneralMessage("Player " + Obj.Name + " quit");
         }
+
+        networkPlayers.Remove(Obj.ID);
     }
 
     private void AllPlayerJoinGameScene()
@@ -204,7 +199,17 @@ public class GameManager : SerializedMonoBehaviour
     {
         if (GameFactory.CheckIfPlayerIsInView(idPlayer))
         {
-            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f , _damage.ToString(), Color.red);
+            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f, _damage.ToString(), Color.red, 0.5f);
         }
+    }
+
+    public void QuitGame()
+    {
+        if (GameFactory.GetLocalPlayerObj() != null)
+        {
+            GameFactory.GetLocalPlayerObj().gameObject.SetActive(false);
+        }
+
+        RoomManager.Instance.QuitGame();
     }
 }

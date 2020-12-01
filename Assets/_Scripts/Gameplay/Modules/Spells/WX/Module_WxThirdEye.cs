@@ -282,7 +282,7 @@ public class Module_WxThirdEye : SpellModule
 			if (player.Value == myPlayerModule.mylocalPlayer)
 				continue;
 
-			if (player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+			if (player.Value.myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				if (_ShowGlobalVision)
 				{

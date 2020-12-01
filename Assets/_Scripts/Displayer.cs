@@ -42,7 +42,7 @@ public class Displayer : MonoBehaviour
 
             if (player.Value.myPlayerModule.state.HasFlag(En_CharacterState.Hidden))
             {
-                if(player.Value.myPlayerModule.teamIndex != RoomManager.Instance.GetLocalPlayer().playerTeam)
+                if(player.Value.myPlayerModule.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam)
                 {
                     HideOrShow(player.Value, false);
                     continue;
@@ -107,7 +107,7 @@ public class Displayer : MonoBehaviour
                 }
                 else
                 {
-                    if (player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                    if (player.Value.myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
                     {
                         HideOrShow(player.Value, true);
                         SetFow(player.Value, true);
@@ -151,6 +151,16 @@ public class Displayer : MonoBehaviour
                     }
                 }
             }
+        }
+
+        DisplayFX();
+    }
+
+    void DisplayFX()
+    {
+        foreach(Fx fx in GameManager.Instance.allVisibleFx)
+        {
+
         }
     }
 

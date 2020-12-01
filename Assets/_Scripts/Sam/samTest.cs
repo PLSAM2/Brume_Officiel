@@ -11,7 +11,6 @@ public class samTest : MonoBehaviour
     {
         while (true)
         {
-            print("DoSomething1");
             yield return new WaitForSeconds(1.0f);
         }
     }
@@ -21,7 +20,6 @@ public class samTest : MonoBehaviour
     {
         while (true)
         {
-            print("DoSomething2");
             yield return new WaitForSeconds(1.5f);
         }
     }

@@ -33,16 +33,18 @@ public class LocalPoolManager : SerializedMonoBehaviour
     }
 
     //Textfeedback
-    public void SpawnNewTextFeedback(Vector3 _pos, string _value, Color _color)
+    public void SpawnNewTextFeedback(Vector3 _pos, string _value, Color _color, float _time = 1)
     {
         TextFeedback currentFeedback = GetFree(allText, prefabTextFeedback).GetComponent<TextFeedback>();
 
         currentFeedback.gameObject.SetActive(true);
         currentFeedback.Init(_pos, _value, _color);
+
+        currentFeedback.GetComponent<AutoDisable>().Init(_time);
     }
 
     //impact feedback
-    public void SpawnNewImpactFX(Vector3 _pos, Quaternion _rota, Team _team)
+    public void SpawnNewImpactFX(Vector3 _pos, Quaternion _rota, Team _team, float _time = 1)
     {
         Transform currentFeedback = GetFree(allImpactFx, prefabImpactFx).transform;
 
@@ -51,12 +53,14 @@ public class LocalPoolManager : SerializedMonoBehaviour
         currentFeedback.position = _pos;
         currentFeedback.rotation = _rota;
 
-        currentFeedback.GetChild(0).gameObject.SetActive(_team == Team.red);
-        currentFeedback.GetChild(1).gameObject.SetActive(_team == Team.blue);
+        currentFeedback.GetChild(0).GetChild(0).gameObject.SetActive(_team == Team.red);
+        currentFeedback.GetChild(0).GetChild(1).gameObject.SetActive(_team == Team.blue);
+
+        currentFeedback.GetComponent<AutoDisable>().Init(_time);
     }
 
     //generic
-    public void SpawnNewGeneric(Vector3 _pos, Quaternion _rota, int _index)
+    public void SpawnNewGeneric(int _index,Vector3 _pos, Quaternion _rota, Vector3 _scale, float _time = 1)
     {
         GameObject newObj = GetFreeGeneric(_index);
 
@@ -64,6 +68,9 @@ public class LocalPoolManager : SerializedMonoBehaviour
 
         newObj.transform.position = _pos;
         newObj.transform.rotation = _rota;
+        newObj.transform.localScale = _scale;
+
+        newObj.GetComponent<AutoDisable>().Init(_time);
     }
 
     GameObject GetFree(List<GameObject> allObj, GameObject prefab)
