@@ -7,14 +7,17 @@ public class Aoe : AutoKill
 {
 	[SerializeField] Sc_Aoe localTrad;
 
-	protected override void OnEnable ()
+	protected override void Awake ()
 	{
 		mylifeTime = localTrad.rules.durationOfTheAoe;
+	}
+
+	protected override void OnEnable ()
+	{
+		base.OnEnable();
 
 		if (myNetworkObject.GetIsOwner())
 			DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
-
-		base.OnEnable();
 	}
 
 	IEnumerator CustomUpdate ()
