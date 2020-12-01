@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4732500142835342455
 Transform:
   m_ObjectHideFlags: 0
@@ -91,9 +91,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4732500143220353935}
   - component: {fileID: 4732500143220353934}
-  m_Layer: 0
+  - component: {fileID: 8904781144117194621}
+  - component: {fileID: 8640422410409224073}
+  m_Layer: 11
   m_Name: RiftFx
-  m_TagString: Untagged
+  m_TagString: Hide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,3 +127,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca3a60d7ba9efd479bbb28a5d7e957e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &8904781144117194621
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4732500143220353932}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2226299, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0.5}
+--- !u!114 &8640422410409224073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4732500143220353932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7471d38f4ab3ba4baede5a8cf3ac50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isVisible: 0
+  objToHide:
+  - {fileID: 4732500142835342451}
