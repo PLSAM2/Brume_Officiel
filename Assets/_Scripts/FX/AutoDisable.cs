@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudoDisable : MonoBehaviour
+public class AutoDisable : MonoBehaviour
 {
     public float time = 1;
 
