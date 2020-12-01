@@ -9,11 +9,12 @@ public class Aoe : AutoKill
 
 	protected override void OnEnable ()
 	{
-
-		base.OnEnable();
 		mylifeTime = localTrad.rules.durationOfTheAoe;
+
 		if (myNetworkObject.GetIsOwner())
 			DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+
+		base.OnEnable();
 	}
 
 	IEnumerator CustomUpdate ()
