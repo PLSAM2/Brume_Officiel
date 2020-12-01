@@ -43,7 +43,7 @@ public class LocalPlayer : MonoBehaviour
         get => _liveHealth; set
         {
             _liveHealth = value;
-            lifeCount.text = "HP : " + liveHealth;
+            lifeCount.text = liveHealth.ToString();
 
             lifeImg.fillAmount = (float) liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
         }
@@ -372,16 +372,23 @@ public class LocalPlayer : MonoBehaviour
         liveHealth = myPlayerModule.characterParameters.maxHealth;
     }
 
-    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false)
+    /// <summary>
+    /// Deal damage to this character
+    /// </summary>
+    /// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect to work</param>
+    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         DealDamagesLocaly(_damagesToDeal.damageHealth);
 
         if (!ignoreStatusAndEffect)
         {
-            if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+            if (!ignoreTickStatus)
             {
-                SendStatus(myPlayerModule.poisonousEffect);
+                if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+                {
+                    SendStatus(myPlayerModule.poisonousEffect);
+                }
             }
 
             if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) &&

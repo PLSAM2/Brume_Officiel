@@ -15,11 +15,17 @@ public class Projectile : AutoKill
 
 	[Header("SpellLinked")]
 	[SerializeField] Sc_ProjectileSpell localTrad;
-	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange ;
+	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
+
+    [SerializeField] bool doImpactFx = false;
+    Vector3 startPos;
+
+    bool haveTouch = false;
 
 	public override void Init(Team ownerTeam)
 	{
 		base.Init(ownerTeam);
+        startPos = transform.position;
 
 		asDeal = true;
 
@@ -56,7 +62,6 @@ public class Projectile : AutoKill
 
 		if (playerHit != null)
 		{
-
 			if (playerHit.teamIndex != myteam)
 			{
 				if (!asDeal)
@@ -64,7 +69,9 @@ public class Projectile : AutoKill
 					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
 				}
 
-				Destroy();
+                haveTouch = true;
+
+                Destroy();
 				asDeal = true;
 
 				if (isOwner && localTrad._reduceCooldowns)
@@ -76,7 +83,8 @@ public class Projectile : AutoKill
 		}
 		else
 		{
-			Destroy();
+            haveTouch = true;
+            Destroy();
 		}
 
 	}
@@ -91,7 +99,24 @@ public class Projectile : AutoKill
 	{
 		asDeal = true;
 
-		base.Destroy();
+        if (haveTouch)
+        {
+            if (doImpactFx)
+            {
+                LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
+
+                Transform player = GameFactory.GetActualPlayerFollow().transform;
+
+                if(player != null && Vector3.Distance(player.position, transform.position) < 7)
+                {
+                    CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+                }
+            }
+        }
+
+        haveTouch = false;
+
+        base.Destroy();
 	}
 }
 
