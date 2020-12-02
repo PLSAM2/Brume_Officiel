@@ -12,7 +12,7 @@ public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
-	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift;
+	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl;
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
 	private LayerMask groundLayer;
@@ -116,7 +116,7 @@ public class PlayerModule : MonoBehaviour
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
 	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, wardInputReleased;
 	public Action startSneaking, stopSneaking;
-	public Action<bool> rotationLock;
+	public Action<bool> rotationLock,  cancelSpell;
 	#endregion
 
 	//[DASH ET MODIFICATEUR DE MOUVEMENT]
@@ -236,6 +236,8 @@ public class PlayerModule : MonoBehaviour
 				thirdSpellInput?.Invoke(mousePos());
 			else if (Input.GetKeyDown(wardKey))
 				wardInput?.Invoke(mousePos());
+			else if (Input.GetKeyDown(cancelSpellKey))
+				cancelSpell?.Invoke(false);
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
 			{
@@ -530,6 +532,9 @@ public class PlayerModule : MonoBehaviour
 		_newElement.liveLifeTime = _tempTrad.finalLifeTime;
 		_newElement.baseLifeTime = _tempTrad.finalLifeTime;
 		_newElement.effect = _tempTrad;
+
+		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
+			cancelSpell?.Invoke(true);
 
 		if (_statusToAdd.forcedKey != 0)
 		{

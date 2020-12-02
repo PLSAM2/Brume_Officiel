@@ -46,12 +46,12 @@ public class Module_Spit : SpellModule
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			myAoePreview = PreviewManager.Instance.GetShapePreview(transform);
-			myAoePreview.transform.localScale = new Vector3(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius);
+			myAoePreview = PreviewManager.Instance.GetShapePreview(null);
+			myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0, myPlayerModule.directionOfTheMouse()* Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()),0, spell.range));
 
 			//myAoePreview.
 			myRangePreview = PreviewManager.Instance.GetCirclePreview(transform);
-			myRangePreview.transform.localScale = new Vector3(spell.range, spell.range, spell.range);
+			myRangePreview.Init(spell.range, 0, CirclePreview.circleCenter.center,Vector3.zero);
 
 			HidePreview(Vector3.zero);
 		}
@@ -199,14 +199,16 @@ public class Module_Spit : SpellModule
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
 		base.ShowPreview(mousePos);
-
-		myAoePreview.gameObject.SetActive(true);
-		myRangePreview.gameObject.SetActive(true);
+		if (canBeCast())
+		{
+			myAoePreview.gameObject.SetActive(true);
+			myRangePreview.gameObject.SetActive(true);
+		}
 	}
 
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		myAoePreview.transform.localPosition = myPlayerModule.directionInputed() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range);
+		myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0,transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 	}
 }

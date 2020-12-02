@@ -17,8 +17,7 @@ public class LocalPlayer : MonoBehaviour
 
     public PlayerModule myPlayerModule;
 
-    public Animator myAnimator;
-    [SerializeField] NetworkAnimationController networkAnimationController;
+    public NetworkAnimationController myAnimController;
     public GameObject circleDirection;
 
     [Header("MultiGameplayParameters")]
@@ -79,8 +78,6 @@ public class LocalPlayer : MonoBehaviour
     {
         OnRespawn();
 
-        triggerAnim += TriggerTheAnim;
-
         nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
         if (myPlayerModule.teamIndex == Team.blue)
@@ -125,7 +122,6 @@ public class LocalPlayer : MonoBehaviour
                     obj.SetActive(false);
                 }
             }
-            oldPos = transform.position;
         }
     }
 
@@ -136,35 +132,10 @@ public class LocalPlayer : MonoBehaviour
 
         Debug();
 
-        DoAnimation();
-
         if (!isOwner)
         {
             transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * syncSpeed);
         }
-    }
-
-    Vector3 oldPos;
-    [SerializeField] float speedAnim = 30;
-    private void DoAnimation()
-    {
-        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
-
-        float speed = myPlayerModule.characterParameters.movementParameters.movementSpeed;
-
-        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
-        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
-
-        Vector3 pos = new Vector3(velocityX, 0, velocityZ);
-
-        float right = Vector3.Dot(transform.right, pos);
-        float forward = Vector3.Dot(transform.forward, pos);
-
-        myAnimator.SetFloat("Forward", forward);
-        myAnimator.SetFloat("Turn", right);
-
-        oldPos = transform.position;
     }
 
     void Debug()
@@ -232,8 +203,6 @@ public class LocalPlayer : MonoBehaviour
     {
         if (!isOwner)
             return;
-
-        triggerAnim -= TriggerTheAnim;
     }
 
     void FixedUpdate()
@@ -273,20 +242,6 @@ public class LocalPlayer : MonoBehaviour
             using (Message _message = Message.Create(Tags.StateUpdate, _writer))
             {
                 currentClient.SendMessage(_message, SendMode.Unreliable);
-            }
-        }
-    }
-
-    public void SendAnimationBool(string _animName, bool _value)
-    {
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(_animName);
-            _writer.Write(_value);
-
-            using (Message _message = Message.Create(Tags.SendAnimBool, _writer))
-            {
-                currentClient.SendMessage(_message, SendMode.Reliable);
             }
         }
     }
@@ -571,16 +526,6 @@ public class LocalPlayer : MonoBehaviour
     public void OnForcedMovementReceived(ForcedMovement _movementSent)
     {
         myPlayerModule.movementPart.AddDash(_movementSent);
-    }
-
-    public void TriggerTheAnim(string triggerName)
-    {
-        myAnimator.SetTrigger(triggerName);
-    }
-
-    public void SetBoolToAnim(string _triggerName, bool _value)
-    {
-        myAnimator.SetBool(_triggerName, _value);
     }
 
     Coroutine timerShow;
