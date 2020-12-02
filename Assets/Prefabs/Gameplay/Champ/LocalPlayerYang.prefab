@@ -59,6 +59,7 @@ MonoBehaviour:
   thirdSpellKey: 101
   freeCamera: 308
   crouching: 304
+  cancelSpellKey: 306
   interactKey: 102
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
@@ -69,7 +70,6 @@ MonoBehaviour:
   isInBrumeBeforeGhost: 0
   brumeIdBeforeGhost: 0
   allHitTaken: []
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
   brumeLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -81,6 +81,7 @@ MonoBehaviour:
   leftClick: {fileID: -8860574723703708623}
   ward: {fileID: 59302847324730398}
   mylocalPlayer: {fileID: 0}
+  revelationRangeWhileHidden: 10
   interactiblesClose: []
   menacingIcon: {fileID: 6627057351223179249}
   allEffectLive: []
@@ -199,11 +200,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2628497993156048693, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: m_AnchorMin.y
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2628497993156048693, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: m_AnchorMax.y
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2628497993156048693, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -215,11 +216,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: m_AnchorMin.y
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: m_AnchorMax.y
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

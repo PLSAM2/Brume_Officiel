@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static AOE_Fx;
 using static GameData;
 
 public class LocalPoolManager : SerializedMonoBehaviour
 {
     private static LocalPoolManager _instance;
     public static LocalPoolManager Instance { get { return _instance; } }
+
+    public GameObject prefabAOEFeedback;
+    List<GameObject> allAOE = new List<GameObject>();
 
     public GameObject prefabTextFeedback;
     List<GameObject> allText = new List<GameObject>();
@@ -30,6 +34,26 @@ public class LocalPoolManager : SerializedMonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    //AOE
+    public void SpawnNewAOELocal(ushort _id, Vector3 _pos, float _rota, float _scale, float _time)
+    {
+        AOE_Fx currentFeedback = GetFree(allAOE, prefabAOEFeedback).GetComponent<AOE_Fx>();
+
+        currentFeedback.gameObject.SetActive(true);
+        currentFeedback.Init((AOE_Fx_Type) _id, _pos, _rota, _scale *2, _time);
+
+        currentFeedback.GetComponent<AutoDisable>().Init(_time + 0.2f);
+    }
+
+    public void SpawnNewAOEInNetwork(ushort _id, Vector3 _pos, float _rota, float _scale, float _time)
+    {
+        LocalPlayer myLocalPlayer = GameFactory.GetLocalPlayerObj();
+
+        SpawnNewAOELocal(_id, _pos, _rota, _scale, _time);
+
+        myLocalPlayer.SendSpawnAOEFx(_id, _pos, _rota, _scale, _time);
     }
 
     //Textfeedback

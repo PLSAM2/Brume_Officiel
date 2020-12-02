@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5570575663168453413}
   - component: {fileID: 7134200778131444727}
   - component: {fileID: 5996624600335094817}
-  m_Layer: 11
+  m_Layer: 25
   m_Name: TrailAltarDebuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7429914465579339315}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.76, y: 0, z: 0}
+  m_LocalPosition: {x: 1.94, y: 0, z: 1.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7134200778131444727
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -3610,7 +3610,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
     type: 0
     collisionMode: 0
@@ -4766,7 +4766,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c0ec2b71fc169904e8aedc1c56e0375d, type: 2}
+  - {fileID: 2100000, guid: 3e83b1cf4488b12498e95db8cdd94093, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
