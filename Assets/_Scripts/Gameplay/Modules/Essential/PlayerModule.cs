@@ -380,7 +380,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		if (ShouldBePinged())
 		{
-            LocalPoolManager.Instance.SpawnNewGeneric(1, transform.position + Vector3.up * 0.1f, Quaternion.Euler(90, 0, 0), new Vector3(1,1,1));
+            LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
 		}
 		lastRecordedPos = transform.position;
 
@@ -420,6 +420,11 @@ public class PlayerModule : MonoBehaviour
 	public Vector3 directionInputed ()
 	{
 		return Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+	}
+
+	public Vector3 directionOfTheMouse ()
+	{
+		return Vector3.Normalize(mousePos() - transform.position);
 	}
 
 	public Vector3 mousePos ()

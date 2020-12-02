@@ -125,9 +125,58 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 OnAnimBoolReceived(sender, e);
             }
+            else if (message.Tag == Tags.SpawnGenericFx)
+            {
+                OnSpawnGenericFx(sender, e);
+            }
+            else if (message.Tag == Tags.SpawnAOEFx)
+            {
+                OnSpawnAOEFx(sender, e);
+            }
         }
     }
 
+    private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _idFx = reader.ReadUInt16();
+
+                float _posX = reader.ReadSingle();
+                float _posZ = reader.ReadSingle();
+
+                float _rota = reader.ReadSingle();
+                float _scale = reader.ReadSingle();
+
+                float _time = reader.ReadSingle();
+
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(_idFx, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+            }
+        }
+    }
+
+    private void OnSpawnAOEFx(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+
+                float _posX = reader.ReadSingle();
+                float _posZ = reader.ReadSingle();
+
+                float _rota = reader.ReadSingle();
+                float _scale = reader.ReadSingle();
+
+                float _time = reader.ReadSingle();
+
+                LocalPoolManager.Instance.SpawnNewAOELocal(_id, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+            }
+        }
+    }
 
     private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
     {

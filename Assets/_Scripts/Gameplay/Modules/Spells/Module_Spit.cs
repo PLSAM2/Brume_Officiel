@@ -3,132 +3,210 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Sirenix.OdinInspector;
+using static AOE_Fx;
 
 public class Module_Spit : SpellModule
 {
 
-    public GameObject spitTravelPrefab;
-    [HideInInspector] public GameObject spitObj;
-    public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
-    public float distanceMaxBeforeEndTravel = 0.01f;
-    private bool isLaunched = false;
-    private float deceleration = 1;
-    private float baseDistance;
-    private float lastOffest = 0;
-    private Vector3 startPos;
-    private Vector3 destination;
-    private Vector3 noCurvePosition;
-    private float animationCurveMaxValue;
-    Sc_Spit localTrad;
+	public GameObject spitTravelPrefab;
+	[ReadOnly] public GameObject spitObj;
+	public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
+	public float distanceMaxBeforeEndTravel = 0.01f;
+	private bool isLaunched = false;
+	private float deceleration = 1;
+	private float baseDistance;
+	private float lastOffest = 0;
+	private Vector3 startPos;
+	private Vector3 destination;
+	private Vector3 noCurvePosition;
+	private float animationCurveMaxValue;
+	Sc_Spit localTrad;
+	[SerializeField] bool simpleSpeed = false;
 
-    private void Start()
-    {
-        localTrad = spell as Sc_Spit;
+	CirclePreview myRangePreview;
+	ShapePreview myAoePreview;
 
-        spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
-        spitObj.SetActive(false);
-        animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
-    }
+	float initialDistance, percentageStrengthOfTheThrow;
+	Vector3 finalPos;
 
-    private void OnDestroy()
-    {
-        Destroy(spitObj);
-    }
+	private void Start ()
+	{
+		localTrad = spell as Sc_Spit;
 
-    protected override void DestroyIfClient() { } // Keep this for client
+		spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
+		spitObj.SetActive(false);
+		animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+	}
 
-    protected  void Update()
-    {
-        if (isLaunched)
-        {
-            if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
-            {
-                Landed();
-                return;
-            }
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
 
-            deceleration = 1;
-            deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
-            Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (localTrad.spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
-            noCurvePosition = newPosition;
+		base.SetupComponent(_actionLinked);
 
-            float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
-            float UpOffset;
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myAoePreview = PreviewManager.Instance.GetShapePreview(transform);
+			myAoePreview.transform.localScale = new Vector3(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius);
 
-            UpOffset = localTrad.launchCurve.Evaluate(distanceProgress);
-            lastOffest = UpOffset;
-            spitObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
-        }
-    }
+			//myAoePreview.
+			myRangePreview = PreviewManager.Instance.GetCirclePreview(transform);
+			myRangePreview.transform.localScale = new Vector3(spell.range, spell.range, spell.range);
+
+			HidePreview(Vector3.zero);
+		}
+
+	}
+
+	private void OnDestroy ()
+	{
+		Destroy(spitObj);
+	}
+
+	protected override void DestroyIfClient () { } // Keep this for client
+
+	protected void Update ()
+	{
+		if (isLaunched)
+		{
+			if (simpleSpeed)
+			{
+				if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
+				{
+					Landed();
+					return;
+				}
+
+				deceleration = 1;
+				deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
+				Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (localTrad.spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
+				noCurvePosition = newPosition;
+
+				float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
+				float UpOffset;
+
+				UpOffset = localTrad.launchCurve.Evaluate(distanceProgress);
+				lastOffest = UpOffset;
+				spitObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
+			}
+			else
+			{
+				Vector3 posToScale = new Vector3(spitObj.transform.position.x, 0, spitObj.transform.position.z);
+				float percentageOfTheTravel = (initialDistance - Vector3.Distance(posToScale, finalPos)) / initialDistance;
+
+				float maxHeight = Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.maxHeightAtMaxRange, localTrad.minHeight, localTrad.maxHeightAtMaxRange);
+				spitObj.transform.position = new Vector3(spitObj.transform.position.x, localTrad.launchCurve.Evaluate(percentageOfTheTravel) * maxHeight, spitObj.transform.position.z);
+			}
+		}
+
+	}
+
+	protected override void ResolveSpell ()
+	{
+		base.ResolveSpell();
+
+		if (isLaunched && spitObj != null)
+		{
+			return;
+		}
 
 
-    protected override void ResolveSpell ()
-    {
-        base.ResolveSpell();
 
-        if (isLaunched && spitObj != null)
-        {
-            return;
-        }
+		float finalRange = 0;
+		finalRange = Mathf.Clamp(Vector3.Distance(transform.position, mousePosInputed), 0, spell.range);
+		Vector3 direction = new Vector3();
+		direction = Vector3.Normalize(mousePosInputed - transform.position);
+
+		destination = transform.position + direction * finalRange;
+
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write(RoomManager.Instance.client.ID); // Player ID
+
+			_writer.Write(destination.x);
+			_writer.Write(destination.y);
+			_writer.Write(destination.z);
+
+			using (Message _message = Message.Create(Tags.CurveSpellLaunch, _writer))
+			{
+				RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+			}
+		}
+
+		InitLaunch(destination);
+	}
+
+	public void InitLaunch ( Vector3 destination )
+	{
+		initialDistance = Vector3.Distance(transform.position, destination);
+		finalPos = destination;
+
+		percentageStrengthOfTheThrow = initialDistance / spell.range;
+		spitObj.SetActive(true);
 
 
-        spitObj.SetActive(true);
+		if (!simpleSpeed)
+		{
 
-        float finalRange = 0;
-        finalRange = Mathf.Clamp(Vector3.Distance(transform.position, mousePosInputed),0,spell.range);
-        Vector3 direction = new Vector3();
-        direction = Vector3.Normalize(mousePosInputed - transform.position);
+			spitObj.transform.position = transform.position + Vector3.up;
+			isLaunched = true;
+			float timeToReach = Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.timeToReachMaxRange, localTrad.minTimeToReach, localTrad.timeToReachMaxRange);
+			spitObj.transform.DOMoveX(destination.x, timeToReach).OnComplete(() => Landed());
+			spitObj.transform.DOMoveZ(destination.z, timeToReach);
 
-        destination = transform.position + direction * finalRange;
+			LocalPoolManager.Instance.SpawnNewAOEInNetwork ((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, timeToReach);
+		}
+		else
+		{
+			this.destination = destination;
+			startPos = (transform.position + Vector3.up);
+			spitObj.transform.position = startPos;
+			baseDistance = Vector3.Distance(startPos, destination);
+			noCurvePosition = startPos;
+			isLaunched = true;
+		}
+	}
 
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(RoomManager.Instance.client.ID); // Player ID
+	public void Landed ()
+	{
+		isLaunched = false;
+		spitObj.SetActive(false);
 
-            _writer.Write(destination.x);
-            _writer.Write(destination.y);
-            _writer.Write(destination.z);
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+			{
+				_writer.Write(RoomManager.Instance.client.ID); // Player ID
 
-            using (Message _message = Message.Create(Tags.CurveSpellLaunch, _writer))
-            {
-                RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
-            }
-        }
+				using (Message _message = Message.Create(Tags.CurveSpellLanded, _writer))
+				{
+					RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+				}
+			}
 
-        InitLaunch(destination);
-    }
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, Vector3.zero);
+		}
+	}
 
-    public void InitLaunch(Vector3 destination)
-    {
-        this.destination = destination;
-        spitObj.SetActive(true);
-        startPos = (transform.position + Vector3.up);
-        spitObj.transform.position = startPos;
-        baseDistance = Vector3.Distance(startPos, destination);
-        noCurvePosition = startPos;
-        isLaunched = true;
+	protected override void HidePreview ( Vector3 _posToHide )
+	{
+		base.HidePreview(_posToHide);
 
-       // spitObj.transform.DOMove()
-    }
+		myAoePreview.gameObject.SetActive(false);
+		myRangePreview.gameObject.SetActive(false);
+	}
 
-    public void Landed()
-    {
-        isLaunched = false;
-        spitObj.SetActive(false);
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
 
-        if (myPlayerModule.mylocalPlayer.isOwner)
-        {
-            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-            {
-                _writer.Write(RoomManager.Instance.client.ID); // Player ID
+		myAoePreview.gameObject.SetActive(true);
+		myRangePreview.gameObject.SetActive(true);
+	}
 
-                using (Message _message = Message.Create(Tags.CurveSpellLanded, _writer))
-                {
-                    RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
-                }
-            }
-
-            NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, Vector3.zero);
-        }
-    }
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
+		myAoePreview.transform.localPosition = myPlayerModule.directionInputed() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range);
+	}
 }

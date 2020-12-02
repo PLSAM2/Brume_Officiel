@@ -502,6 +502,50 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
+    public void SendSpawnGenericFx(ushort _index, Vector3 _pos, float _rota, float _scale, float _time)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_index);
+
+            _writer.Write(_pos.x);
+            _writer.Write(_pos.z);
+
+            _writer.Write(_rota);
+
+            _writer.Write(_scale);
+
+            _writer.Write(_time);
+
+            using (Message _message = Message.Create(Tags.SpawnGenericFx, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
+    public void SendSpawnAOEFx(ushort _id, Vector3 _pos, float _rota, float _scale, float _time)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_id);
+
+            _writer.Write(_pos.x);
+            _writer.Write(_pos.z);
+
+            _writer.Write(_rota);
+
+            _writer.Write(_scale);
+
+            _writer.Write(_time);
+
+            using (Message _message = Message.Create(Tags.SpawnAOEFx, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
     public void KillPlayer(PlayerData killer = null)
     {
         if (isOwner)
