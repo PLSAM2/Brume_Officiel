@@ -42,7 +42,7 @@ public class LocalPoolManager : SerializedMonoBehaviour
         AOE_Fx currentFeedback = GetFree(allAOE, prefabAOEFeedback).GetComponent<AOE_Fx>();
 
         currentFeedback.gameObject.SetActive(true);
-        currentFeedback.Init((AOE_Fx_Type) _id, _pos, _rota, _scale, _time);
+        currentFeedback.Init((AOE_Fx_Type) _id, _pos, _rota, _scale *2, _time);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time + 0.2f);
     }
