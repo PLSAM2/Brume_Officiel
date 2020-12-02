@@ -99,5 +99,6 @@ class Tags
 
     //Fx
     public static readonly ushort SpawnGenericFx = 4000;
+    public static readonly ushort SpawnAOEFx = 4001;
     // <<
 }
