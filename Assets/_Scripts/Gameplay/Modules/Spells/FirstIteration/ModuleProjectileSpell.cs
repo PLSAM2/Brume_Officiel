@@ -39,6 +39,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 	
 		base.SetupComponent(_actionLinked);
+
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			if (localTrad.salveInfos.numberOfShotInSalve > 1)

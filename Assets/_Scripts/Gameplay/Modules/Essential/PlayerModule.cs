@@ -422,6 +422,11 @@ public class PlayerModule : MonoBehaviour
 		return Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 	}
 
+	public Vector3 directionOfTheMouse ()
+	{
+		return Vector3.Normalize(mousePos() - transform.position);
+	}
+
 	public Vector3 mousePos ()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
