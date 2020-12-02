@@ -17,7 +17,15 @@ public class ChampSelectManager : MonoBehaviour
     public List<CharacterListObj> blueTeamCharacterList = new List<CharacterListObj>();
     public GameObject startButton;
     public TextMeshProUGUI roundText;
+
     public Dictionary<ushort, CharacterListObj> linkPlayerCharacterListObj = new Dictionary<ushort, CharacterListObj>();
+
+    [Header("Swap")]
+    public GameObject characterSwapPanelReceiver;
+    public GameObject characterSwapPanelSender;
+    public TextMeshProUGUI characterSwapPanelReceiverText;
+    public TextMeshProUGUI characterSwapPanelSenderText;
+    private ushort askingSwapPlayerId = 0;
 
     private void Awake()
     {
@@ -79,11 +87,29 @@ public class ChampSelectManager : MonoBehaviour
             {
                 PickCharacterInServer(sender, e);
             }
+            if (message.Tag == Tags.AskForCharacterSwap)
+            {
+                AskForCharacterSwapInServer(sender, e);
+            }
+            if (message.Tag == Tags.CharacterSwap)
+            {
+                CharacterSwapInServer(sender, e);
+            }
+            if (message.Tag == Tags.RefuseCharacterSwap)
+            {
+                RefuseCharacterSwapInServer(sender, e);
+            }
         }
     }
 
+
     public void PickCharacter(GameData.Character character)
     {
+        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter)
+        {
+            return;
+        }
+
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write((ushort)character);
@@ -110,21 +136,110 @@ public class ChampSelectManager : MonoBehaviour
 
         SetCharacter(_playerID, _character);
 
+        if (_playerID == askingSwapPlayerId)
+        {
+            StopSwap();
+        }
+
+
         if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
             if (CheckIfCanLaunch())
             {
                 startButton.SetActive(true);
-            } else
+            }
+            else
             {
                 startButton.SetActive(false);
             }
-            
+
         }
     }
 
-    private void SetCharacter(ushort playerID, Character character)
+    private void AskForCharacterSwapInServer(object sender, MessageReceivedEventArgs e) // Recu uniquement par l'envoyeur et la personne ciblé
     {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _playerID = reader.ReadUInt16(); // joueur demandant le swap
+                ushort _targetedID = reader.ReadUInt16(); // joueur target par le swap
+                Character _character = (Character)reader.ReadUInt16();
+
+                askingSwapPlayerId = _playerID;
+
+                if (_playerID != NetworkManager.Instance.GetLocalPlayer().ID)
+                {
+                    characterSwapPanelReceiver.SetActive(true);
+                    characterSwapPanelSender.SetActive(false);
+                    characterSwapPanelReceiverText.text = RoomManager.Instance.GetPlayerData(_playerID).Name + " want to swap " + _character.ToString() + " with you";
+                }
+                else
+                {
+                    characterSwapPanelSender.SetActive(true);
+                    characterSwapPanelReceiver.SetActive(false);
+                    characterSwapPanelSenderText.text = "Asking " + RoomManager.Instance.GetPlayerData(_targetedID).Name + " to swap";
+                }
+
+            }
+        }
+    }
+    public void AcceptSwap()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(askingSwapPlayerId);
+
+            using (Message message = Message.Create(Tags.CharacterSwap, writer))
+                RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+    public void RefuseSwap()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(askingSwapPlayerId);
+
+            using (Message message = Message.Create(Tags.RefuseCharacterSwap, writer))
+                RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    private void CharacterSwapInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort askingPlayer = reader.ReadUInt16();
+                ushort targetedPlayer = reader.ReadUInt16();
+                Character __askingPlayerCharacter = (Character)reader.ReadUInt16();
+                Character ___targetedPlayerCharacter = (Character)reader.ReadUInt16();
+
+                SetCharacter(askingPlayer, __askingPlayerCharacter, true);
+                SetCharacter(targetedPlayer, ___targetedPlayerCharacter, true);
+            }
+        }
+    }
+
+    private void RefuseCharacterSwapInServer(object sender, MessageReceivedEventArgs e)
+    {
+        StopSwap();
+    }
+
+    public void StopSwap()
+    {
+        characterSwapPanelSender.SetActive(false);
+        characterSwapPanelReceiver.SetActive(false);
+        characterSwapPanelReceiverText.text = "";
+        characterSwapPanelSenderText.text = "";
+        askingSwapPlayerId = 0;
+    }
+
+
+    private void SetCharacter(ushort playerID, Character character, bool swap = false)
+    {
+        print("here");
         PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
         int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
 
@@ -145,16 +260,17 @@ public class ChampSelectManager : MonoBehaviour
 
         if (linkPlayerCharacterListObj.ContainsKey(playerID))
         {
-            linkPlayerCharacterListObj[playerID].playerNameText.text = "";
+            if (!swap)
+            {
+                linkPlayerCharacterListObj[playerID].playerNameText.text = "";
+            }
             linkPlayerCharacterListObj.Remove(playerID);
         }
 
         player.playerCharacter = character;
-
         player.IsReady = true;
-        _listObj.playerNameText.text = player.Name; 
+        _listObj.playerNameText.text = player.Name;
         linkPlayerCharacterListObj.Add(playerID, _listObj);
-
     }
 
 
