@@ -52,7 +52,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<BrumeScript> allBrume = new List<BrumeScript>();
 
-    public List<Fx> allVisibleFx = new List<Fx>();
+    public List<Fx> allFx = new List<Fx>();
+    public List<Transform> allVisibleFx = new List<Transform>();
 
     private bool stopInit = false;
     public bool gameStarted = false;

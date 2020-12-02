@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RiftDamageFx : MonoBehaviour
 {
+    [SerializeField] Fx myFx;
+
     [SerializeField] GameObject ExplosionPrefab;
 
     List<GameObject> oldExplosions = new List<GameObject>();
@@ -40,6 +42,8 @@ public class RiftDamageFx : MonoBehaviour
         float time = 0.5f / currentSize;
         float startPos = 1 / currentSize;
 
+        myFx.objToHide.RemoveAll(x => x == null);
+
         for (int i = 0; i < currentSize; i++)
         {
             GameObject explo = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
@@ -47,6 +51,7 @@ public class RiftDamageFx : MonoBehaviour
             explo.transform.localPosition = new Vector3(0, 0, startPos);
             oldExplosions.Add(explo);
 
+            myFx.objToHide.Add(explo);
 
             startPos += 1 / currentSize;
         }

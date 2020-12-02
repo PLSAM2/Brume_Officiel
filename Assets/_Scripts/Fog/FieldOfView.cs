@@ -16,7 +16,10 @@ public class FieldOfView : MonoBehaviour
 	public List<Transform> visibleTargets = new List<Transform>();
 	List<Transform> oldVisibleTargets = new List<Transform>();
 
-	public float meshResolution;
+    public List<Transform> visibleFx = new List<Transform>();
+    List<Transform> oldVisibleFx = new List<Transform>();
+
+    public float meshResolution;
 	public int edgeResolveIterations;
 	public float edgeDstThreshold;
 
@@ -73,6 +76,7 @@ public class FieldOfView : MonoBehaviour
 	void FixedUpdate ()
 	{
         SetListVisibleEnemy();
+        SetListVisibleFx();
 
         if (isStatic) { return; }
 
@@ -81,7 +85,29 @@ public class FieldOfView : MonoBehaviour
 		//FogProjector.Instance.UpdateFog();
 	}
 
-	void SetListVisibleEnemy ()
+    void SetListVisibleFx()
+    {
+        foreach (Transform fx in visibleFx)
+        {
+            if (!GameManager.Instance.allVisibleFx.Contains(fx))
+            {
+                GameManager.Instance.allVisibleFx.Add(fx);
+            }
+        }
+
+        foreach (Transform fx in oldVisibleFx)
+        {
+            if (!visibleFx.Contains(fx))
+            {
+                GameManager.Instance.allVisibleFx.Remove(fx);
+            }
+        }
+
+        oldVisibleFx.Clear();
+        oldVisibleFx.AddRange(visibleTargets);
+    }
+
+    void SetListVisibleEnemy ()
 	{
 		foreach (Transform enemy in visibleTargets)
 		{
@@ -120,7 +146,6 @@ public class FieldOfView : MonoBehaviour
 
 		for (int i = 0; i < targetsInViewRadius.Length; i++)
 		{
-
 			if (targetsInViewRadius[i].tag != "Hide") { continue; }
 
 			Transform target = targetsInViewRadius[i].transform;
@@ -130,7 +155,14 @@ public class FieldOfView : MonoBehaviour
 			float dstToTarget = Vector3.Distance(transform.position, target.position);
 			if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 			{
-                visibleTargets.Add(target);
+                if(target.gameObject.layer == 11)
+                {
+                    visibleFx.Add(target);
+                }
+                else
+                {
+                    visibleTargets.Add(target);
+                }
             }
 		}
 	}
