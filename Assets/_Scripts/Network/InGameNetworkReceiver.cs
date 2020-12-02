@@ -590,6 +590,8 @@ public class InGameNetworkReceiver : MonoBehaviour
                 uint _size = reader.ReadUInt32();
                 bool _reset = reader.ReadBoolean(); 
 
+                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
+
                 if (_reset)
                 {
                     GameManager.Instance.networkPlayers[_playerId].ResetFowRaduis();
