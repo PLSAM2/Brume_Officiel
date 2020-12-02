@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
   m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
     _MOVINGGRAIN_ON _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON
+    _WINDVERTEXDISPLACEMENT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -85,7 +86,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: 930255473101a714dbb8813d5ea774c3, type: 3}
+        m_Texture: {fileID: 2800000, guid: c5f805f75d8617f40a6d1db02a3313a9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Normal:
@@ -97,7 +98,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Opacity_Texture:
-        m_Texture: {fileID: 2800000, guid: cdbbd9d07dfbd1f4c8861d7f140c842b, type: 3}
+        m_Texture: {fileID: 2800000, guid: c5f805f75d8617f40a6d1db02a3313a9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness:
@@ -150,6 +151,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _InOutBrumeTransition: 0
+    - _InkGrunge_Tiling: 1
     - _InkSplatter: 1
     - _InkSplatter_Tiling: 3.93
     - _LightDebug: 0
@@ -203,26 +205,26 @@ Material:
     - _TerrainBlending_TextureTiling: 1
     - _UVSec: 0
     - _Wave_Speed: 0
-    - _WindVertexDisplacement: 0
+    - _WindVertexDisplacement: 1
     - _Wind_Density: 0.2
     - _Wind_Direction: 1
-    - _Wind_Strength: 2
+    - _Wind_Strength: 0.002
     - _Wind_Texture_Tiling: 0.5
     - _ZWrite: 1
     - __dirty: 0
     - _edgeNoise_Attenuation1: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorShadow: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 0}
+    - _ColorShadow: {r: 0.1509433, g: 0.1509433, b: 0.1509433, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowDirection: {r: 1, g: 1, b: 0, a: 0}
-    - _InBrumeBackColor: {r: 0.8962264, g: 0.88905805, b: 0.88354397, a: 0}
+    - _InBrumeBackColor: {r: 0.8962264, g: 0.8890581, b: 0.883544, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _InkGrunge_Tiling: {r: 0.02, g: 0.02, b: 0, a: 0}
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
-    - _OutBrumeColorCorrection: {r: 1, g: 0.9030071, b: 0.7783019, a: 0}
+    - _OutBrumeColorCorrection: {r: 0.53451514, g: 0.7830189, b: 0.43952474, a: 0}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
