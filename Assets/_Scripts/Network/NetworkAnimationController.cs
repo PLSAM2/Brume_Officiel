@@ -23,12 +23,51 @@ public class NetworkAnimationController : MonoBehaviour
 
         client = RoomManager.Instance.client;
         client.MessageReceived += Client_MessageReceived;
+
+        oldPos = transform.position;
     }
     private void OnDisable()
     {
         client.MessageReceived -= Client_MessageReceived;
     }
 
+	private void Update ()
+	{
+        DoAnimation();
+    }
+
+    Vector3 oldPos;
+    [SerializeField] float speedAnim = 30;
+    private void DoAnimation ()
+    {
+        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+
+        float speed = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed;
+
+        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
+
+        Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+
+        float right = Vector3.Dot(transform.right, pos);
+        float forward = Vector3.Dot(transform.forward, pos);
+
+        animator.SetFloat("Forward", forward);
+        animator.SetFloat("Turn", right);
+
+        oldPos = transform.position;
+    }
+
+    public void SetTriggerToAnim ( string triggerName )
+    {
+        animator.SetTrigger(triggerName);
+    }
+
+    public void SetBoolToAnim ( string _triggerName, bool _value )
+    {
+        animator.SetBool(_triggerName, _value);
+    }
 
     private void Client_MessageReceived(object sender, MessageReceivedEventArgs e)
     {
@@ -65,8 +104,6 @@ public class NetworkAnimationController : MonoBehaviour
                 client.SendMessage(_message, sendMode);
             }
         }
-
-        animator.SetTrigger(trigger);
     }
 
     private void SyncTriggerInserver(object sender, MessageReceivedEventArgs e)
@@ -87,47 +124,7 @@ public class NetworkAnimationController : MonoBehaviour
         }
     }
 
-    /*
-    public void Sync2DBlendTree(float Xvalue, float Yvalue, SendMode sendMode = SendMode.Reliable)
-    {
-        sbyte optimisedXvalue = (sbyte)Mathf.RoundToInt(Xvalue * 100);
-        sbyte optimisedYvalue = (sbyte)Mathf.RoundToInt(Yvalue * 100);
-
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(client.ID);
-            _writer.Write(optimisedXvalue);
-            _writer.Write(optimisedYvalue);
-
-            using (Message _message = Message.Create(Tags.Sync2DBlendTree, _writer))
-            {
-                client.SendMessage(_message, sendMode);
-            }
-        }
-    }
-    private void Sync2DBlendTreeInserver(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort _id = reader.ReadUInt16();
-
-                if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
-                    return;
-
-                float Xvalue = ((float)reader.ReadSByte()) / 100;
-                float Yvalue = ((float)reader.ReadSByte()) / 100;
-
-                animator.SetFloat("Forward", Xvalue);
-                animator.SetFloat("Turn", Yvalue);
-            }
-        }
-    }
-
-    */
-
-    public void SyncFloatInServer(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
+    public void SyncBoolean(string boolean, bool value, SendMode sendMode = SendMode.Reliable)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -140,8 +137,6 @@ public class NetworkAnimationController : MonoBehaviour
                 client.SendMessage(_message, sendMode);
             }
         }
-
-        animator.SetBool(boolean, value);
     }
 
     private void SyncBooleanInserver(object sender, MessageReceivedEventArgs e)

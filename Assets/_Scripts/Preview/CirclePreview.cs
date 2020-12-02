@@ -32,7 +32,7 @@ public class CirclePreview : MonoBehaviour
             myObjCenter.SetActive(false);
         }
 
-        currentObj.transform.localScale = new Vector3(_newRaduis, _newRaduis, 1);
+        currentObj.transform.localScale = new Vector3(_newRaduis*2, _newRaduis*2, 1);
         currentObj.transform.localEulerAngles = new Vector3(0, 0, _newRotation);
 
         currentObj.transform.localPosition = _newPos;

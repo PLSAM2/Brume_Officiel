@@ -12,7 +12,7 @@ public class PlayerModule : MonoBehaviour
 {
 	[Header("Inputs")]
 	public KeyCode firstSpellKey = KeyCode.A;
-	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift;
+	public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl;
 	public KeyCode interactKey = KeyCode.F;
 	public KeyCode wardKey = KeyCode.Alpha4;
 	private LayerMask groundLayer;
@@ -115,7 +115,7 @@ public class PlayerModule : MonoBehaviour
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
 	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, wardInputReleased;
-	public Action startSneaking, stopSneaking;
+	public Action startSneaking, stopSneaking, cancelSpell;
 	public Action<bool> rotationLock;
 	#endregion
 
@@ -236,6 +236,8 @@ public class PlayerModule : MonoBehaviour
 				thirdSpellInput?.Invoke(mousePos());
 			else if (Input.GetKeyDown(wardKey))
 				wardInput?.Invoke(mousePos());
+			else if (Input.GetKeyDown(cancelSpellKey))
+				cancelSpell?.Invoke();
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
 			{

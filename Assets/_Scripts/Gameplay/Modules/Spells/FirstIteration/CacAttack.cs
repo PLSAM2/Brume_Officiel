@@ -26,7 +26,7 @@ public class CacAttack : SpellModule
 		shapePreview.gameObject.SetActive(false);
 	}
 
-	protected override void LinkInput ( En_SpellInput _actionLinked )
+	protected override void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		switch (_actionLinked)
 		{
@@ -77,9 +77,9 @@ public class CacAttack : SpellModule
 		base.Disable();
 	}
 
-	protected override void DelinkInput ( En_SpellInput _actionLinked )
+	protected override void DelinkInput ()
 	{
-		switch (_actionLinked)
+		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput -= ShowPreview;
