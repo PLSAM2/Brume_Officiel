@@ -154,7 +154,7 @@ public class Module_Spit : SpellModule
 			spitObj.transform.DOMoveX(destination.x, timeToReach).OnComplete(() => Landed());
 			spitObj.transform.DOMoveZ(destination.z, timeToReach);
 
-			LocalPoolManager.Instance.SpawnNewAOEInNetwork ((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius*2, timeToReach);
+			LocalPoolManager.Instance.SpawnNewAOEInNetwork ((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, timeToReach);
 		}
 		else
 		{
