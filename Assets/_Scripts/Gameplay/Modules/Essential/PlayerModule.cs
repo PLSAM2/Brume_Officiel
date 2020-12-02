@@ -115,8 +115,8 @@ public class PlayerModule : MonoBehaviour
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
 	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, wardInputReleased;
-	public Action startSneaking, stopSneaking, cancelSpell;
-	public Action<bool> rotationLock;
+	public Action startSneaking, stopSneaking;
+	public Action<bool> rotationLock,  cancelSpell;
 	#endregion
 
 	//[DASH ET MODIFICATEUR DE MOUVEMENT]
@@ -237,7 +237,7 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyDown(wardKey))
 				wardInput?.Invoke(mousePos());
 			else if (Input.GetKeyDown(cancelSpellKey))
-				cancelSpell?.Invoke();
+				cancelSpell?.Invoke(false);
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
 			{
@@ -532,6 +532,9 @@ public class PlayerModule : MonoBehaviour
 		_newElement.liveLifeTime = _tempTrad.finalLifeTime;
 		_newElement.baseLifeTime = _tempTrad.finalLifeTime;
 		_newElement.effect = _tempTrad;
+
+		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
+			cancelSpell?.Invoke(true);
 
 		if (_statusToAdd.forcedKey != 0)
 		{
