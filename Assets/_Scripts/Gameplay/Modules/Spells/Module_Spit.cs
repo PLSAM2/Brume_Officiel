@@ -22,6 +22,9 @@ public class Module_Spit : SpellModule
 	Sc_Spit localTrad;
 	[SerializeField] bool simpleSpeed = false;
 
+	CirclePreview myrangePreview;
+	ShapePreview myAoePreview;
+
 	float initialDistance, percentageStrengthOfTheThrow;
 	Vector3 finalPos;
 
@@ -32,6 +35,14 @@ public class Module_Spit : SpellModule
 		spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
 		spitObj.SetActive(false);
 		animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+	}
+
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		base.SetupComponent(_actionLinked);
+		myAoePreview = PreviewManager.Instance.GetShapePreview(transform);
+		//myAoePreview.
+		myrangePreview = PreviewManager.Instance.GetCirclePreview(transform);
 	}
 
 	private void OnDestroy ()
@@ -76,7 +87,6 @@ public class Module_Spit : SpellModule
 		}
 
 	}
-
 
 	protected override void ResolveSpell ()
 	{
@@ -160,5 +170,20 @@ public class Module_Spit : SpellModule
 
 			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, Vector3.zero);
 		}
+	}
+
+	protected override void HidePreview ( Vector3 _posToHide )
+	{
+		base.HidePreview(_posToHide);
+	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+	}
+
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
 	}
 }
