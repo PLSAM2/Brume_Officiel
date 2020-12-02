@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using static AOE_Fx;
+
 public class Module_Spit : SpellModule
 {
 
@@ -22,7 +24,7 @@ public class Module_Spit : SpellModule
 	Sc_Spit localTrad;
 	[SerializeField] bool simpleSpeed = false;
 
-	CirclePreview myrangePreview;
+	CirclePreview myRangePreview;
 	ShapePreview myAoePreview;
 
 	float initialDistance, percentageStrengthOfTheThrow;
@@ -39,10 +41,21 @@ public class Module_Spit : SpellModule
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
+
 		base.SetupComponent(_actionLinked);
-		myAoePreview = PreviewManager.Instance.GetShapePreview(transform);
-		//myAoePreview.
-		myrangePreview = PreviewManager.Instance.GetCirclePreview(transform);
+
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myAoePreview = PreviewManager.Instance.GetShapePreview(transform);
+			myAoePreview.transform.localScale = new Vector3(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius);
+
+			//myAoePreview.
+			myRangePreview = PreviewManager.Instance.GetCirclePreview(transform);
+			myRangePreview.transform.localScale = new Vector3(spell.range, spell.range, spell.range);
+
+			HidePreview(Vector3.zero);
+		}
+
 	}
 
 	private void OnDestroy ()
@@ -79,8 +92,8 @@ public class Module_Spit : SpellModule
 			else
 			{
 				Vector3 posToScale = new Vector3(spitObj.transform.position.x, 0, spitObj.transform.position.z);
-				float percentageOfTheTravel = (initialDistance -Vector3.Distance(posToScale, finalPos) )/ initialDistance;
-				print(percentageOfTheTravel);
+				float percentageOfTheTravel = (initialDistance - Vector3.Distance(posToScale, finalPos)) / initialDistance;
+
 				float maxHeight = Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.maxHeightAtMaxRange, localTrad.minHeight, localTrad.maxHeightAtMaxRange);
 				spitObj.transform.position = new Vector3(spitObj.transform.position.x, localTrad.launchCurve.Evaluate(percentageOfTheTravel) * maxHeight, spitObj.transform.position.z);
 			}
@@ -131,14 +144,17 @@ public class Module_Spit : SpellModule
 		percentageStrengthOfTheThrow = initialDistance / spell.range;
 		spitObj.SetActive(true);
 
+
 		if (!simpleSpeed)
 		{
 
 			spitObj.transform.position = transform.position + Vector3.up;
 			isLaunched = true;
-			spitObj.transform.DOMoveX(destination.x, Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.timeToReachMaxRange, localTrad.minTimeToReach, localTrad.timeToReachMaxRange)).OnComplete(() => Landed());
-			spitObj.transform.DOMoveZ(destination.z, Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.timeToReachMaxRange, localTrad.minTimeToReach, localTrad.timeToReachMaxRange));
+			float timeToReach = Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.timeToReachMaxRange, localTrad.minTimeToReach, localTrad.timeToReachMaxRange);
+			spitObj.transform.DOMoveX(destination.x, timeToReach).OnComplete(() => Landed());
+			spitObj.transform.DOMoveZ(destination.z, timeToReach);
 
+			LocalPoolManager.Instance.SpawnNewAOEInNetwork ((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius*2, timeToReach);
 		}
 		else
 		{
@@ -175,15 +191,22 @@ public class Module_Spit : SpellModule
 	protected override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
+
+		myAoePreview.gameObject.SetActive(false);
+		myRangePreview.gameObject.SetActive(false);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
 		base.ShowPreview(mousePos);
+
+		myAoePreview.gameObject.SetActive(true);
+		myRangePreview.gameObject.SetActive(true);
 	}
 
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
+		myAoePreview.transform.localPosition = myPlayerModule.directionInputed() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range);
 	}
 }

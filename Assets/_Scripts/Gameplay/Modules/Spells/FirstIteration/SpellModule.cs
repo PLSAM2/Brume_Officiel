@@ -50,7 +50,6 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 		cooldown = finalCooldownValue();
-
 		actionLinked = _actionLinked;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
