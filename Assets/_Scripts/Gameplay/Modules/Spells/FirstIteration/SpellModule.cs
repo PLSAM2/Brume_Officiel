@@ -7,8 +7,9 @@ using Sirenix.OdinInspector;
 public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell, throwbackTime;
-	
-	[ReadOnly] public float cooldown
+
+	[ReadOnly]
+	public float cooldown
 	{
 		get => _cooldown; set
 		{
@@ -19,7 +20,8 @@ public class SpellModule : MonoBehaviour
 	}
 	private int _charges;
 
-	[ReadOnly] public int charges
+	[ReadOnly]
+	public int charges
 	{
 		get => _charges;
 		set
@@ -35,7 +37,7 @@ public class SpellModule : MonoBehaviour
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
 	public Sc_Spell spell;
-	
+
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
@@ -333,15 +335,20 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
 
-	void CancelSpell ()
+	void CancelSpell ( bool _isForcedInterrupt )
 	{
-		if(showingPreview)
-		{
-			willResolve = false;
-			HidePreview(Vector3.zero);
-		}
-		else if (isUsed)
+		if (_isForcedInterrupt && isUsed)
 			KillSpell();
+		else
+		{
+			if (showingPreview)
+			{
+				willResolve = false;
+				HidePreview(Vector3.zero);
+			}
+			else if (isUsed)
+				KillSpell();
+		}
 	}
 
 	public virtual void Interrupt ()
@@ -367,14 +374,14 @@ public class SpellModule : MonoBehaviour
 
 	}
 
-	protected virtual void KillSpell()
+	protected virtual void KillSpell ()
 	{
 		AnonciationFeedBack();
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim ("Interrupt");
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
 		Interrupt();
-			AddCharge();
+		AddCharge();
 	}
 
 	protected virtual void DecreaseCharge ()
