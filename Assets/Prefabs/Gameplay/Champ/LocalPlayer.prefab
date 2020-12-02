@@ -55,6 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1163919473078000102}
   myLocalPlayer: {fileID: 1217320960498770133}
+  speedAnim: 30
 --- !u!114 &1217320960498770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,8 +72,7 @@ MonoBehaviour:
   isOwner: 0
   distanceRequiredBeforeSync: 0.025
   myPlayerModule: {fileID: 0}
-  myAnimator: {fileID: 1163919473078000102}
-  networkAnimationController: {fileID: -3939077042609495558}
+  myAnimController: {fileID: -3939077042609495558}
   circleDirection: {fileID: 3531234986128592076}
   respawnTime: 2
   canvas: {fileID: 6548595031188705954}
@@ -91,7 +91,6 @@ MonoBehaviour:
   - {fileID: 9064528901800055237}
   isVisible: 1
   myOutline: {fileID: 724448695432556351}
-  speedAnim: 30
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +197,6 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
-  myPlayerModule: {fileID: 0}
   launchCurve:
     serializedVersion: 2
     m_Curve:

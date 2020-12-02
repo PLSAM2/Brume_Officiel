@@ -55,6 +55,12 @@ public class RiftDamageFx : MonoBehaviour
 
             startPos += 1 / currentSize;
         }
+
+        Transform player = GameFactory.GetActualPlayerFollow().transform;
+        if (player != null && Vector3.Distance(player.position, transform.position) < 7)
+        {
+            CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+        }
     }
 
     void SupprOld()
