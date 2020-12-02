@@ -130,7 +130,7 @@ Shader "CrackParalax"
 }
 /*ASEBEGIN
 Version=18707
--1920;0;1920;1019;2388.43;1149.781;2.098957;True;True
+-1920;0;1919;1019;2225.872;1715.085;2.795588;True;True
 Node;AmplifyShaderEditor.TexturePropertyNode;20;-1543.847,-316.8219;Inherit;True;Property;_Texture1;Texture 1;4;0;Create;True;0;0;False;0;False;b49216ea4c77f1140aa74adb8e7e3a13;b49216ea4c77f1140aa74adb8e7e3a13;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.RegisterLocalVarNode;21;-1290.346,-319.4219;Inherit;False;CrackMaskInvert;-1;True;1;0;SAMPLER2D;;False;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;5;-1008.684,-101.868;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -178,4 +178,4 @@ WireConnection;16;0;17;0
 WireConnection;0;0;33;0
 WireConnection;0;10;16;0
 ASEEND*/
-//CHKSM=ABC298BAA3D98EB821AD50D8653D597654F08DE9
+//CHKSM=0E101F0D267F46010CC7D493DC948E127AD5A5C2
