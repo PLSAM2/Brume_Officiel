@@ -177,6 +177,15 @@ public class ModuleProjectileSpell : SpellModule
 		base.ShowPreview(mousePos);
 	}
 
+	protected override void CancelSpell ( bool _isForcedInterrupt )
+	{
+		base.CancelSpell(_isForcedInterrupt);
+		if (shooting == true)
+		{
+			shooting = false;
+			DecreaseCharge();
+		}
+	}
 
 	#endregion
 }
