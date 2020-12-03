@@ -1,11 +1,4 @@
-﻿/// <summary>
-/// Val 0000 --> 1000
-/// Sam 1000 --> 2000
-/// Pierre 2000 --> 3000
-/// 
-/// VALEUR MAX 65535
-/// </summary>
-class Tags
+﻿class Tags
 {
     // Lobby 0 --> 299 >>       
     public static readonly ushort PlayerConnected = 0;
@@ -92,6 +85,11 @@ class Tags
 
     //SPELLS CHARACTER
     public static readonly ushort LaunchSplouch = 2600;
+    // <<
+
+    //Audio
+    public static readonly ushort Play2DSound = 3000;
+    public static readonly ushort Play3DSound = 3001;
     // <<
 
     //Fx
