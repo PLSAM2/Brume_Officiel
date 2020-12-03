@@ -86,7 +86,7 @@ public class FootstepAudio : MonoBehaviour
 
     public void OnAnimRun()
     {
-        if(haveWaitDelay)
+        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
         {
             myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);
         }
