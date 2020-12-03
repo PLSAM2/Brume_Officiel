@@ -31,7 +31,7 @@ public class SquarePreview : MonoBehaviour
         currentObj.transform.localScale = new Vector3(_newWidth, _newLenght, 1);
         currentObj.transform.localEulerAngles = new Vector3(0, 0, _newRotation);
 
-        transform.localPosition = _newPos;
+        transform.localPosition = _newPos + Vector3.up * 0.1f;
     }
 
     public void SetColor(Color _newColor)

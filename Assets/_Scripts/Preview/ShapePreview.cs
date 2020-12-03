@@ -15,7 +15,7 @@ public class ShapePreview : MonoBehaviour
         myImg.fillAmount = (float)_newAngle / 360;
         objImg.transform.localEulerAngles = new Vector3(0, 0, 180 + (float)_newAngle / 2 + _newRotation);
 
-        transform.localPosition = _newPos;
+        transform.localPosition = _newPos + Vector3.up * 0.1f;
     }
 
     public void SetColor(Color _newColor)
