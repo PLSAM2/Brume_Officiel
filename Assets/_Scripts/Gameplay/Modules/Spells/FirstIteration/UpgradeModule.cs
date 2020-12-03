@@ -15,7 +15,7 @@ public class UpgradeModule : SpellModule
 		localTrad = spell as Sc_UpgradeSpell;
 	}
 
-	protected override void ResolveSpell ( )
+    protected override void ResolveSpell ( )
 	{
 		base.ResolveSpell();
 
