@@ -544,6 +544,7 @@ MonoBehaviour:
   myAudioSource: {fileID: 3962372205171420851}
   minTime: 0.1
   maxTime: 0.15
+  delayToDoSound: 0.5
 --- !u!1 &1078079797449278453
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,6 +2102,7 @@ GameObject:
   - component: {fileID: 5100113601684079516}
   - component: {fileID: 1163919473078000102}
   - component: {fileID: 724448695432556351}
+  - component: {fileID: 1658405892408307232}
   m_Layer: 0
   m_Name: AnimatorPerso
   m_TagString: Untagged
@@ -2164,6 +2166,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &1658405892408307232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588103883704817958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c5bf08902e9bd46945d2f2e8c6b74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myFootstep: {fileID: 7584170429694241150}
 --- !u!1 &5640907711728401021
 GameObject:
   m_ObjectHideFlags: 0
@@ -8609,14 +8624,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fa661912640d324f84a87e4e0740f02, type: 3}
---- !u!1 &8144858686240885169 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1435498851808430, guid: 1fa661912640d324f84a87e4e0740f02, type: 3}
-  m_PrefabInstance: {fileID: 8146237972455865631}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8150874684581471801 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4777452567288614, guid: 1fa661912640d324f84a87e4e0740f02, type: 3}
+  m_PrefabInstance: {fileID: 8146237972455865631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8144858686240885169 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1435498851808430, guid: 1fa661912640d324f84a87e4e0740f02, type: 3}
   m_PrefabInstance: {fileID: 8146237972455865631}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9065061530642622375
