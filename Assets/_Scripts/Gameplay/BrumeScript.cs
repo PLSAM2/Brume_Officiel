@@ -12,6 +12,8 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
 
+    [SerializeField] AudioClip sfxTransiBrume;
+
     private void Start()
     {
         GameManager.Instance.allBrume.Add(this);
@@ -47,6 +49,8 @@ public class BrumeScript : MonoBehaviour
                 SetTowerFow(false);
 
                 myRenderer.enabled = false;
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
 
@@ -67,6 +71,8 @@ public class BrumeScript : MonoBehaviour
                 myRenderer.enabled = false;
 
                 other.GetComponent<Ghost>().currentIdBrume = GetInstanceID();
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
     }
@@ -123,6 +129,8 @@ public class BrumeScript : MonoBehaviour
 
                 UiManager.Instance.SetAlphaBrume(0);
                 myRenderer.enabled = true;
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
 
@@ -141,6 +149,8 @@ public class BrumeScript : MonoBehaviour
 
                 UiManager.Instance.SetAlphaBrume(0);
                 myRenderer.enabled = true;
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
     }
