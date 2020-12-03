@@ -221,13 +221,6 @@ public class PlayerModule : MonoBehaviour
 
     void Update()
     {
-        EffectLifeTimed _temp = allEffectLive.Where(x => x.key == wxMarkRef.effect.forcedKey).FirstOrDefault();
-
-        if (_temp != null)
-        {
-            print(_temp.liveLifeTime);
-        }
-
         if ((state & En_CharacterState.WxMarked) != 0)
             wxMark.SetActive(true);
         else
