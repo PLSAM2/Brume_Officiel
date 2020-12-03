@@ -8,6 +8,7 @@ public class FootstepCallBack : MonoBehaviour
 
     public void OnAnimRun()
     {
+        if(myFootstep == null) { return; }
         myFootstep.OnAnimRun();
     }
 }
