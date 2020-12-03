@@ -7,8 +7,7 @@ public class FootstepAudio : MonoBehaviour
     [SerializeField] PlayerModule myPlayerModule;
     Vector3 oldPos;
 
-    bool doSound = true;
-    bool haveWaitDelay = false;
+    bool haveWaitDelay = true;
 
     bool crouchedStatut = false;
 
@@ -24,8 +23,6 @@ public class FootstepAudio : MonoBehaviour
     private void Start()
     {
         ChangeVolume(AudioManager.Instance.currentPlayerVolume / 2);
-
-
     }
 
     private void OnEnable()
@@ -42,7 +39,7 @@ public class FootstepAudio : MonoBehaviour
     {
         if(myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            myAudioSource.volume = _volume / 4;
+            myAudioSource.volume = _volume / 3;
         }
         else
         {
@@ -59,7 +56,6 @@ public class FootstepAudio : MonoBehaviour
 
             StopAllCoroutines();
             StartCoroutine(WaitDelay());
-            print("test");
         }
 
         crouchedStatut = myPlayerModule.state.HasFlag(En_CharacterState.Crouched);
@@ -83,6 +79,7 @@ public class FootstepAudio : MonoBehaviour
         haveWaitDelay = true;
     }
 
+    /*
     IEnumerator WaitEndSound(AudioClip _clip)
     {
         myAudioSource.PlayOneShot(_clip);
@@ -91,11 +88,11 @@ public class FootstepAudio : MonoBehaviour
 
         yield return new WaitForSeconds(Random.Range(minTime, maxTime));
         doSound = true;
-    }
+    }*/
 
     public void OnAnimRun()
     {
-        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && haveWaitDelay)
         {
             myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);
         }
