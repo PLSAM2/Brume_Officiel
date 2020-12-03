@@ -24,8 +24,7 @@ public class Module_Spit : SpellModule
 	Sc_Spit localTrad;
 	[SerializeField] bool simpleSpeed = false;
 
-	CirclePreview myRangePreview;
-	ShapePreview myAoePreview;
+	CirclePreview myRangePreview, myAoePreview;
 
 	float initialDistance, percentageStrengthOfTheThrow;
 	Vector3 finalPos;
@@ -46,7 +45,7 @@ public class Module_Spit : SpellModule
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			myAoePreview = PreviewManager.Instance.GetShapePreview(null);
+			myAoePreview = PreviewManager.Instance.GetCirclePreview(transform);
 			myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0, myPlayerModule.directionOfTheMouse()* Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()),0, spell.range));
 
 			//myAoePreview.
@@ -209,6 +208,6 @@ public class Module_Spit : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0,transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
+		myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0, new Vector3(myPlayerModule.directionOfTheMouse().x, myPlayerModule.directionOfTheMouse().y, 0 )* Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 	}
 }
