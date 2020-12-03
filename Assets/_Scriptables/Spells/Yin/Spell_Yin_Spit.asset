@@ -31,41 +31,41 @@ MonoBehaviour:
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 7ac46e905d0439642a32a89ead9cf633, type: 3}
   onImpactInstantiate: {fileID: 5624599934099963903, guid: 6c982b7dfe4dd8c479ebe1a713d63e06, type: 3}
-  spitSpeed: 35
-  timeToReachMaxRange: 0.75
-  minTimeToReach: 0.2
-  minHeight: 3
-  maxHeightAtMaxRange: 6
   launchCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 6.1197395
-      outSlope: 6.1197395
+      inSlope: 3.7336159
+      outSlope: 3.7336159
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.06766916
+      outWeight: 0.03682008
     - serializedVersion: 3
       time: 0.5
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      inSlope: -0.11108757
+      outSlope: -0.11108757
+      tangentMode: 1
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -5.841537
-      outSlope: -5.841537
-      tangentMode: 0
+      inSlope: -3.5492141
+      outSlope: -0.06400521
+      tangentMode: 1
       weightedMode: 0
-      inWeight: 0.090226054
-      outWeight: 0
+      inWeight: 0.030125737
+      outWeight: 0.17540777
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  spitSpeed: 0
+  timeToReachMaxRange: 0.75
+  minTimeToReach: 0.4
+  minHeight: 5
+  maxHeightAtMaxRange: 5
