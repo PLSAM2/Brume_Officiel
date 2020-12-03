@@ -91,11 +91,11 @@ MonoBehaviour:
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   teamIndex: 0
   revelationRangeWhileHidden: 4.5
-  rootParticle: {fileID: 0}
-  slowParticle: {fileID: 4279191982648114974}
+  rootParticle: {fileID: 2655207896814121437}
+  slowParticle: {fileID: 6708919723457648175}
   spedUpParticle: {fileID: 5332177646509037442}
   silencedParticle: {fileID: 6878991902413843271}
-  embourbedParticle: {fileID: 7310831941333128376}
+  embourbedParticle: {fileID: 2226708474839196671}
   canalisationParticle: {fileID: 1526988966582139446}
   _isInBrume: 0
   brumeId: 0
@@ -264,6 +264,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 225
       objectReference: {fileID: 0}
+    - target: {fileID: 3089047964885094277, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Name
+      value: FX_State_Embourbed
+      objectReference: {fileID: 0}
     - target: {fileID: 3531234986128592076, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -303,6 +307,14 @@ PrefabInstance:
     - target: {fileID: 5578612187831143817, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.129
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360083228626435705, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360083228626435705, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.35606927
       objectReference: {fileID: 0}
     - target: {fileID: 6440874416006591237, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -359,6 +371,10 @@ PrefabInstance:
     - target: {fileID: 8281150123794309746, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: isAGhost
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8415385217779606563, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Name
+      value: FX_State_Root
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -422,16 +438,6 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 327860012050289613, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1277965312708422139}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &7310831941333128376 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8415385217765489987, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 1277965312708422139}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &4279191982648114974 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3089047964869531365, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 1277965312708422139}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &6878991902413843271 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5677675864669274812, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
@@ -440,6 +446,21 @@ ParticleSystem:
 --- !u!198 &5332177646509037442 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6360083228626435705, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 1277965312708422139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6708919723457648175 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5523348692650672084, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 1277965312708422139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2655207896814121437 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3847498146719160358, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 1277965312708422139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2226708474839196671 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1106448589416417796, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1277965312708422139}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4726270465370079394
