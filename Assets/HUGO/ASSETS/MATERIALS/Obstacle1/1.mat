@@ -32,6 +32,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _CustomRimLight_MaskTexture:
+        m_Texture: {fileID: 2800000, guid: e3ffd422ed294bf4b8c909ae388edf91, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -88,6 +92,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _InBrumeTextureArray:
+        m_Texture: {fileID: 18700000, guid: 0b5330c4506cf76469355adb5b4180b0, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _InkGrunge_Texture:
         m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -116,8 +124,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NoiseandGrungeOutBrumeTextureArray:
+        m_Texture: {fileID: 18700000, guid: 8fdb86c7e9893674ea4c46a3398744c6, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalEdgeNoise_Texture:
         m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ObjectTextureArray:
+        m_Texture: {fileID: 18700000, guid: d0091e005383fcc4f9fda7c9ef4d7dff, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Albedo:
@@ -217,7 +233,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample7:
-        m_Texture: {fileID: 2800000, guid: 2f6af8f8492fce44c828bb32befbcf95, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample8:
@@ -252,6 +268,9 @@ Material:
     - _BumpScale: 1
     - _Columns: 1
     - _CustomNormal: 1
+    - _CustomOpacityMask: 0
+    - _CustomRimLight: 0
+    - _CustomRimLight_Opacity: 10
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -290,7 +309,9 @@ Material:
     - _InBrumeGrunge_Contrast: -2
     - _InBrumeGrunge_Tiling: 3.82
     - _InBrume_Contrast: 3.38
+    - _InOutBrume: 0
     - _InOutBrumeTransition: 0
+    - _InkGrunge_Tiling: 1
     - _InkSplatter: 0
     - _InkSplatterTiling: 3.15
     - _InkSplatter_Tiling: 3.93
@@ -315,13 +336,15 @@ Material:
     - _NormalEdgeNoiseTiling: -4.19
     - _NormalEdgeNoise_Tiling: 1
     - _NormalEdge_Step: 0.005
-    - _NormalInBrumeGrunge_Contrast: -6.1
+    - _NormalInBrumeGrunge_Contrast: -6
     - _NormalMaskStep: 0.45
     - _NormalMaskStep1: 0.444
     - _Normal_Smoothstep: 0.01
     - _Normal_Step: 0.45
     - _OcclusionStrength: 1
+    - _Opacity: 1
     - _OpacityTexture: 0
+    - _Out_or_InBrume: 0
     - _PaperGrunge_Tiling: 8
     - _PaperMultiply: 5
     - _PaperMultiply1: 1.58
@@ -349,14 +372,14 @@ Material:
     - _SSS_Power: 1
     - _SSS_Scale: 0.46
     - _ScreenBasedNoise: 0
-    - _ShadowDrippingNoise_Smoothstep: 0.003
+    - _ShadowDrippingNoise_Smoothstep: 0.001
     - _ShadowDrippingNoise_Step: 0
     - _ShadowDrippingNoise_Transition: 0
     - _ShadowGrungeMax: 1
     - _ShadowGrungeMin: 0
     - _ShadowGrungeScreenBasedNoise: 0
     - _ShadowGrungeTiling: 8
-    - _ShadowInBrumeGrunge_Contrast: -61.98
+    - _ShadowInBrumeGrunge_Contrast: -60
     - _Shininess: 1
     - _Shininess1: 1
     - _SmoothnessTextureChannel: 0
@@ -373,9 +396,10 @@ Material:
     - _StepEdgeVoid: 0.002
     - _StepMidShadow: 0
     - _StepShadow: 0.1
+    - _TerrainBlending: 0
     - _TerrainBlending_BlendThickness: 0.6
     - _TerrainBlending_Falloff: 30
-    - _TerrainBlending_TextureTiling: 0.37
+    - _TerrainBlending_TextureTiling: -0.37
     - _Test: 1
     - _Time_Flipbook: 0
     - _UVSec: 0
@@ -411,6 +435,7 @@ Material:
     - _ColorCorrection_Multiply1: {r: 1, g: 1, b: 1, a: 0}
     - _ColorMidShadow: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
     - _ColorShadow: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0}
+    - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _DrippingNoise_Offset: {r: -1.66, g: 0, b: 0, a: 0}
     - _DrippingNoise_Offset1: {r: 0, g: 0, b: 0, a: 0}
     - _EdgeColor: {r: 1, g: 1, b: 1, a: 0}
@@ -429,14 +454,14 @@ Material:
     - _NormalInBrumeGrunge_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _OutBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Panner: {r: 0.2, g: 0, b: 0, a: 0}
-    - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
+    - _PaperContrast: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
     - _PaperContrast1: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimLightColor2: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _Rougness_Color1: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-    - _SSS_Color: {r: 1, g: 0.009498575, b: 0, a: 0}
-    - _ShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _SSS_Color: {r: 1, g: 0.007843138, b: 0, a: 0}
+    - _ShadowColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 0}
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowGrungeColor: {r: 0.5943396, g: 0.26072443, b: 0.26072443, a: 0}
     - _ShadowInBrumeGrunge_Tiling: {r: 0.5, g: 0.5, b: 0, a: 0}

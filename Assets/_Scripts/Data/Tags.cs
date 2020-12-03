@@ -25,6 +25,9 @@ class Tags
     public static readonly ushort ChangeTeam = 120;
     public static readonly ushort SetReady = 130;
     public static readonly ushort SetCharacter = 140;
+    public static readonly ushort AskForCharacterSwap = 145;
+    public static readonly ushort CharacterSwap = 146;
+    public static readonly ushort RefuseCharacterSwap = 147;
     // <<
 
     // InGame 300 --> XXXX >>   
@@ -92,8 +95,8 @@ class Tags
     public static readonly ushort LaunchSplouch = 2600;
     // <<
 
-    //Animation
-    public static readonly ushort SendAnimBool = 3000;
-    public static readonly ushort SendAnimTrigger = 3001;
+    //Fx
+    public static readonly ushort SpawnGenericFx = 4000;
+    public static readonly ushort SpawnAOEFx = 4001;
     // <<
 }

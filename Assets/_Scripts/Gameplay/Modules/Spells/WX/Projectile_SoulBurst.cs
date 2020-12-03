@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Projectile_SoulBurst : MonoBehaviour
 {
+    public ushort damages = 10;
+
     private NetworkedObject networkedObject;
     private bool isOwner = false;
     private bool traveling = false;
@@ -13,6 +15,7 @@ public class Projectile_SoulBurst : MonoBehaviour
     private float explodeRange = 3;
     private Vector3 startPos;
     private Vector3 destination;
+    private int hitCount = 0; // cause trigger is called multiple times
 
     private void OnEnable()
     {
@@ -22,13 +25,14 @@ public class Projectile_SoulBurst : MonoBehaviour
     public void Init(Vector3 destination, Vector3 startPos, float explodeRange = 1, float maxRange = 5, float speed = 1)
     {
         isOwner = networkedObject.GetIsOwner();
-
-        this.destination = destination;
+        hitCount = 0;
+        this.destination = ((destination - startPos).normalized *(maxRange * 2)) + destination; 
         this.startPos = startPos;        
         this.explodeRange = explodeRange;
         this.maxRange = maxRange;
         this.speed = speed;
         traveling = true;
+
     }
 
     private void FixedUpdate()
@@ -41,7 +45,7 @@ public class Projectile_SoulBurst : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, destination, (speed) * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, destination) < 0.01 || Vector3.Distance(transform.position, startPos) > maxRange)
+        if (Vector3.Distance(transform.position, startPos) > maxRange)
         {
             Explode();
         }
@@ -74,9 +78,33 @@ public class Projectile_SoulBurst : MonoBehaviour
         foreach (LocalPlayer P in GetAllNearbyPlayers())
         {
             DamagesInfos _tempDmg = new DamagesInfos();
-            _tempDmg.damageHealth = 10;
+            _tempDmg.damageHealth = damages;
 
             P.DealDamages(_tempDmg, Vector3.zero);
+        }
+    }
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isOwner && !traveling)
+        {
+            return;
+        }
+
+        if (other.gameObject.layer == 8)
+        {
+            PlayerModule playerHit = other.gameObject.GetComponent<PlayerModule>();
+
+            if (playerHit != null)
+            {
+                if (playerHit.teamIndex != networkedObject.GetOwner().playerTeam && hitCount <1)
+                {
+                    hitCount++;
+                    Explode();
+                }
+            }
         }
     }
 

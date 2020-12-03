@@ -121,13 +121,58 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ChangeFowSize(sender, e);
             }
-            else if (message.Tag == Tags.SendAnimBool)
+            else if (message.Tag == Tags.SpawnGenericFx)
             {
-                OnAnimBoolReceived(sender, e);
+                OnSpawnGenericFx(sender, e);
+            }
+            else if (message.Tag == Tags.SpawnAOEFx)
+            {
+                OnSpawnAOEFx(sender, e);
             }
         }
     }
 
+    private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _idFx = reader.ReadUInt16();
+
+                float _posX = reader.ReadSingle();
+                float _posZ = reader.ReadSingle();
+
+                float _rota = reader.ReadSingle();
+                float _scale = reader.ReadSingle();
+
+                float _time = reader.ReadSingle();
+
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(_idFx, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+            }
+        }
+    }
+
+    private void OnSpawnAOEFx(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+
+                float _posX = reader.ReadSingle();
+                float _posZ = reader.ReadSingle();
+
+                float _rota = reader.ReadSingle();
+                float _scale = reader.ReadSingle();
+
+                float _time = reader.ReadSingle();
+
+                LocalPoolManager.Instance.SpawnNewAOELocal(_id, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+            }
+        }
+    }
 
     private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
     {
@@ -545,6 +590,8 @@ public class InGameNetworkReceiver : MonoBehaviour
                 uint _size = reader.ReadUInt32();
                 bool _reset = reader.ReadBoolean(); 
 
+                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
+
                 if (_reset)
                 {
                     GameManager.Instance.networkPlayers[_playerId].ResetFowRaduis();
@@ -553,21 +600,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 {
                     GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float) _size / 100);
                 }
-            }
-        }
-    }
-
-    void OnAnimBoolReceived(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort _playerId = reader.ReadUInt16();
-                string _animName = reader.ReadString();
-                bool _value = reader.ReadBoolean();
-
-                GameManager.Instance.networkPlayers[_playerId].SetBoolToAnim(_animName, _value);
             }
         }
     }

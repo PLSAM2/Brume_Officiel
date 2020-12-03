@@ -8,6 +8,13 @@ public class Displayer : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.visiblePlayer.Clear();
+
+        GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
     }
 
     // Update is called once per frame
@@ -158,9 +165,28 @@ public class Displayer : MonoBehaviour
 
     void DisplayFX()
     {
-        foreach(Fx fx in GameManager.Instance.allVisibleFx)
+        foreach(Fx fx in GameManager.Instance.allFx)
         {
+            if(GameManager.Instance.allVisibleFx.Contains(fx.transform) && !fx.isVisible)
+            {
+                fx.isVisible = true;
 
+                foreach(GameObject obj in fx.objToHide)
+                {
+                    if (!obj) { continue; }
+                    obj.SetActive(true);
+                }
+            }
+            else if(GameManager.Instance.allVisibleFx.Contains(fx.transform) && !fx.isVisible)
+            {
+                fx.isVisible = false;
+
+                foreach (GameObject obj in fx.objToHide)
+                {
+                    if (!obj) { continue; }
+                    obj.SetActive(false);
+                }
+            }
         }
     }
 
@@ -210,5 +236,14 @@ public class Displayer : MonoBehaviour
         p.ShowHideFow(true);
 
         GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, true);
+    }
+
+    void OnTowerCaptured(VisionTower _tower)
+    {
+        LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
+        if (currentFollowPlayer == null || currentFollowPlayer.myPlayerModule.isInBrume)
+        {
+            _tower.vision.gameObject.SetActive(false);
+        }
     }
 }

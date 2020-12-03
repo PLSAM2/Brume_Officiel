@@ -69,8 +69,6 @@ public class Projectile : AutoKill
 					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
 				}
 
-                haveTouch = true;
-
                 Destroy();
 				asDeal = true;
 
@@ -97,16 +95,14 @@ public class Projectile : AutoKill
 
 	protected override void Destroy ()
 	{
-		asDeal = true;
 
-        if (haveTouch)
+        if (asDeal || haveTouch)
         {
             if (doImpactFx)
             {
                 LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
                 Transform player = GameFactory.GetActualPlayerFollow().transform;
-
                 if(player != null && Vector3.Distance(player.position, transform.position) < 7)
                 {
                     CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
@@ -114,7 +110,10 @@ public class Projectile : AutoKill
             }
         }
 
-        haveTouch = false;
+		asDeal = true;
+
+
+		haveTouch = false;
 
         base.Destroy();
 	}

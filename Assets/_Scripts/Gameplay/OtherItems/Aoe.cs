@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 public class Aoe : AutoKill
 {
-	[SerializeField] Sc_Aoe localTrad;
+	public Sc_Aoe localTrad;
 
 	protected override void Awake ()
 	{

@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_PI_Divin1
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
-  m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _MOVINGGRAIN_ON
-    _MOVINGPAPER_ON _RIMLIGHT_CUSTOMNORMAL_ON
+  m_ShaderKeywords: _CUSTOMNORMAL_ON _FRESNELSTEP_ON _MOVINGGRAIN_ON _MOVINGPAPER_ON
+    _RIMLIGHT_CUSTOMNORMAL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -80,6 +80,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ObjectTextureArray:
+        m_Texture: {fileID: 18700000, guid: beab47c342b43324fbed6092bf55861e, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Object_Albedo:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,6 +98,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Object_Normal_Texture:
         m_Texture: {fileID: 2800000, guid: b12f37db21ca6c648bfb267973304baf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Object_Opacity_Texture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness:
@@ -142,7 +150,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _CustomWorldSpaceNormal: 1
+    - _CustomRimLight: 0
+    - _CustomRimLight_Opacity: 1
+    - _CustomWorldSpaceNormal: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DistortionStrength: 1.2
@@ -153,7 +163,9 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InOutBrume: 0
     - _InOutBrumeTransition: 0
+    - _InkGrunge_Tiling: 1
     - _InkSplatter: 0
     - _InkSplatter_Tiling: 3.93
     - _LightDebug: 0
@@ -168,6 +180,8 @@ Material:
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: -6.1
     - _OcclusionStrength: 1
+    - _Opacity: 1
+    - _OpacityTexture: 0
     - _PaperMultiply: 5
     - _Paper_Flipbook_Columns: 4
     - _Paper_Flipbook_Rows: 4
@@ -222,11 +236,12 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorShadow: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 0}
+    - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowDirection: {r: 1, g: 1, b: 0, a: 0}
     - _InBrumeBackColor: {r: 0.8962264, g: 0.88905805, b: 0.88354397, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
-    - _InkGrunge_Tiling: {r: 0.3, g: 0.3, b: 0, a: 0}
+    - _InkGrunge_Tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}

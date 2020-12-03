@@ -79,7 +79,14 @@ public class BrumeScript : MonoBehaviour
 
             if (!currentFollowPlayer.isInBrume) { return; }
 
-            if (other.gameObject == currentFollowPlayer.gameObject)
+            GameObject currentPlayerObj = currentFollowPlayer.gameObject;
+
+            if (currentFollowPlayer.isInGhost)
+            {
+                UiManager.Instance.SetAlphaBrume(0);
+            }
+
+            if (other.gameObject == currentPlayerObj)
             {
                 RaycastHit hit;
                 Vector3 fromPosition = transform.position;

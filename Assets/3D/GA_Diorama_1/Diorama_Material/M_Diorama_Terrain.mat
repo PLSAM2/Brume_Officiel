@@ -10,7 +10,7 @@ Material:
   m_Name: M_Diorama_Terrain
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
   m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
-    _MOVINGGRAIN_ON _MOVINGPAPER_ON _RIMLIGHT_CUSTOMNORMAL_ON
+    _MOVINGGRAIN_ON _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -80,12 +80,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ObjectTextureArray:
+        m_Texture: {fileID: 18700000, guid: 7569a3fd377a54944abccd5823516f6d, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Object_Albedo:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: abcaff3038bd6d94e93682df65912944, type: 3}
+        m_Texture: {fileID: 2800000, guid: c07cdd2150081e1409a76903259ff18b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Normal:
@@ -93,7 +97,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Normal_Texture:
-        m_Texture: {fileID: 2800000, guid: 151b579e615ebb343bb283935e6fd528, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8297b21d38373ac419235a729338a80f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Object_Opacity_Texture:
+        m_Texture: {fileID: 2800000, guid: c7a7dedc498406f48a5f59ae0f7f7851, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness:
@@ -101,7 +109,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Object_Roughness_Texture:
-        m_Texture: {fileID: 2800000, guid: 0982319feadeced4d9346cf4c97284ee, type: 3}
+        m_Texture: {fileID: 2800000, guid: dc1ae37038af84741a0963ae640e42f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -134,6 +142,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _CustomRimLight: 0
+    - _CustomRimLight_Opacity: 1
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -145,7 +155,9 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InOutBrume: 0
     - _InOutBrumeTransition: 0
+    - _InkGrunge_Tiling: 1
     - _InkSplatter: 1
     - _InkSplatter_Tiling: 3.93
     - _LightDebug: 0
@@ -160,11 +172,13 @@ Material:
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: -6.1
     - _OcclusionStrength: 1
+    - _Opacity: 1
+    - _OpacityTexture: 1
     - _PaperMultiply: 5
     - _Paper_Flipbook_Columns: 4
     - _Paper_Flipbook_Rows: 4
     - _Paper_Flipbook_Speed: 6
-    - _Paper_Tiling: 6
+    - _Paper_Tiling: 6.51
     - _Parallax: 0.02
     - _RimLight: 0
     - _RimLightEmission_Multiplier: 1
@@ -209,15 +223,16 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorShadow: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 0}
+    - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowDirection: {r: 1, g: 1, b: 0, a: 0}
     - _InBrumeBackColor: {r: 0.8962264, g: 0.88905805, b: 0.88354397, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
-    - _InkGrunge_Tiling: {r: 0.02, g: 0.02, b: 0, a: 0}
+    - _InkGrunge_Tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
-    - _OutBrumeColorCorrection: {r: 1, g: 0.9030071, b: 0.7783019, a: 0}
+    - _NormalInBrumeGrunge_Tiling: {r: 0.01, g: 0.01, b: 0, a: 0}
+    - _OutBrumeColorCorrection: {r: 0.7264151, g: 0.62930834, b: 0.4762816, a: 0}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
