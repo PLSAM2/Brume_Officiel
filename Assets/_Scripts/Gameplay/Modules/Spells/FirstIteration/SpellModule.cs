@@ -341,13 +341,17 @@ public class SpellModule : MonoBehaviour
 			KillSpell();
 		else
 		{
+
 			if (showingPreview)
 			{
 				willResolve = false;
 				HidePreview(Vector3.zero);
 			}
 			else if (isUsed)
+			{
+				AddCharge();
 				KillSpell();
+			}
 		}
 	}
 
@@ -381,7 +385,6 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
 		Interrupt();
-		AddCharge();
 	}
 
 	protected virtual void DecreaseCharge ()
