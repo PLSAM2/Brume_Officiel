@@ -77,10 +77,6 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 SyncTriggerInserver(sender, e);
             }
-            if (message.Tag == Tags.Sync2DBlendTree)
-            {
-                //Sync2DBlendTreeInserver(sender, e);
-            }
             if (message.Tag == Tags.SyncBoolean)
             {
                 SyncBooleanInserver(sender, e);
@@ -132,7 +128,7 @@ public class NetworkAnimationController : MonoBehaviour
             _writer.Write(boolean);
             _writer.Write(value);
 
-            using (Message _message = Message.Create(Tags.SyncTrigger, _writer))
+            using (Message _message = Message.Create(Tags.SyncBoolean, _writer))
             {
                 client.SendMessage(_message, sendMode);
             }

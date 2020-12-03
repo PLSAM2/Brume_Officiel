@@ -24,8 +24,7 @@ public class Module_Spit : SpellModule
 	Sc_Spit localTrad;
 	[SerializeField] bool simpleSpeed = false;
 
-	CirclePreview myRangePreview;
-	ShapePreview myAoePreview;
+	CirclePreview myRangePreview, myAoePreview;
 
 	float initialDistance, percentageStrengthOfTheThrow;
 	Vector3 finalPos;
@@ -46,12 +45,12 @@ public class Module_Spit : SpellModule
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			myAoePreview = PreviewManager.Instance.GetShapePreview(null);
-			myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0, myPlayerModule.directionOfTheMouse()* Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()),0, spell.range));
+			myAoePreview = PreviewManager.Instance.GetCirclePreview(transform);
+			myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 0, myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 
 			//myAoePreview.
 			myRangePreview = PreviewManager.Instance.GetCirclePreview(transform);
-			myRangePreview.Init(spell.range, 0, CirclePreview.circleCenter.center,Vector3.zero);
+			myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, Vector3.zero);
 
 			HidePreview(Vector3.zero);
 		}
@@ -154,7 +153,7 @@ public class Module_Spit : SpellModule
 			spitObj.transform.DOMoveX(destination.x, timeToReach).OnComplete(() => Landed());
 			spitObj.transform.DOMoveZ(destination.z, timeToReach);
 
-			LocalPoolManager.Instance.SpawnNewAOEInNetwork ((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, timeToReach);
+			LocalPoolManager.Instance.SpawnNewAOEInNetwork((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, timeToReach);
 		}
 		else
 		{
@@ -209,6 +208,9 @@ public class Module_Spit : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 360, 0,transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
+		myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, CirclePreview.circleCenter.center, 
+			transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
+
+		myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, transform.position);
 	}
 }

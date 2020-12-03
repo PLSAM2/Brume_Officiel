@@ -22,12 +22,14 @@ public class CacAttack : SpellModule
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-		shapePreview = PreviewManager.Instance.GetShapePreview(this.transform);
+		shapePreview = PreviewManager.Instance.GetShapePreview();
 		shapePreview.gameObject.SetActive(false);
 	}
 
 	protected override void LinkInputs ( En_SpellInput _actionLinked )
 	{
+		myPlayerModule.cancelSpell += CancelSpell;
+
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -79,6 +81,8 @@ public class CacAttack : SpellModule
 
 	protected override void DelinkInput ()
 	{
+		myPlayerModule.cancelSpell -= CancelSpell;
+
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -127,14 +131,11 @@ public class CacAttack : SpellModule
 			timeCanalised += Time.fixedDeltaTime;
 	}
 
-	//PREVIEW
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
+		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, transform.eulerAngles.y, transform.position);
 	}
-
-
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
@@ -143,7 +144,6 @@ public class CacAttack : SpellModule
 			shapePreview.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
-
 	}
 
 	protected override void HidePreview ( Vector3 _temp)
@@ -159,7 +159,6 @@ public class CacAttack : SpellModule
 			ShowPreview(myPlayerModule.mousePos());
 			timeCanalised = 0;
 		}
-
 		base.StartCanalysing(_BaseMousePos);
 	}
 	
@@ -177,9 +176,12 @@ public class CacAttack : SpellModule
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		attackToResolve = AttackToResolve();
-		finalTimeCanalised = currentTimeCanalised;
-		base.AnonceSpell(_toAnnounce);
+		if(!anonciated)
+		{
+			attackToResolve = AttackToResolve();
+			finalTimeCanalised = currentTimeCanalised;
+			base.AnonceSpell(_toAnnounce);
+		}
 	}
 
 	void ResolveSlash ()
@@ -190,44 +192,47 @@ public class CacAttack : SpellModule
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 		}
-
-		List<GameObject> _listHit = new List<GameObject>();
-
-		float _angle = -attackToResolve.angleToAttackFrom / 2;
-
-		//RAYCAST POUR TOUCHER
-		for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
+		
+		if(willResolve)
 		{
-			Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
-			_angle++;
+			List<GameObject> _listHit = new List<GameObject>();
 
-			Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(finalTimeCanalised), 1 << 8);
+			float _angle = -attackToResolve.angleToAttackFrom / 2;
 
-			Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(finalTimeCanalised), Color.red, 5);
-
-			//verif que le gameobject est pas deja dansa la liste
-			for (int j = 0; j < _allhits.Length; j++)
+			//RAYCAST POUR TOUCHER
+			for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
 			{
-				if (!_listHit.Contains(_allhits[j].collider.gameObject))
+				Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
+				_angle++;
+
+				Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
+				RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(finalTimeCanalised), 1 << 8);
+
+				Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
+				Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(finalTimeCanalised), Color.red, 5);
+
+				//verif que le gameobject est pas deja dansa la liste
+				for (int j = 0; j < _allhits.Length; j++)
 				{
-					_listHit.Add(_allhits[j].collider.gameObject);
+					if (!_listHit.Contains(_allhits[j].collider.gameObject))
+					{
+						_listHit.Add(_allhits[j].collider.gameObject);
+					}
 				}
 			}
-		}
 
-		_listHit.Remove(gameObject);
+			_listHit.Remove(gameObject);
 
-		foreach (GameObject _go in _listHit)
-		{
-			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
+			foreach (GameObject _go in _listHit)
+			{
+				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
-			if(_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-				_playerTouched.DealDamages(attackToResolve.damagesToDeal,transform.position);
+				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
+					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
+			}
 		}
 	}
-
+	
 	CacAttackParameters AttackToResolve ()
 	{
 		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
@@ -239,4 +244,17 @@ public class CacAttack : SpellModule
 			return localTrad.normalAttack;
 		}
 	}
+
+	protected override void CancelSpell ( bool _isForcedInterrupt )
+	{
+		base.CancelSpell(_isForcedInterrupt);
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		resolved = anonciated = startResolution = true;
+		currentTimeCanalised = 0;
+		throwbackTime = 0;
+		willResolve = false;
+		HidePreview(Vector3.zero);
+	}
+
 }

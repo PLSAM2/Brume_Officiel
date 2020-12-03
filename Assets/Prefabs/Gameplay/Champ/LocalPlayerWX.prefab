@@ -20,7 +20,6 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 107893b2a050e4c4984a5f0a93ff0697, type: 2}
-  myPlayerModule: {fileID: 0}
   ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
   lifeTime: 5
   ghostSpeed: 5
@@ -44,7 +43,6 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 66a92edbef38c6741b03be3e50a08a26, type: 2}
-  myPlayerModule: {fileID: 0}
   soulburstPrefab: {fileID: 8724460869845800598, guid: 775690895a3642b4a94973f6628c3080, type: 3}
   speed: 10
   maxRange: 5
@@ -69,31 +67,7 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 146e0df56fee9684db2cfd46c417c61c, type: 2}
-  myPlayerModule: {fileID: 0}
   thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
---- !u!114 &5536350898603478200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3179bd2bad9442d4db4a33aa43297aff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 9c70b02130f955d48b37715f228dfe2a, type: 2}
-  myPlayerModule: {fileID: 0}
-  rayWidthDivider: 5
-  raycastCount: 3
 --- !u!114 &5231333726942406148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +107,7 @@ MonoBehaviour:
   leftClick: {fileID: 5536350898603478200}
   ward: {fileID: 8913684591376409635}
   mylocalPlayer: {fileID: 0}
-  revelationRangeWhileHidden: 10
+  revelationRangeWhileHidden: 4.5
   interactiblesClose: []
   menacingIcon: {fileID: 2349017275641948108}
   allEffectLive: []
@@ -146,6 +120,28 @@ MonoBehaviour:
   wxMark: {fileID: 3406981713847985507}
   wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
   altarDebuffTrail: {fileID: 2492408407028061013}
+--- !u!114 &5536350898603478200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3179bd2bad9442d4db4a33aa43297aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 9c70b02130f955d48b37715f228dfe2a, type: 2}
+  rayWidthDivider: 5
+  raycastCount: 3
 --- !u!1001 &1277965312708422139
 PrefabInstance:
   m_ObjectHideFlags: 0

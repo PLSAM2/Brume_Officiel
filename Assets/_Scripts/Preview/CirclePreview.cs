@@ -13,7 +13,7 @@ public class CirclePreview : MonoBehaviour
     [SerializeField] Image myImgBorder;
     [SerializeField] Image myImgBorderOutline;
 
-    public void Init(float _newRaduis, float _newRotation, circleCenter _newCenter, Vector3 _newPos)
+    public void Init(float _newRaduis, circleCenter _newCenter, Vector3 _newPos)
     {
         Image currentSquare = myImgBorder;
         GameObject currentObj = myObjBorder;
@@ -33,9 +33,8 @@ public class CirclePreview : MonoBehaviour
         }
 
         currentObj.transform.localScale = new Vector3(_newRaduis*2, _newRaduis*2, 1);
-        currentObj.transform.localEulerAngles = new Vector3(0, 0, _newRotation);
 
-        currentObj.transform.localPosition = _newPos;
+        transform.localPosition = _newPos + Vector3.up * 0.1f;
     }
 
     public void SetColor(Color _newColor, float _newTransparency)

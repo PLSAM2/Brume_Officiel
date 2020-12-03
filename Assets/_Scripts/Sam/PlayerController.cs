@@ -148,9 +148,9 @@ public class PlayerController : MonoBehaviour
                 {
                     if (myShapePreview == null)
                     {
-                        myShapePreview = PreviewManager.Instance.GetShapePreview(transform);
+                        myShapePreview = PreviewManager.Instance.GetShapePreview();
                     }
-                    myShapePreview.Init(range, angle, rotation, pos);
+                    myShapePreview.Init(range, angle, transform.eulerAngles.y, pos);
                 }
 
                 myShapePreview.gameObject.SetActive(_show);
@@ -161,9 +161,9 @@ public class PlayerController : MonoBehaviour
                 {
                     if (mySquarePreview == null)
                     {
-                        mySquarePreview = PreviewManager.Instance.GetSquarePreview(transform);
+                        mySquarePreview = PreviewManager.Instance.GetSquarePreview();
                     }
-                    mySquarePreview.Init(lenghtSq, widthSq, rotationSq, centerSq, posSq);
+                    mySquarePreview.Init(lenghtSq, widthSq, transform.eulerAngles.y, centerSq, posSq);
                 }
 
                 mySquarePreview.gameObject.SetActive(_show);
@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
                     {
                         myCirclePreview = PreviewManager.Instance.GetCirclePreview(transform);
                     }
-                    myCirclePreview.Init(raduis, rotationSq, centerCircle, posCircle);
+                    myCirclePreview.Init(raduis, centerCircle, posCircle);
                 }
 
                 myCirclePreview.gameObject.SetActive(_show);
