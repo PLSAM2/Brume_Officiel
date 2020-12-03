@@ -134,7 +134,7 @@ public class CacAttack : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, transform.rotation.y, transform.position);
+		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, transform.eulerAngles.y, transform.position);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
