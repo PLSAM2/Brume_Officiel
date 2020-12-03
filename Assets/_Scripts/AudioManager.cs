@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
 
     public Action<float> OnVolumeChange;
 
+    [SerializeField] AudioSource backGroundMusic;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -32,12 +34,31 @@ public class AudioManager : MonoBehaviour
         {
             currentPlayerVolume = PlayerPrefs.GetFloat("Volume");
         }
+
+        backGroundMusic.volume = currentPlayerVolume;
     }
 
-    public void Play2DAudio(AudioClip _clip, float _volume = 1)
+    private void OnEnable()
+    {
+        OnVolumeChange += OnMasterVolumeChange;
+    }
+
+    private void OnDisable()
+    {
+        OnVolumeChange -= OnMasterVolumeChange;
+    }
+
+    void OnMasterVolumeChange(float _value)
+    {
+        backGroundMusic.volume = _value;
+    }
+
+    public AudioElement Play2DAudio(AudioClip _clip, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.Init(_clip, 0, _volume);
+
+        return _myAudioElement;
     }
 
     public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, float _volume = 1)

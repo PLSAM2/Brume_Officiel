@@ -11,6 +11,8 @@ public class VisionTower : Interactible
     public SpriteRenderer towerBody;
     public Sprite capturableState, lockedState;
 
+    [SerializeField] AudioClip capturedTowerSfx;
+
     void Start()
     {
         base.Init();
@@ -21,6 +23,8 @@ public class VisionTower : Interactible
     {
         base.Captured(team);
         towerBody.sprite = lockedState;
+
+        AudioManager.Instance.Play2DAudio(capturedTowerSfx);
     }
 
     public override void Unlock()
