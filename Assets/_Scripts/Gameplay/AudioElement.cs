@@ -11,7 +11,7 @@ public class AudioElement : MonoBehaviour
     bool follow = false;
     Transform objFollowing;
 
-    public void Init(AudioClip _clip, float _spacial = 1, float _volume = 1) // 1 si volume de base
+    public void Init(AudioClip _clip, float _spacial = 1, float _volume = 1, bool autoStop = true) // 1 si volume de base
     {
         _myAudioSource.volume = _volume * AudioManager.Instance.currentPlayerVolume;
         _myAudioSource.spatialBlend = _spacial;
@@ -20,7 +20,15 @@ public class AudioElement : MonoBehaviour
         _myAudioClip = _clip;
         _myAudioSource.Play();
 
-        StartCoroutine(WaitToDisable());
+        if (autoStop)
+        {
+            StartCoroutine(WaitToDisable());
+            _myAudioSource.loop = false;
+        }
+        else
+        {
+            _myAudioSource.loop = true;
+        }
     }
 
     public void SetPosition(Vector3 _position)
@@ -40,6 +48,11 @@ public class AudioElement : MonoBehaviour
         {
             SetPosition(objFollowing.position);
         }
+    }
+
+    public void StopSound()
+    {
+        gameObject.SetActive(false);
     }
 
     IEnumerator WaitToDisable()
