@@ -239,7 +239,6 @@ public class ChampSelectManager : MonoBehaviour
 
     private void SetCharacter(ushort playerID, Character character, bool swap = false)
     {
-        print("here");
         PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
         int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
 
