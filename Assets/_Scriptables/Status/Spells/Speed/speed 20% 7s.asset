@@ -24,7 +24,7 @@ MonoBehaviour:
     isHealing: 0
     tickValue: 0
     stateApplied: 4
-    percentageOfTheMovementModifier: 0.2
+    percentageOfTheMovementModifier: 0.35
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
@@ -49,4 +49,12 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    optionalDamages: 0
+    optionalDamagesInfos:
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+      playerName: 
+      stateNeeded: 128
+      additionalDamages: 0
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 0}
