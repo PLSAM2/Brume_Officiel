@@ -24,6 +24,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DepthFade_Dither_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -140,6 +144,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TopTex_Albedo_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTex_Noise_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Wind_Noise_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -155,6 +167,14 @@ Material:
     - _CustomRimLight_Opacity: 1
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
+    - _DepthFade: 0
+    - _DepthFade_ClampMax: 0.8
+    - _DepthFade_ClampMin: 1
+    - _DepthFade_Distance: 10.5
+    - _DepthFade_DitherMultiply: 1
+    - _DepthFade_Dither_Tiling: 1
+    - _DepthFade_Falloff: 3
+    - _DepthFade_Texture: 0
     - _DetailNormalMapScale: 1
     - _DistortionStrength: 1.2
     - _DrippingNoise_Tiling: -5
@@ -169,6 +189,7 @@ Material:
     - _InkGrunge_Tiling: 1
     - _InkSplatter: 1
     - _InkSplatter_Tiling: 3.93
+    - _InverseCustomOpacityMask: 0
     - _LightDebug: 0
     - _Metallic: 0
     - _Mode: 0
@@ -181,7 +202,7 @@ Material:
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: -6.1
     - _OcclusionStrength: 1
-    - _Opacity: 1
+    - _Opacity: 0
     - _OpacityTexture: 1
     - _Out_or_InBrume: 0
     - _PaperMultiply: 5
@@ -221,6 +242,11 @@ Material:
     - _TerrainBlending_BlendThickness: 0
     - _TerrainBlending_Falloff: 0
     - _TerrainBlending_TextureTiling: 1
+    - _TopTex: 0
+    - _TopTex_NoiseHoles: 0
+    - _TopTex_NoiseTiling: 1
+    - _TopTex_Smoothstep: 0.3
+    - _TopTex_Step: 0
     - _UVSec: 0
     - _Wave_Speed: 0
     - _WindVertexDisplacement: 0
@@ -253,6 +279,8 @@ Material:
     - _ShadowInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
     - _TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _TopTex_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _WindWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
     - _WindWave_Speed: {r: 0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
