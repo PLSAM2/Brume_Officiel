@@ -62,15 +62,19 @@ MonoBehaviour:
   wardKey: 118
   characterParameters: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
   teamIndex: 0
+  revelationRangeWhileHidden: 4.5
+  rootParticle: {fileID: 4612764806894071587}
+  slowParticle: {fileID: 254939825669810155}
+  spedUpParticle: {fileID: 3647590350695663551}
+  silencedParticle: {fileID: 2600404343052237690}
+  embourbedParticle: {fileID: 2167394301071656069}
+  canalisationParticle: {fileID: 7949309739781401099}
   _isInBrume: 0
   brumeId: 0
   isInGhost: 0
   isInBrumeBeforeGhost: 0
   brumeIdBeforeGhost: 0
   allHitTaken: []
-  brumeLayer:
-    serializedVersion: 2
-    m_Bits: 4096
   mapIcon: {fileID: 983172405252139301}
   movementPart: {fileID: 1743416214871874484}
   firstSpell: {fileID: 5927305535749590626}
@@ -79,9 +83,8 @@ MonoBehaviour:
   leftClick: {fileID: -8860574723703708623}
   ward: {fileID: 59302847324730398}
   mylocalPlayer: {fileID: 0}
-  revelationRangeWhileHidden: 4.5
   interactiblesClose: []
-  menacingIcon: {fileID: 6627057351223179249}
+  menacedIcon: {fileID: 6627057351223179249}
   allEffectLive: []
   allTickLive: []
   enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
@@ -286,5 +289,35 @@ MonoBehaviour:
 --- !u!212 &983172405252139301 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7949309739781401099 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 327860012050289613, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2167394301071656069 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8415385217765489987, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4612764806894071587 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3089047964869531365, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2600404343052237690 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5677675864669274812, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3647590350695663551 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6360083228626435705, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &254939825669810155 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7589954662091922989, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}
