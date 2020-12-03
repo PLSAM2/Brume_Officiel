@@ -64,11 +64,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        // Ping();
-    }
-
     private void Ping()
     {
         if (client.ConnectionState != ConnectionState.Connected)
