@@ -13,7 +13,7 @@ public class ShapePreview : MonoBehaviour
         objImg.transform.localScale = new Vector3(_newRange, _newRange, _newRange);
 
         myImg.fillAmount = (float)_newAngle / 360;
-        objImg.transform.localEulerAngles = new Vector3(0, 0, 180 + (float)_newAngle / 2 + _newRotation);
+        transform.localEulerAngles = new Vector3(0,  180 + (float)_newAngle / 2 + _newRotation,0);
 
         transform.localPosition = _newPos + Vector3.up * 0.1f;
     }

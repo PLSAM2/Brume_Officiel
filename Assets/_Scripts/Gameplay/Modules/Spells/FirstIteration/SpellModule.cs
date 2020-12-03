@@ -461,7 +461,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	void AnonciationFeedBack ()
+	protected virtual void AnonciationFeedBack ()
 	{
 		switch (actionLinked)
 		{
