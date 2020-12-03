@@ -414,7 +414,7 @@ public class LocalPlayer : MonoBehaviour
     {
         if (isOwner)
         {
-            if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) && (RoomManager.Instance.GetPlayerData(dealerID).playerCharacter != Character.Shili))
+            if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0))
             {
                 myPlayerModule.ApplyWxMark();
             }
