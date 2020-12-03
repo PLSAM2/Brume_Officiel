@@ -174,7 +174,7 @@ public class FieldOfView : MonoBehaviour
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
-            if (targetsInViewRadius[i].tag != "Hide" || targetsInViewRadius[i].tag != "Interactible") { continue; }
+            if (targetsInViewRadius[i].tag != "Hide" && targetsInViewRadius[i].tag != "Interactible") { continue; }
 
             Transform target = targetsInViewRadius[i].transform;
 

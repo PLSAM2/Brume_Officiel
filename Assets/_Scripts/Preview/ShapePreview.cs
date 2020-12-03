@@ -10,7 +10,6 @@ public class ShapePreview : MonoBehaviour
 
     public void Init(float _newRange, float _newAngle, float _newRotation, Vector3 _newPos)
     {
-        print(_newAngle);
         objImg.transform.localScale = new Vector3(_newRange, _newRange, _newRange);
 
         myImg.fillAmount = (float)_newAngle / 360;
@@ -23,4 +22,15 @@ public class ShapePreview : MonoBehaviour
     {
         myImg.color = _newColor;
     }
+
+    public void SetLifeTime(float _time )
+	{
+        StartCoroutine(WaitToDisable(_time));
+	}
+
+    IEnumerator WaitToDisable ( float _time )
+	{
+        yield return new WaitForSeconds(_time);
+        PreviewManager.Instance.ReleasePreview(gameObject);
+	}
 }

@@ -382,6 +382,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 ushort _damages = reader.ReadUInt16();
+                ushort _dealer = reader.ReadUInt16();
 
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
@@ -391,7 +392,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
-                target.DealDamagesLocaly(_damages);
+                target.DealDamagesLocaly(_damages, _dealer);
             }
         }
     }
