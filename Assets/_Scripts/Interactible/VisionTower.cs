@@ -19,6 +19,15 @@ public class VisionTower : Interactible
         towerBody.sprite = lockedState;
     }
 
+    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
+    {
+        if (capturingTeam == team)
+        {
+            return;
+        }
+
+        base.TryCapture(team, capturingPlayer);
+    }
     public override void Captured(GameData.Team team)
     {
         base.Captured(team);
