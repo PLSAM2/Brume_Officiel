@@ -55,6 +55,8 @@ public class GameManager : SerializedMonoBehaviour
     public List<Fx> allFx = new List<Fx>();
     public List<Transform> allVisibleFx = new List<Transform>();
 
+    public List<ushort> allVisibleInteractible = new List<ushort>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 
@@ -68,6 +70,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public Action<Ward> OnWardTeamSpawn;
     public Action<VisionTower> OnTowerTeamCaptured;
+
+    public Action<ushort, bool> OnInteractibleViewChange;
 
     private void Awake()
     {
