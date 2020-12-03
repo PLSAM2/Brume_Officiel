@@ -380,9 +380,9 @@ public class SpellModule : MonoBehaviour
 	protected virtual void KillSpell ()
 	{
 		AnonciationFeedBack();
+		willResolve = false;
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
-
 		Interrupt();
 	}
 

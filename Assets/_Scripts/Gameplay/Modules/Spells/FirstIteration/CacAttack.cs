@@ -127,7 +127,6 @@ public class CacAttack : SpellModule
 			timeCanalised += Time.fixedDeltaTime;
 	}
 
-	//PREVIEW
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
@@ -143,7 +142,6 @@ public class CacAttack : SpellModule
 			shapePreview.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
-
 	}
 
 	protected override void HidePreview ( Vector3 _temp)
@@ -159,7 +157,6 @@ public class CacAttack : SpellModule
 			ShowPreview(myPlayerModule.mousePos());
 			timeCanalised = 0;
 		}
-
 		base.StartCanalysing(_BaseMousePos);
 	}
 	
@@ -177,9 +174,12 @@ public class CacAttack : SpellModule
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		attackToResolve = AttackToResolve();
-		finalTimeCanalised = currentTimeCanalised;
-		base.AnonceSpell(_toAnnounce);
+		if(!anonciated)
+		{
+			attackToResolve = AttackToResolve();
+			finalTimeCanalised = currentTimeCanalised;
+			base.AnonceSpell(_toAnnounce);
+		}
 	}
 
 	void ResolveSlash ()
@@ -190,41 +190,44 @@ public class CacAttack : SpellModule
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 		}
-
-		List<GameObject> _listHit = new List<GameObject>();
-
-		float _angle = -attackToResolve.angleToAttackFrom / 2;
-
-		//RAYCAST POUR TOUCHER
-		for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
+		
+		if(willResolve)
 		{
-			Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
-			_angle++;
+			List<GameObject> _listHit = new List<GameObject>();
 
-			Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(finalTimeCanalised), 1 << 8);
+			float _angle = -attackToResolve.angleToAttackFrom / 2;
 
-			Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-			Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(finalTimeCanalised), Color.red, 5);
-
-			//verif que le gameobject est pas deja dansa la liste
-			for (int j = 0; j < _allhits.Length; j++)
+			//RAYCAST POUR TOUCHER
+			for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
 			{
-				if (!_listHit.Contains(_allhits[j].collider.gameObject))
+				Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
+				_angle++;
+
+				Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
+				RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(finalTimeCanalised), 1 << 8);
+
+				Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
+				Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(finalTimeCanalised), Color.red, 5);
+
+				//verif que le gameobject est pas deja dansa la liste
+				for (int j = 0; j < _allhits.Length; j++)
 				{
-					_listHit.Add(_allhits[j].collider.gameObject);
+					if (!_listHit.Contains(_allhits[j].collider.gameObject))
+					{
+						_listHit.Add(_allhits[j].collider.gameObject);
+					}
 				}
 			}
-		}
 
-		_listHit.Remove(gameObject);
+			_listHit.Remove(gameObject);
 
-		foreach (GameObject _go in _listHit)
-		{
-			LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
+			foreach (GameObject _go in _listHit)
+			{
+				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
-			if(_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-				_playerTouched.DealDamages(attackToResolve.damagesToDeal,transform.position);
+				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
+					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
+			}
 		}
 	}
 	
@@ -243,11 +246,12 @@ public class CacAttack : SpellModule
 	protected override void CancelSpell ( bool _isForcedInterrupt )
 	{
 		base.CancelSpell(_isForcedInterrupt);
-		if (showingPreview)
-		{
-			KillSpell();
-			DecreaseCharge();
-		}
+
+		resolved = anonciated = startResolution = true;
+		currentTimeCanalised = 0;
+		throwbackTime = 0;
+		willResolve = false;
+		HidePreview(Vector3.zero);
 	}
 
 }
