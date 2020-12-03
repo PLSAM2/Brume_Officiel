@@ -253,6 +253,8 @@ public class LobbyManager : MonoBehaviour
 
         RoomManager.Instance.actualRoom = rooms[roomID];
         rooms[roomID].playerList = _playerList;
+        rooms[roomID].playerList[NetworkManager.Instance.GetLocalPlayer().ID] = NetworkManager.Instance.GetLocalPlayer();
+
         roomPanelControl.InitRoom(rooms[roomID]);
 
     }

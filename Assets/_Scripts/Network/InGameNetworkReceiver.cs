@@ -297,10 +297,15 @@ public class InGameNetworkReceiver : MonoBehaviour
                     myLocalPlayer.isOwner = client.ID == id;
                     myLocalPlayer.Init(client);
 
+                 
 
                     if (myLocalPlayer.isOwner)
                     {
                         GameManager.Instance.currentLocalPlayer = myLocalPlayer;
+
+                        if (isResurecting)
+                            myLocalPlayer.myPlayerModule.Setup();
+
                     }
 
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
@@ -506,8 +511,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _newStrength = reader.ReadUInt16();
                 ushort id = reader.ReadUInt16();
 
-
-                print("DURATION SANS TRAD" + _newDuration);
                 float _directionX = (float)_newX / 10;
                 float _directionZ = (float)_newZ / 10;
                 float _duration = (float)_newDuration / 100;
@@ -517,8 +520,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 _newForcedMovement.direction = new Vector3(_directionX, 0, _directionZ);
                 _newForcedMovement.duration = _duration;
                 _newForcedMovement.strength = _strength;
-
-                print("Duration" + _newForcedMovement.duration + "Direction " + _newForcedMovement.direction);
 
                 GameManager.Instance.currentLocalPlayer.OnForcedMovementReceived(_newForcedMovement);
             }
@@ -535,6 +536,8 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _roomId = reader.ReadUInt16();
                 ushort _statusId = reader.ReadUInt16();
                 ushort _playerId = reader.ReadUInt16();
+
+                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
 
                 GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
             }
