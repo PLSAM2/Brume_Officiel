@@ -45,13 +45,35 @@ public class Interactible : MonoBehaviour
     public SpriteRenderer mapIcon;
     [SerializeField] Sprite iconNeutral, iconRed, iconBlue;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource myAudioSource;
+
     private void Awake()
     {
         client = RoomManager.Instance.client;
+        OnVolumeChange(AudioManager.Instance.currentPlayerVolume);
+
+        myAudioSource.enabled = false;
     }
+
     protected void Init()
     {
         
+    }
+
+    private void OnEnable()
+    {
+        AudioManager.Instance.OnVolumeChange += OnVolumeChange;
+    }
+
+    private void OnDisable()
+    {
+        AudioManager.Instance.OnVolumeChange -= OnVolumeChange;
+    }
+
+    void OnVolumeChange(float _value)
+    {
+        myAudioSource.volume = _value;
     }
 
     protected virtual void FixedUpdate()
@@ -82,6 +104,7 @@ public class Interactible : MonoBehaviour
                 }
             }
         }
+
     }
     public void ProgressInServer(float progress)
     {
@@ -94,6 +117,7 @@ public class Interactible : MonoBehaviour
         {
             return;
         }
+
         capturingPlayerModule = capturingPlayer;
         capturingPlayerModule.AddState(En_CharacterState.Stunned);
         isCapturing = true;
@@ -119,6 +143,8 @@ public class Interactible : MonoBehaviour
             return;
         }
 
+        myAudioSource.enabled = true;
+
         timer = 0;
         capturingTeam = team;
 
@@ -140,6 +166,8 @@ public class Interactible : MonoBehaviour
         {
             return;
         }
+
+        myAudioSource.enabled = false;
 
         capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
 
@@ -187,6 +215,8 @@ public class Interactible : MonoBehaviour
         isCapturing = false;
         state = State.Captured;
         timer = 0;
+
+        myAudioSource.enabled = false;
 
         if (team == Team.red && showOnMap)
             mapIcon.sprite = iconRed;
