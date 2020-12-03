@@ -62,15 +62,16 @@ public class Projectile : AutoKill
 
 		if (playerHit != null)
 		{
-			if (playerHit.teamIndex != myteam)
+            if (playerHit.teamIndex != myteam)
 			{
 				if (!asDeal)
 				{
 					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
 				}
 
-                Destroy();
 				asDeal = true;
+                haveTouch = true;
+                Destroy();
 
 				if (isOwner && localTrad._reduceCooldowns)
 					PlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
@@ -95,11 +96,17 @@ public class Projectile : AutoKill
 
 	protected override void Destroy ()
 	{
+        print("destoy");
+        print(asDeal);
+        print(haveTouch);
+
+        print(doImpactFx);
 
         if (asDeal || haveTouch)
         {
             if (doImpactFx)
             {
+                print("spawn");
                 LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
                 Transform player = GameFactory.GetActualPlayerFollow().transform;

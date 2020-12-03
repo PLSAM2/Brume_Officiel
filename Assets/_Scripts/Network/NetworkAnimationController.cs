@@ -77,10 +77,6 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 SyncTriggerInserver(sender, e);
             }
-            if (message.Tag == Tags.Sync2DBlendTree)
-            {
-                //Sync2DBlendTreeInserver(sender, e);
-            }
             if (message.Tag == Tags.SyncBoolean)
             {
                 SyncBooleanInserver(sender, e);
