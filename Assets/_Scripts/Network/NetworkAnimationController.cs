@@ -143,7 +143,7 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
 
-                if (_id == client.ID) // si l'on est pas le sender
+                if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
                     return;
 
                 string _boolean = reader.ReadString();
@@ -176,7 +176,7 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
 
-                if (_id == client.ID) // si l'on est pas le sender
+                if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
                     return;
 
                 string _floatName = reader.ReadString();

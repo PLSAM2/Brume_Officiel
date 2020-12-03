@@ -12,6 +12,10 @@ public class CacAttack : SpellModule
 	CacAttackParameters attackToResolve;
 	float finalTimeCanalised;
 
+	//TEMP
+	bool countingPreview;
+	float timeCountedEnemyPreview;
+
 	private void Awake ()
 	{
 		localTrad = (Sc_CacAttack)spell;
@@ -127,6 +131,8 @@ public class CacAttack : SpellModule
 	{
 		base.FixedUpdate();
 
+	
+
 		if (isUsed && !anonciated)
 			timeCanalised += Time.fixedDeltaTime;
 	}
@@ -165,7 +171,7 @@ public class CacAttack : SpellModule
 
 	float FinalRange(float _timeCanlised)
 	{
-		return localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(_timeCanlised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
+		return AttackToResolve().rangeOfTheAttack; //localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(_timeCanlised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
 	}
 
 	protected override void ResolveSpell ()
@@ -255,6 +261,40 @@ public class CacAttack : SpellModule
 		throwbackTime = 0;
 		willResolve = false;
 		HidePreview(Vector3.zero);
+	}
+
+	public void ShowAttackPreviewReseau ( float _timeCounted)
+	{
+		print("I"+ _timeCounted);
+		if (_timeCounted >= localTrad.timeToCanalyseToUpgrade)
+		{
+			ShapePreview mypreview = PreviewManager.Instance.GetShapePreview();
+			mypreview.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
+
+			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+				mypreview.SetColor(Color.yellow);
+			else
+				mypreview.SetColor(Color.red);
+
+			mypreview.SetLifeTime(spell.throwBackDuration);
+		}
+		else
+		{
+			ShapePreview mypreview = PreviewManager.Instance.GetShapePreview();
+			mypreview.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
+
+			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+				mypreview.SetColor(Color.yellow);
+			else
+				mypreview.SetColor(Color.red);
+
+			mypreview.SetLifeTime(spell.throwBackDuration);
+		}
+	}
+
+	protected override void DestroyIfClient ()
+	{
+		return;
 	}
 
 }
