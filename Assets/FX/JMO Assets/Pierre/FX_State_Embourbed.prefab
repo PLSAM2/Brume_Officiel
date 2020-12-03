@@ -10056,7 +10056,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -10109,7 +10109,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -22831,12 +22831,27 @@ ParticleSystem:
     radiusScale: 1
   SubModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     subEmitters:
     - serializedVersion: 3
-      emitter: {fileID: 0}
+      emitter: {fileID: 19800006}
       type: 0
-      properties: 0
+      properties: -1
+      emitProbability: 1
+    - serializedVersion: 3
+      emitter: {fileID: 19800004}
+      type: 0
+      properties: -1
+      emitProbability: 1
+    - serializedVersion: 3
+      emitter: {fileID: 19800002}
+      type: 0
+      properties: -1
+      emitProbability: 1
+    - serializedVersion: 3
+      emitter: {fileID: 19800000}
+      type: 0
+      properties: -1
       emitProbability: 1
   LightsModule:
     enabled: 0

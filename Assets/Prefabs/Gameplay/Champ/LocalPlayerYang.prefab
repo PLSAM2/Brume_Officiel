@@ -114,7 +114,6 @@ MonoBehaviour:
   anonciated: 0
   spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
   usingKeyboardInput: 1
-  dashSfx: {fileID: 8300000, guid: b2e9d5d063184c84f976a2bc2cf291b8, type: 3}
 --- !u!114 &5927305535749590626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +134,19 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 01d2cdaea8e49844e8e52cc1fb3db077, type: 2}
+--- !u!114 &7811208941246982200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833251279321293024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32bf9f736557bf8468658c4ed4863490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  surchargeYangSfx: {fileID: 8300000, guid: afa1fcc3b83ec2f4a9bd7de846e34b34, type: 3}
 --- !u!1001 &7700405388288014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -358,5 +370,10 @@ ParticleSystem:
 --- !u!198 &7316010491871818690 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1106448589416417796, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7700405388288014790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2833251279321293024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5588103883704817958, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7700405388288014790}
   m_PrefabAsset: {fileID: 0}

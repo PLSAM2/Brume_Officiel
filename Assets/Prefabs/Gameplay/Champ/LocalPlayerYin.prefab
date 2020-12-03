@@ -2081,7 +2081,6 @@ MonoBehaviour:
   spedUpParticle: {fileID: 3550141225352017225}
   silencedParticle: {fileID: 2867675048562051468}
   embourbedParticle: {fileID: 7376274400267780404}
-  canalisationParticle: {fileID: 7893655303054498045}
   _isInBrume: 0
   brumeId: 0
   isInGhost: 0
@@ -2097,7 +2096,7 @@ MonoBehaviour:
   ward: {fileID: 218658896825124584}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
-  menacedIcon: {fileID: 0}
+  menacedIcon: {fileID: 6350765105428579591}
   allEffectLive: []
   allTickLive: []
   enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
@@ -2545,16 +2544,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -7935494346270426752, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7568069776902261552}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &7893655303054498045 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 327860012050289613, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 7568069776902261552}
-  m_PrefabAsset: {fileID: 0}
 --- !u!212 &1044435631608765395 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 7568069776902261552}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6350765105428579591 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3541338294189379127, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 7568069776902261552}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6337433437381167016 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4536313942450408600, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}

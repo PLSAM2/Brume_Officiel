@@ -15,9 +15,6 @@ public class FootstepAudio : MonoBehaviour
 
     [SerializeField] AudioSource myAudioSource;
 
-    [SerializeField] float minTime = 0.1f;
-    [SerializeField] float maxTime = 0.3f;
-
     [SerializeField] float delayToDoSound = 0.5f;
 
     private void Start()
