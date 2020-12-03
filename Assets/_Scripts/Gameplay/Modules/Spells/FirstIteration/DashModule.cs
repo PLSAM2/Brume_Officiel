@@ -13,34 +13,17 @@ public class DashModule : SpellModule
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-		if (myPlayerModule.mylocalPlayer.isOwner)
-		{
-			myPlayerModule.forcedMovementInterrupted += EndDashFeedback;
-		}
+
 		myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
 		HidePreview(Vector3.zero);
 
 		localTrad = spell as Sc_DashSpell;
 	}
 
-	protected override void Disable ()
-	{
-		base.Disable();
-		if (myPlayerModule.mylocalPlayer.isOwner)
-		{
-			myPlayerModule.forcedMovementInterrupted -= EndDashFeedback;
-		}
-	}
-
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		directionRecorded = myPlayerModule.directionInputed();
 		base.StartCanalysing(_BaseMousePos);
-	}
-
-	void EndDashFeedback ()
-	{
-		myPlayerModule.mylocalPlayer.triggerAnim.Invoke("End");
 	}
 
 	protected override bool canBeCast ()

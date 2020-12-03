@@ -335,7 +335,7 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
 
-	void CancelSpell ( bool _isForcedInterrupt )
+	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
 		if (_isForcedInterrupt && isUsed)
 			KillSpell();
@@ -347,7 +347,10 @@ public class SpellModule : MonoBehaviour
 				HidePreview(Vector3.zero);
 			}
 			else if (isUsed)
+			{
+				AddCharge();
 				KillSpell();
+			}
 		}
 	}
 
@@ -381,7 +384,6 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
 		Interrupt();
-		AddCharge();
 	}
 
 	protected virtual void DecreaseCharge ()

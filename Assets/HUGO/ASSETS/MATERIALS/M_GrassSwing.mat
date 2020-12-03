@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_GrassSwing
-  m_Shader: {fileID: 4800000, guid: 7a2c61314b134274a9ebe71752a871d6, type: 3}
+  m_Shader: {fileID: 4800000, guid: ee2f43d03bf509245b370bc8d427f725, type: 3}
   m_ShaderKeywords: _MOVINGPAPER_ON _SPECULAR_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -95,6 +95,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Wind_Noise_Texture1:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -114,6 +118,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InOutBrume1: 0
     - _InOutBrumeTransition: 0
     - _InkSplatter: 0
     - _InkSplatter_Tiling: 1
@@ -127,6 +132,7 @@ Material:
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: 2.4
     - _OcclusionStrength: 1
+    - _Opacity1: 1
     - _PaperMultiply: 1.58
     - _Paper_Flipbook_Columns: 1
     - _Paper_Flipbook_Rows: 1
@@ -154,6 +160,12 @@ Material:
     - _StepAttenuation: 0.3
     - _StepShadow: 0.03
     - _UVSec: 0
+    - _Wave_Speed1: 0
+    - _WindVertexDisplacement1: 0
+    - _Wind_Density1: 0.2
+    - _Wind_Direction1: 1
+    - _Wind_Strength1: 2
+    - _Wind_Texture_Tiling1: 0.5
     - _ZWrite: 1
     - __dirty: 0
     - _frequency: 0.2
@@ -182,6 +194,8 @@ Material:
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowInBrumeGrunge_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
+    - _WindWave_Min_Speed1: {r: 0.05, g: 0, b: 0, a: 0}
+    - _WindWave_Speed1: {r: 0.1, g: 0, b: 0, a: 0}
     - _windWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
     - _windWave_Speed: {r: 0.1, g: 0, b: 0, a: 0}
     - _wind_Speed: {r: 0.05, g: 0, b: 0, a: 0}
