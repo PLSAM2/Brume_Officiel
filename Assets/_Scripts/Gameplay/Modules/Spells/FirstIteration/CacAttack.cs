@@ -28,6 +28,8 @@ public class CacAttack : SpellModule
 
 	protected override void LinkInputs ( En_SpellInput _actionLinked )
 	{
+		myPlayerModule.cancelSpell += CancelSpell;
+
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -79,6 +81,8 @@ public class CacAttack : SpellModule
 
 	protected override void DelinkInput ()
 	{
+		myPlayerModule.cancelSpell -= CancelSpell;
+
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -130,10 +134,8 @@ public class CacAttack : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, 0, Vector3.zero);
+		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, transform.rotation.y, transform.position);
 	}
-
-
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
@@ -246,7 +248,8 @@ public class CacAttack : SpellModule
 	protected override void CancelSpell ( bool _isForcedInterrupt )
 	{
 		base.CancelSpell(_isForcedInterrupt);
-
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 		resolved = anonciated = startResolution = true;
 		currentTimeCanalised = 0;
 		throwbackTime = 0;
