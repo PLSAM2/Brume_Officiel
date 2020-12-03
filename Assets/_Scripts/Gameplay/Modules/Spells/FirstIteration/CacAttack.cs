@@ -178,6 +178,8 @@ public class CacAttack : SpellModule
 	{
 		base.ResolveSpell();
 		ResolveSlash();
+
+        AudioManager.Instance.Play3DAudioInNetwork(2, transform.position);
 	}
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
