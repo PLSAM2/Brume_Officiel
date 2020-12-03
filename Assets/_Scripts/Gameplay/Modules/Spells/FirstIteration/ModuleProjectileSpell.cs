@@ -43,7 +43,7 @@ public class ModuleProjectileSpell : SpellModule
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			if (localTrad.salveInfos.numberOfShotInSalve > 1)
-				myPreviewBurst = PreviewManager.Instance.GetShapePreview(transform);
+				myPreviewBurst = PreviewManager.Instance.GetShapePreview();
 			else
 				myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
 			HidePreview(Vector3.zero);
@@ -177,6 +177,15 @@ public class ModuleProjectileSpell : SpellModule
 		base.ShowPreview(mousePos);
 	}
 
+	protected override void CancelSpell ( bool _isForcedInterrupt )
+	{
+		base.CancelSpell(_isForcedInterrupt);
+		if (shooting == true)
+		{
+			shooting = false;
+			DecreaseCharge();
+		}
+	}
 
 	#endregion
 }

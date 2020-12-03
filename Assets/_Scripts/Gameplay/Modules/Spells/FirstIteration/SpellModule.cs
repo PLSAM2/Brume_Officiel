@@ -335,13 +335,12 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
 
-	void CancelSpell ( bool _isForcedInterrupt )
+	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
 		if (_isForcedInterrupt && isUsed)
 			KillSpell();
 		else
 		{
-
 			if (showingPreview)
 			{
 				willResolve = false;

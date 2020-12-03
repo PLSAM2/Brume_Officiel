@@ -22,7 +22,7 @@ public class CacAttack : SpellModule
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-		shapePreview = PreviewManager.Instance.GetShapePreview(this.transform);
+		shapePreview = PreviewManager.Instance.GetShapePreview();
 		shapePreview.gameObject.SetActive(false);
 	}
 
@@ -227,7 +227,7 @@ public class CacAttack : SpellModule
 				_playerTouched.DealDamages(attackToResolve.damagesToDeal,transform.position);
 		}
 	}
-
+	
 	CacAttackParameters AttackToResolve ()
 	{
 		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
@@ -239,4 +239,15 @@ public class CacAttack : SpellModule
 			return localTrad.normalAttack;
 		}
 	}
+
+	protected override void CancelSpell ( bool _isForcedInterrupt )
+	{
+		base.CancelSpell(_isForcedInterrupt);
+		if (showingPreview)
+		{
+			KillSpell();
+			DecreaseCharge();
+		}
+	}
+
 }
