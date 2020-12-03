@@ -10,7 +10,14 @@ public class DashModule : SpellModule
 	Sc_DashSpell localTrad;
 	Vector3 directionRecorded;
 
-	public override void SetupComponent ( En_SpellInput _actionLinked )
+    protected override void ResolveSpell()
+    {
+        base.ResolveSpell();
+
+        AudioManager.Instance.Play3DAudioInNetwork(1, transform.position);
+    }
+
+    public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 
