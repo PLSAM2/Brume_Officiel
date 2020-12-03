@@ -20,7 +20,6 @@ public class LocalPoolManager : SerializedMonoBehaviour
     public GameObject prefabImpactFx;
     List<GameObject> allImpactFx = new List<GameObject>();
 
-
     public Dictionary<ushort, GameObject> prefabGeneric = new Dictionary<ushort, GameObject>();
     Dictionary<ushort, List<GameObject>> allGeneric = new Dictionary<ushort, List<GameObject>>();
 

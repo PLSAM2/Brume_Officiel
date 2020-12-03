@@ -22,6 +22,7 @@ public class TerrainBlendingBaker : MonoBehaviour
         Shader.SetGlobalFloat("TB_OFFSET_Z", cam.transform.position.z - cam.orthographicSize);
         Shader.SetGlobalFloat("TB_OFFSET_Y", cam.transform.position.y - cam.farClipPlane);
         Shader.SetGlobalFloat("TB_FARCLIP", cam.farClipPlane);
+        Debug.Log("yo");
     }
 
     [ContextMenu("Bake Depth Texture")]

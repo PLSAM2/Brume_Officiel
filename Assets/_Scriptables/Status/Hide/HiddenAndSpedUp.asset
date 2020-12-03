@@ -24,27 +24,36 @@ MonoBehaviour:
     isHealing: 0
     tickValue: 0
     stateApplied: 1028
-    percentageOfTheMovementModifier: 0.2
+    percentageOfTheMovementModifier: 1
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.2
         inSlope: 0
         outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.7
+        value: 0.2
+        inSlope: -0
+        outSlope: -0.007380221
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0.083886474
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        value: 0.8
+        inSlope: 4.9675765
+        outSlope: 4.9675765
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.079360604
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

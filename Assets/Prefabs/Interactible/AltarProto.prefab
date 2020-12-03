@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 5867301088352787088}
   m_Layer: 17
   m_Name: AltarProto
-  m_TagString: Untagged
+  m_TagString: Interactible
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -378,6 +378,9 @@ MonoBehaviour:
   unlockTime: 5
   altarName: 
   altarBuff: {fileID: 0}
+  annoncementAltarSfx: {fileID: 8300000, guid: 4973cc54e290e034c92d55c66e467bf6, type: 3}
+  unlockAltarSfx: {fileID: 8300000, guid: 4973cc54e290e034c92d55c66e467bf6, type: 3}
+  capturedAltarSfx: {fileID: 8300000, guid: abf0efa21f4ba984c8f607d273cc83c3, type: 3}
 --- !u!54 &5867301088352787088
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -484,6 +487,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 5461372675387200605}
     m_Modifications:
     - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -496,6 +503,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.46411452
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.46411377
       objectReference: {fileID: 0}
@@ -506,14 +517,6 @@ PrefabInstance:
     - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.53347695
-      objectReference: {fileID: 0}
-    - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.46411452
-      objectReference: {fileID: 0}
-    - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2565337730597941895, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -554,6 +557,10 @@ PrefabInstance:
       value: GA_Autel_V2
       objectReference: {fileID: 0}
     - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -566,6 +573,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.7071068
       objectReference: {fileID: 0}
@@ -576,14 +587,6 @@ PrefabInstance:
     - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071067
-      objectReference: {fileID: 0}
-    - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
