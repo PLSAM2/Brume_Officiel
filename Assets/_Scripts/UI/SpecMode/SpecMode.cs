@@ -50,6 +50,8 @@ public class SpecMode : MonoBehaviour
             isSpec = true;
             CameraManager.Instance.isSpectate = true;
 
+            UiManager.Instance.SetAlphaBrume(0);
+
             RefreshList();
             TryToSpec();
             return;
