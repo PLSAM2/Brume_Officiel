@@ -19,7 +19,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public Sc_CharacterParameters characterParameters;
 	[TabGroup("GameplayInfos")] [ReadOnly] public Team teamIndex;
 	[TabGroup("GameplayInfos")] public float revelationRangeWhileHidden = 10;
-	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem rootParticle, slowParticle, spedUpParticle, silencedParticle, embourbedParticle, canalisationParticle;
+	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem rootParticle, slowParticle, spedUpParticle, silencedParticle, embourbedParticle;
 	Team otherTeam;
 	[HideInInspector] public bool _isInBrume;
 	En_CharacterState _state = En_CharacterState.Clear;
@@ -141,12 +141,7 @@ public class PlayerModule : MonoBehaviour
 		GameManager.Instance.AllCharacterSpawned += Setup;
 
 		//A VIRER QUAND C EST TROUVER.
-		spedUpParticle.Stop();
-		silencedParticle.Stop();
-		slowParticle.Stop();
-		canalisationParticle.Stop();
-		rootParticle.Stop();
-		embourbedParticle.Stop();
+
 
 	}
 
@@ -184,6 +179,12 @@ public class PlayerModule : MonoBehaviour
 		thirdSpell?.SetupComponent(En_SpellInput.ThirdSpell);
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
+
+		spedUpParticle.Stop();
+		silencedParticle.Stop();
+		slowParticle.Stop();
+		rootParticle.Stop();
+		embourbedParticle.Stop();
 
 		_state = En_CharacterState.Clear;
 		_oldState = state;
@@ -264,11 +265,6 @@ public class PlayerModule : MonoBehaviour
 				embourbedParticle.Play();
 			else if((_oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
 				embourbedParticle.Stop();
-
-			if ((_oldState & En_CharacterState.Canalysing) == 0 && (state & En_CharacterState.Canalysing) != 0)
-				canalisationParticle.Play();
-			else if ((_oldState & En_CharacterState.Canalysing) != 0 && (state & En_CharacterState.Canalysing) == 0)
-				canalisationParticle.Stop();
 			#endregion
 
 			_oldState = state;
