@@ -66,6 +66,8 @@ public class NetworkManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        print(localPlayer.playerCharacter);
+        print(localPlayer.ID);
         // Ping();
     }
     private void Ping()

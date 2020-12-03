@@ -252,6 +252,11 @@ public class RoomManager : MonoBehaviour
         actualRoom.scores[Team.blue] = 0;
 
         roundCount = 0;
+
+        foreach (PlayerData p in actualRoom.playerList.Values)
+        {
+            p.playerCharacter = Character.none;
+        }
     }
 
     public void ResetPlayersReadyStates()
