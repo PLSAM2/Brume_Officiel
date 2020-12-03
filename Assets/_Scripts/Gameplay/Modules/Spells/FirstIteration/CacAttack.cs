@@ -22,7 +22,7 @@ public class CacAttack : SpellModule
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-		shapePreview = PreviewManager.Instance.GetShapePreview(this.transform);
+		shapePreview = PreviewManager.Instance.GetShapePreview();
 		shapePreview.gameObject.SetActive(false);
 	}
 

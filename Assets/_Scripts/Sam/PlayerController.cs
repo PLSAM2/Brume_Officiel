@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (myShapePreview == null)
                     {
-                        myShapePreview = PreviewManager.Instance.GetShapePreview(transform);
+                        myShapePreview = PreviewManager.Instance.GetShapePreview();
                     }
                     myShapePreview.Init(range, angle, rotation, pos);
                 }
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (mySquarePreview == null)
                     {
-                        mySquarePreview = PreviewManager.Instance.GetSquarePreview(transform);
+                        mySquarePreview = PreviewManager.Instance.GetSquarePreview();
                     }
                     mySquarePreview.Init(lenghtSq, widthSq, rotationSq, centerSq, posSq);
                 }
