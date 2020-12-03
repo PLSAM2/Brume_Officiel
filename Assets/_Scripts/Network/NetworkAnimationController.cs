@@ -128,7 +128,7 @@ public class NetworkAnimationController : MonoBehaviour
             _writer.Write(boolean);
             _writer.Write(value);
 
-            using (Message _message = Message.Create(Tags.SyncTrigger, _writer))
+            using (Message _message = Message.Create(Tags.SyncBoolean, _writer))
             {
                 client.SendMessage(_message, sendMode);
             }
