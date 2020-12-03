@@ -44,7 +44,7 @@ public class LocalPlayer : MonoBehaviour
             _liveHealth = value;
             lifeCount.text = liveHealth.ToString();
 
-            lifeImg.fillAmount = (float) liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
+            lifeImg.fillAmount = (float)liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
         }
     }
     public Action<string> triggerAnim;
@@ -144,7 +144,7 @@ public class LocalPlayer : MonoBehaviour
         {
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 100;
-            DealDamages(_temp, transform.position, null, true);
+            DealDamages(_temp, transform.position, true);
         }
 
         if (Input.GetKeyDown(KeyCode.P) && isOwner)
@@ -299,7 +299,8 @@ public class LocalPlayer : MonoBehaviour
 
     public void ChangeFowRaduis(bool _value)
     {
-        if (myFow == null || myPlayerModule.state.HasFlag(En_CharacterState.ThirdEye)) {
+        if (myFow == null || myPlayerModule.state.HasFlag(En_CharacterState.ThirdEye))
+        {
             return;
         }
 
@@ -330,8 +331,9 @@ public class LocalPlayer : MonoBehaviour
     /// <summary>
     /// Deal damage to this character
     /// </summary>
-    /// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect to work</param>
-    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, PlayerData killer = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false)
+    /// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
+    /// <param name="ignoreMark"> Must have ignoreStatusAndEffect false to work</param>
+    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false)
     {
         myPlayerModule.allHitTaken.Add(_damagesToDeal);
         DealDamagesLocaly(_damagesToDeal.damageHealth);
@@ -346,12 +348,6 @@ public class LocalPlayer : MonoBehaviour
                 }
             }
 
-            if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) &&
-                NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.Shili)
-            {
-                myPlayerModule.ApplyWxMark();
-            }
- 
             if (_damagesToDeal.statusToApply != null)
             {
                 for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
@@ -367,36 +363,36 @@ public class LocalPlayer : MonoBehaviour
         }
 
 
-		if((myPlayerModule.state & _damagesToDeal.stateNeeded) !=0)
-		{
-			if (_damagesToDeal.additionalStatusToApply != null)
-			{
-				for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
-				{
-					SendStatus(_damagesToDeal.additionalStatusToApply[i]);
-				}
-			}
+        if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
+        {
+            if (_damagesToDeal.additionalStatusToApply != null)
+            {
+                for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
+                {
+                    SendStatus(_damagesToDeal.additionalStatusToApply[i]);
+                }
+            }
 
-			if (_damagesToDeal.additionalMovementToApply != null)
-			{
-				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
-			}
+            if (_damagesToDeal.additionalMovementToApply != null)
+            {
+                SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+            }
 
-			if (_damagesToDeal.damageHealth > 0)
-			{
-				DealDamagesLocaly(_damagesToDeal.additionalDamages);
+            if (_damagesToDeal.damageHealth > 0)
+            {
+                DealDamagesLocaly(_damagesToDeal.additionalDamages);
 
-				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-				{
-					_writer.Write(myPlayerId);
-					_writer.Write(_damagesToDeal.additionalDamages);
-					using (Message _message = Message.Create(Tags.Damages, _writer))
-					{
-						currentClient.SendMessage(_message, SendMode.Reliable);
-					}
-				}
-			}
-		}
+                using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+                {
+                    _writer.Write(myPlayerId);
+                    _writer.Write(_damagesToDeal.additionalDamages);
+                    using (Message _message = Message.Create(Tags.Damages, _writer))
+                    {
+                        currentClient.SendMessage(_message, SendMode.Reliable);
+                    }
+                }
+            }
+        }
 
         if (_damagesToDeal.damageHealth > 0)
         {
@@ -414,12 +410,21 @@ public class LocalPlayer : MonoBehaviour
         }
     }
 
-    public void DealDamagesLocaly(ushort damages)
+    public void DealDamagesLocaly(ushort damages, ushort dealerID = 0)
     {
+        if (isOwner)
+        {
+            if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0) && (RoomManager.Instance.GetPlayerData(dealerID).playerCharacter != Character.Shili))
+            {
+                myPlayerModule.ApplyWxMark();
+            }
+        }
+
         if ((int)liveHealth - (int)damages <= 0)
         {
             KillPlayer();
-        } else
+        }
+        else
         {
             int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
             liveHealth = (ushort)_tempHp;
@@ -504,7 +509,7 @@ public class LocalPlayer : MonoBehaviour
     public void KillPlayer(PlayerData killer = null)
     {
         if (isOwner)
-        { 
+        {
             disableModule.Invoke();
             InGameNetworkReceiver.Instance.KillCharacter(killer);
             UiManager.Instance.DisplayGeneralMessage("You have been slain");

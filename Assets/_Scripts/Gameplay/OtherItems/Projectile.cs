@@ -59,17 +59,15 @@ public class Projectile : AutoKill
 	private void OnTriggerEnter ( Collider Collider )
 	{
 		PlayerModule playerHit = Collider.gameObject.GetComponent<PlayerModule>();
-		print("TouchSomething");
 		if (playerHit != null)
 		{
 			if (playerHit.teamIndex != myteam)
 			{
-				print("TouchedPlayer");
 				hasTouched = true;
 
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
+					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 
 				Destroy();
