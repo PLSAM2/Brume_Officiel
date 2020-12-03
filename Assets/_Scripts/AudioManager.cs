@@ -44,7 +44,7 @@ public class AudioManager : SerializedMonoBehaviour
         }
 
         backGroundMusic.volume = currentPlayerVolume;
-        client = RoomManager.Instance.client;
+        client = NetworkManager.Instance.GetLocalClient();
         client.MessageReceived += OnMessageReceive;
     }
 
