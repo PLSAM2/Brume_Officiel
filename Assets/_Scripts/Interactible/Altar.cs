@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 
-
-
 public class Altar : Interactible
 {
     [SerializeField] Sprite unlockedAltar;
@@ -17,6 +15,11 @@ public class Altar : Interactible
     public float unlockTime;
     public string altarName = "";
     public AltarBuff altarBuff;
+
+    [SerializeField] AudioClip annoncementAltarSfx;
+    [SerializeField] AudioClip unlockAltarSfx;
+    [SerializeField] AudioClip capturedAltarSfx;
+
     void Start()
     {
         base.Init();
@@ -29,6 +32,8 @@ public class Altar : Interactible
         base.UpdateCaptured(team);
 
         UiManager.Instance.DisplayGeneralMessage("Altar captured");
+
+        AudioManager.Instance.Play2DAudio(capturedAltarSfx);
     }
 
     public override void Captured(Team team)
@@ -48,7 +53,10 @@ public class Altar : Interactible
 
     IEnumerator ActivateAltar()
     {
+        AudioManager.Instance.Play2DAudio(annoncementAltarSfx);
+
         yield return new WaitForSeconds(unlockTime);
+
         UiManager.Instance.DisplayGeneralMessage("Altar unlock");
         Unlock();
     }
@@ -57,7 +65,7 @@ public class Altar : Interactible
 	{
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
+
+        AudioManager.Instance.Play2DAudio(unlockAltarSfx);
     }
-
-
 }
