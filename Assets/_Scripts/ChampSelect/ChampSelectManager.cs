@@ -220,6 +220,8 @@ public class ChampSelectManager : MonoBehaviour
                 SetCharacter(targetedPlayer, ___targetedPlayerCharacter, true);
             }
         }
+
+        StopSwap();
     }
 
     private void RefuseCharacterSwapInServer(object sender, MessageReceivedEventArgs e)
