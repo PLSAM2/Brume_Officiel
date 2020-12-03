@@ -133,7 +133,6 @@ public class ChampSelectManager : MonoBehaviour
                 _character = (Character)reader.ReadUInt16();
             }
         }
-
         SetCharacter(_playerID, _character);
 
         if (_playerID == askingSwapPlayerId)
@@ -269,6 +268,7 @@ public class ChampSelectManager : MonoBehaviour
         }
 
         player.playerCharacter = character;
+
         player.IsReady = true;
         _listObj.playerNameText.text = player.Name;
         linkPlayerCharacterListObj.Add(playerID, _listObj);

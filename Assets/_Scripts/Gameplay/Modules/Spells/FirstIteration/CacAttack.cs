@@ -265,7 +265,7 @@ public class CacAttack : SpellModule
 
 	public void ShowAttackPreviewReseau ( float _timeCounted)
 	{
-		print("I"+ _timeCounted);
+
 		if (_timeCounted >= localTrad.timeToCanalyseToUpgrade)
 		{
 			ShapePreview mypreview = PreviewManager.Instance.GetShapePreview();

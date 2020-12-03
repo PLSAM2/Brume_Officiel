@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
+  m_Name: Spell_Yang_AutoAttackTracer
+  m_EditorClassIdentifier: 
+  range: 6
+  cooldown: 0.5
+  numberOfCharge: 1
+  forbiddenState: 48
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0.01
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
+  lockRotOnAnonciation: 0
+  LockPosOnAnonciation: 0
+  anonciationTime: 0.01
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyOnResolution: []
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0.4
+  spellIcon: {fileID: 21300000, guid: ac378749b253b074b932b863293d0f7f, type: 3}
+  damagesToDeal:
+    damageHealth: 4
+    statusToApply: []
+    movementToApply: {fileID: 0}
+    playerName: 
+    stateNeeded: 128
+    additionalDamages: 0
+    additionalStatusToApply: []
+    additionalMovementToApply: {fileID: 0}
+  prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
+  _reduceCooldowns: 1
+  offSet: 0
+  salveInfos:
+    NumberOfSalve: 5
+    numberOfShotInSalve: 1
+    timeToReachMaxRange: 0.2
+    timeToResolveTheSalve: 0.3
+  isMultiple: 0
+  angleToSplit: 0
+  cooldownReduction: 0.2
+  bonusShot: 0
+  bonusSalve: 2
+  durationAdded: 0
