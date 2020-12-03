@@ -53,10 +53,12 @@ public class AudioManager : MonoBehaviour
         backGroundMusic.volume = _value;
     }
 
-    public void Play2DAudio(AudioClip _clip, float _volume = 1)
+    public AudioElement Play2DAudio(AudioClip _clip, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.Init(_clip, 0, _volume);
+
+        return _myAudioElement;
     }
 
     public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, float _volume = 1)
