@@ -10,42 +10,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: HiddenAndSpedUp
+  m_Name: SpedUpStartDive
   m_EditorClassIdentifier: 
   effect:
     tick: 0
-    finalLifeTime: 6
-    isConstant: 1
-    canBeForcedStop: 1
-    forcedKey: 1450
+    finalLifeTime: 0.5
+    isConstant: 0
+    canBeForcedStop: 0
+    forcedKey: 0
     refreshOnApply: 0
     tickRate: 0.2
     isDamaging: 1
     isHealing: 0
     tickValue: 0
-    stateApplied: 1028
-    percentageOfTheMovementModifier: 0.25
+    stateApplied: 4
+    percentageOfTheMovementModifier: 1
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        value: 0
+        inSlope: -0.10373512
+        outSlope: -0.10373512
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        inSlope: 1.879236
+        outSlope: -1.7270775
+        tangentMode: 1
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.04414034
+        outWeight: 0.13389082
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
