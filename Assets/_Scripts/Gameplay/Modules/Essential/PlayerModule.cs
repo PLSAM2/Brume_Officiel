@@ -680,7 +680,7 @@ public class PlayerModule : MonoBehaviour
 			DamagesInfos _tempDamages = new DamagesInfos();
 			_tempDamages.damageHealth = wxMarkRef.effect.optionalDamages;
 
-			this.mylocalPlayer.DealDamages(_tempDamages, transform.position);
+			this.mylocalPlayer.DealDamages(_tempDamages, transform.position, null, true, true) ;
 		}
 	}
 
