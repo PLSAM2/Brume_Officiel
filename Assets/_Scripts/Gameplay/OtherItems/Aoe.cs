@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 public class Aoe : AutoKill
 {
-	public Sc_Aoe localTrad;
+	[TabGroup("AoeParameters")] public Sc_Aoe localTrad;
 
 	protected override void Awake ()
 	{
