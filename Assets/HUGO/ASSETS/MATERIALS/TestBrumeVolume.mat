@@ -9,9 +9,9 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
-  m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
-    _COLOR_ON _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
-    _TESSELATION_ON
+  m_ShaderKeywords: _ANIMATED_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON _COLOR_ON
+    _DISPLACEMENT_ON _FLIPBOOK_ANIMATION_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON
+    _ROTATIONPAUSE_ON _TESSELATION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -30,7 +30,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BrumeTexture:
-        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7f7c3805663d20747bd246fd2b9df207, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -141,7 +141,7 @@ Material:
     - _1: 1.55
     - _2: 0
     - _Animated: 1
-    - _AnimationPause: 1
+    - _AnimationPause: 0
     - _BetweenFullLowAndHigh05: 1
     - _Black: 0
     - _BrumeAnimated: 1
@@ -157,11 +157,11 @@ Material:
     - _DisplacementTexture_Multiply: 0.1
     - _DisplacementTexture_Multiply1: 1
     - _DstBlend: 0
-    - _Flipbook_Animation: 0
-    - _Flipbook_Columns: 8
-    - _Flipbook_Rows: 8
-    - _Flipbook_Speed: 24
-    - _Flipbook_Tiling: 0.8
+    - _Flipbook_Animation: 1
+    - _Flipbook_Columns: 10
+    - _Flipbook_Rows: 10
+    - _Flipbook_Speed: 10
+    - _Flipbook_Tiling: 2.5
     - _Flipbook_Time: 1
     - _Float0: 1
     - _Float11: 3
@@ -180,7 +180,7 @@ Material:
     - _MultiplyGroundMask: 2.73
     - _MultiplyGroundMask1: 2.95
     - _NoiseTiling: 0.1
-    - _NormalOffset: 0.5
+    - _NormalOffset: 0
     - _NormalStrength: 5
     - _OcclusionStrength: 1
     - _Opacity05: 1
