@@ -44,7 +44,7 @@ public class Projectile_SoulBurst : Projectile
 	protected override void Destroy ()
 	{
 		base.Destroy();
-        if(!asExploded)
+        if(!asExploded && hasTouched)
 		{
             asExploded = true;
 

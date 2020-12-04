@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class WxController : PlayerModule
 {
@@ -11,12 +12,14 @@ public class WxController : PlayerModule
 
     [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
+    public Action soulPickedUp;
 
 
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
         print("I picked a soul");
         playerSouls.Add(playerSoul);
+        soulPickedUp?.Invoke();
         // this.GetComponent<Module_WxSoulBurst>().charges++;
     }
 
