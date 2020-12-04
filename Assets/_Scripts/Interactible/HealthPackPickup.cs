@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class SoulBurst_Pickup : Interactible
+public class HealthPackPickup : Interactible
 {
-
 	NetworkedObject myNetworkedObject;
+	[Header("HealValue")]
+	[TabGroup("HealPart")]
+	public ushort healValue;
 
 	private void Start ()
 	{
@@ -21,8 +24,7 @@ public class SoulBurst_Pickup : Interactible
 
 	public override void Captured ( GameData.Team team )
 	{
-		WxController _temp = (WxController)capturingPlayerModule;
-		_temp.soulPickedUp.Invoke();
+		capturingPlayerModule.mylocalPlayer.HealPlayer(healValue);
 		base.Captured(team);
 	}
 }
