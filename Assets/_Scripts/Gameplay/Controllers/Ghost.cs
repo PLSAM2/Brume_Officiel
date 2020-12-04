@@ -199,6 +199,8 @@ public class Ghost : MonoBehaviour
 
             playerModule.isInGhost = false;
 
+            playerModule.mylocalPlayer.ResetFowRaduis();
+
 
             //gestion vision si cut
             if (haveCut)

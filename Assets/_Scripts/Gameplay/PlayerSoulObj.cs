@@ -13,6 +13,9 @@ public class PlayerSoulObj : MonoBehaviour
     [SerializeField] SpriteRenderer mapIcon;
     [SerializeField] Sprite iconYang, iconYin;
 
+    [SerializeField] GameObject redObj;
+    [SerializeField] GameObject blueObj;
+
     private void OnEnable()
     {
 
@@ -27,6 +30,10 @@ public class PlayerSoulObj : MonoBehaviour
 		{
             mapIcon.color = Color.blue;
         }
+
+        redObj.SetActive(playerSoul.soulInfo.playerTeam == Team.red);
+        blueObj.SetActive(playerSoul.soulInfo.playerTeam == Team.blue);
+
         if (playerSoul.soulInfo.playerCharacter == Character.Yang)
             mapIcon.sprite = iconYang;
         else

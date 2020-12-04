@@ -109,7 +109,7 @@ public class FieldOfView : MonoBehaviour
             }
         }
 
-        visibleInteractible.Clear();
+        oldVisibleInteractible.Clear();
         oldVisibleInteractible.AddRange(visibleInteractible.Values);
     }
 
@@ -132,7 +132,7 @@ public class FieldOfView : MonoBehaviour
         }
 
         oldVisibleFx.Clear();
-        oldVisibleFx.AddRange(visibleTargets);
+        oldVisibleFx.AddRange(visibleFx);
     }
 
     void SetListVisibleEnemy ()
@@ -170,6 +170,9 @@ public class FieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
+        visibleFx.Clear();
+        visibleInteractible.Clear();
+
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)

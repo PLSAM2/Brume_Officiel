@@ -167,24 +167,30 @@ public class Displayer : MonoBehaviour
     {
         foreach(Fx fx in GameManager.Instance.allFx)
         {
-            if(GameManager.Instance.allVisibleFx.Contains(fx.transform) && !fx.isVisible)
+            if(GameManager.Instance.allVisibleFx.Contains(fx.transform))
             {
-                fx.isVisible = true;
-
-                foreach(GameObject obj in fx.objToHide)
+                if (!fx.isVisible)
                 {
-                    if (!obj) { continue; }
-                    obj.SetActive(true);
+                    fx.isVisible = true;
+
+                    foreach (GameObject obj in fx.objToHide)
+                    {
+                        if (!obj) { continue; }
+                        obj.SetActive(true);
+                    }
                 }
             }
-            else if(GameManager.Instance.allVisibleFx.Contains(fx.transform) && !fx.isVisible)
+            else
             {
-                fx.isVisible = false;
-
-                foreach (GameObject obj in fx.objToHide)
+                if (fx.isVisible)
                 {
-                    if (!obj) { continue; }
-                    obj.SetActive(false);
+                    fx.isVisible = false;
+
+                    foreach (GameObject obj in fx.objToHide)
+                    {
+                        if (!obj) { continue; }
+                        obj.SetActive(false);
+                    }
                 }
             }
         }
