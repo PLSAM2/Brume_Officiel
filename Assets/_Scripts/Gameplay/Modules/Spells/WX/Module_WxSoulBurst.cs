@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Module_WxSoulBurst : SpellModule
+public class Module_WxSoulBurst : ModuleProjectileSpell
 {
-    public GameObject soulburstPrefab;
-    private GameObject soulburstObj;
-
-    public float speed = 1;
-    public float maxRange = 1;
-    public float explodeRange = 1;
     protected override void AddCharge() { }
-    public override void DecreaseCooldown() { }
-    protected override void Resolution()
-    {
+    public override void DecreaseCooldown() {}
 
-        base.Resolution();
+	void AddChargeManualy()
+	{
+		charges++;
+	}
 
-        soulburstObj = NetworkObjectsManager.Instance.NetworkInstantiate(16, this.transform.position, 
-            new Vector3(soulburstPrefab.transform.rotation.x, soulburstPrefab.transform.rotation.y, soulburstPrefab.transform.rotation.z));
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		base.SetupComponent(_actionLinked);
+		WxController _temp = (WxController)myPlayerModule;
+		_temp.soulPickedUp += AddChargeManualy;
+	}
 
-        soulburstObj.GetComponent<Projectile_SoulBurst>().Init(mousePosInputed, this.transform.position, explodeRange, maxRange, speed);
-    }
+	protected override void Disable ()
+	{
+		base.Disable();
+		WxController _temp = (WxController)myPlayerModule;
+		_temp.soulPickedUp += AddChargeManualy;
+	}
 }

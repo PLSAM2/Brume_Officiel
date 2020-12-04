@@ -238,7 +238,7 @@ public class CacAttack : SpellModule
 				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
 				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
 			}
 		}
 	}
@@ -276,23 +276,23 @@ public class CacAttack : SpellModule
 			mypreview.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
 
 			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				mypreview.SetColor(Color.yellow);
+				mypreview.SetColor(Color.yellow, 155);
 			else
-				mypreview.SetColor(Color.red);
+				mypreview.SetColor(Color.red,155);
 
 			mypreview.SetLifeTime(spell.throwBackDuration);
 		}
 		else
 		{
-			ShapePreview mypreview = PreviewManager.Instance.GetShapePreview();
-			mypreview.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
+			ShapePreview _mypreview = PreviewManager.Instance.GetShapePreview();
+			_mypreview.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
 
 			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				mypreview.SetColor(Color.yellow);
+				_mypreview.SetColor(Color.yellow,.2f);
 			else
-				mypreview.SetColor(Color.red);
+				_mypreview.SetColor(Color.red, .2f);
 
-			mypreview.SetLifeTime(spell.throwBackDuration);
+			_mypreview.SetLifeTime(spell.throwBackDuration);
 		}
 	}
 

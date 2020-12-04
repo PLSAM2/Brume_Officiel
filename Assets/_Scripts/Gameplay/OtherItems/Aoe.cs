@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 public class Aoe : AutoKill
 {
-	public Sc_Aoe localTrad;
+	[TabGroup("AoeParameters")] public Sc_Aoe localTrad;
 
 	protected override void Awake ()
 	{
@@ -39,7 +39,7 @@ public class Aoe : AutoKill
 			{
 				_allChecked.Add(_coll.gameObject);
 
-				player.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+				player.DealDamages(_damages, transform.position);
 			}
 		}
 
