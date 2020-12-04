@@ -6,6 +6,8 @@ public class GA_Debugger : SerializedMonoBehaviour
     public bool sw = false;
     public Shader shader;
     public string property;
+
+    public Texture2DArray dArray;
     public void InOutBrumeDebug()
     {
         MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
