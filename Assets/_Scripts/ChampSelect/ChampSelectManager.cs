@@ -157,6 +157,11 @@ public class ChampSelectManager : MonoBehaviour
 
     private void AskForCharacterSwapInServer(object sender, MessageReceivedEventArgs e) // Recu uniquement par l'envoyeur et la personne ciblé
     {
+        if (askingSwapPlayerId != 0)
+        {
+            return;
+        }
+
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -167,19 +172,21 @@ public class ChampSelectManager : MonoBehaviour
 
                 askingSwapPlayerId = _playerID;
 
-                if (_playerID != NetworkManager.Instance.GetLocalPlayer().ID)
+                if (_targetedID == NetworkManager.Instance.GetLocalPlayer().ID)
                 {
                     characterSwapPanelReceiver.SetActive(true);
                     characterSwapPanelSender.SetActive(false);
                     characterSwapPanelReceiverText.text = RoomManager.Instance.GetPlayerData(_playerID).Name + " want to swap " + _character.ToString() + " with you";
                 }
-                else
+                else if (_playerID == NetworkManager.Instance.GetLocalPlayer().ID)
                 {
                     characterSwapPanelSender.SetActive(true);
                     characterSwapPanelReceiver.SetActive(false);
                     characterSwapPanelSenderText.text = "Asking " + RoomManager.Instance.GetPlayerData(_targetedID).Name + " to swap";
                 }
 
+                linkPlayerCharacterListObj[_playerID].SwapImg.SetActive(true);
+                linkPlayerCharacterListObj[_targetedID].SwapImg.SetActive(true);
             }
         }
     }
@@ -230,6 +237,11 @@ public class ChampSelectManager : MonoBehaviour
 
     public void StopSwap()
     {
+        foreach (CharacterListObj charList in linkPlayerCharacterListObj.Values)
+        {
+            charList.SwapImg.SetActive(false);
+        }
+
         characterSwapPanelSender.SetActive(false);
         characterSwapPanelReceiver.SetActive(false);
         characterSwapPanelReceiverText.text = "";
