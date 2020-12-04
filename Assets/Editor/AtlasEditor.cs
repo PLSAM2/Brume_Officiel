@@ -1,0 +1,173 @@
+﻿using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class AtlasEditor : OdinEditorWindow
+{
+    public enum ExportType
+    {
+        PNG,
+        JPG
+    }
+
+    [DetailedInfoBox("How to ....",
+        "Ce tools peut crée ou modifier un Atlas à partir d'une liste de texture\n" +
+        "L'atlas sera directement crée en type {exportType} dans le dossier {assetName}\n" +
+        "La distance en pixel entre chaque texture est {texturePadding}\n" +
+        "Création : Insérer les textures voulu dans l'ordre dans {atlasTextures} puis bouton Genererate Atlas \n" +
+        "Modifications : Le Bouton Modify atlas récupère l'image dans {assetName} et la divise en texture \n" +
+        "vous pouvez alors rajouter, supprimez ou restructurer la liste puis le bouton recreate atlas recreer l'image avec la nouvelle list \n"
+        )]
+    [DetailedInfoBox("Prérequis d'utilisation",
+        "Chaque texture utilisé doit être modifiable : Texture --> Advanced --> Read/Write Enabled = true\n" +
+        "La texture généré n'a pas de base l'attribut modifiable, lui rajoutez si vous voulez la modifier\n"
+        )]
+
+    [Header("ATLAS CREATOR")]
+    public int texturePadding = 512;
+    public string assetName = "HUGO/packedTexture";
+    public ExportType exportType = ExportType.PNG;
+    [TabGroup("ATLAS CREATOR")]
+    public Texture2D[] atlasTextures;
+    [TabGroup("ATLAS CREATOR")] private Texture2D packedTexture;
+    [TabGroup("ATLAS CREATOR")] [ReadOnly] public Rect[] rects;
+    [TabGroup("ATLAS MODIFIER")]
+    [Header("ATLAS MODIFIER")]
+    public Texture2D AtlasImage;
+    [TabGroup("ATLAS MODIFIER")] public List<Texture2D> decomposedAtlas = new List<Texture2D>();
+
+    [MenuItem("Tools/Atlas editor")]
+    private static void OpenWindow()
+    {
+        GetWindow<AtlasEditor>().Show();
+    }
+
+    [TabGroup("ATLAS CREATOR")]
+    [Button("Generate Atlas")]
+    public void GenerateAtlas()
+    {
+        Texture2D packedTexture = GenerateCombinedTexture(atlasTextures);
+
+        byte[] _bytes;
+
+        switch (exportType)
+        {
+            case ExportType.PNG:
+                _bytes = packedTexture.EncodeToPNG();
+                break;
+            case ExportType.JPG:
+                _bytes = packedTexture.EncodeToJPG();
+                break;
+            default: throw new System.Exception();
+        }
+
+        System.IO.File.WriteAllBytes(Application.dataPath + $"/{assetName}.png", _bytes);
+        AssetDatabase.Refresh();
+
+        Debug.Log("Atlas crée");
+
+    }
+
+    public Texture2D GenerateCombinedTexture(Texture2D[] t)
+    {
+        int heightcounter = Convert.ToInt32(Math.Floor((float)(t.Length / 4))) + 1;
+        int height = texturePadding * heightcounter;
+        int width = (texturePadding * t.Length);
+        Texture2D _temp = new Texture2D(width, height);    
+        int imageNumber = t.Length;
+        int counter = 0;
+
+        for (int i = 0; i < imageNumber; i++)
+        {
+            for (int y = 0; y < texturePadding; y++) // height
+            {
+                for (int x = 0; x < texturePadding; x++) // width
+                {
+                    if ((i + 1) % 4 == 0) // décalage vertical
+                    {
+                        counter++;
+                    }
+
+                    var pixels = t[i].GetPixel(x, y);
+                    _temp.SetPixel(x + ((texturePadding * i) - ((texturePadding * 4) * counter))
+                        , y + (texturePadding * counter)
+                        , pixels);
+                }
+            }
+        }
+        _temp.Apply();
+
+        return _temp;
+    }
+
+    [TabGroup("ATLAS MODIFIER")]
+    [Button("Get Atlas")]
+    public void ModifyAtlas()
+    {
+        decomposedAtlas.Clear();
+        Texture2D t = AtlasImage;
+        Debug.Log("Size is " + AtlasImage.width + " by " + AtlasImage.height);
+
+        int imageNumber = t.width / texturePadding;
+
+        for (int i = 0; i < imageNumber; i++)
+        {
+            Texture2D _temp = new Texture2D(texturePadding, texturePadding);
+            var pixels = t.GetPixels(texturePadding * i, 0, texturePadding, texturePadding);
+            _temp.SetPixels(pixels);
+            _temp.Apply();
+
+            decomposedAtlas.Add(_temp);
+        }
+        Debug.Log("Atlas recupéré");
+    }
+
+
+    [TabGroup("ATLAS MODIFIER")]
+    [Button("Recreate Atlas")]
+    public void RecreateAtlas()
+    {
+        Texture2D[] _temp = decomposedAtlas.ToArray();
+
+        int finalPadding = texturePadding * decomposedAtlas.Count;
+
+        packedTexture = new Texture2D(finalPadding, texturePadding);
+
+        int imageNumber = finalPadding / texturePadding;
+
+        for (int i = 0; i < imageNumber; i++)
+        {
+            for (int y = 0; y < texturePadding; y++)
+            {
+                for (int x = 0; x < texturePadding; x++)
+                {
+                    var pixels = decomposedAtlas[i].GetPixel(x, y);
+                    packedTexture.SetPixel(x + (texturePadding * i), y, pixels);
+                }
+            }
+        }
+
+        byte[] _bytes;
+        switch (exportType)
+        {
+            case ExportType.PNG:
+                _bytes = packedTexture.EncodeToPNG();
+                break;
+            case ExportType.JPG:
+                _bytes = packedTexture.EncodeToJPG();
+                break;
+            default: throw new System.Exception();
+        }
+
+        System.IO.File.WriteAllBytes(Application.dataPath + $"/{assetName}.png", _bytes);
+
+        AssetDatabase.Refresh();
+
+        Debug.Log("Atlas Recrée");
+    }
+
+}

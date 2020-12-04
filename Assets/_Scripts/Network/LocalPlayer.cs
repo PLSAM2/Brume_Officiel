@@ -333,9 +333,9 @@ public class LocalPlayer : MonoBehaviour
 	/// <param name="ignoreMark"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false )
 	{
+		DealDamagesLocaly(_damagesToDeal.damageHealth);
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
-		DealDamagesLocaly(_damagesToDeal.damageHealth);
 
 		if (!ignoreStatusAndEffect)
 		{
@@ -407,14 +407,16 @@ public class LocalPlayer : MonoBehaviour
 
 			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 		}
+
 	}
 
 	public void DealDamagesLocaly ( ushort damages, ushort dealerID = 0 )
 	{
 		if (isOwner)
 		{
-			if (((myPlayerModule.state & En_CharacterState.WxMarked) != 0))
+			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
+				print("IApplyMark");
 				myPlayerModule.ApplyWxMark();
 			}
 		}
@@ -432,7 +434,7 @@ public class LocalPlayer : MonoBehaviour
 
 	public void HealPlayer ( ushort value )
 	{
-		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, 1000);
+		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealth);
 		liveHealth = (ushort)_tempHp;
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())

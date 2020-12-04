@@ -5,12 +5,18 @@ using UnityEngine;
 public class SoulBurst_Pickup : Interactible
 {
 
-	[SerializeField] NetworkedObject myNetworkObject;
+	NetworkedObject myNetworkedObject;
+
+	private void Start ()
+	{
+		myNetworkedObject = GetComponent<NetworkedObject>();
+	}
+
 	public override void UpdateCaptured ( GameData.Team team )
 	{
 		base.UpdateCaptured(team);
 
-		NetworkObjectsManager.Instance.DestroyNetworkedObject(myNetworkObject.GetItemID());
+		NetworkObjectsManager.Instance.DestroyNetworkedObject(myNetworkedObject.GetItemID());
 	}
 
 	public override void Captured ( GameData.Team team )
