@@ -12,7 +12,7 @@ public class TextFeedback : MonoBehaviour
 
     [SerializeField] AudioClip hitClip;
 
-    public void Init(Vector3 pos, string value, Color _color)
+    public void Init(Vector3 pos, string value, Color _color, bool isLeft)
     {
         transform.position = pos;
 
@@ -21,7 +21,14 @@ public class TextFeedback : MonoBehaviour
 
         damageText.color = _color;
 
-        myAnimator.SetTrigger("Show");
+        if (isLeft)
+        {
+            myAnimator.SetTrigger("Left");
+        }
+        else
+        {
+            myAnimator.SetTrigger("Right");
+        }
 
         AudioManager.Instance.Play3DAudio(hitClip, transform.position);
     }
