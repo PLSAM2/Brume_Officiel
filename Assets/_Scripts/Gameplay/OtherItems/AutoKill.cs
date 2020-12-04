@@ -6,11 +6,11 @@ using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-    [ReadOnly] public float mylifeTime;
-    [ReadOnly] public float myLivelifeTime;
+    [TabGroup("AutokillParameters")] [ReadOnly] public float mylifeTime;
+    [TabGroup("AutokillParameters")] [ReadOnly] public float myLivelifeTime;
     [Header("HideAtTheEndOfLife")]
-    [SerializeField] GameObject meshBlue;
-    [SerializeField] GameObject meshRed;
+    [TabGroup("AutokillParameters")] [SerializeField] GameObject meshBlue;
+    [TabGroup("AutokillParameters")] [SerializeField] GameObject meshRed;
 
     [HideInInspector] public Team myteam;
     [HideInInspector] public NetworkedObject myNetworkObject;
