@@ -18,12 +18,12 @@ public enum State : ushort
 public class Interactible : MonoBehaviour
 {
     [Header("Interactible properties")]
-    [ReadOnly] public ushort interactibleID = 0; // Generate in interactibleObjectManager
+    [HideInInspector] public ushort interactibleID = 0; // Generate in interactibleObjectManager
     public InteractibleType type = InteractibleType.none;
     [SerializeField] protected float interactTime = 5;
     public bool isInteractable = true;
-    [ReadOnly] public Team capturingTeam = Team.none;
-    public PlayerModule capturingPlayerModule;
+    [HideInInspector] public Team capturingTeam = Team.none;
+      [HideInInspector]  public PlayerModule capturingPlayerModule;
     public State state = State.Locked;
 
     public Character[] authorizedCaptureCharacter = new Character[1];
@@ -218,10 +218,13 @@ public class Interactible : MonoBehaviour
 
         myAudioSource.enabled = false;
 
-        if (team == Team.red && showOnMap)
-            mapIcon.sprite = iconRed;
-        else if ( showOnMap)
-            mapIcon.sprite = iconBlue;
+        if(mapIcon != null)
+		{
+            if (team == Team.red && showOnMap)
+                mapIcon.sprite = iconRed;
+            else if (showOnMap)
+                mapIcon.sprite = iconBlue;
+        }
     }
 
     public virtual void SetActiveState(bool value)

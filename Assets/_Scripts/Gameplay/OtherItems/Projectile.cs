@@ -20,7 +20,7 @@ public class Projectile : AutoKill
 	[TabGroup("ProjectileParameters")] [SerializeField] bool doImpactFx = true;
 	Vector3 startPos;
 
-	bool hasTouched = false;
+	[HideInInspector] public bool hasTouched = false;
 
 	public override void Init ( Team ownerTeam )
 	{

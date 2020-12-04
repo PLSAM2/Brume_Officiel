@@ -23,7 +23,8 @@ public class GameData
         Altar = 1,
         VisionTower = 2,
         Frog = 3,
-        ResurectAltar = 4
+        ResurectAltar = 4,
+        Pickup = 5
     }
 
 }
