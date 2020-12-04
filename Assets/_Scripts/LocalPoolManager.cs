@@ -55,13 +55,16 @@ public class LocalPoolManager : SerializedMonoBehaviour
         myLocalPlayer.SendSpawnAOEFx(_id, _pos, _rota, _scale, _time);
     }
 
+
+    bool textIsLeft = true;
     //Textfeedback
     public void SpawnNewTextFeedback(Vector3 _pos, string _value, Color _color, float _time = 1)
     {
         TextFeedback currentFeedback = GetFree(allText, prefabTextFeedback).GetComponent<TextFeedback>();
 
         currentFeedback.gameObject.SetActive(true);
-        currentFeedback.Init(_pos, _value, _color);
+        textIsLeft = !textIsLeft;
+        currentFeedback.Init(_pos, _value, _color, textIsLeft);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time);
     }
