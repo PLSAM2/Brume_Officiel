@@ -6,6 +6,7 @@ using static GameData;
 
 public class CharacterListObj : MonoBehaviour
 {
+    public GameObject SwapImg;
     public TextMeshProUGUI playerNameText;
     public TextMeshProUGUI characterNameText;
     public Character character;
