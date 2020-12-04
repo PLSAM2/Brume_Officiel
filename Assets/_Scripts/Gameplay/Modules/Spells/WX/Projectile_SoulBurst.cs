@@ -7,8 +7,15 @@ public class Projectile_SoulBurst : Projectile
 {
     [TabGroup("Explosion")] private float explosionRange = 3;
     [TabGroup("Explosion")] public DamagesInfos damagesExplosion;
+    bool asExploded= false;
 
-    private List<LocalPlayer> GetAllNearbyPlayers()
+	public override void Init ( GameData.Team ownerTeam )
+	{
+		base.Init(ownerTeam);
+        asExploded = false;
+    }
+
+	private List<LocalPlayer> GetAllNearbyPlayers()
     {
         List<LocalPlayer> _temp = new List<LocalPlayer>();
 
@@ -37,19 +44,22 @@ public class Projectile_SoulBurst : Projectile
 	protected override void Destroy ()
 	{
 		base.Destroy();
+        if(!asExploded)
+		{
+            asExploded = true;
 
-        CirclePreview _mypreview = PreviewManager.Instance.GetCirclePreview(null);
-        _mypreview.Init(explosionRange, CirclePreview.circleCenter.center, transform.position);
-        if (myteam != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-            _mypreview.SetColor(Color.red, .2f);
-        else
-            _mypreview.SetColor(Color.yellow, .2f);
+            CirclePreview _mypreview = PreviewManager.Instance.GetCirclePreview(null);
+            _mypreview.Init(explosionRange, CirclePreview.circleCenter.center, transform.position);
+            if (myteam != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+                _mypreview.SetColor(Color.red, .2f);
+            else
+                _mypreview.SetColor(Color.yellow, .2f);
 
-        _mypreview.SetLifeTime(.3f);
+            _mypreview.SetLifeTime(.3f);
 
-        if (isOwner)
-            Explode();
-
+            if (isOwner)
+                Explode();
+        }
     }
 
 	void OnDrawGizmosSelected()
