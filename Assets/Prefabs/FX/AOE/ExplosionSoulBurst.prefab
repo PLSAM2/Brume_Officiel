@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8640629025168882998}
   - component: {fileID: 8640629025168883000}
   - component: {fileID: 8640629025168882999}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Embers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8640629025168882997}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.2200003}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 8640629026506735565}
   m_RootOrder: 2
@@ -204,7 +204,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.6901961, b: 0.3529412, a: 1}
+      maxColor: {r: 0.07075471, g: 0.22961046, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4755,7 +4755,7 @@ GameObject:
   - component: {fileID: 8640629025377012878}
   - component: {fileID: 8640629025377012912}
   - component: {fileID: 8640629025377012879}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4771,7 +4771,7 @@ Transform:
   m_GameObject: {fileID: 8640629025377012877}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.30999997}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 8640629026506735565}
   m_RootOrder: 3
@@ -9623,9 +9623,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8640629026506735565}
-  m_Layer: 11
-  m_Name: FireRift
-  m_TagString: Untagged
+  m_Layer: 0
+  m_Name: ExplosionSoulBurst
+  m_TagString: Hide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9659,7 +9659,7 @@ GameObject:
   - component: {fileID: 8640629026567977422}
   - component: {fileID: 8640629026567977456}
   - component: {fileID: 8640629026567977423}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9675,7 +9675,7 @@ Transform:
   m_GameObject: {fileID: 8640629026567977421}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.48000008}
-  m_LocalScale: {x: 0.5, y: 0.5000012, z: 0.5000012}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 8640629026506735565}
   m_RootOrder: 0
@@ -10856,19 +10856,19 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 0.9529412, b: 0.69803923, a: 1}
-        key2: {r: 1, g: 0.26666668, b: 0, a: 0}
-        key3: {r: 0.6117647, g: 0.16470589, b: 0, a: 0}
-        key4: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 0.023584902, g: 0.59613633, b: 1, a: 1}
+        key1: {r: 0, g: 0.7085225, b: 0.9811321, a: 1}
+        key2: {r: 0, g: 0.3130746, b: 1, a: 0}
+        key3: {r: 0.06132078, g: 0.36381677, b: 1, a: 0}
+        key4: {r: 0.06132078, g: 0.36381677, b: 1, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 10216
+        ctime1: 10023
         ctime2: 28142
         ctime3: 49151
-        ctime4: 0
+        ctime4: 49151
         ctime5: 0
         ctime6: 0
         ctime7: 0
@@ -14394,7 +14394,7 @@ GameObject:
   - component: {fileID: 8640629027106800229}
   - component: {fileID: 8640629027106800231}
   - component: {fileID: 8640629027106800230}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}

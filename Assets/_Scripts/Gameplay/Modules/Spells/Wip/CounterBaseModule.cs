@@ -28,7 +28,7 @@ public class CounterBaseModule : SpellModule
 
 	protected virtual void Counter(LocalPlayer playerCountered)
 	{
-		playerCountered.DealDamages(localTrad.damagesToDealer, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+		playerCountered.DealDamages(localTrad.damagesToDealer, transform.position);
 
 		foreach (Sc_Status _status in localTrad.StatusToApplyToSelf)
 			myPlayerModule.AddStatus(_status.effect);

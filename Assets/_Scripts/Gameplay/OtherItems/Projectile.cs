@@ -9,15 +9,15 @@ public class Projectile : AutoKill
 	bool asDeal = false;
 
 	[Header("FeedBackOnHit")]
-	[SerializeField] GameObject feedBackTouch;
-	[SerializeField] AudioClip _mySfxAudio;
-	[SerializeField] bool soundFollowObj = false;
+	[TabGroup("ProjectileParameters")] [SerializeField] GameObject feedBackTouch;
+	[TabGroup("ProjectileParameters")] [SerializeField] AudioClip _mySfxAudio;
+	[TabGroup("ProjectileParameters")] [SerializeField] bool soundFollowObj = false;
 
 	[Header("SpellLinked")]
-	[SerializeField] Sc_ProjectileSpell localTrad;
+	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
 	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
 
-	[SerializeField] bool doImpactFx = true;
+	[TabGroup("ProjectileParameters")] [SerializeField] bool doImpactFx = true;
 	Vector3 startPos;
 
 	bool hasTouched = false;
@@ -69,7 +69,7 @@ public class Projectile : AutoKill
 				{
 					DamagesInfos _temp = new DamagesInfos();
 					_temp = localTrad.damagesToDeal;
-					playerHit.mylocalPlayer.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+					playerHit.mylocalPlayer.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 
 				Destroy();
