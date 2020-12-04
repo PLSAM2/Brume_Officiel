@@ -201,6 +201,8 @@ public class GameFactory
 
     public static bool CheckIfPlayerIsInView(ushort id)
     {
+        if (GetActualPlayerFollow()) { return false; }
+
         if(GetActualPlayerFollow().myPlayerId == id)
         {
             return true;
