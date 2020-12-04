@@ -9,23 +9,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
-  m_Name: Spell_Wx_SoulBurst
+  m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
+  m_Name: Spell_Wx_SoulBurst 1
   m_EditorClassIdentifier: 
   range: 5
   cooldown: 10
   numberOfCharge: 3
-  forbiddenState: 24
+  forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
   canalisationTime: 0.3
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
-  anonciationTime: 0.01
+  anonciationTime: 0.15
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.01
-  spellIcon: {fileID: 0}
+  spellIcon: {fileID: 21300000, guid: 09bb9da7c098b5c4288b94f231c3714b, type: 3}
+  damagesToDeal:
+    playerName: 
+    damageHealth: 0
+    statusToApply: []
+    movementToApply: {fileID: 0}
+    stateNeeded: 128
+    additionalDamages: 0
+    additionalStatusToApply: []
+    additionalMovementToApply: {fileID: 0}
+  prefab: {fileID: 0}
+  _reduceCooldowns: 0
+  offSet: 0.1
+  salveInfos:
+    NumberOfSalve: 1
+    numberOfShotInSalve: 1
+    timeToReachMaxRange: 0.5
+    timeToResolveTheSalve: 0.1
+  isMultiple: 0
+  angleToSplit: 0
+  cooldownReduction: 0
+  bonusShot: 0
+  bonusSalve: 0
+  durationAdded: 0

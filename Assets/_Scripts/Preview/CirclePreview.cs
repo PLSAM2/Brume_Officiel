@@ -48,6 +48,18 @@ public class CirclePreview : MonoBehaviour
         myImgBorderOutline.color = _newColor;
     }
 
+    public void SetLifeTime ( float _time )
+    {
+        StartCoroutine(WaitToDisable(_time));
+    }
+
+
+    IEnumerator WaitToDisable ( float _time )
+    {
+        yield return new WaitForSeconds(_time);
+        PreviewManager.Instance.ReleasePreview(gameObject);
+    }
+
     public enum circleCenter
     {
         center,
