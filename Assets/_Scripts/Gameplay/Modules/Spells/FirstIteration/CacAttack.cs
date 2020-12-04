@@ -164,9 +164,12 @@ public class CacAttack : SpellModule
 		{
 			ShowPreview(myPlayerModule.mousePos());
 			timeCanalised = 0;
-		}
+
+            AudioManager.Instance.Play3DAudioInNetwork(2, transform.position);
+        }
 		base.StartCanalysing(_BaseMousePos);
-	}
+
+    }
 	
 
 	float FinalRange(float _timeCanlised)
@@ -178,6 +181,7 @@ public class CacAttack : SpellModule
 	{
 		base.ResolveSpell();
 		ResolveSlash();
+
 	}
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
@@ -234,7 +238,7 @@ public class CacAttack : SpellModule
 				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
 				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
+					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
 			}
 		}
 	}

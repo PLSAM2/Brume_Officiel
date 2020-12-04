@@ -78,9 +78,9 @@ public class Projectile_SoulBurst : MonoBehaviour
         foreach (LocalPlayer P in GetAllNearbyPlayers())
         {
             DamagesInfos _tempDmg = new DamagesInfos();
-            _tempDmg.damageHealth = damages;
+			_tempDmg.damageHealth = damages;
 
-            P.DealDamages(_tempDmg, Vector3.zero);
+			P.DealDamages(_tempDmg, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
         }
     }
 

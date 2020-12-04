@@ -7,8 +7,7 @@ public class FootstepAudio : MonoBehaviour
     [SerializeField] PlayerModule myPlayerModule;
     Vector3 oldPos;
 
-    bool doSound = true;
-    bool haveWaitDelay = false;
+    bool haveWaitDelay = true;
 
     bool crouchedStatut = false;
 
@@ -16,14 +15,11 @@ public class FootstepAudio : MonoBehaviour
 
     [SerializeField] AudioSource myAudioSource;
 
-    [SerializeField] float minTime = 0.1f;
-    [SerializeField] float maxTime = 0.3f;
-
     [SerializeField] float delayToDoSound = 0.5f;
 
     private void Start()
     {
-        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume / 2;
+        ChangeVolume(AudioManager.Instance.currentPlayerVolume / 2);
     }
 
     private void OnEnable()
@@ -38,7 +34,14 @@ public class FootstepAudio : MonoBehaviour
 
     private void ChangeVolume(float _volume)
     {
-        myAudioSource.volume = _volume / 2;
+        if(myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            myAudioSource.volume = _volume / 3;
+        }
+        else
+        {
+            myAudioSource.volume = _volume / 2;
+        }
     }
 
     // Update is called once per frame
@@ -50,7 +53,6 @@ public class FootstepAudio : MonoBehaviour
 
             StopAllCoroutines();
             StartCoroutine(WaitDelay());
-            print("test");
         }
 
         crouchedStatut = myPlayerModule.state.HasFlag(En_CharacterState.Crouched);
@@ -74,6 +76,7 @@ public class FootstepAudio : MonoBehaviour
         haveWaitDelay = true;
     }
 
+    /*
     IEnumerator WaitEndSound(AudioClip _clip)
     {
         myAudioSource.PlayOneShot(_clip);
@@ -82,11 +85,11 @@ public class FootstepAudio : MonoBehaviour
 
         yield return new WaitForSeconds(Random.Range(minTime, maxTime));
         doSound = true;
-    }
+    }*/
 
     public void OnAnimRun()
     {
-        if(haveWaitDelay)
+        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && haveWaitDelay)
         {
             myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);
         }

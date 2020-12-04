@@ -96,7 +96,6 @@ MonoBehaviour:
   spedUpParticle: {fileID: 5332177646509037442}
   silencedParticle: {fileID: 6878991902413843271}
   embourbedParticle: {fileID: 2226708474839196671}
-  canalisationParticle: {fileID: 1526988966582139446}
   _isInBrume: 0
   brumeId: 0
   isInGhost: 0
@@ -168,6 +167,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1163919473078000102, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 9236bcc61ce34f546a569a5d82f45f35, type: 2}
     - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: myPlayerModule
       value: 
@@ -431,11 +434,6 @@ Transform:
 --- !u!212 &8558393311301056792 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-  m_PrefabInstance: {fileID: 1277965312708422139}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &1526988966582139446 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 327860012050289613, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1277965312708422139}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &6878991902413843271 stripped

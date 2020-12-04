@@ -133,6 +133,8 @@ public class PlayerModule : MonoBehaviour
 	//pour la revelation hors de la brume
 	public Action revelationCheck;
 
+	//damagesInterruptionetc
+	public Action<LocalPlayer> hitCountered;
 	#endregion
 
 	void Awake ()
@@ -239,16 +241,20 @@ public class PlayerModule : MonoBehaviour
 				mylocalPlayer.SendState(state);
 			}
 
+			if ((state & En_CharacterState.Integenbility) != 0)
+				gameObject.layer = 16;
+			else if ((_oldState & En_CharacterState.Integenbility) != 0)
+				gameObject.layer =  8;
 			//PARTICLE FEEDBACK TOUSSA
 			#region
-			if ((_oldState & En_CharacterState.SpedUp) ==0 &&  (state & En_CharacterState.SpedUp) !=0)
+			if ((_oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
 				spedUpParticle.Play();
 			else if ((_oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
 				spedUpParticle.Stop();
 
 			if ((_oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
 				slowParticle.Play();
-			else if((_oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
+			else if ((_oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
 				slowParticle.Stop();
 
 			if ((_oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
@@ -258,12 +264,12 @@ public class PlayerModule : MonoBehaviour
 
 			if ((_oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
 				silencedParticle.Play();
-			else if((_oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
+			else if ((_oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
 				silencedParticle.Stop();
 
 			if ((_oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
 				embourbedParticle.Play();
-			else if((_oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
+			else if ((_oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
 				embourbedParticle.Stop();
 			#endregion
 
@@ -539,8 +545,8 @@ public class PlayerModule : MonoBehaviour
 					{
 						DamagesInfos _temp = new DamagesInfos();
 						_temp.damageHealth = allTickLive[i].effect.tickValue;
-
-						this.mylocalPlayer.DealDamages(_temp, transform.position, false, true);
+						//REMPLACER ICI LE DEALER PAR LE DEAL D EFFECT
+						this.mylocalPlayer.DealDamages(_temp, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId,  false, true);
 					}
 					if (allTickLive[i].effect.isHealing)
 					{
@@ -714,7 +720,8 @@ public class PlayerModule : MonoBehaviour
 		DamagesInfos _tempDamages = new DamagesInfos();
 		_tempDamages.damageHealth = wxMarkRef.effect.optionalDamagesInfos.damageHealth;
 
-		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, true);
+		//REMPLACER ICI LE DEALER PAR LE MEC QUI T APPLY LA MARQUE
+		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, true);
 
 		foreach (Sc_Status status in wxMarkRef.effect.optionalDamagesInfos.statusToApply) // already in DealDamage but we dont need to reaply state wx marked
 		{
@@ -748,19 +755,21 @@ public enum En_CharacterState
 	WxMarked = 1 << 8,
 	ThirdEye = 1 << 9,
 	Hidden = 1 << 10,
+	Countering = 1 << 11,
+	Invulnerability = 1 << 12,
+	Integenbility = 1 << 13,
+
 	Stunned = Silenced | Root,
-	slowedAndSped = SpedUp | Slowed | Clear,
-	RootAndSlow = Root | Slowed | Clear,
-	SlowedAndSIlenced = Slowed | Silenced | Clear
 }
 
 [System.Serializable]
 public class DamagesInfos
 {
+	[HideInInspector] public string playerName;
+
 	[TabGroup("NormalDamages")] public ushort damageHealth;
 	[TabGroup("NormalDamages")] public Sc_Status[] statusToApply;
 	[TabGroup("NormalDamages")] public Sc_ForcedMovement movementToApply = null;
-	[TabGroup("NormalDamages")] [HideInInspector] public string playerName;
 
 	[TabGroup("EffectIfConditionCompleted")] public En_CharacterState stateNeeded = En_CharacterState.Embourbed;
 	[TabGroup("EffectIfConditionCompleted")] public ushort additionalDamages;
