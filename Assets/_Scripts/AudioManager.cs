@@ -43,7 +43,7 @@ public class AudioManager : SerializedMonoBehaviour
             currentPlayerVolume = PlayerPrefs.GetFloat("Volume");
         }
 
-        backGroundMusic.volume = currentPlayerVolume;
+        OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
         client.MessageReceived += OnMessageReceive;
     }
@@ -61,7 +61,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     void OnMasterVolumeChange(float _value)
     {
-        backGroundMusic.volume = _value;
+        backGroundMusic.volume = _value / 2;
     }
 
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)

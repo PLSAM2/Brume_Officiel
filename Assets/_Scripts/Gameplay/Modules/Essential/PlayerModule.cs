@@ -43,7 +43,7 @@ public class PlayerModule : MonoBehaviour
 		return _temp;
 	}
 
-	En_CharacterState _oldState = En_CharacterState.Clear;
+	[HideInInspector] public En_CharacterState oldState = En_CharacterState.Clear;
 
 	[ReadOnly]
 	public bool isInBrume
@@ -189,7 +189,7 @@ public class PlayerModule : MonoBehaviour
 		embourbedParticle.Stop();
 
 		_state = En_CharacterState.Clear;
-		_oldState = state;
+		oldState = state;
 
 		StartCoroutine(CheckForMenace());
 
@@ -233,7 +233,7 @@ public class PlayerModule : MonoBehaviour
 		else
 			wxMark.SetActive(false);
 
-		if (_oldState != state)
+		if (oldState != state)
 		{
 			if (mylocalPlayer.isOwner)
 			{
@@ -243,38 +243,44 @@ public class PlayerModule : MonoBehaviour
 
 			if ((state & En_CharacterState.Integenbility) != 0)
 				gameObject.layer = 16;
-			else if ((_oldState & En_CharacterState.Integenbility) != 0)
+			else if ((oldState & En_CharacterState.Integenbility) != 0)
 				gameObject.layer =  8;
 			//PARTICLE FEEDBACK TOUSSA
 			#region
-			if ((_oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
+			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
 				spedUpParticle.Play();
-			else if ((_oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
+			else if ((oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
 				spedUpParticle.Stop();
 
-			if ((_oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
+			if ((oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
 				slowParticle.Play();
-			else if ((_oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
+			else if ((oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
 				slowParticle.Stop();
 
-			if ((_oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
+			if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
 				rootParticle.Play();
-			else if ((_oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
+			else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
 				rootParticle.Stop();
 
-			if ((_oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
+			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
 				silencedParticle.Play();
-			else if ((_oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
+			else if ((oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
 				silencedParticle.Stop();
 
-			if ((_oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
+			if ((oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
 				embourbedParticle.Play();
-			else if ((_oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
+			else if ((oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
 				embourbedParticle.Stop();
 			#endregion
 
-			_oldState = state;
+			if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (state & En_CharacterState.WxMarked) != 0)
+				mylocalPlayer.forceOutline = true;
+			else if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (oldState & En_CharacterState.WxMarked) != 0)
+				mylocalPlayer.forceOutline = false;
 		}
+
+		oldState = state;
+
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -596,6 +602,18 @@ public class PlayerModule : MonoBehaviour
 				}
 
 			}
+			else
+			{
+				if (_tempTrad.doNotApplyIfExist)
+				{
+					EffectLifeTimed _temp = GetTickEffectByKey(_newElement.key);
+
+					if (_temp != null)
+					{
+						return;
+					}
+				}
+			}
 			allTickLive.Add(_newElement);
 		}
 		else
@@ -609,7 +627,18 @@ public class PlayerModule : MonoBehaviour
 					_temp.Refresh();
 					return;
 				}
-			}
+			} else
+            {
+                if (_tempTrad.doNotApplyIfExist)
+                {
+					EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
+
+					if (_temp != null)
+					{
+						return;
+					}
+				}
+            }
 			allEffectLive.Add(_newElement);
 		}
 
@@ -711,10 +740,18 @@ public class PlayerModule : MonoBehaviour
 
 	internal void ApplyWxMark ()
 	{
-		if (!StopStatus(wxMarkRef.effect.forcedKey))
-		{
+		if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
-		}
+       
+		if (GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages > 0 )
+        {
+			GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages--;
+			return;
+        }
+
+		if (!StopStatus(wxMarkRef.effect.forcedKey))		
+			return;
+		
 
 		// wxMark.SetActive(false);
 		DamagesInfos _tempDamages = new DamagesInfos();
@@ -786,7 +823,8 @@ public class Effect
 	[HorizontalGroup("Group2")] public bool isConstant = false;
 	[HorizontalGroup("Group1")] public bool canBeForcedStop = false;
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
-	public bool refreshOnApply = false;
+	[HorizontalGroup("Group3")] public bool refreshOnApply = false;
+	[HorizontalGroup("Group3")] [HideIf("refreshOnApply")] public bool doNotApplyIfExist = false;
 
 	[ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
 	[ShowIf("tick")] [BoxGroup("Tick")] public bool isDamaging = true;
@@ -799,6 +837,7 @@ public class Effect
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 
 	public DamagesInfos optionalDamagesInfos;
+	public int hitBeforeProcOptionnalDamages = 0;
 	public Effect () { }
 }
 

@@ -1,13 +1,17 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEditor;
+using System;
+using System.Collections.Generic;
+
 public class GA_Debugger : SerializedMonoBehaviour
 {
+    [Header("Shader Debugger")]
     public bool sw = false;
     public Shader shader;
     public string property;
 
-    public Texture2DArray dArray;
+
     public void InOutBrumeDebug()
     {
         MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
@@ -19,7 +23,8 @@ public class GA_Debugger : SerializedMonoBehaviour
                 if (sw)
                 {
                     R.material.SetFloat(property, 1);
-                } else
+                }
+                else
                 {
                     R.material.SetFloat(property, 0);
                 }
@@ -28,4 +33,6 @@ public class GA_Debugger : SerializedMonoBehaviour
 
         sw = !sw;
     }
+
+
 }

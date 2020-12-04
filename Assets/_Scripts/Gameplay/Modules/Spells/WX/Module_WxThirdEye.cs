@@ -66,18 +66,19 @@ public class Module_WxThirdEye : SpellModule
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
         myPlayerModule.RemoveState(En_CharacterState.ThirdEye);
 
-        base.Interrupt();
+		StopOutlineOnPlayers();
+
+		base.Interrupt();
 	}
 
-	protected override void FixedUpdate ()
+	/*protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
 		if (throwbackTime >= localTrad.durationOfTheOutline && outliningPlayers)
 		{
-			outliningPlayers = false;
 			StopOutlineOnPlayers();
 		}
-	}
+	}*/
 
 	void ForceInterrupt ( Vector3 _temp )
 	{
@@ -155,7 +156,7 @@ public class Module_WxThirdEye : SpellModule
 
                 HideAllAlliedVision(true);
                 GameFactory.GetLocalPlayerObj().ResetFowRaduis();
-				StopOutlineOnPlayers();
+			//	StopOutlineOnPlayers();
 				foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
 				{
 					if (player.Value == GameFactory.GetLocalPlayerObj()) { continue; }
@@ -220,6 +221,7 @@ public class Module_WxThirdEye : SpellModule
 		foreach (LocalPlayer player in pingedPlayer)
 		{
 			player.forceOutline = false;
+			outliningPlayers = false;
 		}
 	}
 	//DEVRAIT ETRE UNE FONCTION DU GAMEMANAGER
