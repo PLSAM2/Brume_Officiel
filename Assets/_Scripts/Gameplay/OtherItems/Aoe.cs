@@ -39,7 +39,7 @@ public class Aoe : AutoKill
 			{
 				_allChecked.Add(_coll.gameObject);
 
-				player.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+				player.DealDamages(_damages, transform.position);
 			}
 		}
 

@@ -10,7 +10,9 @@ public class Module_WxGhost : SpellModule
     public float lifeTime = 10;
     public float ghostSpeed = 7.5f;
 
-	protected override void ResolveSpell ()
+    public float raduisFowShili = 3;
+
+    protected override void ResolveSpell ()
     {
         base.ResolveSpell();
 
@@ -19,6 +21,8 @@ public class Module_WxGhost : SpellModule
             new Vector3(ghostPrefab.transform.rotation.x, ghostPrefab.transform.rotation.y, ghostPrefab.transform.rotation.z));
 
         PlayerModule _tempPlayerModule = myPlayerModule;
+
+        _tempPlayerModule.mylocalPlayer.SendChangeFowRaduis(raduisFowShili);
 
         _tempPlayerModule.AddState(En_CharacterState.Stunned);
         ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed, actionLinked);
