@@ -107,6 +107,7 @@ public class NetworkManager : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
+                print("here");
                 PlayerData disconnectedPlayerInfo;
                 disconnectedPlayerInfo = reader.ReadSerializable<PlayerData>();
                 OnPlayerQuit?.Invoke(disconnectedPlayerInfo);

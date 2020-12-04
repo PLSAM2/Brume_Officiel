@@ -292,6 +292,10 @@ public class RoomManager : MonoBehaviour
 
     public void QuitGameInServer()
     {
+        if (SceneManager.GetActiveScene().name == menuScene)
+        {
+            return;
+        }
         NetworkManager.Instance.GetLocalPlayer().ResetGameData();
         SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
         ResetActualGame();
