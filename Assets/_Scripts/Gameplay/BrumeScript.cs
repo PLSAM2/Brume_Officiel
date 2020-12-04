@@ -32,9 +32,9 @@ public class BrumeScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 8)
-        {
-            PlayerModule player = other.GetComponent<PlayerModule>();
+		if (other.gameObject.layer == 8 || other.gameObject.layer == 16)
+		{
+			PlayerModule player = other.GetComponent<PlayerModule>();
 
             if (player.isInBrume && player.brumeId == GetInstanceID()) { return; }
 
@@ -79,7 +79,7 @@ public class BrumeScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8 || other.gameObject.layer ==  16)
         {
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
@@ -111,9 +111,9 @@ public class BrumeScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8)
-        {
-            PlayerModule player = other.GetComponent<PlayerModule>();
+		if (other.gameObject.layer == 8 || other.gameObject.layer == 16)
+		{
+			PlayerModule player = other.GetComponent<PlayerModule>();
 
             if (!player.isInBrume || player.brumeId != GetInstanceID()) { return; }
 

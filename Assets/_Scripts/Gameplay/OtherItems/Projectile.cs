@@ -67,7 +67,9 @@ public class Projectile : AutoKill
 
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position);
+					DamagesInfos _temp = new DamagesInfos();
+					_temp = localTrad.damagesToDeal;
+					playerHit.mylocalPlayer.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
 				}
 
 				Destroy();

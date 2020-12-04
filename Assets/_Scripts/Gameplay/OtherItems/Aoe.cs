@@ -38,7 +38,8 @@ public class Aoe : AutoKill
 			if (player.myPlayerModule.teamIndex != GameFactory.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll.gameObject))
 			{
 				_allChecked.Add(_coll.gameObject);
-				player.DealDamages(_damages, transform.position);
+
+				player.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
 			}
 		}
 
