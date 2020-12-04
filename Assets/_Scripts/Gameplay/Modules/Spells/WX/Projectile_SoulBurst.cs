@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 public class Projectile_SoulBurst : Projectile
 {
-    [TabGroup("Explosion")] private float explosionRange = 3;
+    [TabGroup("Explosion")] public float explosionRange = 3;
     [TabGroup("Explosion")] public DamagesInfos damagesExplosion;
     bool asExploded= false;
 

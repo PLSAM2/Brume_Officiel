@@ -307,11 +307,9 @@ public class LocalPlayer : MonoBehaviour
 		switch (_value)
 		{
 			case true:
-				myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
 				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
 				break;
 			case false:
-				myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
 				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
@@ -450,8 +448,17 @@ public class LocalPlayer : MonoBehaviour
 	}
 
 	public void SendChangeFowRaduis ( float size = 0, bool resetSize = false )
-	{
-		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+    {
+        if (resetSize)
+        {
+            ResetFowRaduis();
+        }
+        else
+        {
+            SetFowRaduis(size);
+        }
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write((uint)size * 100);
 			_writer.Write(resetSize);
