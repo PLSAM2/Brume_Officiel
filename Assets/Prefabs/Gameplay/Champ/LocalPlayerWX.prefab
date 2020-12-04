@@ -23,6 +23,7 @@ MonoBehaviour:
   ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
   lifeTime: 5
   ghostSpeed: 5
+  raduisFowShili: 3
 --- !u!114 &3531483061060426797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,17 +169,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: 9236bcc61ce34f546a569a5d82f45f35, type: 2}
     - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
-      propertyPath: objToHide.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: myPlayerModule
       value: 
       objectReference: {fileID: 5231333726942406148}
     - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: objToHide.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: objToHide.Array.data[4]
       value: 
-      objectReference: {fileID: 2777399519659773585}
+      objectReference: {fileID: 7770599669848858133}
     - target: {fileID: 1217320960498770133, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: objToHide.Array.data[5]
       value: 
@@ -430,6 +431,11 @@ Transform:
 --- !u!212 &8558393311301056792 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+  m_PrefabInstance: {fileID: 1277965312708422139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7770599669848858133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8821014092771391470, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
   m_PrefabInstance: {fileID: 1277965312708422139}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &6878991902413843271 stripped
