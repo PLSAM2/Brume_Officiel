@@ -29,7 +29,7 @@ public class AtlasEditor : OdinEditorWindow
 
     [Header("ATLAS CREATOR")]
     public int texturePadding = 512;
-    public string assetName = "HUGO/packedTexture";
+    public string assetName = "HUGO/ASSETS/TEXTURES/";
     public ExportType exportType = ExportType.PNG;
     [TabGroup("ATLAS CREATOR")]
     public Texture2D[] atlasTextures;
