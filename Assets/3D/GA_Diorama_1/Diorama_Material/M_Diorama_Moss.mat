@@ -96,6 +96,10 @@ Material:
         m_Texture: {fileID: 18700000, guid: 9d9cd471d28eed841a6febd52a8e1089, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ObjectTextureAtlas:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Object_Albedo:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -137,11 +141,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainBlendingNoise_Texture:
-        m_Texture: {fileID: 2800000, guid: c2006d32a6e0e814c90d0a4f0190daae, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainBlending_TextureTerrain:
-        m_Texture: {fileID: 2800000, guid: 834e3e4c5e6c27444943474f1c309fcc, type: 3}
+        m_Texture: {fileID: 2800000, guid: b14881369ad7e49438146e53c5ac6491, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TopTex_Albedo_Texture:
@@ -187,6 +195,8 @@ Material:
     - _Grayscale: 0
     - _InOutBrume: 0
     - _InOutBrumeTransition: 0
+    - _InkGrunge_Contrast: 0
+    - _InkGrunge_Multiply: 0
     - _InkGrunge_Tiling: 0.14
     - _InkSplatter: 1
     - _InkSplatter_Tiling: 3.93
@@ -241,7 +251,7 @@ Material:
     - _Step_Shadow: 0
     - _TerrainBlending: 1
     - _TerrainBlending_BlendThickness: 0.1
-    - _TerrainBlending_Falloff: 1.3
+    - _TerrainBlending_Falloff: 0.5
     - _TerrainBlending_TextureTiling: 1
     - _TopTex: 0
     - _TopTex_NoiseHoles: 1
@@ -270,7 +280,7 @@ Material:
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
-    - _OutBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
+    - _OutBrumeColorCorrection: {r: 0.85098046, g: 0.60784316, b: 0.5176471, a: 1}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
