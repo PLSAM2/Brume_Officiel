@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpellIcon : MonoBehaviour
 {
-    [SerializeField] string name;
+    [SerializeField] string myName;
     [SerializeField] string description;
 
     public DescriptionSpell descriptSpell;

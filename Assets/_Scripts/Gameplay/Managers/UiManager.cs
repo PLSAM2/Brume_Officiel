@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 using Sirenix.OdinInspector;
+using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
@@ -492,5 +493,10 @@ public class UiManager : MonoBehaviour
     public void CloseSpecMode()
     {
         specMode.gameObject.SetActive(false);
+    }
+
+    public void OpenSettings()
+    {
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
 }
