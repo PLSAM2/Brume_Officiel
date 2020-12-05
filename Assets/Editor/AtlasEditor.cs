@@ -19,7 +19,7 @@ public class AtlasEditor : OdinEditorWindow
         "L'atlas sera directement crée en type {exportType} dans le dossier {assetName}\n" +
         "La distance en pixel entre chaque texture est {texturePadding}\n" +
         "Création : Insérer les textures voulu dans l'ordre dans {atlasTextures} puis bouton Genererate Atlas \n" +
-        "Modifications : Le Bouton Modify atlas récupère l'image dans {assetName} et la divise en texture \n" +
+        "Modifications : Le Bouton Modify atlas récupère l'image dans {assetName} et la divise en texture (nombre de texture est {textureCountInAtlas}) \n" +
         "vous pouvez alors rajouter, supprimez ou restructurer la liste puis le bouton recreate atlas recreer l'image avec la nouvelle list \n"
         )]
     [DetailedInfoBox("Prérequis d'utilisation",
@@ -34,10 +34,8 @@ public class AtlasEditor : OdinEditorWindow
     [TabGroup("ATLAS CREATOR")]
     public Texture2D[] atlasTextures;
     [TabGroup("ATLAS CREATOR")] private Texture2D packedTexture;
-    [TabGroup("ATLAS CREATOR")] [ReadOnly] public Rect[] rects;
-    [TabGroup("ATLAS MODIFIER")]
-    [Header("ATLAS MODIFIER")]
-    public Texture2D AtlasImage;
+    [TabGroup("ATLAS MODIFIER")] [Header("ATLAS MODIFIER")] public UnityEngine.Object AtlasImage;
+    [TabGroup("ATLAS MODIFIER")] public int textureCountInAtlas = 0;
     [TabGroup("ATLAS MODIFIER")] public List<Texture2D> decomposedAtlas = new List<Texture2D>();
 
     [MenuItem("Tools/Atlas editor")]
@@ -50,6 +48,7 @@ public class AtlasEditor : OdinEditorWindow
     [Button("Generate Atlas")]
     public void GenerateAtlas()
     {
+
         Texture2D packedTexture = GenerateCombinedTexture(atlasTextures);
 
         byte[] _bytes;
@@ -74,10 +73,16 @@ public class AtlasEditor : OdinEditorWindow
 
     public Texture2D GenerateCombinedTexture(Texture2D[] t)
     {
-        int heightcounter = Convert.ToInt32(Math.Floor((float)(t.Length / 4))) + 1;
+        int heightcounter = (Convert.ToInt32(Math.Floor((float)(t.Length / 4)))) + 1;
+        if (t.Length % 4 == 0)
+        {
+            heightcounter--;
+        }
+
+        int widthcounter = Mathf.Clamp(t.Length, 0, 4);
         int height = texturePadding * heightcounter;
-        int width = (texturePadding * t.Length);
-        Texture2D _temp = new Texture2D(width, height);    
+        int width = (texturePadding * widthcounter);
+        Texture2D _temp = new Texture2D(width, height);
         int imageNumber = t.Length;
         int counter = 0;
 
@@ -87,16 +92,16 @@ public class AtlasEditor : OdinEditorWindow
             {
                 for (int x = 0; x < texturePadding; x++) // width
                 {
-                    if ((i + 1) % 4 == 0) // décalage vertical
-                    {
-                        counter++;
-                    }
-
                     var pixels = t[i].GetPixel(x, y);
-                    _temp.SetPixel(x + ((texturePadding * i) - ((texturePadding * 4) * counter))
+                    _temp.SetPixel(x + ((texturePadding * i) - (texturePadding * 4 * counter))
                         , y + (texturePadding * counter)
                         , pixels);
                 }
+            }
+
+            if ((i + 1) % 4 == 0) // décalage vertical
+            {
+                counter++;
             }
         }
         _temp.Apply();
@@ -109,16 +114,30 @@ public class AtlasEditor : OdinEditorWindow
     public void ModifyAtlas()
     {
         decomposedAtlas.Clear();
-        Texture2D t = AtlasImage;
-        Debug.Log("Size is " + AtlasImage.width + " by " + AtlasImage.height);
+        Texture2D t = (Texture2D)AtlasImage;
 
-        int imageNumber = t.width / texturePadding;
+        int counter = 0;
 
-        for (int i = 0; i < imageNumber; i++)
-        {
+        for (int i = 0; i < textureCountInAtlas; i++)
+        {            
             Texture2D _temp = new Texture2D(texturePadding, texturePadding);
-            var pixels = t.GetPixels(texturePadding * i, 0, texturePadding, texturePadding);
-            _temp.SetPixels(pixels);
+
+            for (int y = 0; y < texturePadding; y++) // height
+            {
+                for (int x = 0; x < texturePadding; x++) // width
+                {
+                    var pixels = t.GetPixel(x + ((texturePadding * i) - (texturePadding * 4 * counter))
+                        , y + (texturePadding * counter));
+
+                    _temp.SetPixel(x, y, pixels);
+                }
+            }
+
+            if ((i + 1) % 4 == 0) // décalage vertical
+            {
+                counter++;
+            }
+
             _temp.Apply();
 
             decomposedAtlas.Add(_temp);
