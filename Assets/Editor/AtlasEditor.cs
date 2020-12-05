@@ -84,7 +84,7 @@ public class AtlasEditor : OdinEditorWindow
         int width = (texturePadding * widthcounter);
         Texture2D _temp = new Texture2D(width, height);
         int imageNumber = t.Length;
-        int counter = 0;
+        int counter = 1;
 
         for (int i = 0; i < imageNumber; i++)
         {
@@ -94,7 +94,7 @@ public class AtlasEditor : OdinEditorWindow
                 {
                     var pixels = t[i].GetPixel(x, y);
                     _temp.SetPixel(x + ((texturePadding * i) - (texturePadding * 4 * counter))
-                        , y + (texturePadding * counter)
+                        , y + (height - (texturePadding * counter))
                         , pixels);
                 }
             }
@@ -116,7 +116,8 @@ public class AtlasEditor : OdinEditorWindow
         decomposedAtlas.Clear();
         Texture2D t = (Texture2D)AtlasImage;
 
-        int counter = 0;
+        int counter = 1;
+        int height = t.height;
 
         for (int i = 0; i < textureCountInAtlas; i++)
         {            
@@ -127,7 +128,7 @@ public class AtlasEditor : OdinEditorWindow
                 for (int x = 0; x < texturePadding; x++) // width
                 {
                     var pixels = t.GetPixel(x + ((texturePadding * i) - (texturePadding * 4 * counter))
-                        , y + (texturePadding * counter));
+                        , y + (height - (texturePadding * counter)));
 
                     _temp.SetPixel(x, y, pixels);
                 }
@@ -152,23 +153,7 @@ public class AtlasEditor : OdinEditorWindow
     {
         Texture2D[] _temp = decomposedAtlas.ToArray();
 
-        int finalPadding = texturePadding * decomposedAtlas.Count;
-
-        packedTexture = new Texture2D(finalPadding, texturePadding);
-
-        int imageNumber = finalPadding / texturePadding;
-
-        for (int i = 0; i < imageNumber; i++)
-        {
-            for (int y = 0; y < texturePadding; y++)
-            {
-                for (int x = 0; x < texturePadding; x++)
-                {
-                    var pixels = decomposedAtlas[i].GetPixel(x, y);
-                    packedTexture.SetPixel(x + (texturePadding * i), y, pixels);
-                }
-            }
-        }
+        Texture2D packedTexture = GenerateCombinedTexture(_temp);
 
         byte[] _bytes;
         switch (exportType)
