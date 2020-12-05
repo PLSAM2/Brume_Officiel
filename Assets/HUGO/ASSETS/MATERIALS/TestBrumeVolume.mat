@@ -10,8 +10,8 @@ Material:
   m_Name: TestBrumeVolume
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
   m_ShaderKeywords: _ANIMATED_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON _COLOR_ON
-    _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
-    _TESSELATION_ON
+    _DISPLACEMENT_ON _FLIPBOOK_ANIMATION_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON
+    _ROTATIONPAUSE_ON _TESSELATION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -30,7 +30,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BrumeTexture:
-        m_Texture: {fileID: 2800000, guid: 9338f0dfd38c86b4ca38561628f333f1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7f7c3805663d20747bd246fd2b9df207, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -97,6 +97,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OpacityMask:
+        m_Texture: {fileID: 2800000, guid: 2f6af8f8492fce44c828bb32befbcf95, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -146,6 +150,7 @@ Material:
     - _Black: 0
     - _BrumeAnimated: 1
     - _BrumeFlipbook: 0
+    - _BrumeTexture_Contrast: 0.5
     - _BumpScale: 1
     - _Color: 1
     - _ColorLevel: 0
@@ -153,11 +158,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Displacement: 1
-    - _DisplacementTexture_Contrast: 1.5
-    - _DisplacementTexture_Multiply: 0.1
+    - _DisplacementTexture_Contrast: 0.1
+    - _DisplacementTexture_Multiply: 1
     - _DisplacementTexture_Multiply1: 1
     - _DstBlend: 0
-    - _Flipbook_Animation: 0
+    - _Flipbook_Animation: 1
     - _Flipbook_Columns: 10
     - _Flipbook_Rows: 10
     - _Flipbook_Speed: 10
@@ -189,6 +194,7 @@ Material:
     - _Opacity05: 1
     - _OpacityBlack: 1
     - _OpacityLevel: 1
+    - _OpacityMask_Multiply: 0.7
     - _Parallax: 0.02
     - _ParallaxScale: 1.63
     - _Parralax_DistancePlane: 1
@@ -213,7 +219,7 @@ Material:
     - _Tiling: 1
     - _UVSec: 0
     - _UV_Animation: 0
-    - _WaveNoiseContrast: 4
+    - _WaveNoiseContrast: 17.33
     - _ZWrite: 1
     - __dirty: 0
     - _distancePlane: 1
