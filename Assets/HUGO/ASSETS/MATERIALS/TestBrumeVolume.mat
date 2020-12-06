@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
-  m_ShaderKeywords: _ANIMATED_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON _COLOR_ON
-    _DISPLACEMENT_ON _FLIPBOOK_ANIMATION_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON
+  m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
+    _COLOR_ON _DISPLACEMENT_ON _FLIPBOOK_ANIMATION_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON
     _ROTATIONPAUSE_ON _TESSELATION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -98,7 +98,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OpacityMask:
-        m_Texture: {fileID: 2800000, guid: 2f6af8f8492fce44c828bb32befbcf95, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -145,12 +145,12 @@ Material:
     - _1: 1.55
     - _2: 0
     - _Animated: 1
-    - _AnimationPause: 0
+    - _AnimationPause: 1
     - _BetweenFullLowAndHigh05: 1
     - _Black: 0
     - _BrumeAnimated: 1
     - _BrumeFlipbook: 0
-    - _BrumeTexture_Contrast: 0.5
+    - _BrumeTexture_Contrast: 0.3
     - _BumpScale: 1
     - _Color: 1
     - _ColorLevel: 0
@@ -166,7 +166,7 @@ Material:
     - _Flipbook_Columns: 10
     - _Flipbook_Rows: 10
     - _Flipbook_Speed: 10
-    - _Flipbook_Tiling: 2.5
+    - _Flipbook_Tiling: -5
     - _Flipbook_Time: 1
     - _Float0: 1
     - _Float11: 3
@@ -210,7 +210,7 @@ Material:
     - _Tesselation: 1
     - _Tesselation_Factor: 64
     - _Tesselation_Factor1: 15
-    - _Tesselation_MaxDist: 35
+    - _Tesselation_MaxDist: 300
     - _Tesselation_MaxDist1: 5
     - _Tesselation_MinDist: 0
     - _Tesselation_MinDist1: 0
@@ -241,6 +241,6 @@ Material:
     - _DistortSpeed: {r: 0.1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _PerlinNoise_PannerSpeed: {r: 0.5, g: 0, b: 0, a: 0}
+    - _PerlinNoise_PannerSpeed: {r: 0.1, g: 0, b: 0, a: 0}
     - _Vector0: {r: -2.71, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

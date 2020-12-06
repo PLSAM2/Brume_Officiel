@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
     _MOVINGGRAIN_ON _MOVINGPAPER_ON _RIMLIGHT_CUSTOMNORMAL_ON
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -195,10 +195,10 @@ Material:
     - _Grayscale: 0
     - _InOutBrume: 0
     - _InOutBrumeTransition: 0
-    - _InkGrunge_Contrast: 0
-    - _InkGrunge_Multiply: 0
+    - _InkGrunge_Contrast: 1
+    - _InkGrunge_Multiply: 1
     - _InkGrunge_Tiling: 0.14
-    - _InkSplatter: 1
+    - _InkSplatter: 0
     - _InkSplatter_Tiling: 3.93
     - _InverseCustomOpacityMask: 0
     - _LightDebug: 0
@@ -209,13 +209,14 @@ Material:
     - _Noise_Tiling: 10
     - _NormalDebug: 0
     - _NormalDrippingNoise_Smoothstep: 0
-    - _NormalDrippingNoise_Step: 0.461
+    - _NormalDrippingNoise_Step: 0.465
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: -6.1
+    - _NormalInBrumeGrunge_Tiling: 0.2
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _OpacityTexture: 0
-    - _Out_or_InBrume: 0
+    - _Out_or_InBrume: 1
     - _PaperMultiply: 5
     - _Paper_Flipbook_Columns: 4
     - _Paper_Flipbook_Rows: 4
@@ -234,9 +235,10 @@ Material:
     - _SSS_Scale: 0.46
     - _ScreenBasedNoise: 0
     - _ShadowDrippingNoise_Smoothstep: 0.003
-    - _ShadowDrippingNoise_Step: 0
+    - _ShadowDrippingNoise_Step: 0.431
     - _ShadowDrippingNoise_Transition: 0
     - _ShadowInBrumeGrunge_Contrast: -61.98
+    - _ShadowInBrumeGrunge_Tiling: 0.2
     - _Shininess: 1
     - _SmoothnessTextureChannel: 0
     - _Specular: 0
@@ -270,17 +272,17 @@ Material:
     - _edgeNoise_Attenuation1: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorShadow: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 0}
+    - _ColorShadow: {r: 0.15094334, g: 0.15094334, b: 0.15094334, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowDirection: {r: 1, g: 1, b: 0, a: 0}
     - _InBrumeBackColor: {r: 0.8962264, g: 0.88905805, b: 0.88354397, a: 0}
-    - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
+    - _InBrumeColorCorrection: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 0}
     - _InkGrunge_Tiling: {r: 0.02, g: 0.02, b: 0, a: 0}
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
-    - _OutBrumeColorCorrection: {r: 0.85098046, g: 0.60784316, b: 0.5176471, a: 1}
+    - _OutBrumeColorCorrection: {r: 0.8509805, g: 0.60784316, b: 0.517647, a: 1}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
