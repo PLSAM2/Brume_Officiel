@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using static GameData;
 
+/// <summary>
+/// DEPRECATED
+/// </summary>
 public class CharacterListObj : MonoBehaviour
 {
     public GameObject SwapImg;
