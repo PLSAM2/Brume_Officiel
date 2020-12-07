@@ -158,9 +158,6 @@ public class Ghost : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!networkedObject.GetIsOwner())
-            return;
-
         canvas.transform.rotation = canvasRot;
     }
 
