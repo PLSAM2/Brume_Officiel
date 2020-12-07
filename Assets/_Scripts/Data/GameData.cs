@@ -13,9 +13,9 @@ public class GameData
     public enum Character : ushort
     {
         none = 0,
-        Shili = 10,
-        Yang = 20,
-        Yin = 30
+        WuXin = 10,
+        Re = 20,
+        Leng = 30
     }
     public enum InteractibleType : ushort
     {

@@ -18,15 +18,15 @@ public class iconPersoKF : MonoBehaviour
     {
         switch (p.playerCharacter)
         {
-            case Character.Shili:
+            case Character.WuXin:
                 myIconImg.sprite = iconShili;
                 break;
 
-            case Character.Yang:
+            case Character.Re:
                 myIconImg.sprite = iconYang;
                 break;
 
-            case Character.Yin:
+            case Character.Leng:
                 myIconImg.sprite = iconYin;
                 break;
         }

@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AudioManager : SerializedMonoBehaviour
@@ -22,7 +23,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     [SerializeField] AudioSource backGroundMusic;
 
-    public Dictionary<ushort, AudioClip> networkAudio = new Dictionary<ushort, AudioClip>();
+    public List<AudioClip> networkAudio = new List<AudioClip>();
 
     UnityClient client;
 
@@ -117,9 +118,10 @@ public class AudioManager : SerializedMonoBehaviour
         return _myAudioElement;
     }
 
-    public void Play3DAudioInNetwork(ushort _id, Vector3 _position)
+    public void Play3DAudioInNetwork(AudioClip _clip, Vector3 _position)
     {
-        if(_id == 0) { return; }
+        if(_clip == null) { return; }
+        ushort _id = GetIndexOfList(_clip);
 
         Play3DAudio(networkAudio[_id], _position);
 
@@ -136,6 +138,22 @@ public class AudioManager : SerializedMonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
+    }
+
+    ushort GetIndexOfList(AudioClip _clip)
+    {
+        int i = 0;
+        foreach(AudioClip clip in networkAudio)
+        {
+            if(clip == _clip)
+            {
+                return (ushort) i;
+            }
+            i++;
+        }
+
+        print("<color=red>Frero le son il existe pas le manager </color>");
+        return 0;
     }
 
     public void Play2DAudioInNetwork(ushort _id)
