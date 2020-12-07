@@ -13,8 +13,6 @@ public class DashModule : SpellModule
     protected override void ResolveSpell()
     {
         base.ResolveSpell();
-
-        AudioManager.Instance.Play3DAudioInNetwork(1, transform.position);
     }
 
     public override void SetupComponent ( En_SpellInput _actionLinked )
