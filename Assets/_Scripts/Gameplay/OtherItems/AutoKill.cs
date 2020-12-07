@@ -15,7 +15,9 @@ public class AutoKill : MonoBehaviour
     [HideInInspector] public NetworkedObject myNetworkObject;
     [HideInInspector] public bool isOwner = false;
 
-	protected virtual void Awake ()
+    [SerializeField] AudioClip spawnSound;
+
+    protected virtual void Awake ()
 	{
         myNetworkObject = GetComponent<NetworkedObject>();
     }
@@ -33,6 +35,11 @@ public class AutoKill : MonoBehaviour
             case Team.blue:
                 meshBlue.SetActive(true);
                 break;
+        }
+
+        if (spawnSound)
+        {
+            AudioManager.Instance.Play3DAudio(spawnSound, transform.position);
         }
     }
 

@@ -6,20 +6,18 @@ using DG.Tweening;
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
-	ShapePreview shapePreview;
+	ShapePreview shapePreview, shapePreviewNetwork;
 	float timeCanalised;
-	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack -  localTrad.normalAttack.rangeOfTheAttack ;
+	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack - localTrad.normalAttack.rangeOfTheAttack;
 	CacAttackParameters attackToResolve;
 	float finalTimeCanalised;
 
-	//TEMP
-	bool countingPreview;
-	float timeCountedEnemyPreview;
 
 	private void Awake ()
 	{
 		localTrad = (Sc_CacAttack)spell;
 	}
+
 
 	//inputs
 	#region
@@ -28,6 +26,9 @@ public class CacAttack : SpellModule
 		base.SetupComponent(_actionLinked);
 		shapePreview = PreviewManager.Instance.GetShapePreview();
 		shapePreview.gameObject.SetActive(false);
+
+		shapePreviewNetwork = PreviewManager.Instance.GetShapePreview();
+		shapePreviewNetwork.gameObject.SetActive(false);
 	}
 
 	protected override void LinkInputs ( En_SpellInput _actionLinked )
@@ -56,7 +57,7 @@ public class CacAttack : SpellModule
 				myPlayerModule.thirdSpellInput += ShowPreview;
 				myPlayerModule.thirdSpellInput += StartCanalysing;
 				myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
-				
+
 				myPlayerModule.thirdSpellInputRealeased += HidePreview;
 				break;
 
@@ -131,7 +132,7 @@ public class CacAttack : SpellModule
 	{
 		base.FixedUpdate();
 
-	
+
 
 		if (isUsed && !anonciated)
 			timeCanalised += Time.fixedDeltaTime;
@@ -152,7 +153,7 @@ public class CacAttack : SpellModule
 		base.ShowPreview(mousePos);
 	}
 
-	protected override void HidePreview ( Vector3 _temp)
+	protected override void HidePreview ( Vector3 _temp )
 	{
 		base.HidePreview(_temp);
 		shapePreview.gameObject.SetActive(false);
@@ -160,19 +161,19 @@ public class CacAttack : SpellModule
 
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if(canBeCast())
+		if (canBeCast())
 		{
 			ShowPreview(myPlayerModule.mousePos());
 			timeCanalised = 0;
 
-            AudioManager.Instance.Play3DAudioInNetwork(2, transform.position);
-        }
+			AudioManager.Instance.Play3DAudioInNetwork(2, transform.position);
+		}
 		base.StartCanalysing(_BaseMousePos);
 
-    }
-	
+	}
 
-	float FinalRange(float _timeCanlised)
+
+	float FinalRange ( float _timeCanlised )
 	{
 		return AttackToResolve().rangeOfTheAttack; //localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(_timeCanlised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
 	}
@@ -186,7 +187,7 @@ public class CacAttack : SpellModule
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		if(!anonciated)
+		if (!anonciated)
 		{
 			attackToResolve = AttackToResolve();
 			finalTimeCanalised = currentTimeCanalised;
@@ -202,8 +203,8 @@ public class CacAttack : SpellModule
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 		}
-		
-		if(willResolve)
+
+		if (willResolve)
 		{
 			List<GameObject> _listHit = new List<GameObject>();
 
@@ -242,7 +243,7 @@ public class CacAttack : SpellModule
 			}
 		}
 	}
-	
+
 	CacAttackParameters AttackToResolve ()
 	{
 		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
@@ -267,33 +268,59 @@ public class CacAttack : SpellModule
 		HidePreview(Vector3.zero);
 	}
 
-	public void ShowAttackPreviewReseau ( float _timeCounted)
+	public void ShowAttackPreviewNetwork ( float _timeCounted )
 	{
+		ShapePreview _mypreview = PreviewManager.Instance.GetShapePreview();
 
 		if (_timeCounted >= localTrad.timeToCanalyseToUpgrade)
 		{
-			ShapePreview mypreview = PreviewManager.Instance.GetShapePreview();
-			mypreview.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-
-			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				mypreview.SetColor(Color.yellow, 155);
-			else
-				mypreview.SetColor(Color.red,155);
-
-			mypreview.SetLifeTime(spell.throwBackDuration);
+			_mypreview.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
 		}
 		else
 		{
-			ShapePreview _mypreview = PreviewManager.Instance.GetShapePreview();
 			_mypreview.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-
-			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				_mypreview.SetColor(Color.yellow,.2f);
-			else
-				_mypreview.SetColor(Color.red, .2f);
-
-			_mypreview.SetLifeTime(spell.throwBackDuration);
 		}
+
+		if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+			_mypreview.SetColor(Color.yellow, .2f);
+		else
+			_mypreview.SetColor(Color.red, .2f);
+
+		_mypreview.SetLifeTime(spell.throwBackDuration);
+
+	}
+
+
+	public void EvaluatePreviewNetwork ( float timeCounted )
+	{
+		if (!myPlayerModule.mylocalPlayer.isOwner)
+		{
+
+		}
+			if (timeCounted >= localTrad.timeToCanalyseToUpgrade)
+			{
+				shapePreviewNetwork.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
+
+				if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+					shapePreviewNetwork.SetColor(Color.yellow, 155);
+				else
+					shapePreviewNetwork.SetColor(Color.red, 155);
+			}
+			else
+			{
+				shapePreviewNetwork.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
+
+				if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+					shapePreviewNetwork.SetColor(Color.yellow, 155);
+				else
+					shapePreviewNetwork.SetColor(Color.red, 155);
+			}
+
+	}
+
+	public void ShowPreviewNetwork ( bool isShowed )
+	{
+		shapePreviewNetwork.gameObject.SetActive(isShowed);
 	}
 
 	protected override void DestroyIfClient ()
