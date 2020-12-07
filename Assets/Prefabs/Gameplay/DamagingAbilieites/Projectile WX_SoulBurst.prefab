@@ -493,6 +493,7 @@ MonoBehaviour:
   synchroniseRotation: 0
   interpolateSpeed: 1500
   distanceRequiredBeforeSync: 0.05
+  rotationRequiredBeforeSync: 6
 --- !u!135 &3997851561229656872
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -541,16 +542,18 @@ MonoBehaviour:
   myteam: 0
   myNetworkObject: {fileID: 0}
   isOwner: 0
+  spawnSound: {fileID: 0}
   feedBackTouch: {fileID: 8640629026506735562, guid: a403ab7be26a28b408ff559d9bd82adb, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: a36534ad231eabf4f91304951363c531, type: 3}
   soundFollowObj: 0
   localTrad: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
   doImpactFx: 1
   hasTouched: 0
+  hitSound: {fileID: 0}
   explosionRange: 2.75
   damagesExplosion:
     playerName: 
-    damageHealth: 30
+    damageHealth: 20
     statusToApply:
     - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
     movementToApply: {fileID: 11400000, guid: 163fd00189edff349b7e6d100821bba1, type: 2}
