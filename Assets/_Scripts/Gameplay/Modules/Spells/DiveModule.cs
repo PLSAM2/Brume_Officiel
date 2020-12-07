@@ -12,6 +12,8 @@ public class DiveModule : SpellModule
 	}
 	protected override void ResolveSpell ()
 	{
+		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", true);
+
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -34,6 +36,7 @@ public class DiveModule : SpellModule
 	}
 	public override void Interrupt ()
 	{
+		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", false);
 
 		switch (actionLinked)
 		{
