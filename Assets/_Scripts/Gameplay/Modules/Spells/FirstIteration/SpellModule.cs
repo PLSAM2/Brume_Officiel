@@ -45,8 +45,10 @@ public class SpellModule : MonoBehaviour
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
+    public ushort indexSoundCanalisation = 0;
+    public ushort indexSoundAnonciation = 0;
 
-	private void OnEnable ()
+    private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
@@ -437,7 +439,10 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-		switch (actionLinked)
+        //PITIT BRUIT
+        AudioManager.Instance.Play3DAudioInNetwork(indexSoundCanalisation, transform.position);
+
+        switch (actionLinked)
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", true);
@@ -463,7 +468,10 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void AnonciationFeedBack ()
 	{
-		switch (actionLinked)
+        //PITIT BRUIT
+        AudioManager.Instance.Play3DAudioInNetwork(indexSoundAnonciation, transform.position);
+
+        switch (actionLinked)
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", false);

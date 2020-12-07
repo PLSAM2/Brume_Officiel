@@ -279,11 +279,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
                     {
-                        case Character.Shili:
+                        case Character.WuXin:
                             obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
                             break;
 
-                        case Character.Yang:
+                        case Character.Re:
                             obj = Instantiate(prefabYang, spawnPos, Quaternion.identity);
                             break;
 

@@ -34,7 +34,7 @@ public class PlayerSoulObj : MonoBehaviour
         redObj.SetActive(playerSoul.soulInfo.playerTeam == Team.red);
         blueObj.SetActive(playerSoul.soulInfo.playerTeam == Team.blue);
 
-        if (playerSoul.soulInfo.playerCharacter == Character.Yang)
+        if (playerSoul.soulInfo.playerCharacter == Character.Re)
             mapIcon.sprite = iconYang;
         else
             mapIcon.sprite = iconYin;

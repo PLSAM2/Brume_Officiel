@@ -139,10 +139,10 @@ public class UiManager : MonoBehaviour
         {
             switch (_myChamp)
             {
-                case Character.Yang:
+                case Character.Re:
                     return yangIcon;
 
-                case Character.Yin:
+                case Character.Leng:
                     return yinIcon;
             }
         }
@@ -216,13 +216,13 @@ public class UiManager : MonoBehaviour
     {
         switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
         {
-            case Character.Shili:
+            case Character.WuXin:
                 return lifeShili;
 
-            case Character.Yang:
+            case Character.Re:
                 return lifeYang;
 
-            case Character.Yin:
+            case Character.Leng:
                 return lifeYin;
         }
         return null;
@@ -234,13 +234,13 @@ public class UiManager : MonoBehaviour
         {
             switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
             {
-                case Character.Shili:
+                case Character.WuXin:
                     return teamShili;
 
-                case Character.Yang:
+                case Character.Re:
                     return teamYang;
 
-                case Character.Yin:
+                case Character.Leng:
                     return teamYin;
             }
         }
@@ -248,13 +248,13 @@ public class UiManager : MonoBehaviour
         {
             switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
             {
-                case Character.Shili:
+                case Character.WuXin:
                     return enemyShili;
 
-                case Character.Yang:
+                case Character.Re:
                     return enemyYang;
 
-                case Character.Yin:
+                case Character.Leng:
                     return enemyYin;
             }
         }
