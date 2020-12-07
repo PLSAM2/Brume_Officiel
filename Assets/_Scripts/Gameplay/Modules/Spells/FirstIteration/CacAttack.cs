@@ -165,8 +165,6 @@ public class CacAttack : SpellModule
 		{
 			ShowPreview(myPlayerModule.mousePos());
 			timeCanalised = 0;
-
-			AudioManager.Instance.Play3DAudioInNetwork(2, transform.position);
 		}
 		base.StartCanalysing(_BaseMousePos);
 
