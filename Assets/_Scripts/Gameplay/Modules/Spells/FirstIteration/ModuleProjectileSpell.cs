@@ -154,8 +154,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		if (myPreviewArrow != null)
 		{
-
-				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * localTrad.range), .1f);
+            myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * localTrad.range), .1f);
 		}else
 		{
 			myPreviewBurst.Init(localTrad.range, localTrad.angleToSplit, 0, Vector3.zero);

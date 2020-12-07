@@ -279,11 +279,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
                     {
-                        case Character.Shili:
+                        case Character.WuXin:
                             obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
                             break;
 
-                        case Character.Yang:
+                        case Character.Re:
                             obj = Instantiate(prefabYang, spawnPos, Quaternion.identity);
                             break;
 
@@ -309,6 +309,8 @@ public class InGameNetworkReceiver : MonoBehaviour
                     }
 
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
+
+                    GameManager.Instance.OnPlayerSpawn?.Invoke(id);
 
                     if (isResurecting)
                     {
@@ -394,10 +396,10 @@ public class InGameNetworkReceiver : MonoBehaviour
                     return;
                 }
 
-                GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
-
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
                 target.DealDamagesLocaly(_damages, _dealer);
+
+                GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
         }
     }

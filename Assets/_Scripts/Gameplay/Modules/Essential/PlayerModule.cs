@@ -281,6 +281,12 @@ public class PlayerModule : MonoBehaviour
 
 		oldState = state;
 
+		if ((state & (En_CharacterState.Stunned | En_CharacterState.Slowed | En_CharacterState.Hidden)) != 0)
+		{
+			mylocalPlayer.HidePseudo(true);
+		}
+		else
+			mylocalPlayer.HidePseudo(false);
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -359,9 +365,16 @@ public class PlayerModule : MonoBehaviour
 				CameraManager.Instance.LockCamera?.Invoke();
 			else if (Input.GetKey(freeCamera))
 				CameraManager.Instance.UpdateCameraPos?.Invoke();
+
+			//MEGA TEMP
+			mylocalPlayer.ShowStateIcon(state, 10, 10);
+
 		}
 		else
-			return;
+		{
+			// TEMP
+			mylocalPlayer.ShowStateIcon(state, 10, 10);
+		}
 	}
 
 	protected virtual void FixedUpdate ()
@@ -511,7 +524,7 @@ public class PlayerModule : MonoBehaviour
 	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
-
+		 
 		for (int i = 0; i < allEffectLive.Count; i++)
 		{
 			if (!allEffectLive[i].effect.isConstant)

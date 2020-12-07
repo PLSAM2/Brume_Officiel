@@ -1,6 +1,7 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -8,17 +9,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 
-public class ChampSelectManager : MonoBehaviour
+public class ChampSelectManager : SerializedMonoBehaviour
 {
     private static ChampSelectManager _instance;
     public static ChampSelectManager Instance { get { return _instance; } }
 
-    public List<CharacterListObj> redTeamCharacterList = new List<CharacterListObj>();
-    public List<CharacterListObj> blueTeamCharacterList = new List<CharacterListObj>();
-    public GameObject startButton;
-    public TextMeshProUGUI roundText;
+    public List<PlayerTeamElement> redTeamPlayerElement = new List<PlayerTeamElement>();
+    public List<PlayerTeamElement> blueTeamPlayerElement = new List<PlayerTeamElement>();
 
-    public Dictionary<ushort, CharacterListObj> linkPlayerCharacterListObj = new Dictionary<ushort, CharacterListObj>();
+    public List<PlayerTeamElement> charactersElement = new List<PlayerTeamElement>();
+
+    public GameObject startButton;
+    public Text roundText;
+
+    private Dictionary<ushort, PlayerTeamElement> linkPlayerCharacterListObj = new Dictionary<ushort, PlayerTeamElement>(); // character 
+    private Dictionary<ushort, PlayerTeamElement> linkPlayerTeamPlayerElement = new Dictionary<ushort, PlayerTeamElement>(); // player list
 
     [Header("Swap")]
     public GameObject characterSwapPanelReceiver;
@@ -26,6 +31,7 @@ public class ChampSelectManager : MonoBehaviour
     public TextMeshProUGUI characterSwapPanelReceiverText;
     public TextMeshProUGUI characterSwapPanelSenderText;
     private ushort askingSwapPlayerId = 0;
+
 
     private void Awake()
     {
@@ -51,26 +57,35 @@ public class ChampSelectManager : MonoBehaviour
 
     private void InitChampSelect()
     {
-        List<CharacterListObj> _tempList;
-
-        switch (NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            case Team.red:
-                _tempList = blueTeamCharacterList;
-                break;
-            case Team.blue:
-                _tempList = redTeamCharacterList;
-                break;
-            default: throw new System.Exception("Team non existante");
-
-        }
-
-        foreach (CharacterListObj item in _tempList)
-        {
-            item.GetComponent<Button>().interactable = false;
-        }
-
         roundText.text = "Round : " + RoomManager.Instance.roundCount;
+
+
+        int redTeamCounter = 0;
+        int blueTeamCounter = 0;
+
+        foreach (PlayerData p in RoomManager.Instance.actualRoom.playerList.Values)
+        {
+            PlayerTeamElement _teamElement = null;
+
+            switch (p.playerTeam)
+            {
+                case Team.none:
+                    return;
+                case Team.red:
+                    _teamElement = redTeamPlayerElement[redTeamCounter];
+                    redTeamCounter++;
+                    break;
+                case Team.blue:
+                    _teamElement = blueTeamPlayerElement[blueTeamCounter];
+
+                    blueTeamCounter++;
+                    break;
+                default: throw new Exception("NO TEAM");
+            }
+            _teamElement.SetStatut(PlayerTeamElement.ChampSelectStatut.pick);
+            linkPlayerTeamPlayerElement.Add(p.ID, _teamElement);
+            _teamElement.Init(p);
+        }
     }
 
     private void OnDisable()
@@ -135,11 +150,12 @@ public class ChampSelectManager : MonoBehaviour
         }
         SetCharacter(_playerID, _character);
 
+        linkPlayerTeamPlayerElement[_playerID].SetStatut(PlayerTeamElement.ChampSelectStatut.confirme);
+
         if (_playerID == askingSwapPlayerId)
         {
             StopSwap();
         }
-
 
         if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
@@ -185,8 +201,8 @@ public class ChampSelectManager : MonoBehaviour
                     characterSwapPanelSenderText.text = "Asking " + RoomManager.Instance.GetPlayerData(_targetedID).Name + " to swap";
                 }
 
-                linkPlayerCharacterListObj[_playerID].SwapImg.SetActive(true);
-                linkPlayerCharacterListObj[_targetedID].SwapImg.SetActive(true);
+                linkPlayerCharacterListObj[_playerID].SetSwapIcon(true);
+                linkPlayerCharacterListObj[_targetedID].SetSwapIcon(true);
             }
         }
     }
@@ -237,9 +253,9 @@ public class ChampSelectManager : MonoBehaviour
 
     public void StopSwap()
     {
-        foreach (CharacterListObj charList in linkPlayerCharacterListObj.Values)
+        foreach (PlayerTeamElement charList in linkPlayerCharacterListObj.Values)
         {
-            charList.SwapImg.SetActive(false);
+            charList.SetSwapIcon(false);
         }
 
         characterSwapPanelSender.SetActive(false);
@@ -255,35 +271,26 @@ public class ChampSelectManager : MonoBehaviour
         PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
         int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
 
-        CharacterListObj _listObj;
+        PlayerTeamElement _characterObj;
 
-        switch (player.playerTeam)
+        if (player.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            case Team.red:
-                _listObj = redTeamCharacterList[characterToInt];
-                break;
-            case Team.blue:
-                _listObj = blueTeamCharacterList[characterToInt];
-                break;
-            default:
-                print("ERROR");
-                return;
-        }
+            _characterObj = charactersElement[characterToInt];
 
-        if (linkPlayerCharacterListObj.ContainsKey(playerID))
-        {
-            if (!swap)
+            if (linkPlayerCharacterListObj.ContainsKey(playerID))
             {
-                linkPlayerCharacterListObj[playerID].playerNameText.text = "";
+                if (!swap)
+                {
+                    linkPlayerCharacterListObj[playerID].OnPlayerLeave();
+                }
+                linkPlayerCharacterListObj.Remove(playerID);
             }
-            linkPlayerCharacterListObj.Remove(playerID);
+            _characterObj.Init(player, true);
+            linkPlayerCharacterListObj.Add(playerID, _characterObj);
         }
 
         player.playerCharacter = character;
-
         player.IsReady = true;
-        _listObj.playerNameText.text = player.Name;
-        linkPlayerCharacterListObj.Add(playerID, _listObj);
     }
 
 

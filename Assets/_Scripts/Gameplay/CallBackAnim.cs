@@ -7,26 +7,37 @@ public class CallBackAnim : MonoBehaviour
 	[SerializeField] CacAttack myCacAttack;
 	bool countingPreview;
 	float timeCounted;
+
 	public void StartCounting()
 	{
-		timeCounted = 0;
-		countingPreview = true;
+		if (!myCacAttack.myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myCacAttack.ShowPreviewNetwork(true);
+			timeCounted = 0;
+			countingPreview = true;
+		}
+	
 	}
 
 	public void StopCounting()
 	{
-		countingPreview = false;
-		myCacAttack.ShowAttackPreviewReseau(timeCounted);
+		if (!myCacAttack.myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myCacAttack.ShowPreviewNetwork(false);
+			countingPreview = false;
+			myCacAttack.ShowAttackPreviewNetwork(timeCounted);
+		}
 	}
 
 	private void Update ()
 	{
-		if (countingPreview)
+		if (!myCacAttack.myPlayerModule.mylocalPlayer.isOwner)
 		{
-
-			timeCounted += Time.deltaTime;
-
-			print("Icount");
+			if (countingPreview)
+			{
+				timeCounted += Time.deltaTime;
+				myCacAttack.EvaluatePreviewNetwork(timeCounted);
+			}
 		}
 	}
 }

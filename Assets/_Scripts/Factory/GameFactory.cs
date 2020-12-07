@@ -39,7 +39,7 @@ public class GameFactory
         return Random.Range(min, max);
     }
 
-    public static void ChangeIconMinimap(Image myImage, Sprite mySprite, Color myColor)
+    public static void ChangeIconInGame(Image myImage, Sprite mySprite, Color myColor)
     {
         myImage.color = myColor;
 
@@ -201,7 +201,7 @@ public class GameFactory
 
     public static bool CheckIfPlayerIsInView(ushort id)
     {
-        if (GetActualPlayerFollow()) { return false; }
+        if (!GetActualPlayerFollow()) { return false; }
 
         if(GetActualPlayerFollow().myPlayerId == id)
         {

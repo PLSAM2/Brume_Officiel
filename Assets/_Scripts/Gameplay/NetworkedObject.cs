@@ -11,8 +11,10 @@ public class NetworkedObject : MonoBehaviour
     [BoxGroup("Networked")] public bool isNetworked = true;
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public bool synchronisePosition = true;
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public bool synchroniseRotation = false;
-    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float interpolateSpeed = 10;
-    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float distanceRequiredBeforeSync = 0.02f;
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float interpolateSpeed = 30;
+    [InfoBox("Attention, mal géré ces valeurs peuvent entrainer de lourd problème de connexion", InfoMessageType.Warning)]
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float distanceRequiredBeforeSync = 0.1f;
+    [ShowIf("isNetworked")] [BoxGroup("Networked")] public float rotationRequiredBeforeSync = 6;
 
     private ushort objListKey = 0;
     private ushort serverObjectID = 0; // ID donné par le serveur pour cette object (utilisé pour referer le meme object pour tout le monde dans la scene) | 0 si il n'est pas instancié
@@ -20,6 +22,7 @@ public class NetworkedObject : MonoBehaviour
     private PlayerData owner;
     private UnityClient ownerIClient; // Set uniquement par le créateur
     private Vector3 lastPosition; // Set uniquement par le créateur
+    private float lastYRotation; // Set uniquement par le créateur
 
     public Action OnSpawnObj;
 
@@ -32,6 +35,7 @@ public class NetworkedObject : MonoBehaviour
         serverObjectID = lastObjId;
         owner = playerData;
         lastPosition = transform.position;
+        lastYRotation = transform.rotation.eulerAngles.y;
         objListKey = objKey;
 
         if (NetworkManager.Instance.GetLocalPlayer() == owner)
@@ -51,6 +55,7 @@ public class NetworkedObject : MonoBehaviour
         serverObjectID = 0;
         objListKey = 0;
         lastPosition = Vector3.zero;
+        lastYRotation = 0;
     }
     
     public bool GetIsOwner()
@@ -84,16 +89,16 @@ public class NetworkedObject : MonoBehaviour
     {
         if (!isOwner && isNetworked)
         {
-            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * 30);
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * interpolateSpeed);
         }
 
         if (!isNetworked || !isOwner || serverObjectID == 0)
             return;
 
-        if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync)
+        if ((Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync) || (Mathf.Abs(lastYRotation - transform.rotation.eulerAngles.y) > rotationRequiredBeforeSync))
         {
             lastPosition = transform.position;
-
+            lastYRotation = transform.rotation.eulerAngles.y;
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
                 writer.Write(serverObjectID);

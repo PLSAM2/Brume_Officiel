@@ -141,11 +141,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainBlendingNoise_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainBlending_TextureTerrain:
-        m_Texture: {fileID: 2800000, guid: b14881369ad7e49438146e53c5ac6491, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
@@ -169,6 +169,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BaseColor: 0
     - _BumpScale: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
@@ -188,6 +189,7 @@ Material:
     - _DrippingNoise_Tiling: -5
     - _DstBlend: 0
     - _EmberSpread: 0.1
+    - _Float39: 0.961
     - _FlowMapTilling: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -216,7 +218,7 @@ Material:
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _OpacityTexture: 0
-    - _Out_or_InBrume: 1
+    - _Out_or_InBrume: 0
     - _PaperMultiply: 5
     - _Paper_Flipbook_Columns: 4
     - _Paper_Flipbook_Rows: 4
@@ -253,8 +255,8 @@ Material:
     - _Step_Shadow: 0
     - _TerrainBlending: 1
     - _TerrainBlending_BlendThickness: 0.1
-    - _TerrainBlending_Falloff: 0.5
-    - _TerrainBlending_TextureTiling: 1
+    - _TerrainBlending_Falloff: 2.7
+    - _TerrainBlending_TextureTiling: -1.03
     - _TopTex: 0
     - _TopTex_NoiseHoles: 1
     - _TopTex_NoiseTiling: 1
@@ -282,8 +284,9 @@ Material:
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
-    - _OutBrumeColorCorrection: {r: 0.8509805, g: 0.60784316, b: 0.517647, a: 1}
-    - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
+    - _OutBrumeBaseColor: {r: 0, g: 0, b: 0, a: 0}
+    - _OutBrumeColorCorrection: {r: 0.5377358, g: 0.34239265, b: 0.27647737, a: 1}
+    - _PaperContrast: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _SSS_Color: {r: 1, g: 0.009498575, b: 0, a: 0}
@@ -291,7 +294,8 @@ Material:
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
-    - _TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TerrainBlendingNoise_Tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _TerrainBlending_Color: {r: 0.4056604, g: 0.24400091, b: 0.1473389, a: 1}
     - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _TopTex_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _WindWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
