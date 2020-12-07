@@ -18,6 +18,8 @@ public class AudioVolumeSetter : MonoBehaviour
     public void OnSliderUpdate()
     {
         AudioManager.Instance.currentPlayerVolume = mySlider.value;
+
+        AudioManager.Instance.OnVolumeChange?.Invoke(mySlider.value);
         UpdateText();
     }
 

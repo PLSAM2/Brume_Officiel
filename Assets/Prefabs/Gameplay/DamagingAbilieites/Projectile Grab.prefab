@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3073313388587040675}
   - component: {fileID: 2196360774065183716}
   - component: {fileID: 2785706892123746681}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4046907593915369113}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: 0.3}
   m_LocalScale: {x: 1, y: 0.35, z: 1}
   m_Children:
   - {fileID: 3019420767287029772}
@@ -130,7 +130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNetworked: 1
+  synchronisePosition: 1
   synchroniseRotation: 0
+  interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.05
 --- !u!114 &1384060272247584325
 MonoBehaviour:
@@ -146,13 +148,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mylifeTime: 0
   myLivelifeTime: 0
-  mesh: {fileID: 4046907593915369113}
+  meshBlue: {fileID: 4046907593915369113}
+  meshRed: {fileID: 4046907593915369113}
   myteam: 0
   myNetworkObject: {fileID: 1984787125783616747}
   isOwner: 0
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 60f7548e258c18e4bb3bb2708c8523a5, type: 3}
+  soundFollowObj: 0
   localTrad: {fileID: 11400000, guid: b4ee48bf29a5c1b4b949c7c95d1c70cd, type: 2}
+  doImpactFx: 0
 --- !u!54 &63471337967116498
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -179,10 +184,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.6
+  m_Radius: 0.8
   m_Height: 0.6
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0.3}
 --- !u!1 &9190268781658803757
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3019420767287029772}
   - component: {fileID: 1807199098300453096}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

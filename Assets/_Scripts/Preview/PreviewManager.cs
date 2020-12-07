@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using DarkRift;
+using DarkRift.Client;
+using DarkRift.Client.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +9,11 @@ public class PreviewManager : MonoBehaviour
 {
     private static PreviewManager _instance;
     public static PreviewManager Instance { get { return _instance; } }
+
+    [SerializeField] GameObject prefabCircle;
+    [SerializeField] GameObject prefabSquare;
+    [SerializeField] GameObject prefabShape;
+    [SerializeField] GameObject prefabArrow;
 
     private void Awake()
     {
@@ -19,22 +27,17 @@ public class PreviewManager : MonoBehaviour
         }
     }
 
-    [SerializeField] GameObject prefabCircle;
-    [SerializeField] GameObject prefabSquare;
-    [SerializeField] GameObject prefabShape;
-    [SerializeField] GameObject prefabArrow;
-
-    public ShapePreview GetShapePreview(Transform parent)
+    public ShapePreview GetShapePreview()
     {
-        ShapePreview newShape = Instantiate(prefabShape, parent).GetComponent<ShapePreview>();
+        ShapePreview newShape = Instantiate(prefabShape, transform).GetComponent<ShapePreview>();
         newShape.transform.position += Vector3.up * 0.1f;
 
         return newShape;
     }
 
-    public SquarePreview GetSquarePreview(Transform parent)
+    public SquarePreview GetSquarePreview()
     {
-        SquarePreview newSquare = Instantiate(prefabSquare, parent).GetComponent<SquarePreview>();
+        SquarePreview newSquare = Instantiate(prefabSquare, transform).GetComponent<SquarePreview>();
         newSquare.transform.position += Vector3.up * 0.1f;
 
         return newSquare;
@@ -42,7 +45,7 @@ public class PreviewManager : MonoBehaviour
 
     public CirclePreview GetCirclePreview(Transform parent)
     {
-        CirclePreview newCircle = Instantiate(prefabCircle, parent).GetComponent<CirclePreview>();
+        CirclePreview newCircle = Instantiate(prefabCircle, transform).GetComponent<CirclePreview>();
         newCircle.transform.position += Vector3.up * 0.1f;
 
         return newCircle;
@@ -59,5 +62,12 @@ public class PreviewManager : MonoBehaviour
     public void ReleasePreview(GameObject obj)
     {
         Destroy(obj);
+    }
+
+    public enum previewType
+    {
+        Shape,
+        Circle,
+        Square
     }
 }

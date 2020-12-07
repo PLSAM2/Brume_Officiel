@@ -23,6 +23,8 @@ public class NetworkedObject : MonoBehaviour
 
     public Action OnSpawnObj;
 
+    Vector3 newNetorkPos;
+
     public void Init(ushort lastObjId, PlayerData playerData, ushort objKey)
     {
         // Vérifie les droits lié à cette objets
@@ -31,7 +33,8 @@ public class NetworkedObject : MonoBehaviour
         owner = playerData;
         lastPosition = transform.position;
         objListKey = objKey;
-        if (RoomManager.Instance.GetLocalPlayer() == owner)
+
+        if (NetworkManager.Instance.GetLocalPlayer() == owner)
         {
             ownerIClient = RoomManager.Instance.client;
             isOwner = true;
@@ -79,7 +82,12 @@ public class NetworkedObject : MonoBehaviour
 
     private void Update()
     {
-        if (!isNetworked || !isOwner || serverObjectID == 0 )
+        if (!isOwner && isNetworked)
+        {
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * 30);
+        }
+
+        if (!isNetworked || !isOwner || serverObjectID == 0)
             return;
 
         if (Vector3.Distance(lastPosition, transform.position) > distanceRequiredBeforeSync)
@@ -102,9 +110,7 @@ public class NetworkedObject : MonoBehaviour
 
                 if (synchroniseRotation)
                 {
-                    writer.Write(this.transform.rotation.eulerAngles.x);
                     writer.Write(this.transform.rotation.eulerAngles.y);
-                    writer.Write(this.transform.rotation.eulerAngles.z);
                 }
 
                 using (Message message = Message.Create(Tags.SynchroniseObject, writer))
@@ -115,9 +121,10 @@ public class NetworkedObject : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
+        transform.position = pos;
         if (!isOwner)
         {
-            transform.position = pos;
+            newNetorkPos = pos;
         }
     }
 

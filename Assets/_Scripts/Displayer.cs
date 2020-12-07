@@ -8,6 +8,13 @@ public class Displayer : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.visiblePlayer.Clear();
+
+        GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
     }
 
     // Update is called once per frame
@@ -15,33 +22,51 @@ public class Displayer : MonoBehaviour
     {
         LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
+        if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule.isInGhost)
+        {
+            if (currentFollowPlayer.myPlayerModule.isInBrume)
+            {
+                HideOrShow(GameFactory.GetLocalPlayerObj(), false);
+                SetFow(GameFactory.GetLocalPlayerObj(), false);
+                GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
+            }
+            else
+            {
+                HideOrShow(GameFactory.GetLocalPlayerObj(), true);
+                SetFow(GameFactory.GetLocalPlayerObj(), true);
+                GameFactory.GetLocalPlayerObj().circleDirection.SetActive(true);
+            }
+        }
+
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if (currentFollowPlayer == player.Value) {
-                HideOrShow(player.Value, true);
-                SetFow(player.Value, true);
-                continue;
-            }
-
-            if(currentFollowPlayer == null){
+            if (currentFollowPlayer == null)
+            {
                 HideOrShow(player.Value, false);
                 SetFow(player.Value, false);
                 continue;
             }
 
+            if (player.Value.myPlayerModule.state.HasFlag(En_CharacterState.Hidden))
+            {
+                if(player.Value.myPlayerModule.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    HideOrShow(player.Value, false);
+                    continue;
+                }
+            }
+
+            if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
+                HideOrShow(player.Value, true);
+                SetFow(player.Value, true);
+                continue;
+            }
+
             if (player.Value.forceOutline)
             {
-                if (currentFollowPlayer.myPlayerModule.isThirdEyes)
+                if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
                 {
-                    if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
-                    {
-                        HideOrShow(player.Value, true);
-                    }
-                    else
-                    {
-                        SetFow(player.Value, false);
-                        ShowOutline(player.Value);
-                    }
+                    HideOrShow(player.Value, true);
                 }
                 else
                 {
@@ -54,7 +79,7 @@ public class Displayer : MonoBehaviour
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {
                 SetFow(player.Value, false);
-                if ( GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule))
+                if (GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule))
                 {
                     if (GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform))
                     {
@@ -89,7 +114,7 @@ public class Displayer : MonoBehaviour
                 }
                 else
                 {
-                    if (player.Value.myPlayerModule.teamIndex == RoomManager.Instance.GetLocalPlayer().playerTeam)
+                    if (player.Value.myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
                     {
                         HideOrShow(player.Value, true);
                         SetFow(player.Value, true);
@@ -103,6 +128,68 @@ public class Displayer : MonoBehaviour
                     else
                     {
                         HideOrShow(player.Value, false);
+                    }
+                }
+            }
+        }
+
+        //ghost
+        foreach(Ghost ghost in GameManager.Instance.allGhost)
+        {
+            if (GameManager.Instance.visiblePlayer.ContainsKey(ghost.transform) && ghost.gameObject.activeSelf)
+            {
+                if (!ghost.isVisible)
+                {
+                    ghost.isVisible = true;
+                    foreach (GameObject obj in ghost.objToHide)
+                    {
+                        obj.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                if (ghost.isVisible)
+                {
+                    ghost.isVisible = false;
+                    foreach (GameObject obj in ghost.objToHide)
+                    {
+                        obj.SetActive(false);
+                    }
+                }
+            }
+        }
+
+        DisplayFX();
+    }
+
+    void DisplayFX()
+    {
+        foreach(Fx fx in GameManager.Instance.allFx)
+        {
+            if(GameManager.Instance.allVisibleFx.Contains(fx.transform))
+            {
+                if (!fx.isVisible)
+                {
+                    fx.isVisible = true;
+
+                    foreach (GameObject obj in fx.objToHide)
+                    {
+                        if (!obj) { continue; }
+                        obj.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                if (fx.isVisible)
+                {
+                    fx.isVisible = false;
+
+                    foreach (GameObject obj in fx.objToHide)
+                    {
+                        if (!obj) { continue; }
+                        obj.SetActive(false);
                     }
                 }
             }
@@ -127,7 +214,7 @@ public class Displayer : MonoBehaviour
             }
             p.canvas.SetActive(_value);
 
-            GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, _value);
+            GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, _value);
         }
     }
 
@@ -154,6 +241,15 @@ public class Displayer : MonoBehaviour
 
         p.ShowHideFow(true);
 
-        GameManager.Instance.OnPlayerAtViewChange(p.myPlayerId, true);
+        GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, true);
+    }
+
+    void OnTowerCaptured(VisionTower _tower)
+    {
+        LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
+        if (currentFollowPlayer == null || currentFollowPlayer.myPlayerModule.isInBrume)
+        {
+            _tower.vision.gameObject.SetActive(false);
+        }
     }
 }

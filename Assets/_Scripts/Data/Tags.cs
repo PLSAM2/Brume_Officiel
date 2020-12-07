@@ -1,11 +1,4 @@
-﻿/// <summary>
-/// Val 0000 --> 1000
-/// Sam 1000 --> 2000
-/// Pierre 2000 --> 3000
-/// 
-/// VALEUR MAX 65535
-/// </summary>
-class Tags
+﻿class Tags
 {
     // Lobby 0 --> 299 >>       
     public static readonly ushort PlayerConnected = 0;
@@ -25,6 +18,9 @@ class Tags
     public static readonly ushort ChangeTeam = 120;
     public static readonly ushort SetReady = 130;
     public static readonly ushort SetCharacter = 140;
+    public static readonly ushort AskForCharacterSwap = 145;
+    public static readonly ushort CharacterSwap = 146;
+    public static readonly ushort RefuseCharacterSwap = 147;
     // <<
 
     // InGame 300 --> XXXX >>   
@@ -44,7 +40,6 @@ class Tags
 
     //Anim 750 --> 769 >>
     public static readonly ushort SyncTrigger = 750;
-    public static readonly ushort Sync2DBlendTree = 752;
     public static readonly ushort SyncBoolean = 754;
     public static readonly ushort SyncFloat = 756;
     // <<
@@ -63,6 +58,7 @@ class Tags
     //Ward & Vision 790 --> 799 >>
     public static readonly ushort LaunchWard = 790;
     public static readonly ushort StartWardLifeTime = 791;
+    public static readonly ushort ChangeFowSize = 792;
     // <<
 
     //Altar Buff 800 --> 810 >>
@@ -87,5 +83,17 @@ class Tags
     public static readonly ushort AddStatus = 2590;
     // <<
 
+    //SPELLS CHARACTER
+    public static readonly ushort LaunchSplouch = 2600;
+    // <<
 
+    //Audio
+    public static readonly ushort Play2DSound = 3000;
+    public static readonly ushort Play3DSound = 3001;
+    // <<
+
+    //Fx
+    public static readonly ushort SpawnGenericFx = 4000;
+    public static readonly ushort SpawnAOEFx = 4001;
+    // <<
 }

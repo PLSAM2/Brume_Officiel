@@ -13,8 +13,12 @@ public class PlayerSoulObj : MonoBehaviour
     [SerializeField] SpriteRenderer mapIcon;
     [SerializeField] Sprite iconYang, iconYin;
 
+    [SerializeField] GameObject redObj;
+    [SerializeField] GameObject blueObj;
+
     private void OnEnable()
     {
+
         networkedObject = GetComponent<NetworkedObject>();
 
         playerSoul.soulInfo = RoomManager.Instance.actualRoom.playerList[networkedObject.GetOwnerID()];
@@ -26,10 +30,15 @@ public class PlayerSoulObj : MonoBehaviour
 		{
             mapIcon.color = Color.blue;
         }
+
+        redObj.SetActive(playerSoul.soulInfo.playerTeam == Team.red);
+        blueObj.SetActive(playerSoul.soulInfo.playerTeam == Team.blue);
+
         if (playerSoul.soulInfo.playerCharacter == Character.Yang)
             mapIcon.sprite = iconYang;
         else
             mapIcon.sprite = iconYin;
+
     }
 
     private void OnTriggerEnter(Collider other)

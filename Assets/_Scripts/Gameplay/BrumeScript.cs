@@ -7,16 +7,37 @@ public class BrumeScript : MonoBehaviour
 {
     [SerializeField] AnimationCurve curveAlpha;
 
-    [SerializeField] Renderer myRenderer;
+    public Renderer myRenderer;
 
     [SerializeField] LayerMask brumeMask;
     [SerializeField] float rangeFilter = 1;
 
+    [SerializeField] AudioClip sfxTransiBrume;
+
+    private void Start()
+    {
+        GameManager.Instance.allBrume.Add(this);
+    }
+
+
+    public void OnSimulateEnter(GameObject obj)
+    {
+        OnTriggerEnter(obj.GetComponent<Collider>());
+    }
+
+    public void OnSimulateExit(GameObject obj)
+    {
+        OnTriggerExit(obj.GetComponent<Collider>());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 8)
-        {
-            PlayerModule player = other.GetComponent<PlayerModule>();
+		if (other.gameObject.layer == 8 || other.gameObject.layer == 16)
+		{
+			PlayerModule player = other.GetComponent<PlayerModule>();
+
+            if (player.isInBrume && player.brumeId == GetInstanceID()) { return; }
+
             player.SetInBrumeStatut(true, GetInstanceID());
 
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
@@ -25,25 +46,59 @@ public class BrumeScript : MonoBehaviour
             {
                 GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
                 SetWardFow(player);
+                SetTowerFow(false);
 
                 myRenderer.enabled = false;
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
+            }
+        }
+
+        if (other.gameObject.layer == 23)
+        {
+            NetworkedObject netObj = other.gameObject.GetComponent<NetworkedObject>();
+
+            if (netObj.GetIsOwner())
+            {
+                PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
+                player.SetInBrumeStatut(true, GetInstanceID());
+
+
+                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
+                SetWardFow(player);
+                SetTowerFow(false);
+
+                myRenderer.enabled = false;
+
+                other.GetComponent<Ghost>().currentIdBrume = GetInstanceID();
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8 || other.gameObject.layer ==  16)
         {
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
-            if (other.gameObject == currentFollowPlayer.gameObject)
+            if (!currentFollowPlayer.isInBrume) { return; }
+
+            GameObject currentPlayerObj = currentFollowPlayer.gameObject;
+
+            if (currentFollowPlayer.isInGhost)
+            {
+                UiManager.Instance.SetAlphaBrume(0);
+                return;
+            }
+
+            if (other.gameObject == currentPlayerObj)
             {
                 RaycastHit hit;
                 Vector3 fromPosition = transform.position;
                 Vector3 toPosition = other.transform.position;
                 Vector3 direction = toPosition - fromPosition;
-
 
                 if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity, brumeMask))
                 {
@@ -56,9 +111,12 @@ public class BrumeScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8)
-        {
-            PlayerModule player = other.GetComponent<PlayerModule>();
+		if (other.gameObject.layer == 8 || other.gameObject.layer == 16)
+		{
+			PlayerModule player = other.GetComponent<PlayerModule>();
+
+            if (!player.isInBrume || player.brumeId != GetInstanceID()) { return; }
+
             player.SetInBrumeStatut(false, 0);
 
             PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
@@ -67,9 +125,32 @@ public class BrumeScript : MonoBehaviour
             {
                 GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
                 SetWardFow(player);
+                SetTowerFow(true);
 
                 UiManager.Instance.SetAlphaBrume(0);
                 myRenderer.enabled = true;
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
+            }
+        }
+
+        if (other.gameObject.layer == 23)
+        {
+            NetworkedObject netObj = other.gameObject.GetComponent<NetworkedObject>();
+
+            if (netObj.GetIsOwner())
+            {
+                PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
+                player.SetInBrumeStatut(false, 0);
+
+                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
+                SetWardFow(player);
+                SetTowerFow(true);
+
+                UiManager.Instance.SetAlphaBrume(0);
+                myRenderer.enabled = true;
+
+                AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
     }
@@ -100,6 +181,17 @@ public class BrumeScript : MonoBehaviour
             }
 
             ward.GetFow().gameObject.SetActive(fogValue);
+        }
+    }
+
+    void SetTowerFow(bool value)
+    {
+        GameManager.Instance.allTower.RemoveAll(x => x == null);
+
+        foreach (VisionTower tower in GameManager.Instance.allTower)
+        {
+            if (tower == null) { continue; }
+            tower.vision.gameObject.SetActive(value);
         }
     }
 }

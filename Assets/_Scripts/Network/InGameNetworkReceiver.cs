@@ -117,9 +117,62 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 AltarBuffPoison(sender, e);
             }
+            else if (message.Tag == Tags.ChangeFowSize)
+            {
+                ChangeFowSize(sender, e);
+            }
+            else if (message.Tag == Tags.SpawnGenericFx)
+            {
+                OnSpawnGenericFx(sender, e);
+            }
+            else if (message.Tag == Tags.SpawnAOEFx)
+            {
+                OnSpawnAOEFx(sender, e);
+            }
         }
     }
 
+    private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _idFx = reader.ReadUInt16();
+
+                float _posX = reader.ReadSingle();
+                float _posZ = reader.ReadSingle();
+
+                float _rota = reader.ReadSingle();
+                float _scale = reader.ReadSingle();
+
+                float _time = reader.ReadSingle();
+
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(_idFx, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+            }
+        }
+    }
+
+    private void OnSpawnAOEFx(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+
+                float _posX = reader.ReadSingle();
+                float _posZ = reader.ReadSingle();
+
+                float _rota = reader.ReadSingle();
+                float _scale = reader.ReadSingle();
+
+                float _time = reader.ReadSingle();
+
+                LocalPoolManager.Instance.SpawnNewAOELocal(_id, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+            }
+        }
+    }
 
     private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
     {
@@ -244,13 +297,20 @@ public class InGameNetworkReceiver : MonoBehaviour
                     myLocalPlayer.isOwner = client.ID == id;
                     myLocalPlayer.Init(client);
 
+                 
 
                     if (myLocalPlayer.isOwner)
                     {
                         GameManager.Instance.currentLocalPlayer = myLocalPlayer;
+
+                        if (isResurecting)
+                            myLocalPlayer.myPlayerModule.Setup();
+
                     }
 
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
+
+                    GameManager.Instance.OnPlayerSpawn?.Invoke(id);
 
                     if (isResurecting)
                     {
@@ -285,9 +345,10 @@ public class InGameNetworkReceiver : MonoBehaviour
                 _writer.Write(killer.ID);
             }
             else {
-                _writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
+                _writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
             }
-            _writer.Write((ushort)RoomManager.Instance.GetLocalPlayer().playerCharacter);
+
+            _writer.Write((ushort)NetworkManager.Instance.GetLocalPlayer().playerCharacter);
             using (Message _message = Message.Create(Tags.KillCharacter, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
@@ -328,6 +389,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 ushort _damages = reader.ReadUInt16();
+                ushort _dealer = reader.ReadUInt16();
 
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
@@ -335,8 +397,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
-
-                target.liveHealth -= _damages;
+                target.DealDamagesLocaly(_damages, _dealer);
 
                 GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
@@ -433,7 +494,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                     {
                         return;
                     }
-
                     GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadUInt16());
                 }
             }
@@ -453,8 +513,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _newStrength = reader.ReadUInt16();
                 ushort id = reader.ReadUInt16();
 
-
-                print("DURATION SANS TRAD" + _newDuration);
                 float _directionX = (float)_newX / 10;
                 float _directionZ = (float)_newZ / 10;
                 float _duration = (float)_newDuration / 100;
@@ -464,8 +522,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 _newForcedMovement.direction = new Vector3(_directionX, 0, _directionZ);
                 _newForcedMovement.duration = _duration;
                 _newForcedMovement.strength = _strength;
-
-                print("Duration" + _newForcedMovement.duration + "Direction " + _newForcedMovement.direction);
 
                 GameManager.Instance.currentLocalPlayer.OnForcedMovementReceived(_newForcedMovement);
             }
@@ -482,6 +538,8 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _roomId = reader.ReadUInt16();
                 ushort _statusId = reader.ReadUInt16();
                 ushort _playerId = reader.ReadUInt16();
+
+                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
 
                 GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
             }
@@ -510,7 +568,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                PlayerModule _temp = GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule;
+                PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
                 _temp.ApplySpeedBuffInServer();
             }
         }
@@ -522,11 +580,33 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                PlayerModule _temp = GameManager.Instance.networkPlayers[RoomManager.Instance.GetLocalPlayer().ID].myPlayerModule;
+                PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
                 _temp.ApplyPoisonousBuffInServer();
             }
         }
     }
 
+    private void ChangeFowSize(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _playerId = reader.ReadUInt16();
+                uint _size = reader.ReadUInt32();
+                bool _reset = reader.ReadBoolean(); 
 
+                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
+
+                if (_reset)
+                {
+                    GameManager.Instance.networkPlayers[_playerId].ResetFowRaduis();
+                }
+                else
+                {
+                    GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float) _size / 100);
+                }
+            }
+        }
+    }
 }

@@ -389,7 +389,7 @@ namespace DarkRift.Client.Unity
             if (invokeFromDispatcher)
             {
                 if (sniffData)
-                    Debug.Log("Message Received");      //TODO more information!
+                    Debug.Log("Message Received " + e.Tag);      //TODO more information!
 
                 // DarkRift will recycle the message inside the event args when this method exits so make a copy now that we control the lifecycle of!
                 Message message = e.GetMessage();

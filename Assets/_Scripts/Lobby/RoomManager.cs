@@ -42,8 +42,12 @@ public class RoomManager : MonoBehaviour
         client.MessageReceived += MessageReceived;
     }
 
+
+
     private void Start()
     {
+        NetworkManager.Instance.OnPlayerQuit += OnPlayerQuitGame;
+
         assignedSpawn.Add(Team.red, 0);
         assignedSpawn.Add(Team.blue, 0);
     }
@@ -51,12 +55,17 @@ public class RoomManager : MonoBehaviour
     private void OnDisable()
     {
         client.MessageReceived -= MessageReceived;
+        NetworkManager.Instance.OnPlayerQuit -= OnPlayerQuitGame;
     }
 
     private void MessageReceived(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
         {
+            if (message.Tag == Tags.SwapHostRoom)
+            {
+                SwapHost(sender, e);
+            }
             if (message.Tag == Tags.LobbyStartGame)
             {
                 StartChampSelectInServer();
@@ -76,6 +85,10 @@ public class RoomManager : MonoBehaviour
             if (message.Tag == Tags.SetInGameUniqueID)
             {
                 SetInGameUniqueIDInServer(sender, e);
+            }            
+            if (message.Tag == Tags.QuitRoom)
+            {
+                QuitGameInServer();
             }
         }
     }
@@ -163,14 +176,38 @@ public class RoomManager : MonoBehaviour
             }
         }
     }
+    private void SwapHost(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort playerID = reader.ReadUInt16();
+
+                PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
+
+                if (LobbyManager.Instance != null)
+                {
+                    LobbyManager.Instance.roomPanelControl.SetHost(player, true);
+                }
+
+                if (NetworkManager.Instance.GetLocalPlayer().ID == player.ID)
+                {
+                    NetworkManager.Instance.GetLocalPlayer().IsHost = true;
+                    NetworkManager.Instance.GetLocalPlayer().IsHost = true;
+                }
+            }
+        }
+
+    }
 
     public void UpdatePointDisplay()
     {
         if (UiManager.Instance != null)
         {
-            UiManager.Instance.allyScore.text = actualRoom.scores[GetLocalPlayer().playerTeam].ToString();
+            UiManager.Instance.allyScore.text = actualRoom.scores[NetworkManager.Instance.GetLocalPlayer().playerTeam].ToString();
 
-            switch (GetLocalPlayer().playerTeam)
+            switch (NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
                 case Team.red:
                     UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
@@ -206,7 +243,7 @@ public class RoomManager : MonoBehaviour
 
     public ushort GetLocalPlayerUniqueID()
     {
-        return InGameUniqueIDList[GetLocalPlayer().ID];
+        return InGameUniqueIDList[NetworkManager.Instance.GetLocalPlayer().ID];
     }
 
     public void ResetActualGame()
@@ -215,6 +252,11 @@ public class RoomManager : MonoBehaviour
         actualRoom.scores[Team.blue] = 0;
 
         roundCount = 0;
+
+        foreach (PlayerData p in actualRoom.playerList.Values)
+        {
+            p.playerCharacter = Character.none;
+        }
     }
 
     public void ResetPlayersReadyStates()
@@ -224,14 +266,38 @@ public class RoomManager : MonoBehaviour
             p.Value.IsReady = false;
         }
     }
-    public PlayerData GetLocalPlayer()
-    {
-        return actualRoom.playerList[client.ID];
-    }
 
     public PlayerData GetPlayerData(ushort id)
     {
         return actualRoom.playerList[id];
     }
 
+    private void OnPlayerQuitGame(PlayerData obj)
+    {
+        InGameUniqueIDList.Remove(obj.ID);
+        actualRoom.playerList.Remove(obj.ID);
+    }
+
+    public void QuitGame()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(RoomManager.Instance.actualRoom.ID);
+
+            using (Message message = Message.Create(Tags.QuitRoom, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+
+    public void QuitGameInServer()
+    {
+        if (SceneManager.GetActiveScene().name == menuScene)
+        {
+            return;
+        }
+        NetworkManager.Instance.GetLocalPlayer().ResetGameData();
+        SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
+        ResetActualGame();
+    }
 }

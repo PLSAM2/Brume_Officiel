@@ -11,16 +11,29 @@ public class VisionTower : Interactible
     public SpriteRenderer towerBody;
     public Sprite capturableState, lockedState;
 
+    [SerializeField] AudioClip capturedTowerSfx;
+
     void Start()
     {
         base.Init();
         towerBody.sprite = lockedState;
     }
 
+    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
+    {
+        if (capturingTeam == team)
+        {
+            return;
+        }
+
+        base.TryCapture(team, capturingPlayer);
+    }
     public override void Captured(GameData.Team team)
     {
         base.Captured(team);
         towerBody.sprite = lockedState;
+
+        AudioManager.Instance.Play2DAudio(capturedTowerSfx);
     }
 
     public override void Unlock()
@@ -33,7 +46,7 @@ public class VisionTower : Interactible
     {
         base.UpdateCaptured(team);
 
-        if (team == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (team == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             vision.gameObject.SetActive(true);
             vision.Init();

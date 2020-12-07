@@ -150,20 +150,24 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         _tempObject.transform.position = position;
         _tempObject.transform.rotation = Quaternion.Euler(eulerAngles);
         NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
-        networkedObject.Init(uniqueObjId, RoomManager.Instance.GetLocalPlayer(), networkedObjectID);
+        networkedObject.Init(uniqueObjId, NetworkManager.Instance.GetLocalPlayer(), networkedObjectID);
         NetworkedObjectAdded(uniqueObjId, networkedObject);
         _tempObject.SetActive(true);
 
 
-        if (_tempObject.GetComponent<Projectile>() != null)
+        if (_tempObject.GetComponent<AutoKill>() != null)
+        {
+            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam);
+        }/*
+      else  if (_tempObject.GetComponent<aoe>() != null)
         {
             _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetLocalPlayer().playerTeam);
-        }
+        }*/
 
         // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            writer.Write(RoomManager.Instance.GetLocalPlayer().ID);
+            writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
             writer.Write(networkedObjectID);
             writer.Write(uniqueObjId);
 
@@ -206,7 +210,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _ObjectRotation.z = reader.ReadSingle();
             }
         }
-
         GameObject _tempObject = GetFirstDisabledObject(_objectID);
         _tempObject.transform.position = _ObjectPos;
         _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);
@@ -219,6 +222,9 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         {
             _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
         }
+        else if (_tempObject.GetComponent<Aoe>() != null)
+            _tempObject.GetComponent<Aoe>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
+
     }
 
     public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)
@@ -252,9 +258,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
                 if (_synchroniseRotation)
                 {
-                    _newObjectRotation.x = reader.ReadSingle();
                     _newObjectRotation.y = reader.ReadSingle();
-                    _newObjectRotation.z = reader.ReadSingle();
                 }
             }
         }
@@ -314,7 +318,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     /// </summary>
     /// <param name="obj"> </param>
     /// <returns></returns>
-    private ushort GetPoolID(GameObject obj)
+    public ushort GetPoolID(GameObject obj)
     {
         foreach (KeyGameObjectPair pair in networkedObjectsList.networkObjects)
         {

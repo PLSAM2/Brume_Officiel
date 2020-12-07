@@ -79,6 +79,7 @@ public class MovementModule : MonoBehaviour
             currentForcedMovement.myModule = myPlayerModule;
             collider = GetComponent<CapsuleCollider>();
         }
+        rotLocked = false;
     }
 
     void OnDisable()
@@ -140,11 +141,11 @@ public class MovementModule : MonoBehaviour
         {
             chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
 
-            myPlayerModule.onSendMovement(_directionInputed);
+            myPlayerModule.onSendMovement?.Invoke(_directionInputed);
         }
         else
         {
-            myPlayerModule.onSendMovement(Vector3.zero);
+            myPlayerModule.onSendMovement?.Invoke(Vector3.zero);
         }
     }
 
@@ -303,12 +304,12 @@ public class MovementModule : MonoBehaviour
         {
             if ((_liveEffect.effect.stateApplied & En_CharacterState.Slowed) != 0)
             {
-                if (_liveEffect.effect.percentageOfTheMovementModifier > _worstMalus)
-                    _worstMalus = _liveEffect.effect.percentageOfTheMovementModifier;
+                if (_liveEffect.effect.percentageOfTheMovementModifier * _liveEffect.effect.decayOfTheModifier.Evaluate(_liveEffect.liveLifeTime / _liveEffect.baseLifeTime) > _worstMalus)
+                    _worstMalus = _liveEffect.effect.percentageOfTheMovementModifier * _liveEffect.effect.decayOfTheModifier.Evaluate(_liveEffect.liveLifeTime / _liveEffect.baseLifeTime);
             }
             else if ((_liveEffect.effect.stateApplied & En_CharacterState.SpedUp) != 0)
             {
-                _allBonuses += _liveEffect.effect.percentageOfTheMovementModifier;
+                _allBonuses += _liveEffect.effect.percentageOfTheMovementModifier * _liveEffect.effect.decayOfTheModifier.Evaluate(_liveEffect.liveLifeTime / _liveEffect.baseLifeTime);
             }
         }
         /*float defspeed = parameters.movementSpeed + parameters.accelerationCurve.Evaluate(timeSpentRunning/ parameters.accelerationTime) * parameters.bonusRunningSpeed;*/

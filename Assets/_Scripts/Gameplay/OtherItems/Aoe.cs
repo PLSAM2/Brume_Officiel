@@ -5,38 +5,40 @@ using Sirenix.OdinInspector;
 
 public class Aoe : AutoKill
 {
-	[SerializeField] Sc_Spit localTrad;
+	[TabGroup("AoeParameters")] public Sc_Aoe localTrad;
+
+	protected override void Awake ()
+	{
+		mylifeTime = localTrad.rules.durationOfTheAoe;
+	}
 
 	protected override void OnEnable ()
 	{
-
 		base.OnEnable();
 
-		mylifeTime = localTrad.durationOfTheAoe;
-
-
 		if (myNetworkObject.GetIsOwner())
-			DealDamagesInRange(localTrad.damagesToDealOnImpact);
+			DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
 	}
 
 	IEnumerator CustomUpdate ()
 	{
 		yield return new WaitForSeconds(.2f);
-		DealDamagesInRange(localTrad.damagesToDealOnDuration);
+		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
 	void DealDamagesInRange (DamagesInfos _damages)
 	{
-		Collider[] _allhits = Physics.OverlapSphere(transform.position, localTrad.aoeRadius, 1 << 8);
+		Collider[] _allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, 1 << 8);
 		List<GameObject> _allChecked = new List<GameObject>();
 
 		foreach(Collider _coll in _allhits)
 		{
 			LocalPlayer player = _coll.GetComponent<LocalPlayer>();
 
-			if (player.myPlayerModule.teamIndex != GameManager.Instance.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll.gameObject))
+			if (player.myPlayerModule.teamIndex != GameFactory.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll.gameObject))
 			{
 				_allChecked.Add(_coll.gameObject);
+
 				player.DealDamages(_damages, transform.position);
 			}
 		}
@@ -46,7 +48,7 @@ public class Aoe : AutoKill
 
 	private void OnDrawGizmosSelected ()
 	{
-		Gizmos.DrawSphere(transform.position, localTrad.aoeRadius);
+		Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
 	protected override void Destroy ()

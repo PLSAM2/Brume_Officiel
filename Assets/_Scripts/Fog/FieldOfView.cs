@@ -16,7 +16,13 @@ public class FieldOfView : MonoBehaviour
 	public List<Transform> visibleTargets = new List<Transform>();
 	List<Transform> oldVisibleTargets = new List<Transform>();
 
-	public float meshResolution;
+    public List<Transform> visibleFx = new List<Transform>();
+    List<Transform> oldVisibleFx = new List<Transform>();
+
+    public Dictionary<Transform, ushort> visibleInteractible = new Dictionary<Transform, ushort>();
+    List<ushort> oldVisibleInteractible = new List<ushort>();
+
+    public float meshResolution;
 	public int edgeResolveIterations;
 	public float edgeDstThreshold;
 
@@ -73,6 +79,8 @@ public class FieldOfView : MonoBehaviour
 	void FixedUpdate ()
 	{
         SetListVisibleEnemy();
+        SetListVisibleFx();
+        SetListVisibleInteractible();
 
         if (isStatic) { return; }
 
@@ -81,7 +89,53 @@ public class FieldOfView : MonoBehaviour
 		//FogProjector.Instance.UpdateFog();
 	}
 
-	void SetListVisibleEnemy ()
+    void SetListVisibleInteractible()
+    {
+        foreach (KeyValuePair<Transform, ushort> interact in visibleInteractible)
+        {
+            if (!GameManager.Instance.allVisibleInteractible.Contains(interact.Value))
+            {
+                GameManager.Instance.allVisibleInteractible.Add(interact.Value);
+                GameManager.Instance.OnInteractibleViewChange?.Invoke(interact.Value, true);
+            }
+        }
+
+        foreach (ushort interact in oldVisibleInteractible)
+        {
+            if (!visibleInteractible.ContainsValue(interact))
+            {
+                GameManager.Instance.allVisibleInteractible.Remove(interact);
+                GameManager.Instance.OnInteractibleViewChange?.Invoke(interact, false);
+            }
+        }
+
+        oldVisibleInteractible.Clear();
+        oldVisibleInteractible.AddRange(visibleInteractible.Values);
+    }
+
+    void SetListVisibleFx()
+    {
+        foreach (Transform fx in visibleFx)
+        {
+            if (!GameManager.Instance.allVisibleFx.Contains(fx))
+            {
+                GameManager.Instance.allVisibleFx.Add(fx);
+            }
+        }
+
+        foreach (Transform fx in oldVisibleFx)
+        {
+            if (!visibleFx.Contains(fx))
+            {
+                GameManager.Instance.allVisibleFx.Remove(fx);
+            }
+        }
+
+        oldVisibleFx.Clear();
+        oldVisibleFx.AddRange(visibleFx);
+    }
+
+    void SetListVisibleEnemy ()
 	{
 		foreach (Transform enemy in visibleTargets)
 		{
@@ -113,34 +167,49 @@ public class FieldOfView : MonoBehaviour
 		oldVisibleTargets.AddRange(visibleTargets);
 	}
 
-	void FindVisibleTargets ()
-	{
-		visibleTargets.Clear();
-		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius);
+    void FindVisibleTargets()
+    {
+        visibleTargets.Clear();
+        visibleFx.Clear();
+        visibleInteractible.Clear();
 
-		for (int i = 0; i < targetsInViewRadius.Length; i++)
-		{
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius);
 
-			if (targetsInViewRadius[i].tag != "Hide") { continue; }
-
-			Transform target = targetsInViewRadius[i].transform;
-
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
-
-			float dstToTarget = Vector3.Distance(transform.position, target.position);
-			if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
-			{
-				visibleTargets.Add(target);
-			}
-		}
-
-		/*
-		foreach(KeyValuePair<ushort, LocalPlayer> p in GameManager.Instance.networkPlayers)
+        for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
+            if (targetsInViewRadius[i].tag != "Hide" && targetsInViewRadius[i].tag != "Interactible") { continue; }
 
+            Transform target = targetsInViewRadius[i].transform;
+
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+            float dstToTarget = Vector3.Distance(transform.position, target.position);
+            if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+            {
+                switch (targetsInViewRadius[i].tag)
+                {
+                    case "Hide":
+                        if (target.gameObject.layer == 11)
+                        {
+                            if (visibleFx.Contains(target)) { continue; }
+                            visibleFx.Add(target);
+                        }
+                        else
+                        {
+                            if (visibleTargets.Contains(target)) { continue; }
+                            visibleTargets.Add(target);
+                        }
+                        break;
+
+                    case "Interactible":
+                        if (visibleInteractible.ContainsKey(target)) { continue; }
+                        visibleInteractible.Add(target, target.GetComponent<Interactible>().interactibleID);
+                        break;
+
+                }
+            }
         }
-		*/
-	}
+    }
 
 	public void DrawFieldOfView ()
 	{

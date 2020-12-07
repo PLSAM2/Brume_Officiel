@@ -6,22 +6,27 @@ using static GameData;
 
 public class Projectile : AutoKill
 {
-	bool  asDeal = false;
-	
+	bool asDeal = false;
+
 	[Header("FeedBackOnHit")]
-	[SerializeField] GameObject feedBackTouch;
-	[SerializeField] AudioClip _mySfxAudio;
-	[SerializeField] bool soundFollowObj = false;
+	[TabGroup("ProjectileParameters")] [SerializeField] GameObject feedBackTouch;
+	[TabGroup("ProjectileParameters")] [SerializeField] AudioClip _mySfxAudio;
+	[TabGroup("ProjectileParameters")] [SerializeField] bool soundFollowObj = false;
 
 	[Header("SpellLinked")]
-	[SerializeField] Sc_ProjectileSpell localTrad;
-	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange ;
+	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
+	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
 
-	public override void Init(Team ownerTeam)
+	[TabGroup("ProjectileParameters")] [SerializeField] bool doImpactFx = true;
+	Vector3 startPos;
+
+	[HideInInspector] public bool hasTouched = false;
+
+	public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
 
-		asDeal = true;
+		startPos = transform.position;
 
 		if (!isOwner)
 		{
@@ -30,15 +35,16 @@ public class Projectile : AutoKill
 		else
 			asDeal = false;
 
+		hasTouched = false;
 
 		if (_mySfxAudio != null)
 		{
-            if (soundFollowObj)
-            {
+			if (soundFollowObj)
+			{
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
 			}
-            else
-            {
+			else
+			{
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position);
 			}
 		}
@@ -47,21 +53,23 @@ public class Projectile : AutoKill
 	protected override void OnEnable ()
 	{
 		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
-		base.OnEnable(); 
+		base.OnEnable();
 	}
 
 	private void OnTriggerEnter ( Collider Collider )
 	{
 		PlayerModule playerHit = Collider.gameObject.GetComponent<PlayerModule>();
-
 		if (playerHit != null)
 		{
-
 			if (playerHit.teamIndex != myteam)
 			{
+				hasTouched = true;
+
 				if (!asDeal)
 				{
-					playerHit.mylocalPlayer.DealDamages(localTrad.damagesToDeal, GameManager.Instance.currentLocalPlayer.transform.position, GetComponent<NetworkedObject>().GetOwner());
+					DamagesInfos _temp = new DamagesInfos();
+					_temp = localTrad.damagesToDeal;
+					playerHit.mylocalPlayer.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 
 				Destroy();
@@ -76,6 +84,7 @@ public class Projectile : AutoKill
 		}
 		else
 		{
+			hasTouched = true; 
 			Destroy();
 		}
 
@@ -89,14 +98,25 @@ public class Projectile : AutoKill
 
 	protected override void Destroy ()
 	{
-		asDeal = true;
+		if (hasTouched && doImpactFx)
+		{
+			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
+			Transform player = GameFactory.GetActualPlayerFollow().transform;
+
+			if (player != null && Vector3.Distance(player.position, transform.position) < 7)
+			{
+				CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+			}
+		}
+
+		asDeal = true;
 		base.Destroy();
 	}
 }
 
 [System.Serializable]
-public class ProjectileInfos 
+public class ProjectileInfos
 {
 	public DamagesInfos myDamages;
 	[HideInInspector] public float mySpeed;

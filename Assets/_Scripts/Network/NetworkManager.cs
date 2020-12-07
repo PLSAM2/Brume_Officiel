@@ -8,11 +8,13 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
-
    [SerializeField] UnityClient client;
 
     private static NetworkManager _instance;
     public static NetworkManager Instance { get { return _instance; } }
+
+    private PlayerData localPlayer;
+    public Action<PlayerData> OnPlayerQuit; // Devrait surement etre dans RoomManager
 
     private void Awake()
     {
@@ -27,23 +29,41 @@ public class NetworkManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
+        InitLocalPlayer();
+
+
         client.MessageReceived += OnMessageReceive;
     }
+
 
     private void OnDisable()
     {
         client.MessageReceived -= OnMessageReceive;
     }
-
+    private void InitLocalPlayer()
+    {
+        localPlayer = new PlayerData();
+    }
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
     {
-        // ON MESSAGE RECEIVE
+        using (Message message = e.GetMessage() as Message)
+        {
+            if (message.Tag == Tags.PlayerConnected)
+            {
+                using (DarkRiftReader reader = message.GetReader())
+                {
+                    PlayerData _localPlayer = reader.ReadSerializable<PlayerData>();
+                    localPlayer = _localPlayer;
+                }
+            }
+            if (message.Tag == Tags.PlayerQuitRoom)
+            {
+                PlayerQuitRoom(sender, e);
+            }
+
+        }
     }
 
-    private void FixedUpdate()
-    {
-        Ping();
-    }
     private void Ping()
     {
         if (client.ConnectionState != ConnectionState.Connected)
@@ -57,8 +77,38 @@ public class NetworkManager : MonoBehaviour
             {
                 message.MakePingMessage();
                 client.SendMessage(message, SendMode.Reliable);
+                NetworkManager.Instance.GetLocalPlayer();
+
             }
         }
     }
+
+    public PlayerData GetLocalPlayer()
+    {
+        return localPlayer;
+    }
+
+    public void SetLocalPlayer(PlayerData player)
+    {
+        localPlayer = player;
+    }
+    public UnityClient GetLocalClient()
+    {
+        return client;
+    }
+    private void PlayerQuitRoom(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                print("here");
+                PlayerData disconnectedPlayerInfo;
+                disconnectedPlayerInfo = reader.ReadSerializable<PlayerData>();
+                OnPlayerQuit?.Invoke(disconnectedPlayerInfo);
+            }
+        }
+    }
+
 
 }

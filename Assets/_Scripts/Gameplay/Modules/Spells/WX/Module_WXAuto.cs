@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class Module_WXAuto : SpellModule
 {
-    public DamagesInfos damages;
     private ArrowPreview arrowPreview;
     [SerializeField] private float rayWidthDivider = 10;
     [SerializeField] private int raycastCount = 3;
-    [SerializeField] private LayerMask hitLayer;
+    Sc_RayAttack localTrad;
 
     private void Start()
     {
         arrowPreview = PreviewManager.Instance.GetArrowPreview();
-        HidePreview();
+        HidePreview(Vector3.zero);
+        localTrad = (Sc_RayAttack)spell;
+    }
+
+    protected override void AnonceSpell(Vector3 _toAnnounce)
+    {
+        base.AnonceSpell(_toAnnounce);
+
+        LocalPoolManager.Instance.SpawnNewGenericInNetwork(2, transform.position + Vector3.up * 0.1f, transform.eulerAngles.y, spell.range, spell.anonciationTime + 1);
     }
 
     protected override void ShowPreview(Vector3 mousePos)
@@ -29,13 +36,13 @@ public class Module_WXAuto : SpellModule
 
     protected override void StartCanalysing(Vector3 _BaseMousePos)
     {
-        HidePreview();
+        HidePreview(Vector3.zero);
         base.StartCanalysing(_BaseMousePos);
     }
 
-    protected override void HidePreview()
+    protected override void HidePreview( Vector3 _posToHide )
     {
-        base.HidePreview();
+        base.HidePreview(_posToHide);
         arrowPreview.gameObject.SetActive(false);
     }
 
@@ -51,15 +58,17 @@ public class Module_WXAuto : SpellModule
         arrowPreview.Init(this.transform.position, this.transform.position + (normDirection * spell.range));
     }
 
-    protected override void ResolveSpell(Vector3 _mousePosition)
+    protected override void Resolution()
     {
-        base.ResolveSpell(_mousePosition);
+        base.Resolution();
 
         LocalPlayer _hitPlayer = ShootAndGetFirstHit();
 
+        LocalPoolManager.Instance.SpawnNewGenericInNetwork(3, transform.position + Vector3.up * 0.1f, transform.eulerAngles.y, spell.range, 1);
+
         if (_hitPlayer != null)
         {
-            _hitPlayer.DealDamages(damages, this.transform.position);
+            _hitPlayer.DealDamages(localTrad.damagesToDeal, this.transform.position);
         }
     }
 
@@ -75,7 +84,8 @@ public class Module_WXAuto : SpellModule
         for (int i = 0; i < raycastCount; i++)
         {
             Ray _ray = new Ray(transform.position + Vector3.up + (_width * i), _direction);
-            RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, hitLayer);
+
+            RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, 1 << 8);
 
             if (_allhits.Length > 0)
             {
@@ -84,7 +94,7 @@ public class Module_WXAuto : SpellModule
                     LocalPlayer hitP = hit.collider.GetComponent<LocalPlayer>();
                     if (hitP != null)
                     {
-                        if (RoomManager.Instance.GetLocalPlayer().playerTeam != hitP.myPlayerModule.teamIndex)
+                        if (NetworkManager.Instance.GetLocalPlayer().playerTeam != hitP.myPlayerModule.teamIndex)
                         {
                             _temp.Add(hitP);
                         }

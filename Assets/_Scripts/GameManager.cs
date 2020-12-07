@@ -48,6 +48,15 @@ public class GameManager : SerializedMonoBehaviour
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
 
+    public List<Ghost> allGhost = new List<Ghost>();
+
+    public List<BrumeScript> allBrume = new List<BrumeScript>();
+
+    public List<Fx> allFx = new List<Fx>();
+    public List<Transform> allVisibleFx = new List<Transform>();
+
+    public List<ushort> allVisibleInteractible = new List<ushort>();
+
     private bool stopInit = false;
     public bool gameStarted = false;
 
@@ -58,10 +67,12 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, bool> OnPlayerAtViewChange;
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
-    public Action<ushort> OnPlayerDisconnect;
+    public Action<ushort> OnPlayerSpawn;
 
     public Action<Ward> OnWardTeamSpawn;
     public Action<VisionTower> OnTowerTeamCaptured;
+
+    public Action<ushort, bool> OnInteractibleViewChange;
 
     private void Awake()
     {
@@ -76,11 +87,19 @@ public class GameManager : SerializedMonoBehaviour
 
         client = RoomManager.Instance.client;
         client.MessageReceived += OnMessageReceive;
+        NetworkManager.Instance.OnPlayerQuit += PlayerQuitGame;
+    }
+
+    private void OnEnable()
+    {
+        OnPlayerGetDamage += OnPlayerTakeDamage;
     }
 
     private void OnDisable()
     {
         client.MessageReceived -= OnMessageReceive;
+        OnPlayerGetDamage -= OnPlayerTakeDamage;
+        NetworkManager.Instance.OnPlayerQuit -= PlayerQuitGame;
     }
 
     private void Start()
@@ -130,10 +149,6 @@ public class GameManager : SerializedMonoBehaviour
             {
                 AllPlayerJoinGameScene();
             }
-            if (message.Tag == Tags.PlayerQuitRoom)
-            {
-                PlayerQuitGame(_sender, _e);
-            }
         }
     }
 
@@ -142,18 +157,14 @@ public class GameManager : SerializedMonoBehaviour
         return spawns[RoomManager.Instance.assignedSpawn[team]];
     }
 
-    private void PlayerQuitGame(object sender, MessageReceivedEventArgs e)
+    private void PlayerQuitGame(PlayerData Obj)
     {
-        using (Message message = e.GetMessage() as Message)
+        if (NetworkManager.Instance.GetLocalPlayer().ID != Obj.ID)
         {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                PlayerData player = reader.ReadSerializable<PlayerData>();
-                UiManager.Instance.DisplayGeneralMessage("Player " + player.Name + " quit");
-
-                OnPlayerDisconnect?.Invoke(player.ID);
-            }
+            UiManager.Instance.DisplayGeneralMessage("Player " + Obj.Name + " quit");
         }
+
+        networkPlayers.Remove(Obj.ID);
     }
 
     private void AllPlayerJoinGameScene()
@@ -190,37 +201,21 @@ public class GameManager : SerializedMonoBehaviour
         timeStart = true;
     }
 
-    public LocalPlayer GetFirstPlayerOfOtherTeam()
+    void OnPlayerTakeDamage(ushort idPlayer, ushort _damage)
     {
-        ushort? _id = RoomManager.Instance.actualRoom.playerList.Where
-            (x => x.Value.playerTeam == GameFactory.GetOtherTeam(RoomManager.Instance.GetLocalPlayer().playerTeam))
-            .FirstOrDefault().Key;
-
-        if (_id != null)
+        if (GameFactory.CheckIfPlayerIsInView(idPlayer))
         {
-            return networkPlayers[(ushort)_id];
+            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f, _damage.ToString(), Color.red, 0.5f);
         }
-        else
-        {
-            return null;
-        }
-
     }
 
-    public LocalPlayer GetLocalPlayerObj()
+    public void QuitGame()
     {
-        return networkPlayers[RoomManager.Instance.GetLocalPlayer().ID];
-    }
-
-    public LocalPlayer GetLocalPlayerChamp(Character _champ, Team _team)
-    {
-        foreach(KeyValuePair<ushort, LocalPlayer> p in networkPlayers)
+        if (GameFactory.GetLocalPlayerObj() != null)
         {
-            if(RoomManager.Instance.GetPlayerData(p.Key).playerCharacter == _champ && RoomManager.Instance.GetPlayerData(p.Key).playerTeam == _team)
-            {
-                return p.Value;
-            }
+            GameFactory.GetLocalPlayerObj().gameObject.SetActive(false);
         }
-        return null;
+
+        RoomManager.Instance.QuitGame();
     }
 }

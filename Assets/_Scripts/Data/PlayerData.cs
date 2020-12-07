@@ -18,7 +18,19 @@ public class PlayerData : IDarkRiftSerializable
 
     public PlayerData()
     {
+        this.ID = 0;
+        this.IsHost = false;
+        this.Name = "NULL";
+        this.playerTeam = Team.none;
+    }
 
+    public void ResetGameData()
+    {
+        playerCharacter = Character.none;
+        playerTeam = Team.none;
+        IsReady = false;
+        IsHost = false;
+        InGameUniqueID = 0;
     }
 
     public PlayerData(ushort ID, bool isHost, string name, Team team = Team.none)

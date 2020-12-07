@@ -19,7 +19,7 @@ public class SpecMode : MonoBehaviour
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
         GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
 
-        GameManager.Instance.OnPlayerDisconnect += OnPlayerDeconnect;
+        NetworkManager.Instance.OnPlayerQuit += OnPlayerDeconnect;
     }
 
     private void OnDisable()
@@ -27,35 +27,37 @@ public class SpecMode : MonoBehaviour
         GameManager.Instance.OnPlayerDie -= OnPlayerDie;
         GameManager.Instance.OnPlayerRespawn -= OnPlayerRespawn;
 
-        GameManager.Instance.OnPlayerDisconnect -= OnPlayerDeconnect;
+        NetworkManager.Instance.OnPlayerQuit -= OnPlayerDeconnect;
     }
 
-    void OnPlayerDeconnect (ushort playerId)
+    void OnPlayerDeconnect (PlayerData player)
     {
-        if (RoomManager.Instance.GetPlayerData(playerId).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam && isSpec)
-        {
-            RefreshList();
+        //if (RoomManager.Instance.GetPlayerData(player.ID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam && isSpec)
+        //{
+        //    RefreshList();
 
-            if (playerSpected == playerId)
-            {
-                TryToSpec();
-            }
-        }
+        //    if (playerSpected == player.ID)
+        //    {
+        //        TryToSpec();
+        //    }
+        //}
     }
 
     void OnPlayerDie(ushort playerId, ushort killerId)
     {
-        if (playerId == RoomManager.Instance.GetLocalPlayer().ID)
+        if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             isSpec = true;
             CameraManager.Instance.isSpectate = true;
+
+            UiManager.Instance.SetAlphaBrume(0);
 
             RefreshList();
             TryToSpec();
             return;
         }
 
-        if(RoomManager.Instance.GetPlayerData(playerId).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam && isSpec)
+        if(RoomManager.Instance.GetPlayerData(playerId).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam && isSpec)
         {
             RefreshList();
             ChangeSpecPlayer(playerSpected);
@@ -64,7 +66,7 @@ public class SpecMode : MonoBehaviour
 
     void OnPlayerRespawn(ushort playerId)
     {
-        if (playerId == RoomManager.Instance.GetLocalPlayer().ID)
+        if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             isSpec = false;
             CameraManager.Instance.ResetPlayerFollow();
@@ -72,7 +74,7 @@ public class SpecMode : MonoBehaviour
             return;
         }
 
-        if (RoomManager.Instance.GetPlayerData(playerId).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam && isSpec)
+        if (RoomManager.Instance.GetPlayerData(playerId).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam && isSpec)
         {
             RefreshList();
             
@@ -103,7 +105,7 @@ public class SpecMode : MonoBehaviour
         {
             if (player.Value == GameManager.Instance.currentLocalPlayer) { continue; }
 
-            if (RoomManager.Instance.GetPlayerData(player.Key).playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam) {
+            if (RoomManager.Instance.GetPlayerData(player.Key).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam) {
 
                 SpecPlayerElement specElement = Instantiate(prefabPlayer, parentList).GetComponent<SpecPlayerElement>();
                 specElement.Init(player.Key, this);

@@ -6,31 +6,45 @@ using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-    [HideInInspector] public float mylifeTime;
-    [HideInInspector] public float myLivelifeTime;
-    [Header("HideAtTheEndOfLife")]
-    [SerializeField] GameObject mesh;
+    [TabGroup("AutokillParameters")] [HideInInspector] public float mylifeTime;
+    [TabGroup("AutokillParameters")] [HideInInspector] public float myLivelifeTime;
+    [TabGroup("AutokillParameters")] [SerializeField] GameObject meshBlue;
+    [TabGroup("AutokillParameters")] [SerializeField] GameObject meshRed;
+
     [HideInInspector] public Team myteam;
     [HideInInspector] public NetworkedObject myNetworkObject;
     [HideInInspector] public bool isOwner = false;
 
+	protected virtual void Awake ()
+	{
+        myNetworkObject = GetComponent<NetworkedObject>();
+    }
+
     public virtual void Init ( Team ownerTeam )
     {
         myteam = ownerTeam;
-        isOwner = GetComponent<NetworkedObject>().GetIsOwner();
+        isOwner = myNetworkObject.GetIsOwner();
+        switch (myteam)
+        {
+            case Team.red:
+                meshRed.SetActive(true);
+                break;
+
+            case Team.blue:
+                meshBlue.SetActive(true);
+                break;
+        }
     }
 
     protected virtual void OnEnable ()
     {
         myLivelifeTime = mylifeTime;
-
-        mesh.SetActive(true);
-        myNetworkObject = GetComponent<NetworkedObject>();
     }
 
     protected virtual void Destroy ()
     {
-        mesh.SetActive(false);
+        meshBlue.SetActive(false);
+        meshRed.SetActive(false);
 
         if (this.GetComponent<NetworkedObject>().GetIsOwner())
         {

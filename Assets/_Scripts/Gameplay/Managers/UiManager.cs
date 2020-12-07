@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 using Sirenix.OdinInspector;
+using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI round;
+    [FoldoutGroup("GlobalUi")] public GameObject echapMenu;
 
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
@@ -35,7 +37,7 @@ public class UiManager : MonoBehaviour
     [Header("GamePlayPart")]
 	[Header("Status Icon")]
     [FoldoutGroup("StatusIcon")] public Image slowIcon;
-    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon, rootIcon;
+    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon, rootIcon, hiddenIcon;
 
     [Header("Spell Icons")]
     [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
@@ -43,8 +45,8 @@ public class UiManager : MonoBehaviour
 
     [Header("Minimap")]
     [FoldoutGroup("Minimap")] public Image enemyYang, enemyShili, enemyYin;
-    [FoldoutGroup("Minimap")] public Color inViewColor, outViewColor, killedColor;
-    [FoldoutGroup("Minimap")] public Sprite champIcon, champKilledIcon;
+    [FoldoutGroup("Minimap")] public Color inViewColor, outViewColor, killedColor, teamInLiveColor;
+    [FoldoutGroup("Minimap")] public Sprite yinIcon, yangIcon, champKilledIcon;
 
     [Header("Team Info")]
     [FoldoutGroup("TeamInfo")] public Image teamYang, teamShili, teamYin;
@@ -65,9 +67,13 @@ public class UiManager : MonoBehaviour
         }
 
         //disable de base
-        GameFactory.ChangeIconMinimap(enemyShili, null, killedColor);
-        GameFactory.ChangeIconMinimap(enemyYang, champKilledIcon, killedColor);
-        GameFactory.ChangeIconMinimap(enemyYin, champKilledIcon, killedColor);
+        GameFactory.ChangeIconInGame(teamShili, null, killedColor);
+        GameFactory.ChangeIconInGame(teamYang, champKilledIcon, killedColor);
+        GameFactory.ChangeIconInGame(teamYin, champKilledIcon, killedColor);
+
+        GameFactory.ChangeIconInGame(enemyShili, null, killedColor);
+        GameFactory.ChangeIconInGame(enemyYang, champKilledIcon, killedColor);
+        GameFactory.ChangeIconInGame(enemyYin, champKilledIcon, killedColor);
 
         lifeShili.fillAmount = 0;
 
@@ -83,7 +89,7 @@ public class UiManager : MonoBehaviour
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
         GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
         GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
-        GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
+        GameManager.Instance.OnPlayerSpawn += OnPlayerSpawn;
     }
 
     private void OnDisable()
@@ -91,13 +97,13 @@ public class UiManager : MonoBehaviour
         GameManager.Instance.OnPlayerDie -= OnPlayerDie;
         GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
         GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
-        GameManager.Instance.OnPlayerRespawn -= OnPlayerRespawn;
+        GameManager.Instance.OnPlayerSpawn -= OnPlayerSpawn;
     }
 
     private void Start()
     {
         // A changer >>
-        Team team = RoomManager.Instance.GetLocalPlayer().playerTeam;
+        Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
 
         if (team == Team.blue)
         {
@@ -114,29 +120,43 @@ public class UiManager : MonoBehaviour
         // <<
     }
 
-    void OnPlayerRespawn(ushort id)
+    void OnPlayerSpawn(ushort id)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            GetImageOfTeamChamp(id).sprite = champIcon;
             GetLifeImageOfTeamChamp(id).fillAmount = 1;
+            GameFactory.ChangeIconInGame(GetImageOfChamp(id), GetIcon(RoomManager.Instance.actualRoom.playerList[id].playerCharacter, true), teamInLiveColor);
         }
         else
         {
-            Sprite currentSprite = champIcon;
-
-            if (RoomManager.Instance.actualRoom.playerList[id].playerCharacter == Character.Shili)
-            {
-                currentSprite = null;
-            }
-
-            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, outViewColor);
+            GameFactory.ChangeIconInGame(GetImageOfChamp(id), GetIcon(RoomManager.Instance.actualRoom.playerList[id].playerCharacter, true), outViewColor);
         }
+    }
+
+    Sprite GetIcon(Character _myChamp, bool _isAlive)
+    {
+        if (_isAlive)
+        {
+            switch (_myChamp)
+            {
+                case Character.Yang:
+                    return yangIcon;
+
+                case Character.Yin:
+                    return yinIcon;
+            }
+        }
+        else
+        {
+            return champKilledIcon;
+        }
+
+        return null;
     }
 
     void OnPlayerTakeDamage(ushort id, ushort damage)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             GetLifeImageOfTeamChamp(id).fillAmount = (float) GameManager.Instance.networkPlayers[id].liveHealth 
                 / GameFactory.GetMaxLifeOfPlayer(id);
@@ -153,52 +173,42 @@ public class UiManager : MonoBehaviour
 
         }
 
-        //Kill feed a faire
-
 
         //UI Minimap info
-        if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            GetImageOfTeamChamp(idKilled).sprite = champKilledIcon;
             GetLifeImageOfTeamChamp(idKilled).fillAmount = 0;
         }
-        else //enemy
-        {
-            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(idKilled), champKilledIcon, killedColor);
-        }
+
+        GameFactory.ChangeIconInGame(GetImageOfChamp(idKilled), champKilledIcon, killedColor);
     }
 
     void OnPlayerViewChange(ushort id, bool isVisible)
     {
-        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == RoomManager.Instance.GetLocalPlayer().playerTeam)
+        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
 
         if (GameManager.Instance.networkPlayers.ContainsKey(id) && GameManager.Instance.networkPlayers[id] != null)
         {
-            Sprite currentSprite = champIcon;
-
-            if (RoomManager.Instance.actualRoom.playerList[id].playerCharacter == Character.Shili)
-            {
-                currentSprite = null;
-            }
+            Sprite currentSprite = GetIcon(RoomManager.Instance.actualRoom.playerList[id].playerCharacter, true);
 
             switch (isVisible)
             {
                 case true:
-                    GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, inViewColor);
+                    GameFactory.ChangeIconInGame(GetImageOfChamp(id), currentSprite, inViewColor);
                     break;
 
                 case false:
-                    GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), currentSprite, outViewColor);
+                    GameFactory.ChangeIconInGame(GetImageOfChamp(id), currentSprite, outViewColor);
                     break;
             }
         }
         else
         {
             //joueur est mort
-            GameFactory.ChangeIconMinimap(GetImageOfEnemyChamp(id), champKilledIcon, killedColor);
+            GameFactory.ChangeIconInGame(GetImageOfChamp(id), champKilledIcon, killedColor);
         }
     }
 
@@ -218,45 +228,57 @@ public class UiManager : MonoBehaviour
         return null;
     }
 
-    Image GetImageOfTeamChamp(ushort id)
+    Image GetImageOfChamp(ushort id)
     {
-        switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            case Character.Shili:
-                return teamShili;
+            switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+            {
+                case Character.Shili:
+                    return teamShili;
 
-            case Character.Yang:
-                return teamYang;
+                case Character.Yang:
+                    return teamYang;
 
-            case Character.Yin:
-                return teamYin;
+                case Character.Yin:
+                    return teamYin;
+            }
+        }
+        else
+        {
+            switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+            {
+                case Character.Shili:
+                    return enemyShili;
+
+                case Character.Yang:
+                    return enemyYang;
+
+                case Character.Yin:
+                    return enemyYin;
+            }
         }
         return null;
     }
 
-
-    Image GetImageOfEnemyChamp(ushort id)
+    private void Update()
     {
-        switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            case Character.Shili:
-                return enemyShili;
-
-            case Character.Yang:
-                return enemyYang;
-
-            case Character.Yin:
-                return enemyYin;
+            SetEchapMenuState();
         }
-        return null;
     }
-
     private void FixedUpdate()
     {
         if (generalMessageList.Count > 0 && !waitForGenMessageAnimEnd)
         {
             StartCoroutine(GeneralMessage());
         }
+    }
+
+    public void SetEchapMenuState()
+    {
+        echapMenu.SetActive(!echapMenu.activeInHierarchy);
     }
 
     public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
@@ -417,6 +439,12 @@ public class UiManager : MonoBehaviour
             crouchedIcon.gameObject.SetActive(true);
         else
             crouchedIcon.gameObject.SetActive(false);
+
+
+        if ((_currentState & En_CharacterState.Hidden) != 0)
+            hiddenIcon.gameObject.SetActive(true);
+        else
+            hiddenIcon.gameObject.SetActive(false);
     }
 
     public void SetAlphaBrume(float value)
@@ -473,5 +501,10 @@ public class UiManager : MonoBehaviour
     public void CloseSpecMode()
     {
         specMode.gameObject.SetActive(false);
+    }
+
+    public void OpenSettings()
+    {
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
 }

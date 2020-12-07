@@ -2,21 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class WxController : PlayerModule
 {
     [Header("Wu xin Properties")]
 
-
     private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 
     [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
+    public Action soulPickedUp;
+
 
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
+        print("I picked a soul");
         playerSouls.Add(playerSoul);
-        this.GetComponent<Module_WxSoulBurst>().charges++;
+        soulPickedUp?.Invoke();
+        // this.GetComponent<Module_WxSoulBurst>().charges++;
     }
 
     public int GetPlayersSoulsCount()
@@ -30,7 +34,7 @@ public class WxController : PlayerModule
 
     public void ClearPlayersSouls()
     {
-       playerSouls.Clear();
+        playerSouls.Clear();
     }
 
     public void ApplyAltarTrailDebuffInServer()
@@ -52,15 +56,18 @@ public class WxController : PlayerModule
             SetAltarDebuffTrailState(!_value);
         }
     }
-
+    
     public void SetAltarDebuffTrailState(bool value)
     {
         if (value)
         {
             altarDebuffTrail.Play();
-        } else
+            print("play");
+        }
+        else
         {
             altarDebuffTrail.Stop();
+            print("stop");
         }
     }
 

@@ -12,35 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Yang_AutoAttack
   m_EditorClassIdentifier: 
-  canalisationTime: 0.2
   range: 5.5
-  cooldown: 1
+  cooldown: 0.6
   numberOfCharge: 1
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 0
   forbiddenState: 48
-  canalysingStatus: {fileID: 11400000, guid: b8f60be7f55ce564fa24db67e92c5f92, type: 2}
-  resolusionStatus: {fileID: 0}
-  canCancel: 0
-  mustUseACollFreePos: 0
-  useLastRecordedMousePos: 0
-  spellIcon: {fileID: 21300000, guid: ac378749b253b074b932b863293d0f7f, type: 3}
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0.01
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
+  lockRotOnAnonciation: 0
+  LockPosOnAnonciation: 0
+  anonciationTime: 0.01
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyOnResolution: []
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0.4
+  spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
   damagesToDeal:
-    damageHealth: 5
-    statusToApply: {fileID: 0}
-    movementToApply: {fileID: 0}
     playerName: 
+    damageHealth: 4
+    statusToApply: []
+    movementToApply: {fileID: 0}
+    stateNeeded: 128
+    additionalDamages: 0
+    additionalStatusToApply: []
+    additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
-  _reduceCooldowns: 0
+  _reduceCooldowns: 1
   offSet: 0
   salveInfos:
     NumberOfSalve: 3
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.2
-    timeToResolveTheSalve: 0.4
+    timeToReachMaxRange: 0.15
+    timeToResolveTheSalve: 0.8
   isMultiple: 0
   angleToSplit: 0
-  cooldownReduction: 1
+  cooldownReduction: 0.35
   bonusShot: 0
   bonusSalve: 1
-  durationAdded: 0
+  durationAdded: -0.4

@@ -19,9 +19,7 @@ public class LobbyManager : MonoBehaviour
     public RoomListPanelControl roomListPanelControl;
     public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
 
-    [ReadOnly] public PlayerData localPlayer;
-
-    [SerializeField] UnityClient client;
+    private UnityClient client;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private GameObject loginMenu;
     [SerializeField] private GameObject mainMenu;
@@ -51,19 +49,19 @@ public class LobbyManager : MonoBehaviour
 
         //    roomPanelControl.InitRoom(RoomManager.Instance.actualRoom);
         //}
+        client = NetworkManager.Instance.GetLocalClient();
 
         client.MessageReceived += MessageReceived;
-
-
-    }
-    private void OnDisable()
-    {
-        client.MessageReceived -= MessageReceived;
     }
 
     private void Start()
     {
-        nameInputField.text = localPlayer.Name;
+        nameInputField.text = NetworkManager.Instance.GetLocalPlayer().Name;
+    }
+
+    private void OnDisable()
+    {
+        client.MessageReceived -= MessageReceived;
     }
 
     private void FixedUpdate()
@@ -80,14 +78,6 @@ public class LobbyManager : MonoBehaviour
     {
         using (Message message = e.GetMessage() as Message)
         {
-            if (message.Tag == Tags.PlayerConnected)
-            {
-                using (DarkRiftReader reader = message.GetReader())
-                {
-                    PlayerData _localPlayer = reader.ReadSerializable<PlayerData>();
-                    localPlayer = _localPlayer;
-                }
-            }
             if (message.Tag == Tags.CreateRoom)
             {
                 RoomCreatedInServer(sender, e);
@@ -111,14 +101,6 @@ public class LobbyManager : MonoBehaviour
             if (message.Tag == Tags.QuitRoom)
             {
                 QuitActualRoomInServer(sender, e);
-            }
-            if (message.Tag == Tags.SwapHostRoom)
-            {
-                SwapHost(sender, e);
-            }
-            if (message.Tag == Tags.PlayerQuitRoom)
-            {
-                PlayerQuitActualRoom(sender, e);
             }
             if (message.Tag == Tags.ChangeName)
             {
@@ -149,8 +131,6 @@ public class LobbyManager : MonoBehaviour
             using (Message message = Message.Create(Tags.ChangeName, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
-
-
     }
 
     public void ChangeName(string name) // Login
@@ -178,14 +158,12 @@ public class LobbyManager : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                localPlayer.Name = reader.ReadString();
+                NetworkManager.Instance.GetLocalPlayer().Name = reader.ReadString();
             }
         }
-        PlayerPrefs.SetString("PlayerName", localPlayer.Name);
-        nameInputField.text = localPlayer.Name;
+        PlayerPrefs.SetString("PlayerName", NetworkManager.Instance.GetLocalPlayer().Name);
+        nameInputField.text = NetworkManager.Instance.GetLocalPlayer().Name;
     }
-
-
 
     private void RoomDeletedInServer(object sender, MessageReceivedEventArgs e)
     {
@@ -233,27 +211,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private void SwapHost(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage() as Message)
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort playerID = reader.ReadUInt16();
 
-                PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
-
-                roomPanelControl.SetHost(player, true);
-
-                if (localPlayer.ID == player.ID)
-                {
-                    localPlayer.IsHost = true;
-                    RoomManager.Instance.GetLocalPlayer().IsHost = true;
-                }
-            }
-        }
-
-    }
 
     public void JoinRoom(ushort roomID)
     {
@@ -282,7 +240,7 @@ public class LobbyManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 roomID = reader.ReadUInt16();
-                localPlayer.playerTeam = (Team)reader.ReadUInt16();
+                NetworkManager.Instance.GetLocalPlayer().playerTeam = (Team)reader.ReadUInt16();
                 int playerNumber = reader.ReadInt32();
 
                 for (int i = 0; i < playerNumber; i++)
@@ -295,6 +253,8 @@ public class LobbyManager : MonoBehaviour
 
         RoomManager.Instance.actualRoom = rooms[roomID];
         rooms[roomID].playerList = _playerList;
+        rooms[roomID].playerList[NetworkManager.Instance.GetLocalPlayer().ID] = NetworkManager.Instance.GetLocalPlayer();
+
         roomPanelControl.InitRoom(rooms[roomID]);
 
     }
@@ -313,19 +273,6 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private void PlayerQuitActualRoom(object sender, MessageReceivedEventArgs e)
-    {
-
-        using (Message message = e.GetMessage() as Message)
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                PlayerData player = reader.ReadSerializable<PlayerData>();
-                roomPanelControl.RemovePlayer(RoomManager.Instance.actualRoom.playerList[player.ID]);
-                RoomManager.Instance.actualRoom.playerList.Remove(player.ID);
-            }
-        }
-    }
     public void CreateRoom()
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
@@ -349,7 +296,7 @@ public class LobbyManager : MonoBehaviour
 
                 if (hostID == client.ID)
                 {
-                    localPlayer.playerTeam = (Team)reader.ReadUInt16();
+                    NetworkManager.Instance.GetLocalPlayer().playerTeam = (Team)reader.ReadUInt16();
                 }
 
                 rooms.Add(room.ID, room);
@@ -365,9 +312,9 @@ public class LobbyManager : MonoBehaviour
 
         RoomManager.Instance.actualRoom = room;
 
-        localPlayer.IsHost = true;
+        NetworkManager.Instance.GetLocalPlayer().IsHost = true;
 
-        RoomManager.Instance.actualRoom.playerList.Add(localPlayer.ID, localPlayer); ;
+        RoomManager.Instance.actualRoom.playerList.Add(NetworkManager.Instance.GetLocalPlayer().ID, NetworkManager.Instance.GetLocalPlayer()); ;
 
         mainMenu.SetActive(false);
         roomPanel.SetActive(true);
@@ -391,7 +338,7 @@ public class LobbyManager : MonoBehaviour
     {
         print("Room " + RoomManager.Instance.actualRoom.ID + " Quit");
         RoomManager.Instance.actualRoom = null;
-        localPlayer.IsHost = false;
+        NetworkManager.Instance.GetLocalPlayer().IsHost = false;
         DisplayMainMenu();
     }
 
@@ -424,7 +371,7 @@ public class LobbyManager : MonoBehaviour
 
         if (playerID == client.ID)
         {
-            localPlayer.playerTeam = team;
+            NetworkManager.Instance.GetLocalPlayer().playerTeam = team;
         }
     }
 
@@ -458,7 +405,7 @@ public class LobbyManager : MonoBehaviour
 
         if (playerID == client.ID)
         {
-            localPlayer.IsReady = value;
+            NetworkManager.Instance.GetLocalPlayer().IsReady = value;
         }
     }
 

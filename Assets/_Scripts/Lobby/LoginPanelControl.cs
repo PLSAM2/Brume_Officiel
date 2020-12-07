@@ -10,10 +10,8 @@ using UnityEngine.UI;
 
 public class LoginPanelControl : MonoBehaviour
 {
-
     public float timeFirstAttempt = 6;
     public float timeBeforeReconnect = 4;
-
 
     [SerializeField] private TMP_InputField nameLoginInputField;
     [SerializeField] private TextMeshProUGUI connectionStateLogin;
@@ -39,6 +37,19 @@ public class LoginPanelControl : MonoBehaviour
     [SerializeField]
     [Tooltip("The address of the localhost server to connect to.")]
     private string localHostIP = IPAddress.Loopback.ToString();
+
+    private void Awake()
+    {
+        client = RoomManager.Instance.client;
+    }
+    private void Start()
+    {
+        if (client.ConnectionState == ConnectionState.Connected)
+        {
+            this.gameObject.SetActive(false);
+            LobbyManager.Instance.DisplayMainMenu();
+        }
+    }
 
     public void ConnectOnline()
     {
