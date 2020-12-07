@@ -67,6 +67,7 @@ public class GameManager : SerializedMonoBehaviour
     public Action<ushort, bool> OnPlayerAtViewChange;
     public Action<ushort, ushort> OnPlayerGetDamage;
     public Action<ushort> OnPlayerRespawn;
+    public Action<ushort> OnPlayerSpawn;
 
     public Action<Ward> OnWardTeamSpawn;
     public Action<VisionTower> OnTowerTeamCaptured;
