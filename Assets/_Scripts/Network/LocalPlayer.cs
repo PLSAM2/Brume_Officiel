@@ -11,30 +11,38 @@ using static GameData;
 
 public class LocalPlayer : MonoBehaviour
 {
-	public ushort myPlayerId;
-	public bool isOwner = false;
-	public float distanceRequiredBeforeSync = 0.1f;
+	[TabGroup("MultiGameplayParameters")] public ushort myPlayerId;
+	[TabGroup("MultiGameplayParameters")] public bool isOwner = false;
+	[TabGroup("MultiGameplayParameters")] public float distanceRequiredBeforeSync = 0.1f;
 
-	public PlayerModule myPlayerModule;
+	[HideInInspector] public PlayerModule myPlayerModule;
 
-	public NetworkAnimationController myAnimController;
-	public GameObject circleDirection;
+	[TabGroup("MultiGameplayParameters")] public NetworkAnimationController myAnimController;
+	[TabGroup("MultiGameplayParameters")] public GameObject circleDirection;
 
 	[Header("MultiGameplayParameters")]
-	public float respawnTime = 15;
-	private ushort _liveHealth;
-	ushort maxHealth;
+	[TabGroup("MultiGameplayParameters")] public float respawnTime = 15;
+	[TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
+
 
 	[Header("UI")]
-	public GameObject canvas;
-	public Quaternion canvasRot;
-	public TextMeshProUGUI nameText;
-	public TextMeshProUGUI lifeCount;
-	public Image lifeImg;
-	public Image lifeDamageImg;
+	[TabGroup("Ui")] public GameObject canvas;
+	[TabGroup("Ui")] public Quaternion canvasRot;
+	[TabGroup("Ui")] public TextMeshProUGUI nameText;
+	[TabGroup("Ui")] public TextMeshProUGUI lifeCount;
+	[TabGroup("Ui")] public Image lifeImg;
+	[TabGroup("Ui")] public Image lifeDamageImg;
+
+	[TabGroup("UiState")] public GameObject statePart;
+	[TabGroup("UiState")] public TextMeshProUGUI stateText;
+	[TabGroup("UiState")] public Image fillPart;
+	[TabGroup("UiState")] public GameObject StunIcon, HiddenIcon;
+	[TabGroup("UiState")] public GameObject SlowIcon;
+	[TabGroup("UiState")] public GameObject RootIcon;
+	[TabGroup("UiState")] public GameObject SilencedIcon;
 
 	Vector3 newNetorkPos;
-	[SerializeField] float syncSpeed = 10;
+	[HideInInspector] [SerializeField] float syncSpeed = 10;
 
 	[ReadOnly]
 	public ushort liveHealth
@@ -54,15 +62,15 @@ public class LocalPlayer : MonoBehaviour
 	private Vector3 lastRotation;
 
 	[Header("Fog")]
-	public GameObject fowPrefab;
+	[TabGroup("Vision")] public GameObject fowPrefab;
 	Fow myFow;
-	public bool forceOutline = false;
+	[TabGroup("Vision")] public bool forceOutline = false;
 
-	public List<GameObject> objToHide = new List<GameObject>();
-	public static Action disableModule;
-	public bool isVisible = false;
+	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
+	[TabGroup("Vision")] public static Action disableModule;
+	[TabGroup("Vision")] public bool isVisible = false;
 
-	public QuickOutline myOutline;
+	[TabGroup("Vision")] public QuickOutline myOutline;
 
 
 	private void Awake ()
@@ -553,6 +561,63 @@ public class LocalPlayer : MonoBehaviour
 
 		StartCoroutine(TimerShowPlayer(_time));
 	}
+
+	//Ui character
+	#region
+	public void HidePseudo(bool _hidePseudo)
+	{
+		nameText.gameObject.SetActive(!_hidePseudo);
+		statePart.SetActive(_hidePseudo);
+	}
+
+	public void ShowStateIcon ( En_CharacterState _currentState, float actualTime, float baseTime)
+	{
+		RootIcon.SetActive(false);
+		SilencedIcon.SetActive(false);
+		StunIcon.SetActive(false);
+		SlowIcon.SetActive(false);
+		HiddenIcon.SetActive(false);
+
+		//	fillPart.fillAmount = actualTime / baseTime;
+
+		if ((_currentState & En_CharacterState.Hidden) != 0)
+		{
+			HiddenIcon.SetActive(true);
+			stateText.text = "Hidden";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.Root) != 0 && (_currentState & En_CharacterState.Silenced) != 0)
+		{
+			StunIcon.SetActive(true);
+			stateText.text = "Stunned";
+			return;
+
+		}
+		else if ((_currentState & En_CharacterState.Silenced) != 0)
+		{
+			SilencedIcon.SetActive(true);
+			stateText.text = "Silenced";
+			return;
+
+		}
+		else if ((_currentState & En_CharacterState.Root) != 0)
+		{
+			RootIcon.SetActive(true);
+			stateText.text = "Root";
+			return;
+
+		}
+		else if ((_currentState & En_CharacterState.Slowed) != 0)
+		{
+			SlowIcon.SetActive(true);
+			stateText.text = "Slowed";
+			return;
+
+		}
+
+	}
+	#endregion
+
 
 	IEnumerator TimerShowPlayer ( float _time )
 	{

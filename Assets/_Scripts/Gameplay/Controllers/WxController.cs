@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Sirenix.OdinInspector;
 
 public class WxController : PlayerModule
 {
@@ -10,7 +11,7 @@ public class WxController : PlayerModule
 
     private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 
-    [SerializeField] private ParticleSystem altarDebuffTrail;
+    [TabGroup("FeedbacksState")] [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
     public Action soulPickedUp;
 
