@@ -8,7 +8,7 @@ public class Ward : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 60;
     [SerializeField] private float lifeTimeInBrume = 3;
-    [SerializeField] private Fow vision;
+      public Fow vision;
     [SerializeField] private LayerMask brumeLayer;
     private Team myTeam;
 

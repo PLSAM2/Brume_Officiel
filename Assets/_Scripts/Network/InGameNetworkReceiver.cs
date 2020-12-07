@@ -310,6 +310,8 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                     GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
 
+                    GameManager.Instance.OnPlayerSpawn?.Invoke(id);
+
                     if (isResurecting)
                     {
                         GameManager.Instance.OnPlayerRespawn?.Invoke(id);
@@ -394,10 +396,10 @@ public class InGameNetworkReceiver : MonoBehaviour
                     return;
                 }
 
-                GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
-
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
                 target.DealDamagesLocaly(_damages, _dealer);
+
+                GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
             }
         }
     }
