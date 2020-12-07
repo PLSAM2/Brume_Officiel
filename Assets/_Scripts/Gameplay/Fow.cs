@@ -8,7 +8,7 @@ public class Fow : MonoBehaviour
     [SerializeField] bool isStatic = false;
 
 
-    [SerializeField] FieldOfView myFieldOfView;
+    public FieldOfView myFieldOfView;
 
     [SerializeField] float followSpeed = 10;
     float fowRaduis = 0;

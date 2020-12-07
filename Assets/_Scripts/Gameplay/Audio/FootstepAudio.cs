@@ -17,6 +17,9 @@ public class FootstepAudio : MonoBehaviour
 
     [SerializeField] float delayToDoSound = 0.5f;
 
+    [SerializeField] GameObject objMesh;
+    bool doSound = true;
+
     private void Start()
     {
         ChangeVolume(AudioManager.Instance.currentPlayerVolume / 2);
@@ -47,27 +50,33 @@ public class FootstepAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(crouchedStatut && !myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+        if (objMesh.activeSelf)
         {
-            haveWaitDelay = false;
+            if (crouchedStatut && !myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+            {
+                haveWaitDelay = false;
 
-            StopAllCoroutines();
-            StartCoroutine(WaitDelay());
+                StopAllCoroutines();
+                StartCoroutine(WaitDelay());
+            }
+
+            crouchedStatut = myPlayerModule.state.HasFlag(En_CharacterState.Crouched);
         }
-
-        crouchedStatut = myPlayerModule.state.HasFlag(En_CharacterState.Crouched);
-
-        /*
-        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
-        oldPos = transform.position;
-
-        if((velocityX + velocityZ) != 0 && doSound)
+        else
         {
-            doSound = false;
-            StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
+            if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+            {
+                float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+                float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+                oldPos = transform.position;
+
+                if ((velocityX + velocityZ) != 0 && doSound)
+                {
+                    doSound = false;
+                    StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
+                }
+            }
         }
-        */
     }
 
     IEnumerator WaitDelay()
@@ -76,16 +85,15 @@ public class FootstepAudio : MonoBehaviour
         haveWaitDelay = true;
     }
 
-    /*
     IEnumerator WaitEndSound(AudioClip _clip)
     {
         myAudioSource.PlayOneShot(_clip);
 
         yield return new WaitForSeconds(_clip.length);
 
-        yield return new WaitForSeconds(Random.Range(minTime, maxTime));
+        yield return new WaitForSeconds(0.1f);
         doSound = true;
-    }*/
+    }
 
     public void OnAnimRun()
     {

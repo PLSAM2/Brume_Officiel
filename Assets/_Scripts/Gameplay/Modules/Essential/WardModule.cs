@@ -20,12 +20,30 @@ public class WardModule : SpellModule
 	private Vector3 noCurvePosition;
 	private float animationCurveMaxValue;
 
+	CirclePreview myRangePreview, myAoePreview;
+	float wardVisionRange;
 
 	private void Start ()
 	{
 		wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
 		wardObj.SetActive(false);
 		animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
+		wardVisionRange = wardPrefab.GetComponent<Ward>().vision.myFieldOfView.viewRadius;
+	}
+
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		base.SetupComponent(_actionLinked);
+		if (myPlayerModule.mylocalPlayer.isOwner)
+		{
+			myAoePreview = PreviewManager.Instance.GetCirclePreview(transform);
+			myAoePreview.Init(wardVisionRange, 0, myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
+
+			myRangePreview = PreviewManager.Instance.GetCirclePreview(transform);
+			myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, Vector3.zero);
+
+			HidePreview(Vector3.zero);
+		}
 	}
 
 	protected override void DestroyIfClient () { } // Keep this for client
@@ -122,5 +140,31 @@ public class WardModule : SpellModule
 		wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
 	}
 
+	protected override void HidePreview ( Vector3 _posToHide )
+	{
+		base.HidePreview(_posToHide);
+
+		myAoePreview.gameObject.SetActive(false);
+		myRangePreview.gameObject.SetActive(false);
+	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+		if (canBeCast())
+		{
+			myAoePreview.gameObject.SetActive(true);
+			myRangePreview.gameObject.SetActive(true);
+		}
+	}
+
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
+		myAoePreview.Init(wardVisionRange, CirclePreview.circleCenter.center,
+			transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
+
+		myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, transform.position);
+	}
 
 }
