@@ -41,7 +41,7 @@ public class SpellModule : MonoBehaviour
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
-	protected PlayerModule myPlayerModule;
+	[HideInInspector] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
