@@ -39,7 +39,7 @@ public class GameFactory
         return Random.Range(min, max);
     }
 
-    public static void ChangeIconMinimap(Image myImage, Sprite mySprite, Color myColor)
+    public static void ChangeIconInGame(Image myImage, Sprite mySprite, Color myColor)
     {
         myImage.color = myColor;
 
