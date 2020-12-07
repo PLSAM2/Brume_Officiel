@@ -90,6 +90,7 @@ public class BrumeScript : MonoBehaviour
             if (currentFollowPlayer.isInGhost)
             {
                 UiManager.Instance.SetAlphaBrume(0);
+                return;
             }
 
             if (other.gameObject == currentPlayerObj)
@@ -98,7 +99,6 @@ public class BrumeScript : MonoBehaviour
                 Vector3 fromPosition = transform.position;
                 Vector3 toPosition = other.transform.position;
                 Vector3 direction = toPosition - fromPosition;
-
 
                 if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity, brumeMask))
                 {
