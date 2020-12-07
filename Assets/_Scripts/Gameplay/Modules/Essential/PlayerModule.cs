@@ -602,6 +602,18 @@ public class PlayerModule : MonoBehaviour
 				}
 
 			}
+			else
+			{
+				if (_tempTrad.doNotApplyIfExist)
+				{
+					EffectLifeTimed _temp = GetTickEffectByKey(_newElement.key);
+
+					if (_temp != null)
+					{
+						return;
+					}
+				}
+			}
 			allTickLive.Add(_newElement);
 		}
 		else
@@ -615,7 +627,18 @@ public class PlayerModule : MonoBehaviour
 					_temp.Refresh();
 					return;
 				}
-			}
+			} else
+            {
+                if (_tempTrad.doNotApplyIfExist)
+                {
+					EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
+
+					if (_temp != null)
+					{
+						return;
+					}
+				}
+            }
 			allEffectLive.Add(_newElement);
 		}
 
@@ -717,10 +740,18 @@ public class PlayerModule : MonoBehaviour
 
 	internal void ApplyWxMark ()
 	{
-		if (!StopStatus(wxMarkRef.effect.forcedKey))
-		{
+		if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
-		}
+       
+		if (GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages > 0 )
+        {
+			GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages--;
+			return;
+        }
+
+		if (!StopStatus(wxMarkRef.effect.forcedKey))		
+			return;
+		
 
 		// wxMark.SetActive(false);
 		DamagesInfos _tempDamages = new DamagesInfos();
@@ -792,7 +823,8 @@ public class Effect
 	[HorizontalGroup("Group2")] public bool isConstant = false;
 	[HorizontalGroup("Group1")] public bool canBeForcedStop = false;
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
-	public bool refreshOnApply = false;
+	[HorizontalGroup("Group3")] public bool refreshOnApply = false;
+	[HorizontalGroup("Group3")] [HideIf("refreshOnApply")] public bool doNotApplyIfExist = false;
 
 	[ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
 	[ShowIf("tick")] [BoxGroup("Tick")] public bool isDamaging = true;
@@ -805,6 +837,7 @@ public class Effect
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
 
 	public DamagesInfos optionalDamagesInfos;
+	public int hitBeforeProcOptionnalDamages = 0;
 	public Effect () { }
 }
 

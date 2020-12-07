@@ -98,7 +98,6 @@ public class Projectile : AutoKill
 
 	protected override void Destroy ()
 	{
-
 		if (hasTouched && doImpactFx)
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
@@ -112,7 +111,6 @@ public class Projectile : AutoKill
 		}
 
 		asDeal = true;
-
 		base.Destroy();
 	}
 }

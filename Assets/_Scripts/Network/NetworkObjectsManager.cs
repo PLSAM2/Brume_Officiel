@@ -266,6 +266,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         if (!instantiatedObjectsList.ContainsKey(_objectID))
             return;
 
+
         if (_synchronisePosition)
         {
             instantiatedObjectsList[_objectID].SetPosition(_newObjectPos);
