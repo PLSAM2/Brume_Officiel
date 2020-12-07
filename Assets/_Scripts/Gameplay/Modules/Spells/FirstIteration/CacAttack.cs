@@ -179,8 +179,6 @@ public class CacAttack : SpellModule
 	{
 		base.ResolveSpell();
 		ResolveSlash();
-
-        AudioManager.Instance.Play3DAudioInNetwork(2, transform.position);
     }
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
@@ -200,6 +198,7 @@ public class CacAttack : SpellModule
 		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
+
 		}
 		
 		if(willResolve)
@@ -230,7 +229,7 @@ public class CacAttack : SpellModule
 				}
 			}
 
-			_listHit.Remove(gameObject);
+            _listHit.Remove(gameObject);
 
 			foreach (GameObject _go in _listHit)
 			{
@@ -240,6 +239,7 @@ public class CacAttack : SpellModule
 					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
 			}
 		}
+
 	}
 	
 	CacAttackParameters AttackToResolve ()

@@ -119,6 +119,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public void Play3DAudioInNetwork(ushort _id, Vector3 _position)
     {
+        if(_id == 0) { return; }
+
         Play3DAudio(networkAudio[_id], _position);
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())

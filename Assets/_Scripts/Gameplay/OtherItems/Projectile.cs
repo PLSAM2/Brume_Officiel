@@ -22,7 +22,9 @@ public class Projectile : AutoKill
 
 	[HideInInspector] public bool hasTouched = false;
 
-	public override void Init ( Team ownerTeam )
+    [SerializeField] AudioClip hitSound;
+
+    public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
 
@@ -108,6 +110,11 @@ public class Projectile : AutoKill
 			{
 				CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
 			}
+
+            if (hitSound)
+            {
+                AudioManager.Instance.Play3DAudio(hitSound, transform.position);
+            }
 		}
 
 		asDeal = true;
