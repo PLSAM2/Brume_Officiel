@@ -13,12 +13,12 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] float rangeFilter = 1;
 
     [SerializeField] AudioClip sfxTransiBrume;
+     public Transform spawnPoint;
 
     private void Start()
     {
         GameManager.Instance.allBrume.Add(this);
     }
-
 
     public void OnSimulateEnter(GameObject obj)
     {

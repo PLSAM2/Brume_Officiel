@@ -182,11 +182,11 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
-		spedUpParticle.Stop();
-		silencedParticle.Stop();
-		slowParticle.Stop();
-		rootParticle.Stop();
-		embourbedParticle.Stop();
+		spedUpParticle.gameObject.SetActive(false);
+		silencedParticle.gameObject.SetActive(false);
+		slowParticle.gameObject.SetActive(false);
+		rootParticle.gameObject.SetActive(false);
+		embourbedParticle.gameObject.SetActive(false);
 
 		_state = En_CharacterState.Clear;
 		oldState = state;
@@ -248,29 +248,34 @@ public class PlayerModule : MonoBehaviour
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
-				spedUpParticle.Play();
+				spedUpParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
-				spedUpParticle.Stop();
+				spedUpParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
-				slowParticle.Play();
+				slowParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
-				slowParticle.Stop();
+				slowParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
-				rootParticle.Play();
+				rootParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
-				rootParticle.Stop();
+				rootParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
-				silencedParticle.Play();
+				silencedParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
-				silencedParticle.Stop();
+				silencedParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
-				embourbedParticle.Play();
+				embourbedParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
-				embourbedParticle.Stop();
+				embourbedParticle.gameObject.SetActive(false);
+
 			#endregion
 
 			if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (state & En_CharacterState.WxMarked) != 0)
@@ -565,7 +570,7 @@ public class PlayerModule : MonoBehaviour
 						DamagesInfos _temp = new DamagesInfos();
 						_temp.damageHealth = allTickLive[i].effect.tickValue;
 						//REMPLACER ICI LE DEALER PAR LE DEAL D EFFECT
-						this.mylocalPlayer.DealDamages(_temp, transform.position, false, true);
+						this.mylocalPlayer.DealDamages(_temp, transform.position, null, false, true);
 					}
 					if (allTickLive[i].effect.isHealing)
 					{
@@ -751,7 +756,7 @@ public class PlayerModule : MonoBehaviour
 		menacedIcon.gameObject.SetActive(false);
 	}
 
-	internal void ApplyWxMark ()
+	internal void ApplyWxMark (ushort? dealerID = null)
 	{
 		if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
@@ -771,7 +776,7 @@ public class PlayerModule : MonoBehaviour
 		_tempDamages.damageHealth = wxMarkRef.effect.optionalDamagesInfos.damageHealth;
 
 		//REMPLACER ICI LE DEALER PAR LE MEC QUI T APPLY LA MARQUE
-		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, true);
+		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, dealerID, true);
 
 		foreach (Sc_Status status in wxMarkRef.effect.optionalDamagesInfos.statusToApply) // already in DealDamage but we dont need to reaply state wx marked
 		{

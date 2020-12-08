@@ -47,7 +47,7 @@ public class Module_WxThirdEye : SpellModule
 	}
 	public override void Interrupt ()
 	{
-		switch (actionLinked)
+		/*switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput -= ForceInterrupt;
@@ -64,7 +64,14 @@ public class Module_WxThirdEye : SpellModule
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput -= ForceInterrupt;
 				break;
-		}
+		}*/
+		myPlayerModule.firstSpellInput -= ForceInterrupt;
+		myPlayerModule.secondSpellInput -= ForceInterrupt;
+		myPlayerModule.thirdSpellInput -= ForceInterrupt;
+		myPlayerModule.leftClickInput -= ForceInterrupt;
+		myPlayerModule.wardInput -= ForceInterrupt;
+
+
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
         myPlayerModule.RemoveState(En_CharacterState.ThirdEye);
 
@@ -126,7 +133,7 @@ public class Module_WxThirdEye : SpellModule
 
 			case En_ShockWaveStatus.Opened:
 
-				switch (actionLinked)
+				/*switch (actionLinked)
 				{
 					case En_SpellInput.FirstSpell:
 						myPlayerModule.firstSpellInput += ForceInterrupt;
@@ -143,7 +150,12 @@ public class Module_WxThirdEye : SpellModule
 					case En_SpellInput.Ward:
 						myPlayerModule.wardInput += ForceInterrupt;
 						break;
-				}
+				}*/
+				myPlayerModule.firstSpellInput += ForceInterrupt;
+				myPlayerModule.secondSpellInput += ForceInterrupt;
+				myPlayerModule.thirdSpellInput += ForceInterrupt;
+				myPlayerModule.leftClickInput += ForceInterrupt;
+				myPlayerModule.wardInput += ForceInterrupt;
 				OutlineAllPlayersInRange();
 				break;
 
