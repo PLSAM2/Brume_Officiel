@@ -43,6 +43,11 @@ public class WxController : PlayerModule
     {
         return playerSouls.Count;
     }
+    public ushort GetPlayersSoulsID(int index)
+    {
+        return playerSouls[index];
+    }
+
     public void ClearPlayersSouls()
     {
         playerSouls.Clear();
