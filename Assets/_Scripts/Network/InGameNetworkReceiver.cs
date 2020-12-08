@@ -596,7 +596,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 uint _size = reader.ReadUInt32();
                 bool _reset = reader.ReadBoolean(); 
 
-                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
+                if(!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
                 if (_reset)
                 {

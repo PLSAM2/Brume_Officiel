@@ -199,13 +199,21 @@ public class LocalPlayer : MonoBehaviour
 		ChangeFowRaduis(myPlayerModule.isInBrume);
 	}
 
-	private void OnDestroy ()
-	{
-		if (myFow != null)
-		{
-			Destroy(myFow.gameObject);
-		}
-	}
+    private void OnDestroy()
+    {
+        if (myFow != null)
+        {
+            Destroy(myFow.gameObject);
+        }
+
+        if (isOwner)
+        {
+            if (myPlayerModule.isInBrume)
+            {
+                GameFactory.GetBrumeById(myPlayerModule.brumeId).OnSimulateExit(gameObject);
+            }
+        }
+    }
 
 	private void OnDisable ()
 	{
