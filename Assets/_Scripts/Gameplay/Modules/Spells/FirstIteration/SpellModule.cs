@@ -231,7 +231,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected void TreatThrowBack ()
+	protected virtual void TreatThrowBack ()
 	{
 		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
 		{

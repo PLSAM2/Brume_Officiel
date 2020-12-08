@@ -32,6 +32,9 @@ public class LocalPlayer : MonoBehaviour
 	[TabGroup("Ui")] public TextMeshProUGUI lifeCount;
 	[TabGroup("Ui")] public Image lifeImg;
 	[TabGroup("Ui")] public Image lifeDamageImg;
+	[Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
+	[TabGroup("Ui")] public Image fillAmountBuff;
+	[TabGroup("Ui")] public GameObject wholeBuffUi;
 
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
@@ -623,6 +626,17 @@ public class LocalPlayer : MonoBehaviour
 
 		}
 
+	}
+
+	public void EnableBuff(bool _stateOfBuff, string _buffName)
+	{
+		wholeBuffUi.SetActive(_stateOfBuff);
+		nameOfTheBuff.text = _buffName;
+	}
+
+	public void UpdateBuffDuration(float _fillAmount)
+	{
+		fillAmountBuff.fillAmount = _fillAmount;
 	}
 	#endregion
 

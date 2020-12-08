@@ -14,6 +14,7 @@ public class DiveModule : SpellModule
 	protected override void ResolveSpell ()
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", true);
+		myPlayerModule.mylocalPlayer.EnableBuff(true, "Diving");
 
 		switch (actionLinked)
 		{
@@ -38,6 +39,7 @@ public class DiveModule : SpellModule
 	public override void Interrupt ()
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", false);
+		myPlayerModule.mylocalPlayer.EnableBuff(false, "Diving");
 
 		switch (actionLinked)
 		{
@@ -62,6 +64,15 @@ public class DiveModule : SpellModule
 	//	NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 	}
 
+	protected override void TreatThrowBack ()
+	{
+		base.TreatThrowBack();
+
+		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
+		{
+			myPlayerModule.mylocalPlayer.UpdateBuffDuration(throwbackTime / spell.throwBackDuration);
+		}
+	}
 
 	void ForceInterrupt(Vector3 _temp)
 	{
