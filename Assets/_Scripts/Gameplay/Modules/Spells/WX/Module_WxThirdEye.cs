@@ -13,8 +13,9 @@ public class Module_WxThirdEye : SpellModule
 	Sc_ThirdEye localTrad;
 	bool outliningPlayers = false;
 
-	private void OnEnable ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
+		base.SetupComponent(_actionLinked);
 		GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
 		GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
 		localTrad = (Sc_ThirdEye)spell;
@@ -29,6 +30,7 @@ public class Module_WxThirdEye : SpellModule
 		shockWave.transform.localScale = Vector3.zero;
 		shockWave.gameObject.SetActive(false);
 	}
+
 	private void OnDisable ()
 	{
 	//	Interrupt();
@@ -45,7 +47,7 @@ public class Module_WxThirdEye : SpellModule
 	}
 	public override void Interrupt ()
 	{
-		switch (actionLinked)
+		/*switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput -= ForceInterrupt;
@@ -62,7 +64,14 @@ public class Module_WxThirdEye : SpellModule
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput -= ForceInterrupt;
 				break;
-		}
+		}*/
+		myPlayerModule.firstSpellInput -= ForceInterrupt;
+		myPlayerModule.secondSpellInput -= ForceInterrupt;
+		myPlayerModule.thirdSpellInput -= ForceInterrupt;
+		myPlayerModule.leftClickInput -= ForceInterrupt;
+		myPlayerModule.wardInput -= ForceInterrupt;
+
+
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
         myPlayerModule.RemoveState(En_CharacterState.ThirdEye);
 
@@ -124,7 +133,7 @@ public class Module_WxThirdEye : SpellModule
 
 			case En_ShockWaveStatus.Opened:
 
-				switch (actionLinked)
+				/*switch (actionLinked)
 				{
 					case En_SpellInput.FirstSpell:
 						myPlayerModule.firstSpellInput += ForceInterrupt;
@@ -141,7 +150,12 @@ public class Module_WxThirdEye : SpellModule
 					case En_SpellInput.Ward:
 						myPlayerModule.wardInput += ForceInterrupt;
 						break;
-				}
+				}*/
+				myPlayerModule.firstSpellInput += ForceInterrupt;
+				myPlayerModule.secondSpellInput += ForceInterrupt;
+				myPlayerModule.thirdSpellInput += ForceInterrupt;
+				myPlayerModule.leftClickInput += ForceInterrupt;
+				myPlayerModule.wardInput += ForceInterrupt;
 				OutlineAllPlayersInRange();
 				break;
 
