@@ -11,7 +11,7 @@ public class DashModule : SpellModule
 	ArrowPreview myPreviewArrow;
 	Sc_DashSpell localTrad;
 	Vector3 directionRecorded;
-	[SerializeField] TextMeshProUGUI myChargesText;
+	[SerializeField] GameObject[] myChargesUi;
 
     protected override void ResolveSpell()
     {
@@ -28,11 +28,12 @@ public class DashModule : SpellModule
 		localTrad = spell as Sc_DashSpell;
 
 		if (!myPlayerModule.mylocalPlayer.isOwner)
-			myChargesText.transform.parent.gameObject.SetActive(false);
+			myChargesUi[0].transform.parent.gameObject.SetActive(false);
 		else
 		{
-			myChargesText.text = charges.ToString();
 			ChargeUpdate += UpdateChargeUiOnLifeBar;
+			foreach (GameObject _image in myChargesUi)
+				_image.SetActive(true);
 		}
 
 	}
@@ -67,7 +68,13 @@ public class DashModule : SpellModule
 
 	void UpdateChargeUiOnLifeBar(int numberOfCharges)
 	{
-		myChargesText.text = charges.ToString();
+		foreach (GameObject _image in myChargesUi)
+			_image.SetActive(false);
+
+		for (int i =0; i < numberOfCharges; i ++)
+		{
+			myChargesUi[i].SetActive(true);
+		}
 	}
 
 	//preview
