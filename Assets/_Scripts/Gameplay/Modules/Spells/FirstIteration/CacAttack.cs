@@ -74,11 +74,6 @@ public class CacAttack : SpellModule
 		}
 	}
 
-	protected override void Disable ()
-	{
-		base.Disable();
-	}
-
 	protected override void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
