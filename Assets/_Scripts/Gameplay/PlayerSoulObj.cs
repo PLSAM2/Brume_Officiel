@@ -7,7 +7,7 @@ using static GameData;
 public class PlayerSoulObj : MonoBehaviour
 {
     public Character[] authorizedCaptureCharacter = new Character[1];
-    public PlayerSoul playerSoul = new PlayerSoul();
+    public ushort playerSoul = 0;
 
     private NetworkedObject networkedObject;
     [SerializeField] SpriteRenderer mapIcon;
@@ -20,8 +20,9 @@ public class PlayerSoulObj : MonoBehaviour
     {
         networkedObject = GetComponent<NetworkedObject>();
 
-        playerSoul.soulInfo = RoomManager.Instance.actualRoom.playerList[networkedObject.GetOwnerID()];
-        if (playerSoul.soulInfo.playerTeam == Team.red)
+        playerSoul = networkedObject.GetOwnerID();
+
+        if (RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == Team.red)
         {
             mapIcon.color = Color.red;
         }
@@ -30,10 +31,10 @@ public class PlayerSoulObj : MonoBehaviour
             mapIcon.color = Color.blue;
         }
 
-        redObj.SetActive(playerSoul.soulInfo.playerTeam == Team.red);
-        blueObj.SetActive(playerSoul.soulInfo.playerTeam == Team.blue);
+        redObj.SetActive(RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == Team.red);
+        blueObj.SetActive(RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == Team.blue);
 
-        if (playerSoul.soulInfo.playerCharacter == Character.Re)
+        if (RoomManager.Instance.GetPlayerData(playerSoul).playerCharacter == Character.Re)
             mapIcon.sprite = iconYang;
         else
             mapIcon.sprite = iconYin;
@@ -42,6 +43,7 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.layer == 8)
         {
             PlayerModule _p = other.gameObject.GetComponent<PlayerModule>();
@@ -56,7 +58,7 @@ public class PlayerSoulObj : MonoBehaviour
 
             if (_p == null
                 || !authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_p.mylocalPlayer.myPlayerId].playerCharacter)
-                || playerSoul.soulInfo.playerTeam != _p.teamIndex)
+                || RoomManager.Instance.GetPlayerData(playerSoul).playerTeam != _p.teamIndex)
                 return;
 
             PickSoul(_p);
