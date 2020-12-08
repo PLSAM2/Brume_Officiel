@@ -18,7 +18,6 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void OnEnable()
     {
-
         networkedObject = GetComponent<NetworkedObject>();
 
         playerSoul.soulInfo = RoomManager.Instance.actualRoom.playerList[networkedObject.GetOwnerID()];
@@ -47,6 +46,13 @@ public class PlayerSoulObj : MonoBehaviour
         {
             PlayerModule _p = other.gameObject.GetComponent<PlayerModule>();
 
+            if (GameFactory.GetLocalPlayerObj() != null)
+            {
+                if (GameFactory.GetLocalPlayerObj().myPlayerModule != _p)
+                {
+                    return;
+                }
+            }
             if (_p == null
                 || !authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_p.mylocalPlayer.myPlayerId].playerCharacter)
                 || playerSoul.soulInfo.playerTeam != _p.teamIndex)
