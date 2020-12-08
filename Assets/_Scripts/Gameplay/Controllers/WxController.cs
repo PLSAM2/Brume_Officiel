@@ -9,13 +9,23 @@ public class WxController : PlayerModule
 {
     [Header("Wu xin Properties")]
 
-    private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
+    [TabGroup("WX")] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 
     [TabGroup("FeedbacksState")] [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
     public Action soulPickedUp;
 
 
+    protected override void Update()
+    {
+        base.Update();
+
+        foreach (PlayerSoul p in playerSouls)
+        {
+            print(p.soulInfo.playerTeam + " / " + p.soulInfo.playerCharacter.ToString() + " / " + p.soulInfo.ID);
+        }
+
+    }
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
         playerSouls.Add(playerSoul);

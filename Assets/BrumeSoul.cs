@@ -60,7 +60,7 @@ public class BrumeSoul : MonoBehaviour
             }
         }
 
-        Destroy();
+ 
     }
     private void Destroy()
     {

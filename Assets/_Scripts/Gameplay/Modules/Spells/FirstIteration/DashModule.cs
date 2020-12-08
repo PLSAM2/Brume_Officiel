@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DashModule : SpellModule
 {
@@ -9,6 +11,7 @@ public class DashModule : SpellModule
 	ArrowPreview myPreviewArrow;
 	Sc_DashSpell localTrad;
 	Vector3 directionRecorded;
+	[SerializeField] GameObject[] myChargesUi;
 
     protected override void ResolveSpell()
     {
@@ -23,6 +26,21 @@ public class DashModule : SpellModule
 		HidePreview(Vector3.zero);
 
 		localTrad = spell as Sc_DashSpell;
+
+		if (!myPlayerModule.mylocalPlayer.isOwner)
+			myChargesUi[0].transform.parent.gameObject.SetActive(false);
+		else
+		{
+			ChargeUpdate += UpdateChargeUiOnLifeBar;
+			foreach (GameObject _image in myChargesUi)
+				_image.SetActive(true);
+		}
+
+	}
+
+	private void OnDisable ()
+	{
+		ChargeUpdate -= UpdateChargeUiOnLifeBar;
 	}
 
 	protected override void StartCanalysing ( Vector3 _BaseMousePos )
@@ -47,6 +65,18 @@ public class DashModule : SpellModule
 			myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + directionRecorded, transform.position));
 
 	}
+
+	void UpdateChargeUiOnLifeBar(int numberOfCharges)
+	{
+		foreach (GameObject _image in myChargesUi)
+			_image.SetActive(false);
+
+		for (int i =0; i < numberOfCharges; i ++)
+		{
+			myChargesUi[i].SetActive(true);
+		}
+	}
+
 	//preview
 	#region
 	protected override void ShowPreview ( Vector3 mousePos )

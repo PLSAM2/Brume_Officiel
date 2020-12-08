@@ -53,6 +53,7 @@ public class PlayerSoulObj : MonoBehaviour
                     return;
                 }
             }
+
             if (_p == null
                 || !authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_p.mylocalPlayer.myPlayerId].playerCharacter)
                 || playerSoul.soulInfo.playerTeam != _p.teamIndex)
@@ -65,10 +66,13 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void PickSoul(PlayerModule shili)
     {
-        WxController wxController =(WxController)shili;
+        if (shili.mylocalPlayer.isOwner)
+        {
+            WxController wxController = (WxController)shili;
 
-        wxController.PickPlayerSoul(playerSoul);
+            wxController.PickPlayerSoul(playerSoul);
 
-        NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID(), true); //Bypass owner cause only one player play as Shili
+            NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID(), true); //Bypass owner cause created by server
+        }
     }
 }
