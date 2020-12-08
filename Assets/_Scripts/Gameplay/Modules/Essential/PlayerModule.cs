@@ -570,7 +570,7 @@ public class PlayerModule : MonoBehaviour
 						DamagesInfos _temp = new DamagesInfos();
 						_temp.damageHealth = allTickLive[i].effect.tickValue;
 						//REMPLACER ICI LE DEALER PAR LE DEAL D EFFECT
-						this.mylocalPlayer.DealDamages(_temp, transform.position, false, true);
+						this.mylocalPlayer.DealDamages(_temp, transform.position, null, false, true);
 					}
 					if (allTickLive[i].effect.isHealing)
 					{
@@ -756,7 +756,7 @@ public class PlayerModule : MonoBehaviour
 		menacedIcon.gameObject.SetActive(false);
 	}
 
-	internal void ApplyWxMark ()
+	internal void ApplyWxMark (ushort? dealerID = null)
 	{
 		if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
@@ -776,7 +776,7 @@ public class PlayerModule : MonoBehaviour
 		_tempDamages.damageHealth = wxMarkRef.effect.optionalDamagesInfos.damageHealth;
 
 		//REMPLACER ICI LE DEALER PAR LE MEC QUI T APPLY LA MARQUE
-		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, true);
+		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, dealerID, true);
 
 		foreach (Sc_Status status in wxMarkRef.effect.optionalDamagesInfos.statusToApply) // already in DealDamage but we dont need to reaply state wx marked
 		{
