@@ -91,6 +91,7 @@ public class SpecMode : MonoBehaviour
         {
             Destroy(oldPlayer.gameObject);
         }
+        listPlayer.Clear();
 
         label.SetActive(false);
     }
@@ -138,7 +139,9 @@ public class SpecMode : MonoBehaviour
 
         if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
         {
-            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).OnSimulateEnter(gameObject);
+            print("oui");
+            GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume = false;
+            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).OnSimulateEnter(GameManager.Instance.networkPlayers[id].gameObject);
         }
     }
 }

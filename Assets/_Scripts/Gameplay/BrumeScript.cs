@@ -34,7 +34,7 @@ public class BrumeScript : MonoBehaviour
     {
 		if (other.gameObject.layer == 8 || other.gameObject.layer == 16)
 		{
-			PlayerModule player = other.GetComponent<PlayerModule>();
+            PlayerModule player = other.GetComponent<PlayerModule>();
 
             if (player.isInBrume && player.brumeId == GetInstanceID()) { return; }
 
@@ -44,6 +44,7 @@ public class BrumeScript : MonoBehaviour
 
             if (player == currentFollowPlayer)
             {
+                print("ouiiiii");
                 GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
                 SetWardFow(player);
                 SetTowerFow(false);
