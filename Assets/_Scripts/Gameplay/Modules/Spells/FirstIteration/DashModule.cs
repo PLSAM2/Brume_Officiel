@@ -29,9 +29,12 @@ public class DashModule : SpellModule
 
 		if (!myPlayerModule.mylocalPlayer.isOwner)
 			myChargesText.gameObject.GetComponentInParent<GameObject>().SetActive(false);
+		else
+		{
+			myChargesText.text = charges.ToString();
+			ChargeUpdate += UpdateChargeUiOnLifeBar;
+		}
 
-		myChargesText.text = charges.ToString();
-		ChargeUpdate += UpdateChargeUiOnLifeBar;
 	}
 
 	private void OnDisable ()
