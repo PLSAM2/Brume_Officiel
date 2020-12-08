@@ -60,7 +60,14 @@ public class SpecMode : MonoBehaviour
         if(RoomManager.Instance.GetPlayerData(playerId).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam && isSpec)
         {
             RefreshList();
-            ChangeSpecPlayer(playerSpected);
+
+            if(playerSpected == playerId)
+            {
+                TryToSpec();
+            }
+            else{
+                ChangeSpecPlayer(playerSpected);
+            }
         }
     }
 
@@ -129,6 +136,27 @@ public class SpecMode : MonoBehaviour
 
     public void ChangeSpecPlayer(ushort id)
     {
+        if (GameManager.Instance.networkPlayers.ContainsKey(playerSpected))
+        {
+            PlayerModule p1 = GameManager.Instance.networkPlayers[playerSpected].myPlayerModule;
+            PlayerModule p2 = GameManager.Instance.networkPlayers[id].myPlayerModule;
+
+            if (p1.isInBrume != p2.isInBrume)
+            {
+                if (p1.isInBrume)
+                {
+                    GameFactory.GetBrumeById(p1.brumeId).OnSimulateExit(p1.gameObject);
+                }
+            }
+            else
+            {
+                if (p1.brumeId != p2.brumeId)
+                {
+                    GameFactory.GetBrumeById(p1.brumeId).OnSimulateExit(p1.gameObject);
+                }
+            }
+        }
+
         playerSpected = id;
         CameraManager.Instance.SetFollowObj(GameManager.Instance.networkPlayers[id].transform);
 
@@ -139,8 +167,7 @@ public class SpecMode : MonoBehaviour
 
         if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
         {
-            print("oui");
-            GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume = false;
+            //GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume = false;
             GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).OnSimulateEnter(GameManager.Instance.networkPlayers[id].gameObject);
         }
     }

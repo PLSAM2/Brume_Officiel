@@ -44,7 +44,6 @@ public class BrumeScript : MonoBehaviour
 
             if (player == currentFollowPlayer)
             {
-                print("ouiiiii");
                 GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
                 SetWardFow(player);
                 SetTowerFow(false);

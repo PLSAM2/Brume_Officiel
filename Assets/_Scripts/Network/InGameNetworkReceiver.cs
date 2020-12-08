@@ -375,7 +375,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort id = reader.ReadUInt16();
                 ushort killerId = reader.ReadUInt16();
 
-                print(killerId);
                 SupprPlayer(id);
 
                 GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
