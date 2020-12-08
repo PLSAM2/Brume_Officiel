@@ -9,7 +9,7 @@ public class WxController : PlayerModule
 {
     [Header("Wu xin Properties")]
 
-    [TabGroup("WX")] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
+    [TabGroup("WX")] List<ushort> playerSouls = new List<ushort>();
 
     [TabGroup("FeedbacksState")] [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
@@ -20,13 +20,13 @@ public class WxController : PlayerModule
     {
         base.Update();
 
-        foreach (PlayerSoul p in playerSouls)
+        foreach (ushort p in playerSouls)
         {
-            print(p.soulInfo.playerTeam + " / " + p.soulInfo.playerCharacter.ToString() + " / " + p.soulInfo.ID);
+            print(RoomManager.Instance.GetPlayerData(p).playerTeam + " / " + RoomManager.Instance.GetPlayerData(p).playerCharacter.ToString() + " / " + p);
         }
 
     }
-    public void PickPlayerSoul(PlayerSoul playerSoul)
+    public void PickPlayerSoul(ushort playerSoul)
     {
         playerSouls.Add(playerSoul);
         soulPickedUp?.Invoke();
@@ -43,11 +43,6 @@ public class WxController : PlayerModule
     {
         return playerSouls.Count;
     }
-    public ushort GetPlayersSoulsID(int index)
-    {
-        return playerSouls[index].soulInfo.ID;
-    }
-
     public void ClearPlayersSouls()
     {
         playerSouls.Clear();
