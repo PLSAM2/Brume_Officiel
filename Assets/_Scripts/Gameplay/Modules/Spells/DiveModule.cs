@@ -16,6 +16,7 @@ public class DiveModule : SpellModule
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", true);
 		myPlayerModule.mylocalPlayer.EnableBuff(true, "Diving");
 
+		/*
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -33,7 +34,14 @@ public class DiveModule : SpellModule
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput += ForceInterrupt;
 				break;
-		}
+		}*/
+		myPlayerModule.firstSpellInput += ForceInterrupt;
+		myPlayerModule.secondSpellInput += ForceInterrupt;
+		myPlayerModule.thirdSpellInput += ForceInterrupt;
+		myPlayerModule.leftClickInput += ForceInterrupt;
+		myPlayerModule.wardInput += ForceInterrupt;
+
+
 		base.ResolveSpell();
 	}
 	public override void Interrupt ()
@@ -41,7 +49,7 @@ public class DiveModule : SpellModule
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", false);
 		myPlayerModule.mylocalPlayer.EnableBuff(false, "Diving");
 
-		switch (actionLinked)
+		/*switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.firstSpellInput -= ForceInterrupt;
@@ -58,8 +66,15 @@ public class DiveModule : SpellModule
 			case En_SpellInput.Ward:
 				myPlayerModule.wardInput -= ForceInterrupt;
 				break;
-		}
+		}*/
 		base.Interrupt();
+
+		myPlayerModule.firstSpellInput -= ForceInterrupt;
+		myPlayerModule.secondSpellInput -= ForceInterrupt;
+		myPlayerModule.thirdSpellInput -= ForceInterrupt;
+		myPlayerModule.leftClickInput -= ForceInterrupt;
+		myPlayerModule.wardInput -= ForceInterrupt;
+
 		StartCoroutine(WaitDelay());
 	//	NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);
 	}
