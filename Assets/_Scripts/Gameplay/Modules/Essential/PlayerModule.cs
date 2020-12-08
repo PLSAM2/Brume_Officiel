@@ -273,7 +273,6 @@ public class PlayerModule : MonoBehaviour
 
 			if ((oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
 				embourbedParticle.gameObject.SetActive(true);
-
 			else if ((oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
 				embourbedParticle.gameObject.SetActive(false);
 
