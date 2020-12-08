@@ -227,7 +227,7 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                                 ((ResurrectAltar)_temp).Unlock();
                                 break;
                             case InteractibleType.HealthPack:
-                                ((ResurrectAltar)_temp).Unlock();
+                                ((HealthPackPickup)_temp).Unlock();
                                 break;
                             default:
                                 throw new Exception("Type non connnu");
