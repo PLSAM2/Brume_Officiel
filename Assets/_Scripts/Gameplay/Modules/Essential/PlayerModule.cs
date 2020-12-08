@@ -84,8 +84,6 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
-
-
 	[TabGroup("GameplayInfos")] public Image menacedIcon;
 	//effects
 	[TabGroup("Debugging")] public List<EffectLifeTimed> allEffectLive;

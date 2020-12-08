@@ -15,17 +15,6 @@ public class WxController : PlayerModule
     private bool isDebuffTrailActive = false;
     public Action soulPickedUp;
 
-
-    protected override void Update()
-    {
-        base.Update();
-
-        foreach (ushort p in playerSouls)
-        {
-            print(RoomManager.Instance.GetPlayerData(p).playerTeam + " / " + RoomManager.Instance.GetPlayerData(p).playerCharacter.ToString() + " / " + p);
-        }
-
-    }
     public void PickPlayerSoul(ushort playerSoul)
     {
         playerSouls.Add(playerSoul);

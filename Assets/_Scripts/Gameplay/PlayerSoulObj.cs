@@ -61,8 +61,6 @@ public class PlayerSoulObj : MonoBehaviour
                 || RoomManager.Instance.GetPlayerData(playerSoul).playerTeam != _p.teamIndex)
                 return;
 
-            print("here");
-
             PickSoul(_p);
         }
     }
