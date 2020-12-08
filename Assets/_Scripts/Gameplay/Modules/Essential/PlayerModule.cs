@@ -226,7 +226,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	void Update ()
+	protected virtual void Update ()
 	{
 		if ((state & En_CharacterState.WxMarked) != 0)
 			wxMark.SetActive(true);
