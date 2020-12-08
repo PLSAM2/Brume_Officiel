@@ -145,14 +145,14 @@ public class SpecMode : MonoBehaviour
             {
                 if (p1.isInBrume)
                 {
-                    GameFactory.GetBrumeById(p1.brumeId).OnSimulateExit(p1.gameObject);
+                    GameFactory.GetBrumeById(p1.brumeId).ShowHideMesh(p1, true);
                 }
             }
             else
             {
                 if (p1.brumeId != p2.brumeId)
                 {
-                    GameFactory.GetBrumeById(p1.brumeId).OnSimulateExit(p1.gameObject);
+                    GameFactory.GetBrumeById(p1.brumeId).ShowHideMesh(p1, true);
                 }
             }
         }
@@ -165,10 +165,12 @@ public class SpecMode : MonoBehaviour
             player.eye.SetActive(player.playerId == id);
         }
 
+        print("change view");
         if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
         {
-            //GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume = false;
-            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).OnSimulateEnter(GameManager.Instance.networkPlayers[id].gameObject);
+            print("in brume");
+
+            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).ShowHideMesh(GameManager.Instance.networkPlayers[id].myPlayerModule, false);
         }
     }
 }
