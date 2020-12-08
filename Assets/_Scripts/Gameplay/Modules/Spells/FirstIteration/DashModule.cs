@@ -28,7 +28,7 @@ public class DashModule : SpellModule
 		localTrad = spell as Sc_DashSpell;
 
 		if (!myPlayerModule.mylocalPlayer.isOwner)
-			myChargesText.gameObject.GetComponentInParent<GameObject>().SetActive(false);
+			myChargesText.transform.parent.gameObject.SetActive(false);
 		else
 		{
 			myChargesText.text = charges.ToString();
