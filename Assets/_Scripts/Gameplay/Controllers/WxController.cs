@@ -9,7 +9,7 @@ public class WxController : PlayerModule
 {
     [Header("Wu xin Properties")]
 
-    private List<PlayerSoul> playerSouls = new List<PlayerSoul>();
+    [TabGroup("WX")] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 
     [TabGroup("FeedbacksState")] [SerializeField] private ParticleSystem altarDebuffTrail;
     private bool isDebuffTrailActive = false;
