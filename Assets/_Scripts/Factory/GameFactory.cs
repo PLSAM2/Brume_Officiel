@@ -51,7 +51,12 @@ public class GameFactory
 
     public static ushort GetMaxLifeOfPlayer(ushort id)
     {
-        return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+        if (GameManager.Instance.networkPlayers.ContainsKey(id))
+        {
+            return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+        }
+
+        return 0;
     }
 
     public static Team GetOtherTeam(Team team)

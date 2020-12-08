@@ -182,11 +182,11 @@ public class PlayerModule : MonoBehaviour
 		leftClick?.SetupComponent(En_SpellInput.Click);
 		ward?.SetupComponent(En_SpellInput.Ward);
 
-		spedUpParticle.Stop();
-		silencedParticle.Stop();
-		slowParticle.Stop();
-		rootParticle.Stop();
-		embourbedParticle.Stop();
+		spedUpParticle.gameObject.SetActive(false);
+		silencedParticle.gameObject.SetActive(false);
+		slowParticle.gameObject.SetActive(false);
+		rootParticle.gameObject.SetActive(false);
+		embourbedParticle.gameObject.SetActive(false);
 
 		_state = En_CharacterState.Clear;
 		oldState = state;
@@ -248,29 +248,35 @@ public class PlayerModule : MonoBehaviour
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
-				spedUpParticle.Play();
+				spedUpParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
-				spedUpParticle.Stop();
+				spedUpParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
-				slowParticle.Play();
+				slowParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
-				slowParticle.Stop();
+				slowParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
-				rootParticle.Play();
+				rootParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
-				rootParticle.Stop();
+				rootParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
-				silencedParticle.Play();
+				silencedParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
-				silencedParticle.Stop();
+				silencedParticle.gameObject.SetActive(false);
+
 
 			if ((oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
-				embourbedParticle.Play();
+				embourbedParticle.gameObject.SetActive(true);
+
 			else if ((oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
-				embourbedParticle.Stop();
+				embourbedParticle.gameObject.SetActive(false);
+
 			#endregion
 
 			if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (state & En_CharacterState.WxMarked) != 0)

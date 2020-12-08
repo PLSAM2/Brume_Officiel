@@ -135,5 +135,10 @@ public class SpecMode : MonoBehaviour
         {
             player.eye.SetActive(player.playerId == id);
         }
+
+        if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
+        {
+            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).OnSimulateEnter(gameObject);
+        }
     }
 }
