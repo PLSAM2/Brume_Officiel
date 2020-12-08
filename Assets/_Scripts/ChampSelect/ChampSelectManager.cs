@@ -344,6 +344,6 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public void LeaveGame()
     {
-
+        RoomManager.Instance.QuitGame();
     }
 }
