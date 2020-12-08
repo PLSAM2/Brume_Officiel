@@ -152,8 +152,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cc772d0d6fc1b44a27405fcdcb7fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: OnVolumeChange
+      Entry: 6
+      Data: 
   prefabAudioSource: {fileID: 1109445855866483966, guid: 348f7bbcf233361459205c68c18c3469, type: 3}
   currentPlayerVolume: 1
+  backGroundMusic: {fileID: 0}
+  networkAudio: []
 --- !u!4 &40140174
 Transform:
   m_ObjectHideFlags: 0
@@ -667,7 +681,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0d2aba9aba9fd4a4e9c093badb523238, type: 2}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

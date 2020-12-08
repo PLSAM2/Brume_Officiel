@@ -444,8 +444,6 @@ public class LocalPlayer : MonoBehaviour
 		{
 			if (isOwner)
 			{
-				print(dealerID);
-
 				if (dealerID != null)
 				{
 					KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
