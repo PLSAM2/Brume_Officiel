@@ -84,7 +84,6 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
-	[HideInInspector] public List<PlayerSoul> playerSouls = new List<PlayerSoul>();
 	[TabGroup("GameplayInfos")] public Image menacedIcon;
 	//effects
 	[TabGroup("Debugging")] public List<EffectLifeTimed> allEffectLive;
@@ -226,7 +225,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	void Update ()
+	protected virtual void Update ()
 	{
 		if ((state & En_CharacterState.WxMarked) != 0)
 			wxMark.SetActive(true);

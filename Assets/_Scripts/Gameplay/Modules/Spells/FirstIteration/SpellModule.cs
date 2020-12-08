@@ -31,6 +31,7 @@ public class SpellModule : MonoBehaviour
 				cooldown = finalCooldownValue();
 
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+			ChargeUpdate?.Invoke(charges);
 		}
 	}
 
@@ -45,10 +46,10 @@ public class SpellModule : MonoBehaviour
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
-    public AudioClip canalisationClip;
-    public AudioClip anonciationClip;
-
-    private void OnEnable ()
+	public AudioClip canalisationClip;
+	public AudioClip anonciationClip;
+	public Action<int> ChargeUpdate;
+	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
@@ -67,7 +68,6 @@ public class SpellModule : MonoBehaviour
 
 			timeToResolveSpell = spell.canalisationTime;
 			charges = spell.numberOfCharge;
-
 			//action 
 			myPlayerModule.upgradeKit += UpgradeSpell;
 			myPlayerModule.backToNormalKit += ReturnToNormal;
@@ -309,7 +309,6 @@ public class SpellModule : MonoBehaviour
 
 		startResolution = true;
 	}
-
 	protected virtual void ResolveSpell ()
 	{
 		resolved = true;
@@ -331,12 +330,10 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.AddStatus(_statusToAdd.effect);
 			}
 	}
-
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
-
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
 		if (_isForcedInterrupt && isUsed)
@@ -355,7 +352,6 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
-
 	public virtual void Interrupt ()
 	{
 		isUsed = false;
@@ -378,7 +374,6 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.rotationLock(false);
 
 	}
-
 	protected virtual void KillSpell ()
 	{
 		AnonciationFeedBack();
@@ -387,7 +382,6 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 		Interrupt();
 	}
-
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
@@ -439,10 +433,10 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
-        //PITIT BRUIT
-        AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position);
+		//PITIT BRUIT
+		AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position);
 
-        switch (actionLinked)
+		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", true);
@@ -468,10 +462,10 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void AnonciationFeedBack ()
 	{
-        //PITIT BRUIT
-        AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position);
+		//PITIT BRUIT
+		AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position);
 
-        switch (actionLinked)
+		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", false);

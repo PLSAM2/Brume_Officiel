@@ -19,7 +19,7 @@ public class Altar : Interactible
     [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
-
+    [SerializeField] Sprite willUnlockSprite;
     void Start()
     {
         base.Init();
@@ -54,7 +54,7 @@ public class Altar : Interactible
     IEnumerator ActivateAltar()
     {
         AudioManager.Instance.Play2DAudio(annoncementAltarSfx);
-
+        mapIcon.sprite = willUnlockSprite;
         yield return new WaitForSeconds(unlockTime);
 
         UiManager.Instance.DisplayGeneralMessage("Altar unlock");

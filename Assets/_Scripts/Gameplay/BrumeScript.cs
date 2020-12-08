@@ -44,11 +44,7 @@ public class BrumeScript : MonoBehaviour
 
             if (player == currentFollowPlayer)
             {
-                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
-                SetWardFow(player);
-                SetTowerFow(false);
-
-                myRenderer.enabled = false;
+                ShowHideMesh(player, false);
 
                 AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
@@ -63,12 +59,7 @@ public class BrumeScript : MonoBehaviour
                 PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
                 player.SetInBrumeStatut(true, GetInstanceID());
 
-
-                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", true);
-                SetWardFow(player);
-                SetTowerFow(false);
-
-                myRenderer.enabled = false;
+                ShowHideMesh(player, false);
 
                 other.GetComponent<Ghost>().currentIdBrume = GetInstanceID();
 
@@ -123,12 +114,9 @@ public class BrumeScript : MonoBehaviour
 
             if (player == currentFollowPlayer)
             {
-                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
-                SetWardFow(player);
-                SetTowerFow(true);
+                ShowHideMesh(player, true);
 
                 UiManager.Instance.SetAlphaBrume(0);
-                myRenderer.enabled = true;
 
                 AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
@@ -143,16 +131,22 @@ public class BrumeScript : MonoBehaviour
                 PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
                 player.SetInBrumeStatut(false, 0);
 
-                GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", false);
-                SetWardFow(player);
-                SetTowerFow(true);
+                ShowHideMesh(player, true);
 
                 UiManager.Instance.SetAlphaBrume(0);
-                myRenderer.enabled = true;
 
                 AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
         }
+    }
+
+    public void ShowHideMesh(PlayerModule _module, bool _value)
+    {
+        GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", !_value);
+        SetWardFow(_module);
+
+        SetTowerFow(_value);
+        myRenderer.enabled = _value;
     }
 
     void SetWardFow(PlayerModule _player)
