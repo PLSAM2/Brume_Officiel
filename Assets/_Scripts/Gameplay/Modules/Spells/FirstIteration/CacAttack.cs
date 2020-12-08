@@ -12,21 +12,16 @@ public class CacAttack : SpellModule
 	CacAttackParameters attackToResolve;
 	float finalTimeCanalised;
 
-
-	private void Awake ()
-	{
-		localTrad = (Sc_CacAttack)spell;
-	}
-
-
 	//inputs
 	#region
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
+		localTrad = (Sc_CacAttack)spell;
+
+
 		shapePreview = PreviewManager.Instance.GetShapePreview();
 		shapePreview.gameObject.SetActive(false);
-
 		shapePreviewNetwork = PreviewManager.Instance.GetShapePreview();
 		shapePreviewNetwork.gameObject.SetActive(false);
 	}

@@ -18,8 +18,13 @@ public class WxController : PlayerModule
 
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
-        print("I picked a soul");
         playerSouls.Add(playerSoul);
+        soulPickedUp?.Invoke();
+        // this.GetComponent<Module_WxSoulBurst>().charges++;
+    }
+
+    public void PickBrumeSoul()
+    {
         soulPickedUp?.Invoke();
         // this.GetComponent<Module_WxSoulBurst>().charges++;
     }

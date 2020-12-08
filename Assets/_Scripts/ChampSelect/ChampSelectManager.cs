@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static GameData;
 
@@ -336,4 +337,13 @@ public class ChampSelectManager : SerializedMonoBehaviour
         }
     }
 
+    public void OpenSetting()
+    {
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
+    }
+
+    public void LeaveGame()
+    {
+        RoomManager.Instance.QuitGame();
+    }
 }
