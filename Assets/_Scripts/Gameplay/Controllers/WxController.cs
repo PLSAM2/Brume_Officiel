@@ -16,12 +16,15 @@ public class WxController : PlayerModule
     public Action soulPickedUp;
 
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         foreach (PlayerSoul p in playerSouls)
         {
             print(p.soulInfo.playerTeam + " / " + p.soulInfo.playerCharacter.ToString() + " / " + p.soulInfo.ID);
         }
+
     }
     public void PickPlayerSoul(PlayerSoul playerSoul)
     {
