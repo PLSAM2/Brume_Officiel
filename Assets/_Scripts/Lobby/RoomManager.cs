@@ -296,6 +296,7 @@ public class RoomManager : MonoBehaviour
         {
             return;
         }
+
         NetworkManager.Instance.GetLocalPlayer().ResetGameData();
         SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
         ResetActualGame();
