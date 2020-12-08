@@ -6,8 +6,9 @@ public class DiveModule : SpellModule
 {
 	Sc_EffectAtEnd localTrad;
 
-	private void Awake ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
+		base.SetupComponent(_actionLinked);
 		localTrad = spell as Sc_EffectAtEnd;
 	}
 	protected override void ResolveSpell ()

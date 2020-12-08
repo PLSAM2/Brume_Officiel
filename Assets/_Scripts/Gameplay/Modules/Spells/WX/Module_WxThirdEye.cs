@@ -13,8 +13,9 @@ public class Module_WxThirdEye : SpellModule
 	Sc_ThirdEye localTrad;
 	bool outliningPlayers = false;
 
-	private void OnEnable ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
+		base.SetupComponent(_actionLinked);
 		GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
 		GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
 		localTrad = (Sc_ThirdEye)spell;
@@ -29,6 +30,7 @@ public class Module_WxThirdEye : SpellModule
 		shockWave.transform.localScale = Vector3.zero;
 		shockWave.gameObject.SetActive(false);
 	}
+
 	private void OnDisable ()
 	{
 	//	Interrupt();
