@@ -25,7 +25,7 @@ public class GameManager : SerializedMonoBehaviour
     // <<
 
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
-    public Action AllCharacterSpawned;
+    [HideInInspector] public Action AllCharacterSpawned;
 
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
@@ -59,20 +59,23 @@ public class GameManager : SerializedMonoBehaviour
 
     private bool stopInit = false;
     public bool gameStarted = false;
-
+    
     public Animator globalVolumeAnimator;
 
+    public GameObject brumeSoul;
+    public Dictionary<ushort, BrumeSoul> brumeSouls = new Dictionary<ushort, BrumeSoul>();
+
     //Event utile
-    public Action<ushort, ushort> OnPlayerDie;
-    public Action<ushort, bool> OnPlayerAtViewChange;
-    public Action<ushort, ushort> OnPlayerGetDamage;
-    public Action<ushort> OnPlayerRespawn;
-    public Action<ushort> OnPlayerSpawn;
+    [HideInInspector] public Action<ushort, ushort> OnPlayerDie;
+    [HideInInspector] public Action<ushort, bool> OnPlayerAtViewChange;
+    [HideInInspector] public Action<ushort, ushort> OnPlayerGetDamage;
+    [HideInInspector] public Action<ushort> OnPlayerRespawn;
+    [HideInInspector] public Action<ushort> OnPlayerSpawn;
 
-    public Action<Ward> OnWardTeamSpawn;
-    public Action<VisionTower> OnTowerTeamCaptured;
+    [HideInInspector] public Action<Ward> OnWardTeamSpawn;
+    [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
-    public Action<ushort, bool> OnInteractibleViewChange;
+    [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
 
     private void Awake()
     {
@@ -215,7 +218,29 @@ public class GameManager : SerializedMonoBehaviour
         {
             GameFactory.GetLocalPlayerObj().gameObject.SetActive(false);
         }
-
+        
         RoomManager.Instance.QuitGame();
+    }
+
+    internal void SpawnBrumeSoul(ushort brumeId)
+    {
+        if (brumeSouls.ContainsKey(brumeId))
+        {
+            return;
+        }
+
+        BrumeSoul _soul = Instantiate(brumeSoul, allBrume[brumeId].spawnPoint.position, Quaternion.Euler(0,0,0)).GetComponent<BrumeSoul>();
+        _soul.brumeIndex = brumeId;
+        _soul.instanceID = allBrume[brumeId].GetInstanceID();
+        brumeSouls.Add(brumeId, _soul);
+    }
+
+    internal void DeleteBrumeSoul(ushort brumeId)
+    {
+        if (brumeSouls.ContainsKey(brumeId))
+        {
+            Destroy(brumeSouls[brumeId].gameObject);
+            brumeSouls.Remove(brumeId);
+        }
     }
 }
