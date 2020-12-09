@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
-  m_Name: Spell_Yang_AutoAttackCaC
+  m_Name: Spell_Yang_AutoAttackCaCUpgraded
   m_EditorClassIdentifier: 
   range: 0
   cooldown: 0
@@ -18,26 +18,26 @@ MonoBehaviour:
   forbiddenState: 48
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.5
+  canalisationTime: 0.6
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
-  anonciationTime: 0.3
-  forcedMovementAppliedBeforeResolution: {fileID: 0}
-  forcedMovementAppliedAfterResolution: {fileID: 0}
+  anonciationTime: 0.4
+  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 5c5e384711a49fb4397859edd62263dc, type: 2}
+  forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
   timeToCanalyseToUpgrade: 30
   normalAttack:
-    angleToAttackFrom: 15
+    angleToAttackFrom: 90
     rangeOfTheAttack: 3.5
     damagesToDeal:
       playerName: 
-      damageHealth: 15
+      damageHealth: 20
       statusToApply:
-      - {fileID: 0}
+      - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
