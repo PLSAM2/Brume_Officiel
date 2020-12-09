@@ -7,22 +7,34 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "NewCacSpell", menuName = "CreateCuston/NewSpell/CacAttack")]
 public class Sc_CacAttack : Sc_Spell
 {
+	public bool newSystem = true;
 	[Header("AutoParameters")]
-	[TabGroup("Cac Parameters")] public float timeToCanalyseToUpgrade = .5f;
+	[HideIf("newSystem")] [TabGroup("Cac Parameters")] public float timeToCanalyseToUpgrade = .5f;
 	[Header("DamagePart")]
-	[TabGroup("Cac Parameters")] public CacAttackParameters normalAttack;
-	[TabGroup("Cac Parameters")]  public CacAttackParameters upgradedAttack;
+	[HideIf("newSystem")] [TabGroup("Cac Parameters")] public CacAttackParameters normalAttack;
+	[HideIf("newSystem")] [TabGroup("Cac Parameters")] public CacAttackParameters upgradedAttack;
 
+	[Header("enchainement part")]
+	[ShowIf("newSystem")] [TabGroup("Cac Parameters")] public CacAttackParameters[] attackList;
+	[ShowIf("newSystem")] [TabGroup("Cac Parameters")] public float timeToStopCombo;
 }
 
 
 [System.Serializable]
 public class CacAttackParameters
 {
-	[Header("hit Part")]
-	[Tooltip("90")] public float angleToAttackFrom = 90;
+	[Header("Hit Part")]
+	public float angleToAttackFrom = 90;
 	public float rangeOfTheAttack = 3;
 
-	[Header("damage Part")]
+	[Header("Damage Part")]
 	public DamagesInfos damagesToDeal;
+
+	[Header("Canalisation Part")]
+	public float canalisationTime;
+	public float anonciationTime;
+
+	[Header("Movement Part")]
+	public Sc_ForcedMovement forcedMovementToApplyOnRealisation;
+	public Sc_ForcedMovement forcedMovementToApplyAfterRealisation;
 }
