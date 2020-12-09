@@ -165,11 +165,8 @@ public class SpecMode : MonoBehaviour
             player.eye.SetActive(player.playerId == id);
         }
 
-        print("change view");
         if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
         {
-            print("in brume");
-
             GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).ShowHideMesh(GameManager.Instance.networkPlayers[id].myPlayerModule, false);
         }
     }

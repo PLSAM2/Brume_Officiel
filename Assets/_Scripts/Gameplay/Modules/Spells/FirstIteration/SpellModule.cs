@@ -66,7 +66,6 @@ public class SpellModule : MonoBehaviour
 			LinkInputs(_actionLinked);
 			UiManager.Instance.SetupIcon(spell, _actionLinked);
 
-			timeToResolveSpell = spell.canalisationTime;
 			charges = spell.numberOfCharge;
 			//action 
 			myPlayerModule.upgradeKit += UpgradeSpell;
@@ -225,7 +224,7 @@ public class SpellModule : MonoBehaviour
 		{
 			Resolution();
 		}
-		else if (currentTimeCanalised >= timeToResolveSpell - spell.anonciationTime && anonciated == false)
+		else if (currentTimeCanalised >= FinalAnonciationTime() && anonciated == false)
 		{
 			AnonceSpell(Vector3.zero);
 		}
@@ -248,7 +247,7 @@ public class SpellModule : MonoBehaviour
 		{
 			AnonciationFeedBack();
 			anonciated = true;
-			currentTimeCanalised = TimeToWaitOnanonciation();
+			currentTimeCanalised = FinalAnonciationTime();
 
 			if (spell.lockRotOnAnonciation)
 				myPlayerModule.rotationLock(true);
@@ -259,15 +258,12 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual float TimeToWaitOnanonciation ()
-	{
-		return spell.canalisationTime - spell.anonciationTime;
-	}
-
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		if (canBeCast() && willResolve)
 		{
+			timeToResolveSpell = FinalCanalisationTime();
+
 			resolved = anonciated = startResolution = false;
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
@@ -300,7 +296,7 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void Resolution ()
 	{
-		if (spell.forcedMovementAppliedBeforeResolution != null)
+		if (ForcedMovementToApplyOnRealisation() != null)
 		{
 			myPlayerModule.forcedMovementInterrupted += ResolveSpell;
 			TreatForcedMovement(spell.forcedMovementAppliedBeforeResolution);
@@ -314,15 +310,13 @@ public class SpellModule : MonoBehaviour
 	{
 		resolved = true;
 
-
-
-		if (spell.forcedMovementAppliedBeforeResolution != null)
+		if (ForcedMovementToApplyOnRealisation() != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSpell;
 		}
 
-		if (spell.forcedMovementAppliedAfterResolution != null)
-			TreatForcedMovement(spell.forcedMovementAppliedAfterResolution);
+		if (ForcedMovementToApplyAfterRealisation() != null)
+			TreatForcedMovement(ForcedMovementToApplyAfterRealisation());
 
 		if (spell.statusToApplyOnResolution.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyOnResolution)
@@ -374,6 +368,8 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
 
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 	}
 	protected virtual void KillSpell ()
 	{
@@ -495,6 +491,20 @@ public class SpellModule : MonoBehaviour
 		return spell.cooldown + spell.throwBackDuration;
 	}
 
+	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
+	{ return spell.forcedMovementAppliedBeforeResolution; }
+
+	protected virtual Sc_ForcedMovement ForcedMovementToApplyAfterRealisation ()
+	{ return spell.forcedMovementAppliedAfterResolution; }
+
+	protected virtual float FinalCanalisationTime ()
+	{
+		return spell.canalisationTime;
+	}
+	protected virtual float FinalAnonciationTime ()
+	{
+		return spell.canalisationTime - spell.anonciationTime;
+	}
 
 }
 public enum En_SpellInput

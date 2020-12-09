@@ -66,12 +66,15 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     [SerializeField] AudioSource myAudioSource;
 
+
+    private bool isViewed = false;
     private void Awake()
     {
         client = RoomManager.Instance.client;
         OnVolumeChange(AudioManager.Instance.currentPlayerVolume);
 
         myAudioSource.enabled = false;
+
     }
 
     protected void Init()
@@ -81,11 +84,13 @@ public class Interactible : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.Instance.OnInteractibleViewChange += OnInteractibleViewChange;
         AudioManager.Instance.OnVolumeChange += OnVolumeChange;
     }
 
     private void OnDisable()
     {
+        GameManager.Instance.OnInteractibleViewChange -= OnInteractibleViewChange;
         AudioManager.Instance.OnVolumeChange -= OnVolumeChange;
     }
 
@@ -97,7 +102,12 @@ public class Interactible : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         Capture();
-        fillImg.fillAmount = (timer / interactTime);
+
+        if (isViewed)
+        {
+            fillImg.fillAmount = (timer / interactTime);
+        }
+
     }
 
     protected virtual void Capture()
@@ -166,7 +176,11 @@ public class Interactible : MonoBehaviour
             StopCapturing(NetworkManager.Instance.GetLocalPlayer().playerTeam);
         }
 
-        SetColor(GameFactory.GetColorTeam(team));
+        if (isViewed)
+        {
+            SetColor(GameFactory.GetColorTeam(team));
+        }
+
     }
 
     /// <summary>
@@ -185,14 +199,11 @@ public class Interactible : MonoBehaviour
             capturingTeam = Team.none;
             isCapturing = false;
 
-            if (state == State.Capturable)
+            if (isViewed)
             {
-                SetColor(canBeCapturedColor);
+                SetColorByState();
             }
-            else
-            {
-                SetColor(noCaptureColor);
-            }
+
         }
 
     }
@@ -215,6 +226,7 @@ public class Interactible : MonoBehaviour
 
         timer = 0;
         capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
+
 
         UpdateCaptured(team);
     }
@@ -245,9 +257,34 @@ public class Interactible : MonoBehaviour
 
     public virtual void Unlock()
     {
-        SetColor(canBeCapturedColor);
+        if (isViewed)
+        {
+            SetColor(canBeCapturedColor);
+        }
+
         zoneImg.gameObject.SetActive(true);
         state = State.Capturable;
+    }
+
+    private void SetColorByState()
+    {
+        switch (state)
+        {
+            case State.Locked:
+                SetColor(noCaptureColor);
+                break;
+            case State.Capturable:
+                SetColor(canBeCapturedColor);
+                break;
+            case State.Captured:
+                if (capturingTeam != Team.none)
+                {
+                    SetColor(GameFactory.GetColorTeam(capturingTeam));
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private void SetColor(Color color)
@@ -290,6 +327,18 @@ public class Interactible : MonoBehaviour
                 }
 
                 _pModule.interactiblesClose.Remove(this);
+            }
+        }
+    }
+    private void OnInteractibleViewChange(ushort ID, bool value)
+    {
+        if (interactibleID == ID)
+        {
+            isViewed = value;
+
+            if (value)
+            {
+                SetColorByState();
             }
         }
     }
