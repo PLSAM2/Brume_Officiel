@@ -5,7 +5,6 @@ using UnityEngine;
 public class FrogNest : MonoBehaviour
 {
     public Frog frogObj;
-    public float respawnTime;
 
     private void Start()
     {
