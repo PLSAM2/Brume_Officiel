@@ -218,6 +218,7 @@ MonoBehaviour:
   synchroniseRotation: 0
   interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.05
+  rotationRequiredBeforeSync: 6
 --- !u!114 &1384060272247584325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,11 +238,14 @@ MonoBehaviour:
   myteam: 0
   myNetworkObject: {fileID: 1984787125783616747}
   isOwner: 0
+  spawnSound: {fileID: 0}
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 02f9acdded9a54447b5cf3c3b168b853, type: 3}
   soundFollowObj: 1
   localTrad: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
   doImpactFx: 1
+  hasTouched: 0
+  hitSound: {fileID: 0}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -403,7 +407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4805572185730596517
 Transform:
   m_ObjectHideFlags: 0
@@ -541,7 +545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3019420767287029772
 Transform:
   m_ObjectHideFlags: 0
