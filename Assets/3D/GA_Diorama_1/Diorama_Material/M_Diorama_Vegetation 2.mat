@@ -25,6 +25,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ColorNoise_Texture:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -160,6 +164,9 @@ Material:
     m_Floats:
     - _BendAmount: 1.25
     - _BumpScale: 1
+    - _ColorNoise_Contrast: 0.5
+    - _ColorNoise_Power: 1.5
+    - _ColorNoise_Tiling: 1
     - _CustomAlphaMask: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
@@ -267,7 +274,7 @@ Material:
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _NormalInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _OutBrumeColorCorrection: {r: 0.9245283, g: 0.7135149, b: 0.37068352, a: 0}
-    - _OutBrume_ColorCorrection: {r: 0.6886792, g: 0.4944197, b: 0.3930669, a: 1}
+    - _OutBrume_ColorCorrection: {r: 0.6886792, g: 0.49441963, b: 0.39306688, a: 1}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
