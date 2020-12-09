@@ -22,7 +22,7 @@ public class FootstepAudio : MonoBehaviour
 
     private void Start()
     {
-        ChangeVolume(AudioManager.Instance.currentPlayerVolume / 2);
+        ChangeVolume(AudioManager.Instance.currentPlayerVolume);
     }
 
     private void OnEnable()
@@ -39,7 +39,7 @@ public class FootstepAudio : MonoBehaviour
     {
         if(myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            myAudioSource.volume = _volume / 3;
+            myAudioSource.volume = _volume / 4;
         }
         else
         {

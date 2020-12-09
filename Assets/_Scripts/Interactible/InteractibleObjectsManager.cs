@@ -82,9 +82,12 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             {
                 ReactivateVisionTowerInServer(sender, e);
             }
+            if (message.Tag == Tags.HealthPackTimerElapsed)
+            {
+                ReactivateHealthPackInServer(sender, e);
+            }
         }
     }
-
     public void InitInteractibleID()
     {
         for (ushort i = 0; i < interactibleList.Count; i++)
@@ -192,6 +195,21 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 Interactible _interactible = interactibleList[_ID].interactible;
 
                 ((VisionTower)_interactible).ReactivateTower();
+            }
+        }
+    }
+
+    private void ReactivateHealthPackInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                ((HealthPackPickup)_interactible).Reactivate();
             }
         }
     }
