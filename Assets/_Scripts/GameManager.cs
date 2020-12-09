@@ -48,8 +48,6 @@ public class GameManager : SerializedMonoBehaviour
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
 
-    public List<Ghost> allGhost = new List<Ghost>();
-
     public List<BrumeScript> allBrume = new List<BrumeScript>();
 
     public List<Fx> allFx = new List<Fx>();

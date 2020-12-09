@@ -10,6 +10,11 @@ public class Fx : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.allFx.Add(this);
+
+        foreach(GameObject obj in objToHide)
+        {
+            obj.SetActive(false);
+        }
     }
 
     private void OnDisable()
