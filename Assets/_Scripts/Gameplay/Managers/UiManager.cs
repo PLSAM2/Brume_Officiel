@@ -288,17 +288,14 @@ public class UiManager : MonoBehaviour
         {
             case En_SpellInput.FirstSpell:
                 firstSpell.UpdateFillAmount( _time, _completeCd);
-                CheckBeReady(_time, firstSpell, .2f);
                 break;
 
             case En_SpellInput.SecondSpell:
                 secondSpell.UpdateFillAmount( _time, _completeCd);
-                CheckBeReady(_time, secondSpell, .2f);
                 break;
 
             case En_SpellInput.ThirdSpell:
                 thirdSpell.UpdateFillAmount( _time, _completeCd);
-                CheckBeReady(_time, thirdSpell, .2f);
                 break;
 
             case En_SpellInput.Maj:
@@ -307,11 +304,9 @@ public class UiManager : MonoBehaviour
 
             case En_SpellInput.Click:
                 autoAttackIcon.UpdateFillAmount( _time, _completeCd);
-                CheckBeReady(_time, autoAttackIcon, 0.05f);
                 break;
             case En_SpellInput.Ward:
                 wardIcon.UpdateFillAmount(_time, _completeCd);
-                CheckBeReady(_time, wardIcon, 0.05f);
                 break;
         }
     }
@@ -377,32 +372,45 @@ public class UiManager : MonoBehaviour
         waitingForPlayersPanel.SetActive(false);
     }
 
-    void CheckBeReady(float _actualTime, IconUi _iconToPrep, float _timeToCheckShow)
-    {
-        if (_actualTime <= 0.2f)
-            _iconToPrep.BeReady(true, _timeToCheckShow);
-        else
-            _iconToPrep.BeReady(false, _timeToCheckShow);
-    }
-
     public void UpdateChargesUi(int _charges, En_SpellInput _spellInput)
 	{
         switch(_spellInput)
 		{
             case En_SpellInput.FirstSpell:
                 firstSpell.UpdatesChargesAmont(_charges);
+                if (_charges > 0)
+                    firstSpell.HideIcon (false);
+                else
+                    firstSpell.HideIcon(true);
+
                 break;
             case En_SpellInput.SecondSpell:
                 secondSpell.UpdatesChargesAmont(_charges);
+                if (_charges > 0)
+                    secondSpell.HideIcon(false);
+                else
+                    secondSpell.HideIcon(true);
                 break;
             case En_SpellInput.ThirdSpell:
                 thirdSpell.UpdatesChargesAmont(_charges);
+                if (_charges > 0)
+                    thirdSpell.HideIcon(false);
+                else
+                    thirdSpell.HideIcon(true);
                 break;
             case En_SpellInput.Click:
                 autoAttackIcon.UpdatesChargesAmont(_charges);
+                if (_charges > 0)
+                    autoAttackIcon.HideIcon(false);
+                else
+                    autoAttackIcon.HideIcon(true);
                 break;
             case En_SpellInput.Ward:
                 wardIcon.UpdatesChargesAmont(_charges);
+                if (_charges > 0)
+                    wardIcon.HideIcon(false);
+                else
+                    wardIcon.HideIcon(true);
                 break;
 
         }
