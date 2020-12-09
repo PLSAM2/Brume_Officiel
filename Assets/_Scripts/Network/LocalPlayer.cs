@@ -175,7 +175,8 @@ public class LocalPlayer : MonoBehaviour
 	{
 		myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
 		myFow.Init(transform, myPlayerModule.characterParameters.visionRange);
-	}
+        myFow.InitPlayerModule(myPlayerModule);
+    }
 
 	public void ShowHideFow ( bool _value )
 	{
@@ -328,12 +329,17 @@ public class LocalPlayer : MonoBehaviour
 		switch (_value)
 		{
 			case true:
-				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
+				SetFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
 				break;
 			case false:
 				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
+
+        if (isOwner)
+        {
+
+        }
 	}
 
 	public void SetMovePosition ( Vector3 newPos, Vector3 newRotation )
