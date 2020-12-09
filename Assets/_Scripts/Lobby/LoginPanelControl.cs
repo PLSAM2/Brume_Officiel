@@ -17,6 +17,8 @@ public class LoginPanelControl : MonoBehaviour
     [SerializeField] private TextMeshProUGUI connectionStateLogin;
     [SerializeField] private Button loginBtn;
     [SerializeField] private UnityClient client;
+    [SerializeField] private GameObject nameChangePanel;
+    [SerializeField] private List<GameObject> connectButtons;
 
     public IPAddress LocalIP
     {
@@ -42,6 +44,7 @@ public class LoginPanelControl : MonoBehaviour
     {
         client = RoomManager.Instance.client;
     }
+
     private void Start()
     {
         if (client.ConnectionState == ConnectionState.Connected)
@@ -94,10 +97,22 @@ public class LoginPanelControl : MonoBehaviour
         if (client.ConnectionState != ConnectionState.Connected)
         {
             loginBtn.interactable = false;
+            nameChangePanel.SetActive(false);
+
+            foreach (GameObject go in connectButtons)
+            {
+                go.SetActive(true);
+            }
             return;
         }
         else
         {
+            nameChangePanel.SetActive(true);
+
+            foreach (GameObject go in connectButtons)
+            {
+                go.SetActive(false);
+            }
             loginBtn.interactable = true;
         }
 
