@@ -466,8 +466,7 @@ public class LocalPlayer : MonoBehaviour
 
 	public void HealPlayer ( ushort value )
 	{
-		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealth);
-		liveHealth = (ushort)_tempHp;
+		HealLocaly(value);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -479,6 +478,12 @@ public class LocalPlayer : MonoBehaviour
 				currentClient.SendMessage(_message, SendMode.Reliable);
 			}
 		}
+	}
+
+	public void HealLocaly(ushort value)
+	{
+		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealth);
+		liveHealth = (ushort)_tempHp;
 	}
 
 	public void SendChangeFowRaduis ( float size = 0, bool resetSize = false )
