@@ -12,13 +12,22 @@ public class IconUi : MonoBehaviour
 	[SerializeField] En_SpellInput typeOfSpell;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
+	RectTransform myRectTransform;
+	Vector2 basePos;
+
+	private void Start ()
+	{
+		myRectTransform = GetComponent<RectTransform>();
+		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
+		print(basePos);
+	}
 
 	public void SetSprite ( Sprite _icon )
 	{
 		icon.sprite = _icon;
 	}
 
-	public void UpdateFillAmount ( float _cooldownRemaining , float _completeCd)
+	public void UpdateFillAmount ( float _cooldownRemaining, float _completeCd )
 	{
 
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
@@ -39,26 +48,21 @@ public class IconUi : MonoBehaviour
 		chargesSpot.text = _numberOfCharges.ToString();
 	}
 
-	public void BeReady ( bool _hiding, float _timeToWarmUp = .2f )
+	public void HideIcon ( bool _hiding )
 	{
-		/* SACRE BORDEL A CORRIGER
-		if(isMoving == false)
+		myRectTransform.DOKill();
+
+
+		if (_hiding == true)
 		{
-			if (_hiding == true)
-			{
-				isMoving = true;
-				print(_hiding);
-				myRectTransform.DOMoveY(60, _timeToWarmUp).OnComplete(() => isMoving = false);
-			}
-			else
-			{
-				isMoving = true;
-				myRectTransform.DOMoveY(20, _timeToWarmUp).OnComplete(() => isMoving = false);
-			}
+			myRectTransform.DOAnchorPos(basePos - new Vector2(0, 30), .4f);
 		}
-		*/
+		else
+		{
+			myRectTransform.DOAnchorPos(basePos, .4f);
+		}
 	}
-	public void SetupInputName(string _name)
+	public void SetupInputName ( string _name )
 	{
 		input.text = _name;
 	}
