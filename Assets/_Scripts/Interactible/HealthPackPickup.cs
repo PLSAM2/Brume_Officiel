@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 
 public class HealthPackPickup : Interactible
 {
-	NetworkedObject myNetworkedObject;
 	[Header("HealValue")]
 	[TabGroup("HealPart")]
 	public ushort healValue;
 
-	private void Start ()
+	public override void Captured(GameData.Team team)
 	{
-		myNetworkedObject = GetComponent<NetworkedObject>();
+		base.Captured(team);
+		capturingPlayerModule.mylocalPlayer.HealPlayer(healValue);
 	}
 
 	public override void UpdateCaptured ( GameData.Team team )
 	{
 		base.UpdateCaptured(team);
-
-		NetworkObjectsManager.Instance.DestroyNetworkedObject(myNetworkedObject.GetItemID());
+		this.gameObject.SetActive(false);
 	}
 
-	public override void Captured ( GameData.Team team )
-	{
-		capturingPlayerModule.mylocalPlayer.HealPlayer(healValue);
-		base.Captured(team);
-	}
+    internal void Reactivate()
+    {
+		Unlock();
+		this.gameObject.SetActive(true);
+    }
 }
