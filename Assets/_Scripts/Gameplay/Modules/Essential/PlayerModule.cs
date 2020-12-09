@@ -201,7 +201,7 @@ public class PlayerModule : MonoBehaviour
 		{
 
 			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
-			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, firstSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, "RC");
 			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());

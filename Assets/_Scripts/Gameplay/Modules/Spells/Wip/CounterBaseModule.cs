@@ -6,6 +6,7 @@ public class CounterBaseModule : SpellModule
 {
 
 	Sc_Counter localTrad;
+	public SpellModule spellToLaunchOnCounter;
 
 	private void Awake ()
 	{
@@ -16,21 +17,19 @@ public class CounterBaseModule : SpellModule
 	{
 		base.ResolveSpell();
 		myPlayerModule.hitCountered += Counter;
-		myPlayerModule.AddState(En_CharacterState.Countering);
 	}
 
 	public override void Interrupt ()
 	{
-		myPlayerModule.RemoveState(En_CharacterState.Countering);
 		myPlayerModule.hitCountered -= Counter;
 		base.Interrupt();
 	}
 
 	protected virtual void Counter(LocalPlayer playerCountered)
 	{
-		playerCountered.DealDamages(localTrad.damagesToDealer, transform.position);
-
 		foreach (Sc_Status _status in localTrad.StatusToApplyToSelf)
 			myPlayerModule.AddStatus(_status.effect);
+
+		spellToLaunchOnCounter.StartCanalysing(myPlayerModule.mousePos());
 	}
 }
