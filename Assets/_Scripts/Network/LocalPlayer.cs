@@ -47,6 +47,7 @@ public class LocalPlayer : MonoBehaviour
 	Vector3 newNetorkPos;
 	[HideInInspector] [SerializeField] float syncSpeed = 10;
 
+
 	[ReadOnly]
 	public ushort liveHealth
 	{
@@ -74,7 +75,8 @@ public class LocalPlayer : MonoBehaviour
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-
+	
+	public RagdollReceiver ragdoll;
 
 	private void Awake ()
 	{
@@ -558,7 +560,7 @@ public class LocalPlayer : MonoBehaviour
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
-
+			
 			GameManager.Instance.ResetCam();
 		}
 	}
