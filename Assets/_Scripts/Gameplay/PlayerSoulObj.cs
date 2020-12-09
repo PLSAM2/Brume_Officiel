@@ -43,11 +43,18 @@ public class PlayerSoulObj : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PlayerModule _p = null;
 
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8) // player)
         {
-            PlayerModule _p = other.gameObject.GetComponent<PlayerModule>();
+            _p = other.gameObject.GetComponent<PlayerModule>();
+        } else if (other.gameObject.layer == 23)
+        {
+            _p = other.gameObject.GetComponent<Ghost>().playerModule;
+        }
 
+        if (_p != null)
+        {
             if (GameFactory.GetLocalPlayerObj() != null)
             {
                 if (GameFactory.GetLocalPlayerObj().myPlayerModule != _p)
