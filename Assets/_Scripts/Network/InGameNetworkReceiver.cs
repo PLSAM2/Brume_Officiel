@@ -299,6 +299,13 @@ public class InGameNetworkReceiver : MonoBehaviour
                         obj = Instantiate(prefabYin, spawnPos, Quaternion.identity);
                         break;
                     default:
+                        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+                        {
+                            using (Message _message = Message.Create(Tags.AskForStopGame, _writer))
+                            {
+                                client.SendMessage(_message, SendMode.Reliable);
+                            }
+                        }
                         throw new Exception("CHARACTER NONE LORS DU LANCEMENT D'UNE PARTIE");
                 }
 
