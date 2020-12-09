@@ -53,6 +53,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
         InitChampSelect();
 
+        NetworkManager.Instance.OnPlayerQuit += OnPlayerQuit;
         RoomManager.Instance.client.MessageReceived += MessageReceived;
     }
 
@@ -91,6 +92,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     private void OnDisable()
     {
+        NetworkManager.Instance.OnPlayerQuit -= OnPlayerQuit;
         RoomManager.Instance.client.MessageReceived -= MessageReceived;
     }
 
@@ -340,6 +342,22 @@ public class ChampSelectManager : SerializedMonoBehaviour
     public void OpenSetting()
     {
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
+    }
+
+    private void OnPlayerQuit(PlayerData obj)
+    {
+        if (linkPlayerTeamPlayerElement.ContainsKey(obj.ID))
+        {
+            linkPlayerTeamPlayerElement[obj.ID].OnPlayerLeave();
+            linkPlayerTeamPlayerElement.Remove(obj.ID);
+        }
+
+        if (linkPlayerCharacterListObj.ContainsKey(obj.ID))
+        {
+            linkPlayerCharacterListObj[obj.ID].OnPlayerLeave();
+            linkPlayerCharacterListObj.Remove(obj.ID);
+        }
+
     }
 
     public void LeaveGame()
