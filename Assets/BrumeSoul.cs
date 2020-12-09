@@ -20,9 +20,18 @@ public class BrumeSoul : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8) // player
         {
             PlayerModule _p = other.gameObject.GetComponent<PlayerModule>();
+
+            if (_p == null || !authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_p.mylocalPlayer.myPlayerId].playerCharacter))
+                return;
+
+            PickSoul(_p);
+        } 
+        else if (other.gameObject.layer == 23) // ghost
+        {
+            PlayerModule _p = other.gameObject.GetComponent<Ghost>().playerModule;
 
             if (_p == null || !authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_p.mylocalPlayer.myPlayerId].playerCharacter))
                 return;
@@ -52,15 +61,18 @@ public class BrumeSoul : MonoBehaviour
 
     private void TryDestroy()
     {
-        foreach (LocalPlayer p in GameManager.Instance.networkPlayers.Values)
+        if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
-            if (p.myPlayerModule.isInBrume && p.myPlayerModule.brumeId == instanceID)
+            foreach (LocalPlayer p in GameManager.Instance.networkPlayers.Values)
             {
-                return;
+                if (p.myPlayerModule.isInBrume && (p.myPlayerModule.brumeId == this.instanceID))
+                {
+                    return;
+                }
             }
-        }
 
- 
+            Destroy();
+        }
     }
     private void Destroy()
     {

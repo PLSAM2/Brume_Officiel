@@ -430,8 +430,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
 
                 LocalPlayer target = GameManager.Instance.networkPlayers[_id];
-
-                target.liveHealth += _healValue;
+                target.HealLocaly(_healValue);
             }
         }
     }

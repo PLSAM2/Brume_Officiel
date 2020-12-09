@@ -22,9 +22,6 @@ public class Ghost : MonoBehaviour
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
 
-    public bool isVisible = false;
-    public List<GameObject> objToHide = new List<GameObject>();
-
     bool haveCut = true;
 
     [HideInInspector]
@@ -33,7 +30,6 @@ public class Ghost : MonoBehaviour
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
-        networkedObject.OnSpawnObj += OnRespawn;
     }
 
     private void OnDisable()
@@ -91,7 +87,9 @@ public class Ghost : MonoBehaviour
 		this.GetComponent<MovementModule>().Init();
 
         fowObj = Instantiate(fowPrefab, transform.root);
-        fowObj.GetComponent<Fow>().Init(this.transform, 7);
+        Fow myFow = fowObj.GetComponent<Fow>();
+        myFow.Init(this.transform, 7);
+        myFow.InitPlayerModule(playerModule);
 
         CameraManager.Instance.SetFollowObj(this.transform);
         UiManager.Instance.SetAlphaBrume(0);
@@ -103,14 +101,6 @@ public class Ghost : MonoBehaviour
         else
         {
             currentIdBrume = 0;
-        }
-    }
-
-    void OnRespawn()
-    {
-        if (!GameManager.Instance.allGhost.Contains(this))
-        {
-            GameManager.Instance.allGhost.Add(this);
         }
     }
 
@@ -236,10 +226,5 @@ public class Ghost : MonoBehaviour
 
         haveCut = false;
         Destruct(Vector3.zero);
-    }
-
-    private void OnDestroy()
-    {
-        networkedObject.OnSpawnObj -= OnRespawn;
     }
 }

@@ -19,7 +19,6 @@ public class IconUi : MonoBehaviour
 	{
 		myRectTransform = GetComponent<RectTransform>();
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
-		print(basePos);
 	}
 
 	public void SetSprite ( Sprite _icon )
