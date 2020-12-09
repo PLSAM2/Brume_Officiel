@@ -202,8 +202,8 @@ public class LocalPlayer : MonoBehaviour
 
 	public void ResetFowRaduis ()
 	{
-		ChangeFowRaduis(myPlayerModule.isInBrume);
-	}
+        SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+    }
 
     private void OnDestroy()
     {
@@ -335,11 +335,6 @@ public class LocalPlayer : MonoBehaviour
 				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
-
-        if (isOwner)
-        {
-
-        }
 	}
 
 	public void SetMovePosition ( Vector3 newPos, Vector3 newRotation )
