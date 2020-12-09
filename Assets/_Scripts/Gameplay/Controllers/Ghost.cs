@@ -22,9 +22,6 @@ public class Ghost : MonoBehaviour
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
 
-    public bool isVisible = false;
-    public List<GameObject> objToHide = new List<GameObject>();
-
     bool haveCut = true;
 
     [HideInInspector]

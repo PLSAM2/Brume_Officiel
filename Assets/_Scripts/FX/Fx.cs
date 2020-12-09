@@ -15,6 +15,8 @@ public class Fx : MonoBehaviour
         {
             obj.SetActive(false);
         }
+
+        isVisible = false;
     }
 
     private void OnDisable()
