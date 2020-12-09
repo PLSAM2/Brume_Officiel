@@ -181,10 +181,11 @@ public class FieldOfView : MonoBehaviour
 
             Transform target = targetsInViewRadius[i].transform;
 
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            Vector3 dirToTarget1 = (target.position - transform.position).normalized;
+            Vector3 dirToTarget2 = (targetsInViewRadius[i].ClosestPoint(transform.position) - transform.position).normalized;
 
             float dstToTarget = Vector3.Distance(transform.position, target.position);
-            if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+            if (!Physics.Raycast(transform.position, dirToTarget1, dstToTarget, obstacleMask) || !Physics.Raycast(transform.position, dirToTarget2, dstToTarget, obstacleMask))
             {
                 switch (targetsInViewRadius[i].tag)
                 {

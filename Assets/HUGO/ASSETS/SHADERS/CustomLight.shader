@@ -167,15 +167,15 @@ Shader "CustomLight"
 }
 /*ASEBEGIN
 Version=18707
-0;0;1920;1019;2314.139;278.805;1.400337;True;False
+0;0;1920;1019;1686.076;-32.07431;1;True;False
 Node;AmplifyShaderEditor.WorldNormalVector;1;-1737.148,387.3574;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;5;-1753.148,531.3561;Inherit;False;True;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.LightAttenuation;2;-1465.147,659.3564;Inherit;False;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DotProductOpNode;3;-1481.147,387.3574;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;4;-1193.146,387.3574;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StepOpNode;10;-937.2002,380.4645;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;9;-703.6052,464.9625;Inherit;False;Property;_Float0;Float 0;1;0;Create;True;0;0;False;0;False;0.2;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;11;-717.1987,376.4645;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;9;-703.6052,464.9625;Inherit;False;Property;_Float0;Float 0;1;0;Create;True;0;0;False;0;False;0.2;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;6;-559.1963,144.2926;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;False;-1;1cb5d7a8b79999d4b8356e740bbf6667;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ClampOpNode;8;-493.2271,368.0459;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0.5;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;7;-159.4739,238.8164;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
@@ -192,4 +192,4 @@ WireConnection;7;0;6;0
 WireConnection;7;1;8;0
 WireConnection;0;13;7;0
 ASEEND*/
-//CHKSM=F8B424C27E84DDAAA0A9BC3AD6B38AC508B0343D
+//CHKSM=7702837F8601150D6B38ABC960E1F9D8833189C9

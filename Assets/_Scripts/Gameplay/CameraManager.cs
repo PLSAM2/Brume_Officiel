@@ -188,7 +188,7 @@ public class CameraManager : MonoBehaviour
 	}
 
 	// Camera Shake >>
-	public void SetNewCameraShake( float time, float intensity = 0.4f)
+	public void SetNewCameraShake( float time, float intensity = 0.3f)
     {
 		myCinemachinePerlin.m_AmplitudeGain = intensity;
 		cameraShakeTimer = time;
