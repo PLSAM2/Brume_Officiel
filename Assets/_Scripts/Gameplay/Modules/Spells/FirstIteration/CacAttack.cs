@@ -149,7 +149,7 @@ public class CacAttack : SpellModule
 		shapePreview.gameObject.SetActive(false);
 	}
 
-	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		if (canBeCast())
 		{

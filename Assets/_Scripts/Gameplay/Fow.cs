@@ -13,6 +13,8 @@ public class Fow : MonoBehaviour
     [SerializeField] float followSpeed = 10;
     float fowRaduis = 0;
 
+    PlayerModule playerModule;
+
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
         if(_target != null)
@@ -29,6 +31,11 @@ public class Fow : MonoBehaviour
         }
     }
 
+    public void InitPlayerModule(PlayerModule _pModule)
+    {
+        playerModule = _pModule;
+    }
+
     public void ChangeFowRaduis(float _size)
     {
         fowRaduis = _size;
@@ -40,7 +47,15 @@ public class Fow : MonoBehaviour
         if (isStatic) { return; }
 
         transform.position = Vector3.Lerp(transform.position, myTarget.position, Time.deltaTime * followSpeed);
-        myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, 6 * Time.deltaTime);
+
+        if (playerModule.isInBrume)
+        {
+            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, 0.4f * Time.deltaTime);
+        }
+        else
+        {
+            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, 6 * Time.deltaTime);
+        }
     }
 
     private void OnEnable()

@@ -254,79 +254,86 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                if (message.Tag == Tags.SpawnObjPlayer)
+                ushort id = reader.ReadUInt16();
+                bool isResurecting = reader.ReadBoolean();
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
+
+                Vector3 spawnPos = Vector3.zero;
+
+                if (!isResurecting)
                 {
-                    ushort id = reader.ReadUInt16();
-                    bool isResurecting = reader.ReadBoolean();
-
-                    if (GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
-
-                    Vector3 spawnPos = Vector3.zero;
-
-                    if (!isResurecting)
+                    foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
                     {
-                        foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+                        if (spawn.CanSpawn())
                         {
-                            if (spawn.CanSpawn())
-                            {
-                                spawnPos = spawn.transform.position;
-                            }
+                            spawnPos = spawn.transform.position;
                         }
-                    }
-                    else
-                    {
-                        foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
-                        {
-                            if (spawn.CanSpawn())
-                            {
-                                spawnPos = spawn.transform.position;
-                            }
-                        }
-                    }
-
-
-                    GameObject obj = null;
-
-                    switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
-                    {
-                        case Character.WuXin:
-                            obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
-                            break;
-
-                        case Character.Re:
-                            obj = Instantiate(prefabYang, spawnPos, Quaternion.identity);
-                            break;
-
-                        default:
-                            obj = Instantiate(prefabYin, spawnPos, Quaternion.identity);
-                            break;
-                    }
-
-                    LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
-                    myLocalPlayer.myPlayerId = id;
-                    myLocalPlayer.isOwner = client.ID == id;
-                    myLocalPlayer.Init(client);
-
-                 
-
-                    if (myLocalPlayer.isOwner)
-                    {
-                        GameManager.Instance.currentLocalPlayer = myLocalPlayer;
-
-                        if (isResurecting)
-                            myLocalPlayer.myPlayerModule.Setup();
-
-                    }
-
-                    GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
-
-                    GameManager.Instance.OnPlayerSpawn?.Invoke(id);
-
-                    if (isResurecting)
-                    {
-                        GameManager.Instance.OnPlayerRespawn?.Invoke(id);
                     }
                 }
+                else
+                {
+                    foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
+                    {
+                        if (spawn.CanSpawn())
+                        {
+                            spawnPos = spawn.transform.position;
+                        }
+                    }
+                }
+
+
+                GameObject obj = null;
+
+                switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+                {
+                    case Character.WuXin:
+                        obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
+                        break;
+
+                    case Character.Re:
+                        obj = Instantiate(prefabYang, spawnPos, Quaternion.identity);
+                        break;
+
+                    case Character.Leng:
+                        obj = Instantiate(prefabYin, spawnPos, Quaternion.identity);
+                        break;
+                    default:
+                        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+                        {
+                            using (Message _message = Message.Create(Tags.AskForStopGame, _writer))
+                            {
+                                client.SendMessage(_message, SendMode.Reliable);
+                            }
+                        }
+                        throw new Exception("CHARACTER NONE LORS DU LANCEMENT D'UNE PARTIE");
+                }
+
+                LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
+                myLocalPlayer.myPlayerId = id;
+                myLocalPlayer.isOwner = client.ID == id;
+                myLocalPlayer.Init(client);
+
+
+
+                if (myLocalPlayer.isOwner)
+                {
+                    GameManager.Instance.currentLocalPlayer = myLocalPlayer;
+
+                    if (isResurecting)
+                        myLocalPlayer.myPlayerModule.Setup();
+
+                }
+
+                GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
+
+                GameManager.Instance.OnPlayerSpawn?.Invoke(id);
+
+                if (isResurecting)
+                {
+                    GameManager.Instance.OnPlayerRespawn?.Invoke(id);
+                }
+
             }
         }
     }
@@ -350,11 +357,12 @@ public class InGameNetworkReceiver : MonoBehaviour
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            if(killer != null)
+            if (killer != null)
             {
                 _writer.Write(killer.ID);
             }
-            else {
+            else
+            {
                 _writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
             }
 
@@ -414,7 +422,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _id = reader.ReadUInt16();
-                ushort _healValue= reader.ReadUInt16();
+                ushort _healValue = reader.ReadUInt16();
 
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
@@ -542,7 +550,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _statusId = reader.ReadUInt16();
                 ushort _playerId = reader.ReadUInt16();
 
-                if(!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
+                if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
                 GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
             }
@@ -597,9 +605,9 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _playerId = reader.ReadUInt16();
                 uint _size = reader.ReadUInt32();
-                bool _reset = reader.ReadBoolean(); 
+                bool _reset = reader.ReadBoolean();
 
-                if(!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
+                if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
                 if (_reset)
                 {
@@ -607,7 +615,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
                 else
                 {
-                    GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float) _size / 100);
+                    GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float)_size / 100);
                 }
             }
         }

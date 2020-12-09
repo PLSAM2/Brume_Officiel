@@ -24,8 +24,10 @@ public class AutoKill : MonoBehaviour
 
     public virtual void Init ( Team ownerTeam )
     {
-        myteam = ownerTeam;
-        isOwner = myNetworkObject.GetIsOwner();
+		myNetworkObject = GetComponent<NetworkedObject>();
+
+		isOwner = myNetworkObject.GetIsOwner();
+		myteam = ownerTeam;
         switch (myteam)
         {
             case Team.red:

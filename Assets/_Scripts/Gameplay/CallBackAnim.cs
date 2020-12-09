@@ -54,6 +54,8 @@ public class CallBackAnim : MonoBehaviour
 				timeCounted += Time.deltaTime;
 				myCacAttack.EvaluatePreviewNetwork(timeCounted);
 			}
+			if (timeCounted >= myCacAttack.spell.canalisationTime)
+				StopCounting();
 		}
 	}
 }

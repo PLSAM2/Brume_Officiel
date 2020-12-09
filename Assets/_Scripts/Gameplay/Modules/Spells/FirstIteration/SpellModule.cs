@@ -38,7 +38,6 @@ public class SpellModule : MonoBehaviour
 	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
 	public Sc_Spell spell;
-
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
@@ -48,6 +47,7 @@ public class SpellModule : MonoBehaviour
 
 	public AudioClip canalisationClip;
 	public AudioClip anonciationClip;
+
 	public Action<int> ChargeUpdate;
 	private void OnEnable ()
 	{
@@ -263,7 +263,8 @@ public class SpellModule : MonoBehaviour
 	{
 		return spell.canalisationTime - spell.anonciationTime;
 	}
-	protected virtual void StartCanalysing ( Vector3 _BaseMousePos )
+
+	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		if (canBeCast() && willResolve)
 		{
@@ -274,7 +275,7 @@ public class SpellModule : MonoBehaviour
 			isUsed = true;
 			StartCanalysingFeedBack();
 			DecreaseCharge();
-			mousePosInputed = myPlayerModule.mousePos();
+			mousePosInputed = _BaseMousePos;
 
 			if (spell.statusToApplyOnCanalisation.Count > 0)
 			{

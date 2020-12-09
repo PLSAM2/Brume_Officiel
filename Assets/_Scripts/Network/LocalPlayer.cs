@@ -47,6 +47,7 @@ public class LocalPlayer : MonoBehaviour
 	Vector3 newNetorkPos;
 	[HideInInspector] [SerializeField] float syncSpeed = 10;
 
+
 	[ReadOnly]
 	public ushort liveHealth
 	{
@@ -74,7 +75,8 @@ public class LocalPlayer : MonoBehaviour
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-
+	
+	public RagdollReceiver ragdoll;
 
 	private void Awake ()
 	{
@@ -173,7 +175,8 @@ public class LocalPlayer : MonoBehaviour
 	{
 		myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
 		myFow.Init(transform, myPlayerModule.characterParameters.visionRange);
-	}
+        myFow.InitPlayerModule(myPlayerModule);
+    }
 
 	public void ShowHideFow ( bool _value )
 	{
@@ -326,12 +329,17 @@ public class LocalPlayer : MonoBehaviour
 		switch (_value)
 		{
 			case true:
-				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
+				SetFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
 				break;
 			case false:
 				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
+
+        if (isOwner)
+        {
+
+        }
 	}
 
 	public void SetMovePosition ( Vector3 newPos, Vector3 newRotation )
@@ -552,7 +560,7 @@ public class LocalPlayer : MonoBehaviour
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
-
+			
 			GameManager.Instance.ResetCam();
 		}
 	}
