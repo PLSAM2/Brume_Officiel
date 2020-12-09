@@ -22,6 +22,7 @@ public class UpgradeModule : SpellModule
 		bonusTimeRemaining = localTrad.duration;
 		myPlayerModule.upgradeKit.Invoke();
 		inBonus = true;
+		myPlayerModule.mylocalPlayer.EnableBuff(true, "Overloded");
 	}
 
 	protected override void FixedUpdate ()
@@ -33,6 +34,7 @@ public class UpgradeModule : SpellModule
 			if (bonusTimeRemaining > 0)
 			{
 				bonusTimeRemaining -= Time.fixedDeltaTime;
+				myPlayerModule.mylocalPlayer.UpdateBuffDuration(bonusTimeRemaining/localTrad.duration);
 			}
 			else
 			{
@@ -45,6 +47,8 @@ public class UpgradeModule : SpellModule
 	void EndBonusCallBack ()
 	{
 		inBonus = false;
+		myPlayerModule.mylocalPlayer.EnableBuff(false, "Overloded");
+
 		myPlayerModule.backToNormalKit.Invoke();
 
 		StartThrowBack();

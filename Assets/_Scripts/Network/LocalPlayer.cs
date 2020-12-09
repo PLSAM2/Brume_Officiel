@@ -32,6 +32,9 @@ public class LocalPlayer : MonoBehaviour
 	[TabGroup("Ui")] public TextMeshProUGUI lifeCount;
 	[TabGroup("Ui")] public Image lifeImg;
 	[TabGroup("Ui")] public Image lifeDamageImg;
+	[Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
+	[TabGroup("Ui")] public Image fillAmountBuff;
+	[TabGroup("Ui")] public GameObject wholeBuffUi;
 
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
@@ -152,7 +155,7 @@ public class LocalPlayer : MonoBehaviour
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 100;
-			DealDamages(_temp, transform.position, true);
+			DealDamages(_temp, transform.position, null, true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.P) && isOwner)
@@ -199,13 +202,21 @@ public class LocalPlayer : MonoBehaviour
 		ChangeFowRaduis(myPlayerModule.isInBrume);
 	}
 
-	private void OnDestroy ()
-	{
-		if (myFow != null)
-		{
-			Destroy(myFow.gameObject);
-		}
-	}
+    private void OnDestroy()
+    {
+        if (myFow != null)
+        {
+            Destroy(myFow.gameObject);
+        }
+
+        if (isOwner)
+        {
+            if (myPlayerModule.isInBrume)
+            {
+                GameFactory.GetBrumeById(myPlayerModule.brumeId).OnSimulateExit(gameObject);
+            }
+        }
+    }
 
 	private void OnDisable ()
 	{
@@ -339,9 +350,9 @@ public class LocalPlayer : MonoBehaviour
 	/// </summary>
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	/// <param name="ignoreMark"> Must have ignoreStatusAndEffect false to work</param>
-	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false )
+	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false )
 	{
-		DealDamagesLocaly(_damagesToDeal.damageHealth);
+		DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
@@ -383,11 +394,11 @@ public class LocalPlayer : MonoBehaviour
 			if (_damagesToDeal.additionalMovementToApply != null)
 			{
 				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
-			}
+			}          
 
 			if (_damagesToDeal.damageHealth > 0)
 			{
-				DealDamagesLocaly(_damagesToDeal.additionalDamages);
+				DealDamagesLocaly(_damagesToDeal.additionalDamages, dealerID);
 
 				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
@@ -418,20 +429,30 @@ public class LocalPlayer : MonoBehaviour
 
 	}
 
-	public void DealDamagesLocaly ( ushort damages, ushort dealerID = 0 )
+	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
 		if (isOwner)
 		{
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				print("IApplyMark");
-				myPlayerModule.ApplyWxMark();
+				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
 
 		if ((int)liveHealth - (int)damages <= 0)
 		{
-			KillPlayer();
+			if (isOwner)
+			{
+				if (dealerID != null)
+				{
+					KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
+				}
+				else
+				{
+					KillPlayer();
+				}
+			}
 		}
 		else
 		{
@@ -615,6 +636,17 @@ public class LocalPlayer : MonoBehaviour
 
 		}
 
+	}
+
+	public void EnableBuff(bool _stateOfBuff, string _buffName)
+	{
+		wholeBuffUi.SetActive(_stateOfBuff);
+		nameOfTheBuff.text = _buffName;
+	}
+
+	public void UpdateBuffDuration(float _fillAmount)
+	{
+		fillAmountBuff.fillAmount = _fillAmount;
 	}
 	#endregion
 

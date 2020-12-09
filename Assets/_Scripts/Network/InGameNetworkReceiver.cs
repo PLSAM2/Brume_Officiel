@@ -129,8 +129,18 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 OnSpawnAOEFx(sender, e);
             }
+            else if (message.Tag == Tags.BrumeSoulSpawnCall)
+            {
+                BrumeSoulSpawnCall(sender, e);
+            }
+            else if (message.Tag == Tags.BrumeSoulPicked)
+            {
+                BrumeSoulPicked(sender, e);
+            }
         }
     }
+
+
 
     private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
     {
@@ -369,13 +379,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 
-                //if (RoomManager.Instance.GetLocalPlayer().ID == id)
-                //{
-                //    if (!isWaitingForRespawn)
-                //    {
-                //        StartCoroutine(WaitForRespawn());
-                //    }
-                //}
             }
         }
     }
@@ -539,7 +542,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _statusId = reader.ReadUInt16();
                 ushort _playerId = reader.ReadUInt16();
 
-                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
+                if(!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
                 GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
             }
@@ -596,7 +599,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 uint _size = reader.ReadUInt32();
                 bool _reset = reader.ReadBoolean(); 
 
-                if(GameManager.Instance.networkPlayers[_playerId] == null) { return; }
+                if(!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
                 if (_reset)
                 {
@@ -609,4 +612,30 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
+    private void BrumeSoulSpawnCall(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _brumeId = reader.ReadUInt16();
+
+                GameManager.Instance.SpawnBrumeSoul(_brumeId);
+            }
+        }
+    }
+
+    private void BrumeSoulPicked(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _brumeId = reader.ReadUInt16();
+
+                GameManager.Instance.DeleteBrumeSoul(_brumeId);
+            }
+        }
+    }
+
 }

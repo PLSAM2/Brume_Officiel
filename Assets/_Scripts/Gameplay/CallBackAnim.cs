@@ -7,10 +7,26 @@ public class CallBackAnim : MonoBehaviour
 	[SerializeField] CacAttack myCacAttack;
 	bool countingPreview;
 	float timeCounted;
+	bool isOwner;
+
+	private void Start ()
+	{
+		GameManager.Instance.AllCharacterSpawned += Setup;
+	}
+
+	void Setup()
+	{
+		isOwner = myCacAttack.myPlayerModule.mylocalPlayer.isOwner;
+	}
+
+	private void OnDisable ()
+	{
+		GameManager.Instance.AllCharacterSpawned -= Setup;
+	}
 
 	public void StartCounting()
 	{
-		if (!myCacAttack.myPlayerModule.mylocalPlayer.isOwner)
+		if (!isOwner)
 		{
 			myCacAttack.ShowPreviewNetwork(true);
 			timeCounted = 0;
@@ -21,7 +37,7 @@ public class CallBackAnim : MonoBehaviour
 
 	public void StopCounting()
 	{
-		if (!myCacAttack.myPlayerModule.mylocalPlayer.isOwner)
+		if (!isOwner)
 		{
 			myCacAttack.ShowPreviewNetwork(false);
 			countingPreview = false;
@@ -31,7 +47,7 @@ public class CallBackAnim : MonoBehaviour
 
 	private void Update ()
 	{
-		if (!myCacAttack.myPlayerModule.mylocalPlayer.isOwner)
+		if (!isOwner)
 		{
 			if (countingPreview)
 			{

@@ -9,14 +9,15 @@ public class Module_WXAuto : SpellModule
     [SerializeField] private int raycastCount = 3;
     Sc_RayAttack localTrad;
 
-    private void Start()
-    {
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		base.SetupComponent(_actionLinked);
         arrowPreview = PreviewManager.Instance.GetArrowPreview();
         HidePreview(Vector3.zero);
         localTrad = (Sc_RayAttack)spell;
     }
 
-    protected override void AnonceSpell(Vector3 _toAnnounce)
+	protected override void AnonceSpell(Vector3 _toAnnounce)
     {
         base.AnonceSpell(_toAnnounce);
 
@@ -34,7 +35,7 @@ public class Module_WXAuto : SpellModule
         }
     }
 
-    protected override void StartCanalysing(Vector3 _BaseMousePos)
+    public override void StartCanalysing(Vector3 _BaseMousePos)
     {
         HidePreview(Vector3.zero);
         base.StartCanalysing(_BaseMousePos);

@@ -34,7 +34,16 @@ public class GameFactory
         }
     }
 
-    public static int GerateRandomNumer(int min, int max)
+	public static Team GetEnemyTeam ( Team myTeam )
+	{
+		if (myTeam == Team.red)
+			return Team.blue;
+		else
+			return Team.red;
+	}
+
+
+	public static int GerateRandomNumer(int min, int max)
     {
         return Random.Range(min, max);
     }
@@ -51,7 +60,12 @@ public class GameFactory
 
     public static ushort GetMaxLifeOfPlayer(ushort id)
     {
-        return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+        if (GameManager.Instance.networkPlayers.ContainsKey(id))
+        {
+            return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+        }
+
+        return 0;
     }
 
     public static Team GetOtherTeam(Team team)

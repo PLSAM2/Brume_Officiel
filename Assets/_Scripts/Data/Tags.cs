@@ -53,6 +53,8 @@
     public static readonly ushort FrogTimerElapsed = 778;
     public static readonly ushort VisionTowerTimerElapsed = 779;
     public static readonly ushort ResurectPlayer = 783;
+    public static readonly ushort BrumeSoulSpawnCall = 785;
+    public static readonly ushort BrumeSoulPicked = 786;
     // <<
 
     //Ward & Vision 790 --> 799 >>

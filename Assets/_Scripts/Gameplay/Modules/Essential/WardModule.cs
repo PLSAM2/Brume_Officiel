@@ -23,17 +23,15 @@ public class WardModule : SpellModule
 	CirclePreview myRangePreview, myAoePreview;
 	float wardVisionRange;
 
-	private void Start ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
+		base.SetupComponent(_actionLinked);
+
 		wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
 		wardObj.SetActive(false);
 		animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 		wardVisionRange = wardPrefab.GetComponent<Ward>().vision.myFieldOfView.viewRadius;
-	}
 
-	public override void SetupComponent ( En_SpellInput _actionLinked )
-	{
-		base.SetupComponent(_actionLinked);
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myAoePreview = PreviewManager.Instance.GetCirclePreview(transform);
@@ -90,7 +88,8 @@ public class WardModule : SpellModule
 
 		float _distance = Mathf.Clamp(Vector3.Distance(mousePosInputed, transform.position), 0, spell.range);
 
-		destination = myPlayerModule.ClosestFreePos(Vector3.Normalize(mousePosInputed - transform.position), _distance);
+		destination = transform.position + myPlayerModule.directionOfTheMouse() * _distance;
+			//myPlayerModule.ClosestFreePos(Vector3.Normalize(mousePosInputed - transform.position), _distance);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{

@@ -11,8 +11,11 @@ public class Module_Spit : SpellModule
 
 	public GameObject spitTravelPrefab;
 	[ReadOnly] public GameObject spitObj;
+	//NEED CLEAN OLD SYSTEM
 	public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
 	public float distanceMaxBeforeEndTravel = 0.01f;
+
+
 	private bool isLaunched = false;
 	private float deceleration = 1;
 	private float baseDistance;
@@ -21,6 +24,7 @@ public class Module_Spit : SpellModule
 	private Vector3 destination;
 	private Vector3 noCurvePosition;
 	private float animationCurveMaxValue;
+
 	Sc_Spit localTrad;
 	[SerializeField] bool simpleSpeed = false;
 
@@ -29,19 +33,18 @@ public class Module_Spit : SpellModule
 	float initialDistance, percentageStrengthOfTheThrow;
 	Vector3 finalPos;
 
-	private void Start ()
-	{
-		localTrad = spell as Sc_Spit;
 
-		spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
-		spitObj.SetActive(false);
-		animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
-	}
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 
 		base.SetupComponent(_actionLinked);
+
+		localTrad = spell as Sc_Spit;
+
+		spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
+		spitObj.SetActive(false);
+		animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
@@ -108,8 +111,6 @@ public class Module_Spit : SpellModule
 		{
 			return;
 		}
-
-
 
 		float finalRange = 0;
 		finalRange = Mathf.Clamp(Vector3.Distance(transform.position, mousePosInputed), 0, spell.range);

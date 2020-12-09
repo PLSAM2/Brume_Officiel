@@ -52,6 +52,7 @@ public class LobbyManager : MonoBehaviour
         client = NetworkManager.Instance.GetLocalClient();
 
         client.MessageReceived += MessageReceived;
+        NetworkManager.Instance.OnPlayerQuit += PlayerQuitActualRoom;
     }
 
     private void Start()
@@ -61,6 +62,7 @@ public class LobbyManager : MonoBehaviour
 
     private void OnDisable()
     {
+        NetworkManager.Instance.OnPlayerQuit -= PlayerQuitActualRoom;
         client.MessageReceived -= MessageReceived;
     }
 
@@ -272,6 +274,15 @@ public class LobbyManager : MonoBehaviour
             }
         }
     }
+    private void PlayerQuitActualRoom(PlayerData quittingPlayer)
+    {
+        if (RoomManager.Instance.actualRoom.playerList.ContainsKey(quittingPlayer.ID))
+        {
+            RoomManager.Instance.actualRoom.playerList.Remove(quittingPlayer.ID);
+        }
+
+        roomPanelControl.RemovePlayer(quittingPlayer);
+    }
 
     public void CreateRoom()
     {
@@ -340,6 +351,7 @@ public class LobbyManager : MonoBehaviour
         RoomManager.Instance.actualRoom = null;
         NetworkManager.Instance.GetLocalPlayer().IsHost = false;
         DisplayMainMenu();
+
     }
 
     public void ChangeTeam(Team team)

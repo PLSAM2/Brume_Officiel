@@ -15,12 +15,6 @@ public class ModuleProjectileSpell : SpellModule
 	ArrowPreview myPreviewArrow;
 	ShapePreview myPreviewBurst;
 
-	private void Start ()
-	{
-		localTrad = spell as Sc_ProjectileSpell;
-		myLiveSalve = localTrad.salveInfos;
-		offsetHeight = GetComponent<CapsuleCollider>().height / 2;
-	}
 	protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
@@ -42,7 +36,11 @@ public class ModuleProjectileSpell : SpellModule
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
-			if (localTrad.salveInfos.numberOfShotInSalve > 1)
+            localTrad = spell as Sc_ProjectileSpell;
+            myLiveSalve = localTrad.salveInfos;
+            offsetHeight = GetComponent<CapsuleCollider>().height / 2;
+
+            if (localTrad.salveInfos.numberOfShotInSalve > 1)
 				myPreviewBurst = PreviewManager.Instance.GetShapePreview();
 			else
 				myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
@@ -50,7 +48,7 @@ public class ModuleProjectileSpell : SpellModule
 		}
 	}
 
-	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		base.StartCanalysing(_BaseMousePos);
 
