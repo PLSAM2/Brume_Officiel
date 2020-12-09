@@ -6,36 +6,52 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    //coroutine 1
-    IEnumerator DoSomething1()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1.0f);
-        }
-    }
+    public float raduis = 6;
+    public float number = 30;
 
-    //coroutine 2
-    IEnumerator DoSomething2()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1.5f);
-        }
-    }
+    public LayerMask objs;
+    public LayerMask wall;
 
-    void Start()
+    private void Update()
     {
-        StartCoroutine("DoSomething1");
-        StartCoroutine("DoSomething2");
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))
+        for (int i = 0; i < 45; i++)
         {
-            StopAllCoroutines();
-            print("Stopped all Coroutines: " + Time.time);
+            Vector3 _direction = Quaternion.Euler(0, i * (360 / 45), 0) * transform.forward;
+            Ray _ray = new Ray(transform.position, _direction);
+
+            RaycastHit hit;
+            float distance = raduis;
+            if (Physics.Raycast(_ray.origin, _ray.direction, out hit, raduis, wall))
+            {
+                distance = Vector3.Distance(transform.position, hit.point);
+            }
+
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, _ray.direction, distance, objs);
+
+            foreach (RaycastHit target in hits)
+            {
+                switch (target.transform.gameObject.tag)
+                {
+                    case "Hide":
+                        if (target.transform.gameObject.layer == 11)
+                        {
+                            //if (visibleFx.Contains(target.transform)) { continue; }
+                            //visibleFx.Add(target.transform);
+                        }
+                        else
+                        {
+                            //if (visibleTargets.Contains(target.transform)) { continue; }
+                            //visibleTargets.Add(target.transform);
+                        }
+                        break;
+
+                    case "Interactible":
+                        //if (visibleInteractible.ContainsKey(target.transform)) { continue; }
+                        //visibleInteractible.Add(target.transform, target.transform.GetComponent<Interactible>().interactibleID);
+                        break;
+
+                }
+            }
         }
     }
 }
