@@ -15,9 +15,11 @@ public class GameData
         none = 0,
         WuXin = 10,
         Re = 20,
-        Leng = 30
-    }
-    public enum InteractibleType : ushort
+        Leng = 30,
+		test = 40,
+
+	}
+	public enum InteractibleType : ushort
     {
         none = 0,
         Altar = 1,

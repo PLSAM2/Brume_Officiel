@@ -48,7 +48,7 @@ public class ModuleProjectileSpell : SpellModule
 		}
 	}
 
-	protected override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		base.StartCanalysing(_BaseMousePos);
 

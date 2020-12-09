@@ -11,12 +11,11 @@ public class Aoe : AutoKill
 	{
 		mylifeTime = localTrad.rules.durationOfTheAoe;
 	}
-
-	protected override void OnEnable ()
+	public override void Init ( GameData.Team ownerTeam )
 	{
-		base.OnEnable();
+		base.Init(ownerTeam);
 
-		if (myNetworkObject.GetIsOwner())
+		if (isOwner)
 			DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
 	}
 
