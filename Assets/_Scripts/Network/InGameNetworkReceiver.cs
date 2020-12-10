@@ -328,7 +328,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
                 myLocalPlayer.myPlayerId = id;
                 myLocalPlayer.isOwner = client.ID == id;
-                myLocalPlayer.Init(client);
+                myLocalPlayer.Init(client, true);
 
 
 
@@ -347,7 +347,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 if (isResurecting)
                 {
-                    myLocalPlayer.LocallyDivideHealth(2);
                     GameManager.Instance.OnPlayerRespawn?.Invoke(id);
                 }
 
