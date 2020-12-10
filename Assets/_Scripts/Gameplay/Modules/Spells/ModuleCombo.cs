@@ -52,7 +52,6 @@ public class ModuleCombo : SpellModule
 
 	void TryToCombo ()
 	{
-		print("ITryToCombo");
 
 		allSpellsOfTheCombo[comboIndex].SpellFinished -= TryToCombo;
 
@@ -65,10 +64,8 @@ public class ModuleCombo : SpellModule
 
 		Interrupt();
 
-
 		if (inCombo)
 		{
-			print("I Can");
 			StartCanalysing(myPlayerModule.mousePos());
 		}
 	}

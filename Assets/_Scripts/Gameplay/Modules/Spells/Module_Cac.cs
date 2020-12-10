@@ -198,7 +198,6 @@ public class Module_Cac : SpellModule
 
 	public override void Interrupt ()
 	{
-		print("I've Finished");
 		base.Interrupt();
 	}
 }
