@@ -87,7 +87,7 @@ public class NetworkAnimationController : MonoBehaviour
             }
             if (message.Tag == Tags.SyncInt)
             {
-                SyncFloatInserver(sender, e);
+                SyncIntInserver(sender, e);
             }
         }
     }
