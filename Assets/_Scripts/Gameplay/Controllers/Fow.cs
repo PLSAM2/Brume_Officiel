@@ -36,6 +36,12 @@ public class Fow : MonoBehaviour
         playerModule = _pModule;
     }
 
+    public void ForceChangeFowRaduis(float _size)
+    {
+        fowRaduis = _size;
+        myFieldOfView.viewRadius = fowRaduis;
+    }
+
     public void ChangeFowRaduis(float _size)
     {
         fowRaduis = _size;
