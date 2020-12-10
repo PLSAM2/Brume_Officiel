@@ -55,14 +55,11 @@ public class SpellModule : MonoBehaviour
 		LocalPlayer.disableModule += Disable;
 	}
 
-	private void Start ()
-	{
-		myPlayerModule = GetComponent<PlayerModule>();
-	}
-
 	//setup & inputs
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
+		myPlayerModule = GetComponent<PlayerModule>();
+
 		cooldown = finalCooldownValue();
 		actionLinked = _actionLinked;
 
