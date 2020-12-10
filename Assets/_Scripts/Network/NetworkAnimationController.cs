@@ -64,6 +64,12 @@ public class NetworkAnimationController : MonoBehaviour
         animator.SetTrigger(triggerName);
     }
 
+    public void SetIntToAnim ( string triggerName , ushort index)
+    {
+        animator.SetInteger(triggerName,(int) index);
+    }
+
+
     public void SetBoolToAnim ( string _triggerName, bool _value )
     {
         animator.SetBool(_triggerName, _value);
