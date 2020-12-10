@@ -61,6 +61,7 @@ public class Projectile : AutoKill
 	private void OnTriggerEnter ( Collider Collider )
 	{
 		PlayerModule playerHit = Collider.gameObject.GetComponent<PlayerModule>();
+
 		if (playerHit != null)
 		{
 			if (playerHit.teamIndex != myteam)
@@ -73,7 +74,6 @@ public class Projectile : AutoKill
 					_temp = localTrad.damagesToDeal;
 					playerHit.mylocalPlayer.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
-
 				Destroy();
 				asDeal = true;
 
