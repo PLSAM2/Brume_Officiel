@@ -41,6 +41,9 @@ public class Fow : MonoBehaviour
         fowRaduis = _size;
     }
 
+    float tIn = 0;
+    float tOut = 0;
+
     // Update is called once per frame
     void Update()
     {
@@ -48,13 +51,18 @@ public class Fow : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, myTarget.position, Time.deltaTime * followSpeed);
 
+        tIn += Time.deltaTime;
+        tOut += Time.deltaTime;
+
         if (playerModule.isInBrume)
         {
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, 0.4f * Time.deltaTime);
+            tOut = 0;
+            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, playerModule.characterParameters.curveInBrume.Evaluate(tIn) * Time.deltaTime);
         }
         else
         {
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, 6 * Time.deltaTime);
+            tIn = 0;
+            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, playerModule.characterParameters.curveOutBrume.Evaluate(tOut) * Time.deltaTime);
         }
     }
 
