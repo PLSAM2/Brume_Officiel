@@ -22,6 +22,9 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     private bool isWaitingForRespawn = false;
     UnityClient client;
+
+    private bool isEndGame = false;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -50,6 +53,7 @@ public class InGameNetworkReceiver : MonoBehaviour
     }
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
     {
+
         using (Message message = e.GetMessage() as Message)
         {
 
@@ -393,7 +397,10 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
     {
-
+        if (isEndGame)
+        {
+            return;
+        }
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -417,6 +424,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     private void HealInServer(object sender, MessageReceivedEventArgs e)
     {
+        if (isEndGame)
+        {
+            return;
+        }
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -645,4 +657,12 @@ public class InGameNetworkReceiver : MonoBehaviour
         }
     }
 
+    public void SetEndGame(bool value = true)
+    {
+        isEndGame = value;
+    }
+    public bool GetEndGame()
+    {
+        return isEndGame;
+    }
 }

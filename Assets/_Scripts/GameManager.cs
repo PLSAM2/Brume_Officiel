@@ -142,10 +142,7 @@ public class GameManager : SerializedMonoBehaviour
             {
                 StartTimerInServer();
             }
-            if (message.Tag == Tags.StopGame)
-            {
-                StopGameInServer();
-            }
+
             if (message.Tag == Tags.AllPlayerJoinGameScene)
             {
                 AllPlayerJoinGameScene();
@@ -189,12 +186,6 @@ public class GameManager : SerializedMonoBehaviour
         int minuteRemaining = (int)Math.Floor(timer / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
-    }
-
-    private void StopGameInServer()
-    {
-        RoomManager.Instance.ResetActualGame();
-        RoomManager.Instance.StartChampSelectInServer();
     }
 
     private void StartTimerInServer()

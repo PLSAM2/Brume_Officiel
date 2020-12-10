@@ -3,6 +3,7 @@ using DarkRift.Client;
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -82,10 +83,14 @@ public class RoomManager : MonoBehaviour
             {
                 NewRoundInServer(sender, e);
             }
+            if (message.Tag == Tags.StopGame)
+            {
+                StopGameInServer(sender, e);
+            }
             if (message.Tag == Tags.SetInGameUniqueID)
             {
                 SetInGameUniqueIDInServer(sender, e);
-            }            
+            }
             if (message.Tag == Tags.QuitRoom)
             {
                 QuitGameInServer();
@@ -96,11 +101,12 @@ public class RoomManager : MonoBehaviour
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
         StartNewRound();
-
+        Team winningTeam = Team.none;
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
+                winningTeam = (Team)reader.ReadUInt16();
                 ushort redTeamAssignement = reader.ReadUInt16();
                 ushort blueTeamAssignement = reader.ReadUInt16();
 
@@ -109,8 +115,73 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
+        {
+            UiManager.Instance.EndGamePanel(true, 0, winningTeam);
+        }
+        else
+        {
+            UiManager.Instance.EndGamePanel(false, 0, winningTeam);
+        }
+
+        InGameNetworkReceiver.Instance.SetEndGame(true);
+
+        StartCoroutine(EndGame(true, gameScene));
     }
+
+    IEnumerator EndGame(bool isNewRound = false, string sceneName = "" )
+    {
+        Time.timeScale = Time.timeScale / 4;
+
+        yield return new WaitForSeconds(1);
+
+        Time.timeScale = 1;
+
+        if (isNewRound)
+        {
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        } else
+        {
+            ResetActualGame();
+            StartChampSelectInServer();
+        }
+
+    }
+
+    private void StopGameInServer(object sender, MessageReceivedEventArgs e)
+    {
+        Team winningTeam = Team.none;
+
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                winningTeam = (Team)reader.ReadUInt16();
+            }
+        }
+
+        if (winningTeam == Team.none)
+        {
+            ResetActualGame();
+            StartChampSelectInServer();
+            return;
+        }
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
+        {
+            UiManager.Instance.EndGamePanel(true, 1, winningTeam);
+        }
+        else
+        {
+            UiManager.Instance.EndGamePanel(false, 1, winningTeam);
+        }
+
+        InGameNetworkReceiver.Instance.SetEndGame(true);
+
+        StartCoroutine(EndGame(false));
+
+    }
+
 
     public void StartChampSelect()
     {
