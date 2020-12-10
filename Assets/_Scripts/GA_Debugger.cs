@@ -8,7 +8,7 @@ public class GA_Debugger : SerializedMonoBehaviour
 {
     [Header("Shader Debugger")]
     public bool sw = false;
-    public Shader shader;
+    public List<Shader> shader = new List<Shader>();
     public string property;
 
 
@@ -18,7 +18,7 @@ public class GA_Debugger : SerializedMonoBehaviour
 
         foreach (MeshRenderer R in allObjects)
         {
-            if (R.material.shader == shader)
+            if (shader.Contains(R.material.shader))
             {
                 if (sw)
                 {
