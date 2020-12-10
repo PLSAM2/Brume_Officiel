@@ -22,7 +22,10 @@ public class ModuleCombo : SpellModule
 		}
 	}
 	ushort _comboIndex = 0;
-	ushort comboIndex { get => _comboIndex; set { _comboIndex = value; indexOfCombo.text = _comboIndex.ToString(); } }
+	ushort comboIndex { get => _comboIndex; set { _comboIndex = value; indexOfCombo.text = _comboIndex.ToString();
+			myPlayerModule.mylocalPlayer.myAnimController.SetIntToAnim("ComboIndex", _comboIndex);
+			myPlayerModule.mylocalPlayer.myAnimController.SyncInt("ComboIndex", _comboIndex);
+		} }
 	ushort oldIndex=0;
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -95,11 +98,9 @@ public class ModuleCombo : SpellModule
 	{
 		delayBetweenSwing = timeToStopCombo;
 
-		myPlayerModule.mylocalPlayer.myAnimController.SetIntToAnim("Interrupt", comboIndex);
-		myPlayerModule.mylocalPlayer.myAnimController.SyncInt("ComboIndex", comboIndex);
+		
 
 		allSpellsOfTheCombo[comboIndex].StartCanalysing(myPlayerModule.mousePos());
-
 		allSpellsOfTheCombo[comboIndex].SpellFinished += TryToCombo;
 
 		base.ResolveSpell();
@@ -227,9 +228,9 @@ public class ModuleCombo : SpellModule
 		base.KillSpell();
 	}
 
-	protected override void AnonciationFeedBack ()
+	protected override void ResolutionFeedBack ()
 	{
-		base.AnonciationFeedBack();
+		base.ResolutionFeedBack();
 	}
 
 }

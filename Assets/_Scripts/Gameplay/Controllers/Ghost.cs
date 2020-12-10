@@ -22,6 +22,8 @@ public class Ghost : MonoBehaviour
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
 
+    Fow myFow;
+
     bool haveCut = true;
 
     [HideInInspector]
@@ -87,7 +89,7 @@ public class Ghost : MonoBehaviour
 		this.GetComponent<MovementModule>().Init();
 
         fowObj = Instantiate(fowPrefab, transform.root);
-        Fow myFow = fowObj.GetComponent<Fow>();
+        myFow = fowObj.GetComponent<Fow>();
         myFow.Init(this.transform, 7);
         myFow.InitPlayerModule(playerModule);
 
@@ -186,9 +188,6 @@ public class Ghost : MonoBehaviour
 
             playerModule.isInGhost = false;
 
-            playerModule.mylocalPlayer.ResetFowRaduis();
-
-
             //gestion vision si cut
             if (haveCut)
             {
@@ -213,6 +212,12 @@ public class Ghost : MonoBehaviour
 
                 playerModule.isInBrume = playerModule.isInBrumeBeforeGhost;
                 playerModule.brumeId = playerModule.brumeIdBeforeGhost;
+
+                playerModule.mylocalPlayer.ForceResetFowRaduisOnline();
+            }
+            else
+            {
+                playerModule.mylocalPlayer.SendForceFowRaduis(myFow.fowRaduis);
             }
         }
 
