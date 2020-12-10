@@ -87,8 +87,6 @@ public class LocalPlayer : MonoBehaviour
 
 	private void Start ()
 	{
-		OnRespawn();
-
 		nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
 		if (myPlayerModule.teamIndex == Team.blue)
@@ -103,8 +101,10 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void Init ( UnityClient newClient )
+	public void Init ( UnityClient newClient, bool respawned = false )
 	{
+		OnRespawn(respawned);
+
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
@@ -354,9 +354,15 @@ public class LocalPlayer : MonoBehaviour
 		transform.localEulerAngles = newRotation;
 	}
 
-	public void OnRespawn ()
+	public void OnRespawn (bool respawned = false)
 	{
 		liveHealth = myPlayerModule.characterParameters.maxHealth;
+
+		if (respawned)
+        {
+			LocallyDivideHealth(2);
+		}
+
 	}
 
 	/// <summary>
