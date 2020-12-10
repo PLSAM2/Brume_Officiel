@@ -64,6 +64,7 @@
     public static readonly ushort LaunchWard = 790;
     public static readonly ushort StartWardLifeTime = 791;
     public static readonly ushort ChangeFowSize = 792;
+    public static readonly ushort ForceFowSize = 793;
     // <<
 
     //Altar Buff 800 --> 810 >>
