@@ -125,6 +125,10 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ChangeFowSize(sender, e);
             }
+            else if (message.Tag == Tags.ForceFowSize)
+            {
+                ForceFowSize(sender, e);
+            }
             else if (message.Tag == Tags.SpawnGenericFx)
             {
                 OnSpawnGenericFx(sender, e);
@@ -627,10 +631,27 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
-                GameManager.Instance.networkPlayers[_playerId].SetFowRaduis((float)_size / 100);
+                GameManager.Instance.networkPlayers[_playerId].SetFowRaduisLocal((float)_size / 100);
             }
         }
     }
+
+    private void ForceFowSize(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _playerId = reader.ReadUInt16();
+                uint _size = reader.ReadUInt32();
+
+                if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
+
+                GameManager.Instance.networkPlayers[_playerId].ForceLocalFowRaduis((float)_size / 100);
+            }
+        }
+    }
+
     private void BrumeSoulSpawnCall(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())

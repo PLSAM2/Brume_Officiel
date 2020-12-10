@@ -249,7 +249,6 @@ public class SpellModule : MonoBehaviour
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
 		if (isUsed)
 		{
-			AnonciationFeedBack();
 			anonciated = true;
 			currentTimeCanalised = FinalAnonciationTime();
 
@@ -306,6 +305,8 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void Resolution ()
 	{
+		ResolutionFeedBack();
+
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
 			myPlayerModule.forcedMovementInterrupted += ResolveSpell;
@@ -391,7 +392,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void KillSpell ()
 	{
-		AnonciationFeedBack();
+		ResolutionFeedBack();
 		willResolve = false;
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
@@ -475,7 +476,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual void AnonciationFeedBack ()
+	protected virtual void ResolutionFeedBack ()
 	{
 		//PITIT BRUIT
 		AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position);
