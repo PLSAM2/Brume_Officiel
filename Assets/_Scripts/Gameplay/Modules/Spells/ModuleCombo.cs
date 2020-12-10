@@ -94,9 +94,10 @@ public class ModuleCombo : SpellModule
 	protected override void ResolveSpell ()
 	{
 		delayBetweenSwing = timeToStopCombo;
-		myPlayerModule.mylocalPlayer.myAnimController.SetIntToAnim("Interrupt", comboIndex);
 
+		myPlayerModule.mylocalPlayer.myAnimController.SetIntToAnim("Interrupt", comboIndex);
 		myPlayerModule.mylocalPlayer.myAnimController.SyncInt("ComboIndex", comboIndex);
+
 		allSpellsOfTheCombo[comboIndex].StartCanalysing(myPlayerModule.mousePos());
 
 		allSpellsOfTheCombo[comboIndex].SpellFinished += TryToCombo;
