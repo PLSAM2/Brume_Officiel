@@ -14,20 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementToApply:
     myModule: {fileID: 0}
-    _duration: 0.2
-    baseDuration: 0.2
+    _duration: 0.3
+    baseDuration: 0.3
     speedEvolution:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -2.7289174
-        outSlope: -2.7289174
+        inSlope: -3.6112652
+        outSlope: -3.6112652
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.03898716
+        outWeight: 0.06751694
+      - serializedVersion: 3
+        time: 0.34703827
+        value: 0.13657269
+        inSlope: -0.42783973
+        outSlope: -0.42783973
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.05932315
       - serializedVersion: 3
         time: 1
         value: 0
@@ -40,5 +49,5 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    strength: 8
+    strength: 15
   isGrab: 0
