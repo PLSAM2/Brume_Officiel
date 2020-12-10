@@ -1,173 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Module_Cac : SpellModule
 {
 	Sc_CacAttack localTrad;
 	ShapePreview shapePreview, shapePreviewNetwork;
-	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack - localTrad.normalAttack.rangeOfTheAttack;
-	CacAttackParameters attackToResolve;
-
-	int _attackIndex = 0;
-	int attackIndex { get => _attackIndex; set { _attackIndex = value; } }
-	[SerializeField] Image delayIndicator;
-	float _delayBetweenSwing;
-	bool inCombo = false;
-	float delayBetweenSwing
-	{
-		get => _delayBetweenSwing; set { _delayBetweenSwing = value; delayIndicator.fillAmount = Mathf.Clamp(localTrad.timeToStopCombo - delayBetweenSwing / localTrad.timeToStopCombo, 0, 1); }
-	}
-
-	bool isSetuped = false;
-	//inputs
-
 
 	#region
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		localTrad = (Sc_CacAttack)spell;
 
-
 		shapePreview = PreviewManager.Instance.GetShapePreview();
 		shapePreview.gameObject.SetActive(false);
 		shapePreviewNetwork = PreviewManager.Instance.GetShapePreview();
 		shapePreviewNetwork.gameObject.SetActive(false);
-		attackIndex = 0;
-		attackToResolve = localTrad.attackList[attackIndex];
 
 		base.SetupComponent(_actionLinked);
-		isSetuped = true;
-		if (!myPlayerModule.mylocalPlayer.isOwner)
-			delayIndicator.gameObject.SetActive(false);
-
 	}
 
 	protected override void LinkInputs ( En_SpellInput _actionLinked )
 	{
-		myPlayerModule.cancelSpell += CancelSpell;
-
-		switch (_actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += StartCanalysing;
-				myPlayerModule.leftClickInput += StartCombo;
-				myPlayerModule.leftClickInputRealeased += EndCombo;
-				//myPlayerModule.firstSpellInputRealeased += AnonceSpell;
-				//myPlayerModule.firstSpellInputRealeased += HidePreview;
-
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += StartCanalysing;
-				myPlayerModule.secondSpellInput += StartCombo;
-				myPlayerModule.secondSpellInputRealeased += EndCombo;
-				//myPlayerModule.secondSpellInputRealeased += AnonceSpell;
-				//	myPlayerModule.secondSpellInputRealeased += HidePreview;
-
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += StartCanalysing;
-				myPlayerModule.thirdSpellInput += StartCombo;
-				myPlayerModule.thirdSpellInputRealeased += EndCombo;
-				//myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
-				//	myPlayerModule.thirdSpellInputRealeased += HidePreview;
-				break;
-
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += StartCanalysing;
-				myPlayerModule.leftClickInput += StartCombo;
-				myPlayerModule.leftClickInputRealeased += EndCombo;
-				//	myPlayerModule.leftClickInputRealeased += AnonceSpell;
-				//	myPlayerModule.leftClickInputRealeased += HidePreview;
-
-				break;
-
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput += StartCanalysing;
-				myPlayerModule.wardInput += StartCombo;
-				myPlayerModule.wardInputReleased += EndCombo;
-				//	myPlayerModule.wardInputReleased += AnonceSpell;
-				//myPlayerModule.wardInputReleased += HidePreview;
-
-				break;
-		}
+		return;
 	}
 
 	protected override void DelinkInput ()
 	{
-		myPlayerModule.cancelSpell -= CancelSpell;
-
-		switch (actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= StartCanalysing;
-				myPlayerModule.leftClickInput -= StartCombo;
-				myPlayerModule.leftClickInputRealeased -= EndCombo;
-				//	myPlayerModule.firstSpellInputRealeased -= AnonceSpell;
-				//	myPlayerModule.firstSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased -= EndCombo;
-				myPlayerModule.secondSpellInput -= StartCombo;
-				//	myPlayerModule.secondSpellInputRealeased -= AnonceSpell;
-				//	myPlayerModule.secondSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= StartCanalysing;
-				myPlayerModule.thirdSpellInput -= StartCombo;
-				myPlayerModule.thirdSpellInputRealeased -= EndCombo;
-				//	myPlayerModule.thirdSpellInputRealeased -= AnonceSpell;
-				//	myPlayerModule.thirdSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= StartCanalysing;
-				myPlayerModule.leftClickInput -= StartCombo;
-				myPlayerModule.leftClickInputRealeased -= EndCombo;
-				//	myPlayerModule.leftClickInputRealeased -= AnonceSpell;
-				//	myPlayerModule.leftClickInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput -= StartCanalysing;
-				myPlayerModule.wardInput -= StartCombo;
-				myPlayerModule.wardInputReleased -= EndCombo;
-				//	myPlayerModule.wardInputReleased -= AnonceSpell;
-				//	myPlayerModule.wardInputReleased -= HidePreview;
-				break;
-		}
+		return;
 	}
-
 	#endregion
-	protected override void FixedUpdate ()
-	{
-		base.FixedUpdate();
-
-		if (isSetuped)
-		{
-			if (delayBetweenSwing >= localTrad.timeToStopCombo)
-			{
-				attackIndex = 0;
-			}
-
-			if (!isUsed)
-			{
-				delayBetweenSwing += Time.fixedDeltaTime;
-			}
-		}
-	}
 
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
 
-		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, transform.eulerAngles.y, transform.position);
+		shapePreview.Init(FinalRange(currentTimeCanalised), localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
@@ -189,20 +57,16 @@ public class Module_Cac : SpellModule
 	{
 		if (canBeCast())
 		{
-			print("StartCanal");
 			mousePosInputed = _BaseMousePos;
 			ShowPreview(mousePosInputed);
-
 			base.StartCanalysing(_BaseMousePos);
-
-			delayBetweenSwing = 0;
 		}
 	}
 
 
 	float FinalRange ( float _timeCanlised )
 	{
-		return AttackToResolve().rangeOfTheAttack;
+		return localTrad.normalAttack.rangeOfTheAttack;
 		//localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(_timeCanlised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
 	}
 
@@ -212,20 +76,11 @@ public class Module_Cac : SpellModule
 		ResolveSlash();
 	}
 
-	protected override void AnonceSpell ( Vector3 _toAnnounce )
-	{
-		if (!anonciated)
-		{
-			attackToResolve = AttackToResolve();
-			base.AnonceSpell(_toAnnounce);
-		}
-	}
-
 	void ResolveSlash ()
 	{
 		HidePreview(Vector3.zero);
 
-		if (attackToResolve.forcedMovementToApplyAfterRealisation != null)
+		if (spell.forcedMovementAppliedBeforeResolution != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 		}
@@ -234,10 +89,10 @@ public class Module_Cac : SpellModule
 		{
 			List<GameObject> _listHit = new List<GameObject>();
 
-			float _angle = -attackToResolve.angleToAttackFrom / 2;
+			float _angle = -localTrad.normalAttack.angleToAttackFrom / 2;
 
 			//RAYCAST POUR TOUCHER
-			for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
+			for (int i = 0; i < localTrad.normalAttack.angleToAttackFrom; i++)
 			{
 				Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
 				_angle++;
@@ -265,28 +120,10 @@ public class Module_Cac : SpellModule
 				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
 				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
+					_playerTouched.DealDamages(localTrad.normalAttack.damagesToDeal, transform.position);
 			}
 		}
-
-		if (attackIndex < localTrad.attackList.Length - 1)
-			attackIndex++;
-		else
-			attackIndex = 0;
 	}
-
-	public override void Interrupt ()
-	{
-		base.Interrupt();
-
-		if (inCombo)
-			StartCanalysing(myPlayerModule.mousePos());
-	}
-	CacAttackParameters AttackToResolve ()
-	{
-		return localTrad.attackList[attackIndex];
-	}
-
 	protected override void CancelSpell ( bool _isForcedInterrupt )
 	{
 		base.CancelSpell(_isForcedInterrupt);
@@ -354,29 +191,13 @@ public class Module_Cac : SpellModule
 		shapePreviewNetwork.gameObject.SetActive(isShowed);
 	}
 
-	void StartCombo ( Vector3 _useless )
-	{
-		inCombo = true;
-	}
-
-	void EndCombo ( Vector3 _useless )
-	{
-		inCombo = false;
-	}
-
-	protected override Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
-	{ return attackToResolve.forcedMovementToApplyOnRealisation; }
-
-	protected override Sc_ForcedMovement ForcedMovementToApplyAfterRealisation ()
-	{ return attackToResolve.forcedMovementToApplyAfterRealisation; }
-
-	protected override float FinalCanalisationTime ()
-	{ return attackToResolve.canalisationTime; }
-
-	protected override float FinalAnonciationTime ()
-	{ return attackToResolve.canalisationTime - attackToResolve.anonciationTime; }
 	protected override void DecreaseCharge ()
 	{
 		return;
+	}
+
+	public override void Interrupt ()
+	{
+		base.Interrupt();
 	}
 }

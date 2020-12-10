@@ -14,8 +14,7 @@ public class SpellModule : MonoBehaviour
 		get => _cooldown; set
 		{
 			_cooldown = value;
-
-			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, finalCooldownValue());
+			UpdateUiCooldown();
 		}
 	}
 	private int _charges;
@@ -30,7 +29,7 @@ public class SpellModule : MonoBehaviour
 			if (_charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();
 
-			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+			UpdateUiCharge();
 			ChargeUpdate?.Invoke(charges);
 		}
 	}
@@ -41,23 +40,29 @@ public class SpellModule : MonoBehaviour
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
+	public bool isAComboPiece = false;
+
 	[HideInInspector] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
 	public AudioClip canalisationClip;
 	public AudioClip anonciationClip;
-
 	public Action<int> ChargeUpdate;
+	public Action SpellFinished;
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
 
+	private void Start ()
+	{
+		myPlayerModule = GetComponent<PlayerModule>();
+	}
+
 	//setup & inputs
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		myPlayerModule = GetComponent<PlayerModule>();
 		cooldown = finalCooldownValue();
 		actionLinked = _actionLinked;
 
@@ -236,7 +241,9 @@ public class SpellModule : MonoBehaviour
 		{
 			throwbackTime += Time.fixedDeltaTime;
 			if (throwbackTime >= spell.throwBackDuration)
+			{
 				Interrupt();
+			}
 		}
 	}
 
@@ -267,11 +274,11 @@ public class SpellModule : MonoBehaviour
 			resolved = anonciated = startResolution = false;
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
-			myPlayerModule.AddState(En_CharacterState.Canalysing);
 			isUsed = true;
 			StartCanalysingFeedBack();
 			DecreaseCharge();
 			mousePosInputed = _BaseMousePos;
+			ApplyCanalisationEffect();
 
 			if (spell.statusToApplyOnCanalisation.Count > 0)
 			{
@@ -294,6 +301,12 @@ public class SpellModule : MonoBehaviour
 		else
 			return;
 	}
+
+	protected virtual void ApplyCanalisationEffect ()
+	{
+		myPlayerModule.AddState(En_CharacterState.Canalysing);
+	}
+
 	protected virtual void Resolution ()
 	{
 		if (ForcedMovementToApplyOnRealisation() != null)
@@ -349,8 +362,7 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void Interrupt ()
 	{
-		isUsed = false;
-		throwbackTime = 0;
+		StopSpell();
 
 		if (statusToStopAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
@@ -370,7 +382,16 @@ public class SpellModule : MonoBehaviour
 
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+
+		SpellFinished?.Invoke();
 	}
+
+	protected virtual void StopSpell()
+	{
+		isUsed = false;
+		throwbackTime = 0;
+	}
+
 	protected virtual void KillSpell ()
 	{
 		AnonciationFeedBack();
@@ -506,6 +527,17 @@ public class SpellModule : MonoBehaviour
 		return spell.canalisationTime - spell.anonciationTime;
 	}
 
+	protected virtual void UpdateUiCooldown ()
+	{
+		if (!isAComboPiece)
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, finalCooldownValue());
+	}
+
+	protected virtual void UpdateUiCharge ()
+	{
+		if (!isAComboPiece)
+			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
+	}
 }
 public enum En_SpellInput
 {
