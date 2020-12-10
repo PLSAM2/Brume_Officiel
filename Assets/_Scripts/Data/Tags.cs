@@ -43,6 +43,7 @@
     public static readonly ushort SyncTrigger = 750;
     public static readonly ushort SyncBoolean = 754;
     public static readonly ushort SyncFloat = 756;
+    public static readonly ushort SyncInt = 757;
     // <<
 
     //Interactible 770 --> 789 >>
