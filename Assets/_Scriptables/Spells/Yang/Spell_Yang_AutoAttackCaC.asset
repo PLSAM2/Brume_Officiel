@@ -18,18 +18,17 @@ MonoBehaviour:
   forbiddenState: 48
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.01
+  canalisationTime: 0.5
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
-  anonciationTime: 0.01
-  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 5c5e384711a49fb4397859edd62263dc, type: 2}
-  forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
+  anonciationTime: 0.3
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
-  newSystem: 1
   timeToCanalyseToUpgrade: 30
   normalAttack:
     angleToAttackFrom: 15
@@ -44,10 +43,6 @@ MonoBehaviour:
       additionalDamages: 0
       additionalStatusToApply: []
       additionalMovementToApply: {fileID: 0}
-    canalisationTime: 0
-    anonciationTime: 0
-    forcedMovementToApplyOnRealisation: {fileID: 0}
-    forcedMovementToApplyAfterRealisation: {fileID: 0}
   upgradedAttack:
     angleToAttackFrom: 15
     rangeOfTheAttack: 3.5
@@ -61,55 +56,3 @@ MonoBehaviour:
       additionalDamages: 0
       additionalStatusToApply: []
       additionalMovementToApply: {fileID: 0}
-    canalisationTime: 0
-    anonciationTime: 0
-    forcedMovementToApplyOnRealisation: {fileID: 0}
-    forcedMovementToApplyAfterRealisation: {fileID: 0}
-  attackList:
-  - angleToAttackFrom: 90
-    rangeOfTheAttack: 3
-    damagesToDeal:
-      playerName: 
-      damageHealth: 10
-      statusToApply: []
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    canalisationTime: 0.8
-    anonciationTime: 0.5
-    forcedMovementToApplyOnRealisation: {fileID: 0}
-    forcedMovementToApplyAfterRealisation: {fileID: 0}
-  - angleToAttackFrom: 90
-    rangeOfTheAttack: 3
-    damagesToDeal:
-      playerName: 
-      damageHealth: 10
-      statusToApply: []
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    canalisationTime: 0.8
-    anonciationTime: 0.5
-    forcedMovementToApplyOnRealisation: {fileID: 0}
-    forcedMovementToApplyAfterRealisation: {fileID: 0}
-  - angleToAttackFrom: 180
-    rangeOfTheAttack: 4
-    damagesToDeal:
-      playerName: 
-      damageHealth: 20
-      statusToApply:
-      - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
-      movementToApply: {fileID: 11400000, guid: bfaab924f806a2649a92d203c1ca3226, type: 2}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    canalisationTime: 2
-    anonciationTime: 1.5
-    forcedMovementToApplyOnRealisation: {fileID: 11400000, guid: 5c5e384711a49fb4397859edd62263dc, type: 2}
-    forcedMovementToApplyAfterRealisation: {fileID: 11400000, guid: fbeae4ee7f9d8fd4eab82ff2653aa958, type: 2}
-  timeToStopCombo: 2
