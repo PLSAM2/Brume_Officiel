@@ -472,6 +472,10 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
+	public void LocallyDivideHealth(ushort divider)
+    {
+		liveHealth /= divider;
+	}
 	public void HealPlayer ( ushort value )
 	{
         if (InGameNetworkReceiver.Instance.GetEndGame())

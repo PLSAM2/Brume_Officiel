@@ -335,6 +335,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
                 if (isResurecting)
                 {
+                    myLocalPlayer.LocallyDivideHealth(2);
                     GameManager.Instance.OnPlayerRespawn?.Invoke(id);
                 }
 
