@@ -435,4 +435,9 @@ public class LobbyManager : MonoBehaviour
         roomPanel.SetActive(false);
         roomListPanelControl.Init();
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
