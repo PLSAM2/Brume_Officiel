@@ -62,8 +62,6 @@ public class Projectile : AutoKill
 	{
 		PlayerModule playerHit = Collider.gameObject.GetComponent<PlayerModule>();
 
-		print(Collider.name);
-
 		if (playerHit != null)
 		{
 			if (playerHit.teamIndex != myteam)
