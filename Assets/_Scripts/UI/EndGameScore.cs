@@ -15,7 +15,9 @@ public class EndGameScore : MonoBehaviour
     public void Init(Color allyTextColor, Color enemyTextColor, string allyScoreText, string enemyScoreText)
     {
         allyText.color = allyTextColor;
+        newAllyText.color = allyTextColor;
         enemyText.color = enemyTextColor;
+        newenemyText.color = enemyTextColor;
         allyText.text = allyScoreText;
         enemyText.text = enemyScoreText;
     }
