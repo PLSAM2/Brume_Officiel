@@ -76,8 +76,6 @@ public class LocalPlayer : MonoBehaviour
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
 	
-	public RagdollReceiver ragdoll;
-
 	private void Awake ()
 	{
 		lastPosition = transform.position;

@@ -210,6 +210,7 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
+  isAComboPiece: 0
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
@@ -312,7 +313,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 23.1
+  MaxDistance: 20
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -322,7 +323,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.43290043
+      time: 0.325
       value: 1
       inSlope: -4.51875
       outSlope: -4.51875
@@ -331,7 +332,43 @@ AudioSource:
       inWeight: 0
       outWeight: 0.03766877
     - serializedVersion: 3
-      time: 0.77922076
+      time: 0.35
+      value: 0.66
+      inSlope: -1.1089658
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.675
+      value: 0.66
+      inSlope: -0
+      outSlope: -13.200013
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 0.33
+      inSlope: 0.048451647
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.975
+      value: 0.33
+      inSlope: -0
+      outSlope: -0.4096773
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
       value: 0
       inSlope: -0.02792802
       outSlope: -0.02792802

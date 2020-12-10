@@ -21,9 +21,9 @@ public class ModuleCombo : SpellModule
 			delayIndicator.fillAmount = Mathf.Clamp((timeToStopCombo - delayBetweenSwing) / timeToStopCombo, 0, 1);
 		}
 	}
-	int _comboIndex = 0;
-	int comboIndex { get => _comboIndex; set { _comboIndex = value; indexOfCombo.text = _comboIndex.ToString(); } }
-
+	ushort _comboIndex = 0;
+	ushort comboIndex { get => _comboIndex; set { _comboIndex = value; indexOfCombo.text = _comboIndex.ToString(); } }
+	ushort oldIndex=0;
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -54,6 +54,8 @@ public class ModuleCombo : SpellModule
 	{
 
 		allSpellsOfTheCombo[comboIndex].SpellFinished -= TryToCombo;
+
+		oldIndex = comboIndex;
 
 		if (comboIndex == allSpellsOfTheCombo.Length - 1)
 		{
@@ -217,8 +219,14 @@ public class ModuleCombo : SpellModule
 
 	protected override void KillSpell ()
 	{
-		comboIndex = Mathf.Clamp(comboIndex - 1, 0, allSpellsOfTheCombo.Length - 1);
+		comboIndex = oldIndex;
 		base.KillSpell();
+	}
+
+	protected override void AnonciationFeedBack ()
+	{
+		base.AnonciationFeedBack();
+		myPlayerModule.mylocalPlayer.myAnimController.SyncInt("ComboIndex", comboIndex);
 	}
 
 }

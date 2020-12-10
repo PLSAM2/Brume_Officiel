@@ -1,17 +1,19 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 
 public class ShockWaveOnline : MonoBehaviour
 {
-    float currentWaveTime = 0;
-
     [SerializeField] statut myStatut;
 
     [SerializeField] Sc_ThirdEye localTrad;
 
     NetworkedObject myNetworkObj;
+
+    [SerializeField] GameObject mesh;
+
     public enum statut
     {
         Open,
@@ -22,6 +24,8 @@ public class ShockWaveOnline : MonoBehaviour
     {
         myNetworkObj = GetComponent<NetworkedObject>();
         myNetworkObj.OnSpawnObj += Init;
+
+        mesh.SetActive(false);
     }
 
     private void OnDestroy()
@@ -31,33 +35,32 @@ public class ShockWaveOnline : MonoBehaviour
 
     void Init()
     {
-        currentWaveTime = 0;
         AudioManager.Instance.Play3DAudio(localTrad.waveAudio, transform.position);
+
+        Transform transformOwner = GameManager.Instance.networkPlayers[myNetworkObj.GetOwnerID()].transform;
+
+        if (transformOwner != null && GameManager.Instance.visiblePlayer.ContainsKey(transformOwner))
+        {
+            mesh.SetActive(true);
+
+            switch (myStatut)
+            {
+                case statut.Open:
+                    transform.localScale = Vector3.zero;
+                    transform.DOScale(localTrad.range, localTrad.anonciationTime).OnComplete(() => OnFinish());
+                    break;
+
+                case statut.Close:
+                    transform.localScale = new Vector3(localTrad.range, localTrad.range, localTrad.range);
+                    transform.DOScale(Vector3.zero, localTrad.anonciationTime).OnComplete(() => OnFinish());
+                    break;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnFinish()
     {
-        currentWaveTime += Time.deltaTime;
-
-        float size = localTrad.range;
-        /*
-        switch (myStatut)
-        {
-            case statut.Open:
-                size = Mathf.Lerp(0, localTrad.range, localTrad.waveCurve.Evaluate(currentWaveTime / localTrad.waveDuration));
-                break;
-
-            case statut.Close:
-                size = Mathf.Lerp(localTrad.waveRange, 0, localTrad.waveCurve.Evaluate(currentWaveTime / localTrad.waveDuration));
-                break;
-        }
-        */
-        transform.localScale = new Vector3(size, size, size);
-
-        if (currentWaveTime >= localTrad.waveDuration)
-        {
-            gameObject.SetActive(false);
-        }
+        mesh.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
