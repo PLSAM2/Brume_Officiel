@@ -11,7 +11,7 @@ public class Fow : MonoBehaviour
     public FieldOfView myFieldOfView;
 
     [SerializeField] float followSpeed = 10;
-    float fowRaduis = 0;
+    public float fowRaduis = 0;
 
     PlayerModule playerModule;
 
@@ -38,6 +38,7 @@ public class Fow : MonoBehaviour
 
     public void ForceChangeFowRaduis(float _size)
     {
+        print("force");
         fowRaduis = _size;
         myFieldOfView.viewRadius = fowRaduis;
     }
@@ -62,6 +63,7 @@ public class Fow : MonoBehaviour
 
         if (playerModule.isInBrume)
         {
+            print("test");
             tOut = 0;
             myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, playerModule.characterParameters.curveInBrume.Evaluate(tIn) * Time.deltaTime);
         }

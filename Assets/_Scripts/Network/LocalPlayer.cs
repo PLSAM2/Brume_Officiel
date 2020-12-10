@@ -87,8 +87,6 @@ public class LocalPlayer : MonoBehaviour
 
 	private void Start ()
 	{
-		OnRespawn();
-
 		nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
 		if (myPlayerModule.teamIndex == Team.blue)
@@ -103,8 +101,10 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void Init ( UnityClient newClient )
+	public void Init ( UnityClient newClient, bool respawned = false )
 	{
+		OnRespawn(respawned);
+
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
@@ -193,14 +193,26 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-    public void SetFowRaduis ( float _value )
+    public void ForceLocalFowRaduis(float _value)
+    {
+        myFow.ForceChangeFowRaduis(_value);
+    }
+
+    public void SetFowRaduisLocal ( float _value )
 	{
 		myFow.ChangeFowRaduis(_value);
 	}
-
-	public void ResetFowRaduis ()
+    public void ResetFowRaduisLocal()
+    {
+        myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+    }
+    public void ResetFowRaduisOnline ()
 	{
         SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+    }
+    public void ForceResetFowRaduisOnline()
+    {
+        SendForceFowRaduis(myPlayerModule.characterParameters.visionRange);
     }
 
     private void OnDestroy()
@@ -327,10 +339,11 @@ public class LocalPlayer : MonoBehaviour
 		switch (_value)
 		{
 			case true:
-				SetFowRaduis(myPlayerModule.characterParameters.visionRangeInBrume);
+				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRangeInBrume);
 				break;
+
 			case false:
-				SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+                SetFowRaduisLocal(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
 	}
@@ -341,9 +354,15 @@ public class LocalPlayer : MonoBehaviour
 		transform.localEulerAngles = newRotation;
 	}
 
-	public void OnRespawn ()
+	public void OnRespawn (bool respawned = false)
 	{
 		liveHealth = myPlayerModule.characterParameters.maxHealth;
+
+		if (respawned)
+        {
+			LocallyDivideHealth(2);
+		}
+
 	}
 
 	/// <summary>
@@ -506,7 +525,7 @@ public class LocalPlayer : MonoBehaviour
 
 	public void SendChangeFowRaduis (float size = 0)
     {
-        SetFowRaduis(size);
+        SetFowRaduisLocal(size);
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -519,7 +538,22 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void SendSpawnGenericFx ( ushort _index, Vector3 _pos, float _rota, float _scale, float _time )
+    public void SendForceFowRaduis(float size)
+    {
+        ForceLocalFowRaduis(size);
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write((uint)size * 100);
+
+            using (Message _message = Message.Create(Tags.ForceFowSize, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
+    public void SendSpawnGenericFx ( ushort _index, Vector3 _pos, float _rota, float _scale, float _time )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
