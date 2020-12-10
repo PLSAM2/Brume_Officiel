@@ -18,24 +18,25 @@ MonoBehaviour:
   forbiddenState: 48
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.1
-  statusToApplyOnCanalisation: []
+  canalisationTime: 0.35
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: f57e1e9416384cf44b59957ba8d34e5f, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
-  anonciationTime: 0.3
+  anonciationTime: 0.1
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
+  throwBackDuration: 0.15
   spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
   timeToCanalyseToUpgrade: 30
   normalAttack:
     angleToAttackFrom: 120
-    rangeOfTheAttack: 3.5
+    rangeOfTheAttack: 3
     damagesToDeal:
       playerName: 
-      damageHealth: 15
+      damageHealth: 10
       statusToApply:
       - {fileID: 0}
       movementToApply: {fileID: 0}
@@ -45,10 +46,10 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 0}
   upgradedAttack:
     angleToAttackFrom: 120
-    rangeOfTheAttack: 3.5
+    rangeOfTheAttack: 3
     damagesToDeal:
       playerName: 
-      damageHealth: 15
+      damageHealth: 10
       statusToApply:
       - {fileID: 0}
       movementToApply: {fileID: 0}
