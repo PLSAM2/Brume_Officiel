@@ -193,7 +193,7 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void SetFowRaduis ( float _value )
+    public void SetFowRaduis ( float _value )
 	{
 		myFow.ChangeFowRaduis(_value);
 	}
@@ -474,7 +474,7 @@ public class LocalPlayer : MonoBehaviour
 
 	public void LocallyDivideHealth(ushort divider)
     {
-		liveHealth /= divider;
+		liveHealth = (ushort)Mathf.Round(liveHealth / divider);
 	}
 	public void HealPlayer ( ushort value )
 	{
@@ -504,21 +504,13 @@ public class LocalPlayer : MonoBehaviour
 		liveHealth = (ushort)_tempHp;
 	}
 
-	public void SendChangeFowRaduis ( float size = 0, bool resetSize = false )
+	public void SendChangeFowRaduis (float size = 0)
     {
-        if (resetSize)
-        {
-            ResetFowRaduis();
-        }
-        else
-        {
-            SetFowRaduis(size);
-        }
+        SetFowRaduis(size);
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write((uint)size * 100);
-			_writer.Write(resetSize);
+			_writer.Write((uint) size * 100);
 
 			using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
 			{
