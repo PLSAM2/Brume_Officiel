@@ -474,7 +474,7 @@ public class LocalPlayer : MonoBehaviour
 
 	public void LocallyDivideHealth(ushort divider)
     {
-		liveHealth /= divider;
+		liveHealth = (ushort)Mathf.Round(liveHealth / divider);
 	}
 	public void HealPlayer ( ushort value )
 	{

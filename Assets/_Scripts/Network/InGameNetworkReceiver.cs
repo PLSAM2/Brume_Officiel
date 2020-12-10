@@ -277,12 +277,20 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
                 else
                 {
+                    bool emptySpace = false;
+
                     foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
                     {
                         if (spawn.CanSpawn())
                         {
+                            emptySpace = true;
                             spawnPos = spawn.transform.position;
                         }
+                    }
+
+                    if (!emptySpace)
+                    {
+                        spawnPos = GameManager.Instance.resSpawns[1].transform.position;
                     }
                 }
 
