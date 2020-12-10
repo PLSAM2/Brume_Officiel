@@ -20,6 +20,10 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI round;
     [FoldoutGroup("GlobalUi")] public GameObject echapMenu;
+    [FoldoutGroup("GlobalUi")] public GameObject victoryPanel;
+    [FoldoutGroup("GlobalUi")] public GameObject loosePanel;
+    [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
+    [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
 
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
@@ -35,9 +39,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] Image brumeFilter;
 
     [Header("GamePlayPart")]
-	[Header("Status Icon")]
+    [Header("Status Icon")]
     [FoldoutGroup("StatusIcon")] public Image slowIcon;
-    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon,canalysingIcon, crouchedIcon, rootIcon, hiddenIcon;
+    [FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon, canalysingIcon, crouchedIcon, rootIcon, hiddenIcon;
 
     [Header("Spell Icons")]
     [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
@@ -104,16 +108,22 @@ public class UiManager : MonoBehaviour
     {
         // A changer >>
         Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
+        string redTeamScore = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
+        string blueTeamScore = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
+
 
         if (team == Team.blue)
         {
             allyScore.color = Color.blue;
             ennemyScore.color = Color.red;
+            endGameScore.Init(Color.blue, Color.red, blueTeamScore, redTeamScore);
         }
         else if (team == Team.red)
         {
             allyScore.color = Color.red;
             ennemyScore.color = Color.blue;
+
+            endGameScore.Init(Color.red, Color.blue, redTeamScore, blueTeamScore);
         }
 
         round.text = "Round : " + RoomManager.Instance.roundCount;
@@ -158,7 +168,7 @@ public class UiManager : MonoBehaviour
     {
         if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            GetLifeImageOfTeamChamp(id).fillAmount = (float) GameManager.Instance.networkPlayers[id].liveHealth 
+            GetLifeImageOfTeamChamp(id).fillAmount = (float)GameManager.Instance.networkPlayers[id].liveHealth
                 / GameFactory.GetMaxLifeOfPlayer(id);
         }
     }
@@ -185,7 +195,7 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerViewChange(ushort id, bool isVisible)
     {
-        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
@@ -230,7 +240,7 @@ public class UiManager : MonoBehaviour
 
     Image GetImageOfChamp(ushort id)
     {
-        if(RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
             {
@@ -287,23 +297,23 @@ public class UiManager : MonoBehaviour
         switch (spell)
         {
             case En_SpellInput.FirstSpell:
-                firstSpell.UpdateFillAmount( _time, _completeCd);
+                firstSpell.UpdateFillAmount(_time, _completeCd);
                 break;
 
             case En_SpellInput.SecondSpell:
-                secondSpell.UpdateFillAmount( _time, _completeCd);
+                secondSpell.UpdateFillAmount(_time, _completeCd);
                 break;
 
             case En_SpellInput.ThirdSpell:
-                thirdSpell.UpdateFillAmount( _time, _completeCd);
+                thirdSpell.UpdateFillAmount(_time, _completeCd);
                 break;
 
             case En_SpellInput.Maj:
-                sprintIcon.UpdateFillAmount( _time, _completeCd);
+                sprintIcon.UpdateFillAmount(_time, _completeCd);
                 break;
 
             case En_SpellInput.Click:
-                autoAttackIcon.UpdateFillAmount( _time, _completeCd);
+                autoAttackIcon.UpdateFillAmount(_time, _completeCd);
                 break;
             case En_SpellInput.Ward:
                 wardIcon.UpdateFillAmount(_time, _completeCd);
@@ -311,7 +321,7 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    public void SetupIcon (Sc_Spell _spellAttached, En_SpellInput _input)
+    public void SetupIcon(Sc_Spell _spellAttached, En_SpellInput _input)
     {
         switch (_input)
         {
@@ -339,8 +349,8 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    public void LinkInputName ( En_SpellInput _input, string _name)
-	{
+    public void LinkInputName(En_SpellInput _input, string _name)
+    {
         switch (_input)
         {
             case En_SpellInput.FirstSpell:
@@ -373,13 +383,13 @@ public class UiManager : MonoBehaviour
     }
 
     public void UpdateChargesUi(int _charges, En_SpellInput _spellInput)
-	{
-        switch(_spellInput)
-		{
+    {
+        switch (_spellInput)
+        {
             case En_SpellInput.FirstSpell:
                 firstSpell.UpdatesChargesAmont(_charges);
                 if (_charges > 0)
-                    firstSpell.HideIcon (false);
+                    firstSpell.HideIcon(false);
                 else
                     firstSpell.HideIcon(true);
 
@@ -414,34 +424,34 @@ public class UiManager : MonoBehaviour
                 break;
 
         }
-	}
+    }
 
-	public void StatusUpdate(En_CharacterState _currentState)
-	{
-		if ((_currentState & En_CharacterState.Silenced) != 0)
-			silencedIcon.gameObject.SetActive(true);
-		else
-			silencedIcon.gameObject.SetActive(false);
+    public void StatusUpdate(En_CharacterState _currentState)
+    {
+        if ((_currentState & En_CharacterState.Silenced) != 0)
+            silencedIcon.gameObject.SetActive(true);
+        else
+            silencedIcon.gameObject.SetActive(false);
 
-		if ((_currentState & En_CharacterState.Slowed) != 0)
-			slowIcon.gameObject.SetActive(true);
-		else
-			slowIcon.gameObject.SetActive(false);
+        if ((_currentState & En_CharacterState.Slowed) != 0)
+            slowIcon.gameObject.SetActive(true);
+        else
+            slowIcon.gameObject.SetActive(false);
 
-		if ((_currentState & En_CharacterState.SpedUp)!= 0)
-			spedUpIcon.gameObject.SetActive(true);
-		else
-			spedUpIcon.gameObject.SetActive(false);
+        if ((_currentState & En_CharacterState.SpedUp) != 0)
+            spedUpIcon.gameObject.SetActive(true);
+        else
+            spedUpIcon.gameObject.SetActive(false);
 
-		if ((_currentState & En_CharacterState.Root)!= 0)
-			rootIcon.gameObject.SetActive(true);
-		else
+        if ((_currentState & En_CharacterState.Root) != 0)
+            rootIcon.gameObject.SetActive(true);
+        else
             rootIcon.gameObject.SetActive(false);
 
-		if ((_currentState & En_CharacterState.Canalysing) != 0)
-			canalysingIcon.gameObject.SetActive(true);
-		else
-			canalysingIcon.gameObject.SetActive(false);
+        if ((_currentState & En_CharacterState.Canalysing) != 0)
+            canalysingIcon.gameObject.SetActive(true);
+        else
+            canalysingIcon.gameObject.SetActive(false);
 
         if ((_currentState & En_CharacterState.Crouched) != 0)
             crouchedIcon.gameObject.SetActive(true);
@@ -462,7 +472,7 @@ public class UiManager : MonoBehaviour
 
     public void DisplayGeneralMessage(string value)
     {
-        generalMessageList.Add(value);            
+        generalMessageList.Add(value);
     }
 
     IEnumerator GeneralMessage()
@@ -478,7 +488,8 @@ public class UiManager : MonoBehaviour
         if (generalMessageList.Count == 0)
         {
             waitForGenMessageAnimEnd = false;
-        } else
+        }
+        else
         {
             StartCoroutine(GeneralMessage());
         }
@@ -515,4 +526,16 @@ public class UiManager : MonoBehaviour
     {
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
+    public void EndGamePanel(bool victory = false, ushort newPoints = 0, Team team = Team.none)
+    {
+        victoryPanel.SetActive(victory);
+        loosePanel.SetActive(!victory);
+        endGameScore.gameObject.SetActive(true);
+        endGameScore.EndGame(newPoints, team);
+
+        toDisableInEndGame.SetActive(false);
+    }
+
+
+
 }

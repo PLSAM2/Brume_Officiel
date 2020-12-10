@@ -34,15 +34,6 @@ public class GameFactory
         }
     }
 
-	public static Team GetEnemyTeam ( Team myTeam )
-	{
-		if (myTeam == Team.red)
-			return Team.blue;
-		else
-			return Team.red;
-	}
-
-
 	public static int GerateRandomNumer(int min, int max)
     {
         return Random.Range(min, max);

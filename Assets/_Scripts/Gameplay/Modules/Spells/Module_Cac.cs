@@ -159,37 +159,25 @@ public class Module_Cac : SpellModule
 	}
 
 
-	public void EvaluatePreviewNetwork ( float timeCounted )
+	public void EvaluatePreviewNetwork ( )
 	{
-		if (!myPlayerModule.mylocalPlayer.isOwner)
-		{
+		shapePreviewNetwork.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
 
-		}
-		if (timeCounted >= localTrad.timeToCanalyseToUpgrade)
-		{
-			shapePreviewNetwork.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-
-			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				shapePreviewNetwork.SetColor(Color.yellow, 155);
-			else
-				shapePreviewNetwork.SetColor(Color.red, 155);
-		}
+		if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+			shapePreviewNetwork.SetColor(Color.yellow, 155);
 		else
-		{
-			shapePreviewNetwork.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-
-			if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				shapePreviewNetwork.SetColor(Color.yellow, 155);
-			else
-				shapePreviewNetwork.SetColor(Color.red, 155);
-		}
-
+			shapePreviewNetwork.SetColor(Color.red, 155);
 	}
 
-	public void ShowPreviewNetwork ( bool isShowed )
+	public void ShowPreviewNetwork ()
 	{
-		shapePreviewNetwork.gameObject.SetActive(isShowed);
+		shapePreviewNetwork.gameObject.SetActive(true);
 	}
+	public void FalsePreviewNetwork ()
+	{
+		shapePreviewNetwork.gameObject.SetActive(false);
+	}
+
 
 	protected override void DecreaseCharge ()
 	{

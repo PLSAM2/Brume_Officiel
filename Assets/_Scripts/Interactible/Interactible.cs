@@ -211,6 +211,11 @@ public class Interactible : MonoBehaviour
 
     public virtual void Captured(Team team)
     {
+        if (InGameNetworkReceiver.Instance.GetEndGame())
+        {
+            return;
+        }
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(interactibleID);

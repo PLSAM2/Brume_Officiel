@@ -76,8 +76,6 @@ public class LocalPlayer : MonoBehaviour
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
 	
-	public RagdollReceiver ragdoll;
-
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -355,6 +353,11 @@ public class LocalPlayer : MonoBehaviour
 	/// <param name="ignoreMark"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false )
 	{
+		if (InGameNetworkReceiver.Instance.GetEndGame())
+		{
+			return;
+		}
+
 		DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
@@ -434,6 +437,11 @@ public class LocalPlayer : MonoBehaviour
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
+		if (InGameNetworkReceiver.Instance.GetEndGame())
+		{
+			return;
+		}
+
 		if (isOwner)
 		{
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
@@ -466,6 +474,12 @@ public class LocalPlayer : MonoBehaviour
 
 	public void HealPlayer ( ushort value )
 	{
+        if (InGameNetworkReceiver.Instance.GetEndGame())
+        {
+			return;
+        }
+
+
 		HealLocaly(value);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
