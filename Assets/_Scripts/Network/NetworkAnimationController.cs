@@ -85,6 +85,10 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 SyncFloatInserver(sender, e);
             }
+            if (message.Tag == Tags.SyncInt)
+            {
+                SyncFloatInserver(sender, e);
+            }
         }
     }
 
@@ -168,6 +172,21 @@ public class NetworkAnimationController : MonoBehaviour
         }
     }
 
+    public void SyncInt(string intName, ushort value, SendMode sendMode = SendMode.Reliable)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(client.ID);
+            _writer.Write(intName);
+            _writer.Write(value);
+
+            using (Message _message = Message.Create(Tags.SyncInt, _writer))
+            {
+                client.SendMessage(_message, sendMode);
+            }
+        }
+    }
+
     private void SyncFloatInserver(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
@@ -183,6 +202,25 @@ public class NetworkAnimationController : MonoBehaviour
                 float _value = reader.ReadSingle();
 
                 animator.SetFloat(_floatName, _value);
+            }
+        }
+    }
+
+    private void SyncIntInserver(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+
+                if (_id != myLocalPlayer.myPlayerId) // si l'on est pas le sender
+                    return;
+
+                string _intName = reader.ReadString();
+                ushort _value = reader.ReadUInt16();
+
+                animator.SetInteger(_intName, _value);
             }
         }
     }
