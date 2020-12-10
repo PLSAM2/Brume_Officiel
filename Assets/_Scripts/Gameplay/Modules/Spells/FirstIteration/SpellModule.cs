@@ -49,7 +49,7 @@ public class SpellModule : MonoBehaviour
 	public AudioClip canalisationClip;
 	public AudioClip anonciationClip;
 	public Action<int> ChargeUpdate;
-	public Action SpellResolved;
+	public Action SpellFinished;
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
@@ -241,7 +241,9 @@ public class SpellModule : MonoBehaviour
 		{
 			throwbackTime += Time.fixedDeltaTime;
 			if (throwbackTime >= spell.throwBackDuration)
+			{
 				Interrupt();
+			}
 		}
 	}
 
@@ -381,7 +383,7 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
-		SpellResolved?.Invoke();
+		SpellFinished?.Invoke();
 	}
 
 	protected virtual void StopSpell()

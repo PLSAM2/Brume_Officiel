@@ -14,13 +14,15 @@ public class ModuleCombo : SpellModule
 	float _delayBetweenSwing;
 	float delayBetweenSwing
 	{
-		get => _delayBetweenSwing; 
-		set { _delayBetweenSwing = value; 
+		get => _delayBetweenSwing;
+		set
+		{
+			_delayBetweenSwing = value;
 			delayIndicator.fillAmount = Mathf.Clamp((timeToStopCombo - delayBetweenSwing) / timeToStopCombo, 0, 1);
 		}
 	}
 	int _comboIndex = 0;
-	int comboIndex {get => _comboIndex; set {_comboIndex = value; indexOfCombo.text = _comboIndex.ToString(); } }
+	int comboIndex { get => _comboIndex; set { _comboIndex = value; indexOfCombo.text = _comboIndex.ToString(); } }
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -48,11 +50,26 @@ public class ModuleCombo : SpellModule
 		inCombo = false;
 	}
 
-	void Combo ()
+	void TryToCombo ()
 	{
+		print("ITryToCombo");
+
+		allSpellsOfTheCombo[comboIndex].SpellFinished -= TryToCombo;
+
+		if (comboIndex == allSpellsOfTheCombo.Length - 1)
+		{
+			comboIndex = 0;
+		}
+		else
+			comboIndex += 1;
+
+		Interrupt();
+
+
 		if (inCombo)
 		{
-			ResolveSpell();
+			print("I Can");
+			StartCanalysing(myPlayerModule.mousePos());
 		}
 	}
 
@@ -60,12 +77,12 @@ public class ModuleCombo : SpellModule
 	{
 		base.FixedUpdate();
 
-		if (!isUsed && delayBetweenSwing>0)
+		if (!isUsed && delayBetweenSwing > 0)
 		{
 			delayBetweenSwing -= Time.fixedDeltaTime;
 		}
 
-		if (delayBetweenSwing < 0)
+		if (delayBetweenSwing < 0 && !isUsed)
 			comboIndex = 0;
 
 	}
@@ -77,14 +94,11 @@ public class ModuleCombo : SpellModule
 
 	protected override void ResolveSpell ()
 	{
-		print("TryToAttack");
 		delayBetweenSwing = timeToStopCombo;
 		allSpellsOfTheCombo[comboIndex].StartCanalysing(myPlayerModule.mousePos());
 
-		if (comboIndex == allSpellsOfTheCombo.Length - 1)
-			comboIndex = 0;
-		else
-			comboIndex++;
+		allSpellsOfTheCombo[comboIndex].SpellFinished += TryToCombo;
+
 		base.ResolveSpell();
 
 	}
@@ -96,12 +110,6 @@ public class ModuleCombo : SpellModule
 
 	protected override void LinkInputs ( En_SpellInput _actionLinked )
 	{
-		foreach (SpellModule _module in allSpellsOfTheCombo)
-		{
-			_module.SpellResolved += Combo;
-			_module.SpellResolved += TryToEnd;
-		}
-
 		myPlayerModule.cancelSpell += CancelSpell;
 
 		switch (_actionLinked)
@@ -156,14 +164,6 @@ public class ModuleCombo : SpellModule
 	protected override void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
-
-		foreach (SpellModule _module in allSpellsOfTheCombo)
-		{
-			_module.SpellResolved -= Combo;
-			_module.SpellResolved -= TryToEnd;
-
-		}
-
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -220,16 +220,8 @@ public class ModuleCombo : SpellModule
 
 	protected override void KillSpell ()
 	{
-		comboIndex = Mathf.Clamp(comboIndex -1, 0, allSpellsOfTheCombo.Length - 1);
+		comboIndex = Mathf.Clamp(comboIndex - 1, 0, allSpellsOfTheCombo.Length - 1);
 		base.KillSpell();
-	}
-
-	void TryToEnd()
-	{
-		if (!inCombo)
-			Interrupt();
-		else
-			return;
 	}
 
 }
