@@ -222,9 +222,10 @@ public class ModuleCombo : SpellModule
 		return;
 	}
 
-	protected override void KillSpell ()
+	public override void KillSpell ()
 	{
 		comboIndex = oldIndex;
+		allSpellsOfTheCombo[comboIndex].KillSpell();
 		base.KillSpell();
 	}
 

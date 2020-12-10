@@ -390,7 +390,7 @@ public class SpellModule : MonoBehaviour
 		throwbackTime = 0;
 	}
 
-	protected virtual void KillSpell ()
+	public virtual void KillSpell ()
 	{
 		ResolutionFeedBack();
 		willResolve = false;
