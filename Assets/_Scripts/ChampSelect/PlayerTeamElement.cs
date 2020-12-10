@@ -15,6 +15,7 @@ public class PlayerTeamElement : MonoBehaviour
     [SerializeField] GameObject iconLoading;
     [SerializeField] GameObject iconPeak;
     [SerializeField] GameObject iconConfirme;
+    [SerializeField] GameObject borders;
 
     public Character character;
     public void Init(PlayerData myPlayerdata, bool characterPick = false)
@@ -24,6 +25,15 @@ public class PlayerTeamElement : MonoBehaviour
         if (!characterPick)
         {
             myIcon.color = GameFactory.GetColorTeam(myPlayerdata.playerTeam);
+        } else
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().ID == myPlayerdata.ID)
+            {
+                borders.SetActive(true);
+            } else
+            {
+                borders.SetActive(false);
+            }
         }
 
         panelPlayer.SetActive(true);
