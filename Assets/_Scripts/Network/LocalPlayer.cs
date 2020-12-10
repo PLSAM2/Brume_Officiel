@@ -358,10 +358,10 @@ public class LocalPlayer : MonoBehaviour
 	{
 		liveHealth = myPlayerModule.characterParameters.maxHealth;
 
-		if (respawned)
-        {
-			LocallyDivideHealth(2);
-		}
+		//if (respawned)
+  //      {
+		//	LocallyDivideHealth(2);
+		//}
 
 	}
 
