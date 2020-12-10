@@ -67,6 +67,7 @@ public class AutoKill : MonoBehaviour
 
         if (myLivelifeTime <= 0)
         {
+            print("DiedBcOfTime");
             Destroy();
         }
     }
