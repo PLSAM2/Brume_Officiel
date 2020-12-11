@@ -57,11 +57,14 @@ public class BrumeScript : MonoBehaviour
             if (netObj.GetIsOwner())
             {
                 PlayerModule player = GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule;
-                player.SetInBrumeStatut(true, GetInstanceID());
+                //player.SetInBrumeStatut(true, GetInstanceID());
 
                 ShowHideMesh(player, false);
 
-                other.GetComponent<Ghost>().currentIdBrume = GetInstanceID();
+                Ghost myGhost = other.GetComponent<Ghost>();
+                myGhost.brumeId = GetInstanceID();
+                myGhost.isInBrume = true;
+                myGhost.myFow.SetInBrumeGhost(true);
 
                 AudioManager.Instance.Play2DAudio(sfxTransiBrume);
             }
@@ -136,6 +139,10 @@ public class BrumeScript : MonoBehaviour
                 UiManager.Instance.SetAlphaBrume(0);
 
                 AudioManager.Instance.Play2DAudio(sfxTransiBrume);
+
+                Ghost myGhost = other.GetComponent<Ghost>();
+                myGhost.myFow.SetInBrumeGhost(false);
+                myGhost.isInBrume = false;
             }
         }
     }

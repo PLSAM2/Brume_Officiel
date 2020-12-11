@@ -42,7 +42,7 @@ public class LocalPlayer : MonoBehaviour
 	[TabGroup("UiState")] public GameObject StunIcon, HiddenIcon;
 	[TabGroup("UiState")] public GameObject SlowIcon;
 	[TabGroup("UiState")] public GameObject RootIcon;
-	[TabGroup("UiState")] public GameObject SilencedIcon;
+	[TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon;
 
 	Vector3 newNetorkPos;
 	[HideInInspector] [SerializeField] float syncSpeed = 10;
@@ -465,7 +465,6 @@ public class LocalPlayer : MonoBehaviour
 		{
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
-				print("IApplyMark");
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
@@ -491,7 +490,7 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void LocallyDivideHealth(ushort divider)
+	public void LocallyDivideHealth(ushort divider) 
     {
 		liveHealth = (ushort)Mathf.Round(liveHealth / divider);
 	}
@@ -650,6 +649,7 @@ public class LocalPlayer : MonoBehaviour
 		StunIcon.SetActive(false);
 		SlowIcon.SetActive(false);
 		HiddenIcon.SetActive(false);
+		EmbourbedIcon.SetActive(false);
 
 		//	fillPart.fillAmount = actualTime / baseTime;
 
@@ -657,6 +657,12 @@ public class LocalPlayer : MonoBehaviour
 		{
 			HiddenIcon.SetActive(true);
 			stateText.text = "Hidden";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.Embourbed) != 0)
+		{
+			EmbourbedIcon.SetActive(true);
+			stateText.text = "Embourbed";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.Root) != 0 && (_currentState & En_CharacterState.Silenced) != 0)

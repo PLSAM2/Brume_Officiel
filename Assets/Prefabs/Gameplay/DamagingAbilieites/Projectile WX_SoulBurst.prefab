@@ -530,7 +530,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1, z: 1.5}
+  m_Size: {x: 1.5, y: 4, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8724460869845800598
 GameObject:
@@ -594,7 +594,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8724460869845800598}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.75
@@ -641,6 +641,7 @@ MonoBehaviour:
   localTrad: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
   doImpactFx: 1
   hasTouched: 0
+  myRb: {fileID: 3420004688133137551}
   hitSound: {fileID: 0}
   explosionRange: 2.75
   damagesExplosion:
