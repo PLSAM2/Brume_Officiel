@@ -10,6 +10,8 @@ public class Projectile_SoulBurst : Projectile
 	bool asExploded = false;
 	bool isInMyTeam;
 
+    [SerializeField] AudioClip explosionSound;
+
 	public override void Init ( GameData.Team ownerTeam )
 	{
 		base.Init(ownerTeam);
@@ -44,13 +46,16 @@ public class Projectile_SoulBurst : Projectile
 
 	protected override void Destroy ()
 	{
+
 		if (!asExploded && hasTouched)
 		{
 			asExploded = true;
 
 			isInMyTeam = (myteam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex);
 
-			if (isOwner)
+            AudioManager.Instance.Play3DAudio(explosionSound, transform.position);
+
+            if (isOwner)
 				Explode();
 		}
 		base.Destroy();
