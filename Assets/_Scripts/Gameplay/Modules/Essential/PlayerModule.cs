@@ -773,11 +773,11 @@ public class PlayerModule : MonoBehaviour
 		_tempDamages.damageHealth = wxMarkRef.effect.optionalDamagesInfos.damageHealth;
 
 		//REMPLACER ICI LE DEALER PAR LE MEC QUI T APPLY LA MARQUE
-		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, dealerID, true);
+		mylocalPlayer.DealDamages(_tempDamages, transform.position, dealerID, true);
 
 		foreach (Sc_Status status in wxMarkRef.effect.optionalDamagesInfos.statusToApply) // already in DealDamage but we dont need to reaply state wx marked
 		{
-			this.mylocalPlayer.SendStatus(status);
+			mylocalPlayer.SendStatus(status);
 		}
 	}
 

@@ -21,10 +21,11 @@ public class Projectile : AutoKill
 	Vector3 startPos;
 
 	[HideInInspector] public bool hasTouched = false;
-	[SerializeField] Rigidbody myRb;
-    [SerializeField] AudioClip hitSound;
+	public bool useRb = true;
+	[ShowIf("useRb")] public Rigidbody myRb;
+	[SerializeField] AudioClip hitSound;
 
-    public override void Init ( Team ownerTeam )
+	public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
 		startPos = transform.position;
@@ -49,9 +50,8 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position);
 			}
 		}
-
-		myRb.velocity = speed * transform.forward;
-
+		if (useRb)
+			myRb.velocity = speed * transform.forward;
 	}
 
 	protected override void OnEnable ()
@@ -65,9 +65,9 @@ public class Projectile : AutoKill
 		myRb = GetComponent<Rigidbody>();
 	}
 
-	private void OnCollisionEnter ( Collision collision )
+	private void OnTriggerEnter ( Collider other )
 	{
-		PlayerModule playerHit = collision.gameObject.GetComponent<PlayerModule>();
+		PlayerModule playerHit = other.gameObject.GetComponent<PlayerModule>();
 		if (playerHit != null)
 		{
 			if (playerHit.teamIndex != myteam)
@@ -97,11 +97,17 @@ public class Projectile : AutoKill
 		}
 	}
 
-/*	protected override void FixedUpdate ()
+
+	protected override void FixedUpdate ()
 	{
-		transform.position += speed * transform.forward * Time.fixedDeltaTime;
-		base.FixedUpdate();
-	}*/
+		if (!useRb)
+			transform.position += transform.forward * speed * Time.fixedDeltaTime;
+	}
+	/*	protected override void FixedUpdate ()
+		{
+			transform.position += speed * transform.forward * Time.fixedDeltaTime;
+			base.FixedUpdate();
+		}*/
 
 	protected override void Destroy ()
 	{
@@ -116,10 +122,10 @@ public class Projectile : AutoKill
 				CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
 			}
 
-            if (hitSound)
-            {
-                AudioManager.Instance.Play3DAudio(hitSound, transform.position);
-            }
+			if (hitSound)
+			{
+				AudioManager.Instance.Play3DAudio(hitSound, transform.position);
+			}
 		}
 
 		asDeal = true;
