@@ -392,9 +392,11 @@ MonoBehaviour:
   allFx: []
   allVisibleFx: []
   allVisibleInteractible: 
+  currentLocalGhost: {fileID: 0}
   gameStarted: 0
   globalVolumeAnimator: {fileID: 543586701}
   brumeSoul: {fileID: 3368562851263206280, guid: f3b9479fa1413b14e9fe86088e8eb0ac, type: 3}
+  hiddenEffect: {fileID: 543586704}
 --- !u!4 &74980374
 Transform:
   m_ObjectHideFlags: 0
@@ -3359,6 +3361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543586703}
+  - component: {fileID: 543586704}
   - component: {fileID: 543586702}
   - component: {fileID: 543586701}
   m_Layer: 0
@@ -3418,6 +3421,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &543586704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543586700}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 3a940ab55ddc9794eb242716ad9d9da3, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 1
 --- !u!43 &546693377
 Mesh:
   m_ObjectHideFlags: 0
@@ -4974,6 +4994,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 957444905}
+    - target: {fileID: 42375087009899549, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 132205228917822717, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -5026,6 +5050,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 135356995}
+    - target: {fileID: 680859864748557012, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 687585211625155381, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5130,6 +5158,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1858199070583665394, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 1878686251168923802, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5149,6 +5181,10 @@ PrefabInstance:
     - target: {fileID: 2109046581295892298, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 2137832094902019298, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 2177855584767357780, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Mesh
@@ -5322,6 +5358,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3902050406226412078, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 4012623287504543429, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5462,6 +5502,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1640305193}
+    - target: {fileID: 5172567636902749450, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 5227016219535213490, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5529,6 +5573,10 @@ PrefabInstance:
     - target: {fileID: 5466212519078418767, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_LocalPosition.z
       value: 16.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495424175386673797, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
+      propertyPath: m_Layer
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 5558150739490745012, guid: 5f0c9dca7c277384596c424bb8a4016f, type: 3}
       propertyPath: m_Mesh

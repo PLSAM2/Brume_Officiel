@@ -651,7 +651,7 @@ public class LocalPlayer : MonoBehaviour
 		HiddenIcon.SetActive(false);
 		EmbourbedIcon.SetActive(false);
 
-		//	fillPart.fillAmount = actualTime / baseTime;
+		//	fillPart.fillAmount = actualTime / baseTime;f
 
 		if ((_currentState & En_CharacterState.Hidden) != 0)
 		{

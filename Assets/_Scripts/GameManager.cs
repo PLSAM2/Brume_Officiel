@@ -76,6 +76,7 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
+    public PostProcessVolume hiddenEffect;
 
     private void Awake()
     {
