@@ -30,5 +30,7 @@ public class Module_WxGhost : SpellModule
         _tempPlayerModule.isInGhost = true;
         _tempPlayerModule.isInBrumeBeforeGhost = _tempPlayerModule.isInBrume;
         _tempPlayerModule.brumeIdBeforeGhost = _tempPlayerModule.brumeId;
+
+        GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
     }
 }

@@ -24,17 +24,19 @@ public class Displayer : MonoBehaviour
 
         if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule.isInGhost)
         {
-            if (currentFollowPlayer.myPlayerModule.isInBrume)
+            if (GameManager.Instance.currentLocalGhost.isInBrume)
             {
-                HideOrShow(GameFactory.GetLocalPlayerObj(), false);
-                SetFow(GameFactory.GetLocalPlayerObj(), false);
-                GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
+                SetFow(currentFollowPlayer, false);
             }
             else
             {
-                HideOrShow(GameFactory.GetLocalPlayerObj(), true);
-                SetFow(GameFactory.GetLocalPlayerObj(), true);
-                GameFactory.GetLocalPlayerObj().circleDirection.SetActive(true);
+                if (currentFollowPlayer.myPlayerModule.isInBrume)
+                {
+                    SetFow(currentFollowPlayer, false);
+                }else
+                {
+                    SetFow(currentFollowPlayer, true);
+                }
             }
         }
 
@@ -54,6 +56,13 @@ public class Displayer : MonoBehaviour
                     HideOrShow(player.Value, false);
                     continue;
                 }
+            }
+
+            //InGhost
+            if (currentFollowPlayer == player.Value && currentFollowPlayer.myPlayerModule.isInGhost)
+            {
+                //HideOrShow(player.Value, GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform));
+                continue;
             }
 
             if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
@@ -174,7 +183,6 @@ public class Displayer : MonoBehaviour
         if (p.myOutline.enabled)
         {
             p.myOutline.enabled = false;
-
             p.canvas.SetActive(_value);
         }
 

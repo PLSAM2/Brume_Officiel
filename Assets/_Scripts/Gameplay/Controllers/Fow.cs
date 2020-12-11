@@ -14,6 +14,7 @@ public class Fow : MonoBehaviour
     public float fowRaduis = 0;
 
     PlayerModule playerModule;
+    bool isInBrumeGhost = false;
 
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
@@ -36,9 +37,13 @@ public class Fow : MonoBehaviour
         playerModule = _pModule;
     }
 
+    public void SetInBrumeGhost(bool _value)
+    {
+        isInBrumeGhost = _value;
+    }
+
     public void ForceChangeFowRaduis(float _size)
     {
-        print("force");
         fowRaduis = _size;
         myFieldOfView.viewRadius = fowRaduis;
     }
@@ -61,9 +66,8 @@ public class Fow : MonoBehaviour
         tIn += Time.deltaTime;
         tOut += Time.deltaTime;
 
-        if (playerModule.isInBrume)
+        if (playerModule.isInBrume || isInBrumeGhost)
         {
-            print("test");
             tOut = 0;
             myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, playerModule.characterParameters.curveInBrume.Evaluate(tIn) * Time.deltaTime);
         }
