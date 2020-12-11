@@ -55,6 +55,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<ushort> allVisibleInteractible = new List<ushort>();
 
+    [HideInInspector] public Ghost currentLocalGhost;
+
     private bool stopInit = false;
     public bool gameStarted = false;
     
