@@ -21,13 +21,12 @@ public class Projectile : AutoKill
 	Vector3 startPos;
 
 	[HideInInspector] public bool hasTouched = false;
-
+	[SerializeField] Rigidbody myRb;
     [SerializeField] AudioClip hitSound;
 
     public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
-
 		startPos = transform.position;
 
 		if (!isOwner)
@@ -50,6 +49,9 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position);
 			}
 		}
+
+		myRb.velocity = speed * transform.forward;
+
 	}
 
 	protected override void OnEnable ()
@@ -58,10 +60,14 @@ public class Projectile : AutoKill
 		base.OnEnable();
 	}
 
-	private void OnTriggerEnter ( Collider Collider )
+	private void Start ()
 	{
-		PlayerModule playerHit = Collider.gameObject.GetComponent<PlayerModule>();
+		myRb = GetComponent<Rigidbody>();
+	}
 
+	private void OnCollisionEnter ( Collision collision )
+	{
+		PlayerModule playerHit = collision.gameObject.GetComponent<PlayerModule>();
 		if (playerHit != null)
 		{
 			if (playerHit.teamIndex != myteam)
@@ -86,17 +92,16 @@ public class Projectile : AutoKill
 		}
 		else
 		{
-			hasTouched = true; 
+			hasTouched = true;
 			Destroy();
 		}
-
 	}
 
-	protected override void FixedUpdate ()
+/*	protected override void FixedUpdate ()
 	{
 		transform.position += speed * transform.forward * Time.fixedDeltaTime;
 		base.FixedUpdate();
-	}
+	}*/
 
 	protected override void Destroy ()
 	{
