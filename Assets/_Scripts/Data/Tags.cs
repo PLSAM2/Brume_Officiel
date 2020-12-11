@@ -71,6 +71,7 @@
     public static readonly ushort AltarTrailDebuff = 800;
     public static readonly ushort AltarSpeedBuff = 802;
     public static readonly ushort AltarPoisonBuff = 804;
+    public static readonly ushort AltarOutlineBuff = 806;
     // <<
 
     //Spells 810 --> XXX >>

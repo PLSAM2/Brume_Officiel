@@ -16,10 +16,11 @@ MonoBehaviour:
   cooldown: 15
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
   canalisationTime: 0.3
-  statusToApplyOnCanalisation: []
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0.01
