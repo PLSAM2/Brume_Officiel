@@ -58,6 +58,8 @@ public class UiManager : MonoBehaviour
 
     [Header("Spec Mode")]
     [FoldoutGroup("SpecMode")] public SpecMode specMode;
+    [Header("Misc")]
+    [FoldoutGroup("Misc")] public GameObject DebuggerPanel;
 
     private void Awake()
     {
