@@ -121,6 +121,10 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 AltarBuffPoison(sender, e);
             }
+            else if (message.Tag == Tags.AltarOutlineBuff)
+            {
+                AltarOutlineBuff(sender, e);
+            }
             else if (message.Tag == Tags.ChangeFowSize)
             {
                 ChangeFowSize(sender, e);
@@ -147,8 +151,6 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-
-
 
     private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
     {
@@ -616,6 +618,20 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
                 _temp.ApplyPoisonousBuffInServer();
+            }
+        }
+    }
+
+    private void AltarOutlineBuff(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                WxController _temp = (WxController)GameManager.Instance.networkPlayers[_ID].myPlayerModule;
+                _temp.ApplyOutlineDebuffInServer();
             }
         }
     }
