@@ -392,9 +392,11 @@ MonoBehaviour:
   allFx: []
   allVisibleFx: []
   allVisibleInteractible: 
+  currentLocalGhost: {fileID: 0}
   gameStarted: 0
   globalVolumeAnimator: {fileID: 543586701}
   brumeSoul: {fileID: 3368562851263206280, guid: f3b9479fa1413b14e9fe86088e8eb0ac, type: 3}
+  hiddenEffect: {fileID: 543586704}
 --- !u!4 &74980374
 Transform:
   m_ObjectHideFlags: 0
@@ -3359,6 +3361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543586703}
+  - component: {fileID: 543586704}
   - component: {fileID: 543586702}
   - component: {fileID: 543586701}
   m_Layer: 0
@@ -3418,6 +3421,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &543586704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543586700}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 3a940ab55ddc9794eb242716ad9d9da3, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 1
 --- !u!43 &546693377
 Mesh:
   m_ObjectHideFlags: 0
