@@ -100,6 +100,11 @@ public class DashModule : SpellModule
 
 		if (usingKeyboardInput)
 		{
+			if (myPlayerModule.directionInputed() == Vector3.zero)
+				myPreviewArrow.gameObject.SetActive(false);
+			else
+				myPreviewArrow.gameObject.SetActive(true);
+
 			myPreviewArrow.Init(transform.position, transform.position + (myPlayerModule.directionInputed() * spell.range), .1f);
 		}
 

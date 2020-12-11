@@ -81,7 +81,7 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		return transform.forward * 1.3f + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
+		return transform.forward * .4f + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
 	}
 
 	protected virtual Vector3 RotationOfTheProj ()
@@ -152,7 +152,7 @@ public class ModuleProjectileSpell : SpellModule
 	{
 		if (myPreviewArrow != null)
 		{
-            myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * localTrad.range), .1f);
+            myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.range +.4f)), .1f);
 		}else
 		{
 			myPreviewBurst.Init(localTrad.range, localTrad.angleToSplit, 0, Vector3.zero);
