@@ -81,13 +81,7 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		float multiplierDistance = .2f;
-		RaycastHit _hit;
-	if(	 Physics.Raycast(transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0), transform.forward, out _hit, .2f, 16))
-			{
-			multiplierDistance = Vector3.Distance(transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0), _hit.point);
-		}
-		return transform.forward * multiplierDistance + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
+		return transform.forward * 1.3f + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
 	}
 
 	protected virtual Vector3 RotationOfTheProj ()
