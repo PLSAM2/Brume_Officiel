@@ -9,14 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e239d9a6b2597104f8ef96348fdac0b6, type: 3}
-  m_Name: FM_Spell_Yang_Dash
+  m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
+  m_Name: slow 75% 0,5s
   m_EditorClassIdentifier: 
-  movementToApply:
-    myModule: {fileID: 0}
-    _duration: 0.075
-    baseDuration: 0.075
-    speedEvolution:
+  effect:
+    tick: 0
+    finalLifeTime: 0.5
+    isConstant: 0
+    canBeForcedStop: 0
+    forcedKey: 0
+    refreshOnApply: 0
+    doNotApplyIfExist: 0
+    tickRate: 0.2
+    isDamaging: 1
+    isHealing: 0
+    tickValue: 0
+    stateApplied: 2
+    percentageOfTheMovementModifier: 0.75
+    decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -40,5 +50,13 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    strength: 28
-  isGrab: 0
+    optionalDamagesInfos:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+      stateNeeded: 128
+      additionalDamages: 0
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 0}
+    hitBeforeProcOptionnalDamages: 0
