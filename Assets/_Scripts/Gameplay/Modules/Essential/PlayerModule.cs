@@ -99,7 +99,7 @@ public class PlayerModule : MonoBehaviour
 
 	[HideInInspector] public bool cursedByShili = false;
 	[Header("Cursed")]
-	[TabGroup("GameplayInfos")] [SerializeField] protected GameObject wxMark;
+	[TabGroup("GameplayInfos")] [SerializeField] public GameObject wxMark;
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status wxMarkRef;
 	//ALL ACTION 
 	#region
@@ -227,24 +227,9 @@ public class PlayerModule : MonoBehaviour
 
 	protected virtual void Update ()
 	{
-		if ((state & En_CharacterState.WxMarked) != 0)
-			wxMark.SetActive(true);
-		else
-			wxMark.SetActive(false);
-
+	
 		if (oldState != state)
 		{
-			if (mylocalPlayer.isOwner)
-			{
-				UiManager.Instance.StatusUpdate(state);
-				mylocalPlayer.SendState(state);
-
-				if ((state & En_CharacterState.Hidden) != 0)
-					GameManager.Instance.hiddenEffect.enabled = true;
-				else
-					GameManager.Instance.hiddenEffect.enabled = false;
-			}
-
 			if ((state & En_CharacterState.Integenbility) != 0)
 				gameObject.layer = 16;
 			else if ((oldState & En_CharacterState.Integenbility) != 0)
@@ -286,8 +271,24 @@ public class PlayerModule : MonoBehaviour
 				mylocalPlayer.forceOutline = true;
 			else if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (oldState & En_CharacterState.WxMarked) != 0)
 				mylocalPlayer.forceOutline = false;
-		}
 
+
+			if (mylocalPlayer.isOwner)
+			{
+				UiManager.Instance.StatusUpdate(state);
+				mylocalPlayer.SendState(state);
+
+				if ((state & En_CharacterState.Hidden) != 0)
+					GameManager.Instance.hiddenEffect.enabled = true;
+				else
+					GameManager.Instance.hiddenEffect.enabled = false;
+
+				if ((state & En_CharacterState.WxMarked) != 0)
+					wxMark.SetActive(true);
+				else
+					wxMark.SetActive(false);
+			}
+		}
 		oldState = state;
 
 		if ((state & (En_CharacterState.Stunned | En_CharacterState.Slowed | En_CharacterState.Hidden)) != 0)
@@ -384,6 +385,8 @@ public class PlayerModule : MonoBehaviour
 			// TEMP
 			mylocalPlayer.ShowStateIcon(state, 10, 10);
 		}
+
+
 	}
 
 	protected virtual void FixedUpdate ()
@@ -784,6 +787,7 @@ public class PlayerModule : MonoBehaviour
 		{
 			mylocalPlayer.SendStatus(status);
 		}
+		mylocalPlayer.SendState(state);
 	}
 
 	IEnumerator CheckForMenace ()

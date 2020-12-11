@@ -13,8 +13,6 @@ public class UiManager : MonoBehaviour
     private static UiManager _instance;
     public static UiManager Instance { get { return _instance; } }
 
-
-
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
@@ -55,6 +53,7 @@ public class UiManager : MonoBehaviour
     [Header("Team Info")]
     [FoldoutGroup("TeamInfo")] public Image teamYang, teamShili, teamYin;
     [FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
+    [FoldoutGroup("TeamInfo")] public List<AllyIconUI> allyIconUIs = new List<AllyIconUI>();
 
     [Header("Spec Mode")]
     [FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -538,6 +537,19 @@ public class UiManager : MonoBehaviour
         toDisableInEndGame.SetActive(false);
     }
 
+    public void PickSoul(Character character)
+    {
+        int characterToInt = ((ushort)character / 10) - 1;
 
+        allyIconUIs[characterToInt].SetPickSoul(true);
+    }
+    public void ResetPickSoul()
+    {
+        foreach (AllyIconUI item in allyIconUIs)
+        {
+            item.SetPickSoul(false);
+        }
+
+    }
 
 }

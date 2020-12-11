@@ -610,6 +610,11 @@ public class LocalPlayer : MonoBehaviour
 
 	public void OnStateReceived ( ushort _state )
 	{
+		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0)
+			myPlayerModule.wxMark.SetActive(true);
+		else
+			myPlayerModule.wxMark.SetActive(false);
+
 		if (!isOwner)
 			myPlayerModule.state = (En_CharacterState)_state;
 	}
