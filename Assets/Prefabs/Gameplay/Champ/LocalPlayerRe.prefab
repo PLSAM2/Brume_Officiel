@@ -372,7 +372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1425652889423480527
 Transform:
   m_ObjectHideFlags: 0
@@ -1115,53 +1115,6 @@ Transform:
   m_Father: {fileID: 2298407123807875904}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2264526899942560147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5573407892547466031}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 4
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!114 &1931275100018348288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5573407892547466031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c5bf08902e9bd46945d2f2e8c6b74f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myFootstep: {fileID: 260425051186876600}
---- !u!114 &2304313024933381146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5573407892547466031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32bf9f736557bf8468658c4ed4863490, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  surchargeYangSfx: {fileID: 8300000, guid: afa1fcc3b83ec2f4a9bd7de846e34b34, type: 3}
-  dashParticle:
-  - {fileID: 1806215808552190297}
-  - {fileID: 1571841955607802443}
 --- !u!95 &2759273740844511482
 Animator:
   serializedVersion: 3
@@ -1181,6 +1134,53 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1931275100018348288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573407892547466031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c5bf08902e9bd46945d2f2e8c6b74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myFootstep: {fileID: 260425051186876600}
+--- !u!114 &2264526899942560147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573407892547466031}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &2304313024933381146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573407892547466031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32bf9f736557bf8468658c4ed4863490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  surchargeYangSfx: {fileID: 8300000, guid: afa1fcc3b83ec2f4a9bd7de846e34b34, type: 3}
+  dashParticle:
+  - {fileID: 1806215808552190297}
+  - {fileID: 1571841955607802443}
 --- !u!1 &4752782857944995493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5734802303090462347
 Transform:
   m_ObjectHideFlags: 0
@@ -2760,7 +2760,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7935494346270426752, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_Name
-      value: LocalPlayerYang
+      value: LocalPlayerRe
       objectReference: {fileID: 0}
     - target: {fileID: -7935494346270426752, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_Layer
