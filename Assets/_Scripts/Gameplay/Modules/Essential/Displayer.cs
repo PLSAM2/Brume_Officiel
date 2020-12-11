@@ -61,7 +61,7 @@ public class Displayer : MonoBehaviour
             //InGhost
             if (currentFollowPlayer == player.Value && currentFollowPlayer.myPlayerModule.isInGhost)
             {
-                HideOrShow(player.Value, GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform));
+                //HideOrShow(player.Value, GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform));
                 continue;
             }
 
@@ -188,7 +188,6 @@ public class Displayer : MonoBehaviour
 
         if (p.isVisible != _value)
         {
-            print(p);
             p.isVisible = _value;
             foreach (GameObject obj in p.objToHide)
             {
