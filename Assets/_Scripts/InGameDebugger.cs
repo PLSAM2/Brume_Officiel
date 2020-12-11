@@ -13,29 +13,42 @@ public class InGameDebugger : MonoBehaviour
 
     public Text fps;
 
-    private void Awake()
+    public Dictionary<ushort, DebugPlayerListObj> debugPlayerListObj = new Dictionary<ushort, DebugPlayerListObj>();
+
+    private void Awake() 
     {
         Init();
     }
 
     private void Update()
     {
-        
+        fps.text = "FPS " +  (int)(1f / Time.unscaledDeltaTime);
     }
+
     private void Init()
     {
         foreach (PlayerData p in RoomManager.Instance.actualRoom.playerList.Values)
         {
+            GameObject _temp = null;
             switch (p.playerTeam)
             {
                 case GameData.Team.none:
                     return;
                 case GameData.Team.red:
+                    _temp = RedPlayerLayout;
                     break;
                 case GameData.Team.blue:
+                    _temp = bluePlayerLayout;
                     break;
                 default:
                     throw new Exception("TEAM NO EXISTING");
+            }
+
+            if (_temp != null)
+            {
+                GameObject _tListObj = Instantiate(playerListObj, _temp.transform);
+                _tListObj.GetComponent<DebugPlayerListObj>().Init(p, this);
+                debugPlayerListObj.Add(p.ID, _tListObj.GetComponent<DebugPlayerListObj>());
             }
         }
     }
@@ -54,6 +67,16 @@ public class InGameDebugger : MonoBehaviour
     }
 
     public void TpLocalPlayerNextTo(GameObject obj)
+    {
+
+    }
+
+    public void InfiniteStacks()
+    {
+
+    }
+
+    public void NoCooldown()
     {
 
     }
