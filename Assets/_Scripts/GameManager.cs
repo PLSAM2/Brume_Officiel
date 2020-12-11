@@ -55,6 +55,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<ushort> allVisibleInteractible = new List<ushort>();
 
+    [HideInInspector] public Ghost currentLocalGhost;
+
     private bool stopInit = false;
     public bool gameStarted = false;
     
@@ -74,6 +76,7 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
+    public PostProcessVolume hiddenEffect;
 
     private void Awake()
     {

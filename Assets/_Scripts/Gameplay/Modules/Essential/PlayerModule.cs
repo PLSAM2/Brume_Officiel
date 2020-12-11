@@ -238,6 +238,11 @@ public class PlayerModule : MonoBehaviour
 			{
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
+
+				if ((state & En_CharacterState.Hidden) != 0)
+					GameManager.Instance.hiddenEffect.enabled = true;
+				else
+					GameManager.Instance.hiddenEffect.enabled = false;
 			}
 
 			if ((state & En_CharacterState.Integenbility) != 0)
@@ -391,8 +396,6 @@ public class PlayerModule : MonoBehaviour
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
 		isInBrume = _value;
-		mylocalPlayer.ChangeFowRaduis(_value);
-
 		brumeId = idBrume;
 	}
 
@@ -775,11 +778,11 @@ public class PlayerModule : MonoBehaviour
 		_tempDamages.damageHealth = wxMarkRef.effect.optionalDamagesInfos.damageHealth;
 
 		//REMPLACER ICI LE DEALER PAR LE MEC QUI T APPLY LA MARQUE
-		this.mylocalPlayer.DealDamages(_tempDamages, transform.position, dealerID, true);
+		mylocalPlayer.DealDamages(_tempDamages, transform.position, dealerID, true);
 
 		foreach (Sc_Status status in wxMarkRef.effect.optionalDamagesInfos.statusToApply) // already in DealDamage but we dont need to reaply state wx marked
 		{
-			this.mylocalPlayer.SendStatus(status);
+			mylocalPlayer.SendStatus(status);
 		}
 	}
 

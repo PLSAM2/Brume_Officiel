@@ -530,7 +530,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1, z: 1.5}
+  m_Size: {x: 1.5, y: 4, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8724460869845800598
 GameObject:
@@ -583,7 +583,7 @@ MonoBehaviour:
   isNetworked: 1
   synchronisePosition: 1
   synchroniseRotation: 0
-  interpolateSpeed: 1500
+  interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.05
   rotationRequiredBeforeSync: 6
 --- !u!135 &3997851561229656872
@@ -598,7 +598,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.75
-  m_Center: {x: 0, y: 0, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3420004688133137551
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -641,6 +641,8 @@ MonoBehaviour:
   localTrad: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
   doImpactFx: 1
   hasTouched: 0
+  useRb: 0
+  myRb: {fileID: 3420004688133137551}
   hitSound: {fileID: 0}
   explosionRange: 2.75
   damagesExplosion:
@@ -653,3 +655,4 @@ MonoBehaviour:
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 9011c8161bad7ba42839fdec3ab73cf1, type: 3}

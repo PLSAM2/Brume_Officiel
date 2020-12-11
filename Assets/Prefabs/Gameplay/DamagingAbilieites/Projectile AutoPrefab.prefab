@@ -245,7 +245,9 @@ MonoBehaviour:
   localTrad: {fileID: 11400000, guid: f1116b9d1ee2c5240982dea07e2e0240, type: 2}
   doImpactFx: 1
   hasTouched: 0
+  myRb: {fileID: 63471337967116498}
   hitSound: {fileID: 0}
+  myColl: {fileID: 1795821538017011573}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -274,7 +276,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 3
+  m_CollisionDetection: 2
 --- !u!96 &8281716281182407987
 TrailRenderer:
   serializedVersion: 2
@@ -449,7 +451,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 4, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7378179431319376087
 GameObject:

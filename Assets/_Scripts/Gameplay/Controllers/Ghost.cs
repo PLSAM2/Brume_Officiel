@@ -22,12 +22,12 @@ public class Ghost : MonoBehaviour
     [SerializeField] Sc_CharacterParameters characterParameters;
 	En_SpellInput inputLinked;
 
-    Fow myFow;
+    [HideInInspector] public Fow myFow;
 
     bool haveCut = true;
 
-    [HideInInspector]
-    public int currentIdBrume = 0;
+    [HideInInspector] public bool isInBrume = false;
+    [HideInInspector] public int brumeId = 0;
 
     private void Awake()
     {
@@ -55,6 +55,8 @@ public class Ghost : MonoBehaviour
 
     public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed, En_SpellInput _inputLinked )
     {
+        GameManager.Instance.currentLocalGhost = this;
+
         canvas.SetActive(true);
         this.playerModule = playerModule;
         saveLifeTime = lifetime;
@@ -96,14 +98,8 @@ public class Ghost : MonoBehaviour
         CameraManager.Instance.SetFollowObj(this.transform);
         UiManager.Instance.SetAlphaBrume(0);
 
-        if (playerModule.isInBrume)
-        {
-            currentIdBrume = playerModule.brumeId;
-        }
-        else
-        {
-            currentIdBrume = 0;
-        }
+        isInBrume = playerModule.isInBrume;
+        brumeId = playerModule.brumeId;
     }
 
     private void Update()
@@ -158,7 +154,9 @@ public class Ghost : MonoBehaviour
     {
         if (networkedObject.GetIsOwner())
         {
-			switch (inputLinked)
+            GameFactory.GetLocalPlayerObj().circleDirection.SetActive(true);
+
+            switch (inputLinked)
 			{
 				case En_SpellInput.Click:
 					playerModule.leftClickInput -= Destruct;
@@ -198,14 +196,14 @@ public class Ghost : MonoBehaviour
                         GameFactory.GetBrumeById(playerModule.brumeIdBeforeGhost).OnSimulateEnter(playerModule.gameObject);
                     }else
                     {
-                        GameFactory.GetBrumeById(currentIdBrume).OnSimulateExit(playerModule.gameObject);
+                        GameFactory.GetBrumeById(brumeId).OnSimulateExit(playerModule.gameObject);
                     }
                 }
                 else
                 {
                     if(playerModule.brumeId != playerModule.brumeIdBeforeGhost)
                     {
-                        GameFactory.GetBrumeById(currentIdBrume).OnSimulateExit(playerModule.gameObject);
+                        GameFactory.GetBrumeById(brumeId).OnSimulateExit(playerModule.gameObject);
                         GameFactory.GetBrumeById(playerModule.brumeIdBeforeGhost).OnSimulateEnter(playerModule.gameObject);
                     }
                 }
