@@ -242,9 +242,10 @@ MonoBehaviour:
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 02f9acdded9a54447b5cf3c3b168b853, type: 3}
   soundFollowObj: 1
-  localTrad: {fileID: 11400000, guid: bb1445e2054703642b107d6cef378a91, type: 2}
+  localTrad: {fileID: 11400000, guid: f1116b9d1ee2c5240982dea07e2e0240, type: 2}
   doImpactFx: 1
   hasTouched: 0
+  myRb: {fileID: 63471337967116498}
   hitSound: {fileID: 0}
 --- !u!135 &1795821538017011573
 SphereCollider:
@@ -254,7 +255,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6234301381807575755}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3
@@ -274,7 +275,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 3
+  m_CollisionDetection: 2
 --- !u!96 &8281716281182407987
 TrailRenderer:
   serializedVersion: 2
@@ -449,7 +450,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 4, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7378179431319376087
 GameObject:

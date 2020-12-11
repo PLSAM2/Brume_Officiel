@@ -81,7 +81,13 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		return transform.forward + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
+		float multiplierDistance = .2f;
+		RaycastHit _hit;
+	if(	 Physics.Raycast(transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0), transform.forward, out _hit, .2f, 16))
+			{
+			multiplierDistance = Vector3.Distance(transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0), _hit.point);
+		}
+		return transform.forward * multiplierDistance + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
 	}
 
 	protected virtual Vector3 RotationOfTheProj ()
@@ -122,9 +128,9 @@ public class ModuleProjectileSpell : SpellModule
 
 		for (int i = 0; i < localTrad.salveInfos.numberOfShotInSalve; i++)
 		{
-			Vector3 _PosToSpawn = transform.forward * localTrad.offSet + new Vector3(0, offsetHeight, 0); //Quaternion.Euler(0, _baseAngle, 0) * (transform.forward * spellProj.offSet);
+			
 
-			ShootProjectile(transform.position + _PosToSpawn, transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
+			ShootProjectile(PosToInstantiate(), transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
 
 		}

@@ -465,7 +465,6 @@ public class LocalPlayer : MonoBehaviour
 		{
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
-				print("IApplyMark");
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}

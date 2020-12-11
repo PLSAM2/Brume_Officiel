@@ -22,7 +22,7 @@ public class UpgradeModule : SpellModule
 		bonusTimeRemaining = localTrad.duration;
 		myPlayerModule.upgradeKit.Invoke();
 		inBonus = true;
-		myPlayerModule.mylocalPlayer.EnableBuff(true, "Overloded");
+		myPlayerModule.mylocalPlayer.EnableBuff(true, "Overload");
 	}
 
 	protected override void FixedUpdate ()
@@ -47,7 +47,7 @@ public class UpgradeModule : SpellModule
 	void EndBonusCallBack ()
 	{
 		inBonus = false;
-		myPlayerModule.mylocalPlayer.EnableBuff(false, "Overloded");
+		myPlayerModule.mylocalPlayer.EnableBuff(false, "Overload");
 
 		myPlayerModule.backToNormalKit.Invoke();
 

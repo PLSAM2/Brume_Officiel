@@ -50,6 +50,9 @@ public class SpellModule : MonoBehaviour
 	public AudioClip anonciationClip;
 	public Action<int> ChargeUpdate;
 	public Action SpellFinished;
+	
+	
+	
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
