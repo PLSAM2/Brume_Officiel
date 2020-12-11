@@ -11,9 +11,15 @@ public class WxController : PlayerModule
 
     [TabGroup("WX")] List<ushort> playerSouls = new List<ushort>();
 
-    [TabGroup("FeedbacksState")] [SerializeField] private ParticleSystem altarDebuffTrail;
+    [TabGroup("WX")] [SerializeField] private ParticleSystem altarDebuffTrail;
+    [TabGroup("WX")] public float outlineDebuffCooldown = 5;
+    [TabGroup("WX")] public float outlineDebuffTime = 1.5f;
+    [TabGroup("WX")] public List<GameObject> objectToShowOnOutlineDebuff = new List<GameObject>();
+
     private bool isDebuffTrailActive = false;
-    public Action soulPickedUp;
+    private bool isDebuffOutlineActive = false;
+    [HideInInspector] public Action soulPickedUp;
+
 
     public void PickPlayerSoul(ushort playerSoul)
     {
@@ -76,4 +82,34 @@ public class WxController : PlayerModule
         }
     }
 
+    internal void ApplyOutlineDebuffInServer()
+    {
+        isDebuffOutlineActive = true;
+
+        StartCoroutine(OutlineDebuff());
+    }
+
+    IEnumerator OutlineDebuff()
+    {
+        SetOutlineDebuff(true);
+
+        yield return new WaitForSeconds(outlineDebuffTime);
+
+        SetOutlineDebuff(false);
+
+        yield return new WaitForSeconds(outlineDebuffCooldown);
+
+        StartCoroutine(OutlineDebuff());
+    }
+
+
+    public void SetOutlineDebuff(bool value)
+    {
+        foreach (GameObject go in objectToShowOnOutlineDebuff)
+        {
+            go.SetActive(value);
+        }
+
+        mylocalPlayer.forceOutline = value;
+    }
 }
