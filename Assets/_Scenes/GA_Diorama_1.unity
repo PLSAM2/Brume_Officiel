@@ -1081,7 +1081,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54309047}
-  m_LocalRotation: {x: 0.07728418, y: -0.90770453, z: 0.36487246, w: 0.19227016}
+  m_LocalRotation: {x: 0.07728149, y: -0.9077063, z: 0.36487165, w: 0.19226423}
   m_LocalPosition: {x: 14.5, y: 30, z: 38.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3935,23 +3935,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 781263439}
     m_Modifications:
     - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.maxCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
       propertyPath: lengthInSec
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
       propertyPath: EmissionModule.m_BurstCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
@@ -4001,6 +3993,14 @@ PrefabInstance:
     - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minCurve.m_RotationOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.maxCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minCurve.m_Curve.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 985388381035049004, guid: 9a9278d1125c0664dbe94f2f3a2916d0, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.maxCurve.m_Curve.Array.data[1].time
@@ -4229,18 +4229,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 781263439}
     m_Modifications:
     - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.maxCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
       propertyPath: lengthInSec
       value: 7
       objectReference: {fileID: 0}
@@ -4250,6 +4238,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
       propertyPath: EmissionModule.m_BurstCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
@@ -4311,6 +4303,14 @@ PrefabInstance:
     - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minCurve.m_RotationOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.maxCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minCurve.m_Curve.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1682677960478774608, guid: 266c71c576b11524798f2984a0903f33, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.maxCurve.m_Curve.Array.data[1].time
@@ -10309,7 +10309,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 732939262}
-  m_LocalRotation: {x: 0.07728418, y: -0.90770453, z: 0.36487246, w: 0.19227016}
+  m_LocalRotation: {x: 0.07728149, y: -0.9077063, z: 0.36487165, w: 0.19226423}
   m_LocalPosition: {x: 14.5, y: 30, z: 38.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -21925,7 +21925,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201250984}
-  m_LocalRotation: {x: 0.14725514, y: -0.8290681, z: 0.473913, w: 0.25762087}
+  m_LocalRotation: {x: 0.14713617, y: -0.8291311, z: 0.4739545, w: 0.25740972}
   m_LocalPosition: {x: 10.76, y: 27.39, z: 21.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -25490,7 +25490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1467334836
 RectTransform:
   m_ObjectHideFlags: 0

@@ -6,12 +6,13 @@ using System.Collections.Generic;
 
 public class GA_Debugger : SerializedMonoBehaviour
 {
+    private bool sw = false;
     [Header("Shader Debugger")]
-    public bool sw = false;
-    public List<Shader> shader = new List<Shader>();
-    public string property;
+    [TabGroup("Shader")] public List<Shader> shader = new List<Shader>();
+    [TabGroup("Shader")] public string property;
 
-
+    [TabGroup("Shader")]
+    [Button("Shader debug")]
     public void InOutBrumeDebug()
     {
         MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
