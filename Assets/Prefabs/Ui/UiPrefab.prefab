@@ -2037,7 +2037,7 @@ GameObject:
   - component: {fileID: 1496749773342780254}
   - component: {fileID: 2723277377520564257}
   m_Layer: 5
-  m_Name: EnemyYin
+  m_Name: EnemyLeng
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2278,7 +2278,7 @@ GameObject:
   - component: {fileID: 7172259281334275293}
   - component: {fileID: 2134909838417007122}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ImgBackWxEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2324,7 +2324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3495,7 +3495,7 @@ GameObject:
   - component: {fileID: 375573626558480133}
   - component: {fileID: 7753350066637991881}
   m_Layer: 5
-  m_Name: EnemyShili
+  m_Name: EnemyWX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4044,7 +4044,7 @@ GameObject:
   - component: {fileID: 5624137755179148154}
   - component: {fileID: 4863583801603134197}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ImgBackReEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4402,7 +4402,7 @@ GameObject:
   - component: {fileID: 3708532090002752961}
   - component: {fileID: 4427677141200796703}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ImgBackLengEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6066,7 +6066,7 @@ GameObject:
   - component: {fileID: 5840310740194191409}
   - component: {fileID: 2190459606516588270}
   m_Layer: 5
-  m_Name: EnemyYang
+  m_Name: EnemyRe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7267,19 +7267,17 @@ MonoBehaviour:
   sprintIcon: {fileID: 0}
   autoAttackIcon: {fileID: 5625768656871392579}
   wardIcon: {fileID: 6886621739615428115}
-  enemyYang: {fileID: 4863583801603134197}
-  enemyShili: {fileID: 2134909838417007122}
-  enemyYin: {fileID: 4427677141200796703}
-  inViewColor: {r: 0.8490566, g: 0.19624422, b: 0.29045284, a: 1}
-  outViewColor: {r: 0.2924528, g: 0, b: 0, a: 1}
-  killedColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
-  teamInLiveColor: {r: 1, g: 1, b: 1, a: 1}
-  yinIcon: {fileID: 21300000, guid: 805e93a5697e8c04b971d3533fb3f127, type: 3}
-  yangIcon: {fileID: 21300000, guid: 805e93a5697e8c04b971d3533fb3f127, type: 3}
-  champKilledIcon: {fileID: 21300000, guid: abdacf4b9dab5c542832e29ca1c55cb1, type: 3}
-  teamYang: {fileID: 1143473799849339306}
-  teamShili: {fileID: 366395439923015428}
-  teamYin: {fileID: 124034638222582045}
+  enemyRe: {fileID: 4863583801603134197}
+  enemyWx: {fileID: 2134909838417007122}
+  enemyLeng: {fileID: 4427677141200796703}
+  teamRe: {fileID: 94023104014663186}
+  teamWx: {fileID: 830303254182787260}
+  teamLeng: {fileID: 1092349441875949221}
+  inViewTeamColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
+  inViewEnemyColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
+  outViewTeamColor: {r: 1, g: 1, b: 1, a: 1}
+  outViewEnemyColor: {r: 0.6792453, g: 0.40049842, b: 0.40049842, a: 1}
+  killedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
   lifeYang: {fileID: 3638672256877666283}
   lifeShili: {fileID: 4086159907522369861}
   lifeYin: {fileID: 4330754921673955164}
@@ -7782,7 +7780,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1035968915199249052, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Name
-      value: Yang
+      value: Re
       objectReference: {fileID: 0}
     - target: {fileID: 1188978241870343974, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Color.b
@@ -7900,6 +7898,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3972868252556150589, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
+      propertyPath: m_Name
+      value: ImgBackReTeam
+      objectReference: {fileID: 0}
     - target: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -7965,9 +7967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1143473799849339306 stripped
+--- !u!114 &94023104014663186 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4996165963578744879, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
   m_PrefabInstance: {fileID: 4907793273490972221}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -8001,7 +8003,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1035968915199249052, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Name
-      value: Yin
+      value: Leng
       objectReference: {fileID: 0}
     - target: {fileID: 1188978241870343974, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Color.b
@@ -8143,6 +8145,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3972868252556150589, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
+      propertyPath: m_Name
+      value: ImgBackLengTeam
+      objectReference: {fileID: 0}
     - target: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -8220,9 +8226,9 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3434446067250362354, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
   m_PrefabInstance: {fileID: 5367512845973886602}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &124034638222582045 stripped
+--- !u!114 &1092349441875949221 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4996165963578744879, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
   m_PrefabInstance: {fileID: 5367512845973886602}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -8240,7 +8246,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1035968915199249052, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Name
-      value: Shili
+      value: Wx
       objectReference: {fileID: 0}
     - target: {fileID: 1188978241870343974, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
       propertyPath: m_Color.b
@@ -8420,9 +8426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &366395439923015428 stripped
+--- !u!114 &830303254182787260 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5459933564353607575, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4996165963578744879, guid: 9cf01146acf9c884fa0d0f6a6133e5e0, type: 3}
   m_PrefabInstance: {fileID: 5679080980332697747}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
