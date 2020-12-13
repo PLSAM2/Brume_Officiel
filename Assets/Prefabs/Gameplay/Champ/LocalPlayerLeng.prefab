@@ -1169,8 +1169,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3841047738050560647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 0.92, y: 0.92, z: 0.92}
+  m_LocalPosition: {x: 0, y: -0, z: -0.01}
+  m_LocalScale: {x: 0.87, y: 0.87, z: 0.87}
   m_Children: []
   m_Father: {fileID: 9084759543010032051}
   m_RootOrder: 0
@@ -1216,7 +1216,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 805e93a5697e8c04b971d3533fb3f127, type: 3}
-  m_Color: {r: 0.36862746, g: 0.30980393, b: 0.5411765, a: 1}
+  m_Color: {r: 0.27879032, g: 0.2516198, b: 0.3584906, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1375,8 +1375,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4455709583050542031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: -0.03, z: -0.01}
-  m_LocalScale: {x: 0.36, y: 0.36, z: 1}
+  m_LocalPosition: {x: 0.01, y: -0.04, z: -0.011}
+  m_LocalScale: {x: 0.34, y: 0.34, z: 1}
   m_Children: []
   m_Father: {fileID: 9084759543010032051}
   m_RootOrder: 1
@@ -2097,6 +2097,9 @@ MonoBehaviour:
   isInGhost: 0
   isInBrumeBeforeGhost: 0
   brumeIdBeforeGhost: 0
+  enemyTeamColor: {r: 0.85490197, g: 0.28627452, b: 0.3019608, a: 1}
+  myTeamColor: {r: 0.40784314, g: 0.6784314, b: 0.9490196, a: 1}
+  myColor: {r: 0.14932811, g: 0.8396226, b: 0.06732824, a: 1}
   allHitTaken: []
   mapIcon: {fileID: 1044435631608765395}
   movementPart: {fileID: 2011879181827189058}
@@ -2799,6 +2802,14 @@ PrefabInstance:
       propertyPath: objToHide.Array.data[0]
       value: 
       objectReference: {fileID: 2633411426023494166}
+    - target: {fileID: 1663134441667752579, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1763829413835160751, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2018274824535757923, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2886,6 +2897,18 @@ PrefabInstance:
     - target: {fileID: 6802310057974576284, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456197301907493091, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7584170429694241150, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: myPlayerModule

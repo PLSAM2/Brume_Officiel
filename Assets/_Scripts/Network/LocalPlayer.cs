@@ -75,7 +75,7 @@ public class LocalPlayer : MonoBehaviour
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-	
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -89,16 +89,8 @@ public class LocalPlayer : MonoBehaviour
 	{
 		nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
-		if (myPlayerModule.teamIndex == Team.blue)
-		{
-			nameText.color = Color.blue;
-			lifeImg.color = Color.blue;
-		}
-		else if (myPlayerModule.teamIndex == Team.red)
-		{
-			nameText.color = Color.red;
-			lifeImg.color = Color.red;
-		}
+		nameText.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
+		lifeImg.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -173,8 +165,8 @@ public class LocalPlayer : MonoBehaviour
 	{
 		myFow = Instantiate(fowPrefab, transform.position, Quaternion.identity).GetComponent<Fow>();
 		myFow.Init(transform, myPlayerModule.characterParameters.visionRange);
-        myFow.InitPlayerModule(myPlayerModule);
-    }
+		myFow.InitPlayerModule(myPlayerModule);
+	}
 
 	public void ShowHideFow ( bool _value )
 	{
@@ -193,43 +185,43 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-    public void ForceLocalFowRaduis(float _value)
-    {
-        myFow.ForceChangeFowRaduis(_value);
-    }
+	public void ForceLocalFowRaduis ( float _value )
+	{
+		myFow.ForceChangeFowRaduis(_value);
+	}
 
-    public void SetFowRaduisLocal ( float _value )
+	public void SetFowRaduisLocal ( float _value )
 	{
 		myFow.ChangeFowRaduis(_value);
 	}
-    public void ResetFowRaduisLocal()
-    {
-        myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
-    }
-    public void ResetFowRaduisOnline ()
+	public void ResetFowRaduisLocal ()
 	{
-        SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
-    }
-    public void ForceResetFowRaduisOnline()
-    {
-        SendForceFowRaduis(myPlayerModule.characterParameters.visionRange);
-    }
+		myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+	}
+	public void ResetFowRaduisOnline ()
+	{
+		SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
+	}
+	public void ForceResetFowRaduisOnline ()
+	{
+		SendForceFowRaduis(myPlayerModule.characterParameters.visionRange);
+	}
 
-    private void OnDestroy()
-    {
-        if (myFow != null)
-        {
-            Destroy(myFow.gameObject);
-        }
+	private void OnDestroy ()
+	{
+		if (myFow != null)
+		{
+			Destroy(myFow.gameObject);
+		}
 
-        if (isOwner)
-        {
-            if (myPlayerModule.isInBrume)
-            {
-                GameFactory.GetBrumeById(myPlayerModule.brumeId).OnSimulateExit(gameObject);
-            }
-        }
-    }
+		if (isOwner)
+		{
+			if (myPlayerModule.isInBrume)
+			{
+				GameFactory.GetBrumeById(myPlayerModule.brumeId).OnSimulateExit(gameObject);
+			}
+		}
+	}
 
 	private void OnDisable ()
 	{
@@ -343,7 +335,7 @@ public class LocalPlayer : MonoBehaviour
 				break;
 
 			case false:
-                SetFowRaduisLocal(myPlayerModule.characterParameters.visionRange);
+				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
 	}
@@ -354,12 +346,12 @@ public class LocalPlayer : MonoBehaviour
 		transform.localEulerAngles = newRotation;
 	}
 
-	public void OnRespawn (bool respawned = false)
+	public void OnRespawn ( bool respawned = false )
 	{
 		liveHealth = myPlayerModule.characterParameters.maxHealth;
 
 		//if (respawned)
-  //      {
+		//      {
 		//	LocallyDivideHealth(2);
 		//}
 
@@ -419,7 +411,7 @@ public class LocalPlayer : MonoBehaviour
 			if (_damagesToDeal.additionalMovementToApply != null)
 			{
 				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
-			}          
+			}
 
 			if (_damagesToDeal.damageHealth > 0)
 			{
@@ -490,16 +482,16 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void LocallyDivideHealth(ushort divider) 
-    {
+	public void LocallyDivideHealth ( ushort divider )
+	{
 		liveHealth = (ushort)Mathf.Round(liveHealth / divider);
 	}
 	public void HealPlayer ( ushort value )
 	{
-        if (InGameNetworkReceiver.Instance.GetEndGame())
-        {
+		if (InGameNetworkReceiver.Instance.GetEndGame())
+		{
 			return;
-        }
+		}
 
 
 		HealLocaly(value);
@@ -516,19 +508,19 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	public void HealLocaly(ushort value)
+	public void HealLocaly ( ushort value )
 	{
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealth);
 		liveHealth = (ushort)_tempHp;
 	}
 
-	public void SendChangeFowRaduis (float size = 0)
-    {
-        SetFowRaduisLocal(size);
+	public void SendChangeFowRaduis ( float size = 0 )
+	{
+		SetFowRaduisLocal(size);
 
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write((uint) size * 100);
+			_writer.Write((uint)size * 100);
 
 			using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
 			{
@@ -537,22 +529,22 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-    public void SendForceFowRaduis(float size)
-    {
-        ForceLocalFowRaduis(size);
+	public void SendForceFowRaduis ( float size )
+	{
+		ForceLocalFowRaduis(size);
 
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write((uint)size * 100);
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write((uint)size * 100);
 
-            using (Message _message = Message.Create(Tags.ForceFowSize, _writer))
-            {
-                currentClient.SendMessage(_message, SendMode.Reliable);
-            }
-        }
-    }
+			using (Message _message = Message.Create(Tags.ForceFowSize, _writer))
+			{
+				currentClient.SendMessage(_message, SendMode.Reliable);
+			}
+		}
+	}
 
-    public void SendSpawnGenericFx ( ushort _index, Vector3 _pos, float _rota, float _scale, float _time )
+	public void SendSpawnGenericFx ( ushort _index, Vector3 _pos, float _rota, float _scale, float _time )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -600,10 +592,12 @@ public class LocalPlayer : MonoBehaviour
 	{
 		if (isOwner)
 		{
+			GameManager.Instance.hiddenEffect.enabled = false;
+			GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
-			
+
 			GameManager.Instance.ResetCam();
 		}
 	}
@@ -641,13 +635,13 @@ public class LocalPlayer : MonoBehaviour
 
 	//Ui character
 	#region
-	public void HidePseudo(bool _hidePseudo)
+	public void HidePseudo ( bool _hidePseudo )
 	{
 		nameText.gameObject.SetActive(!_hidePseudo);
 		statePart.SetActive(_hidePseudo);
 	}
 
-	public void ShowStateIcon ( En_CharacterState _currentState, float actualTime, float baseTime)
+	public void ShowStateIcon ( En_CharacterState _currentState, float actualTime, float baseTime )
 	{
 		RootIcon.SetActive(false);
 		SilencedIcon.SetActive(false);
@@ -701,13 +695,13 @@ public class LocalPlayer : MonoBehaviour
 
 	}
 
-	public void EnableBuff(bool _stateOfBuff, string _buffName)
+	public void EnableBuff ( bool _stateOfBuff, string _buffName )
 	{
 		wholeBuffUi.SetActive(_stateOfBuff);
 		nameOfTheBuff.text = _buffName;
 	}
 
-	public void UpdateBuffDuration(float _fillAmount)
+	public void UpdateBuffDuration ( float _fillAmount )
 	{
 		fillAmountBuff.fillAmount = _fillAmount;
 	}

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -397,6 +397,8 @@ MonoBehaviour:
   globalVolumeAnimator: {fileID: 543586701}
   brumeSoul: {fileID: 3368562851263206280, guid: f3b9479fa1413b14e9fe86088e8eb0ac, type: 3}
   hiddenEffect: {fileID: 543586704}
+  surchargeEffect: {fileID: 543586706}
+  ghostEffect: {fileID: 543586705}
 --- !u!4 &74980374
 Transform:
   m_ObjectHideFlags: 0
@@ -3540,6 +3542,8 @@ GameObject:
   - component: {fileID: 543586704}
   - component: {fileID: 543586702}
   - component: {fileID: 543586701}
+  - component: {fileID: 543586705}
+  - component: {fileID: 543586706}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -3610,6 +3614,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: 3a940ab55ddc9794eb242716ad9d9da3, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 1
+--- !u!114 &543586705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543586700}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: a262ccbfe2d9e3349a23236717d66318, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 1
+--- !u!114 &543586706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543586700}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 5f27ada99388e5c41a1c7f5ff1675bd5, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1

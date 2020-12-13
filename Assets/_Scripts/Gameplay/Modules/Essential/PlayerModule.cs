@@ -69,7 +69,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("Debugging")] public bool isInGhost = false;
 	[TabGroup("Debugging")] public bool isInBrumeBeforeGhost = false;
 	[TabGroup("Debugging")] public int brumeIdBeforeGhost;
-
+	[TabGroup("Debugging")] [SerializeField]  Color enemyTeamColor, myTeamColor, myColor;
 	bool _isCrouched = false;
 	bool isCrouched
 	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
@@ -206,34 +206,32 @@ public class PlayerModule : MonoBehaviour
 			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
 
-			mapIcon.color = Color.blue;
-
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
 			rotationLock += LockingRotation;
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
+			mapIcon.color = myColor;
+
 		}
 		else
 		{
-			if (teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				mapIcon.color = Color.green;
-			else
-				mapIcon.color = Color.red;
-
 			StartCoroutine(WaitForVisionCheck());
+
+				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
+
 	}
 
 	protected virtual void Update ()
 	{
-	
+
 		if (oldState != state)
 		{
 			if ((state & En_CharacterState.Integenbility) != 0)
 				gameObject.layer = 16;
 			else if ((oldState & En_CharacterState.Integenbility) != 0)
-				gameObject.layer =  8;
+				gameObject.layer = 8;
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
@@ -534,7 +532,7 @@ public class PlayerModule : MonoBehaviour
 	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
-		 
+
 		for (int i = 0; i < allEffectLive.Count; i++)
 		{
 			if (!allEffectLive[i].effect.isConstant)
@@ -650,10 +648,11 @@ public class PlayerModule : MonoBehaviour
 					_temp.Refresh();
 					return;
 				}
-			} else
-            {
-                if (_tempTrad.doNotApplyIfExist)
-                {
+			}
+			else
+			{
+				if (_tempTrad.doNotApplyIfExist)
+				{
 					EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
 
 					if (_temp != null)
@@ -661,7 +660,7 @@ public class PlayerModule : MonoBehaviour
 						return;
 					}
 				}
-            }
+			}
 			allEffectLive.Add(_newElement);
 		}
 
@@ -761,20 +760,20 @@ public class PlayerModule : MonoBehaviour
 		menacedIcon.gameObject.SetActive(false);
 	}
 
-	internal void ApplyWxMark (ushort? dealerID = null)
+	internal void ApplyWxMark ( ushort? dealerID = null )
 	{
 		if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
-       
-		if (GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages > 0 )
-        {
+
+		if (GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages > 0)
+		{
 			GetEffectByKey(wxMarkRef.effect.forcedKey).effect.hitBeforeProcOptionnalDamages--;
 			return;
-        }
+		}
 
-		if (!StopStatus(wxMarkRef.effect.forcedKey))		
+		if (!StopStatus(wxMarkRef.effect.forcedKey))
 			return;
-		
+
 
 		// wxMark.SetActive(false);
 		DamagesInfos _tempDamages = new DamagesInfos();
