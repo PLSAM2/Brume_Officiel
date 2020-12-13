@@ -28,8 +28,6 @@ public class Module_WxGhost : SpellModule
         ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed, actionLinked);
 
         _tempPlayerModule.isInGhost = true;
-        _tempPlayerModule.isInBrumeBeforeGhost = _tempPlayerModule.isInBrume;
-        _tempPlayerModule.brumeIdBeforeGhost = _tempPlayerModule.brumeId;
 
         GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
     }

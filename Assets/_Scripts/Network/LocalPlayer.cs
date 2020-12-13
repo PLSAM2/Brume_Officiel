@@ -218,7 +218,7 @@ public class LocalPlayer : MonoBehaviour
 		{
 			if (myPlayerModule.isInBrume)
 			{
-				GameFactory.GetBrumeById(myPlayerModule.brumeId).OnSimulateExit(gameObject);
+				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
 		}
 	}

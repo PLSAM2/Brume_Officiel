@@ -67,8 +67,6 @@ public class PlayerModule : MonoBehaviour
 
 	//ghost
 	[TabGroup("Debugging")] public bool isInGhost = false;
-	[TabGroup("Debugging")] public bool isInBrumeBeforeGhost = false;
-	[TabGroup("Debugging")] public int brumeIdBeforeGhost;
 	[TabGroup("Debugging")] [SerializeField]  Color enemyTeamColor, myTeamColor, myColor;
 	bool _isCrouched = false;
 	bool isCrouched

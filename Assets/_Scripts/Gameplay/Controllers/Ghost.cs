@@ -193,33 +193,37 @@ public class Ghost : MonoBehaviour
             //gestion vision si cut
             if (haveCut)
             {
-                if(playerModule.isInBrume != playerModule.isInBrumeBeforeGhost)
+                print(playerModule.isInBrume);
+                print(isInBrume);
+
+                if (playerModule.isInBrume && isInBrume)
                 {
-                    if (playerModule.isInBrumeBeforeGhost)
+                    if (playerModule.brumeId != brumeId)
                     {
-                        GameFactory.GetBrumeById(playerModule.brumeIdBeforeGhost).OnSimulateEnter(playerModule.gameObject);
-                    }else
-                    {
-                        GameFactory.GetBrumeById(brumeId).OnSimulateExit(playerModule.gameObject);
+                        GameFactory.GetBrumeById(brumeId).ForceExit(playerModule);
+                        GameFactory.GetBrumeById(playerModule.brumeId).ForceEnter(playerModule);
                     }
                 }
                 else
                 {
-                    if(playerModule.brumeId != playerModule.brumeIdBeforeGhost)
+                    if (playerModule.isInBrume)
                     {
-                        GameFactory.GetBrumeById(brumeId).OnSimulateExit(playerModule.gameObject);
-                        GameFactory.GetBrumeById(playerModule.brumeIdBeforeGhost).OnSimulateEnter(playerModule.gameObject);
+                        GameFactory.GetBrumeById(playerModule.brumeId).ForceEnter(playerModule);
+                    }
+                    else if(isInBrume)
+                    {
+                        print("oui");
+                        GameFactory.GetBrumeById(brumeId).ForceExit(playerModule);
                     }
                 }
-
-                playerModule.isInBrume = playerModule.isInBrumeBeforeGhost;
-                playerModule.brumeId = playerModule.brumeIdBeforeGhost;
-
                 playerModule.mylocalPlayer.ForceResetFowRaduisOnline();
             }
             else
             {
                 playerModule.mylocalPlayer.SendForceFowRaduis(myFow.fowRaduis);
+
+                playerModule.isInBrume = isInBrume;
+                playerModule.brumeId = brumeId;
             }
         }
 

@@ -229,8 +229,6 @@ public class GameFactory
                 return false;
             }
         }
-
-
         return true;
     }
 }

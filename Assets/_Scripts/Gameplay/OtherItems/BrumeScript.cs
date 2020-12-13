@@ -20,14 +20,30 @@ public class BrumeScript : MonoBehaviour
         GameManager.Instance.allBrume.Add(this);
     }
 
-    public void OnSimulateEnter(GameObject obj)
+    public void ForceEnter(PlayerModule player)
     {
-        OnTriggerEnter(obj.GetComponent<Collider>());
+        player.SetInBrumeStatut(true, GetInstanceID());
+        PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+
+        if (player == currentFollowPlayer)
+        {
+            ShowHideMesh(player, false);
+
+            AudioManager.Instance.Play2DAudio(sfxTransiBrume);
+        }
     }
 
-    public void OnSimulateExit(GameObject obj)
+    public void ForceExit(PlayerModule player)
     {
-        OnTriggerExit(obj.GetComponent<Collider>());
+        player.SetInBrumeStatut(false, 0);
+        PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+
+        if (player == currentFollowPlayer)
+        {
+            ShowHideMesh(player, true);
+            UiManager.Instance.SetAlphaBrume(0);
+            AudioManager.Instance.Play2DAudio(sfxTransiBrume);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
