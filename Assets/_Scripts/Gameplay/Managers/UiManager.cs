@@ -45,13 +45,9 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("SpellIcon")] public IconUi firstSpell;
     [FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
 
-    [Header("Minimap")]
-    [FoldoutGroup("Minimap")] public Image enemyYang, enemyShili, enemyYin;
-    [FoldoutGroup("Minimap")] public Color inViewColor, outViewColor, killedColor, teamInLiveColor;
-    [FoldoutGroup("Minimap")] public Sprite yinIcon, yangIcon, champKilledIcon;
-
     [Header("Team Info")]
-    [FoldoutGroup("TeamInfo")] public Image teamYang, teamShili, teamYin;
+    [FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
+    [FoldoutGroup("TeamInfo")] public Color inViewTeamColor, inViewEnemyColor, outViewTeamColor, outViewEnemyColor, killedColor;
     [FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
     [FoldoutGroup("TeamInfo")] public List<AllyIconUI> allyIconUIs = new List<AllyIconUI>();
 
@@ -72,20 +68,16 @@ public class UiManager : MonoBehaviour
         }
 
         //disable de base
-        GameFactory.ChangeIconInGame(teamShili, null, killedColor);
-        GameFactory.ChangeIconInGame(teamYang, champKilledIcon, killedColor);
-        GameFactory.ChangeIconInGame(teamYin, champKilledIcon, killedColor);
+        teamWx.color = killedColor;
+        teamRe.color = killedColor;
+        teamLeng.color = killedColor;
 
-        GameFactory.ChangeIconInGame(enemyShili, null, killedColor);
-        GameFactory.ChangeIconInGame(enemyYang, champKilledIcon, killedColor);
-        GameFactory.ChangeIconInGame(enemyYin, champKilledIcon, killedColor);
+        enemyWx.color = killedColor;
+        enemyRe.color = killedColor;
+        enemyLeng.color = killedColor;
 
         lifeShili.fillAmount = 0;
-
-        teamYang.sprite = champKilledIcon;
         lifeYang.fillAmount = 0;
-
-        teamYin.sprite = champKilledIcon;
         lifeYin.fillAmount = 0;
     }
 
@@ -136,33 +128,12 @@ public class UiManager : MonoBehaviour
         if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             GetLifeImageOfTeamChamp(id).fillAmount = 1;
-            GameFactory.ChangeIconInGame(GetImageOfChamp(id), GetIcon(RoomManager.Instance.actualRoom.playerList[id].playerCharacter, true), teamInLiveColor);
+            GetImageOfChamp(id).color = inViewTeamColor;
         }
         else
         {
-            GameFactory.ChangeIconInGame(GetImageOfChamp(id), GetIcon(RoomManager.Instance.actualRoom.playerList[id].playerCharacter, true), outViewColor);
+            GetImageOfChamp(id).color = outViewEnemyColor;
         }
-    }
-
-    Sprite GetIcon(Character _myChamp, bool _isAlive)
-    {
-        if (_isAlive)
-        {
-            switch (_myChamp)
-            {
-                case Character.Re:
-                    return yangIcon;
-
-                case Character.Leng:
-                    return yinIcon;
-            }
-        }
-        else
-        {
-            return champKilledIcon;
-        }
-
-        return null;
     }
 
     void OnPlayerTakeDamage(ushort id, ushort damage)
@@ -189,37 +160,50 @@ public class UiManager : MonoBehaviour
         if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             GetLifeImageOfTeamChamp(idKilled).fillAmount = 0;
+
         }
 
-        GameFactory.ChangeIconInGame(GetImageOfChamp(idKilled), champKilledIcon, killedColor);
+        GetImageOfChamp(idKilled).color = killedColor;
     }
 
     void OnPlayerViewChange(ushort id, bool isVisible)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            return;
-        }
-
+        print("test");
         if (GameManager.Instance.networkPlayers.ContainsKey(id) && GameManager.Instance.networkPlayers[id] != null)
         {
-            Sprite currentSprite = GetIcon(RoomManager.Instance.actualRoom.playerList[id].playerCharacter, true);
+            print("oui");
+            Color myColor = Color.white;
 
             switch (isVisible)
             {
                 case true:
-                    GameFactory.ChangeIconInGame(GetImageOfChamp(id), currentSprite, inViewColor);
+                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                    {
+                        myColor = inViewTeamColor;
+                    }
+                    else{
+                        myColor = inViewEnemyColor;
+                    }
                     break;
 
                 case false:
-                    GameFactory.ChangeIconInGame(GetImageOfChamp(id), currentSprite, outViewColor);
+                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                    {
+                        myColor = outViewTeamColor;
+                    }
+                    else
+                    {
+                        myColor = outViewEnemyColor;
+                    }
                     break;
             }
+
+            GetImageOfChamp(id).color = myColor;
         }
         else
         {
             //joueur est mort
-            GameFactory.ChangeIconInGame(GetImageOfChamp(id), champKilledIcon, killedColor);
+            GetImageOfChamp(id).color = killedColor;
         }
     }
 
@@ -246,13 +230,13 @@ public class UiManager : MonoBehaviour
             switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
             {
                 case Character.WuXin:
-                    return teamShili;
+                    return teamWx;
 
                 case Character.Re:
-                    return teamYang;
+                    return teamRe;
 
                 case Character.Leng:
-                    return teamYin;
+                    return teamLeng;
             }
         }
         else
@@ -260,13 +244,13 @@ public class UiManager : MonoBehaviour
             switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
             {
                 case Character.WuXin:
-                    return enemyShili;
+                    return enemyWx;
 
                 case Character.Re:
-                    return enemyYang;
+                    return enemyRe;
 
                 case Character.Leng:
-                    return enemyYin;
+                    return enemyLeng;
             }
         }
         return null;

@@ -39,16 +39,6 @@ public class GameFactory
         return Random.Range(min, max);
     }
 
-    public static void ChangeIconInGame(Image myImage, Sprite mySprite, Color myColor)
-    {
-        myImage.color = myColor;
-
-        if (mySprite != null)
-        {
-            myImage.sprite = mySprite;
-        }
-    }
-
     public static ushort GetMaxLifeOfPlayer(ushort id)
     {
         if (GameManager.Instance.networkPlayers.ContainsKey(id))
