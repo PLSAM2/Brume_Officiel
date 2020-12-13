@@ -9,7 +9,7 @@ public class Module_WxSoulBurst : ModuleProjectileSpell
 
 	void AddChargeManualy()
 	{
-		charges++;
+		Mathf.Clamp(charges++, 0, 3);
 	}
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )

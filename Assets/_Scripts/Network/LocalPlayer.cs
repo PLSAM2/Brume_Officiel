@@ -592,6 +592,8 @@ public class LocalPlayer : MonoBehaviour
 	{
 		if (isOwner)
 		{
+			GameManager.Instance.hiddenEffect.enabled = false;
+			GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
