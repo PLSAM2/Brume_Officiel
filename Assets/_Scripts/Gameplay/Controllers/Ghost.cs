@@ -193,9 +193,6 @@ public class Ghost : MonoBehaviour
             //gestion vision si cut
             if (haveCut)
             {
-                print(playerModule.isInBrume);
-                print(isInBrume);
-
                 if (playerModule.isInBrume && isInBrume)
                 {
                     if (playerModule.brumeId != brumeId)
@@ -212,7 +209,6 @@ public class Ghost : MonoBehaviour
                     }
                     else if(isInBrume)
                     {
-                        print("oui");
                         GameFactory.GetBrumeById(brumeId).ForceExit(playerModule);
                     }
                 }
