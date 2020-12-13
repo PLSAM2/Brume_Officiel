@@ -102,6 +102,8 @@ public class Projectile : AutoKill
 	{
 		if (!useRb)
 			transform.position += transform.forward * speed * Time.fixedDeltaTime;
+
+		base.FixedUpdate();
 	}
 	/*	protected override void FixedUpdate ()
 		{

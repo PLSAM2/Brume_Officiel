@@ -6,8 +6,8 @@ using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-    [TabGroup("AutokillParameters")] [HideInInspector] public float mylifeTime;
-    [TabGroup("AutokillParameters")] [HideInInspector] public float myLivelifeTime;
+    [TabGroup("AutokillParameters")]  public float mylifeTime;
+    [TabGroup("AutokillParameters")]  public float myLivelifeTime;
     [TabGroup("AutokillParameters")] [SerializeField] GameObject meshBlue;
     [TabGroup("AutokillParameters")] [SerializeField] GameObject meshRed;
 
