@@ -47,7 +47,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Team Info")]
     [FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
-    [FoldoutGroup("TeamInfo")] public Color inViewTeamColor, inViewEnemyColor, outViewTeamColor, outViewEnemyColor, killedColor;
+    [FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
     [FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
     [FoldoutGroup("TeamInfo")] public List<AllyIconUI> allyIconUIs = new List<AllyIconUI>();
 
@@ -125,14 +125,30 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerSpawn(ushort id)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
         {
-            GetLifeImageOfTeamChamp(id).fillAmount = 1;
-            GetImageOfChamp(id).color = inViewTeamColor;
+            GetImageOfChamp(id).color = outViewBlueColor;
         }
         else
         {
-            GetImageOfChamp(id).color = outViewEnemyColor;
+            GetImageOfChamp(id).color = outViewRedColor;
+        }
+
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            GetLifeImageOfTeamChamp(id).fillAmount = 1;
+
+            if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
+            {
+                if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
+                {
+                    GetImageOfChamp(id).color = inViewBlueColor;
+                }
+                else
+                {
+                    GetImageOfChamp(id).color = inViewRedColor;
+                }
+            }
         }
     }
 
@@ -168,32 +184,30 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerViewChange(ushort id, bool isVisible)
     {
-        print("test");
         if (GameManager.Instance.networkPlayers.ContainsKey(id) && GameManager.Instance.networkPlayers[id] != null)
         {
-            print("oui");
             Color myColor = Color.white;
 
             switch (isVisible)
             {
                 case true:
-                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
                     {
-                        myColor = inViewTeamColor;
+                        myColor = inViewBlueColor;
                     }
                     else{
-                        myColor = inViewEnemyColor;
+                        myColor = inViewRedColor;
                     }
                     break;
 
                 case false:
-                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
                     {
-                        myColor = outViewTeamColor;
+                        myColor = outViewBlueColor;
                     }
                     else
                     {
-                        myColor = outViewEnemyColor;
+                        myColor = outViewRedColor;
                     }
                     break;
             }
