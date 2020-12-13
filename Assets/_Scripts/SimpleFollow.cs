@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class SimpleFollow : MonoBehaviour
 {
-	public Transform myCharacter;
-
-    void Start()
-    {
-		transform.SetParent(null);
+	Quaternion baseRot;
+	private void Start ()
+	{
+		baseRot = transform.rotation;
 	}
 
-    void Update()
+	void LateUpdate()
     {
-		transform.position = new Vector3(myCharacter.transform.position.x, transform.position.y, myCharacter.transform.position.z);
+		transform.rotation = baseRot;
     }
 }
