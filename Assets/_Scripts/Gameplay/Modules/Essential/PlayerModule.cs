@@ -218,12 +218,7 @@ public class PlayerModule : MonoBehaviour
 		{
 			StartCoroutine(WaitForVisionCheck());
 
-			if (teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-				mapIcon.color = myTeamColor;
-			else
-			{
-				mapIcon.color = enemyTeamColor;
-			}
+				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
 	}
