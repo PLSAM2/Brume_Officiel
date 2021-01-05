@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: _CUSTOMNORMAL_ON _FRESNELSTEP_ON _MOVINGGRAIN_ON _MOVINGPAPER_ON
     _RIMLIGHT_CUSTOMNORMAL_ON
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -169,6 +169,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BaseColor: 0
     - _BumpScale: 1
     - _CustomOpacityMask: 0
@@ -281,7 +282,7 @@ Material:
     - _wind_Texture_Tiling2: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorShadow: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 0}
+    - _ColorShadow: {r: 0.15094334, g: 0.15094334, b: 0.15094334, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowDirection: {r: 1, g: 1, b: 0, a: 0}
@@ -302,7 +303,7 @@ Material:
     - _ShadowInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
     - _TerrainBlendingNoise_Tiling: {r: 0.3, g: 0.3, b: 0, a: 0}
-    - _TerrainBlending_Color: {r: 0.3679245, g: 0.25563022, b: 0.24123353, a: 1}
+    - _TerrainBlending_Color: {r: 0.36792448, g: 0.2556302, b: 0.2412335, a: 1}
     - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _TopTex_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _WindWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
