@@ -2095,8 +2095,6 @@ MonoBehaviour:
   oldState: 1
   brumeId: 0
   isInGhost: 0
-  isInBrumeBeforeGhost: 0
-  brumeIdBeforeGhost: 0
   enemyTeamColor: {r: 0.85490197, g: 0.28627452, b: 0.3019608, a: 1}
   myTeamColor: {r: 0.40784314, g: 0.6784314, b: 0.9490196, a: 1}
   myColor: {r: 0.14932811, g: 0.8396226, b: 0.06732824, a: 1}
@@ -2945,6 +2943,10 @@ PrefabInstance:
     - target: {fileID: 8474438155242974316, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9002311009621452255, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 139063
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6667444453632817538, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
