@@ -24,6 +24,7 @@ public class Projectile : AutoKill
 	public bool useRb = true;
 	[ShowIf("useRb")] public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
+	[SerializeField] ushort bouncingNumber;
 
 	public override void Init ( Team ownerTeam )
 	{
@@ -67,10 +68,12 @@ public class Projectile : AutoKill
 
 	private void OnTriggerEnter ( Collider other )
 	{
-		PlayerModule playerHit = other.gameObject.GetComponent<PlayerModule>();
+		Damageable playerHit = other.gameObject.GetComponent<Damageable>();
+		PlayerModule playerTeam = other.gameObject.GetComponent<PlayerModule>();
+
 		if (playerHit != null)
 		{
-			if (playerHit.teamIndex != myteam)
+			if (playerTeam.teamIndex != myteam)
 			{
 				hasTouched = true;
 
@@ -78,7 +81,7 @@ public class Projectile : AutoKill
 				{
 					DamagesInfos _temp = new DamagesInfos();
 					_temp = localTrad.damagesToDeal;
-					playerHit.mylocalPlayer.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
+					playerHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 				Destroy();
 				asDeal = true;
@@ -94,6 +97,23 @@ public class Projectile : AutoKill
 		{
 			hasTouched = true;
 			Destroy();
+		}
+	}
+
+	private void OnCollisionEnter ( Collision collision )
+	{
+		if (bouncingNumber == 0)
+		{
+			hasTouched = true;
+			Destroy();
+		}
+		else
+		{
+			bouncingNumber--;
+			myLivelifeTime = mylifeTime;
+			Vector3 _normalImpact = collision.GetContact(0).normal;
+			Mathf.Atan2(_normalImpact.x, _normalImpact.z);
+			transform.rotation = Quaternion.Euler(collision.GetContact(0).normal);
 		}
 	}
 
