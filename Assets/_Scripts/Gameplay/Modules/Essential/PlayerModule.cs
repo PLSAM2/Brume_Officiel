@@ -387,6 +387,7 @@ public class PlayerModule : MonoBehaviour
 
 	protected virtual void FixedUpdate ()
 	{
+
 		TreatEffects();
 		TreatTickEffects();
 	}

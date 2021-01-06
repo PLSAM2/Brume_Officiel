@@ -41,6 +41,7 @@ public class RoomManager : MonoBehaviour
         }
 
         client.MessageReceived += MessageReceived;
+
     }
 
 
