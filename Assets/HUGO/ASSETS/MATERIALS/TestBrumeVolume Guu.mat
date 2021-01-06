@@ -10,8 +10,7 @@ Material:
   m_Name: TestBrumeVolume Guu
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
   m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
-    _COLOR_ON _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
-    _ROTATORANIMATION_ON _TESSELATION_ON
+    _COLOR_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -152,6 +151,7 @@ Material:
     m_Floats:
     - _1: 1.55
     - _2: 0
+    - _AlphaCutoff: 0.5
     - _Animated: 1
     - _AnimationPause: 1
     - _BetweenFullLowAndHigh05: 1
@@ -177,7 +177,7 @@ Material:
     - _DepthFade_Distance: 0.81
     - _DepthFade_Power: 1
     - _DetailNormalMapScale: 1
-    - _Displacement: 1
+    - _Displacement: 0
     - _DisplacementTexture_Contrast: 0.54
     - _DisplacementTexture_Multiply: 0.48
     - _DisplacementTexture_Multiply1: 1
@@ -228,7 +228,7 @@ Material:
     - _PerlinNoise_Tiling: 0.12
     - _Power: 1.15
     - _RotationPause: 1
-    - _RotatorAnimation: 1
+    - _RotatorAnimation: 0
     - _RotatorTime: 0.2
     - _Rotator_Time: 0.3
     - _Scale: 0.08
@@ -236,7 +236,7 @@ Material:
     - _SpecularHighlights: 1
     - _Speed: 0.2
     - _SrcBlend: 1
-    - _Tesselation: 1
+    - _Tesselation: 0
     - _Tesselation_Factor: 128
     - _Tesselation_Factor1: 15
     - _Tesselation_MaxDist: 50
@@ -265,7 +265,7 @@ Material:
     - _BrumeColorHigh: {r: 0.8349056, g: 0.9806515, b: 1, a: 0}
     - _BrumeColorLow: {r: 0, g: 0.07408519, b: 0.3679245, a: 0}
     - _BrumeColor_ColorHigh: {r: 1, g: 1, b: 1, a: 0}
-    - _BrumeColor_ColorLow: {r: 0.36908138, g: 0.46801943, b: 0.5471698, a: 1}
+    - _BrumeColor_ColorLow: {r: 0.3690813, g: 0.4680194, b: 0.5471698, a: 1}
     - _BrumeFullColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.9245283, g: 0.87557554, b: 0.8155037, a: 0}
