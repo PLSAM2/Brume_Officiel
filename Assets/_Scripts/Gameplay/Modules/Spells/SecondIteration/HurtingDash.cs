@@ -4,43 +4,56 @@ using UnityEngine;
 
 public class HurtingDash : SpellModule
 {
-	bool isDashingWithSpell =false;
 	[SerializeField] float hurtingBoxWidth = .8f;
-	List<GameObject> allHits;
-	[SerializeField] DamagesInfos damages;
+	[SerializeField] float cooldownRefounded;
+	public DamagesInfos damages;
+	bool hasTouched = false, hasReset = false;
+	[SerializeField] HurtingBox hurtBox;
 
 	private void Start ()
 	{
-		allHits = new List<GameObject>();
+		hurtBox.myHurtingDash = this;
 	}
 	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		isDashingWithSpell = true;
+		hurtBox.ResetHitbox();
+		hasTouched = false;
 		base.StartCanalysing(_BaseMousePos);
+	}
+
+	protected override void Resolution ()
+	{
+		hurtBox.gameObject.SetActive(true);
+
+		myPlayerModule.forcedMovementInterrupted += Interrupt;
+
+		gameObject.layer = 13;
+
+		base.Resolution();
 	}
 
 	public override void Interrupt ()
 	{
-		isDashingWithSpell = false;
-		allHits.Clear();
+		hurtBox.gameObject.SetActive(false);
+
+		gameObject.layer = 8;
+
+		myPlayerModule.forcedMovementInterrupted -= Interrupt;
 		base.Interrupt();
+
+		if (hasTouched && !hasReset)
+		{
+			myPlayerModule.reduceTargetCooldown?.Invoke(cooldownRefounded, actionLinked);
+			hasReset = true;
+		}
+		else
+			hasReset = false;
+
 	}
 
-	protected override void FixedUpdate ()
+	public void TouchedAnEnemy ( PlayerModule _hitHostile )
 	{
-		if(isDashingWithSpell)
-		{
-			RaycastHit[] allCharacterHitOnFrame = Physics.SphereCastAll(new Vector3(transform.position.x, 0, transform.position.z), hurtingBoxWidth, Vector3.zero);
-		
-			foreach(RaycastHit hit in allCharacterHitOnFrame)
-				if(!allHits.Contains(hit.collider.gameObject))
-				{
-					allHits.Add(hit.collider.gameObject);
-
-					hit.collider.GetComponent<Damageable>().DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
-						}
-		}
-
-		base.FixedUpdate();
+		_hitHostile.GetComponent<Damageable>().DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+		hasTouched = true;
 	}
 }

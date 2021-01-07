@@ -87,7 +87,7 @@ public class Projectile : AutoKill
 				asDeal = true;
 
 				if (isOwner && localTrad._reduceCooldowns)
-					PlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
 
 				return;
 			}
