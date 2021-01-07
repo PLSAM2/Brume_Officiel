@@ -44,8 +44,6 @@ public class RoomManager : MonoBehaviour
 
     }
 
-
-
     private void Start()
     {
         NetworkManager.Instance.OnPlayerQuit += OnPlayerQuitGame;

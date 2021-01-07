@@ -59,12 +59,13 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("Other Gameplay")] public RectTransform radarRange;
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIconOnScreen;
+    [FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
 
     private GameObject actualChar;
     private GameObject actualUnlockedAltar = null;
     private float radarRangeXDistanceFromZero = 0;
     private float radarRangeYDistanceFromZero = 0;
-    public float test = 0.5f;
+
     [Header("Spec Mode")]
     [FoldoutGroup("SpecMode")] public SpecMode specMode;
 
@@ -292,11 +293,18 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateRadarIcons();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetEchapMenuState();
+        }        
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
+        {
+            DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
         }
     }
+
     private void FixedUpdate()
     {
         if (actualChar == null && GameFactory.GetLocalPlayerObj() != null)
@@ -314,7 +322,7 @@ public class UiManager : MonoBehaviour
             StartCoroutine(GeneralMessage());
         }
 
-        UpdateRadarIcons();
+
     }
 
     private void UpdateRadarIcons()
@@ -327,7 +335,7 @@ public class UiManager : MonoBehaviour
             fromPos.y = 0;
             toPos.y = 0;
             Vector3 direction = (toPos - fromPos).normalized;
-            Vector3 clampedDirection = fromPos + direction * test;
+            Vector3 clampedDirection = fromPos + direction * pointerDistance;
             Debug.DrawLine(fromPos, clampedDirection, Color.yellow);
             clampedDirection.y = 0; 
             float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
