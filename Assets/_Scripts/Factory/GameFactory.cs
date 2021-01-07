@@ -34,7 +34,20 @@ public class GameFactory
         }
     }
 
-	public static int GerateRandomNumer(int min, int max)
+
+    public static ushort? GetPlayerCharacterInTeam(Team team, Character character)
+    {
+        PlayerData _tempPlayer = RoomManager.Instance.actualRoom.playerList.Values.Where(x => x.playerTeam == team && x.playerCharacter == character).FirstOrDefault();
+
+        if (_tempPlayer != null)
+        {
+            return _tempPlayer.ID;
+        }
+
+        return null;
+    }
+
+    public static int GenerateRandomNumer(int min, int max)
     {
         return Random.Range(min, max);
     }

@@ -64,6 +64,11 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        Ping();
+    }
+
     private void Ping()
     {
         if (client.ConnectionState != ConnectionState.Connected)
@@ -77,8 +82,6 @@ public class NetworkManager : MonoBehaviour
             {
                 message.MakePingMessage();
                 client.SendMessage(message, SendMode.Reliable);
-                NetworkManager.Instance.GetLocalPlayer();
-
             }
         }
     }
