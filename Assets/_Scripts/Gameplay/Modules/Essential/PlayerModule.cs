@@ -132,6 +132,10 @@ public class PlayerModule : MonoBehaviour
 
 	//damagesInterruptionetc
 	public Action<LocalPlayer> hitCountered;
+	//buffer input
+	public Action spellResolved;
+	[HideInInspector] public En_SpellInput spellInputedRecorded;
+
 	#endregion
 
 	void Awake ()
@@ -165,6 +169,8 @@ public class PlayerModule : MonoBehaviour
 			rotationLock -= LockingRotation;
 			reduceAllCooldown -= ReduceAllCooldowns;
 			reduceTargetCooldown -= ReduceCooldown;
+			spellResolved -= BuffInput;
+
 		}
 	}
 	public virtual void Setup ()
@@ -199,7 +205,7 @@ public class PlayerModule : MonoBehaviour
 			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
-
+			spellResolved += BuffInput;
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
 			rotationLock += LockingRotation;
@@ -786,6 +792,27 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(status);
 		}
 		mylocalPlayer.SendState(state);
+	}
+
+	void BuffInput()
+	{
+		switch(spellInputedRecorded)
+		{
+			case En_SpellInput.Click:
+				leftClick.StartCanalysing(mousePos());
+				break;
+			case En_SpellInput.FirstSpell:
+				firstSpell.StartCanalysing(mousePos());
+				break;
+			case En_SpellInput.SecondSpell:
+				secondSpell.StartCanalysing(mousePos());
+				break;
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.StartCanalysing(mousePos());
+				break;
+		}
+
+		spellInputedRecorded = En_SpellInput.Null;
 	}
 
 	IEnumerator CheckForMenace ()

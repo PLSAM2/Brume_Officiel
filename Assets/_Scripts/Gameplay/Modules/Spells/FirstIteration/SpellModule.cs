@@ -49,9 +49,6 @@ public class SpellModule : MonoBehaviour
 	public AudioClip canalisationClip;
 	public AudioClip anonciationClip;
 	public Action<int> ChargeUpdate;
-	public Action SpellFinished;
-
-
 
 	private void OnEnable ()
 	{
@@ -298,7 +295,7 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.AddState(En_CharacterState.Root);
 		}
 		else
-			return;
+			myPlayerModule.spellInputedRecorded = actionLinked;
 	}
 
 	protected virtual void ApplyCanalisationEffect ()
@@ -384,15 +381,13 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
-		SpellFinished?.Invoke();
+		myPlayerModule.spellResolved?.Invoke();
 	}
-
 	protected virtual void StopSpell ()
 	{
 		isUsed = false;
 		throwbackTime = 0;
 	}
-
 	public virtual void KillSpell ()
 	{
 		ResolutionFeedBack();
@@ -405,7 +400,6 @@ public class SpellModule : MonoBehaviour
 	{
 		charges -= 1;
 	}
-
 	public virtual void DecreaseCooldown ()
 	{
 		if (charges < spell.numberOfCharge)
@@ -419,22 +413,17 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
-
 	protected virtual void AddCharge ()
 	{
 		charges++;
 	}
-
 	protected virtual void UpgradeSpell () { }
-
 	protected virtual void ReturnToNormal () { }
-
 	public void ReduceCooldown ( float _durationShorten )
 	{
 		if (charges < spell.numberOfCharge)
 			cooldown -= _durationShorten;
 	}
-
 	protected virtual bool canBeCast ()
 	{
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
@@ -447,9 +436,6 @@ public class SpellModule : MonoBehaviour
 			return true;
 		}
 	}
-
-
-
 	void StartCanalysingFeedBack ()
 	{
 		//PITIT BRUIT
@@ -478,7 +464,6 @@ public class SpellModule : MonoBehaviour
 				break;
 		}
 	}
-
 	protected virtual void ResolutionFeedBack ()
 	{
 		//PITIT BRUIT
@@ -507,18 +492,14 @@ public class SpellModule : MonoBehaviour
 				break;
 		}
 	}
-
 	protected virtual float finalCooldownValue ()
 	{
 		return spell.cooldown + spell.throwBackDuration;
 	}
-
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
 	{ return spell.forcedMovementAppliedBeforeResolution; }
-
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyAfterRealisation ()
 	{ return spell.forcedMovementAppliedAfterResolution; }
-
 	protected virtual float FinalCanalisationTime ()
 	{
 		return spell.canalisationTime;
@@ -527,13 +508,11 @@ public class SpellModule : MonoBehaviour
 	{
 		return spell.canalisationTime - spell.anonciationTime;
 	}
-
 	protected virtual void UpdateUiCooldown ()
 	{
 		if (!isAComboPiece)
 			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, finalCooldownValue());
 	}
-
 	protected virtual void UpdateUiCharge ()
 	{
 		if (!isAComboPiece)
@@ -542,10 +521,12 @@ public class SpellModule : MonoBehaviour
 }
 public enum En_SpellInput
 {
+	Null,
 	FirstSpell,
 	SecondSpell,
 	ThirdSpell,
 	Click,
 	Maj,
 	Ward,
+
 }

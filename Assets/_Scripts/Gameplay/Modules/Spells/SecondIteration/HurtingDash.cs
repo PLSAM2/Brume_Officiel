@@ -5,7 +5,6 @@ using UnityEngine;
 public class HurtingDash : SpellModule
 {
 	[SerializeField] float hurtingBoxWidth = .8f;
-	[SerializeField] float cooldownRefounded;
 	public DamagesInfos damages;
 	bool hasTouched = false, hasReset = false;
 	[SerializeField] HurtingBox hurtBox;
@@ -39,15 +38,17 @@ public class HurtingDash : SpellModule
 		gameObject.layer = 8;
 
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
-		base.Interrupt();
 
 		if (hasTouched && !hasReset)
 		{
-			myPlayerModule.reduceTargetCooldown?.Invoke(cooldownRefounded, actionLinked);
+			charges++;
 			hasReset = true;
 		}
 		else
 			hasReset = false;
+
+		base.Interrupt();
+
 
 	}
 

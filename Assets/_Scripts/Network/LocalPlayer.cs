@@ -459,6 +459,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
+			UiManager.Instance.FeedbackHit();
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				myPlayerModule.ApplyWxMark(dealerID);
