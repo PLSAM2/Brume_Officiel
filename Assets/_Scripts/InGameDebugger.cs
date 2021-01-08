@@ -12,6 +12,7 @@ public class InGameDebugger : MonoBehaviour
     public GameObject bluePlayerLayout;
 
     public Text fps;
+    public Text ms;
 
     public Dictionary<ushort, DebugPlayerListObj> debugPlayerListObj = new Dictionary<ushort, DebugPlayerListObj>();
 
@@ -23,6 +24,7 @@ public class InGameDebugger : MonoBehaviour
     private void Update()
     {
         fps.text = "FPS " +  (int)(1f / Time.unscaledDeltaTime);
+        ms.text = (NetworkManager.Instance.GetLocalClient().Client.RoundTripTime.LatestRtt * 1000).ToString("#####") + " Ms";
     }
 
     private void Init()
@@ -51,33 +53,69 @@ public class InGameDebugger : MonoBehaviour
                 debugPlayerListObj.Add(p.ID, _tListObj.GetComponent<DebugPlayerListObj>());
             }
         }
+    }    
+    public void Close()
+    {
+        this.gameObject.SetActive(false);
     }
 
-    public void ForceUnlockInteractible(int ID)
+    public void ForceUnlockAltar(int ID)
     {
-
+        altars[ID].Unlock();
     }
-    public void ForceLockInteractible(int ID)
+    public void ForceLockAltar(int ID)
     {
-
+        altars[ID].state = State.Locked;
     }
     public void TpLocalPlayerTo(GameObject obj)
     {
-
+        GameFactory.GetLocalPlayerObj().transform.position = obj.transform.position;
     }
 
     public void TpLocalPlayerNextTo(GameObject obj)
     {
-
+        GameFactory.GetLocalPlayerObj().transform.position = obj.transform.position + Vector3.one * 2;
     }
 
     public void InfiniteStacks()
     {
-
     }
 
     public void NoCooldown()
     {
 
     }
+    public void EndGame(bool win)
+    {
+        if (win)
+        {
+
+        } else
+        {
+
+        }
+    }
+
+    public void NextRound(bool win)
+    {
+        ushort? wxID = null;
+
+        if (win)
+        {
+             wxID = GameFactory.GetPlayerCharacterInTeam(GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam), GameData.Character.WuXin);
+        }
+        else
+        {
+             wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+        }
+
+        if (wxID != null)
+        {
+            DamagesInfos _temp = new DamagesInfos();
+            _temp.damageHealth = 1000;
+
+            GameManager.Instance.networkPlayers[(ushort)wxID].DealDamages(_temp, Vector3.zero);
+        }
+    }
+
 }

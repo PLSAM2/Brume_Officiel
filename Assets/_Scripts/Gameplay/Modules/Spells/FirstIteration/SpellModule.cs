@@ -50,9 +50,9 @@ public class SpellModule : MonoBehaviour
 	public AudioClip anonciationClip;
 	public Action<int> ChargeUpdate;
 	public Action SpellFinished;
-	
-	
-	
+
+
+
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
@@ -387,7 +387,7 @@ public class SpellModule : MonoBehaviour
 		SpellFinished?.Invoke();
 	}
 
-	protected virtual void StopSpell()
+	protected virtual void StopSpell ()
 	{
 		isUsed = false;
 		throwbackTime = 0;
@@ -431,7 +431,7 @@ public class SpellModule : MonoBehaviour
 
 	public void ReduceCooldown ( float _durationShorten )
 	{
-		if (cooldown != finalCooldownValue())
+		if (charges < spell.numberOfCharge)
 			cooldown -= _durationShorten;
 	}
 

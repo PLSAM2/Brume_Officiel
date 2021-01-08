@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 
-public class LocalPlayer : MonoBehaviour
+public class LocalPlayer : MonoBehaviour, Damageable
 {
 	[TabGroup("MultiGameplayParameters")] public ushort myPlayerId;
 	[TabGroup("MultiGameplayParameters")] public bool isOwner = false;
@@ -22,7 +22,6 @@ public class LocalPlayer : MonoBehaviour
 
 	[Header("MultiGameplayParameters")]
 	[TabGroup("MultiGameplayParameters")] public float respawnTime = 15;
-	[TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
 
 
 	[Header("UI")]
@@ -47,6 +46,7 @@ public class LocalPlayer : MonoBehaviour
 	Vector3 newNetorkPos;
 	[HideInInspector] [SerializeField] float syncSpeed = 10;
 
+	[TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
 
 	[ReadOnly]
 	public ushort liveHealth
@@ -364,84 +364,88 @@ public class LocalPlayer : MonoBehaviour
 	/// <param name="ignoreMark"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false )
 	{
-		if (InGameNetworkReceiver.Instance.GetEndGame())
+		if (GameManager.Instance.networkPlayers[(ushort)dealerID].myPlayerModule.teamIndex != myPlayerModule.teamIndex)
 		{
-			return;
-		}
 
-		DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
-
-		myPlayerModule.allHitTaken.Add(_damagesToDeal);
-
-		if (!ignoreStatusAndEffect)
-		{
-			if (!ignoreTickStatus)
+			if (InGameNetworkReceiver.Instance.GetEndGame())
 			{
-				if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+				return;
+			}
+
+			DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
+
+			myPlayerModule.allHitTaken.Add(_damagesToDeal);
+
+			if (!ignoreStatusAndEffect)
+			{
+				if (!ignoreTickStatus)
 				{
-					SendStatus(myPlayerModule.poisonousEffect);
+					if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+					{
+						SendStatus(myPlayerModule.poisonousEffect);
+					}
+				}
+
+				if (_damagesToDeal.statusToApply != null)
+				{
+					for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
+					{
+						SendStatus(_damagesToDeal.statusToApply[i]);
+					}
+				}
+
+				if (_damagesToDeal.movementToApply != null)
+				{
+					SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
 				}
 			}
 
-			if (_damagesToDeal.statusToApply != null)
+
+			if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
 			{
-				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
+				if (_damagesToDeal.additionalStatusToApply != null)
 				{
-					SendStatus(_damagesToDeal.statusToApply[i]);
+					for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
+					{
+						SendStatus(_damagesToDeal.additionalStatusToApply[i]);
+					}
 				}
-			}
 
-			if (_damagesToDeal.movementToApply != null)
-			{
-				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
-			}
-		}
-
-
-		if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
-		{
-			if (_damagesToDeal.additionalStatusToApply != null)
-			{
-				for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
+				if (_damagesToDeal.additionalMovementToApply != null)
 				{
-					SendStatus(_damagesToDeal.additionalStatusToApply[i]);
+					SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
 				}
-			}
 
-			if (_damagesToDeal.additionalMovementToApply != null)
-			{
-				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+				if (_damagesToDeal.damageHealth > 0)
+				{
+					DealDamagesLocaly(_damagesToDeal.additionalDamages, dealerID);
+
+					using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+					{
+						_writer.Write(myPlayerId);
+						_writer.Write(_damagesToDeal.additionalDamages);
+						using (Message _message = Message.Create(Tags.Damages, _writer))
+						{
+							currentClient.SendMessage(_message, SendMode.Reliable);
+						}
+					}
+				}
 			}
 
 			if (_damagesToDeal.damageHealth > 0)
 			{
-				DealDamagesLocaly(_damagesToDeal.additionalDamages, dealerID);
-
 				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
 					_writer.Write(myPlayerId);
-					_writer.Write(_damagesToDeal.additionalDamages);
+					_writer.Write(_damagesToDeal.damageHealth);
 					using (Message _message = Message.Create(Tags.Damages, _writer))
 					{
 						currentClient.SendMessage(_message, SendMode.Reliable);
 					}
 				}
-			}
-		}
 
-		if (_damagesToDeal.damageHealth > 0)
-		{
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-			{
-				_writer.Write(myPlayerId);
-				_writer.Write(_damagesToDeal.damageHealth);
-				using (Message _message = Message.Create(Tags.Damages, _writer))
-				{
-					currentClient.SendMessage(_message, SendMode.Reliable);
-				}
+				GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 			}
-
-			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 		}
 
 	}
@@ -714,4 +718,9 @@ public class LocalPlayer : MonoBehaviour
 		yield return new WaitForSeconds(_time);
 		forceOutline = false;
 	}
+}
+
+public interface Damageable
+{
+	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false );
 }
