@@ -22,12 +22,15 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public GameObject loosePanel;
     [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
     [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
+    [FoldoutGroup("GlobalUi")] public Camera cameraMinimap;
+    [FoldoutGroup("GlobalUi")] private bool waitForMinimapUpdate = false;
 
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalMessageAnim;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalPointsAnim;
+
     [FoldoutGroup("GeneralMessage")] [SerializeField] private GameObject waitingForPlayersPanel;
 
     [FoldoutGroup("GeneralMessage")] public float generalMessageAnimTime = 3;
@@ -51,8 +54,21 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
     [FoldoutGroup("TeamInfo")] public List<AllyIconUI> allyIconUIs = new List<AllyIconUI>();
 
+    [Header("Other Gameplay")]
+    [FoldoutGroup("Other Gameplay")] public Camera mainCam;
+    [FoldoutGroup("Other Gameplay")] public RectTransform radarRange;
+    [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
+    [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIconOnScreen;
+    [FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
+
+    private GameObject actualChar;
+    private GameObject actualUnlockedAltar = null;
+    private float radarRangeXDistanceFromZero = 0;
+    private float radarRangeYDistanceFromZero = 0;
+
     [Header("Spec Mode")]
     [FoldoutGroup("SpecMode")] public SpecMode specMode;
+
     [Header("Misc")]
     [FoldoutGroup("Misc")] public GameObject DebuggerPanel;
 
@@ -99,8 +115,13 @@ public class UiManager : MonoBehaviour
 
     private void Start()
     {
+        radarRangeXDistanceFromZero = radarRange.anchorMin.x * Screen.width;
+        radarRangeYDistanceFromZero = radarRange.anchorMin.y * Screen.height;
+
+
         // A changer >>
         Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
+
         string redTeamScore = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
         string blueTeamScore = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
 
@@ -272,17 +293,109 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateRadarIcons();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetEchapMenuState();
+        }        
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
+        {
+            DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
         }
     }
+
     private void FixedUpdate()
     {
+        if (actualChar == null && GameFactory.GetLocalPlayerObj() != null)
+        {
+            actualChar = GameFactory.GetLocalPlayerObj().gameObject;
+        }
+
+        if (!waitForMinimapUpdate)
+        {
+            StartCoroutine(MinimapUpdate());
+        }
+
         if (generalMessageList.Count > 0 && !waitForGenMessageAnimEnd)
         {
             StartCoroutine(GeneralMessage());
         }
+
+
+    }
+
+    private void UpdateRadarIcons()
+    {
+        if (actualUnlockedAltar != null && actualChar != null)
+        {
+            Vector3 fromPos = actualChar.transform.position;
+            Vector3 toPos = actualUnlockedAltar.transform.position;
+
+            fromPos.y = 0;
+            toPos.y = 0;
+            Vector3 direction = (toPos - fromPos).normalized;
+            Vector3 clampedDirection = fromPos + direction * pointerDistance;
+            Debug.DrawLine(fromPos, clampedDirection, Color.yellow);
+            clampedDirection.y = 0; 
+            float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
+            nextAltarRadarIcon.localEulerAngles = new Vector3(0, 0, angle);
+
+            Vector3 targetPositionScreenPoint = mainCam.WorldToScreenPoint(clampedDirection) ;
+            Vector3 offscreenpos = mainCam.WorldToScreenPoint(toPos) ;
+            offscreenpos.z = 0;
+            targetPositionScreenPoint.z = 0;
+            bool isOffScreen = offscreenpos.x <= radarRangeXDistanceFromZero || offscreenpos.x >= radarRange.rect.width + radarRangeXDistanceFromZero
+                || offscreenpos.y <= radarRangeYDistanceFromZero || offscreenpos.y >= radarRange.rect.height + radarRangeYDistanceFromZero;
+
+            if (!isOffScreen)
+            {
+                if (offscreenpos.x <= radarRangeXDistanceFromZero)
+                    offscreenpos.x = radarRangeXDistanceFromZero;
+                if (offscreenpos.x >= radarRange.rect.width + radarRangeXDistanceFromZero)
+                    offscreenpos.x = radarRange.rect.width + radarRangeXDistanceFromZero;
+                if (offscreenpos.y <= radarRangeYDistanceFromZero)
+                    offscreenpos.y = radarRangeYDistanceFromZero;
+                if (offscreenpos.y >= radarRange.rect.height + radarRangeYDistanceFromZero)
+                    offscreenpos.y = radarRange.rect.height + radarRangeYDistanceFromZero;
+
+                nextAltarRadarIconOnScreen.position = offscreenpos;
+                nextAltarRadarIcon.position = offscreenpos;
+                nextAltarRadarIconOnScreen.gameObject.SetActive(true);
+                nextAltarRadarIcon.gameObject.SetActive(false);
+            }
+            else
+            {
+                if (targetPositionScreenPoint.x <= radarRangeXDistanceFromZero)
+                    targetPositionScreenPoint.x = radarRangeXDistanceFromZero;
+                if (targetPositionScreenPoint.x >= radarRange.rect.width + radarRangeXDistanceFromZero)
+                    targetPositionScreenPoint.x = radarRange.rect.width + radarRangeXDistanceFromZero;
+                if (targetPositionScreenPoint.y <= radarRangeYDistanceFromZero)
+                    targetPositionScreenPoint.y = radarRangeYDistanceFromZero;
+                if (targetPositionScreenPoint.y >= radarRange.rect.height + radarRangeYDistanceFromZero)
+                    targetPositionScreenPoint.y = radarRange.rect.height + radarRangeYDistanceFromZero;
+
+                nextAltarRadarIconOnScreen.position = targetPositionScreenPoint;
+                nextAltarRadarIcon.position = targetPositionScreenPoint;
+
+                nextAltarRadarIconOnScreen.gameObject.SetActive(false);
+                nextAltarRadarIcon.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    internal void UnlockNewAltar(Altar altar)
+    {
+        actualUnlockedAltar = altar.gameObject;
+        nextAltarRadarIcon.gameObject.SetActive(true);
+    }
+
+    IEnumerator MinimapUpdate()
+    {
+        waitForMinimapUpdate = true;
+        yield return new WaitForSeconds(0.1f);
+        cameraMinimap.Render();
+        waitForMinimapUpdate = false;
     }
 
     public void SetEchapMenuState()

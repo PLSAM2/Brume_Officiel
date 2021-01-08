@@ -13,7 +13,6 @@ public class MovementModule : MonoBehaviour
     [SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
     [SerializeField] CharacterController chara;
     [HideInInspector] public bool rotLocked = false;
-    [HideInInspector] public CapsuleCollider collider;
 
     /*	[Header("Running Stamina")]
 		[SerializeField] bool usingStamina;
@@ -77,7 +76,6 @@ public class MovementModule : MonoBehaviour
         if (!isAGhost)
         {
             currentForcedMovement.myModule = myPlayerModule;
-            collider = GetComponent<CapsuleCollider>();
         }
         rotLocked = false;
     }
@@ -240,7 +238,7 @@ public class MovementModule : MonoBehaviour
 
     Vector3 SlideVector(Vector3 _directionToSlideFrom)
     {
-        RaycastHit _hitToRead = CastSphereAll(_directionToSlideFrom, movementBlockingLayer, collider.radius)[0];
+        RaycastHit _hitToRead = CastSphereAll(_directionToSlideFrom, movementBlockingLayer, chara.radius)[0];
 
 
         Vector3 _aVector = new Vector3(-_hitToRead.normal.z, 0, _hitToRead.normal.x);
@@ -248,14 +246,14 @@ public class MovementModule : MonoBehaviour
 
         if (Vector3.Dot(_directionToSlideFrom, _aVector) > 0)
         {
-            if (IsFree(_aVector, movementBlockingLayer, collider.radius))
+            if (IsFree(_aVector, movementBlockingLayer, chara.radius))
                 return _aVector;
             else
                 return Vector3.zero;
         }
         else if (Vector3.Dot(_directionToSlideFrom, _bVector) > 0)
         {
-            if (IsFree(_bVector, movementBlockingLayer, collider.radius))
+            if (IsFree(_bVector, movementBlockingLayer, chara.radius))
             {
                 return _bVector;
             }
@@ -330,7 +328,7 @@ public class MovementModule : MonoBehaviour
     List<RaycastHit> CastSphereAll(Vector3 _direction, LayerMask _checkingLayer, float _maxRange)
     {
         List<RaycastHit> _allHit = Physics.SphereCastAll(transform.position,
-            collider.radius,
+            chara.radius,
             _direction,
             _maxRange,
             _checkingLayer).ToList<RaycastHit>();

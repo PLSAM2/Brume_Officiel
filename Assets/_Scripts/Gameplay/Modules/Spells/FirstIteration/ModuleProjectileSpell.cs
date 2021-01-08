@@ -81,7 +81,9 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		return transform.forward * .4f + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
+		Vector3 _temp = transform.forward * .4f + transform.position;
+		_temp.y = 0;
+		return _temp;
 	}
 
 	protected virtual Vector3 RotationOfTheProj ()

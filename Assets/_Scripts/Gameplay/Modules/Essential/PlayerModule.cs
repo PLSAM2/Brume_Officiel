@@ -122,8 +122,8 @@ public class PlayerModule : MonoBehaviour
 
 	//[SPECIFIC ACTION NEEDED POUR LES SPELLS]
 	#region
-	public static Action<float> reduceAllCooldown;
-	public static Action<float, En_SpellInput> reduceTargetCooldown;
+	public Action<float> reduceAllCooldown;
+	public Action<float, En_SpellInput> reduceTargetCooldown;
 	public Action upgradeKit, backToNormalKit;
 	#endregion
 
@@ -160,11 +160,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		GameManager.Instance.AllCharacterSpawned -= Setup;
 
-		if (!mylocalPlayer.isOwner)
-		{
-
-		}
-		else
+		if (mylocalPlayer.isOwner)
 		{
 			rotationLock -= LockingRotation;
 			reduceAllCooldown -= ReduceAllCooldowns;
@@ -207,8 +203,10 @@ public class PlayerModule : MonoBehaviour
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
 			rotationLock += LockingRotation;
+
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
+
 			mapIcon.color = myColor;
 
 		}
@@ -387,6 +385,7 @@ public class PlayerModule : MonoBehaviour
 
 	protected virtual void FixedUpdate ()
 	{
+
 		TreatEffects();
 		TreatTickEffects();
 	}
@@ -400,6 +399,7 @@ public class PlayerModule : MonoBehaviour
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
+		print("I try to reduce");
 		switch (_spell)
 		{
 			case En_SpellInput.FirstSpell:
@@ -415,6 +415,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.Click:
+				print("Ireduce click cooldown by " + _duration);
 				leftClick.ReduceCooldown(_duration);
 				break;
 
