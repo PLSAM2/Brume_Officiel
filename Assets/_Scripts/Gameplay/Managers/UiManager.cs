@@ -16,14 +16,15 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
-    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI round;
+    [FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
     [FoldoutGroup("GlobalUi")] public GameObject echapMenu;
     [FoldoutGroup("GlobalUi")] public GameObject victoryPanel;
     [FoldoutGroup("GlobalUi")] public GameObject loosePanel;
     [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
     [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
     [FoldoutGroup("GlobalUi")] public Camera cameraMinimap;
-    [FoldoutGroup("GlobalUi")] private bool waitForMinimapUpdate = false;
+
+    private bool waitForMinimapUpdate = false;
 
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
@@ -65,6 +66,7 @@ public class UiManager : MonoBehaviour
     private GameObject actualUnlockedAltar = null;
     private float radarRangeXDistanceFromZero = 0;
     private float radarRangeYDistanceFromZero = 0;
+    private int altarCaptured = 0;
 
     [Header("Spec Mode")]
     [FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -139,8 +141,6 @@ public class UiManager : MonoBehaviour
 
             endGameScore.Init(Color.red, Color.blue, redTeamScore, blueTeamScore);
         }
-
-        round.text = "Round : " + RoomManager.Instance.roundCount;
         // <<
     }
 
@@ -388,6 +388,12 @@ public class UiManager : MonoBehaviour
     {
         actualUnlockedAltar = altar.gameObject;
         nextAltarRadarIcon.gameObject.SetActive(true);
+    }
+
+    internal void NewAltarCaptured(Team capturingTeam)
+    {
+        uiAltarList.DisplayImage(altarCaptured, capturingTeam);
+        altarCaptured++;
     }
 
     IEnumerator MinimapUpdate()

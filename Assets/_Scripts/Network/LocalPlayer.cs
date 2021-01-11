@@ -35,6 +35,10 @@ public class LocalPlayer : MonoBehaviour
 	[Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
 	[TabGroup("Ui")] public Image fillAmountBuff;
 	[TabGroup("Ui")] public GameObject wholeBuffUi;
+	[TabGroup("Ui")] public GameObject WxCompass;
+	[TabGroup("Ui")] public Image WxLife;
+
+	public LocalPlayer wxRef;
 
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
@@ -59,7 +63,10 @@ public class LocalPlayer : MonoBehaviour
 			lifeImg.fillAmount = (float)liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
 		}
 	}
-	public Action<string> triggerAnim;
+
+	public bool allCharacterSpawned = false;
+
+    public Action<string> triggerAnim;
 
 	private UnityClient currentClient;
 	private Vector3 lastPosition;
@@ -111,6 +118,8 @@ public class LocalPlayer : MonoBehaviour
 			SpawnFow();
 
 			CameraManager.Instance.SetParent(transform);
+
+
 		}
 		else
 		{
@@ -130,6 +139,25 @@ public class LocalPlayer : MonoBehaviour
 
 	private void Update ()
 	{
+		if (allCharacterSpawned)
+		{
+			if (wxRef != null)
+			{
+				WxLife.fillAmount = wxRef._liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
+
+				Vector3 fromPos = this.transform.position;
+				Vector3 toPos = wxRef.transform.position;
+
+				fromPos.y = 0;
+				toPos.y = 0;
+				Vector3 direction = (toPos - fromPos).normalized;
+				float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
+				WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
+
+			}
+		}
+
+
 		//ui life
 		lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
 
@@ -156,7 +184,24 @@ public class LocalPlayer : MonoBehaviour
 		}
 	}
 
-	private void LateUpdate ()
+    internal void AllCharacterSpawn()
+	{
+		
+		ushort? wxRefId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+
+		if (wxRefId != null)
+		{
+			wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
+		}
+		else
+		{
+			WxLife.transform.parent.gameObject.SetActive(false);
+		}
+
+		allCharacterSpawned = true;
+	}
+
+    private void LateUpdate ()
 	{
 		canvas.transform.rotation = canvasRot;
 	}

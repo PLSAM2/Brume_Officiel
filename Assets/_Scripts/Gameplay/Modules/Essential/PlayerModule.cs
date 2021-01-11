@@ -138,6 +138,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 		GameManager.Instance.AllCharacterSpawned += Setup;
+		GameManager.Instance.AllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 
 		//A VIRER QUAND C EST TROUVER.
 
@@ -159,7 +160,7 @@ public class PlayerModule : MonoBehaviour
 	private void OnDestroy ()
 	{
 		GameManager.Instance.AllCharacterSpawned -= Setup;
-
+		GameManager.Instance.AllCharacterSpawned -= mylocalPlayer.AllCharacterSpawn;
 		if (!mylocalPlayer.isOwner)
 		{
 
