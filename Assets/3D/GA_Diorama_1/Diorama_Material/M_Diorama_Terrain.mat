@@ -169,17 +169,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
-    - _CustomOpacityMask: 0
+    - _CustomOpacityMask: 1
     - _CustomRimLight: 0
     - _CustomRimLight_Opacity: 1
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
     - _DepthFade: 0
-    - _DepthFade_ClampMax: 0.8
-    - _DepthFade_ClampMin: 1
-    - _DepthFade_Distance: 10.5
-    - _DepthFade_DitherMultiply: 1
+    - _DepthFade_ClampMax: 1
+    - _DepthFade_ClampMin: 0
+    - _DepthFade_Distance: 4
+    - _DepthFade_DitherMultiply: 0.2
     - _DepthFade_Dither_Tiling: 1
     - _DepthFade_Falloff: 3
     - _DepthFade_Texture: 0
@@ -202,7 +203,7 @@ Material:
     - _InkGrunge_Tiling: 0.1
     - _InkSplatter: 0
     - _InkSplatter_Tiling: 3.93
-    - _InverseCustomOpacityMask: 0
+    - _InverseCustomOpacityMask: 1
     - _LightDebug: 0
     - _Metallic: 0
     - _Mode: 0
@@ -214,6 +215,7 @@ Material:
     - _NormalDrippingNoise_Step: 0.52
     - _NormalDrippingNoise_Tiling: 5
     - _NormalInBrumeGrunge_Contrast: -1.48
+    - _NormalInBrumeGrunge_Tiling: 6
     - _NormalInBrumeGrunge_Tiling3: 6
     - _OcclusionStrength: 1
     - _Opacity: 0
@@ -240,6 +242,7 @@ Material:
     - _ShadowDrippingNoise_Step: 0
     - _ShadowDrippingNoise_Transition: 0
     - _ShadowInBrumeGrunge_Contrast: -3.6
+    - _ShadowInBrumeGrunge_Tiling: 5
     - _ShadowInBrumeGrunge_Tiling3: 5
     - _Shininess: 1
     - _SmoothnessTextureChannel: 0
@@ -289,7 +292,7 @@ Material:
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _SSS_Color: {r: 1, g: 0.009498575, b: 0, a: 0}
-    - _ShadowColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0}
+    - _ShadowColor: {r: 0.7830188, g: 0.7830188, b: 0.7830188, a: 0}
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowInBrumeGrunge_Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}

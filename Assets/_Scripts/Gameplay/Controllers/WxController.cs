@@ -26,7 +26,6 @@ public class WxController : PlayerModule
         playerSouls.Add(playerSoul);
         PlayerData _p = RoomManager.Instance.actualRoom.playerList[playerSoul];
 
-        UiManager.Instance.PickSoul(_p.playerCharacter);
         soulPickedUp?.Invoke();
         // this.GetComponent<Module_WxSoulBurst>().charges++;
     }
