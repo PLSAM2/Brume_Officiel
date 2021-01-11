@@ -655,21 +655,6 @@ public class UiManager : MonoBehaviour
 
         toDisableInEndGame.SetActive(false);
     }
-
-    public void PickSoul(Character character)
-    {
-        int characterToInt = ((ushort)character / 10) - 1;
-
-        allyIconUIs[characterToInt].SetPickSoul(true);
-    }
-    public void ResetPickSoul()
-    {
-        foreach (AllyIconUI item in allyIconUIs)
-        {
-            item.SetPickSoul(false);
-        }
-
-    }
     public void FeedbackHit()
 	{
         hitFeedback.DOKill();
