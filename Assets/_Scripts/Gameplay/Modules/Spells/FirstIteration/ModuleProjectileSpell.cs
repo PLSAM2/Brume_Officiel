@@ -38,7 +38,7 @@ public class ModuleProjectileSpell : SpellModule
 		{
             localTrad = spell as Sc_ProjectileSpell;
             myLiveSalve = localTrad.salveInfos;
-            offsetHeight = GetComponent<CapsuleCollider>().height / 2;
+            offsetHeight = GetComponent<CharacterController>().height / 2;
 
             if (localTrad.salveInfos.numberOfShotInSalve > 1)
 				myPreviewBurst = PreviewManager.Instance.GetShapePreview();
@@ -81,7 +81,9 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		return transform.forward * .4f + transform.position + new Vector3(0, myPlayerModule.movementPart.collider.height / 2, 0);
+		Vector3 _temp = transform.forward * .4f + transform.position;
+		_temp.y = 0;
+		return _temp;
 	}
 
 	protected virtual Vector3 RotationOfTheProj ()

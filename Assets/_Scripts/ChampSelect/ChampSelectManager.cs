@@ -151,6 +151,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
                 _character = (Character)reader.ReadUInt16();
             }
         }
+
         SetCharacter(_playerID, _character);
 
         linkPlayerTeamPlayerElement[_playerID].SetStatut(PlayerTeamElement.ChampSelectStatut.confirme);

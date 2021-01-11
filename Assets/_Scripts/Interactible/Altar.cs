@@ -45,6 +45,7 @@ public class Altar : Interactible
     {
         base.SetActiveState(value);
         UiManager.Instance.DisplayGeneralMessage("Altar " + altarName + " unlock in " + unlockTime + " seconds");
+        UiManager.Instance.UnlockNewAltar(this);
         if (value)
         {
             StartCoroutine(ActivateAltar());

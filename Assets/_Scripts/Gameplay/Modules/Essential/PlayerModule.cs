@@ -122,8 +122,8 @@ public class PlayerModule : MonoBehaviour
 
 	//[SPECIFIC ACTION NEEDED POUR LES SPELLS]
 	#region
-	public static Action<float> reduceAllCooldown;
-	public static Action<float, En_SpellInput> reduceTargetCooldown;
+	public Action<float> reduceAllCooldown;
+	public Action<float, En_SpellInput> reduceTargetCooldown;
 	public Action upgradeKit, backToNormalKit;
 	#endregion
 
@@ -132,6 +132,10 @@ public class PlayerModule : MonoBehaviour
 
 	//damagesInterruptionetc
 	public Action<LocalPlayer> hitCountered;
+	//buffer input
+	public Action spellResolved;
+	[HideInInspector] public En_SpellInput spellInputedRecorded;
+
 	#endregion
 
 	void Awake ()
@@ -160,15 +164,13 @@ public class PlayerModule : MonoBehaviour
 	{
 		GameManager.Instance.AllCharacterSpawned -= Setup;
 
-		if (!mylocalPlayer.isOwner)
-		{
-
-		}
-		else
+		if (mylocalPlayer.isOwner)
 		{
 			rotationLock -= LockingRotation;
 			reduceAllCooldown -= ReduceAllCooldowns;
 			reduceTargetCooldown -= ReduceCooldown;
+			spellResolved -= BuffInput;
+
 		}
 	}
 	public virtual void Setup ()
@@ -203,12 +205,14 @@ public class PlayerModule : MonoBehaviour
 			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
-
+			spellResolved += BuffInput;
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
 			rotationLock += LockingRotation;
+
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
+
 			mapIcon.color = myColor;
 
 		}
@@ -387,6 +391,7 @@ public class PlayerModule : MonoBehaviour
 
 	protected virtual void FixedUpdate ()
 	{
+
 		TreatEffects();
 		TreatTickEffects();
 	}
@@ -400,6 +405,7 @@ public class PlayerModule : MonoBehaviour
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
+		print("I try to reduce");
 		switch (_spell)
 		{
 			case En_SpellInput.FirstSpell:
@@ -415,6 +421,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.Click:
+				print("Ireduce click cooldown by " + _duration);
 				leftClick.ReduceCooldown(_duration);
 				break;
 
@@ -785,6 +792,27 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(status);
 		}
 		mylocalPlayer.SendState(state);
+	}
+
+	void BuffInput()
+	{
+		switch(spellInputedRecorded)
+		{
+			case En_SpellInput.Click:
+				leftClick.StartCanalysing(mousePos());
+				break;
+			case En_SpellInput.FirstSpell:
+				firstSpell.StartCanalysing(mousePos());
+				break;
+			case En_SpellInput.SecondSpell:
+				secondSpell.StartCanalysing(mousePos());
+				break;
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.StartCanalysing(mousePos());
+				break;
+		}
+
+		spellInputedRecorded = En_SpellInput.Null;
 	}
 
 	IEnumerator CheckForMenace ()

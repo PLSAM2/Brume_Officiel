@@ -10,6 +10,7 @@ public class GA_Debugger : SerializedMonoBehaviour
     [Header("Shader Debugger")]
     [TabGroup("Shader")] public List<Shader> shader = new List<Shader>();
     [TabGroup("Shader")] public string property;
+    public GameObject Brume;
 
     [TabGroup("Shader")]
     [Button("Shader debug")]
@@ -35,5 +36,8 @@ public class GA_Debugger : SerializedMonoBehaviour
         sw = !sw;
     }
 
-
+    public void ActivateBrume()
+    {
+        Brume.SetActive(!Brume.activeInHierarchy);
+    }
 }

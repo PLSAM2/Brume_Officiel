@@ -16,8 +16,6 @@ public class ResurrectAltar : Interactible
 
         WxController wxController = (WxController)capturingPlayerModule;
 
-        UiManager.Instance.ResetPickSoul();
-
         ushort[] IDList = new ushort[wxController.GetPlayersSoulsCount()];
 
         for (int i = 0; i < wxController.GetPlayersSoulsCount(); i++)
