@@ -9,14 +9,17 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume Guu
   m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
-  m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
-    _COLOR_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
+  m_ShaderKeywords: _ADD_PRECOMPUTED_VELOCITY _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON
+    _BRUMEANIMATED_ON _COLOR_ON _DISABLE_SSR _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON
+    _OPACITYBLACK_ON _ROTATIONPAUSE_ON _ROTATORANIMATION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - TransparentBackface
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -151,11 +154,16 @@ Material:
     m_Floats:
     - _1: 1.55
     - _2: 0
+    - _AddPrecomputedVelocity: 1
     - _AlphaCutoff: 0.5
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
     - _Animated: 1
     - _AnimationPause: 1
     - _BetweenFullLowAndHigh05: 1
     - _Black: 0
+    - _BlendMode: 0
     - _BrumeAnimated: 1
     - _BrumeAnimation_RotatorTime: 0.2
     - _BrumeAnimation_WaveFrequency: 0.1
@@ -171,17 +179,22 @@ Material:
     - _BumpScale: 1
     - _Color: 1
     - _ColorLevel: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
     - _CurvFix: 1
     - _Cutoff: 0.5
     - _DepthFade: 0.5
     - _DepthFade_Distance: 0.81
     - _DepthFade_Power: 1
     - _DetailNormalMapScale: 1
-    - _Displacement: 0
+    - _Displacement: 1
     - _DisplacementTexture_Contrast: 0.54
     - _DisplacementTexture_Multiply: 0.48
     - _DisplacementTexture_Multiply1: 1
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
     - _Flipbook_Animation: 0
     - _Flipbook_Columns: 10
     - _Flipbook_Rows: 10
@@ -227,8 +240,11 @@ Material:
     - _Parralax_Scale: 0.02
     - _PerlinNoise_Tiling: 0.12
     - _Power: 1.15
+    - _ReceivesSSR: 0
+    - _RenderQueueType: 1
+    - _RequireSplitLighting: 0
     - _RotationPause: 1
-    - _RotatorAnimation: 0
+    - _RotatorAnimation: 1
     - _RotatorTime: 0.2
     - _Rotator_Time: 0.3
     - _Scale: 0.08
@@ -236,6 +252,20 @@ Material:
     - _SpecularHighlights: 1
     - _Speed: 0.2
     - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TessMax: 50
+    - _TessMin: 0
+    - _TessValue: 32
     - _Tesselation: 0
     - _Tesselation_Factor: 128
     - _Tesselation_Factor1: 15
@@ -246,13 +276,21 @@ Material:
     - _Test: -5.92
     - _Texture_Tiling: 2.13
     - _Tiling: 1
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentSortPriority: 0
+    - _TransparentZWrite: 1
     - _UVSec: 0
     - _UV_Animation: 0
+    - _UseShadowThreshold: 0
     - _WaveFrequency: 0.1
     - _WaveLength: 0.3
     - _WaveNoiseContrast: 5
     - _WaveSpeed: 2
     - _WaveStrength: 0.15
+    - _ZTestDepthEqualForOpaque: 3
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
     - _ZWrite: 1
     - __dirty: 0
     - _distancePlane: 1
@@ -265,7 +303,7 @@ Material:
     - _BrumeColorHigh: {r: 0.8349056, g: 0.9806515, b: 1, a: 0}
     - _BrumeColorLow: {r: 0, g: 0.07408519, b: 0.3679245, a: 0}
     - _BrumeColor_ColorHigh: {r: 1, g: 1, b: 1, a: 0}
-    - _BrumeColor_ColorLow: {r: 0.3690813, g: 0.4680194, b: 0.5471698, a: 1}
+    - _BrumeColor_ColorLow: {r: 0.36908114, g: 0.46801937, b: 0.5471698, a: 1}
     - _BrumeFullColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.9245283, g: 0.87557554, b: 0.8155037, a: 0}
@@ -273,7 +311,8 @@ Material:
     - _Color2: {r: 0.39999998, g: 0.44705886, b: 0.50980395, a: 1}
     - _Color3: {r: 1, g: 1, b: 1, a: 0}
     - _DistortSpeed: {r: 0.1, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PannerSpeed: {r: 0.1, g: 0, b: 0, a: 0}
     - _PerlinNoise_PannerSpeed: {r: 0.3, g: 0, b: 0, a: 0}
