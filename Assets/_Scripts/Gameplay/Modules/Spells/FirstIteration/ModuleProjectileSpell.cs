@@ -38,7 +38,7 @@ public class ModuleProjectileSpell : SpellModule
 		{
             localTrad = spell as Sc_ProjectileSpell;
             myLiveSalve = localTrad.salveInfos;
-            offsetHeight = GetComponent<CapsuleCollider>().height / 2;
+            offsetHeight = GetComponent<CharacterController>().height / 2;
 
             if (localTrad.salveInfos.numberOfShotInSalve > 1)
 				myPreviewBurst = PreviewManager.Instance.GetShapePreview();
