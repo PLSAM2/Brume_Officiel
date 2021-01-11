@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using static GameData;
 using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class UiManager : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIconOnScreen;
     [FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
+    [FoldoutGroup("Other Gameplay")] public Image hitFeedback;
 
     private GameObject actualChar;
     private GameObject actualUnlockedAltar = null;
@@ -668,5 +670,24 @@ public class UiManager : MonoBehaviour
         }
 
     }
+    public void FeedbackHit()
+	{
+        hitFeedback.DOKill();
+        hitFeedback.color = new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 1);
+        int randomXSize = UnityEngine.Random.Range(-100, 100);
+        int randomYSize = UnityEngine.Random.Range(-100, 100);
+
+        if (randomXSize > 0)
+            hitFeedback.rectTransform.localScale = new Vector2(1,hitFeedback.rectTransform.localScale.y);
+        else
+            hitFeedback.rectTransform.localScale = new Vector2(-1, hitFeedback.rectTransform.localScale.y);
+
+        if(randomYSize>0)
+            hitFeedback.rectTransform.localScale = new Vector2( hitFeedback.rectTransform.localScale.x,1);
+        else
+            hitFeedback.rectTransform.localScale = new Vector2(hitFeedback.rectTransform.localScale.x, -1);
+
+        hitFeedback.DOColor(new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 0), 1.2f);
+	}
 
 }
