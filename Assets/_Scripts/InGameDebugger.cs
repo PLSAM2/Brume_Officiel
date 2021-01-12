@@ -114,7 +114,7 @@ public class InGameDebugger : MonoBehaviour
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 1000;
 
-            GameManager.Instance.networkPlayers[(ushort)wxID].DealDamages(_temp, Vector3.zero);
+            GameManager.Instance.networkPlayers[(ushort)wxID].DealDamages(_temp, Vector3.zero, GameManager.Instance.currentLocalPlayer.myPlayerId);
         }
     }
 

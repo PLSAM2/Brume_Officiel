@@ -120,7 +120,7 @@ public class Module_Cac : SpellModule
 				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
 				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-					_playerTouched.DealDamages(localTrad.normalAttack.damagesToDeal, transform.position);
+					_playerTouched.DealDamages(localTrad.normalAttack.damagesToDeal, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
 			}
 		}
 	}
