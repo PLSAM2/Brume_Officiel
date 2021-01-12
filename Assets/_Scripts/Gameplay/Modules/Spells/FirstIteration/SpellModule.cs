@@ -26,8 +26,8 @@ public class SpellModule : MonoBehaviour
 		set
 		{
 			_charges = value;
-			if (_charges == spell.numberOfCharge)
-				cooldown = finalCooldownValue();
+			/*if (_charges == spell.numberOfCharge)
+				cooldown = finalCooldownValue();*/
 
 			UpdateUiCharge();
 			ChargeUpdate?.Invoke(charges);
@@ -60,7 +60,8 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
-		cooldown = finalCooldownValue();
+		cooldown = 0;
+
 		actionLinked = _actionLinked;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
@@ -272,9 +273,11 @@ public class SpellModule : MonoBehaviour
 			throwbackTime = 0;
 			isUsed = true;
 			StartCanalysingFeedBack();
-			DecreaseCharge();
 			mousePosInputed = _BaseMousePos;
 			ApplyCanalisationEffect();
+
+			DecreaseCharge();
+
 
 			if (spell.statusToApplyOnCanalisation.Count > 0)
 			{
@@ -404,11 +407,11 @@ public class SpellModule : MonoBehaviour
 	{
 		if (charges < spell.numberOfCharge)
 		{
-			if (cooldown >= 0)
-				cooldown -= Time.fixedDeltaTime;
+			if (cooldown <= spell.cooldown)
+				cooldown += Time.fixedDeltaTime;
 			else
 			{
-				cooldown = finalCooldownValue();
+				cooldown = 0;
 				AddCharge();
 			}
 		}
@@ -422,7 +425,9 @@ public class SpellModule : MonoBehaviour
 	public void ReduceCooldown ( float _durationShorten )
 	{
 		if (charges < spell.numberOfCharge)
-			cooldown -= _durationShorten;
+			cooldown += _durationShorten;
+
+		print(cooldown);
 	}
 	protected virtual bool canBeCast ()
 	{
@@ -494,7 +499,7 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual float finalCooldownValue ()
 	{
-		return spell.cooldown + spell.throwBackDuration;
+		return 0;
 	}
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
 	{ return spell.forcedMovementAppliedBeforeResolution; }
@@ -511,7 +516,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void UpdateUiCooldown ()
 	{
 		if (!isAComboPiece)
-			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, finalCooldownValue());
+			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 	}
 	protected virtual void UpdateUiCharge ()
 	{

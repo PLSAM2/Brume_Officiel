@@ -9,25 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e928c7f3c3488d4c85b5caff876dd93, type: 3}
-  m_Name: Re_HurtingDash
+  m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
+  m_Name: Leng_BaseAttack_spell
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 3
+  cooldown: 2.5
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 1
-  canalisationTime: 0.22
+  canalisationTime: 1
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.05
-  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 4ce5197c2cc3fa04bb3786c49f81acbe, type: 2}
+  anonciationTime: 0.5
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd:
-  - {fileID: 11400000, guid: e249aae94ef799048a101553e1e7f340, type: 2}
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 4e8604368a02b014db67af542b70351f, type: 3}
-  bonusDash: 0
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0.2
+  spellIcon: {fileID: 21300000, guid: 7cd1c76f0bbc04848b8e86439cdc7b2c, type: 3}
