@@ -6,7 +6,7 @@ public class AudioElement : MonoBehaviour
 {
     AudioClip _myAudioClip;
 
-    [SerializeField] AudioSource _myAudioSource;
+    public AudioSource _myAudioSource;
 
     bool follow = false;
     Transform objFollowing;

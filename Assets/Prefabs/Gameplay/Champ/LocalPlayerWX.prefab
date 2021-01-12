@@ -1,5 +1,169 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2195098234085196020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c90e784a41f2b74cb7fc66f296cae90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 107893b2a050e4c4984a5f0a93ff0697, type: 2}
+  isAComboPiece: 0
+  myPlayerModule: {fileID: 0}
+  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  anonciationClip: {fileID: 0}
+  ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
+  lifeTime: 5
+  ghostSpeed: 5
+  raduisFowShili: 1
+--- !u!114 &3531483061060426797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5534e6e1c424b894d93c4b93d0372367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
+  isAComboPiece: 0
+  myPlayerModule: {fileID: 0}
+  canalisationClip: {fileID: 8300000, guid: cbecc578d57d526489385d1ea442fa9b, type: 3}
+  anonciationClip: {fileID: 0}
+--- !u!114 &4933660271494748642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af82fcad9f136940b1c3266430fdf6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 146e0df56fee9684db2cfd46c417c61c, type: 2}
+  isAComboPiece: 0
+  myPlayerModule: {fileID: 0}
+  canalisationClip: {fileID: 8300000, guid: 5ce5bb1f9ea6e7740b1848538caec0d0, type: 3}
+  anonciationClip: {fileID: 0}
+  thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
+--- !u!114 &5231333726942406148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267693a017734b4479e594dda07ffaae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSpellKey: 324
+  secondSpellKey: 32
+  thirdSpellKey: 101
+  freeCamera: 308
+  crouching: 304
+  cancelSpellKey: 306
+  interactKey: 102
+  wardKey: 118
+  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
+  teamIndex: 0
+  revelationRangeWhileHidden: 4.5
+  rootParticle: {fileID: 2655207896814121437}
+  slowParticle: {fileID: 6708919723457648175}
+  spedUpParticle: {fileID: 5332177646509037442}
+  silencedParticle: {fileID: 6878991902413843271}
+  embourbedParticle: {fileID: 2226708474839196671}
+  _isInBrume: 0
+  oldState: 1
+  brumeId: 0
+  isInGhost: 0
+  enemyTeamColor: {r: 0.85490197, g: 0.28627452, b: 0.3019608, a: 1}
+  myTeamColor: {r: 0.40784314, g: 0.6784314, b: 0.9490196, a: 1}
+  myColor: {r: 0.14901961, g: 0.8392157, b: 0.06666667, a: 1}
+  allHitTaken: []
+  mapIcon: {fileID: 8558393311301056792}
+  movementPart: {fileID: 7156413905369074569}
+  firstSpell: {fileID: 3531483061060426797}
+  secondSpell: {fileID: 2195098234085196020}
+  thirdSpell: {fileID: 4933660271494748642}
+  leftClick: {fileID: 5536350898603478200}
+  ward: {fileID: 8913684591376409635}
+  mylocalPlayer: {fileID: 0}
+  interactiblesClose: []
+  menacedIcon: {fileID: 2349017275641948108}
+  allEffectLive: []
+  allTickLive: []
+  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
+  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
+  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
+  isPoisonousEffectActive: 0
+  cursedByShili: 0
+  wxMark: {fileID: 3406981713847985507}
+  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
+  spellInputedRecorded: 0
+  altarDebuffTrail: {fileID: 2492408407028061013}
+  outlineDebuffCooldown: 10
+  outlineDebuffTime: 3
+  objectToShowOnOutlineDebuff:
+  - {fileID: 455721093710559040}
+--- !u!114 &5536350898603478200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3179bd2bad9442d4db4a33aa43297aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 9c70b02130f955d48b37715f228dfe2a, type: 2}
+  isAComboPiece: 0
+  myPlayerModule: {fileID: 0}
+  canalisationClip: {fileID: 8300000, guid: 976135e908d38b544b849e79d67afe3d, type: 3}
+  anonciationClip: {fileID: 0}
+  rayWidthDivider: 4
+  raycastCount: 3
 --- !u!1 &111940109917362628
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,171 +318,6 @@ Transform:
   m_Father: {fileID: 4459679795679916480}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2195098234085196020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c90e784a41f2b74cb7fc66f296cae90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 107893b2a050e4c4984a5f0a93ff0697, type: 2}
-  isAComboPiece: 0
-  myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
-  anonciationClip: {fileID: 0}
-  ghostPrefab: {fileID: 4371811094696334752, guid: 979476605d6621e4ea04bf16fc069f46, type: 3}
-  lifeTime: 5
-  ghostSpeed: 5
-  raduisFowShili: 1
---- !u!114 &3531483061060426797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5534e6e1c424b894d93c4b93d0372367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
-  isAComboPiece: 0
-  myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 8300000, guid: cbecc578d57d526489385d1ea442fa9b, type: 3}
-  anonciationClip: {fileID: 0}
---- !u!114 &4933660271494748642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1af82fcad9f136940b1c3266430fdf6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 146e0df56fee9684db2cfd46c417c61c, type: 2}
-  isAComboPiece: 0
-  myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 8300000, guid: 5ce5bb1f9ea6e7740b1848538caec0d0, type: 3}
-  anonciationClip: {fileID: 0}
-  thirdEyeShockWavePrefab: {fileID: 6333164632965756411, guid: 18c0ecd2dcda77a49a4697f23847d148, type: 3}
---- !u!114 &5231333726942406148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 267693a017734b4479e594dda07ffaae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSpellKey: 324
-  secondSpellKey: 32
-  thirdSpellKey: 101
-  freeCamera: 308
-  crouching: 304
-  cancelSpellKey: 306
-  interactKey: 102
-  wardKey: 118
-  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  teamIndex: 0
-  revelationRangeWhileHidden: 4.5
-  rootParticle: {fileID: 2655207896814121437}
-  slowParticle: {fileID: 6708919723457648175}
-  spedUpParticle: {fileID: 5332177646509037442}
-  silencedParticle: {fileID: 6878991902413843271}
-  embourbedParticle: {fileID: 2226708474839196671}
-  _isInBrume: 0
-  oldState: 1
-  brumeId: 0
-  isInGhost: 0
-  isInBrumeBeforeGhost: 0
-  brumeIdBeforeGhost: 0
-  enemyTeamColor: {r: 0.85490197, g: 0.28627452, b: 0.3019608, a: 1}
-  myTeamColor: {r: 0.40784314, g: 0.6784314, b: 0.9490196, a: 1}
-  myColor: {r: 0.14901961, g: 0.8392157, b: 0.06666667, a: 1}
-  allHitTaken: []
-  mapIcon: {fileID: 8558393311301056792}
-  movementPart: {fileID: 7156413905369074569}
-  firstSpell: {fileID: 3531483061060426797}
-  secondSpell: {fileID: 2195098234085196020}
-  thirdSpell: {fileID: 4933660271494748642}
-  leftClick: {fileID: 5536350898603478200}
-  ward: {fileID: 8913684591376409635}
-  mylocalPlayer: {fileID: 0}
-  interactiblesClose: []
-  menacedIcon: {fileID: 2349017275641948108}
-  allEffectLive: []
-  allTickLive: []
-  enteringBrumeStatus: {fileID: 11400000, guid: df8f55b52ebbd0649acca381b4d1513a, type: 2}
-  leavingBrumeStatus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
-  poisonousEffect: {fileID: 11400000, guid: 26030b7ce04e67440a77ec5f914f159c, type: 2}
-  isPoisonousEffectActive: 0
-  cursedByShili: 0
-  wxMark: {fileID: 3406981713847985507}
-  wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-  altarDebuffTrail: {fileID: 2492408407028061013}
-  outlineDebuffCooldown: 10
-  outlineDebuffTime: 3
-  objectToShowOnOutlineDebuff:
-  - {fileID: 455721093710559040}
---- !u!114 &5536350898603478200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3179bd2bad9442d4db4a33aa43297aff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 9c70b02130f955d48b37715f228dfe2a, type: 2}
-  isAComboPiece: 0
-  myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 8300000, guid: 976135e908d38b544b849e79d67afe3d, type: 3}
-  anonciationClip: {fileID: 0}
-  rayWidthDivider: 4
-  raycastCount: 3
 --- !u!1 &1380234720182467712
 GameObject:
   m_ObjectHideFlags: 0
