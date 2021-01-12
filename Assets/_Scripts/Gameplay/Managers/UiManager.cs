@@ -657,6 +657,11 @@ public class UiManager : MonoBehaviour
     }
     public void FeedbackHit()
 	{
+        if (hitFeedback == null)
+        {
+            return;
+        }
+
         hitFeedback.DOKill();
         hitFeedback.color = new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 1);
         int randomXSize = UnityEngine.Random.Range(-100, 100);
