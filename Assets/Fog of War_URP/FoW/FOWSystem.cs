@@ -88,6 +88,7 @@ public class FOWSystem : MonoBehaviour
 	float mElapsed = 0f;
 
 	public Color unexploredColor = new Color(0.05f, 0.05f, 0.05f, 1f);
+	public Color exploredColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 
 	public int worldSize = 256;
 	public int textureSize = 128;
@@ -215,6 +216,7 @@ public class FOWSystem : MonoBehaviour
 		Vector4 p = new Vector4(-x * invScale, -z * invScale, invScale, mBlendFactor);
 
 		Shader.SetGlobalColor("_FOWUnexplored", unexploredColor);
+		Shader.SetGlobalColor("_FOWExplored", exploredColor);
 		Shader.SetGlobalVector("_FOWParams", p);
 		Shader.SetGlobalTexture("_FOWTex0", mTexture0);
 		Shader.SetGlobalTexture("_FOWTex1", mTexture1);
