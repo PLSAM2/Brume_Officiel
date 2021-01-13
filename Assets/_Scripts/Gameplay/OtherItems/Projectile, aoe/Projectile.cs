@@ -146,7 +146,6 @@ public class Projectile : AutoKill
 
 	public void Collide ( RaycastHit _hit )
 	{
-		print(_hit.collider.name);
 		if (bouncingNumberLive == 0)
 		{
 			hasTouched = true;

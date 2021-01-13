@@ -87,8 +87,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-	bool isWx = false;
-	public static Action wuXinTookDamages;
+	public Action wuXinTookDamages;
 
 	private void Awake ()
 	{
@@ -113,14 +112,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		nameText.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
 		lifeImg.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
-		if (GetComponent<WxController>() == null)
-			isWx = true;
-
-		if (!isWx && 
-			myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
-			isOwner)
-			wuXinTookDamages += PingRadarRed;
-
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -131,6 +122,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+
+		if (!GetComponent<WxController>() && 
+		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
+		isOwner)
+		{
+			wuXinTookDamages += PingRadarRed;
+		}
 
 		if (isOwner)
 		{
@@ -535,6 +533,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			UiManager.Instance.FeedbackHit();
+
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				myPlayerModule.ApplyWxMark(dealerID);
@@ -542,8 +541,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
-			if (isWx)
-				wuXinTookDamages?.Invoke();
+			if (GetComponent<WxController>()!= null)
+				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
 		}
 
 
@@ -837,6 +836,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void PingRadarRed ()
 	{
+		print("I ping");
 		redDotRadar.SetTrigger("Trigger");
 	}
 
