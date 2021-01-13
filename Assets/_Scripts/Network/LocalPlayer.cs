@@ -169,7 +169,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-
 		//ui life
 		lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
 
