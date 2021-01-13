@@ -13,6 +13,6 @@ public class ChatMessageControl : MonoBehaviour
     {
         this.sender = sender;
         timeText.text = UiManager.Instance.timer.text;
-        messageText.text = sender.Name + " : " + messageContent;
+        messageText.text = sender.Name + " : " + messageContent; ;
     }
 }
