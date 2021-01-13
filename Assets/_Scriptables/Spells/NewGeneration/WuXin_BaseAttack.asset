@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: WuXin_BaseAttack
   m_EditorClassIdentifier: 
-  range: 7
+  range: 8
   cooldown: 1
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0
-  statusToApplyOnCanalisation: []
+  canalisationTime: 0.6
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
@@ -31,7 +32,7 @@ MonoBehaviour:
   spellIcon: {fileID: 0}
   damagesToDeal:
     playerName: 
-    damageHealth: 0
+    damageHealth: 1
     statusToApply: []
     movementToApply: {fileID: 0}
     stateNeeded: 128
@@ -44,7 +45,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1
+    timeToReachMaxRange: 0.2
     timeToResolveTheSalve: 0
   isMultiple: 0
   angleToSplit: 0
