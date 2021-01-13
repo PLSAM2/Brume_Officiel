@@ -123,7 +123,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
 
-		if (!GetComponent<WxController>() && 
+		if (GetComponent<WxController>() == null && 
 		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
 		isOwner)
 		{
