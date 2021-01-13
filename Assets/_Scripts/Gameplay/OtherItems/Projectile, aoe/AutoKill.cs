@@ -8,8 +8,8 @@ public class AutoKill : MonoBehaviour
 {
 	[HideInInspector] [TabGroup("AutokillParameters")] public float mylifeTime;
 	[HideInInspector] [TabGroup("AutokillParameters")] public float myLivelifeTime;
-	[TabGroup("AutokillParameters")] [SerializeField] GameObject meshBlue;
-	[TabGroup("AutokillParameters")] [SerializeField] GameObject meshRed;
+	[TabGroup("AutokillParameters")] public SpriteRenderer meshBlue;
+	[TabGroup("AutokillParameters")] public SpriteRenderer meshRed;
 
 	[HideInInspector] public Team myteam;
 	[HideInInspector] public NetworkedObject myNetworkObject;
@@ -31,11 +31,11 @@ public class AutoKill : MonoBehaviour
 		switch (myteam)
 		{
 			case Team.red:
-				meshRed.SetActive(true);
+				meshRed.gameObject.SetActive(true);
 				break;
 
 			case Team.blue:
-				meshBlue.SetActive(true);
+				meshBlue.gameObject.SetActive(true);
 				break;
 		}
 
@@ -52,8 +52,8 @@ public class AutoKill : MonoBehaviour
 
 	protected virtual void Destroy ()
 	{
-		meshBlue.SetActive(false);
-		meshRed.SetActive(false);
+		meshBlue.gameObject.SetActive(false);
+		meshRed.gameObject.SetActive(false);
 
 		if (this.GetComponent<NetworkedObject>().GetIsOwner())
 		{

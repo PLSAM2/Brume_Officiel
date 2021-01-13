@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68de194a6bd405c40bc44793eb3c5df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myHurtingDash: {fileID: 0}
+  myHurtingDash: {fileID: 9035810358057001572}
 --- !u!1 &1496450078148680227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2474,8 +2474,8 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: fb4969596fbf3a347b898ff5767666b8, type: 2}
   isAComboPiece: 0
   myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 8300000, guid: b2e9d5d063184c84f976a2bc2cf291b8, type: 3}
+  canalisationClip: {fileID: 8300000, guid: 1b08c05ee5a3638429466bf255e75597, type: 3}
+  anonciationClip: {fileID: 8300000, guid: 943125b275c90bc47a81e0f119106a9d, type: 3}
   hurtingBoxWidth: 0.8
   damages:
     playerName: 
@@ -2486,6 +2486,7 @@ MonoBehaviour:
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
+  cooldownReduction: 2.5
   hurtBox: {fileID: 9120248746453462083}
 --- !u!1 &7824080708604071312
 GameObject:
@@ -3038,6 +3039,10 @@ PrefabInstance:
     - target: {fileID: 398794112223617361, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.159
+      objectReference: {fileID: 0}
+    - target: {fileID: 639526925569538375, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 669077784601782018, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_IsActive

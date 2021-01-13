@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Re_HurtingDash
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 0.5
+  cooldown: 3
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 1
@@ -26,7 +26,8 @@ MonoBehaviour:
   forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 4ce5197c2cc3fa04bb3786c49f81acbe, type: 2}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd: []
-  throwBackDuration: 0.2
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: e249aae94ef799048a101553e1e7f340, type: 2}
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 4e8604368a02b014db67af542b70351f, type: 3}
   bonusDash: 0
