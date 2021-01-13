@@ -39,6 +39,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
 	[TabGroup("Ui")] public GameObject pointerObj;
 	[TabGroup("Ui")] public Quaternion compassRot;
+	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
 	[TabGroup("Ui")] public LocalPlayer wxRef;
 
 	private Camera mainCam;
@@ -86,6 +87,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
+	bool isWx = false;
+	public static Action wuXinTookDamages;
 
 	private void Awake ()
 	{
@@ -110,6 +113,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		nameText.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
 		lifeImg.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
+		if (GetComponent<WxController>() == null)
+			isWx = true;
+
+		if (!isWx && 
+			myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
+			isOwner)
+			wuXinTookDamages += PingRadarRed;
+
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -277,6 +288,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
+
+			if (GetComponent<WxController>() == null)
+				wuXinTookDamages -= PingRadarRed;
 		}
 	}
 
@@ -513,7 +527,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
-		print("I deal DAamge local");
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -527,10 +540,15 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
+		else
+		{
+			if (isWx)
+				wuXinTookDamages?.Invoke();
+		}
+
 
 		if ((int)liveHealth - (int)damages <= 0)
 		{
-			print("I Should Die");
 			if (isOwner)
 			{
 				if (dealerID != null)
@@ -815,6 +833,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public bool IsInMyTeam ( Team _indexTested )
 	{
 		return myPlayerModule.teamIndex == _indexTested;
+	}
+
+	public void PingRadarRed ()
+	{
+		redDotRadar.SetTrigger("Trigger");
+	}
+
+	public void PingRadarYellow ()
+	{
+		yellowDotRadar.SetTrigger("Trigger");
 	}
 
 
