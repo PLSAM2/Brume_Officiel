@@ -26,6 +26,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("ActualGameInfo")]
     public int roundCount = 0;
+    public int ultimateStacks = 0;
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
     [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 

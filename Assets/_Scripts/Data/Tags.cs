@@ -21,6 +21,7 @@
     public static readonly ushort AskForCharacterSwap = 145;
     public static readonly ushort CharacterSwap = 146;
     public static readonly ushort RefuseCharacterSwap = 147;
+    public static readonly ushort NewChatMessage = 160;
     // <<
 
     // InGame 300 --> XXXX >>   
