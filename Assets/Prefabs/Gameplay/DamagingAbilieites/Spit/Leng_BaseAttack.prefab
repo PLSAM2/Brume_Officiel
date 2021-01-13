@@ -24,9 +24,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 807547197683120078}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5000001, z: 1.5000001}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 5, z: 0}
   m_Children: []
   m_Father: {fileID: 3542970923992617342}
   m_RootOrder: 0
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 805e93a5697e8c04b971d3533fb3f127, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 4e8af7f6431c5af49af06a99d23985a3, type: 3}
   m_Color: {r: 0.04045032, g: 0.24281974, b: 0.9528302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,9 +106,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809273859605590982}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5000001, z: 1.5000001}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 5, z: 0}
   m_Children: []
   m_Father: {fileID: 3542970923992617342}
   m_RootOrder: 1
@@ -152,8 +152,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 805e93a5697e8c04b971d3533fb3f127, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 4e8af7f6431c5af49af06a99d23985a3, type: 3}
   m_Color: {r: 0.7735849, g: 0, b: 0.023443788, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -222,7 +222,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8, y: 1, z: 8}
+  m_Size: {x: 3, y: 1, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4132313031495079724
 GameObject:
@@ -248,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4132313031495079724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7413957656858536171}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 5624599934099963903}
   - component: {fileID: 9188923623546187145}
   m_Layer: 20
-  m_Name: SpitAtTheEndOfDIve
+  m_Name: Leng_BaseAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,8 +309,8 @@ MonoBehaviour:
   myteam: 0
   myNetworkObject: {fileID: 9188923623546187145}
   isOwner: 0
-  spawnSound: {fileID: 0}
-  localTrad: {fileID: 11400000, guid: e99a07fe13d60ca48bdd06b1611f967a, type: 2}
+  spawnSound: {fileID: 8300000, guid: 19f086b1a406cbc4eb0809148baf05fa, type: 3}
+  localTrad: {fileID: 11400000, guid: e9b3a9827cbc53d42a22ba604d6e5ca3, type: 2}
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0

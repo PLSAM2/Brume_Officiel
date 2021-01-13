@@ -24,6 +24,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
     [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
     [FoldoutGroup("GlobalUi")] public Camera cameraMinimap;
+    [FoldoutGroup("GlobalUi")] public ChatControl chat;
 
     private bool waitForMinimapUpdate = false;
 
@@ -411,32 +412,32 @@ public class UiManager : MonoBehaviour
         echapMenu.SetActive(!echapMenu.activeInHierarchy);
     }
 
-    public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
+    public void UpdateUiCooldownSpell(En_SpellInput spell, float _timeRemaining, float _completeCd)
     {
 
         switch (spell)
         {
             case En_SpellInput.FirstSpell:
-                firstSpell.UpdateFillAmount(_time, _completeCd);
+                firstSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.SecondSpell:
-                secondSpell.UpdateFillAmount(_time, _completeCd);
+                secondSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.ThirdSpell:
-                thirdSpell.UpdateFillAmount(_time, _completeCd);
+                thirdSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.Maj:
-                sprintIcon.UpdateFillAmount(_time, _completeCd);
+                sprintIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.Click:
-                autoAttackIcon.UpdateFillAmount(_time, _completeCd);
+                autoAttackIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
             case En_SpellInput.Ward:
-                wardIcon.UpdateFillAmount(_time, _completeCd);
+                wardIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
         }
     }

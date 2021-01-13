@@ -32,13 +32,7 @@ public class IconUi : MonoBehaviour
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
 			//	cooldownCount.text = "" +  Mathf.RoundToInt(_cooldownRemaining).ToString();
-			fillAmount.fillAmount = _cooldownRemaining / _completeCd;
-
-		}
-		else
-		{
-			fillAmount.fillAmount = 0;
-			//cooldownCount.text = " ";
+			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
 		}
 	}
 

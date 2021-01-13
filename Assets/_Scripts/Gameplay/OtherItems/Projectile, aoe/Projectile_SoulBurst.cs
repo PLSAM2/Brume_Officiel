@@ -40,7 +40,7 @@ public class Projectile_SoulBurst : Projectile
 	{
 		foreach (LocalPlayer P in GetAllNearbyPlayers())
 		{
-			P.DealDamages(damagesExplosion, transform.position);
+			P.DealDamages(damagesExplosion, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
 		}
 	}
 
