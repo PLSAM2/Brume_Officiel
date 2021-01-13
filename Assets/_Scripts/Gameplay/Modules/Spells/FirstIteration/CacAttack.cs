@@ -227,7 +227,7 @@ public class CacAttack : SpellModule
 				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
 
 				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position);
+					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
 			}
 		}
 	}

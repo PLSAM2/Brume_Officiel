@@ -21,6 +21,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public Action<float> OnVolumeChange;
 
+    public Action<Vector3> OnAudioPlay;
+
     [SerializeField] AudioSource backGroundMusic;
 
     public List<AudioClip> networkAudio = new List<AudioClip>();
@@ -46,12 +48,14 @@ public class AudioManager : SerializedMonoBehaviour
 
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
-        client.MessageReceived += OnMessageReceive;
+
+
     }
 
     private void OnEnable()
     {
         OnVolumeChange += OnMasterVolumeChange;
+        client.MessageReceived += OnMessageReceive;
     }
 
     private void OnDisable()
@@ -175,7 +179,7 @@ public class AudioManager : SerializedMonoBehaviour
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
         _myAudioElement.Init(_clip, 1, _volume);
-
+        OnAudioPlayed(_position, _myAudioElement);
         return _myAudioElement;
     }
 
@@ -184,6 +188,7 @@ public class AudioManager : SerializedMonoBehaviour
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
         _myAudioElement.Init(_clip, 1, _volume);
+        OnAudioPlayed(_followObj.position, _myAudioElement);
 
         return _myAudioElement;
     }
@@ -191,6 +196,15 @@ public class AudioManager : SerializedMonoBehaviour
     public void OnAudioFinish(AudioElement _audio)
     {
         allAudioElement[_audio] = false;
+    }
+
+    public void OnAudioPlayed(Vector3 pos, AudioElement _myAudioElement)
+    {
+        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < _myAudioElement._myAudioSource.maxDistance )
+        {
+            OnAudioPlay?.Invoke(pos);
+        }
+
     }
 
     AudioElement GetFreeAudioElement()

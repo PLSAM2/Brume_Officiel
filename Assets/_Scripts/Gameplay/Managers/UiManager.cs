@@ -411,32 +411,32 @@ public class UiManager : MonoBehaviour
         echapMenu.SetActive(!echapMenu.activeInHierarchy);
     }
 
-    public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
+    public void UpdateUiCooldownSpell(En_SpellInput spell, float _timeRemaining, float _completeCd)
     {
 
         switch (spell)
         {
             case En_SpellInput.FirstSpell:
-                firstSpell.UpdateFillAmount(_time, _completeCd);
+                firstSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.SecondSpell:
-                secondSpell.UpdateFillAmount(_time, _completeCd);
+                secondSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.ThirdSpell:
-                thirdSpell.UpdateFillAmount(_time, _completeCd);
+                thirdSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.Maj:
-                sprintIcon.UpdateFillAmount(_time, _completeCd);
+                sprintIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.Click:
-                autoAttackIcon.UpdateFillAmount(_time, _completeCd);
+                autoAttackIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
             case En_SpellInput.Ward:
-                wardIcon.UpdateFillAmount(_time, _completeCd);
+                wardIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
         }
     }
@@ -657,6 +657,11 @@ public class UiManager : MonoBehaviour
     }
     public void FeedbackHit()
 	{
+        if (hitFeedback == null)
+        {
+            return;
+        }
+
         hitFeedback.DOKill();
         hitFeedback.color = new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 1);
         int randomXSize = UnityEngine.Random.Range(-100, 100);

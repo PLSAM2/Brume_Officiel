@@ -134,6 +134,17 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     }
 
 
+    public GameObject LocalInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, bool OnlyLocal = false)
+    {
+        GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
+
+        _tempObject.transform.position = position;
+        _tempObject.transform.rotation = Quaternion.Euler(eulerAngles);
+        _tempObject.SetActive(true);
+
+        return _tempObject;
+    }
+
     /// <summary>
     /// Use linq / Not efficient in Update
     /// </summary>
@@ -142,7 +153,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     /// <param name="eulerAngles"></param>
     public GameObject NetworkInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles)
     {
-
         GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
 
         ushort uniqueObjId = GenerateUniqueObjID();
@@ -164,24 +174,27 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetLocalPlayer().playerTeam);
         }*/
 
-        // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
-        using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        {
-            writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
-            writer.Write(networkedObjectID);
-            writer.Write(uniqueObjId);
 
-            writer.Write(position.x);
-            writer.Write(position.z);
 
-            writer.Write(eulerAngles.x);
-            writer.Write(eulerAngles.y);
-            writer.Write(eulerAngles.z);
+      // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
 
-            using (Message message = Message.Create(Tags.InstantiateObject, writer))
-                client.SendMessage(message, SendMode.Reliable);
-        }
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
+                writer.Write(networkedObjectID);
+                writer.Write(uniqueObjId);
 
+                writer.Write(position.x);
+                writer.Write(position.z);
+
+                writer.Write(eulerAngles.x);
+                writer.Write(eulerAngles.y);
+                writer.Write(eulerAngles.z);
+
+                using (Message message = Message.Create(Tags.InstantiateObject, writer))
+                    client.SendMessage(message, SendMode.Reliable);
+            }
+        
 
         return _tempObject;
     }
