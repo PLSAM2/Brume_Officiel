@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4491483482166061936
+--- !u!1 &8105838790238867161
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2167571039716717182}
-  - component: {fileID: 5643937646671067314}
-  - component: {fileID: 4357159631528089259}
-  m_Layer: 15
+  - component: {fileID: 1863772036174253845}
+  - component: {fileID: 6040006036279723544}
+  - component: {fileID: 7715348708981069589}
+  m_Layer: 14
   m_Name: View Visualisation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2167571039716717182
+  m_IsActive: 0
+--- !u!4 &1863772036174253845
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491483482166061936}
+  m_GameObject: {fileID: 8105838790238867161}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,21 +32,21 @@ Transform:
   m_Father: {fileID: 5103172767365961193}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5643937646671067314
+--- !u!33 &6040006036279723544
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491483482166061936}
+  m_GameObject: {fileID: 8105838790238867161}
   m_Mesh: {fileID: 0}
---- !u!23 &4357159631528089259
+--- !u!23 &7715348708981069589
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491483482166061936}
+  m_GameObject: {fileID: 8105838790238867161}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 5103172767365961193}
   - component: {fileID: 3198480878554853157}
   - component: {fileID: 3306790019849509691}
+  - component: {fileID: 131188826}
   m_Layer: 0
   m_Name: Fow
   m_TagString: Untagged
@@ -110,7 +111,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2167571039716717182}
+  - {fileID: 1863772036174253845}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -130,39 +131,8 @@ MonoBehaviour:
   isStatic: 0
   myFieldOfView: {fileID: 3306790019849509691}
   followSpeed: 10
-  curveIn:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.20544665
-      outSlope: 0.20544665
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.74791837
-      value: 0.15365732
-      inSlope: 0.86903596
-      outSlope: 0.86903596
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.14206326
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 3.3574152
-      outSlope: 3.3574152
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  fowRaduis: 0
+  revealer: {fileID: 131188826}
 --- !u!114 &3306790019849509691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,13 +152,29 @@ MonoBehaviour:
     m_Bits: 8390912
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 2097664
+    m_Bits: 512
   visibleTargets: []
   visibleFx: []
   meshResolution: 0.4
   edgeResolveIterations: 0
   edgeDstThreshold: 0
   maskCutawayDst: 0.1
-  viewMeshFilter: {fileID: 5643937646671067314}
-  myType: 0
+  viewMeshFilter: {fileID: 6040006036279723544}
+  myType: 1
   isStatic: 0
+--- !u!114 &131188826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8593340304288630890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d896faa75ea396d4baf03f14a79a912d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfView: 180
+  range: {x: 2, y: 10}
+  lineOfSightCheck: 2
+  isActive: 1

@@ -101,6 +101,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
 		newNetorkPos = transform.position;
 
+		if (!isOwner)
+			return;
 		AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 	}
 
@@ -177,7 +179,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			}
 		}
-
 
 		//ui life
 		lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
