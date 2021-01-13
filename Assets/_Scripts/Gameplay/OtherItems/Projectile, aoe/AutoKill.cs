@@ -8,8 +8,8 @@ public class AutoKill : MonoBehaviour
 {
 	[HideInInspector] [TabGroup("AutokillParameters")] public float mylifeTime;
 	[HideInInspector] [TabGroup("AutokillParameters")] public float myLivelifeTime;
-	[TabGroup("AutokillParameters")] public SpriteRenderer meshBlue;
-	[TabGroup("AutokillParameters")] public SpriteRenderer meshRed;
+	[TabGroup("AutokillParameters")] public GameObject meshBlue;
+	[TabGroup("AutokillParameters")] public GameObject meshRed;
 
 	[HideInInspector] public Team myteam;
 	[HideInInspector] public NetworkedObject myNetworkObject;
