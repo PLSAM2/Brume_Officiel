@@ -289,9 +289,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AddPrecomputedVelocity: 1
+    - _AlphaCutoff: 0.5
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
     - _BaseColor: 0
+    - _BlendMode: 0
     - _BumpScale: 1
     - _Columns: 1
+    - _CullMode: 2
+    - _CullModeForward: 2
     - _CustomNormal: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
@@ -307,6 +315,8 @@ Material:
     - _DepthFade_Falloff: 3
     - _DepthFade_Texture: 0
     - _DetailNormalMapScale: 1
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
     - _DrippingNoiseTransition: 0
     - _DrippingNoise_Smoothstep: 0.006
     - _DrippingNoise_Step: 0
@@ -315,6 +325,7 @@ Material:
     - _DrippingNoise_Tiling1: 1
     - _DstBlend: 0
     - _EdgeRange: 0
+    - _EnableFogOnTransparent: 1
     - _Flipbook_Columns: 4
     - _Flipbook_Rows: 4
     - _Flipbook_Speed: 8
@@ -395,6 +406,9 @@ Material:
     - _Paper_Tiling: 4
     - _Paper_Tiling1: 1
     - _Parallax: 0.02
+    - _ReceivesSSR: 0
+    - _RenderQueueType: 1
+    - _RequireSplitLighting: 0
     - _RimEdgeNoise: -3.87
     - _RimEdgeNoise_Tiling: 1
     - _RimLight: 0
@@ -433,11 +447,22 @@ Material:
     - _Speed: 1
     - _SrcBlend: 1
     - _StartFrame: 0
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
     - _StepAttenuation: -0.07
     - _StepEdgeNormal: 0.004
     - _StepEdgeVoid: 0.002
     - _StepMidShadow: 0
     - _StepShadow: 0.1
+    - _SurfaceType: 0
     - _TerrainBlending: 0
     - _TerrainBlending_BlendThickness: 0.3
     - _TerrainBlending_Falloff: 30
@@ -453,7 +478,12 @@ Material:
     - _TopTex_Smoothstep1: 0.3
     - _TopTex_Step: 0
     - _TopTex_Step1: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentSortPriority: 0
+    - _TransparentZWrite: 1
     - _UVSec: 0
+    - _UseShadowThreshold: 0
     - _VoidEdge_Step: 0.003
     - _Wave_Speed: 0
     - _WindVertexDisplacement: 0
@@ -461,6 +491,9 @@ Material:
     - _Wind_Direction: 1
     - _Wind_Strength: 0.004
     - _Wind_Texture_Tiling: -0.08
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
     - _ZWrite: 1
     - __dirty: 0
     - _isPlayerInBrume: 0
@@ -485,8 +518,9 @@ Material:
     - _ColorCorrection_Multiply: {r: 1, g: 1, b: 1, a: 0}
     - _ColorCorrection_Multiply1: {r: 1, g: 1, b: 1, a: 0}
     - _ColorMidShadow: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
-    - _ColorShadow: {r: 0.15094209, g: 0.15094209, b: 0.15094209, a: 0}
+    - _ColorShadow: {r: 0.15094206, g: 0.15094206, b: 0.15094206, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _DrippingNoise_Offset: {r: -1.66, g: 0, b: 0, a: 0}
     - _DrippingNoise_Offset1: {r: 0, g: 0, b: 0, a: 0}
     - _EdgeColor: {r: 1, g: 1, b: 1, a: 0}
@@ -513,7 +547,7 @@ Material:
     - _Rougness_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _Rougness_Color1: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _SSS_Color: {r: 1, g: 0.007843138, b: 0, a: 0}
-    - _ShadowColor: {r: 0.405659, g: 0.405659, b: 0.405659, a: 0}
+    - _ShadowColor: {r: 0.40565896, g: 0.40565896, b: 0.40565896, a: 0}
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowGrungeColor: {r: 0.5943396, g: 0.26072443, b: 0.26072443, a: 0}
     - _ShadowInBrumeGrunge_Tiling: {r: 0.5, g: 0.5, b: 0, a: 0}

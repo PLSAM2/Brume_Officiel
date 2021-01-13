@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
-
+using System;
 public class Projectile : AutoKill
 {
 	bool asDeal = false;
@@ -21,15 +21,19 @@ public class Projectile : AutoKill
 	Vector3 startPos;
 
 	[HideInInspector] public bool hasTouched = false;
-	public bool useRb = true;
 	[ShowIf("useRb")] public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
 	[SerializeField] ushort bouncingNumber;
+	ushort bouncingNumberLive;
+	public Action velocityChanged;
+	[SerializeField] LayerMask collisionMask;
+	float projRadius;
 
 	public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
 		startPos = transform.position;
+		bouncingNumberLive = bouncingNumber;
 
 		if (!isOwner)
 		{
@@ -44,15 +48,15 @@ public class Projectile : AutoKill
 		{
 			if (soundFollowObj)
 			{
-				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
+				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform, myNetworkObject.GetItemID(), false);
 			}
 			else
 			{
-				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position);
+				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
-		if (useRb)
-			myRb.velocity = speed * transform.forward;
+
+		myRb.velocity = speed * transform.forward;
 	}
 
 	protected override void OnEnable ()
@@ -64,6 +68,7 @@ public class Projectile : AutoKill
 	private void Start ()
 	{
 		myRb = GetComponent<Rigidbody>();
+		projRadius = GetComponent<SphereCollider>().radius;
 	}
 
 	private void OnTriggerEnter ( Collider other )
@@ -95,35 +100,9 @@ public class Projectile : AutoKill
 		}
 		else
 		{
-			hasTouched = true;
-			Destroy();
+			/*
+			
 		}
-	}
-
-	private void OnCollisionEnter ( Collision collision )
-	{
-		if (bouncingNumber == 0)
-		{
-			hasTouched = true;
-			Destroy();
-		}
-		else
-		{
-			bouncingNumber--;
-			myLivelifeTime = mylifeTime;
-			Vector3 _normalImpact = collision.GetContact(0).normal;
-			Mathf.Atan2(_normalImpact.x, _normalImpact.z);
-			transform.rotation = Quaternion.Euler(collision.GetContact(0).normal);
-		}
-	}
-
-
-	protected override void FixedUpdate ()
-	{
-		if (!useRb)
-			transform.position += transform.forward * speed * Time.fixedDeltaTime;
-
-		base.FixedUpdate();
 	}
 	/*	protected override void FixedUpdate ()
 		{
@@ -131,6 +110,8 @@ public class Projectile : AutoKill
 			base.FixedUpdate();
 		}*/
 
+		}
+	}
 	protected override void Destroy ()
 	{
 		if (hasTouched && doImpactFx)
@@ -146,12 +127,37 @@ public class Projectile : AutoKill
 
 			if (hitSound)
 			{
-				AudioManager.Instance.Play3DAudio(hitSound, transform.position);
+				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
 
 		asDeal = true;
+		bouncingNumberLive = bouncingNumber;
+
 		base.Destroy();
+	}
+
+	private void Update ()
+	{
+		RaycastHit _hit;
+		if (Physics.SphereCast(transform.position, projRadius, myRb.velocity, out _hit,  .2f, LayerMask.GetMask("Environment")))
+			Collide(_hit);
+	}
+
+	public void Collide ( RaycastHit _hit )
+	{
+		if (bouncingNumberLive == 0)
+		{
+			hasTouched = true;
+			Destroy();
+		}
+		else
+		{
+			bouncingNumberLive--;
+			myLivelifeTime = mylifeTime;
+			//	transform.eulerAngles = new Vector3(0, Mathf.Atan2(_newDirection.x, _newDirection.z) * Mathf.Rad2Deg,0);
+			myRb.velocity = speed * Vector3.Reflect(myRb.velocity, _hit.normal).normalized;
+		}
 	}
 }
 

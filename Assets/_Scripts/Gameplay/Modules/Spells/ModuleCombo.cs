@@ -55,8 +55,7 @@ public class ModuleCombo : SpellModule
 
 	void TryToCombo ()
 	{
-
-		allSpellsOfTheCombo[comboIndex].SpellFinished -= TryToCombo;
+		myPlayerModule.spellResolved -= TryToCombo;
 
 		oldIndex = comboIndex;
 
@@ -101,7 +100,7 @@ public class ModuleCombo : SpellModule
 		
 
 		allSpellsOfTheCombo[comboIndex].StartCanalysing(myPlayerModule.mousePos());
-		allSpellsOfTheCombo[comboIndex].SpellFinished += TryToCombo;
+		myPlayerModule.spellResolved += TryToCombo;
 
 		base.ResolveSpell();
 

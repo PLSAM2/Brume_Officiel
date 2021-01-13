@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public class Aoe : AutoKill
 {
 	[TabGroup("AoeParameters")] public Sc_Aoe localTrad;
+	bool asDealtFinal = false;
+	LayerMask layer;
 
 	protected override void Awake ()
 	{
 		mylifeTime = localTrad.rules.durationOfTheAoe;
+		layer = LayerMask.GetMask("Character");
 	}
 	public override void Init ( GameData.Team ownerTeam )
 	{
@@ -25,34 +29,55 @@ public class Aoe : AutoKill
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
-	void DealDamagesInRange (DamagesInfos _damages)
+	void DealDamagesInRange ( DamagesInfos _damages )
 	{
-		Collider[] _allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, 1 << 8);
-		List<GameObject> _allChecked = new List<GameObject>();
+		Collider[] _allhits;
 
-		foreach(Collider _coll in _allhits)
+		if (localTrad.rules.isBox)
+			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2, Quaternion.identity, layer);
+		else
+			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, layer);
+
+		foreach (Collider _coll in _allhits)
 		{
-			LocalPlayer player = _coll.GetComponent<LocalPlayer>();
-
-			if (player.myPlayerModule.teamIndex != GameFactory.GetLocalPlayerObj().myPlayerModule.teamIndex && !_allChecked.Contains(_coll.gameObject))
-			{
-				_allChecked.Add(_coll.gameObject);
-
-				player.DealDamages(_damages, transform.position);
-			}
+			Damageable _damageable = _coll.GetComponent<Damageable>();
+			if (_damageable != null && !_damageable.IsInMyTeam(myteam))
+				_damageable.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
 		}
 
 		StartCoroutine(CustomUpdate());
 	}
 
+	protected override void FixedUpdate ()
+	{
+		base.FixedUpdate();
+		if (myLivelifeTime <= localTrad.rules.timeBeforeFinalDisparition &&
+			localTrad.rules.timeBeforeFinalDisparition != 0 &&
+				!asDealtFinal)
+		{
+			StopAllCoroutines();
+			asDealtFinal = true;
+			DealDamagesInRange(localTrad.rules.finalDamages);
+		}
+	}
+
 	private void OnDrawGizmosSelected ()
 	{
-		Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
+		if (localTrad.rules.isBox)
+			Gizmos.DrawCube(transform.position, localTrad.rules.boxDimension);
+		else
+			Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
 	protected override void Destroy ()
 	{
 		StopAllCoroutines();
 		base.Destroy();
+	}
+
+	protected override void OnEnable ()
+	{
+		base.OnEnable();
+		asDealtFinal = false;
 	}
 }

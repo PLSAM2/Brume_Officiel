@@ -5,15 +5,11 @@ using UnityEngine;
 public class HurtingDash : SpellModule
 {
 	[SerializeField] float hurtingBoxWidth = .8f;
-	[SerializeField] float cooldownRefounded;
 	public DamagesInfos damages;
-	bool hasTouched = false, hasReset = false;
+	bool hasTouched = false;
+	public float cooldownReduction;
 	[SerializeField] HurtingBox hurtBox;
 
-	private void Start ()
-	{
-		hurtBox.myHurtingDash = this;
-	}
 	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		hurtBox.ResetHitbox();
@@ -39,21 +35,26 @@ public class HurtingDash : SpellModule
 		gameObject.layer = 8;
 
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
+
 		base.Interrupt();
-
-		if (hasTouched && !hasReset)
-		{
-			myPlayerModule.reduceTargetCooldown?.Invoke(cooldownRefounded, actionLinked);
-			hasReset = true;
-		}
-		else
-			hasReset = false;
-
 	}
 
 	public void TouchedAnEnemy ( PlayerModule _hitHostile )
 	{
-		_hitHostile.GetComponent<Damageable>().DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
-		hasTouched = true;
+		Damageable _hit = _hitHostile.GetComponent<Damageable>();
+
+		if (_hit != null && !_hit.IsInMyTeam(myPlayerModule.teamIndex))
+		{
+			_hit.DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+
+			if (!hasTouched)
+			{
+				hasTouched = true;
+				ReduceCooldown(cooldownReduction);
+			}
+
+			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .2f)
+				myPlayerModule.movementPart.currentForcedMovement.duration += .2f;
+		}
 	}
 }

@@ -30,6 +30,6 @@ public class TextFeedback : MonoBehaviour
             myAnimator.SetTrigger("Right");
         }
 
-        AudioManager.Instance.Play3DAudio(hitClip, transform.position);
+        AudioManager.Instance.Play3DAudio(hitClip, transform.position, GameFactory.GetLocalPlayerObj().myPlayerId, true);
     }
 }

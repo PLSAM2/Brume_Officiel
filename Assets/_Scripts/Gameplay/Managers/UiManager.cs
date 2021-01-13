@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using static GameData;
 using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class UiManager : MonoBehaviour
 {
@@ -16,14 +17,16 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
     [FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
-    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI round;
+    [FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
     [FoldoutGroup("GlobalUi")] public GameObject echapMenu;
     [FoldoutGroup("GlobalUi")] public GameObject victoryPanel;
     [FoldoutGroup("GlobalUi")] public GameObject loosePanel;
     [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
     [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
     [FoldoutGroup("GlobalUi")] public Camera cameraMinimap;
-    [FoldoutGroup("GlobalUi")] private bool waitForMinimapUpdate = false;
+    [FoldoutGroup("GlobalUi")] public ChatControl chat;
+
+    private bool waitForMinimapUpdate = false;
 
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
@@ -60,11 +63,13 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIconOnScreen;
     [FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
+    [FoldoutGroup("Other Gameplay")] public Image hitFeedback;
 
     private GameObject actualChar;
     private GameObject actualUnlockedAltar = null;
     private float radarRangeXDistanceFromZero = 0;
     private float radarRangeYDistanceFromZero = 0;
+    private int altarCaptured = 0;
 
     [Header("Spec Mode")]
     [FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -139,8 +144,6 @@ public class UiManager : MonoBehaviour
 
             endGameScore.Init(Color.red, Color.blue, redTeamScore, blueTeamScore);
         }
-
-        round.text = "Round : " + RoomManager.Instance.roundCount;
         // <<
     }
 
@@ -298,7 +301,11 @@ public class UiManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetEchapMenuState();
-        }        
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            chat.Focus();
+        }
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
         {
             DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
@@ -390,6 +397,12 @@ public class UiManager : MonoBehaviour
         nextAltarRadarIcon.gameObject.SetActive(true);
     }
 
+    internal void NewAltarCaptured(Team capturingTeam)
+    {
+        uiAltarList.DisplayImage(altarCaptured, capturingTeam);
+        altarCaptured++;
+    }
+
     IEnumerator MinimapUpdate()
     {
         waitForMinimapUpdate = true;
@@ -403,32 +416,32 @@ public class UiManager : MonoBehaviour
         echapMenu.SetActive(!echapMenu.activeInHierarchy);
     }
 
-    public void UpdateUiCooldownSpell(En_SpellInput spell, float _time, float _completeCd)
+    public void UpdateUiCooldownSpell(En_SpellInput spell, float _timeRemaining, float _completeCd)
     {
 
         switch (spell)
         {
             case En_SpellInput.FirstSpell:
-                firstSpell.UpdateFillAmount(_time, _completeCd);
+                firstSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.SecondSpell:
-                secondSpell.UpdateFillAmount(_time, _completeCd);
+                secondSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.ThirdSpell:
-                thirdSpell.UpdateFillAmount(_time, _completeCd);
+                thirdSpell.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.Maj:
-                sprintIcon.UpdateFillAmount(_time, _completeCd);
+                sprintIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
 
             case En_SpellInput.Click:
-                autoAttackIcon.UpdateFillAmount(_time, _completeCd);
+                autoAttackIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
             case En_SpellInput.Ward:
-                wardIcon.UpdateFillAmount(_time, _completeCd);
+                wardIcon.UpdateFillAmount(_timeRemaining, _completeCd);
                 break;
         }
     }
@@ -647,20 +660,29 @@ public class UiManager : MonoBehaviour
 
         toDisableInEndGame.SetActive(false);
     }
-
-    public void PickSoul(Character character)
-    {
-        int characterToInt = ((ushort)character / 10) - 1;
-
-        allyIconUIs[characterToInt].SetPickSoul(true);
-    }
-    public void ResetPickSoul()
-    {
-        foreach (AllyIconUI item in allyIconUIs)
+    public void FeedbackHit()
+	{
+        if (hitFeedback == null)
         {
-            item.SetPickSoul(false);
+            return;
         }
 
-    }
+        hitFeedback.DOKill();
+        hitFeedback.color = new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 1);
+        int randomXSize = UnityEngine.Random.Range(-100, 100);
+        int randomYSize = UnityEngine.Random.Range(-100, 100);
+
+        if (randomXSize > 0)
+            hitFeedback.rectTransform.localScale = new Vector2(1,hitFeedback.rectTransform.localScale.y);
+        else
+            hitFeedback.rectTransform.localScale = new Vector2(-1, hitFeedback.rectTransform.localScale.y);
+
+        if(randomYSize>0)
+            hitFeedback.rectTransform.localScale = new Vector2( hitFeedback.rectTransform.localScale.x,1);
+        else
+            hitFeedback.rectTransform.localScale = new Vector2(hitFeedback.rectTransform.localScale.x, -1);
+
+        hitFeedback.DOColor(new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 0), 1.2f);
+	}
 
 }

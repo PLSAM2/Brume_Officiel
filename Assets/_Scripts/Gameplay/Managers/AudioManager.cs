@@ -21,6 +21,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public Action<float> OnVolumeChange;
 
+    public Action<Vector3> OnAudioPlay;
+
     [SerializeField] AudioSource backGroundMusic;
 
     public List<AudioClip> networkAudio = new List<AudioClip>();
@@ -46,12 +48,14 @@ public class AudioManager : SerializedMonoBehaviour
 
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
-        client.MessageReceived += OnMessageReceive;
+
+
     }
 
     private void OnEnable()
     {
         OnVolumeChange += OnMasterVolumeChange;
+        client.MessageReceived += OnMessageReceive;
     }
 
     private void OnDisable()
@@ -99,13 +103,16 @@ public class AudioManager : SerializedMonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _id = reader.ReadUInt16();
+                ushort _idSound = reader.ReadUInt16();
 
                 float _posX = reader.ReadSingle();
                 float _posY = reader.ReadSingle();
                 float _posZ = reader.ReadSingle();
 
-                Play3DAudio(networkAudio[_id], new Vector3(_posX, _posY, _posZ));
+                ushort _idObj = reader.ReadUInt16();
+                bool _isPlayer= reader.ReadBoolean();
+
+                Play3DAudio(networkAudio[_idSound], new Vector3(_posX, _posY, _posZ), _idObj, _isPlayer);
             }
         }
     }
@@ -118,12 +125,12 @@ public class AudioManager : SerializedMonoBehaviour
         return _myAudioElement;
     }
 
-    public void Play3DAudioInNetwork(AudioClip _clip, Vector3 _position)
+    public void Play3DAudioInNetwork(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer = false)
     {
         if(_clip == null) { return; }
         ushort _id = GetIndexOfList(_clip);
 
-        Play3DAudio(networkAudio[_id], _position);
+        Play3DAudio(networkAudio[_id], _position, id, isPlayer);
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -170,20 +177,21 @@ public class AudioManager : SerializedMonoBehaviour
         }
     }
 
-    public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, float _volume = 1)
+    public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
         _myAudioElement.Init(_clip, 1, _volume);
-
+        OnAudioPlayed(_position, _myAudioElement, id, isPlayer);
         return _myAudioElement;
     }
 
-    public AudioElement Play3DAudio(AudioClip _clip, Transform _followObj, float _volume = 1)
+    public AudioElement Play3DAudio(AudioClip _clip, Transform _followObj, ushort id, bool isPlayer, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
         _myAudioElement.Init(_clip, 1, _volume);
+        OnAudioPlayed(_followObj.position, _myAudioElement, id, isPlayer);
 
         return _myAudioElement;
     }
@@ -191,6 +199,15 @@ public class AudioManager : SerializedMonoBehaviour
     public void OnAudioFinish(AudioElement _audio)
     {
         allAudioElement[_audio] = false;
+    }
+
+    public void OnAudioPlayed(Vector3 pos, AudioElement _myAudioElement, ushort id, bool isPlayer)
+    {
+        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < _myAudioElement._myAudioSource.maxDistance )
+        {
+            OnAudioPlay?.Invoke(pos);
+        }
+
     }
 
     AudioElement GetFreeAudioElement()

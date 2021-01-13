@@ -14,6 +14,10 @@ public class Sc_Aoe : ScriptableObject
 public class AoeParameters
 {
     [Header("AoeParameters")]
-    public float durationOfTheAoe, aoeRadius;
-    public DamagesInfos damagesToDealOnImpact, damagesToDealOnDuration;
+    public float durationOfTheAoe, timeBeforeFinalDisparition;
+    public DamagesInfos damagesToDealOnImpact, damagesToDealOnDuration, finalDamages;
+    [Tooltip("De base c est une sphère")] public bool isBox;
+    [HideIf("isBox")] public float aoeRadius;
+    [ShowIf("isBox")] public Vector3 boxDimension;
 }
+

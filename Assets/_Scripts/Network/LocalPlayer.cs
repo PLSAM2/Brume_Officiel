@@ -31,9 +31,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Ui")] public TextMeshProUGUI lifeCount;
 	[TabGroup("Ui")] public Image lifeImg;
 	[TabGroup("Ui")] public Image lifeDamageImg;
+	[Header("WX Compass")] [TabGroup("Ui")] public GameObject WxCompass;
+	[TabGroup("Ui")] public Image WxLife;
 	[Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
 	[TabGroup("Ui")] public Image fillAmountBuff;
 	[TabGroup("Ui")] public GameObject wholeBuffUi;
+	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
+	[TabGroup("Ui")] public GameObject pointerObj;
+	[TabGroup("Ui")] public Quaternion compassRot;
+	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
+	[TabGroup("Ui")] public LocalPlayer wxRef;
+
+	private Camera mainCam;
 
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
@@ -59,6 +68,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			lifeImg.fillAmount = (float)liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
 		}
 	}
+
+	private bool allCharacterSpawned = false;
+
 	public Action<string> triggerAnim;
 
 	private UnityClient currentClient;
@@ -75,15 +87,20 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
+	public Action wuXinTookDamages;
 
 	private void Awake ()
 	{
 		lastPosition = transform.position;
 		lastRotation = transform.localEulerAngles;
 		canvasRot = canvas.transform.rotation;
-
+		compassRot = compassCanvas.transform.rotation;
+		mainCam = Camera.main;
+		canvas.GetComponent<Canvas>().worldCamera = mainCam;
+		compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
 		newNetorkPos = transform.position;
 	}
+
 
 	private void Start ()
 	{
@@ -102,6 +119,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
 
+		if (!GetComponent<WxController>() && 
+		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
+		isOwner)
+		{
+			wuXinTookDamages += PingRadarRed;
+		}
+
 		if (isOwner)
 		{
 			GameManager.Instance.ResetCam();
@@ -114,6 +138,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
+			WxCompass.transform.parent.gameObject.SetActive(false);
+
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				SpawnFow();
@@ -130,6 +156,24 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void Update ()
 	{
+		if (allCharacterSpawned)
+		{
+			if (wxRef != null)
+			{
+				WxLife.fillAmount = wxRef._liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
+
+				Vector3 fromPos = this.transform.position;
+				Vector3 toPos = wxRef.transform.position;
+
+				fromPos.y = 0;
+				toPos.y = 0;
+				Vector3 direction = (toPos - fromPos).normalized;
+				float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
+				WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
+
+			}
+		}
+
 		//ui life
 		lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
 
@@ -147,7 +191,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 100;
-			DealDamages(_temp, transform.position, null, true);
+			DealDamages(_temp, transform.position, null, true, true, true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.P) && isOwner)
@@ -156,9 +200,27 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
+	internal void AllCharacterSpawn ()
+	{
+
+		ushort? wxRefId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+
+		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
+		{
+			wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
+		}
+		else
+		{
+			WxCompass.transform.parent.gameObject.SetActive(false);
+		}
+
+		allCharacterSpawned = true;
+	}
+
 	private void LateUpdate ()
 	{
 		canvas.transform.rotation = canvasRot;
+		compassCanvas.transform.rotation = compassRot;
 	}
 
 	void SpawnFow ()
@@ -220,13 +282,26 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
+
+			if (GetComponent<WxController>() == null)
+				wuXinTookDamages -= PingRadarRed;
 		}
 	}
+
+    private void Enable()
+    {
+        if (!isOwner)
+            return;
+
+        AudioManager.Instance.OnAudioPlay += OnAudioPlay;
+    }
 
 	private void OnDisable ()
 	{
 		if (!isOwner)
 			return;
+
+		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
 	}
 
 	void FixedUpdate ()
@@ -361,94 +436,95 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// Deal damage to this character
 	/// </summary>
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
-	/// <param name="ignoreMark"> Must have ignoreStatusAndEffect false to work</param>
-	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false )
+	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false )
 	{
-		if (GameManager.Instance.networkPlayers[(ushort)dealerID].myPlayerModule.teamIndex != myPlayerModule.teamIndex)
+
+		if (ignoreTeam == false && dealerID != null && GameManager.Instance.networkPlayers[(ushort)dealerID].myPlayerModule.teamIndex == myPlayerModule.teamIndex)
 		{
+			return;
+		}
 
-			if (InGameNetworkReceiver.Instance.GetEndGame())
+		if (InGameNetworkReceiver.Instance.GetEndGame())
+		{
+			return;
+		}
+
+		DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
+
+		myPlayerModule.allHitTaken.Add(_damagesToDeal);
+
+		if (!ignoreStatusAndEffect)
+		{
+			if (!ignoreTickStatus)
 			{
-				return;
-			}
-
-			DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
-
-			myPlayerModule.allHitTaken.Add(_damagesToDeal);
-
-			if (!ignoreStatusAndEffect)
-			{
-				if (!ignoreTickStatus)
+				if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
 				{
-					if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
-					{
-						SendStatus(myPlayerModule.poisonousEffect);
-					}
-				}
-
-				if (_damagesToDeal.statusToApply != null)
-				{
-					for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
-					{
-						SendStatus(_damagesToDeal.statusToApply[i]);
-					}
-				}
-
-				if (_damagesToDeal.movementToApply != null)
-				{
-					SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+					SendStatus(myPlayerModule.poisonousEffect);
 				}
 			}
 
-
-			if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
+			if (_damagesToDeal.statusToApply != null)
 			{
-				if (_damagesToDeal.additionalStatusToApply != null)
+				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
 				{
-					for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
-					{
-						SendStatus(_damagesToDeal.additionalStatusToApply[i]);
-					}
+					SendStatus(_damagesToDeal.statusToApply[i]);
 				}
+			}
 
-				if (_damagesToDeal.additionalMovementToApply != null)
+			if (_damagesToDeal.movementToApply != null)
+			{
+				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+			}
+		}
+
+
+		if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
+		{
+			if (_damagesToDeal.additionalStatusToApply != null)
+			{
+				for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
 				{
-					SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+					SendStatus(_damagesToDeal.additionalStatusToApply[i]);
 				}
+			}
 
-				if (_damagesToDeal.damageHealth > 0)
-				{
-					DealDamagesLocaly(_damagesToDeal.additionalDamages, dealerID);
-
-					using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-					{
-						_writer.Write(myPlayerId);
-						_writer.Write(_damagesToDeal.additionalDamages);
-						using (Message _message = Message.Create(Tags.Damages, _writer))
-						{
-							currentClient.SendMessage(_message, SendMode.Reliable);
-						}
-					}
-				}
+			if (_damagesToDeal.additionalMovementToApply != null)
+			{
+				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
 			}
 
 			if (_damagesToDeal.damageHealth > 0)
 			{
+				DealDamagesLocaly(_damagesToDeal.additionalDamages, dealerID);
+
 				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
 					_writer.Write(myPlayerId);
-					_writer.Write(_damagesToDeal.damageHealth);
+					_writer.Write(_damagesToDeal.additionalDamages);
 					using (Message _message = Message.Create(Tags.Damages, _writer))
 					{
 						currentClient.SendMessage(_message, SendMode.Reliable);
 					}
 				}
-
-				GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 			}
 		}
 
+		if (_damagesToDeal.damageHealth > 0)
+		{
+			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+			{
+				_writer.Write(myPlayerId);
+				_writer.Write(_damagesToDeal.damageHealth);
+				using (Message _message = Message.Create(Tags.Damages, _writer))
+				{
+					currentClient.SendMessage(_message, SendMode.Reliable);
+				}
+			}
+
+			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
+		}
 	}
+
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
@@ -459,11 +535,19 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
+			UiManager.Instance.FeedbackHit();
+
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
+		else
+		{
+			if (GetComponent<WxController>()!= null)
+				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
+		}
+
 
 		if ((int)liveHealth - (int)damages <= 0)
 		{
@@ -596,6 +680,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (isOwner)
 		{
+			print("Idie");
 			GameManager.Instance.hiddenEffect.enabled = false;
 			GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
@@ -635,6 +720,34 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
 		StartCoroutine(TimerShowPlayer(_time));
+	}
+	private void OnAudioPlay ( Vector3 obj )
+	{
+		if (this.transform.position == obj || isOwner == false || Vector3.Distance(this.transform.position, obj) < 3)
+		{
+			return;
+		}
+
+		GameObject _newPointer = GetFirstDisabledPointer();
+		_newPointer.transform.SetParent(compassCanvas.transform);
+		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj);
+	}
+
+	private GameObject GetFirstDisabledPointer ()
+	{
+		foreach (Transform t in compassCanvas.gameObject.transform)
+		{
+			if (!t.gameObject.activeInHierarchy)
+			{
+				t.gameObject.SetActive(true);
+				return t.gameObject;
+			}
+		}
+
+		GameObject newobj = Instantiate(pointerObj, compassCanvas.transform);
+		newobj.SetActive(true);
+
+		return newobj;
 	}
 
 	//Ui character
@@ -718,9 +831,29 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		yield return new WaitForSeconds(_time);
 		forceOutline = false;
 	}
+
+	public bool IsInMyTeam ( Team _indexTested )
+	{
+		return myPlayerModule.teamIndex == _indexTested;
+	}
+
+	public void PingRadarRed ()
+	{
+		print("I ping");
+		redDotRadar.SetTrigger("Trigger");
+	}
+
+	public void PingRadarYellow ()
+	{
+		yellowDotRadar.SetTrigger("Trigger");
+	}
+
+
 }
 
 public interface Damageable
 {
-	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false );
+	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false );
+
+	bool IsInMyTeam ( Team _indexTested );
 }

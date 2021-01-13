@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
+  m_Name: WuXin_BaseAttack
+  m_EditorClassIdentifier: 
+  range: 8
+  cooldown: 1
+  numberOfCharge: 1
+  forbiddenState: 48
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0.6
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 0
+  anonciationTime: 0
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyOnResolution: []
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0
+  spellIcon: {fileID: 0}
+  damagesToDeal:
+    playerName: 
+    damageHealth: 1
+    statusToApply: []
+    movementToApply: {fileID: 0}
+    stateNeeded: 128
+    additionalDamages: 0
+    additionalStatusToApply: []
+    additionalMovementToApply: {fileID: 0}
+  prefab: {fileID: 1384060272247584325, guid: 67a0ecf40c994e94c9edc047d9a4cecc, type: 3}
+  _reduceCooldowns: 0
+  offSet: 0.1
+  salveInfos:
+    NumberOfSalve: 1
+    numberOfShotInSalve: 1
+    timeToReachMaxRange: 0.2
+    timeToResolveTheSalve: 0
+  isMultiple: 0
+  angleToSplit: 0
+  cooldownReduction: 0
+  bonusShot: 0
+  bonusSalve: 0
+  durationAdded: 0
