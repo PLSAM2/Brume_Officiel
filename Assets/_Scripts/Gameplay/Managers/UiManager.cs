@@ -301,7 +301,11 @@ public class UiManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetEchapMenuState();
-        }        
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            chat.Focus();
+        }
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
         {
             DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
