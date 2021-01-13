@@ -39,6 +39,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
 	[TabGroup("Ui")] public GameObject pointerObj;
 	[TabGroup("Ui")] public Quaternion compassRot;
+	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
 	[TabGroup("Ui")] public LocalPlayer wxRef;
 
 	private Camera mainCam;
@@ -86,6 +87,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
+	public Action wuXinTookDamages;
 
 	private void Awake ()
 	{
@@ -116,6 +118,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+
+		if (!GetComponent<WxController>() && 
+		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
+		isOwner)
+		{
+			wuXinTookDamages += PingRadarRed;
+		}
 
 		if (isOwner)
 		{
@@ -273,6 +282,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
+
+			if (GetComponent<WxController>() == null)
+				wuXinTookDamages -= PingRadarRed;
 		}
 	}
 
@@ -516,7 +528,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
-		print("I deal DAamge local");
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -525,15 +536,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			UiManager.Instance.FeedbackHit();
+
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
+		else
+		{
+			if (GetComponent<WxController>()!= null)
+				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
+		}
+
 
 		if ((int)liveHealth - (int)damages <= 0)
 		{
-			print("I Should Die");
 			if (isOwner)
 			{
 				if (dealerID != null)
@@ -818,6 +835,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public bool IsInMyTeam ( Team _indexTested )
 	{
 		return myPlayerModule.teamIndex == _indexTested;
+	}
+
+	public void PingRadarRed ()
+	{
+		print("I ping");
+		redDotRadar.SetTrigger("Trigger");
+	}
+
+	public void PingRadarYellow ()
+	{
+		yellowDotRadar.SetTrigger("Trigger");
 	}
 
 

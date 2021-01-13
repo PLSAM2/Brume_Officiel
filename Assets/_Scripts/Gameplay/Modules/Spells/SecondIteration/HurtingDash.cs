@@ -52,6 +52,9 @@ public class HurtingDash : SpellModule
 				hasTouched = true;
 				ReduceCooldown(cooldownReduction);
 			}
+
+			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .2f)
+				myPlayerModule.movementPart.currentForcedMovement.duration += .2f;
 		}
 	}
 }
