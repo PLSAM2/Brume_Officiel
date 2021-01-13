@@ -142,6 +142,8 @@ namespace UnityEngine.Rendering.Universal
             settings.blitMaterial.SetColor("_Unexplored", mFog.unexploredColor);
             settings.blitMaterial.SetTexture("_FogTex0", mFog.texture0);
             settings.blitMaterial.SetTexture("_FogTex1", mFog.texture1);
+            //settings.blitMaterial.SetTexture("_FogTex0", settings.texture);
+            //settings.blitMaterial.SetTexture("_FogTex1", settings.texture);
             settings.blitMaterial.SetMatrix("_InverseMVP", mInverseMVP);
             settings.blitMaterial.SetVector("_CamPos", camPos);
             settings.blitMaterial.SetVector("_Params", p);

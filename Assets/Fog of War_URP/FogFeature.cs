@@ -14,6 +14,7 @@ namespace UnityEngine.Rendering.Universal
             public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
 
             public Material blitMaterial;
+            public RenderTexture texture;
             public int blitMaterialPassIndex = -1;
             public BufferType sourceType = BufferType.CameraColor;
             public BufferType destinationType = BufferType.CameraColor;

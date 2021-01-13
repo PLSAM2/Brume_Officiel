@@ -71,7 +71,7 @@ public class FOWRevealer : MonoBehaviour
 				mRevealer.isValid = false;
 
 			mRevealer.pos = mTrans.position;
-      mRevealer.rot = mTrans.rotation;
+            mRevealer.rot = mTrans.rotation;
 			mRevealer.inner = range.x;
 			mRevealer.outer = range.y;
 			mRevealer.los = lineOfSightCheck;

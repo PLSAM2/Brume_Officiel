@@ -43,17 +43,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff305e18ad52574498a55f1e786a069c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unexploredColor: {r: 0.05, g: 0.05, b: 0.05, a: 1}
-  exploredColor: {r: 0.050980397, g: 0.050980397, b: 0.050980397, a: 1}
-  worldSize: 256
+  unexploredColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+  exploredColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  worldSize: 128
   textureSize: 128
   updateFrequency: 0.25
   textureBlendTime: 1
   blurIterations: 2
-  heightRange: {x: 0, y: 10}
+  heightRange: {x: 0, y: 20}
   raycastMask:
     serializedVersion: 2
-    m_Bits: 1025
-  raycastRadius: 1
+    m_Bits: 512
+  raycastRadius: 0.5
   margin: 0.4
   debug: 0
