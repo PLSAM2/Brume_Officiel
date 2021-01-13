@@ -79,14 +79,5 @@ public class Aoe : AutoKill
 	{
 		base.OnEnable();
 		asDealtFinal = false;
-		meshRed.DOColor(Color.black, localTrad.rules.durationOfTheAoe - localTrad.rules.timeBeforeFinalDisparition);
-		meshBlue.DOColor(Color.black, localTrad.rules.durationOfTheAoe - localTrad.rules.timeBeforeFinalDisparition);
-
-	}
-
-	private void OnDisable ()
-	{
-		meshBlue.color = Color.blue;
-		meshRed.color = Color.red;
 	}
 }
