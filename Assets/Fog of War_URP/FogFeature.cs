@@ -27,7 +27,7 @@ namespace UnityEngine.Rendering.Universal
 
         public override void Create()
         {
-            settings.blitMaterial.hideFlags = HideFlags.HideAndDontSave;
+            //settings.blitMaterial.hideFlags = HideFlags.HideAndDontSave;
             blitPass = new FogPass(name);
         }
 
