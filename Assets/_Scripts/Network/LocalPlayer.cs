@@ -98,6 +98,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
 		newNetorkPos = transform.position;
 
+		if (!isOwner)
+			return;
 		AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 	}
 
