@@ -18,14 +18,15 @@ MonoBehaviour:
   forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  canalisationTime: 0.1
+  canalisationTime: 0.4
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 1
-  anonciationTime: 0.1
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
-  statusToApplyOnResolution: []
+  statusToApplyOnResolution:
+  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 7cd1c76f0bbc04848b8e86439cdc7b2c, type: 3}
