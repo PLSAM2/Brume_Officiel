@@ -36,6 +36,7 @@ public class ChatControl : MonoBehaviour
         }
         if (isFocused == false && endEditAndSend == false)
         {
+            GameFactory.GetLocalPlayerObj().myPlayerModule.AddState(En_CharacterState.Stunned);
             isFocused = true;
             DisplayChat();
             messageText.Select();
@@ -44,6 +45,7 @@ public class ChatControl : MonoBehaviour
 
         if (endEditAndSend)
         {
+            GameFactory.GetLocalPlayerObj().myPlayerModule.RemoveState(En_CharacterState.Stunned);
             endEditAndSend = false;
         }
 
