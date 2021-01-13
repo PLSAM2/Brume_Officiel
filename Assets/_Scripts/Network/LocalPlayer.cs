@@ -97,9 +97,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
         canvas.GetComponent<Canvas>().worldCamera = mainCam;
         compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
         newNetorkPos = transform.position;
-
-        AudioManager.Instance.OnAudioPlay += OnAudioPlay;
     }
+
+    
 
 
     private void Start()
@@ -121,6 +121,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
         if (isOwner)
         {
+            AudioManager.Instance.OnAudioPlay += OnAudioPlay;
             GameManager.Instance.ResetCam();
             myPlayerModule.enabled = true;
 
@@ -283,6 +284,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
     {
         if (!isOwner)
             return;
+        AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
     }
 
     void FixedUpdate()

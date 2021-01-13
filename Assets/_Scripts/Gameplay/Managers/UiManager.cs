@@ -24,6 +24,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
     [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
     [FoldoutGroup("GlobalUi")] public Camera cameraMinimap;
+    [FoldoutGroup("GlobalUi")] public ChatControl chat;
 
     private bool waitForMinimapUpdate = false;
 
