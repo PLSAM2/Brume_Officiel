@@ -40,6 +40,7 @@ public class SpellModule : MonoBehaviour
 	protected En_SpellInput actionLinked;
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
+	protected bool isOwner = false;
 	public bool isAComboPiece = false;
 
 	[HideInInspector] public PlayerModule myPlayerModule;
@@ -63,8 +64,9 @@ public class SpellModule : MonoBehaviour
 		cooldown = 0;
 
 		actionLinked = _actionLinked;
+		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-		if (myPlayerModule.mylocalPlayer.isOwner)
+		if (isOwner)
 		{
 			LinkInputs(_actionLinked);
 			UiManager.Instance.SetupIcon(spell, _actionLinked);
@@ -81,10 +83,9 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void Disable ()
 	{
-		if (myPlayerModule.mylocalPlayer.isOwner)
+		if (isOwner)
 		{
 			DelinkInput();
-
 			myPlayerModule.upgradeKit -= UpgradeSpell;
 			myPlayerModule.backToNormalKit -= ReturnToNormal;
 		}

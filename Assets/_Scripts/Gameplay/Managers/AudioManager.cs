@@ -48,12 +48,14 @@ public class AudioManager : SerializedMonoBehaviour
 
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
-        client.MessageReceived += OnMessageReceive;
+
+
     }
 
     private void OnEnable()
     {
         OnVolumeChange += OnMasterVolumeChange;
+        client.MessageReceived += OnMessageReceive;
     }
 
     private void OnDisable()
