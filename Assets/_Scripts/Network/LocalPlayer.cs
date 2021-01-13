@@ -283,6 +283,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (!isOwner)
 			return;
+
+		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
+
 	}
 
 	void FixedUpdate ()
