@@ -149,7 +149,26 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 BrumeSoulPicked(sender, e);
             }
+            else if (message.Tag == Tags.NewChatMessage)
+            {
+                NewChatMessage(sender, e);
+            }
         }
+    }
+
+    private void NewChatMessage(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                string _message = reader.ReadString();
+
+                UiManager.Instance.chat.ReceiveNewMessage(_id, _message);
+            }
+        }
+
     }
 
     private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)

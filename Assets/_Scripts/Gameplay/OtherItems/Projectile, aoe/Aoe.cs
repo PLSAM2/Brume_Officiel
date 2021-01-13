@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public class Aoe : AutoKill
 {
@@ -40,7 +41,7 @@ public class Aoe : AutoKill
 		foreach (Collider _coll in _allhits)
 		{
 			Damageable _damageable = _coll.GetComponent<Damageable>();
-			if (_damageable != null)
+			if (_damageable != null && !_damageable.IsInMyTeam(myteam))
 				_damageable.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
 		}
 

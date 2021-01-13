@@ -134,7 +134,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     }
 
 
-    public GameObject LocalInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, bool OnlyLocal = false)
+    public GameObject LocalInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles)
     {
         GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
 

@@ -41,13 +41,17 @@ public class HurtingDash : SpellModule
 
 	public void TouchedAnEnemy ( PlayerModule _hitHostile )
 	{
-		_hitHostile.GetComponent<Damageable>().DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+		Damageable _hit = _hitHostile.GetComponent<Damageable>();
 
-		if (!hasTouched)
+		if (_hit != null && !_hit.IsInMyTeam(myPlayerModule.teamIndex))
 		{
-			hasTouched = true;
-			ReduceCooldown(cooldownReduction);
-			print(charges);
+			_hit.DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+
+			if (!hasTouched)
+			{
+				hasTouched = true;
+				ReduceCooldown(cooldownReduction);
+			}
 		}
 	}
 }
