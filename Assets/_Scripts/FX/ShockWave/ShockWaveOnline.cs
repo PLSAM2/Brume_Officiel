@@ -35,7 +35,7 @@ public class ShockWaveOnline : MonoBehaviour
 
     void Init()
     {
-        AudioManager.Instance.Play3DAudio(localTrad.waveAudio, transform.position);
+        AudioManager.Instance.Play3DAudio(localTrad.waveAudio, transform.position, myNetworkObj.GetOwnerID(), true);
 
         Transform transformOwner = GameManager.Instance.networkPlayers[myNetworkObj.GetOwnerID()].transform;
 

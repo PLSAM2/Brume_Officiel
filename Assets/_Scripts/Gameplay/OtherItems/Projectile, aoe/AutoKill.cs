@@ -41,7 +41,7 @@ public class AutoKill : MonoBehaviour
 
 		if (spawnSound)
 		{
-			AudioManager.Instance.Play3DAudio(spawnSound, transform.position);
+			AudioManager.Instance.Play3DAudio(spawnSound, transform.position, myNetworkObject.GetItemID(), false);
 		}
 	}
 

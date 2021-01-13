@@ -109,6 +109,11 @@ namespace UnityEngine.Rendering.Universal
                 cmd.ReleaseTemporaryRT(sourceId);
         }
 
+        public override void OnCameraCleanup(CommandBuffer cmd)
+        {
+            mFog.unexploredColor = Color.black;
+        }
+
         void SendShaderValue()
         {
             if (mFog == null)
