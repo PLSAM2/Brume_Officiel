@@ -428,7 +428,6 @@ public class SpellModule : MonoBehaviour
 		if (charges < spell.numberOfCharge)
 			cooldown += _durationShorten;
 
-		print(cooldown);
 	}
 	protected virtual bool canBeCast ()
 	{
