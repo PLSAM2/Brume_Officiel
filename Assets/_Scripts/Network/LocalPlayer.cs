@@ -88,7 +88,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
 	public Action wuXinTookDamages;
-
+	WxController _WxControlerRef;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -119,7 +119,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
 
-		if (GetComponent<WxController>() == null && 
+		WxController _temp = GetComponent<WxController>();
+
+		if (_temp == null && 
 		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
 		isOwner)
 		{
@@ -283,7 +285,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
 
-			if (GetComponent<WxController>() == null)
+			if (_WxControlerRef == null)
 				wuXinTookDamages -= PingRadarRed;
 		}
 	}
