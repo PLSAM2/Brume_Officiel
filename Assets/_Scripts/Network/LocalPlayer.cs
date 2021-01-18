@@ -119,15 +119,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
 
-		WxController _temp = GetComponent<WxController>();
-
-		if (_temp == null && 
-		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
-		isOwner)
-		{
-			wuXinTookDamages += PingRadarRed;
-		}
-
 		if (isOwner)
 		{
 			GameManager.Instance.ResetCam();

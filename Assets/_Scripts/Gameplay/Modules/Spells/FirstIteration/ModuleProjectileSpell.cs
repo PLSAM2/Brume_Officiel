@@ -124,8 +124,6 @@ public class ModuleProjectileSpell : SpellModule
 
 		for (int i = 0; i < localTrad.salveInfos.numberOfShotInSalve; i++)
 		{
-			
-
 			ShootProjectile(PosToInstantiate(), transform.rotation.eulerAngles + new Vector3(0, _baseAngle, 0));
 			_baseAngle += _angleToAdd;
 
