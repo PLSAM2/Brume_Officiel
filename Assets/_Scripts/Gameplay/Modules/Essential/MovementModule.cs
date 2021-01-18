@@ -373,4 +373,5 @@ public class ForcedMovement
     public Vector3 direction { get => _direction; set { _direction = Vector3.Normalize(value); } }
     public float strength;
     [ReadOnly] public float length => duration * strength;
+    public float fakeRange;
 }
