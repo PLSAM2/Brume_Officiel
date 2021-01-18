@@ -9,6 +9,43 @@ public class HurtingDash : SpellModule
 	bool hasTouched = false;
 	public float cooldownReduction;
 	[SerializeField] HurtingBox hurtBox;
+	ArrowPreview _myPreview;
+
+	public override void SetupComponent ( En_SpellInput _actionLinked )
+	{
+		base.SetupComponent(_actionLinked);
+		if (isOwner)
+		{
+			_myPreview = PreviewManager.Instance.GetArrowPreview();
+			_myPreview.gameObject.SetActive(false);
+		}
+	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+
+	}
+
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
+		_myPreview.gameObject.SetActive(true);
+
+		float finalMultiplier = spell.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange;
+
+		RaycastHit _hit;
+		if (Physics.Raycast(transform.position, myPlayerModule.directionOfTheMouse(), out _hit, spell.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange, 1 << 9))
+			finalMultiplier = Vector3.Distance(transform.position, _hit.point);
+
+		_myPreview.Init(transform.position, transform.position + myPlayerModule.directionOfTheMouse() * finalMultiplier);
+	}
+
+	protected override void HidePreview ( Vector3 _posToHide )
+	{
+		base.HidePreview(_posToHide);
+		_myPreview.gameObject.SetActive(false);
+	}
 
 	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
@@ -53,8 +90,8 @@ public class HurtingDash : SpellModule
 				ReduceCooldown(cooldownReduction);
 			}
 
-			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .2f)
-				myPlayerModule.movementPart.currentForcedMovement.duration += .2f;
+			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .05f)
+				myPlayerModule.movementPart.currentForcedMovement.duration += .05f;
 		}
 	}
 }
