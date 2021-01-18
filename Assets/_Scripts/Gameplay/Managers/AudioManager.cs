@@ -182,7 +182,7 @@ public class AudioManager : SerializedMonoBehaviour
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
         _myAudioElement.Init(_clip, 1, _volume);
-        OnAudioPlayed(_position, _myAudioElement, id, isPlayer);
+        OnAudioPlayed(_position, id, isPlayer, _myAudioElement._myAudioSource.maxDistance);
         return _myAudioElement;
     }
 
@@ -191,7 +191,7 @@ public class AudioManager : SerializedMonoBehaviour
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
         _myAudioElement.Init(_clip, 1, _volume);
-        OnAudioPlayed(_followObj.position, _myAudioElement, id, isPlayer);
+        OnAudioPlayed(_followObj.position, id, isPlayer, _myAudioElement._myAudioSource.maxDistance);
 
         return _myAudioElement;
     }
@@ -201,9 +201,35 @@ public class AudioManager : SerializedMonoBehaviour
         allAudioElement[_audio] = false;
     }
 
-    public void OnAudioPlayed(Vector3 pos, AudioElement _myAudioElement, ushort id, bool isPlayer)
+    public void OnAudioPlayed(Vector3 pos, ushort id, bool isPlayer, float audioDistance)
     {
-        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < _myAudioElement._myAudioSource.maxDistance )
+
+        if (isPlayer)
+        {
+            if (GameManager.Instance.networkPlayers.ContainsKey(id))
+            {
+                if (GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform) || 
+                    id == NetworkManager.Instance.GetLocalPlayer().ID )
+                {
+                    return;
+                }
+            } else { return; }
+
+        } else
+        {
+            if (NetworkObjectsManager.Instance.instantiatedObjectsList.ContainsKey(id))
+            {
+                NetworkedObject _no = NetworkObjectsManager.Instance.instantiatedObjectsList[id];
+
+                if (_no.GetIsOwner())
+                {
+                    return;
+                }
+            } else { return; }
+
+        }
+
+        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance )
         {
             OnAudioPlay?.Invoke(pos);
         }

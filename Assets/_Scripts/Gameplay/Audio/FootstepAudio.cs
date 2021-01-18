@@ -99,6 +99,7 @@ public class FootstepAudio : MonoBehaviour
     {
         if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && haveWaitDelay)
         {
+            AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId,true, myAudioSource.maxDistance);
             myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);
         }
     }
