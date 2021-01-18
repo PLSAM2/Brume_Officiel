@@ -155,7 +155,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				WxLife.fillAmount = wxRef._liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
 
-				Vector3 fromPos = this.transform.position;
+				Vector3 fromPos = this.transform.position + Vector3.right;
 				Vector3 toPos = wxRef.transform.position;
 
 				fromPos.y = 0;
