@@ -48,11 +48,11 @@ public class Projectile : AutoKill
 		{
 			if (soundFollowObj)
 			{
-				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform);
+				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform, myNetworkObject.GetItemID(), false);
 			}
 			else
 			{
-				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position);
+				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
 
@@ -127,7 +127,7 @@ public class Projectile : AutoKill
 
 			if (hitSound)
 			{
-				AudioManager.Instance.Play3DAudio(hitSound, transform.position);
+				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
 
@@ -146,7 +146,6 @@ public class Projectile : AutoKill
 
 	public void Collide ( RaycastHit _hit )
 	{
-		print(_hit.collider.name);
 		if (bouncingNumberLive == 0)
 		{
 			hasTouched = true;

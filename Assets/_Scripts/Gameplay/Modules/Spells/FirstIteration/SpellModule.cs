@@ -445,7 +445,7 @@ public class SpellModule : MonoBehaviour
 	void StartCanalysingFeedBack ()
 	{
 		//PITIT BRUIT
-		AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position);
+		AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 
 		switch (actionLinked)
 		{
@@ -473,7 +473,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ResolutionFeedBack ()
 	{
 		//PITIT BRUIT
-		AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position);
+		AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 
 		switch (actionLinked)
 		{

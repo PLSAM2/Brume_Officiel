@@ -39,6 +39,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
 	[TabGroup("Ui")] public GameObject pointerObj;
 	[TabGroup("Ui")] public Quaternion compassRot;
+	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
 	[TabGroup("Ui")] public LocalPlayer wxRef;
 
 	private Camera mainCam;
@@ -86,7 +87,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-
+	public Action wuXinTookDamages;
+	WxController _WxControlerRef;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -97,10 +99,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		canvas.GetComponent<Canvas>().worldCamera = mainCam;
 		compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
 		newNetorkPos = transform.position;
-
-		if (!isOwner)
-			return;
-		AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 	}
 
 
@@ -120,6 +118,15 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
 		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+
+		WxController _temp = GetComponent<WxController>();
+
+		if (_temp == null && 
+		myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex &&
+		isOwner)
+		{
+			wuXinTookDamages += PingRadarRed;
+		}
 
 		if (isOwner)
 		{
@@ -277,8 +284,19 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
+
+			if (_WxControlerRef == null)
+				wuXinTookDamages -= PingRadarRed;
 		}
 	}
+
+    private void Enable()
+    {
+        if (!isOwner)
+            return;
+
+        AudioManager.Instance.OnAudioPlay += OnAudioPlay;
+    }
 
 	private void OnDisable ()
 	{
@@ -286,7 +304,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
-
 	}
 
 	void FixedUpdate ()
@@ -513,7 +530,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
-		print("I deal DAamge local");
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -522,15 +538,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			UiManager.Instance.FeedbackHit();
+
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
+		else
+		{
+			if (GetComponent<WxController>()!= null)
+				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
+		}
+
 
 		if ((int)liveHealth - (int)damages <= 0)
 		{
-			print("I Should Die");
 			if (isOwner)
 			{
 				if (dealerID != null)
@@ -815,6 +837,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public bool IsInMyTeam ( Team _indexTested )
 	{
 		return myPlayerModule.teamIndex == _indexTested;
+	}
+
+	public void PingRadarRed ()
+	{
+		print("I ping");
+		redDotRadar.SetTrigger("Trigger");
+	}
+
+	public void PingRadarYellow ()
+	{
+		yellowDotRadar.SetTrigger("Trigger");
 	}
 
 

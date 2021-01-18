@@ -73,7 +73,7 @@ namespace UnityEngine.Rendering.Universal
             }
 
             mCam = Camera.main;
-            mCam.depthTextureMode = DepthTextureMode.Depth;
+            //mCam.depthTextureMode = DepthTextureMode.Depth;
         }
 
         /// <inheritdoc/>
@@ -107,6 +107,11 @@ namespace UnityEngine.Rendering.Universal
 
             if (source == destination && sourceId != -1)
                 cmd.ReleaseTemporaryRT(sourceId);
+        }
+
+        public override void OnCameraCleanup(CommandBuffer cmd)
+        {
+            mFog.unexploredColor = Color.black;
         }
 
         void SendShaderValue()
