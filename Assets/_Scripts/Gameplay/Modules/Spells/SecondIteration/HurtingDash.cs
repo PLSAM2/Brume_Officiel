@@ -90,8 +90,8 @@ public class HurtingDash : SpellModule
 				ReduceCooldown(cooldownReduction);
 			}
 
-			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .2f)
-				myPlayerModule.movementPart.currentForcedMovement.duration += .2f;
+			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .05f)
+				myPlayerModule.movementPart.currentForcedMovement.duration += .05f;
 		}
 	}
 }
