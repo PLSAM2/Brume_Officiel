@@ -87,6 +87,7 @@ public class FootstepAudio : MonoBehaviour
 
     IEnumerator WaitEndSound(AudioClip _clip)
     {
+        AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
         myAudioSource.PlayOneShot(_clip);
 
         yield return new WaitForSeconds(_clip.length);
