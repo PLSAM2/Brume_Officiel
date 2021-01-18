@@ -21,6 +21,7 @@ public class CompassPointer : MonoBehaviour
 
     public void InitNewTargetOneTime(Transform character, Vector3 target)
     {
+
         this.character = character;
         this.targetPos = target;
         float distance = AimToTarget();
@@ -65,7 +66,6 @@ public class CompassPointer : MonoBehaviour
 
     public void SetColorByDistance(float distance)
     {
-        print((distance - minDistance) / (maxDistance - minDistance));
         pointerImage.color = distanceGradient.Evaluate(
             Mathf.Clamp((distance - minDistance) / (maxDistance - minDistance)
             , 0, 1

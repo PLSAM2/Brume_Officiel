@@ -13,7 +13,9 @@ public class BrumeScript : MonoBehaviour
     [SerializeField] float rangeFilter = 1;
 
     [SerializeField] AudioClip sfxTransiBrume;
-     public Transform spawnPoint;
+    public Transform spawnPoint;
+
+    [SerializeField] MeshCollider myMeshCollider;
 
     private void Start()
     {
@@ -210,5 +212,11 @@ public class BrumeScript : MonoBehaviour
             if (tower == null) { continue; }
             tower.vision.gameObject.SetActive(value);
         }
+    }
+
+    public void SetTriggerActive()
+    {
+        myMeshCollider.convex = true;
+        myMeshCollider.isTrigger = true;
     }
 }

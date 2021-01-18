@@ -214,25 +214,29 @@ public class GameManager : SerializedMonoBehaviour
         RoomManager.Instance.QuitGame();
     }
 
-    internal void SpawnBrumeSoul(ushort brumeId)
-    {
-        if (brumeSouls.ContainsKey(brumeId))
-        {
-            return;
-        }
+    #region DEPRECATED
 
-        BrumeSoul _soul = Instantiate(brumeSoul, allBrume[brumeId].spawnPoint.position, Quaternion.Euler(0,0,0)).GetComponent<BrumeSoul>();
-        _soul.brumeIndex = brumeId;
-        _soul.instanceID = allBrume[brumeId].GetInstanceID();
-        brumeSouls.Add(brumeId, _soul);
-    }
+    //internal void SpawnBrumeSoul(ushort brumeId)
+    //{
+    //    if (brumeSouls.ContainsKey(brumeId))
+    //    {
+    //        return;
+    //    }
 
-    internal void DeleteBrumeSoul(ushort brumeId)
-    {
-        if (brumeSouls.ContainsKey(brumeId))
-        {
-            Destroy(brumeSouls[brumeId].gameObject);
-            brumeSouls.Remove(brumeId);
-        }
-    }
+    //    BrumeSoul _soul = Instantiate(brumeSoul, allBrume[brumeId].spawnPoint.position, Quaternion.Euler(0,0,0)).GetComponent<BrumeSoul>();
+    //    _soul.brumeIndex = brumeId;
+    //    _soul.instanceID = allBrume[brumeId].GetInstanceID();
+    //    brumeSouls.Add(brumeId, _soul);
+    //}
+
+    //internal void DeleteBrumeSoul(ushort brumeId)
+    //{
+    //    if (brumeSouls.ContainsKey(brumeId))
+    //    {
+    //        Destroy(brumeSouls[brumeId].gameObject);
+    //        brumeSouls.Remove(brumeId);
+    //    }
+    //}
+
+    #endregion
 }

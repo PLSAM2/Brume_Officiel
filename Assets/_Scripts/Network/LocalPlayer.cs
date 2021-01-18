@@ -128,6 +128,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			SpawnFow();
 
 			CameraManager.Instance.SetParent(transform);
+
+			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 		}
 		else
 		{
@@ -280,14 +282,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				wuXinTookDamages -= PingRadarRed;
 		}
 	}
-
-    private void Enable()
-    {
-        if (!isOwner)
-            return;
-
-        AudioManager.Instance.OnAudioPlay += OnAudioPlay;
-    }
 
 	private void OnDisable ()
 	{
@@ -716,13 +710,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj )
 	{
-		if (this.transform.position == obj || isOwner == false || Vector3.Distance(this.transform.position, obj) < 3)
+		if (this.transform.position == obj || isOwner == false )
 		{
 			return;
 		}
-
 		GameObject _newPointer = GetFirstDisabledPointer();
-		_newPointer.transform.SetParent(compassCanvas.transform);
+
 		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj);
 	}
 
