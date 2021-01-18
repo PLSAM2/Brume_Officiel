@@ -73,7 +73,7 @@ namespace UnityEngine.Rendering.Universal
             }
 
             mCam = Camera.main;
-            mCam.depthTextureMode = DepthTextureMode.Depth;
+            //mCam.depthTextureMode = DepthTextureMode.Depth;
         }
 
         /// <inheritdoc/>
