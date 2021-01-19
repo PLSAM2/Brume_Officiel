@@ -15,7 +15,7 @@ public class Projectile : AutoKill
 
 	[Header("SpellLinked")]
 	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
-	float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
+	public float speed => localTrad.range / localTrad.salveInfos.timeToReachMaxRange;
 
 	[TabGroup("ProjectileParameters")] [SerializeField] bool doImpactFx = true;
 	Vector3 startPos;
@@ -26,8 +26,9 @@ public class Projectile : AutoKill
 	[SerializeField] ushort bouncingNumber;
 	ushort bouncingNumberLive;
 	public Action velocityChanged;
-	[SerializeField] LayerMask collisionMask;
 	float projRadius;
+	public bool diesOnPlayerTouch = true;
+	[Range(0, 1)] public float velocityKeptOnBounce = 1;
 
 	public override void Init ( Team ownerTeam )
 	{
@@ -55,13 +56,12 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
-
-		myRb.velocity = speed * transform.forward;
 	}
 
 	protected override void OnEnable ()
 	{
 		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
+		myRb.velocity = speed * transform.forward;
 		base.OnEnable();
 	}
 
@@ -71,7 +71,7 @@ public class Projectile : AutoKill
 		projRadius = GetComponent<SphereCollider>().radius;
 	}
 
-	private void OnTriggerEnter ( Collider other )
+	public void TriggerEnter(Collider other)
 	{
 		Damageable playerHit = other.gameObject.GetComponent<Damageable>();
 		PlayerModule playerTeam = other.gameObject.GetComponent<PlayerModule>();
@@ -88,32 +88,44 @@ public class Projectile : AutoKill
 					_temp = localTrad.damagesToDeal;
 					playerHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
-				Destroy();
-				asDeal = true;
+
+
+				if (diesOnPlayerTouch)
+				{
+					Destroy();
+				}
+
 
 				if (isOwner && localTrad._reduceCooldowns)
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
 
 				return;
 			}
-			else return;
+		}
+	}
+
+
+
+	void OnCollisionEnter ( Collision _coll )
+	{
+		if (bouncingNumberLive == 0)
+		{
+			hasTouched = true;
+			Destroy();
 		}
 		else
 		{
-			/*
-			
-		}
-	}
-	/*	protected override void FixedUpdate ()
-		{
-			transform.position += speed * transform.forward * Time.fixedDeltaTime;
-			base.FixedUpdate();
-		}*/
+			bouncingNumberLive--;
+			myLivelifeTime = mylifeTime * velocityKeptOnBounce;
+			myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
 
 		}
 	}
+
+
 	protected override void Destroy ()
 	{
+		asDeal = true;
 		if (hasTouched && doImpactFx)
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
@@ -130,34 +142,8 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
-
-		asDeal = true;
 		bouncingNumberLive = bouncingNumber;
-
 		base.Destroy();
-	}
-
-	private void Update ()
-	{
-		RaycastHit _hit;
-		if (Physics.SphereCast(transform.position, projRadius, myRb.velocity, out _hit,  .2f, LayerMask.GetMask("Environment")))
-			Collide(_hit);
-	}
-
-	public void Collide ( RaycastHit _hit )
-	{
-		if (bouncingNumberLive == 0)
-		{
-			hasTouched = true;
-			Destroy();
-		}
-		else
-		{
-			bouncingNumberLive--;
-			myLivelifeTime = mylifeTime;
-			//	transform.eulerAngles = new Vector3(0, Mathf.Atan2(_newDirection.x, _newDirection.z) * Mathf.Rad2Deg,0);
-			myRb.velocity = speed * Vector3.Reflect(myRb.velocity, _hit.normal).normalized;
-		}
 	}
 }
 
