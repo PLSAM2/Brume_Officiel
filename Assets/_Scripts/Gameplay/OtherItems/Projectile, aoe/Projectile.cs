@@ -21,7 +21,7 @@ public class Projectile : AutoKill
 	Vector3 startPos;
 
 	[HideInInspector] public bool hasTouched = false;
-	[ShowIf("useRb")] public Rigidbody myRb;
+	public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
 	[SerializeField] ushort bouncingNumber;
 	ushort bouncingNumberLive;
