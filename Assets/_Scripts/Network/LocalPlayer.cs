@@ -668,8 +668,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			print("Idie");
-			GameManager.Instance.hiddenEffect.enabled = false;
-			GameManager.Instance.surchargeEffect.enabled = false;
+			//GameManager.Instance.hiddenEffect.enabled = false;
+			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
