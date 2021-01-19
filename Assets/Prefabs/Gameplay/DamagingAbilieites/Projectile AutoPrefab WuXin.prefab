@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4642286905541268345}
   - component: {fileID: 4367408530959005567}
   - component: {fileID: 8728501415281471052}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3073313388587040675}
   - component: {fileID: 2196360774065183716}
   - component: {fileID: 2785706892123746681}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,9 +176,10 @@ GameObject:
   - component: {fileID: 1984787125783616747}
   - component: {fileID: 1384060272247584325}
   - component: {fileID: 1795821538017011573}
+  - component: {fileID: -1534728185079278919}
   - component: {fileID: 63471337967116498}
   - component: {fileID: 8281716281182407987}
-  m_Layer: 6
+  m_Layer: 20
   m_Name: Projectile AutoPrefab WuXin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +263,20 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &-1534728185079278919
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234301381807575755}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &63471337967116498
 Rigidbody:
@@ -407,7 +421,7 @@ GameObject:
   - component: {fileID: 2750085575427714237}
   - component: {fileID: 8046712025643345103}
   - component: {fileID: 5668272244984188031}
-  m_Layer: 11
+  m_Layer: 20
   m_Name: Fx
   m_TagString: Hide
   m_Icon: {fileID: 0}
@@ -465,7 +479,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4893502825971888538}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Meshs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4805572185730596517}
   - component: {fileID: 3001106507630351866}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3019420767287029772}
   - component: {fileID: 1807199098300453096}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

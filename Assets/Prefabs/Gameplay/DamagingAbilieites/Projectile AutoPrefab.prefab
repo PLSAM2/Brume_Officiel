@@ -176,9 +176,10 @@ GameObject:
   - component: {fileID: 1984787125783616747}
   - component: {fileID: 1384060272247584325}
   - component: {fileID: 1795821538017011573}
+  - component: {fileID: -4965501285618863948}
   - component: {fileID: 63471337967116498}
   - component: {fileID: 8281716281182407987}
-  m_Layer: 6
+  m_Layer: 20
   m_Name: Projectile AutoPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +263,20 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &-4965501285618863948
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234301381807575755}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &63471337967116498
 Rigidbody:
