@@ -36,9 +36,43 @@ public class Aoe : AutoKill
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
-	void DealDamagesInRange ( DamagesInfos _damages, bool _boucle = true )
+	protected void DealDamagesInRange ( DamagesInfos _damages, bool _boucle = true )
+	{
+
+		foreach (Collider _damageable in enemiesHit())
+		{
+			float _percentageOfTheMovement = 1;
+
+			if (adaptiveRange)
+			{
+				if (localTrad.rules.isBox)
+				{
+					if (_damages.movementToApply.isGrab)
+						_percentageOfTheMovement = ((Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+					else
+						_percentageOfTheMovement = (1 - ((Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
+				}
+				else
+				{
+					if (_damages.movementToApply.isGrab)
+						_percentageOfTheMovement = (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
+					else
+						_percentageOfTheMovement = (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
+				}
+			}
+
+			_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfTheMovement);
+
+			if (_boucle)
+				StartCoroutine(CustomUpdate());
+		}
+
+	}
+
+	protected Collider[] enemiesHit ()
 	{
 		Collider[] _allhits;
+		List<Collider> _allHitChecked = new List<Collider>();
 
 		if (localTrad.rules.isBox)
 			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2, Quaternion.identity, layer);
@@ -50,34 +84,11 @@ public class Aoe : AutoKill
 			Damageable _damageable = _coll.GetComponent<Damageable>();
 			if (_damageable != null && !_damageable.IsInMyTeam(myteam))
 			{
-				float _percentageOfTheMovement = 1;
-
-				if (adaptiveRange)
-				{
-					if (localTrad.rules.isBox)
-					{
-						if (_damages.movementToApply.isGrab)
-							_percentageOfTheMovement = ((Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
-						else
-							_percentageOfTheMovement = (1 - ((Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
-					}
-					else
-					{
-						print("i m not a box");
-						if (_damages.movementToApply.isGrab)
-							_percentageOfTheMovement = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
-						else
-							_percentageOfTheMovement = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
-					}
-				}
-
-				print(_percentageOfTheMovement);
-				_damageable.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfTheMovement);
+				_allHitChecked.Add(_coll);
 			}
 		}
 
-		if (_boucle)
-			StartCoroutine(CustomUpdate());
+		return _allHitChecked.ToArray();
 	}
 
 	protected override void FixedUpdate ()
