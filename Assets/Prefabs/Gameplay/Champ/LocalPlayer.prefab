@@ -90,6 +90,8 @@ MonoBehaviour:
   compassCanvas: {fileID: 3206967552854313362}
   pointerObj: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
   compassRot: {x: 0, y: 0, z: 0, w: 0}
+  redDotRadar: {fileID: 0}
+  yellowDotRadar: {fileID: 0}
   wxRef: {fileID: 0}
   statePart: {fileID: 1070017928604650217}
   stateText: {fileID: 5804728017779047575}
@@ -174,6 +176,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     strength: 0
+    fakeRange: 0
   isAGhost: 0
   ghost: {fileID: 0}
   ghostSpeed: 4.2
@@ -443,12 +446,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
   allFootsteps:
-  - {fileID: 8300000, guid: 59ec7c8226e1a5b42be0aa3e485beb1d, type: 3}
-  - {fileID: 8300000, guid: bc05ab80c0070a947a09920cc18198d6, type: 3}
-  - {fileID: 8300000, guid: 1b08c05ee5a3638429466bf255e75597, type: 3}
-  - {fileID: 8300000, guid: 2b14555734376cc44b20f611f4e3b22c, type: 3}
+  - {fileID: 8300000, guid: 26b5aeb6bd48c0d4f9900266cf1b7b47, type: 3}
+  - {fileID: 8300000, guid: c4a25dc979eeefa40b3bc7f4fb81a1d3, type: 3}
+  - {fileID: 8300000, guid: ed87ede9c60723f499d436dc4af10806, type: 3}
+  - {fileID: 8300000, guid: 8a63df970612dca47b5c9ac8862c6c27, type: 3}
   myAudioSource: {fileID: 3962372205171420851}
-  delayToDoSound: 0.5
+  delayToDoSound: 5
   objMesh: {fileID: 5588103883704817958}
 --- !u!1 &1724655755996733115
 GameObject:
