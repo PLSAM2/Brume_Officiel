@@ -41,7 +41,6 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Camera")]
     public Camera defaultCam;
-    [SerializeField] Animator volumeAnimator;
 
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
@@ -76,7 +75,6 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
-    public PostProcessVolume hiddenEffect, surchargeEffect, ghostEffect;
 
     private void Awake()
     {
@@ -178,7 +176,7 @@ public class GameManager : SerializedMonoBehaviour
     public void ResetCam()
     {
         defaultCam.gameObject.SetActive(true);
-        volumeAnimator.SetBool("InBrume", false);
+        globalVolumeAnimator.SetBool("InBrume", false);
     }
 
     void UpdateTime()
@@ -214,25 +212,29 @@ public class GameManager : SerializedMonoBehaviour
         RoomManager.Instance.QuitGame();
     }
 
-    internal void SpawnBrumeSoul(ushort brumeId)
-    {
-        if (brumeSouls.ContainsKey(brumeId))
-        {
-            return;
-        }
+    #region DEPRECATED
 
-        BrumeSoul _soul = Instantiate(brumeSoul, allBrume[brumeId].spawnPoint.position, Quaternion.Euler(0,0,0)).GetComponent<BrumeSoul>();
-        _soul.brumeIndex = brumeId;
-        _soul.instanceID = allBrume[brumeId].GetInstanceID();
-        brumeSouls.Add(brumeId, _soul);
-    }
+    //internal void SpawnBrumeSoul(ushort brumeId)
+    //{
+    //    if (brumeSouls.ContainsKey(brumeId))
+    //    {
+    //        return;
+    //    }
 
-    internal void DeleteBrumeSoul(ushort brumeId)
-    {
-        if (brumeSouls.ContainsKey(brumeId))
-        {
-            Destroy(brumeSouls[brumeId].gameObject);
-            brumeSouls.Remove(brumeId);
-        }
-    }
+    //    BrumeSoul _soul = Instantiate(brumeSoul, allBrume[brumeId].spawnPoint.position, Quaternion.Euler(0,0,0)).GetComponent<BrumeSoul>();
+    //    _soul.brumeIndex = brumeId;
+    //    _soul.instanceID = allBrume[brumeId].GetInstanceID();
+    //    brumeSouls.Add(brumeId, _soul);
+    //}
+
+    //internal void DeleteBrumeSoul(ushort brumeId)
+    //{
+    //    if (brumeSouls.ContainsKey(brumeId))
+    //    {
+    //        Destroy(brumeSouls[brumeId].gameObject);
+    //        brumeSouls.Remove(brumeId);
+    //    }
+    //}
+
+    #endregion
 }

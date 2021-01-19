@@ -6,9 +6,12 @@ public class YangKeyAnim : MonoBehaviour
 {
     [SerializeField] AudioClip surchargeYangSfx;
     [SerializeField] ParticleSystem[] dashParticle;
+
+    [SerializeField] LocalPlayer myLocalplayer;
+
     public void OnSurchargeSfx()
     {
-        AudioManager.Instance.Play3DAudio(surchargeYangSfx, transform.position);
+        AudioManager.Instance.Play3DAudio(surchargeYangSfx, transform.position, myLocalplayer.myPlayerId, true);
     }
 
     public void PlayParticleDash()

@@ -26,6 +26,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("ActualGameInfo")]
     public int roundCount = 0;
+    public Dictionary<ushort, ushort> ultimateStack = new Dictionary<ushort, ushort>();
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
     [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 
@@ -128,7 +129,7 @@ public class RoomManager : MonoBehaviour
         StartCoroutine(EndGame(true, gameScene));
     }
 
-    IEnumerator EndGame(bool isNewRound = false, string sceneName = "" )
+    IEnumerator EndGame(bool isNewRound = false, string sceneName = "")
     {
         Time.timeScale = Time.timeScale / 4;
 
@@ -139,7 +140,8 @@ public class RoomManager : MonoBehaviour
         if (isNewRound)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-        } else
+        }
+        else
         {
             ResetActualGame();
             StartChampSelectInServer();
@@ -199,6 +201,8 @@ public class RoomManager : MonoBehaviour
         StartNewRound();
         ResetPlayersReadyStates();
         SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
+
+
     }
 
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)
@@ -210,6 +214,12 @@ public class RoomManager : MonoBehaviour
                 assignedSpawn[Team.red] = reader.ReadUInt16();
                 assignedSpawn[Team.blue] = reader.ReadUInt16();
             }
+        }
+
+        foreach (KeyValuePair<ushort, PlayerData> item in actualRoom.playerList.Where
+            (x => x.Value.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam))
+        {
+            ultimateStack.Add(item.Key, 0);
         }
 
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
@@ -370,5 +380,41 @@ public class RoomManager : MonoBehaviour
         NetworkManager.Instance.GetLocalPlayer().ResetGameData();
         SceneManager.LoadScene(menuScene, LoadSceneMode.Single);
         ResetActualGame();
+    }
+
+    internal void TryAddUltimateStacks(ushort playerId, ushort value, bool set = false)
+    {
+        if (!GameManager.Instance.networkPlayers.ContainsKey(playerId)) { return; }
+
+        LocalPlayer _lp = GameManager.Instance.networkPlayers[playerId];
+
+        if (actualRoom.playerList[playerId].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            if (set)
+            {
+                if (_lp.myPlayerModule.characterParameters.maxUltimateStack < value)
+                {
+                    ultimateStack[playerId] = _lp.myPlayerModule.characterParameters.maxUltimateStack;
+                } else
+                {
+
+                    ultimateStack[playerId] = value;
+                }
+
+            } else
+            {
+                if (_lp.myPlayerModule.characterParameters.maxUltimateStack < ultimateStack[playerId] + value)
+                {
+                    ultimateStack[playerId] = _lp.myPlayerModule.characterParameters.maxUltimateStack;
+                }
+                else
+                {
+                    ultimateStack[playerId] += value;
+                }
+
+            }
+
+            UiManager.Instance.SetUltimateStacks(playerId, ultimateStack[playerId]);
+        }
     }
 }

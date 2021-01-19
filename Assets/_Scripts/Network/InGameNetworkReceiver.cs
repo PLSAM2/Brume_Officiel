@@ -141,15 +141,42 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 OnSpawnAOEFx(sender, e);
             }
-            else if (message.Tag == Tags.BrumeSoulSpawnCall)
+            else if (message.Tag == Tags.AddUltimatePoint)
             {
-                BrumeSoulSpawnCall(sender, e);
+                AddUltimatePoint(sender, e);
             }
-            else if (message.Tag == Tags.BrumeSoulPicked)
+            else if (message.Tag == Tags.AddUltimatePointToAllTeam)
             {
-                BrumeSoulPicked(sender, e);
+                AddUltimatePointToAllTeam(sender, e);
+            }
+            //else if (message.Tag == Tags.BrumeSoulSpawnCall)
+            //{
+            //    BrumeSoulSpawnCall(sender, e);
+            //}
+            //else if (message.Tag == Tags.BrumeSoulPicked)
+            //{
+            //    BrumeSoulPicked(sender, e);
+            //}
+            else if (message.Tag == Tags.NewChatMessage)
+            {
+                NewChatMessage(sender, e);
             }
         }
+    }
+
+    private void NewChatMessage(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                string _message = reader.ReadString();
+
+                UiManager.Instance.chat.ReceiveNewMessage(_id, _message);
+            }
+        }
+
     }
 
     private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
@@ -667,32 +694,36 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-
-    private void BrumeSoulSpawnCall(object sender, MessageReceivedEventArgs e)
+    private void AddUltimatePoint(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _brumeId = reader.ReadUInt16();
+                ushort _playerId = reader.ReadUInt16();
+                ushort _size = reader.ReadUInt16();
 
-                GameManager.Instance.SpawnBrumeSoul(_brumeId);
+                RoomManager.Instance.TryAddUltimateStacks(_playerId, _size, true);
             }
         }
     }
 
-    private void BrumeSoulPicked(object sender, MessageReceivedEventArgs e)
+    private void AddUltimatePointToAllTeam(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                ushort _brumeId = reader.ReadUInt16();
-
-                GameManager.Instance.DeleteBrumeSoul(_brumeId);
+                Team _team = (Team)reader.ReadUInt16();
+                ushort _value = reader.ReadUInt16();
+                foreach (PlayerData p in GameFactory.GetAllPlayerInTeam(_team))
+                {
+                    RoomManager.Instance.TryAddUltimateStacks(p.ID, _value, false);
+                }        
             }
         }
     }
+
 
     public void SetEndGame(bool value = true)
     {
@@ -702,4 +733,36 @@ public class InGameNetworkReceiver : MonoBehaviour
     {
         return isEndGame;
     }
+
+
+    #region DEPRECATED
+
+    //private void BrumeSoulSpawnCall(object sender, MessageReceivedEventArgs e)
+    //{
+    //    using (Message message = e.GetMessage())
+    //    {
+    //        using (DarkRiftReader reader = message.GetReader())
+    //        {
+    //            ushort _brumeId = reader.ReadUInt16();
+
+    //            GameManager.Instance.SpawnBrumeSoul(_brumeId);
+    //        }
+    //    }
+    //}
+
+    //private void BrumeSoulPicked(object sender, MessageReceivedEventArgs e)
+    //{
+    //    using (Message message = e.GetMessage())
+    //    {
+    //        using (DarkRiftReader reader = message.GetReader())
+    //        {
+    //            ushort _brumeId = reader.ReadUInt16();
+
+    //            GameManager.Instance.DeleteBrumeSoul(_brumeId);
+    //        }
+    //    }
+    //}
+
+    #endregion
+
 }

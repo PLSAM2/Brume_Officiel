@@ -53,7 +53,7 @@ public class Projectile_SoulBurst : Projectile
 
 			isInMyTeam = (myteam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex);
 
-            AudioManager.Instance.Play3DAudio(explosionSound, transform.position);
+            AudioManager.Instance.Play3DAudio(explosionSound, transform.position, myNetworkObject.GetItemID(), false);
 
             if (isOwner)
 				Explode();

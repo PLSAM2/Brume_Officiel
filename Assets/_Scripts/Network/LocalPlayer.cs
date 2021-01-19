@@ -39,6 +39,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
 	[TabGroup("Ui")] public GameObject pointerObj;
 	[TabGroup("Ui")] public Quaternion compassRot;
+	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
 	[TabGroup("Ui")] public LocalPlayer wxRef;
 
 	private Camera mainCam;
@@ -86,7 +87,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-
+	public Action wuXinTookDamages;
+	WxController _WxControlerRef;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -97,8 +99,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		canvas.GetComponent<Canvas>().worldCamera = mainCam;
 		compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
 		newNetorkPos = transform.position;
-
-		AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 	}
 
 
@@ -128,6 +128,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			SpawnFow();
 
 			CameraManager.Instance.SetParent(transform);
+
+			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 		}
 		else
 		{
@@ -155,7 +157,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				WxLife.fillAmount = wxRef._liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
 
-				Vector3 fromPos = this.transform.position;
+				Vector3 fromPos = this.transform.position + Vector3.right;
 				Vector3 toPos = wxRef.transform.position;
 
 				fromPos.y = 0;
@@ -166,7 +168,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			}
 		}
-
 
 		//ui life
 		lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
@@ -276,6 +277,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
+
+			if (_WxControlerRef == null)
+				wuXinTookDamages -= PingRadarRed;
 		}
 	}
 
@@ -283,6 +287,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (!isOwner)
 			return;
+
+		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
 	}
 
 	void FixedUpdate ()
@@ -417,7 +423,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// Deal damage to this character
 	/// </summary>
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
-	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false )
+	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false, float _percentageOfTheMovement = 1 )
 	{
 
 		if (ignoreTeam == false && dealerID != null && GameManager.Instance.networkPlayers[(ushort)dealerID].myPlayerModule.teamIndex == myPlayerModule.teamIndex)
@@ -454,7 +460,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			if (_damagesToDeal.movementToApply != null)
 			{
-				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
 			}
 		}
 
@@ -509,7 +515,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
-		print("I deal DAamge local");
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -518,15 +523,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			UiManager.Instance.FeedbackHit();
+
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
 				myPlayerModule.ApplyWxMark(dealerID);
 			}
 		}
+		else
+		{
+			if (GetComponent<WxController>()!= null)
+				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
+		}
+
 
 		if ((int)liveHealth - (int)damages <= 0)
 		{
-			print("I Should Die");
 			if (isOwner)
 			{
 				if (dealerID != null)
@@ -657,8 +668,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			print("Idie");
-			GameManager.Instance.hiddenEffect.enabled = false;
-			GameManager.Instance.surchargeEffect.enabled = false;
+			//GameManager.Instance.hiddenEffect.enabled = false;
+			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
@@ -699,13 +710,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj )
 	{
-		if (this.transform.position == obj || isOwner == false || Vector3.Distance(this.transform.position, obj) < 3)
+		if (this.transform.position == obj || isOwner == false )
 		{
 			return;
 		}
-
 		GameObject _newPointer = GetFirstDisabledPointer();
-		_newPointer.transform.SetParent(compassCanvas.transform);
+
 		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj);
 	}
 
@@ -813,12 +823,23 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		return myPlayerModule.teamIndex == _indexTested;
 	}
 
+	public void PingRadarRed ()
+	{
+		print("I ping");
+		redDotRadar.SetTrigger("Trigger");
+	}
+
+	public void PingRadarYellow ()
+	{
+		yellowDotRadar.SetTrigger("Trigger");
+	}
+
 
 }
 
 public interface Damageable
 {
-	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false );
+	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false, float _percentageOfTheMovement = 1 );
 
 	bool IsInMyTeam ( Team _indexTested );
 }

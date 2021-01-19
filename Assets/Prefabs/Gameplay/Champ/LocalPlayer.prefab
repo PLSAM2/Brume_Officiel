@@ -90,6 +90,8 @@ MonoBehaviour:
   compassCanvas: {fileID: 3206967552854313362}
   pointerObj: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
   compassRot: {x: 0, y: 0, z: 0, w: 0}
+  redDotRadar: {fileID: 0}
+  yellowDotRadar: {fileID: 0}
   wxRef: {fileID: 0}
   statePart: {fileID: 1070017928604650217}
   stateText: {fileID: 5804728017779047575}
@@ -174,6 +176,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     strength: 0
+    fakeRange: 0
   isAGhost: 0
   ghost: {fileID: 0}
   ghostSpeed: 4.2
@@ -443,12 +446,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
   allFootsteps:
-  - {fileID: 8300000, guid: 59ec7c8226e1a5b42be0aa3e485beb1d, type: 3}
-  - {fileID: 8300000, guid: bc05ab80c0070a947a09920cc18198d6, type: 3}
-  - {fileID: 8300000, guid: 1b08c05ee5a3638429466bf255e75597, type: 3}
-  - {fileID: 8300000, guid: 2b14555734376cc44b20f611f4e3b22c, type: 3}
+  - {fileID: 8300000, guid: 26b5aeb6bd48c0d4f9900266cf1b7b47, type: 3}
+  - {fileID: 8300000, guid: c4a25dc979eeefa40b3bc7f4fb81a1d3, type: 3}
+  - {fileID: 8300000, guid: ed87ede9c60723f499d436dc4af10806, type: 3}
+  - {fileID: 8300000, guid: 8a63df970612dca47b5c9ac8862c6c27, type: 3}
   myAudioSource: {fileID: 3962372205171420851}
-  delayToDoSound: 0.5
+  delayToDoSound: 5
   objMesh: {fileID: 5588103883704817958}
 --- !u!1 &1724655755996733115
 GameObject:
@@ -711,6 +714,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4921371474272935324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,7 +1121,7 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6849448395297745578}
-  serializedVersion: 6
+  serializedVersion: 7
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
@@ -4689,19 +4693,20 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
-    serializedVersion: 3
+    serializedVersion: 4
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    plane0: {fileID: 0}
-    plane1: {fileID: 0}
-    plane2: {fileID: 0}
-    plane3: {fileID: 0}
-    plane4: {fileID: 0}
-    plane5: {fileID: 0}
+    m_Planes:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -4875,17 +4880,20 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 0}
-    collisionShape1: {fileID: 0}
-    collisionShape2: {fileID: 0}
-    collisionShape3: {fileID: 0}
-    collisionShape4: {fileID: 0}
-    collisionShape5: {fileID: 0}
+    serializedVersion: 2
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+    colliderQueryMode: 0
     radiusScale: 1
+    primitives:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -5972,6 +5980,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5633175811720171505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6280,10 +6289,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (5)
@@ -6658,10 +6663,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (3)
@@ -6764,10 +6765,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (6)
@@ -7328,13 +7325,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7381373153998814974, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Pivot.x
@@ -7434,10 +7431,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (7)
@@ -7540,10 +7533,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (4)
@@ -7912,10 +7901,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (8)
@@ -8113,10 +8098,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (9)
@@ -8219,10 +8200,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5426778886394815909}
     m_Modifications:
-    - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: maxDistance
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (2)
