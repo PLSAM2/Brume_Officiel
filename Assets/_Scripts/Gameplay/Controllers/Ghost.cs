@@ -57,9 +57,9 @@ public class Ghost : MonoBehaviour
     {
         GameManager.Instance.currentLocalGhost = this;
 
-		GameManager.Instance.ghostEffect.enabled = true;
+		//GameManager.Instance.ghostEffect.enabled = true;
 
-	   canvas.SetActive(true);
+	    canvas.SetActive(true);
         this.playerModule = playerModule;
         saveLifeTime = lifetime;
         movementModule.ghostSpeed = ghostSpeed;
@@ -156,7 +156,7 @@ public class Ghost : MonoBehaviour
     {
         if (networkedObject.GetIsOwner())
         {
-			GameManager.Instance.ghostEffect.enabled = false;
+			//GameManager.Instance.ghostEffect.enabled = false;
 
 			GameFactory.GetLocalPlayerObj().circleDirection.SetActive(true);
 

@@ -41,7 +41,6 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Camera")]
     public Camera defaultCam;
-    [SerializeField] Animator volumeAnimator;
 
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
@@ -76,7 +75,6 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
-    public PostProcessVolume hiddenEffect, surchargeEffect, ghostEffect;
 
     private void Awake()
     {
@@ -178,7 +176,7 @@ public class GameManager : SerializedMonoBehaviour
     public void ResetCam()
     {
         defaultCam.gameObject.SetActive(true);
-        volumeAnimator.SetBool("InBrume", false);
+        globalVolumeAnimator.SetBool("InBrume", false);
     }
 
     void UpdateTime()
