@@ -10,11 +10,17 @@ public class Sc_ForcedMovement : ScriptableObject
 	public ForcedMovement movementToApply;
 	public bool isGrab= false;
 
-	public ForcedMovement MovementToApply(Vector3 _target, Vector3 _basePos)
+	public ForcedMovement MovementToApply(Vector3 _target, Vector3 _basePos, float percentageOfTheMovement = 1)
 	{
 		ForcedMovement _temp = new ForcedMovement();
-		_temp = movementToApply;
-		if(!isGrab)
+		_temp.duration = movementToApply.duration;
+		_temp.baseDuration = movementToApply.duration;
+		_temp.speedEvolution = movementToApply.speedEvolution;
+		_temp.direction = movementToApply.direction;
+		_temp.strength = movementToApply.strength * percentageOfTheMovement;
+
+
+		if (!isGrab)
 			_temp.direction = Vector3.Normalize(_target - _basePos);
 		else
 			_temp.direction = Vector3.Normalize( _basePos - _target);

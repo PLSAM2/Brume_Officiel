@@ -23,8 +23,7 @@ public class UpgradeModule : SpellModule
 		myPlayerModule.upgradeKit.Invoke();
 		inBonus = true;
 		myPlayerModule.mylocalPlayer.EnableBuff(true, "Overload");
-		GameManager.Instance.surchargeEffect.enabled = true;
-
+		//GameManager.Instance.surchargeEffect.enabled = true;
 	}
 
 	protected override void FixedUpdate ()
@@ -52,7 +51,7 @@ public class UpgradeModule : SpellModule
 		myPlayerModule.mylocalPlayer.EnableBuff(false, "Overload");
 
 		myPlayerModule.backToNormalKit.Invoke();
-		GameManager.Instance.surchargeEffect.enabled = false;
+		//GameManager.Instance.surchargeEffect.enabled = false;
 		StartThrowBack();
 	}
 

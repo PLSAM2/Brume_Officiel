@@ -39,11 +39,11 @@ public class FootstepAudio : MonoBehaviour
     {
         if(myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            myAudioSource.volume = _volume / 10;
+            myAudioSource.volume = _volume / 5;
         }
         else
         {
-            myAudioSource.volume = _volume / 2;
+            myAudioSource.volume = _volume;
         }
     }
 
