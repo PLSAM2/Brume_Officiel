@@ -9,6 +9,7 @@ public class Aoe : AutoKill
 	[TabGroup("AoeParameters")] public Sc_Aoe localTrad;
 	bool asDealtFinal = false;
 	LayerMask layer;
+	public bool adaptiveRange = true;
 
 	protected override void Awake ()
 	{
@@ -20,7 +21,13 @@ public class Aoe : AutoKill
 		base.Init(ownerTeam);
 
 		if (isOwner)
-			DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+		{
+			if (localTrad.rules.damagesToDealOnDuration.damageHealth != 0 || localTrad.rules.damagesToDealOnDuration.movementToApply != null)
+				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+			else
+				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, false);
+
+		}
 	}
 
 	IEnumerator CustomUpdate ()
@@ -29,7 +36,7 @@ public class Aoe : AutoKill
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
-	void DealDamagesInRange ( DamagesInfos _damages )
+	void DealDamagesInRange ( DamagesInfos _damages, bool _boucle = true )
 	{
 		Collider[] _allhits;
 
@@ -42,10 +49,35 @@ public class Aoe : AutoKill
 		{
 			Damageable _damageable = _coll.GetComponent<Damageable>();
 			if (_damageable != null && !_damageable.IsInMyTeam(myteam))
-				_damageable.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+			{
+				float _percentageOfTheMovement = 1;
+
+				if (adaptiveRange)
+				{
+					if (localTrad.rules.isBox)
+					{
+						if (_damages.movementToApply.isGrab)
+							_percentageOfTheMovement = ((Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+						else
+							_percentageOfTheMovement = (1 - ((Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
+					}
+					else
+					{
+						print("i m not a box");
+						if (_damages.movementToApply.isGrab)
+							_percentageOfTheMovement = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
+						else
+							_percentageOfTheMovement = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+					}
+				}
+
+				print(_percentageOfTheMovement);
+				_damageable.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfTheMovement);
+			}
 		}
 
-		StartCoroutine(CustomUpdate());
+		if (_boucle)
+			StartCoroutine(CustomUpdate());
 	}
 
 	protected override void FixedUpdate ()
@@ -57,7 +89,8 @@ public class Aoe : AutoKill
 		{
 			StopAllCoroutines();
 			asDealtFinal = true;
-			DealDamagesInRange(localTrad.rules.finalDamages);
+			if (localTrad.rules.finalDamages.damageHealth != 0 || localTrad.rules.finalDamages.movementToApply != null)
+				DealDamagesInRange(localTrad.rules.finalDamages, false);
 		}
 	}
 

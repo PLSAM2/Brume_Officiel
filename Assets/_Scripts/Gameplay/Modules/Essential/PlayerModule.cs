@@ -279,10 +279,11 @@ public class PlayerModule : MonoBehaviour
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
 
+                /*
 				if ((state & En_CharacterState.Hidden) != 0)
-					GameManager.Instance.hiddenEffect.enabled = true;
+					//GameManager.Instance.hiddenEffect.enabled = true;
 				else
-					GameManager.Instance.hiddenEffect.enabled = false;
+					//GameManager.Instance.hiddenEffect.enabled = false;*/
 
 				if ((state & En_CharacterState.WxMarked) != 0)
 					wxMark.SetActive(true);

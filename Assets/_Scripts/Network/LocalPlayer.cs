@@ -423,7 +423,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// Deal damage to this character
 	/// </summary>
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
-	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false )
+	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false, float _percentageOfTheMovement = 1 )
 	{
 
 		if (ignoreTeam == false && dealerID != null && GameManager.Instance.networkPlayers[(ushort)dealerID].myPlayerModule.teamIndex == myPlayerModule.teamIndex)
@@ -460,7 +460,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			if (_damagesToDeal.movementToApply != null)
 			{
-				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
 			}
 		}
 
@@ -668,8 +668,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 		{
 			print("Idie");
-			GameManager.Instance.hiddenEffect.enabled = false;
-			GameManager.Instance.surchargeEffect.enabled = false;
+			//GameManager.Instance.hiddenEffect.enabled = false;
+			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.DisplayGeneralMessage("You have been slain");
@@ -839,7 +839,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 public interface Damageable
 {
-	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false );
+	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false, float _percentageOfTheMovement = 1 );
 
 	bool IsInMyTeam ( Team _indexTested );
 }

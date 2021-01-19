@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: WuXin_BaseAttack
+  m_Name: Spell_Re_Projectile
   m_EditorClassIdentifier: 
-  range: 8
-  cooldown: 1
+  range: 7
+  cooldown: 6
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.6
+  canalisationTime: 0.2
   statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
+  - {fileID: 11400000, guid: 39795c6d6a543014caa8dbe0c8af82f0, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.2
+    timeToReachMaxRange: 0.25
     timeToResolveTheSalve: 0
   isMultiple: 0
   angleToSplit: 0

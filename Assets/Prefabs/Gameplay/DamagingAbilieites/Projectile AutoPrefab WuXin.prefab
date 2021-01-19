@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4642286905541268345}
   - component: {fileID: 4367408530959005567}
   - component: {fileID: 8728501415281471052}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MeshRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3073313388587040675}
   - component: {fileID: 2196360774065183716}
   - component: {fileID: 2785706892123746681}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MeshBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,11 +176,11 @@ GameObject:
   - component: {fileID: 1984787125783616747}
   - component: {fileID: 1384060272247584325}
   - component: {fileID: 1795821538017011573}
-  - component: {fileID: -4965501285618863948}
+  - component: {fileID: -1534728185079278919}
   - component: {fileID: 63471337967116498}
   - component: {fileID: 8281716281182407987}
   m_Layer: 20
-  m_Name: Projectile AutoPrefab
+  m_Name: Projectile AutoPrefab WuXin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,14 +244,14 @@ MonoBehaviour:
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 02f9acdded9a54447b5cf3c3b168b853, type: 3}
   soundFollowObj: 1
-  localTrad: {fileID: 11400000, guid: e725454c917804d4ab8a657d37daa650, type: 2}
+  localTrad: {fileID: 11400000, guid: 42c1ca26719993d4b86cb890ba31df79, type: 2}
   doImpactFx: 1
   hasTouched: 0
   myRb: {fileID: 63471337967116498}
   hitSound: {fileID: 0}
-  bouncingNumber: 1
+  bouncingNumber: 0
   diesOnPlayerTouch: 0
-  velocityKeptOnBounce: 1
+  velocityKeptOnBounce: 0
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -265,7 +265,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &-4965501285618863948
+--- !u!135 &-1534728185079278919
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4893502825971888538}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,7 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4805572185730596517}
   - component: {fileID: 3001106507630351866}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3019420767287029772}
   - component: {fileID: 1807199098300453096}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

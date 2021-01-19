@@ -21,7 +21,7 @@ public class Projectile : AutoKill
 	Vector3 startPos;
 
 	[HideInInspector] public bool hasTouched = false;
-	[ShowIf("useRb")] public Rigidbody myRb;
+	public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
 	[SerializeField] ushort bouncingNumber;
 	ushort bouncingNumberLive;
@@ -71,14 +71,29 @@ public class Projectile : AutoKill
 		projRadius = GetComponent<SphereCollider>().radius;
 	}
 
-	public void TriggerEnter(Collider other)
+	void OnCollisionEnter ( Collision _coll )
 	{
-		Damageable playerHit = other.gameObject.GetComponent<Damageable>();
-		PlayerModule playerTeam = other.gameObject.GetComponent<PlayerModule>();
-
-		if (playerHit != null)
+		if (bouncingNumberLive == 0)
 		{
-			if (playerTeam.teamIndex != myteam)
+			hasTouched = true;
+			Destroy();
+		}
+		else
+		{
+			bouncingNumberLive--;
+			myLivelifeTime = mylifeTime * velocityKeptOnBounce;
+			myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
+
+		}
+	}
+
+	void OnTriggerEnter ( Collider _coll )
+	{
+		Damageable _damageableHit = _coll.gameObject.GetComponent<Damageable>();
+
+		if (_damageableHit != null)
+		{
+			if (!_damageableHit.IsInMyTeam(myteam))
 			{
 				hasTouched = true;
 
@@ -86,7 +101,7 @@ public class Projectile : AutoKill
 				{
 					DamagesInfos _temp = new DamagesInfos();
 					_temp = localTrad.damagesToDeal;
-					playerHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
+					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 
 
@@ -101,24 +116,6 @@ public class Projectile : AutoKill
 
 				return;
 			}
-		}
-	}
-
-
-
-	void OnCollisionEnter ( Collision _coll )
-	{
-		if (bouncingNumberLive == 0)
-		{
-			hasTouched = true;
-			Destroy();
-		}
-		else
-		{
-			bouncingNumberLive--;
-			myLivelifeTime = mylifeTime * velocityKeptOnBounce;
-			myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
-
 		}
 	}
 
