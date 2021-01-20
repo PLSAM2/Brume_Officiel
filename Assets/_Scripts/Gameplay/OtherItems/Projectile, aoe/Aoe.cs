@@ -41,30 +41,31 @@ public class Aoe : AutoKill
 
 		foreach (Collider _damageable in enemiesHit())
 		{
-			float _percentageOfTheMovement = 1;
 
-			if (adaptiveRange)
 			{
+				print(Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
+
 				if (localTrad.rules.isBox)
 				{
 					if (_damages.movementToApply.isGrab)
-						_percentageOfTheMovement = ((Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 					else
-						_percentageOfTheMovement = (1 - ((Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
+						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (1 - (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
+
 				}
 				else
 				{
 					if (_damages.movementToApply.isGrab)
-						_percentageOfTheMovement = (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
+						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
+
 					else
-						_percentageOfTheMovement = (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
+						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius)));
+
 				}
+
+				if (_boucle)
+					StartCoroutine(CustomUpdate());
 			}
-
-			_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfTheMovement);
-
-			if (_boucle)
-				StartCoroutine(CustomUpdate());
 		}
 
 	}

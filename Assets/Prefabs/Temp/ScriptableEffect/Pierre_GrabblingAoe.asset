@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rules:
     durationOfTheAoe: 3
-    aoeRadius: 2.75
+    timeBeforeFinalDisparition: 0.1
     damagesToDealOnImpact:
       playerName: 
       damageHealth: 10
@@ -34,3 +34,15 @@ MonoBehaviour:
       additionalDamages: 0
       additionalStatusToApply: []
       additionalMovementToApply: {fileID: 0}
+    finalDamages:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+      stateNeeded: 128
+      additionalDamages: 0
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 0}
+    isBox: 0
+    aoeRadius: 2.75
+    boxDimension: {x: 0, y: 0, z: 0}
