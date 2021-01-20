@@ -34,29 +34,25 @@ public class ReactivableAoe : Aoe
 
 	public void Reactivation ( Vector3 _mousePos )
 	{
+		print("I try to reactivate");
 		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & stateForbiddenForReactivation) == 0 && !hasReactivated)
 		{
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.firstSpellInput -= Reactivation;
 			hasReactivated = true;
 
 			/*LocalPoolManager.Instance.SpawnNewGenericInNetwork(3, transform.position + Vector3.up * 0.1f, transform.eulerAngles.y, localTrad.rules.aoeRadius);*/
-			print("ICOmeBack");
 			StartCoroutine(DelayBeforeApplyDamages());
 		}
 	}
 
 	IEnumerator DelayBeforeApplyDamages ()
 	{
+		Vector3 posToGrabTo = GameManager.Instance.currentLocalPlayer.transform.position;
 		yield return new WaitForSeconds(delayBeforeApplyingDamages);
-
-		List<LocalPlayer> playersHit = GameFactory.GetPlayersInRangeByTeam(localTrad.rules.aoeRadius, transform.position, GameFactory.GetOtherTeam(myteam));
-
-		foreach (LocalPlayer _hit in playersHit)
+		foreach(Collider _coll in enemiesHit())
 		{
-			if (useCharacterPos)
-				_hit.DealDamages(damagesToApplyOnReactivation, GameManager.Instance.currentLocalPlayer.transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
-			else
-				_hit.DealDamages(damagesToApplyOnReactivation, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
+			_coll.GetComponent<Damageable>().DealDamages(damagesToApplyOnReactivation, posToGrabTo, GameManager.Instance.currentLocalPlayer.myPlayerId);
 		}
+
 	}
 }

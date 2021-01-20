@@ -28,7 +28,6 @@ public class UiManager : MonoBehaviour
 
     private bool waitForMinimapUpdate = false;
 
-
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalMessageAnim;
@@ -64,6 +63,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIconOnScreen;
     [FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
     [FoldoutGroup("Other Gameplay")] public Image hitFeedback;
+    [FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 
     private GameObject actualChar;
     private GameObject actualUnlockedAltar = null;
@@ -389,6 +389,31 @@ public class UiManager : MonoBehaviour
                 nextAltarRadarIcon.gameObject.SetActive(true);
             }
         }
+    }
+
+    internal void SetUltimateStacks(ushort playerId, ushort v)
+    {
+        int index = 1;
+        switch (RoomManager.Instance.actualRoom.playerList[playerId].playerCharacter)
+        {
+            case Character.none:
+                throw new Exception("none character");
+            case Character.WuXin:
+                index = 0;
+                break;
+            case Character.Re:
+                index = 1;
+                break;
+            case Character.Leng:
+                index = 2;
+                break;
+            case Character.test:
+                throw new Exception("test character");
+            default:
+                throw new Exception("DEFAULT");
+        }
+
+        allyIconUIs[index].SetUltimateProgress(v);
     }
 
     internal void UnlockNewAltar(Altar altar)

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4642286905541268345
 Transform:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   bouncingNumber: 1
   diesOnPlayerTouch: 0
-  velocityKeptOnBounce: 0.75
+  velocityKeptOnBounce: 1
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &-4965501285618863948
 SphereCollider:
@@ -276,7 +276,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &63471337967116498
 Rigidbody:

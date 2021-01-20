@@ -141,6 +141,14 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 OnSpawnAOEFx(sender, e);
             }
+            else if (message.Tag == Tags.AddUltimatePoint)
+            {
+                AddUltimatePoint(sender, e);
+            }
+            else if (message.Tag == Tags.AddUltimatePointToAllTeam)
+            {
+                AddUltimatePointToAllTeam(sender, e);
+            }
             //else if (message.Tag == Tags.BrumeSoulSpawnCall)
             //{
             //    BrumeSoulSpawnCall(sender, e);
@@ -683,6 +691,35 @@ public class InGameNetworkReceiver : MonoBehaviour
                 if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
                 GameManager.Instance.networkPlayers[_playerId].ForceLocalFowRaduis((float)_size / 100);
+            }
+        }
+    }
+    private void AddUltimatePoint(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _playerId = reader.ReadUInt16();
+                ushort _size = reader.ReadUInt16();
+
+                RoomManager.Instance.TryAddUltimateStacks(_playerId, _size, true);
+            }
+        }
+    }
+
+    private void AddUltimatePointToAllTeam(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                Team _team = (Team)reader.ReadUInt16();
+                ushort _value = reader.ReadUInt16();
+                foreach (PlayerData p in GameFactory.GetAllPlayerInTeam(_team))
+                {
+                    RoomManager.Instance.TryAddUltimateStacks(p.ID, _value, false);
+                }        
             }
         }
     }
