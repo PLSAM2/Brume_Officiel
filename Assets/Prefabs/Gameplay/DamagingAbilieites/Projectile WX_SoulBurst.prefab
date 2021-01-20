@@ -638,19 +638,21 @@ MonoBehaviour:
   feedBackTouch: {fileID: 8640629026506735562, guid: a403ab7be26a28b408ff559d9bd82adb, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: a36534ad231eabf4f91304951363c531, type: 3}
   soundFollowObj: 0
-  localTrad: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
+  localTrad: {fileID: 11400000, guid: 5a7859f7f5bcffb42ab241d54f9fa181, type: 2}
   doImpactFx: 1
   hasTouched: 0
-  useRb: 0
   myRb: {fileID: 3420004688133137551}
   hitSound: {fileID: 0}
+  bouncingNumber: 0
+  diesOnPlayerTouch: 1
+  velocityKeptOnBounce: 1
   explosionRange: 2.75
   damagesExplosion:
     playerName: 
-    damageHealth: 30
+    damageHealth: 1
     statusToApply:
-    - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
-    movementToApply: {fileID: 11400000, guid: 163fd00189edff349b7e6d100821bba1, type: 2}
+    - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
+    movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []

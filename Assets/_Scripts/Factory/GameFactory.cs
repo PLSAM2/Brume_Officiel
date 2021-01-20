@@ -46,6 +46,11 @@ public class GameFactory
 
         return null;
     }
+    public static List<PlayerData> GetAllPlayerInTeam(Team team)
+    {
+        List<PlayerData> _tempPlayer = RoomManager.Instance.actualRoom.playerList.Values.Where(x => x.playerTeam == team).ToList();
+        return _tempPlayer;
+    }
 
     public static int GenerateRandomNumer(int min, int max)
     {

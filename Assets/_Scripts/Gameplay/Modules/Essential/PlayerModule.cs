@@ -145,8 +145,6 @@ public class PlayerModule : MonoBehaviour
 		GameManager.Instance.AllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 
 		//A VIRER QUAND C EST TROUVER.
-
-
 	}
 
 	void Start ()
@@ -174,6 +172,7 @@ public class PlayerModule : MonoBehaviour
 
 		}
 	}
+
 	public virtual void Setup ()
 	{
 		firstSpell?.SetupComponent(En_SpellInput.FirstSpell);
