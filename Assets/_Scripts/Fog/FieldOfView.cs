@@ -27,8 +27,8 @@ public class FieldOfView : MonoBehaviour
 
     public float maskCutawayDst = .1f;
 
-    //public MeshFilter viewMeshFilter;
-    //Mesh viewMesh;
+    public MeshFilter viewMeshFilter;
+    Mesh viewMesh;
 
     [SerializeField] fowType myType;
 
@@ -50,14 +50,14 @@ public class FieldOfView : MonoBehaviour
         SetListVisibleEnemy();
     }
 
-    /*
+    
     void InitMesh()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
 
         viewMeshFilter.mesh = viewMesh;
-    }*/
+    }
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
@@ -71,20 +71,23 @@ public class FieldOfView : MonoBehaviour
     public void GenerateFowStatic()
     {
         isStatic = true;
-        //DrawFieldOfView();
+        DrawFieldOfView();
     }
 
     [SerializeField] bool isStatic = false;
 
     void FixedUpdate()
     {
-        SetListVisibleEnemy();
-        SetListVisibleFx();
+        //SetListVisibleEnemy();
+        //SetListVisibleFx();
         SetListVisibleInteractible();
+
+        print("dssd");
 
         if (isStatic) { return; }
 
-        //DrawFieldOfView();
+        print("test");
+        DrawFieldOfView();
     }
 
     void SetListVisibleInteractible()
@@ -210,7 +213,6 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    /*
     public void DrawFieldOfView()
     {
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
@@ -273,7 +275,6 @@ public class FieldOfView : MonoBehaviour
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
     }
-    */
 
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
     {
