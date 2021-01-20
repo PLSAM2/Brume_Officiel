@@ -29,8 +29,9 @@ public class Projectile : AutoKill
 	public Action velocityChanged;
 	float projRadius;
 	public bool diesOnPlayerTouch = true;
-	[Range(0, 1)] public float velocityKeptOnBounce = 1;
+	public bool diesOnWallTouch;
 
+	[Range(0, 1)] public float velocityKeptOnBounce = 1;
 	public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
@@ -123,6 +124,8 @@ public class Projectile : AutoKill
 				return;
 			}
 		}
+		else if (diesOnWallTouch)
+			Destroy();
 	}
 
 
