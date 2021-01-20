@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
-  m_Name: Pierre_ReactivableSpit
+  m_Name: Spell_Leng_Grab
   m_EditorClassIdentifier: 
   range: 7
-  cooldown: 10
+  cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.5
-  statusToApplyOnCanalisation: []
-  lockRotOnAnonciation: 1
+  canalisationTime: 0.35
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
-  anonciationTime: 0.25
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
-  statusToApplyOnResolution:
-  - {fileID: 11400000, guid: 39795c6d6a543014caa8dbe0c8af82f0, type: 2}
+  statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.5
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 4078694c97a3c4947be8e92b3c23b0f7, type: 3}
   onImpactInstantiate: {fileID: 8027883529589055175, guid: db9b4b38ab4035c4b8d4ce548d61cbc5, type: 3}
   launchCurve:
@@ -65,7 +65,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   spitSpeed: 0
-  timeToReachMaxRange: 1.5
-  minTimeToReach: 0.5
-  minHeight: 3
-  maxHeightAtMaxRange: 6
+  timeToReachMaxRange: 0.2
+  minTimeToReach: 0.2
+  minHeight: 0
+  maxHeightAtMaxRange: 0
