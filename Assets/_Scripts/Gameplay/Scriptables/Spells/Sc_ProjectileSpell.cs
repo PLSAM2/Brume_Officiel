@@ -24,8 +24,6 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 
 	[Header("MultiProjectile")]
-	[TabGroup("ProjectileSpecifications")] [SerializeField] bool isMultiple = false;
-
 	[TabGroup("ProjectileSpecifications")] [Min(1)] [ShowIf("isMultiple")] public int angleToSplit;
 
 	[Header("UpgradePart")]
