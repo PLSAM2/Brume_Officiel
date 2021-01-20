@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 11400000}
+  - component: {fileID: 291283426}
   m_Layer: 0
   m_Name: Fog of War
   m_TagString: Untagged
@@ -43,17 +44,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff305e18ad52574498a55f1e786a069c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unexploredColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
-  exploredColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  unexploredColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0.74509805}
+  exploredColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 0.78039217}
   worldSize: 128
-  textureSize: 512
+  textureSize: 256
   updateFrequency: 0.1
   textureBlendTime: 0.5
   blurIterations: 4
-  heightRange: {x: 0, y: 20}
+  range: 10
   raycastMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1024
   raycastRadius: 0.5
   margin: 0.4
   debug: 0
+--- !u!114 &291283426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3415ba129cfb3a444901db8dbbd42d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText1: {fileID: 8400000, guid: bfcae5bf0a923544b8ff8aeecd2c2518, type: 2}

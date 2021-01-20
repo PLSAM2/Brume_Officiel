@@ -98,7 +98,7 @@ public class FOWSystem : MonoBehaviour
 
 	public int blurIterations = 2;
 
-	public Vector2 heightRange = new Vector2(0f, 10f);
+	public float range = 10;
 
 	public LayerMask raycastMask = -1;
 
@@ -124,7 +124,7 @@ public class FOWSystem : MonoBehaviour
 
 		mTrans = transform;
 		mHeights = new int[textureSize, textureSize];
-		mSize = new Vector3(worldSize, heightRange.y - heightRange.x, worldSize);
+		mSize = new Vector3(worldSize, range, worldSize);
 
 		mOrigin = mTrans.position;
 		mOrigin.x -= worldSize * 0.5f;
@@ -279,8 +279,8 @@ public class FOWSystem : MonoBehaviour
 	{
 		Gizmos.matrix = transform.localToWorldMatrix;
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireCube(new Vector3(0f, (heightRange.x + heightRange.y) * 0.5f, 0f),
-			new Vector3(worldSize, heightRange.y - heightRange.x, worldSize));
+		Gizmos.DrawWireCube(new Vector3(0f, (range) * 0.5f, 0f),
+			new Vector3(worldSize, range, worldSize));
 	}
 
 	/// <summary>
@@ -544,7 +544,7 @@ public class FOWSystem : MonoBehaviour
 		int minRange = Mathf.RoundToInt(r.inner * r.inner * worldToTex * worldToTex);
 		int maxRange = Mathf.RoundToInt(r.outer * r.outer * worldToTex * worldToTex);
 		int gh = WorldToGridHeight(r.pos.y);
-		int variance = Mathf.RoundToInt(Mathf.Clamp01(margin / (heightRange.y - heightRange.x)) * 255);
+		int variance = Mathf.RoundToInt(Mathf.Clamp01(margin / (range)) * 255);
 		Color32 white = new Color32(255, 255, 255, 255);
 
 		// Leave the edges unrevealed
@@ -658,7 +658,7 @@ public class FOWSystem : MonoBehaviour
 
 		int minRange = Mathf.RoundToInt(r.inner * r.inner * worldToTex * worldToTex);
 		int maxRange = Mathf.RoundToInt(r.outer * r.outer * worldToTex * worldToTex);
-		int variance = Mathf.RoundToInt(Mathf.Clamp01(margin / (heightRange.y - heightRange.x)) * 255);
+		int variance = Mathf.RoundToInt(Mathf.Clamp01(margin / (range)) * 255);
 		int gh = WorldToGridHeight(r.pos.y);
 
 		// Leave the edges unrevealed
