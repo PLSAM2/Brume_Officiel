@@ -7,8 +7,6 @@ using static GameData;
 public class ReactivableAoe : Aoe
 {
 
-	[TabGroup("ReactivationPart")] public En_SpellInput inputLinked;
-	[TabGroup("ReactivationPart")] public En_CharacterState stateForbiddenForReactivation = (En_CharacterState.Canalysing | En_CharacterState.Silenced);
 	[TabGroup("ReactivationPart")] public float delayBeforeApplyingDamages = .5f;
 	[TabGroup("ReactivationPart")] public DamagesInfos damagesToApplyOnReactivation;
 	[TabGroup("ReactivationPart")] public bool useCharacterPos;
@@ -18,10 +16,12 @@ public class ReactivableAoe : Aoe
 	public override void Init ( GameData.Team ownerTeam )
 	{
 		base.Init(ownerTeam);
+		print(isOwner);
 
 		if (isOwner)
 		{
 			hasReactivated = false;
+			print("I lnik");	
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.firstSpellInput += Reactivation;
 		}
 	}
@@ -35,7 +35,7 @@ public class ReactivableAoe : Aoe
 	public void Reactivation ( Vector3 _mousePos )
 	{
 		print("I try to reactivate");
-		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & stateForbiddenForReactivation) == 0 && !hasReactivated)
+		if (!hasReactivated)
 		{
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.firstSpellInput -= Reactivation;
 			hasReactivated = true;
@@ -49,8 +49,10 @@ public class ReactivableAoe : Aoe
 	{
 		Vector3 posToGrabTo = GameManager.Instance.currentLocalPlayer.transform.position;
 		yield return new WaitForSeconds(delayBeforeApplyingDamages);
+	
 		foreach(Collider _coll in enemiesHit())
 		{
+			print(_coll.name);
 			_coll.GetComponent<Damageable>().DealDamages(damagesToApplyOnReactivation, posToGrabTo, GameManager.Instance.currentLocalPlayer.myPlayerId);
 		}
 
