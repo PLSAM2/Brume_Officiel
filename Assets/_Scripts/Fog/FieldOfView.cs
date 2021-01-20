@@ -78,15 +78,12 @@ public class FieldOfView : MonoBehaviour
 
     void FixedUpdate()
     {
-        //SetListVisibleEnemy();
-        //SetListVisibleFx();
+        SetListVisibleEnemy();
+        SetListVisibleFx();
         SetListVisibleInteractible();
-
-        print("dssd");
 
         if (isStatic) { return; }
 
-        print("test");
         DrawFieldOfView();
     }
 
