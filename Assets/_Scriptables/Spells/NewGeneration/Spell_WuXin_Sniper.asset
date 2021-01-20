@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_WuXin_Sniper
   m_EditorClassIdentifier: 
   range: 9
-  cooldown: 1
+  cooldown: 2
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 0
@@ -33,7 +33,8 @@ MonoBehaviour:
   damagesToDeal:
     playerName: 
     damageHealth: 1
-    statusToApply: []
+    statusToApply:
+    - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
@@ -45,7 +46,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.15
+    timeToReachMaxRange: 0.2
     timeToResolveTheSalve: 0.8
   isMultiple: 0
   angleToSplit: 0
