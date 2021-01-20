@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 4642286905541268345}
   - component: {fileID: 4367408530959005567}
   - component: {fileID: 8728501415281471052}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MeshRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4642286905541268345
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 279285048789274863}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 4805572185730596517}
   m_Father: {fileID: 4893502825971888538}
@@ -93,13 +93,13 @@ GameObject:
   - component: {fileID: 3073313388587040675}
   - component: {fileID: 2196360774065183716}
   - component: {fileID: 2785706892123746681}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MeshBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3073313388587040675
 Transform:
   m_ObjectHideFlags: 0
@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 4046907593915369113}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 3019420767287029772}
   m_Father: {fileID: 4893502825971888538}
@@ -176,10 +176,11 @@ GameObject:
   - component: {fileID: 1984787125783616747}
   - component: {fileID: 1384060272247584325}
   - component: {fileID: 1795821538017011573}
+  - component: {fileID: -1534728185079278919}
   - component: {fileID: 63471337967116498}
   - component: {fileID: 8281716281182407987}
   m_Layer: 20
-  m_Name: Proj_Wuxin_NewGen
+  m_Name: WuXin_ExplosiveProj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,6 +199,7 @@ Transform:
   m_Children:
   - {fileID: 2750085575427714237}
   - {fileID: 4893502825971888538}
+  - {fileID: 8875680264503095071}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -242,16 +244,29 @@ MonoBehaviour:
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 02f9acdded9a54447b5cf3c3b168b853, type: 3}
   soundFollowObj: 1
-  localTrad: {fileID: 11400000, guid: e725454c917804d4ab8a657d37daa650, type: 2}
+  aoeToSpawn: {fileID: 5624599934099963903, guid: 0abd4a7321a99ba4faa8ccb8fde14346, type: 3}
+  localTrad: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
   doImpactFx: 1
   hasTouched: 0
   myRb: {fileID: 63471337967116498}
   hitSound: {fileID: 0}
   bouncingNumber: 0
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 512
+  diesOnPlayerTouch: 0
+  velocityKeptOnBounce: 0
 --- !u!135 &1795821538017011573
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234301381807575755}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &-1534728185079278919
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,7 +277,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &63471337967116498
 Rigidbody:
@@ -465,7 +480,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4893502825971888538}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Meshs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,6 +503,64 @@ Transform:
   m_Father: {fileID: 5237070312135978756}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8462475305662550243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8875680264503095071}
+  - component: {fileID: 8505844223489284667}
+  - component: {fileID: 738423106028031318}
+  m_Layer: 20
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8875680264503095071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462475305662550243}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5237070312135978756}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8505844223489284667
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462475305662550243}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &738423106028031318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462475305662550243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941e93ecce0cf2d4d89505a26ba780a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myProj: {fileID: 1384060272247584325}
 --- !u!1 &8840125380003665559
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4805572185730596517}
   - component: {fileID: 3001106507630351866}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -636,7 +709,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3019420767287029772}
   - component: {fileID: 1807199098300453096}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
