@@ -15,7 +15,7 @@ public class Altar : Interactible
     public float unlockTime;
     public string altarName = "";
     public AltarBuff altarBuff;
-
+    public ushort ultimateStackGive = 2;
     [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
@@ -38,7 +38,22 @@ public class Altar : Interactible
 
     public override void Captured(Team team)
     {
-        altarBuff.InitBuff(capturingPlayerModule);
+        if (altarBuff != null)
+        {
+            altarBuff.InitBuff(capturingPlayerModule);
+        }
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write((ushort)team);
+            writer.Write(ultimateStackGive);
+
+            using (Message message = Message.Create(Tags.AddUltimatePointToAllTeam, writer))
+            {
+               NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
+            }
+        }
+
         base.Captured(team);
     }
     public override void SetActiveState(bool value)

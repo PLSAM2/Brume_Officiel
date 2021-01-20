@@ -15,12 +15,14 @@ public class AllyIconUI : MonoBehaviour
     {
         for (int i = 0; i < ultimateProgress.Count; i++)
         {
-            if (i > progress)
+            ultimateProgress[i].color = ultProgressOnColor;
+
+            if (i >= progress)
             {
                 ultimateProgress[i].color = ultProgressOffColor;
             }
 
-            ultimateProgress[i].color = ultProgressOnColor;
+
         }
     }
 
