@@ -74,17 +74,22 @@ public class Projectile : AutoKill
 
 	void OnCollisionEnter ( Collision _coll )
 	{
-		if (bouncingNumberLive == 0)
-		{
-			hasTouched = true;
-			Destroy();
-		}
-		else
-		{
-			bouncingNumberLive--;
-			myLivelifeTime = mylifeTime * velocityKeptOnBounce;
-			myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
+		Damageable _temp = _coll.gameObject.GetComponent<Damageable>();
 
+		if (_temp == null)
+		{
+			if (bouncingNumberLive == 0)
+			{
+				hasTouched = true;
+				Destroy();
+			}
+			else
+			{
+				bouncingNumberLive--;
+				myLivelifeTime = mylifeTime * velocityKeptOnBounce;
+				myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
+
+			}
 		}
 	}
 
