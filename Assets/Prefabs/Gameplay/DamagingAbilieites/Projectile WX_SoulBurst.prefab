@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711002817461895876}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: -0.047375023, z: 0}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 463890329947272273}
   m_Father: {fileID: 3620543530296804304}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711002817461895876}
-  m_Mesh: {fileID: 4300000, guid: 34a2662908b24e948b6c57ce9513c0f3, type: 3}
+  m_Mesh: {fileID: 973877516759717424, guid: 403a16819a507ae4b9d34025c04f16c8, type: 3}
 --- !u!23 &666501220190319908
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -108,8 +108,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3002685521963235122}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: -0.047375023, z: 0}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 3144260557952354630}
   m_Father: {fileID: 3620543530296804304}
@@ -122,7 +122,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3002685521963235122}
-  m_Mesh: {fileID: 4300000, guid: 34a2662908b24e948b6c57ce9513c0f3, type: 3}
+  m_Mesh: {fileID: 973877516759717424, guid: 403a16819a507ae4b9d34025c04f16c8, type: 3}
 --- !u!23 &127456860247447261
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5048512923743607736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 374265798522633214}
@@ -542,9 +542,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7438536250504620889}
   - component: {fileID: 3754968121714383030}
+  - component: {fileID: 4981018722792986250}
   - component: {fileID: 3997851561229656872}
   - component: {fileID: 3420004688133137551}
-  - component: {fileID: 8724460869845800599}
+  - component: {fileID: 8581505296204303168}
   m_Layer: 20
   m_Name: Projectile WX_SoulBurst
   m_TagString: Untagged
@@ -560,7 +561,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8724460869845800598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.73, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3620543530296804304}
@@ -586,7 +587,7 @@ MonoBehaviour:
   interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.05
   rotationRequiredBeforeSync: 6
---- !u!135 &3997851561229656872
+--- !u!135 &4981018722792986250
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -597,7 +598,20 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &3997851561229656872
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724460869845800598}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3420004688133137551
 Rigidbody:
@@ -615,7 +629,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 3
---- !u!114 &8724460869845800599
+--- !u!114 &8581505296204303168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -624,7 +638,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8724460869845800598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 100b2ef7411ae34408387ed83554725c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4191f6b19cec0414c924724b6ab1d41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mylifeTime: 0
@@ -635,10 +649,11 @@ MonoBehaviour:
   myNetworkObject: {fileID: 0}
   isOwner: 0
   spawnSound: {fileID: 0}
-  feedBackTouch: {fileID: 8640629026506735562, guid: a403ab7be26a28b408ff559d9bd82adb, type: 3}
-  _mySfxAudio: {fileID: 8300000, guid: a36534ad231eabf4f91304951363c531, type: 3}
+  feedBackTouch: {fileID: 0}
+  _mySfxAudio: {fileID: 0}
   soundFollowObj: 0
-  localTrad: {fileID: 11400000, guid: 5a7859f7f5bcffb42ab241d54f9fa181, type: 2}
+  aoeToSpawn: {fileID: 5624599934099963903, guid: 0abd4a7321a99ba4faa8ccb8fde14346, type: 3}
+  localTrad: {fileID: 11400000, guid: dcc197597717ae849ab6ade04a384fc8, type: 2}
   doImpactFx: 1
   hasTouched: 0
   myRb: {fileID: 3420004688133137551}
@@ -646,15 +661,3 @@ MonoBehaviour:
   bouncingNumber: 0
   diesOnPlayerTouch: 1
   velocityKeptOnBounce: 1
-  explosionRange: 2.75
-  damagesExplosion:
-    playerName: 
-    damageHealth: 1
-    statusToApply:
-    - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
-    movementToApply: {fileID: 0}
-    stateNeeded: 128
-    additionalDamages: 0
-    additionalStatusToApply: []
-    additionalMovementToApply: {fileID: 0}
-  explosionSound: {fileID: 8300000, guid: 9011c8161bad7ba42839fdec3ab73cf1, type: 3}

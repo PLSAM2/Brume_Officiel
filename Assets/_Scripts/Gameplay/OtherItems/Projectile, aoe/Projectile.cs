@@ -12,6 +12,7 @@ public class Projectile : AutoKill
 	[TabGroup("ProjectileParameters")] [SerializeField] GameObject feedBackTouch;
 	[TabGroup("ProjectileParameters")] [SerializeField] AudioClip _mySfxAudio;
 	[TabGroup("ProjectileParameters")] [SerializeField] bool soundFollowObj = false;
+	[TabGroup("ProjectileParameters")] [SerializeField] Aoe aoeToSpawn;
 
 	[Header("SpellLinked")]
 	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
@@ -139,6 +140,10 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
+
+		if (aoeToSpawn != null && isOwner)
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn.gameObject), transform.position, Vector3.zero);
+
 		bouncingNumberLive = bouncingNumber;
 		base.Destroy();
 	}
