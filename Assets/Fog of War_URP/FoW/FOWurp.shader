@@ -29,6 +29,9 @@ Shader "Image Effects/Fog of War Urp"
 			sampler2D _FogTex1;
 			sampler2D _CameraDepthTexture;
 
+			half4 _SaveColor;
+			float4 Lerp0 = float4(1,1,1,1);
+
 			uniform float4x4 _InverseMVP;
 			uniform float4 _Params;
 			uniform float4 _CamPos;
@@ -68,9 +71,14 @@ Shader "Image Effects/Fog of War Urp"
 				}
 
 				float2 uv = pos.xz * _Params.z + _Params.xy;
-				half4 fog = lerp(tex2D(_FogTex0, uv), tex2D(_FogTex1, uv), _Params.w);
 
-				return lerp(original * _Unexplored, original, fog.r);
+				Lerp0 = tex2D(_FogTex0, uv).r * Lerp0.r;
+
+				//half4 fog = tex2D(_FogTex0, uv);
+
+				//_SaveColor += fog;
+
+				return lerp(original * _Unexplored, original, Lerp0.r);
 			}
 			ENDHLSL
 		}

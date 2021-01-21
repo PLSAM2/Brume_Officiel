@@ -1,3 +1,5 @@
+using UnityEngine.SceneManagement;
+
 namespace UnityEngine.Rendering.Universal
 {
     public class FogPass : ScriptableRenderPass
@@ -116,7 +118,7 @@ namespace UnityEngine.Rendering.Universal
 
         void SendShaderValue()
         {
-            if (mFog == null)
+            if (mFog == null || SceneManager.GetActiveScene().name != "NewGame")
             {
                 return;
             }
@@ -149,7 +151,7 @@ namespace UnityEngine.Rendering.Universal
             //settings.blitMaterial.SetTexture("_FogTex1", mFog.texture1);
 
             settings.blitMaterial.SetTexture("_FogTex0", samTest.Instance.myText1);
-            settings.blitMaterial.SetTexture("_FogTex1", samTest.Instance.myText1);
+            //settings.blitMaterial.SetTexture("_FogTex1", samTest.Instance.myText1);
 
             settings.blitMaterial.SetMatrix("_InverseMVP", mInverseMVP);
             settings.blitMaterial.SetVector("_CamPos", camPos);
