@@ -223,6 +223,11 @@ public class PlayerModule : MonoBehaviour
 				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
+		if(!GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+		{
+			gameObject.layer = 1 << 7;
+		}
+
 	}
 
 	protected virtual void Update ()

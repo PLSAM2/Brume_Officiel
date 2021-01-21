@@ -19,12 +19,22 @@ public class InGameDebugger : MonoBehaviour
     private void Awake() 
     {
         Init();
+        StartCoroutine(DisplayFps());
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        fps.text = "FPS " +  (int)(1f / Time.unscaledDeltaTime);
+        //fps.text = "FPS " +  (int)(1f / Time.unscaledDeltaTime);
         ms.text = (NetworkManager.Instance.GetLocalClient().Client.RoundTripTime.LatestRtt * 1000).ToString("#####") + " Ms";
+    }
+
+    IEnumerator DisplayFps()
+    {
+        while (true)
+        {
+            fps.text = "FPS " + (int)(1f / Time.unscaledDeltaTime);
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 
     private void Init()

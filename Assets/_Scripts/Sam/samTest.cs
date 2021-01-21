@@ -6,13 +6,20 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        print("enter");
-    }
+    private static samTest _instance;
+    public static samTest Instance { get { return _instance; } }
 
-    private void OnTriggerExit(Collider other)
+    public RenderTexture myText1;
+
+    private void Awake()
     {
-        print("exit");
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
     }
 }

@@ -140,6 +140,9 @@ public class AudioManager : SerializedMonoBehaviour
             _writer.Write(_position.y);
             _writer.Write(_position.z);
 
+            _writer.Write(id);
+            _writer.Write(isPlayer);
+
             using (Message _message = Message.Create(Tags.Play3DSound, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
@@ -159,7 +162,7 @@ public class AudioManager : SerializedMonoBehaviour
             i++;
         }
 
-        print("<color=red>Frero le son il existe pas le manager </color>");
+        print("<color=red>" + _clip.name + " est pas dans le manager audio </color>");
         return 0;
     }
 

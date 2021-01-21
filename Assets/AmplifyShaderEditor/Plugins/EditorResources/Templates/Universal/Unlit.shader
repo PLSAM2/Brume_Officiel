@@ -4,7 +4,7 @@ Shader /*ase_name*/ "Hidden/Universal/Unlit" /*end*/
 	{
 		/*ase_props*/
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
-		//_TessValue( "Tess Max Tessellation", Range( 1, 128 ) ) = 16
+		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
 		//_TessMin( "Tess Min Distance", Float ) = 10
 		//_TessMax( "Tess Max Distance", Float ) = 25
 		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
