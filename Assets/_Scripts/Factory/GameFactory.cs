@@ -34,6 +34,20 @@ public class GameFactory
         }
     }
 
+    public static Color GetReferentialPlayerTeamColor(Team playerTeam)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer() != null)
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == playerTeam)
+            {
+                return GetColorTeam(Team.blue);
+            }
+        }
+
+        return GetColorTeam(Team.red);
+
+    }
+
 
     public static ushort? GetPlayerCharacterInTeam(Team team, Character character)
     {
@@ -78,7 +92,19 @@ public class GameFactory
             return Team.blue;
         }
     }
+    public static bool IsOnMyTeam(ushort playerID)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer() != null && RoomManager.Instance.actualRoom.playerList.ContainsKey(playerID))
+        {
+            if (RoomManager.Instance.GetPlayerData(playerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                return true;
+            }
+        }
 
+        return false;
+
+    }
     public static bool PlayersAreOnSameBrume(PlayerModule p1, PlayerModule p2)
     {
         if(p1.isInBrume && p2.isInBrume

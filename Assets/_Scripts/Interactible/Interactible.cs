@@ -138,7 +138,7 @@ public class Interactible : MonoBehaviour
     }
     public void ProgressInServer(float progress)
     {
-        timer += progress;
+        timer = progress;
     }
 
     public virtual void TryCapture(Team team, PlayerModule capturingPlayer)
@@ -185,7 +185,7 @@ public class Interactible : MonoBehaviour
 
         if (isViewed)
         {
-            SetColor(GameFactory.GetColorTeam(capturingTeam));
+            SetColor(GameFactory.GetReferentialPlayerTeamColor(capturingTeam));
         }
 
     }
@@ -304,7 +304,7 @@ public class Interactible : MonoBehaviour
             case State.Captured:
                 if (capturingTeam != Team.none)
                 {
-                    SetColor(GameFactory.GetColorTeam(capturingTeam));
+                    SetColor(GameFactory.GetReferentialPlayerTeamColor(capturingTeam));
                 }
                 break;
             default:
@@ -406,7 +406,6 @@ public class Interactible : MonoBehaviour
                     TryCapture(_pModule.teamIndex, _pModule);
                 }
             }
-
             CheckOnUnlock = false;
         }
     }
