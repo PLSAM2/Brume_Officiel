@@ -123,6 +123,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 524356111}
+  - {fileID: 3445461707387035305}
   m_Father: {fileID: 7437436737860875975}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -2.34, y: 0, z: 0}
@@ -151,7 +152,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 65
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -464,7 +465,7 @@ MonoBehaviour:
   m_YDamping: 0.2
   m_ZDamping: 0.2
   m_ScreenX: 0.5
-  m_ScreenY: 0.4
+  m_ScreenY: 0.43
   m_CameraDistance: 15
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -525,7 +526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4937095375379038111}
   m_LocalRotation: {x: 0.53729963, y: -0, z: -0, w: 0.8433915}
-  m_LocalPosition: {x: 80.2, y: 95.03692, z: -18.771408}
+  m_LocalPosition: {x: 80.2, y: 95.33223, z: -18.1381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6662946735498762051}
@@ -553,7 +554,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 4197430260402325309}
   m_Lens:
-    FieldOfView: 65
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -591,4 +592,34 @@ Transform:
   - {fileID: 4197430260402325309}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7707905810880809874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3445461707387035305}
+  m_Layer: 0
+  m_Name: PosOffset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3445461707387035305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707905810880809874}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7696856220853874057}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

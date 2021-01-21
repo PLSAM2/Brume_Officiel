@@ -23,7 +23,7 @@ public class Aoe : AutoKill
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnDuration.damageHealth != 0 || localTrad.rules.damagesToDealOnDuration.movementToApply != null)
-				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, true);
 			else
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, false);
 
@@ -32,6 +32,7 @@ public class Aoe : AutoKill
 
 	IEnumerator CustomUpdate ()
 	{
+		print("i Start Custom");
 		yield return new WaitForSeconds(.2f);
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
