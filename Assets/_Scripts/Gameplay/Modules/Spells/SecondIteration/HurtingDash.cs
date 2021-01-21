@@ -10,7 +10,7 @@ public class HurtingDash : SpellModule
 	public float cooldownReduction;
 	[SerializeField] HurtingBox hurtBox;
 	ArrowPreview _myPreview;
-
+	public float dashDurationAddedIfNeeded = .05f;
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -90,8 +90,8 @@ public class HurtingDash : SpellModule
 				ReduceCooldown(cooldownReduction);
 			}
 
-			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .05f)
-				myPlayerModule.movementPart.currentForcedMovement.duration += .05f;
+			if (myPlayerModule.movementPart.currentForcedMovement.duration <= dashDurationAddedIfNeeded)
+				myPlayerModule.movementPart.currentForcedMovement.duration += dashDurationAddedIfNeeded;
 		}
 	}
 }

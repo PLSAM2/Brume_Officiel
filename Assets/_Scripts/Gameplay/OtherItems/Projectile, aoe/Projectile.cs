@@ -12,6 +12,7 @@ public class Projectile : AutoKill
 	[TabGroup("ProjectileParameters")] [SerializeField] GameObject feedBackTouch;
 	[TabGroup("ProjectileParameters")] [SerializeField] AudioClip _mySfxAudio;
 	[TabGroup("ProjectileParameters")] [SerializeField] bool soundFollowObj = false;
+	[TabGroup("ProjectileParameters")] [SerializeField] Aoe aoeToSpawn;
 
 	[Header("SpellLinked")]
 	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
@@ -28,8 +29,9 @@ public class Projectile : AutoKill
 	public Action velocityChanged;
 	float projRadius;
 	public bool diesOnPlayerTouch = true;
-	[Range(0, 1)] public float velocityKeptOnBounce = 1;
+	public bool diesOnWallTouch;
 
+	[Range(0, 1)] public float velocityKeptOnBounce = 1;
 	public override void Init ( Team ownerTeam )
 	{
 		base.Init(ownerTeam);
@@ -73,17 +75,22 @@ public class Projectile : AutoKill
 
 	void OnCollisionEnter ( Collision _coll )
 	{
-		if (bouncingNumberLive == 0)
-		{
-			hasTouched = true;
-			Destroy();
-		}
-		else
-		{
-			bouncingNumberLive--;
-			myLivelifeTime = mylifeTime * velocityKeptOnBounce;
-			myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
+		Damageable _temp = _coll.gameObject.GetComponent<Damageable>();
 
+		if (_temp == null)
+		{
+			if (bouncingNumberLive == 0)
+			{
+				hasTouched = true;
+				Destroy();
+			}
+			else
+			{
+				bouncingNumberLive--;
+				myLivelifeTime = mylifeTime * velocityKeptOnBounce;
+				myRb.velocity = speed * Vector3.Reflect(transform.forward, _coll.GetContact(0).normal).normalized;
+
+			}
 		}
 	}
 
@@ -117,6 +124,8 @@ public class Projectile : AutoKill
 				return;
 			}
 		}
+		else if (diesOnWallTouch)
+			Destroy();
 	}
 
 
@@ -139,6 +148,10 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
+
+		if (aoeToSpawn != null && isOwner)
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn.gameObject), transform.position, Vector3.zero);
+
 		bouncingNumberLive = bouncingNumber;
 		base.Destroy();
 	}

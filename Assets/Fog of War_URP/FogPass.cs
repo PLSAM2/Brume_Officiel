@@ -145,10 +145,12 @@ namespace UnityEngine.Rendering.Universal
 
             Vector4 p = new Vector4(-x * invScale, -y * invScale, invScale, mFog.blendFactor);
             settings.blitMaterial.SetColor("_Unexplored", mFog.unexploredColor);
-            settings.blitMaterial.SetTexture("_FogTex0", mFog.texture0);
-            settings.blitMaterial.SetTexture("_FogTex1", mFog.texture1);
-            //settings.blitMaterial.SetTexture("_FogTex0", settings.texture);
-            //settings.blitMaterial.SetTexture("_FogTex1", settings.texture);
+            //settings.blitMaterial.SetTexture("_FogTex0", mFog.texture0);
+            //settings.blitMaterial.SetTexture("_FogTex1", mFog.texture1);
+
+            settings.blitMaterial.SetTexture("_FogTex0", samTest.Instance.myText1);
+            settings.blitMaterial.SetTexture("_FogTex1", samTest.Instance.myText1);
+
             settings.blitMaterial.SetMatrix("_InverseMVP", mInverseMVP);
             settings.blitMaterial.SetVector("_CamPos", camPos);
             settings.blitMaterial.SetVector("_Params", p);

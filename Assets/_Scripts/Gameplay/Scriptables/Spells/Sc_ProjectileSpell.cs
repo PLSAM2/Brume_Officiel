@@ -24,9 +24,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 
 	[Header("MultiProjectile")]
-	[TabGroup("ProjectileSpecifications")] [SerializeField] bool isMultiple = false;
-
-	[TabGroup("ProjectileSpecifications")] [Min(1)] [ShowIf("isMultiple")] public int angleToSplit;
+	[TabGroup("ProjectileSpecifications")] [Min(0)] public int angleToSplit;
 
 	[Header("UpgradePart")]
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;
