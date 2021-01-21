@@ -62,6 +62,14 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             {
                 CaptureProgressInteractibleInServer(sender, e);
             }
+            if (message.Tag == Tags.StopCaptureInteractible)
+            {
+                StopCaptureInteractible(sender, e);
+            }
+            if (message.Tag == Tags.PauseInteractible)
+            {
+                PauseInteractible(sender, e);
+            }
             if (message.Tag == Tags.CaptureInteractible)
             {
                 CaptureInteractibleInServer(sender, e);
@@ -88,6 +96,8 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             }
         }
     }
+
+
     public void InitInteractibleID()
     {
         for (ushort i = 0; i < interactibleList.Count; i++)
@@ -122,16 +132,22 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _ID = reader.ReadUInt16();
-                Team _team = (Team)reader.ReadUInt16();
+                ushort _capturingPlayerID = reader.ReadUInt16();
 
                 Interactible _interactible = interactibleList[_ID].interactible;
-                _interactible.UpdateCaptured(_team);
 
-                if (_interactible.GetType() == typeof(VisionTower))
+                if (NetworkManager.Instance.GetLocalPlayer().ID == _capturingPlayerID)
                 {
+                    _interactible.Captured(_capturingPlayerID);
+                    _interactible.UpdateCaptured(_capturingPlayerID);
 
                 }
+                else
+                {
+                    _interactible.UpdateCaptured(_capturingPlayerID);
                 }
+
+            }
         }
     }
 
@@ -142,14 +158,44 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _ID = reader.ReadUInt16();
-                Team _team = (Team)reader.ReadUInt16();
+                ushort _capturingPlayerID = reader.ReadUInt16();
 
                 Interactible _interactible = interactibleList[_ID].interactible;
 
-                (_interactible).UpdateTryCapture(_team);
+                (_interactible).UpdateTryCapture(_capturingPlayerID);
             }
         }
 
+    }
+
+    private void StopCaptureInteractible(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                (_interactible).StopCapturing();
+            }
+        }
+    }
+
+    private void PauseInteractible(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+                bool canProgress = reader.ReadBoolean();
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                (_interactible).PauseCapture(canProgress);
+            }
+        }
     }
 
     private void CaptureProgressInteractibleInServer(object sender, MessageReceivedEventArgs e)

@@ -28,9 +28,9 @@ public class VisionTower : Interactible
 
         base.TryCapture(team, capturingPlayer);
     }
-    public override void Captured(GameData.Team team)
+    public override void Captured(ushort _capturingPlayerID)
     {
-        base.Captured(team);
+        base.Captured(_capturingPlayerID);
         towerBody.sprite = lockedState;
 
         AudioManager.Instance.Play2DAudio(capturedTowerSfx);
@@ -42,11 +42,11 @@ public class VisionTower : Interactible
         towerBody.sprite = capturableState;
     }
 
-    public override void UpdateCaptured(GameData.Team team)
+    public override void UpdateCaptured(ushort _capturingPlayerID)
     {
-        base.UpdateCaptured(team);
+        base.UpdateCaptured(_capturingPlayerID);
 
-        if (team == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             vision.gameObject.SetActive(true);
             vision.Init();

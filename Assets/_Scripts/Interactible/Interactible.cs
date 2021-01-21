@@ -36,9 +36,16 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     public Character[] authorizedCaptureCharacter = new Character[1];
     [TabGroup("InteractiblePart")]
+    public bool contestable = true;
+    [TabGroup("InteractiblePart")]
     protected float timer = 0;
     [TabGroup("InteractiblePart")]
     protected bool isCapturing = false;
+    [TabGroup("InteractiblePart")]
+    protected bool paused = false;
+
+    [TabGroup("InteractiblePart")]
+    [SerializeField] List<PlayerModule> playerTriggeredInZone = new List<PlayerModule>();
 
     [Header("Color")]
     [TabGroup("InteractiblePart")]
@@ -66,8 +73,8 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     [SerializeField] AudioSource myAudioSource;
 
-
     private bool isViewed = false;
+    private bool CheckOnUnlock = false;
     private void Awake()
     {
         client = RoomManager.Instance.client;
@@ -105,26 +112,21 @@ public class Interactible : MonoBehaviour
 
         if (isViewed)
         {
-            fillImg.fillAmount = (timer / interactTime);
+            fillImg.fillAmount = (timer / interactTime) / 1;
         }
 
     }
 
     protected virtual void Capture()
     {
-        if (isInteractable && isCapturing) // Uniquement si on est le joueur qui capture et que l'on peut capturer
+        if (isInteractable && isCapturing && paused == false) // Uniquement si on est le joueur qui capture et que l'on peut capturer
         {
             timer += Time.fixedDeltaTime;
-
-            if (timer >= interactTime)
-            {
-                Captured(capturingTeam);
-            }
 
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
                 _writer.Write(interactibleID);
-                _writer.Write((float)Time.fixedDeltaTime);
+                _writer.Write((float)Time.fixedDeltaTime / interactTime);
 
                 using (Message _message = Message.Create(Tags.CaptureProgressInteractible, _writer))
                 {
@@ -146,39 +148,59 @@ public class Interactible : MonoBehaviour
             return;
         }
 
-        capturingPlayerModule = capturingPlayer;
-        capturingPlayerModule.AddState(En_CharacterState.Stunned);
-        isCapturing = true;
-
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(interactibleID);
             _writer.Write((ushort)team);
+            _writer.Write((ushort)type);
+            _writer.Write(this.transform.position.x);
+            _writer.Write(this.transform.position.y);
+            _writer.Write(this.transform.position.z);
 
             using (Message _message = Message.Create(Tags.TryCaptureInteractible, _writer))
             {
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
-
-        UpdateTryCapture(team);
     }
 
-    public virtual void UpdateTryCapture(Team team)
+    public virtual void UpdateTryCapture(ushort _capturingPlayerID)
     {
-        myAudioSource.enabled = true;
+        capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
 
-        timer = 0;
-        capturingTeam = team;
-
-        if (team != NetworkManager.Instance.GetLocalPlayer().playerTeam) // si on est pas de l'équipe qui capture, arreter la capture
+        if (NetworkManager.Instance.GetLocalPlayer().ID == _capturingPlayerID)
         {
-            StopCapturing(NetworkManager.Instance.GetLocalPlayer().playerTeam);
+            isCapturing = true;
+            paused = false;
+            timer = 0;
+        } else
+        {
+            timer = 0;
+            isCapturing = false;
+            paused = false;
         }
+
+        myAudioSource.enabled = true;
+        capturingTeam = capturingPlayerModule.teamIndex;
 
         if (isViewed)
         {
-            SetColor(GameFactory.GetColorTeam(team));
+            SetColor(GameFactory.GetColorTeam(capturingTeam));
+        }
+
+    }
+
+    public void PauseCapture(bool v)
+    {
+        if (v)
+        {
+            isCapturing = false;
+            paused = true;
+        }
+        else
+        {
+            isCapturing = true;
+            paused = false;
         }
 
     }
@@ -187,57 +209,53 @@ public class Interactible : MonoBehaviour
     /// Stop une capture en local
     /// </summary>
     /// <param name="team"> Equipe qui arrete de capturer</param>
-    public virtual void StopCapturing(Team team)
+    public void StopCapturing()
     {
-        if (isCapturing)
+        timer = 0;
+        myAudioSource.enabled = false;
+
+        capturingTeam = Team.none;
+        isCapturing = false;
+        paused = false;
+        capturingPlayerModule = null;
+
+        if (isViewed)
         {
-
-            myAudioSource.enabled = false;
-
-            capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
-
-            capturingTeam = Team.none;
-            isCapturing = false;
-
-            if (isViewed)
-            {
-                SetColorByState();
-            }
-
+            SetColorByState();
         }
-
     }
 
 
-    public virtual void Captured(Team team)
+    public virtual void Captured(ushort _capturingPlayerID)
     {
         if (InGameNetworkReceiver.Instance.GetEndGame())
         {
             return;
         }
 
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(interactibleID);
-            _writer.Write((ushort)team);
-            _writer.Write((ushort)type);
+        //using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        //{
+        //    _writer.Write(interactibleID);
+        //    _writer.Write((ushort)team);
+        //    _writer.Write((ushort)type);
 
-            using (Message _message = Message.Create(Tags.CaptureInteractible, _writer))
-            {
-                client.SendMessage(_message, SendMode.Reliable);
-            }
-        }
-        capturingPlayerModule.rotationLock(false);
+        //    using (Message _message = Message.Create(Tags.CaptureInteractible, _writer))
+        //    {
+        //        client.SendMessage(_message, SendMode.Reliable);
+        //    }
+        //}
+        // capturingPlayerModule.rotationLock(false);
 
-        timer = 0;
-        capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
+        // capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
 
 
-        UpdateCaptured(team);
+        UpdateCaptured(_capturingPlayerID);
     }
 
-    public virtual void UpdateCaptured(Team team)
+    public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
+        capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
+
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         fillImg.fillAmount = 0;
         isCapturing = false;
@@ -248,7 +266,7 @@ public class Interactible : MonoBehaviour
 
         if (mapIcon != null)
         {
-            if (team == Team.red && showOnMap)
+            if (capturingPlayerModule.teamIndex == Team.red && showOnMap)
                 mapIcon.sprite = iconRed;
             else if (showOnMap)
                 mapIcon.sprite = iconBlue;
@@ -269,6 +287,8 @@ public class Interactible : MonoBehaviour
 
         zoneImg.gameObject.SetActive(true);
         state = State.Capturable;
+
+        CheckOnUnlock = true;
     }
 
     private void SetColorByState()
@@ -305,12 +325,20 @@ public class Interactible : MonoBehaviour
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
-            if (_pModule == null || !_pModule.mylocalPlayer.isOwner)
+            if (_pModule == null)
+            {
                 return;
+            }
+
+            if (!_pModule.mylocalPlayer.isOwner)
+            {
+                return;
+            }
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
                 _pModule.interactiblesClose.Add(this);
+                TryCapture(_pModule.teamIndex, _pModule);
             }
         }
     }
@@ -321,20 +349,68 @@ public class Interactible : MonoBehaviour
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
-            if (_pModule == null || !_pModule.mylocalPlayer.isOwner)
+            if (_pModule == null)
+            {
                 return;
+            }
+
+            if (!_pModule.mylocalPlayer.isOwner)
+            {
+                return;
+            }
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
+
+                using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+                {
+                    _writer.Write(interactibleID);
+
+                    using (Message _message = Message.Create(Tags.QuitInteractibleZone, _writer))
+                    {
+                        client.SendMessage(_message, SendMode.Reliable);
+                    }
+                }
+
                 if (isCapturing && _pModule.teamIndex == capturingTeam)
                 {
-                    StopCapturing(_pModule.teamIndex);
+                    StopCapturing();
                 }
 
                 _pModule.interactiblesClose.Remove(this);
             }
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (CheckOnUnlock)
+        {
+            if (other.gameObject.layer == 8)
+            {
+                PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
+
+                if (_pModule == null)
+                {
+                    return;
+                }
+
+                if (!_pModule.mylocalPlayer.isOwner)
+                {
+                    return;
+                }
+
+                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
+                {
+                    _pModule.interactiblesClose.Add(this);
+                    TryCapture(_pModule.teamIndex, _pModule);
+                }
+            }
+
+            CheckOnUnlock = false;
+        }
+    }
+
     private void OnInteractibleViewChange(ushort ID, bool value)
     {
         if (interactibleID == ID)
