@@ -29,6 +29,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
+    bool init = false;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -49,19 +50,26 @@ public class AudioManager : SerializedMonoBehaviour
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
 
-
+        client.MessageReceived += OnMessageReceive;
+        init = true;
     }
 
     private void OnEnable()
     {
+
         OnVolumeChange += OnMasterVolumeChange;
-        client.MessageReceived += OnMessageReceive;
+
     }
 
     private void OnDisable()
     {
-        OnVolumeChange -= OnMasterVolumeChange;
-        client.MessageReceived -= OnMessageReceive;
+        if (init == true)
+        {
+            OnVolumeChange -= OnMasterVolumeChange;
+
+            client.MessageReceived -= OnMessageReceive;
+        }
+
     }
 
     void OnMasterVolumeChange(float _value)
