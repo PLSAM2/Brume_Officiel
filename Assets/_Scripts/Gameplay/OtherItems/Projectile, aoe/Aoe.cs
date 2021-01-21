@@ -23,7 +23,7 @@ public class Aoe : AutoKill
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnDuration.damageHealth != 0 || localTrad.rules.damagesToDealOnDuration.movementToApply != null)
-				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, true);
 			else
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, false);
 
@@ -32,6 +32,7 @@ public class Aoe : AutoKill
 
 	IEnumerator CustomUpdate ()
 	{
+		print("i Start Custom");
 		yield return new WaitForSeconds(.2f);
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
@@ -43,25 +44,31 @@ public class Aoe : AutoKill
 		{
 
 			{
-				print(Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
+				float _percentageOfStrength = 1;
 
-				if (localTrad.rules.isBox)
+
+				if(_damages.movementToApply != null)
 				{
-					if (_damages.movementToApply.isGrab)
-						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+					if (localTrad.rules.isBox)
+					{
+						if (_damages.movementToApply.isGrab)
+							_percentageOfStrength = Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+						else
+							_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+
+					}
 					else
-						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (1 - (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
+					{
+						if (_damages.movementToApply.isGrab)
+							_percentageOfStrength = (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
 
+						else
+							_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
+					}
 				}
-				else
-				{
-					if (_damages.movementToApply.isGrab)
-						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
+				
 
-					else
-						_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius)));
-
-				}
+				_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfStrength);
 
 				if (_boucle)
 					StartCoroutine(CustomUpdate());
@@ -76,7 +83,7 @@ public class Aoe : AutoKill
 		List<Collider> _allHitChecked = new List<Collider>();
 
 		if (localTrad.rules.isBox)
-			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2, Quaternion.identity, layer);
+			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2+ Vector3.up *8, Quaternion.identity, layer);
 		else
 			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, layer);
 

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Pierre_GrabblingAoe
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 3
+    durationOfTheAoe: 4
     timeBeforeFinalDisparition: 0.1
     damagesToDealOnImpact:
       playerName: 
-      damageHealth: 10
+      damageHealth: 0
       statusToApply:
-      - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
+      - {fileID: 11400000, guid: 3b560b2ffaef9854ebd94f5d1512a2b4, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -28,7 +28,8 @@ MonoBehaviour:
     damagesToDealOnDuration:
       playerName: 
       damageHealth: 0
-      statusToApply: []
+      statusToApply:
+      - {fileID: 11400000, guid: 3b560b2ffaef9854ebd94f5d1512a2b4, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
