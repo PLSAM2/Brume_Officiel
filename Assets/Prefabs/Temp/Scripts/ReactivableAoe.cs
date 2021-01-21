@@ -21,7 +21,6 @@ public class ReactivableAoe : Aoe
 		if (isOwner)
 		{
 			hasReactivated = false;
-			print("I lnik");	
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.firstSpellInput += Reactivation;
 		}
 	}
@@ -34,7 +33,6 @@ public class ReactivableAoe : Aoe
 
 	public void Reactivation ( Vector3 _mousePos )
 	{
-		print("I try to reactivate");
 		if (!hasReactivated)
 		{
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.firstSpellInput -= Reactivation;

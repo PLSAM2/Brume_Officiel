@@ -31,6 +31,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Ui")] public TextMeshProUGUI lifeCount;
 	[TabGroup("Ui")] public Image lifeImg;
 	[TabGroup("Ui")] public Image lifeDamageImg;
+	[TabGroup("Ui")] public GameObject feedbackCounter;
 	[Header("WX Compass")] [TabGroup("Ui")] public GameObject WxCompass;
 	[TabGroup("Ui")] public Image WxLife;
 	[Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
@@ -47,7 +48,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
 	[TabGroup("UiState")] public Image fillPart;
-	[TabGroup("UiState")] public GameObject StunIcon, HiddenIcon;
+	[TabGroup("UiState")] public GameObject StunIcon, HiddenIcon, CounteringIcon;
 	[TabGroup("UiState")] public GameObject SlowIcon;
 	[TabGroup("UiState")] public GameObject RootIcon;
 	[TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon;
@@ -108,6 +109,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		nameText.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
 		lifeImg.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
+		feedbackCounter.SetActive(false);
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -186,7 +188,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 100;
-			DealDamages(_temp, transform.position, null, true, true, true);
+			DealDamages(_temp, transform.position, null, true, true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.P) && isOwner)
@@ -423,13 +425,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// Deal damage to this character
 	/// </summary>
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
-	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false, float _percentageOfTheMovement = 1 )
+	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
 
-		if (ignoreTeam == false && dealerID != null && GameManager.Instance.networkPlayers[(ushort)dealerID].myPlayerModule.teamIndex == myPlayerModule.teamIndex)
-		{
-			return;
-		}
 
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
@@ -520,9 +518,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
+
 		if (isOwner)
 		{
-			UiManager.Instance.FeedbackHit();
 
 			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
 			{
@@ -531,30 +529,38 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
-			if (GetComponent<WxController>()!= null)
+			if (GetComponent<WxController>() != null)
 				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
 		}
 
-
-		if ((int)liveHealth - (int)damages <= 0)
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
 		{
-			if (isOwner)
+			if(isOwner)
+				UiManager.Instance.FeedbackHit();
+
+			if ((int)liveHealth - (int)damages <= 0)
 			{
-				if (dealerID != null)
+				if (isOwner)
 				{
-					KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
+					if (dealerID != null)
+					{
+						KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
+					}
+					else
+					{
+						KillPlayer();
+					}
 				}
-				else
-				{
-					KillPlayer();
-				}
+			}
+			else
+			{
+				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
+				liveHealth = (ushort)_tempHp;
 			}
 		}
 		else
-		{
-			int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
-			liveHealth = (ushort)_tempHp;
-		}
+			myPlayerModule.hitCountered?.Invoke();
+
 	}
 
 	public void LocallyDivideHealth ( ushort divider )
@@ -691,8 +697,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnAddedStatus ( ushort _newStatus )
 	{
-		myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
+			myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
+		else if (isNegative(_newStatus))
+			myPlayerModule.hitCountered?.Invoke();
 	}
+
+	bool isNegative ( ushort _newStatus )
+	{
+		Sc_Status _statusTryingToAdd = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus];
+		if ((_statusTryingToAdd.effect.stateApplied & En_CharacterState.Slowed & En_CharacterState.Silenced & En_CharacterState.Root) != 0)
+			return true;
+		else
+			return false;
+	}
+
 	public void OnForcedMovementReceived ( ForcedMovement _movementSent )
 	{
 		myPlayerModule.movementPart.AddDash(_movementSent);
@@ -710,7 +729,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj )
 	{
-		if (this.transform.position == obj || isOwner == false )
+		if (this.transform.position == obj || isOwner == false)
 		{
 			return;
 		}
@@ -752,13 +771,22 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		SlowIcon.SetActive(false);
 		HiddenIcon.SetActive(false);
 		EmbourbedIcon.SetActive(false);
-
+		CounteringIcon.SetActive(false);
+		stateText.text = "";
+		feedbackCounter.SetActive(false);
 		//	fillPart.fillAmount = actualTime / baseTime;f
 
 		if ((_currentState & En_CharacterState.Hidden) != 0)
 		{
 			HiddenIcon.SetActive(true);
 			stateText.text = "Hidden";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.Countering) != 0)
+		{
+			feedbackCounter.SetActive(true);
+			CounteringIcon.SetActive(true);
+			stateText.text = "Countering";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.Embourbed) != 0)
@@ -839,7 +867,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 public interface Damageable
 {
-	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, bool ignoreTeam = false, float _percentageOfTheMovement = 1 );
+	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 );
 
 	bool IsInMyTeam ( Team _indexTested );
 }

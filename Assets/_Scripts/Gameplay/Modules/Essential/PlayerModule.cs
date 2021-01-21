@@ -131,7 +131,7 @@ public class PlayerModule : MonoBehaviour
 	public Action revelationCheck;
 
 	//damagesInterruptionetc
-	public Action<LocalPlayer> hitCountered;
+	public Action hitCountered;
 	//buffer input
 	public Action spellResolved;
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
@@ -223,9 +223,9 @@ public class PlayerModule : MonoBehaviour
 				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
-		if(!GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+		if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
 		{
-			gameObject.layer = 1 << 7;
+			gameObject.layer =  7;
 		}
 
 	}

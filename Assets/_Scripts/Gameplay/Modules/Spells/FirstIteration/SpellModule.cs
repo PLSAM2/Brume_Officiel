@@ -533,5 +533,6 @@ public enum En_SpellInput
 	Click,
 	Maj,
 	Ward,
+	Special
 
 }
