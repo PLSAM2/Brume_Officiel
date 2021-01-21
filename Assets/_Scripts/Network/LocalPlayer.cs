@@ -106,8 +106,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
-		nameText.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
-		lifeImg.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
+		nameText.color = GameFactory.GetReferentialPlayerTeamColor(myPlayerModule.teamIndex);
+		lifeImg.color = GameFactory.GetReferentialPlayerTeamColor(myPlayerModule.teamIndex);
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -117,7 +117,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+		myOutline.SetColor(GameFactory.GetReferentialPlayerTeamColor(myPlayerModule.teamIndex));
 
 		if (isOwner)
 		{
