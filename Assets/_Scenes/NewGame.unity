@@ -10250,6 +10250,11 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 9044991089360436117, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
   m_PrefabInstance: {fileID: 1670477572}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1670477575 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3445461707387035305, guid: 29a1a90bade48f144b91c45af388825f, type: 3}
+  m_PrefabInstance: {fileID: 1670477572}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1741604267
 Mesh:
   m_ObjectHideFlags: 0
@@ -10688,6 +10693,9 @@ MonoBehaviour:
   - {fileID: 1345611359}
   client: {fileID: 0}
   defaultCam: {fileID: 1670477573}
+  materialNeedingTheCamPos:
+  - {fileID: 2100000, guid: 5b154c7434953d447b517268aca3d6fd, type: 2}
+  offSetCam: {fileID: 1670477575}
   allWard: []
   allTower: []
   allBrume: []
