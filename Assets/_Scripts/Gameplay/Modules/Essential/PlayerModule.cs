@@ -611,7 +611,7 @@ public class PlayerModule : MonoBehaviour
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
 
-		if ((_statusToAdd.stateApplied & En_CharacterState.Root) != 0)
+		if (mylocalPlayer.isOwner && (_statusToAdd.stateApplied & En_CharacterState.Root) != 0)
 			movementPart.ForcedMovementTouchObstacle();
 
 		if (_statusToAdd.forcedKey != 0)
