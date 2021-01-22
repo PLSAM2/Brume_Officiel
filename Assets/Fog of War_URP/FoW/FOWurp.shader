@@ -6,6 +6,7 @@ Shader "Image Effects/Fog of War Urp"
 		_FogTex0 ("Fog 0", 2D) = "white" {}
 		_FogTex1 ("Fog 1", 2D) = "white" {}
 		_Unexplored ("Unexplored Color", Color) = (0.05, 0.05, 0.05, 0.05)
+		_BlurAmount("Blur Amount", Range(0,02)) = 0.0005
 	}
 	SubShader
 	{
@@ -29,8 +30,7 @@ Shader "Image Effects/Fog of War Urp"
 			sampler2D _FogTex1;
 			sampler2D _CameraDepthTexture;
 
-			half4 _SaveColor;
-			float4 Lerp0 = float4(1,1,1,1);
+			float _BlurAmount;
 
 			uniform float4x4 _InverseMVP;
 			uniform float4 _Params;
@@ -72,13 +72,29 @@ Shader "Image Effects/Fog of War Urp"
 
 				float2 uv = pos.xz * _Params.z + _Params.xy;
 
-				Lerp0 = tex2D(_FogTex0, uv).r * Lerp0.r;
+				//Lerp0 = tex2D(_FogTex0, uv).r * Lerp0.r;
 
 				//half4 fog = tex2D(_FogTex0, uv);
 
-				//_SaveColor += fog;
+				half4 texcol = half4(0,0,0,0);
+				float remaining = 1.0f;
+				float coef = 1.0;
+				float fI = 0;
+				for (int j = 0; j < 3; j++) {
+					fI++;
+					coef *= 0.32;
+					texcol += tex2D(_FogTex0, float2(uv.x, uv.y - fI * _BlurAmount)) * coef;
+					texcol += tex2D(_FogTex0, float2(uv.x - fI * _BlurAmount, uv.y)) * coef;
+					texcol += tex2D(_FogTex0, float2(uv.x + fI * _BlurAmount, uv.y)) * coef;
+					texcol += tex2D(_FogTex0, float2(uv.x, uv.y + fI * _BlurAmount)) * coef;
 
-				return lerp(original * _Unexplored, original, Lerp0.r);
+					remaining -= 4 * coef;
+				}
+				//texcol += tex2D(_FogTex0, float2(uv.x, uv.y)) * remaining;
+
+				float4 result = texcol * tex2D(_FogTex1, float2(uv.x, uv.y));
+
+				return lerp(original * _Unexplored, original, result);
 			}
 			ENDHLSL
 		}
