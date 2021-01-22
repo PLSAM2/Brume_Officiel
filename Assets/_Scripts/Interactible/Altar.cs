@@ -26,17 +26,17 @@ public class Altar : Interactible
         isInteractable = false;
     }
 
-    public override void UpdateCaptured(Team team)
+    public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
-        base.UpdateCaptured(team);
+        base.UpdateCaptured(_capturingPlayerID);
 
         UiManager.Instance.DisplayGeneralMessage("Altar captured");
 
         AudioManager.Instance.Play2DAudio(capturedAltarSfx);
     }
 
-    public override void Captured(Team team)
+    public override void Captured(ushort _capturingPlayerID)
     {
         if (altarBuff != null)
         {
@@ -45,7 +45,7 @@ public class Altar : Interactible
 
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            writer.Write((ushort)team);
+            writer.Write((ushort)capturingPlayerModule.teamIndex);
             writer.Write(ultimateStackGive);
 
             using (Message message = Message.Create(Tags.AddUltimatePointToAllTeam, writer))
@@ -54,7 +54,7 @@ public class Altar : Interactible
             }
         }
 
-        base.Captured(team);
+        base.Captured(_capturingPlayerID);
     }
     public override void SetActiveState(bool value)
     {

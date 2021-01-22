@@ -10,9 +10,9 @@ public class ResurrectAltar : Interactible
         base.Init();
     }
 
-    public override void Captured(GameData.Team team)
+    public override void Captured(ushort _capturingPlayerID)
     {
-        base.Captured(team);
+        base.Captured(_capturingPlayerID);
 
         WxController wxController = (WxController)capturingPlayerModule;
 
@@ -49,9 +49,9 @@ public class ResurrectAltar : Interactible
         base.TryCapture(team, capturingPlayer);
     }
 
-    public override void UpdateCaptured(GameData.Team team) // capture recu par tout les client
+    public override void UpdateCaptured(ushort _capturingPlayerID) // capture recu par tout les client
     {
-        base.UpdateCaptured(team);
+        base.UpdateCaptured(_capturingPlayerID);
         state = State.Capturable;
     }
 

@@ -342,26 +342,26 @@ public class PlayerModule : MonoBehaviour
 				boolWasClicked = false;
 			}
 
-			if (Input.GetKeyDown(interactKey))
-			{
-				foreach (Interactible interactible in interactiblesClose)
-				{
-					if (interactible == null)
-						return;
-					LockingRotation(true);
-					interactible.TryCapture(teamIndex, this);
-				}
-			}
-			else if (Input.GetKeyUp(interactKey))
-			{
-				foreach (Interactible interactible in interactiblesClose)
-				{
-					if (interactible == null)
-						return;
-					LockingRotation(false);
-					interactible.StopCapturing(teamIndex);
-				}
-			}
+			//if (Input.GetKeyDown(interactKey))
+			//{
+			//	foreach (Interactible interactible in interactiblesClose)
+			//	{
+			//		if (interactible == null)
+			//			return;
+			//		LockingRotation(true);
+			//		interactible.TryCapture(teamIndex, this);
+			//	}
+			//}
+			//else if (Input.GetKeyUp(interactKey))
+			//{
+			//	foreach (Interactible interactible in interactiblesClose)
+			//	{
+			//		if (interactible == null)
+			//			return;
+			//		LockingRotation(false);
+			//		interactible.StopCapturing(teamIndex);
+			//	}
+			//}
 
 			if (Input.GetKeyDown(crouching))
 			{
