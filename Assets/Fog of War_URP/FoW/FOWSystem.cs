@@ -1,8 +1,3 @@
-//----------------------------------------------
-//           Tasharen Fog of War
-// Copyright © 2012-2015 Tasharen Entertainment
-//----------------------------------------------
-
 using UnityEngine;
 using System.Threading;
 using System.Collections;

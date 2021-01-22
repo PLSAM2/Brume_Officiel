@@ -5,31 +5,46 @@ using UnityEngine;
 public class CounterBaseModule : SpellModule
 {
 
-	Sc_Counter localTrad;
 	public SpellModule spellToLaunchOnCounter;
+	bool asCounter = false;
 
-	private void Awake ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		localTrad = (Sc_Counter)spell;
+		base.SetupComponent(_actionLinked);
+		spellToLaunchOnCounter.SetupComponent(En_SpellInput.Special);
+	}
+
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		base.StartCanalysing(_BaseMousePos);
+		asCounter = false;
+	}
+
+	protected override void AnonceSpell ( Vector3 _toAnnounce )
+	{
+		base.AnonceSpell(_toAnnounce);
+		myPlayerModule.hitCountered += Counter;
+		myPlayerModule.AddState(En_CharacterState.Countering);
 	}
 
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
-		myPlayerModule.hitCountered += Counter;
-	}
-
-	public override void Interrupt ()
-	{
 		myPlayerModule.hitCountered -= Counter;
-		base.Interrupt();
+		myPlayerModule.RemoveState(En_CharacterState.Countering);
 	}
 
-	protected virtual void Counter(LocalPlayer playerCountered)
+	protected virtual void Counter()
 	{
-		foreach (Sc_Status _status in localTrad.StatusToApplyToSelf)
-			myPlayerModule.AddStatus(_status.effect);
+		asCounter = true;
+		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
+		ResolveSpell();
+	}
 
-		spellToLaunchOnCounter.StartCanalysing(myPlayerModule.mousePos());
+	protected override void ApplyEffectAtTheEnd ()
+	{
+		if(!asCounter)
+			base.ApplyEffectAtTheEnd();
 	}
 }

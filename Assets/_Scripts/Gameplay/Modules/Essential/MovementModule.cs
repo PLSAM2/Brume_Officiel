@@ -147,7 +147,7 @@ public class MovementModule : MonoBehaviour
         }
     }
 
-    void ForcedMovementTouchObstacle()
+    public void ForcedMovementTouchObstacle()
     {
         //juste pour caler le callback comme quoi le mouvement est bien fini;
         currentForcedMovement.duration = 0;
@@ -278,7 +278,7 @@ public class MovementModule : MonoBehaviour
         if (isAGhost)
             return true;
 
-        if ((myPlayerModule.state & forbidenWalkingState) != 0 || currentForcedMovement != null)
+        if ((myPlayerModule.state & En_CharacterState.Root) != 0 || currentForcedMovement != null)
         {
             return false;
         }

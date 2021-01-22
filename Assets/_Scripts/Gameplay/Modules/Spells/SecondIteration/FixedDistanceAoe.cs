@@ -7,6 +7,7 @@ public class FixedDistanceAoe : SpellModule
 	public Aoe aoeInstantiated;
 	SquarePreview mySquarePreview;
 	CirclePreview myCirclePreview;
+	public bool spawnOnPos = false;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -29,13 +30,19 @@ public class FixedDistanceAoe : SpellModule
 
 	protected override void ResolveSpell ()
 	{
+		print("I Resolve");
 		base.ResolveSpell();
-		Vector3 posToInstantiate = Vector3.zero;
+		Vector3 posToInstantiate = transform.position;
 
-		if (aoeInstantiated.localTrad.rules.isBox)
-			posToInstantiate = transform.position + transform.forward * aoeInstantiated.localTrad.rules.boxDimension.z / 2;
+		if (spawnOnPos)
+			posToInstantiate = transform.position;
 		else
-			posToInstantiate = transform.position + transform.forward * aoeInstantiated.localTrad.rules.aoeRadius;
+		{
+			if (aoeInstantiated.localTrad.rules.isBox)
+				posToInstantiate += transform.forward * aoeInstantiated.localTrad.rules.boxDimension.z / 2;
+			else
+				posToInstantiate += transform.forward * aoeInstantiated.localTrad.rules.aoeRadius;
+		}
 
 		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeInstantiated.gameObject), posToInstantiate, transform.rotation.eulerAngles);
 	}
@@ -60,5 +67,7 @@ public class FixedDistanceAoe : SpellModule
 		else
 			myCirclePreview.gameObject.SetActive(false);
 	}
+
+	
 }
 
