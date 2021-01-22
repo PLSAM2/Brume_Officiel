@@ -611,6 +611,9 @@ public class PlayerModule : MonoBehaviour
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
 
+		if ((_statusToAdd.stateApplied & En_CharacterState.Root) != 0)
+			movementPart.ForcedMovementTouchObstacle();
+
 		if (_statusToAdd.forcedKey != 0)
 		{
 			_newElement.key = _statusToAdd.forcedKey;
@@ -802,7 +805,7 @@ public class PlayerModule : MonoBehaviour
 
 	void BuffInput()
 	{
-		switch(spellInputedRecorded)
+		/*switch(spellInputedRecorded)
 		{
 			case En_SpellInput.Click:
 				leftClick.StartCanalysing(mousePos());
@@ -818,7 +821,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 
-		spellInputedRecorded = En_SpellInput.Null;
+		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
 	IEnumerator CheckForMenace ()
