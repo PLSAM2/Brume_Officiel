@@ -41,13 +41,15 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Camera")]
     public Camera defaultCam;
+    public Material[] materialNeedingTheCamPos;
+    public Transform offSetCam;
 
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
 
-    public List<BrumeScript> allBrume = new List<BrumeScript>();
+    public List<Brume> allBrume = new List<Brume>();
 
     public List<Fx> allFx = new List<Fx>();
     public List<Transform> allVisibleFx = new List<Transform>();
@@ -133,6 +135,9 @@ public class GameManager : SerializedMonoBehaviour
         {
             UpdateTime();
         }
+
+        foreach (Material _mat in materialNeedingTheCamPos)
+            _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z,1));
     }
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
     {

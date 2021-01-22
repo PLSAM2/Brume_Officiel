@@ -131,7 +131,7 @@ public class PlayerModule : MonoBehaviour
 	public Action revelationCheck;
 
 	//damagesInterruptionetc
-	public Action<LocalPlayer> hitCountered;
+	public Action hitCountered;
 	//buffer input
 	public Action spellResolved;
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
@@ -223,9 +223,9 @@ public class PlayerModule : MonoBehaviour
 				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
-		if(!GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+		if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
 		{
-			gameObject.layer = 1 << 7;
+			gameObject.layer =  7;
 		}
 
 	}
@@ -342,26 +342,26 @@ public class PlayerModule : MonoBehaviour
 				boolWasClicked = false;
 			}
 
-			if (Input.GetKeyDown(interactKey))
-			{
-				foreach (Interactible interactible in interactiblesClose)
-				{
-					if (interactible == null)
-						return;
-					LockingRotation(true);
-					interactible.TryCapture(teamIndex, this);
-				}
-			}
-			else if (Input.GetKeyUp(interactKey))
-			{
-				foreach (Interactible interactible in interactiblesClose)
-				{
-					if (interactible == null)
-						return;
-					LockingRotation(false);
-					interactible.StopCapturing(teamIndex);
-				}
-			}
+			//if (Input.GetKeyDown(interactKey))
+			//{
+			//	foreach (Interactible interactible in interactiblesClose)
+			//	{
+			//		if (interactible == null)
+			//			return;
+			//		LockingRotation(true);
+			//		interactible.TryCapture(teamIndex, this);
+			//	}
+			//}
+			//else if (Input.GetKeyUp(interactKey))
+			//{
+			//	foreach (Interactible interactible in interactiblesClose)
+			//	{
+			//		if (interactible == null)
+			//			return;
+			//		LockingRotation(false);
+			//		interactible.StopCapturing(teamIndex);
+			//	}
+			//}
 
 			if (Input.GetKeyDown(crouching))
 			{
@@ -802,7 +802,7 @@ public class PlayerModule : MonoBehaviour
 
 	void BuffInput()
 	{
-		switch(spellInputedRecorded)
+		/*switch(spellInputedRecorded)
 		{
 			case En_SpellInput.Click:
 				leftClick.StartCanalysing(mousePos());
@@ -818,7 +818,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 
-		spellInputedRecorded = En_SpellInput.Null;
+		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
 	IEnumerator CheckForMenace ()

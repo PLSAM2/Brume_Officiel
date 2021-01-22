@@ -328,6 +328,8 @@ public class RoomManager : MonoBehaviour
 
     public void ResetActualGame()
     {
+        ultimateStack.Clear();
+
         actualRoom.scores[Team.red] = 0;
         actualRoom.scores[Team.blue] = 0;
 

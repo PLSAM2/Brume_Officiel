@@ -67,7 +67,7 @@ public class Ward : MonoBehaviour
     {
         RaycastHit hit;
         if(Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity, brumeLayer)){
-            brumeId = hit.transform.GetChild(0).GetComponent<BrumeScript>().GetInstanceID();
+            brumeId = hit.transform.GetChild(0).GetComponent<Brume>().GetInstanceID();
             return true;
         }
 

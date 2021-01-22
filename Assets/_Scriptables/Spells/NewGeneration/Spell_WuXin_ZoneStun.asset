@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_WuXin_ZoneStun
   m_EditorClassIdentifier: 
-  range: 9
+  range: 8
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
@@ -31,8 +31,9 @@ MonoBehaviour:
   spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
   damagesToDeal:
     playerName: 
-    damageHealth: 0
-    statusToApply: []
+    damageHealth: 1
+    statusToApply:
+    - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0

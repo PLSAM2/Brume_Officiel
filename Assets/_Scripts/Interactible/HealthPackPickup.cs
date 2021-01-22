@@ -10,15 +10,15 @@ public class HealthPackPickup : Interactible
 	[TabGroup("HealPart")]
 	public ushort healValue;
 
-	public override void Captured(GameData.Team team)
+	public override void Captured(ushort _capturingPlayerID)
 	{
-		base.Captured(team);
+		base.Captured(_capturingPlayerID);
 		capturingPlayerModule.mylocalPlayer.HealPlayer(healValue);
 	}
 
-	public override void UpdateCaptured ( GameData.Team team )
+	public override void UpdateCaptured (ushort _capturingPlayerID)
 	{
-		base.UpdateCaptured(team);
+		base.UpdateCaptured(_capturingPlayerID);
 		this.gameObject.SetActive(false);
 	}
 

@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
   m_Name: Spell_WuXin_ZoneGrab
   m_EditorClassIdentifier: 
-  range: 9
+  range: 8
   cooldown: 6
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 0
+  lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
   canalisationTime: 0.25
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 3d3337a17d426bb4da98e2ff60d3d35c, type: 2}
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0.01
@@ -65,7 +64,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   spitSpeed: 0
-  timeToReachMaxRange: 0.25
-  minTimeToReach: 0.25
+  timeToReachMaxRange: 0.1
+  minTimeToReach: 0.1
   minHeight: 0
   maxHeightAtMaxRange: 0

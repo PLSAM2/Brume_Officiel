@@ -137,19 +137,19 @@ public class UiManager : MonoBehaviour
             ennemyScore.color = Color.red;
             endGameScore.Init(Color.blue, Color.red, blueTeamScore, redTeamScore);
         }
-        else if (team == Team.red)
-        {
-            allyScore.color = Color.red;
-            ennemyScore.color = Color.blue;
+        //else if (team == Team.red)
+        //{
+        //    allyScore.color = Color.red;
+        //    ennemyScore.color = Color.blue;
 
-            endGameScore.Init(Color.red, Color.blue, redTeamScore, blueTeamScore);
-        }
+        //    endGameScore.Init(Color.red, Color.blue, redTeamScore, blueTeamScore);
+        //}
         // <<
     }
 
     void OnPlayerSpawn(ushort id)
     {
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
+        if (GameFactory.IsOnMyTeam(id)) 
         {
             GetImageOfChamp(id).color = outViewBlueColor;
         }
@@ -164,7 +164,7 @@ public class UiManager : MonoBehaviour
 
             if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
             {
-                if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
+                if (GameFactory.IsOnMyTeam(id))
                 {
                     GetImageOfChamp(id).color = inViewBlueColor;
                 }
@@ -215,7 +215,7 @@ public class UiManager : MonoBehaviour
             switch (isVisible)
             {
                 case true:
-                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
+                    if (GameFactory.IsOnMyTeam(id))
                     {
                         myColor = inViewBlueColor;
                     }
@@ -225,7 +225,7 @@ public class UiManager : MonoBehaviour
                     break;
 
                 case false:
-                    if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.blue)
+                    if (GameFactory.IsOnMyTeam(id))
                     {
                         myColor = outViewBlueColor;
                     }
@@ -306,6 +306,7 @@ public class UiManager : MonoBehaviour
         {
             chat.Focus();
         }
+
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
         {
             DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);

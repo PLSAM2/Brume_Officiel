@@ -12,7 +12,7 @@ public class Projectile : AutoKill
 	[TabGroup("ProjectileParameters")] [SerializeField] GameObject feedBackTouch;
 	[TabGroup("ProjectileParameters")] [SerializeField] AudioClip _mySfxAudio;
 	[TabGroup("ProjectileParameters")] [SerializeField] bool soundFollowObj = false;
-	[TabGroup("ProjectileParameters")] [SerializeField] Aoe aoeToSpawn;
+	[TabGroup("ProjectileParameters")] [SerializeField] GameObject aoeToSpawn;
 
 	[Header("SpellLinked")]
 	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
@@ -124,12 +124,20 @@ public class Projectile : AutoKill
 				return;
 			}
 		}
-		else if (diesOnWallTouch)
-			Destroy();
+		else
+		{
+			Projectile _proj = _coll.GetComponent<Projectile>();
+			if (_proj != null)
+			{
+				_proj.Destroy();
+			}
+			else if (diesOnWallTouch)
+				Destroy();
+		}
 	}
 
 
-	protected override void Destroy ()
+	public override void Destroy ()
 	{
 		asDeal = true;
 		if (hasTouched && doImpactFx)
@@ -150,7 +158,7 @@ public class Projectile : AutoKill
 		}
 
 		if (aoeToSpawn != null && isOwner)
-			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn.gameObject), transform.position, Vector3.zero);
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, Vector3.zero);
 
 		bouncingNumberLive = bouncingNumber;
 		base.Destroy();

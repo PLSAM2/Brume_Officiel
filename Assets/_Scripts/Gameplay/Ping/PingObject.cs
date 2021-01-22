@@ -19,12 +19,6 @@ public class PingObject : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-
-        foreach (SpriteRenderer s in sprites)
-        {
-            s.color = GameFactory.GetColorTeam(team);
-        }
-
       StartCoroutine(AutoKillTime());
     }
 

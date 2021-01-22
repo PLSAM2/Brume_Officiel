@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: WXGrabRules
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.5
+    durationOfTheAoe: 0.25
     timeBeforeFinalDisparition: 0.05
     damagesToDealOnImpact:
       playerName: 
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: f57e1e9416384cf44b59957ba8d34e5f, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -37,7 +36,8 @@ MonoBehaviour:
     finalDamages:
       playerName: 
       damageHealth: 0
-      statusToApply: []
+      statusToApply:
+      - {fileID: 11400000, guid: f57e1e9416384cf44b59957ba8d34e5f, type: 2}
       movementToApply: {fileID: 11400000, guid: 0963ca263bdbac542ae30565218833a2, type: 2}
       stateNeeded: 128
       additionalDamages: 0
