@@ -380,6 +380,12 @@ public class SpellModule : MonoBehaviour
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
 
+		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
+			myPlayerModule.rotationLock(false);
+		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
+			myPlayerModule.RemoveState(En_CharacterState.Root);
+		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
+
 		ApplyEffectAtTheEnd();
 
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
@@ -394,12 +400,6 @@ public class SpellModule : MonoBehaviour
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyAtTheEnd)
 				myPlayerModule.AddStatus(_statusToAdd.effect);
 
-		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
-
-		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
-			myPlayerModule.RemoveState(En_CharacterState.Root);
-
-			myPlayerModule.rotationLock(false);
 	}
 
 	protected virtual void StopSpell ()

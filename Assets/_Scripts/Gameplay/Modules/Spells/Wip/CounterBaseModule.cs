@@ -14,10 +14,15 @@ public class CounterBaseModule : SpellModule
 		spellToLaunchOnCounter.SetupComponent(En_SpellInput.Special);
 	}
 
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		base.StartCanalysing(_BaseMousePos);
+		asCounter = false;
+	}
+
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		base.AnonceSpell(_toAnnounce);
-		asCounter = false;
 		myPlayerModule.hitCountered += Counter;
 		myPlayerModule.AddState(En_CharacterState.Countering);
 	}
@@ -31,9 +36,9 @@ public class CounterBaseModule : SpellModule
 
 	protected virtual void Counter()
 	{
+		asCounter = true;
 		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
-		asCounter = true;
 		ResolveSpell();
 	}
 
