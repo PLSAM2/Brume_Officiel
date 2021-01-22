@@ -53,8 +53,11 @@
     public static readonly ushort UnlockInteractible = 770;
     public static readonly ushort UnlockAllInteractibleOfType = 771;
     public static readonly ushort TryCaptureInteractible = 772;
+    public static readonly ushort QuitInteractibleZone = 773;
     public static readonly ushort CaptureProgressInteractible = 774;
+    public static readonly ushort StopCaptureInteractible = 775;
     public static readonly ushort CaptureInteractible = 776;
+    public static readonly ushort PauseInteractible = 777;
     public static readonly ushort FrogTimerElapsed = 778;
     public static readonly ushort VisionTowerTimerElapsed = 779;
     public static readonly ushort HealthPackTimerElapsed = 780;

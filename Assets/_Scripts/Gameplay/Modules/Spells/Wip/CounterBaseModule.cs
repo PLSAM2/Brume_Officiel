@@ -5,12 +5,12 @@ using UnityEngine;
 public class CounterBaseModule : SpellModule
 {
 
-	Sc_Counter localTrad;
 	public SpellModule spellToLaunchOnCounter;
 
-	private void Awake ()
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		localTrad = (Sc_Counter)spell;
+		base.SetupComponent(_actionLinked);
+		spellToLaunchOnCounter.SetupComponent(En_SpellInput.Special);
 	}
 
 	protected override void ResolveSpell ()
@@ -21,15 +21,14 @@ public class CounterBaseModule : SpellModule
 
 	public override void Interrupt ()
 	{
-		myPlayerModule.hitCountered -= Counter;
 		base.Interrupt();
+		myPlayerModule.hitCountered -= Counter;
 	}
 
-	protected virtual void Counter(LocalPlayer playerCountered)
+	protected virtual void Counter()
 	{
-		foreach (Sc_Status _status in localTrad.StatusToApplyToSelf)
-			myPlayerModule.AddStatus(_status.effect);
-
 		spellToLaunchOnCounter.StartCanalysing(myPlayerModule.mousePos());
+		myPlayerModule.mylocalPlayer.triggerAnim("Counter"); 
+		Interrupt();
 	}
 }
