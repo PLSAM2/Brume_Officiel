@@ -30,6 +30,7 @@ public class FixedDistanceAoe : SpellModule
 
 	protected override void ResolveSpell ()
 	{
+		print("I Resolve");
 		base.ResolveSpell();
 		Vector3 posToInstantiate = transform.position;
 
@@ -66,5 +67,7 @@ public class FixedDistanceAoe : SpellModule
 		else
 			myCirclePreview.gameObject.SetActive(false);
 	}
+
+	
 }
 

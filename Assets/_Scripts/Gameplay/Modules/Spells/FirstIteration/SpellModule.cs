@@ -43,7 +43,7 @@ public class SpellModule : MonoBehaviour
 	protected bool isOwner = false;
 	public bool isAComboPiece = false;
 
-	[HideInInspector] public PlayerModule myPlayerModule;
+	[ReadOnly] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
@@ -267,39 +267,49 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast() && willResolve)
 		{
-			timeToResolveSpell = FinalCanalisationTime();
-
-			resolved = anonciated = startResolution = false;
-			currentTimeCanalised = 0;
-			throwbackTime = 0;
-			isUsed = true;
-			StartCanalysingFeedBack();
-			mousePosInputed = _BaseMousePos;
-			ApplyCanalisationEffect();
-
-			DecreaseCharge();
-
-
-			if (spell.statusToApplyOnCanalisation.Count > 0)
-			{
-				for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
-				{
-					if (spell.statusToApplyOnCanalisation[i].effect.isConstant)
-						statusToStopAtTheEnd.Add(spell.statusToApplyOnCanalisation[i]);
-
-					spell.statusToApplyOnCanalisation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
-				}
-
-			}
-
-			if (spell.lockRotOnCanalisation)
-				myPlayerModule.rotationLock(true);
-
-			if (spell.lockPosOnCanalisation)
-				myPlayerModule.AddState(En_CharacterState.Root);
+			Canalyse(_BaseMousePos);
 		}
 		else
 			myPlayerModule.spellInputedRecorded = actionLinked;
+	}
+
+	void Canalyse(Vector3 _BaseMousePos)
+	{
+		timeToResolveSpell = FinalCanalisationTime();
+
+		resolved = anonciated = startResolution = false;
+		currentTimeCanalised = 0;
+		throwbackTime = 0;
+		isUsed = true;
+		StartCanalysingFeedBack();
+		mousePosInputed = _BaseMousePos;
+		ApplyCanalisationEffect();
+
+		DecreaseCharge();
+
+
+		if (spell.statusToApplyOnCanalisation.Count > 0)
+		{
+			for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
+			{
+				if (spell.statusToApplyOnCanalisation[i].effect.isConstant)
+					statusToStopAtTheEnd.Add(spell.statusToApplyOnCanalisation[i]);
+
+				spell.statusToApplyOnCanalisation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
+			}
+
+		}
+
+		if (spell.lockRotOnCanalisation)
+			myPlayerModule.rotationLock(true);
+
+		if (spell.lockPosOnCanalisation)
+			myPlayerModule.AddState(En_CharacterState.Root);
+	}
+
+	public virtual void ForceCanalyse(Vector3 _BaseMousePos )
+	{
+		Canalyse(_BaseMousePos);
 	}
 
 	protected virtual void ApplyCanalisationEffect ()
@@ -431,6 +441,8 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual bool canBeCast ()
 	{
+		if (isAComboPiece)
+			return true;
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges == 0 || isUsed)
 		{

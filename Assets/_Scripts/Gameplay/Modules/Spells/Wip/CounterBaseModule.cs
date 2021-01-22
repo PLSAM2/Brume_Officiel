@@ -17,18 +17,21 @@ public class CounterBaseModule : SpellModule
 	{
 		base.ResolveSpell();
 		myPlayerModule.hitCountered += Counter;
+		myPlayerModule.AddState(En_CharacterState.Countering);
 	}
 
 	public override void Interrupt ()
 	{
 		base.Interrupt();
 		myPlayerModule.hitCountered -= Counter;
+		myPlayerModule.RemoveState(En_CharacterState.Countering);
+
 	}
 
 	protected virtual void Counter()
 	{
-		spellToLaunchOnCounter.StartCanalysing(myPlayerModule.mousePos());
-		myPlayerModule.mylocalPlayer.triggerAnim("Counter"); 
+		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
 		Interrupt();
 	}
 }
