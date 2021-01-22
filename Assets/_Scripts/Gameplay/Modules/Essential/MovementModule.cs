@@ -147,7 +147,7 @@ public class MovementModule : MonoBehaviour
         }
     }
 
-    void ForcedMovementTouchObstacle()
+    public void ForcedMovementTouchObstacle()
     {
         //juste pour caler le callback comme quoi le mouvement est bien fini;
         currentForcedMovement.duration = 0;
