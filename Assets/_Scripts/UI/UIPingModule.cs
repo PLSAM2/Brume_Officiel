@@ -147,6 +147,12 @@ public class UIPingModule : MonoBehaviour
 
     public void SelectUnselect(int pos, bool selected)
     {
+        if (onCenter)
+        {
+            ResetAll();
+            return;
+        }
+
         if (selected && pos != actualPos)
         {
             ResetAll();

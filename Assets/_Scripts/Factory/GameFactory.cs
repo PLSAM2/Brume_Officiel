@@ -7,9 +7,9 @@ using static GameData;
 
 public class GameFactory
 {
-    public static BrumeScript GetBrumeById(int id)
+    public static Brume GetBrumeById(int id)
     {
-        foreach(BrumeScript brume in GameManager.Instance.allBrume)
+        foreach(Brume brume in GameManager.Instance.allBrume)
         {
             if(brume.GetInstanceID() == id)
             {

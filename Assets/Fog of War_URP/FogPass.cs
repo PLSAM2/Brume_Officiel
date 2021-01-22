@@ -83,6 +83,11 @@ namespace UnityEngine.Rendering.Universal
         /// <inheritdoc/>
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
+            if (SceneManager.GetActiveScene().name != "NewGame")
+            {
+                return;
+            }
+
             //fog
             SendShaderValue();
 
@@ -120,7 +125,7 @@ namespace UnityEngine.Rendering.Universal
 
         void SendShaderValue()
         {
-            if (mFog == null || SceneManager.GetActiveScene().name != "NewGame")
+            if (mFog == null)
             {
                 return;
             }
