@@ -13,25 +13,23 @@ public class CounterBaseModule : SpellModule
 		spellToLaunchOnCounter.SetupComponent(En_SpellInput.Special);
 	}
 
-	protected override void ResolveSpell ()
+	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		base.ResolveSpell();
+		base.AnonceSpell(_toAnnounce);
 		myPlayerModule.hitCountered += Counter;
 		myPlayerModule.AddState(En_CharacterState.Countering);
 	}
 
-	public override void Interrupt ()
+	protected override void ResolveSpell ()
 	{
-		base.Interrupt();
 		myPlayerModule.hitCountered -= Counter;
 		myPlayerModule.RemoveState(En_CharacterState.Countering);
-
 	}
 
 	protected virtual void Counter()
 	{
 		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
-		Interrupt();
+		ResolveSpell();
 	}
 }
