@@ -399,7 +399,6 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
 			myPlayerModule.RemoveState(En_CharacterState.Root);
 
-		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
 	}
 
