@@ -53,7 +53,7 @@ public class Module_Cac : SpellModule
 		shapePreview.gameObject.SetActive(false);
 	}
 
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void StartCanalysing ( Vector3 _BaseMousePos)
 	{
 		if (canBeCast())
 		{

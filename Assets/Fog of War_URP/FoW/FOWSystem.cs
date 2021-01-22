@@ -1,8 +1,3 @@
-//----------------------------------------------
-//           Tasharen Fog of War
-// Copyright © 2012-2015 Tasharen Entertainment
-//----------------------------------------------
-
 using UnityEngine;
 using System.Threading;
 using System.Collections;
@@ -146,13 +141,6 @@ public class FOWSystem : MonoBehaviour
 		// Add a thread update function -- all visibility checks will be done on a separate thread
 		mThread = new Thread(ThreadUpdate);
 		mThread.Start();
-
-        if(GameManager.Instance != null) {
-            foreach (BrumeScript brume in GameManager.Instance.allBrume)
-            {
-                brume.SetTriggerActive();
-            }
-        }
 	}
 
 	/// <summary>

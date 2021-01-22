@@ -47,7 +47,7 @@ public class HurtingDash : SpellModule
 		_myPreview.gameObject.SetActive(false);
 	}
 
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void StartCanalysing ( Vector3 _BaseMousePos)
 	{
 		hurtBox.ResetHitbox();
 		hasTouched = false;

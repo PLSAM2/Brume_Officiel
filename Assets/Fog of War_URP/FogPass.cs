@@ -1,3 +1,5 @@
+using UnityEngine.SceneManagement;
+
 namespace UnityEngine.Rendering.Universal
 {
     public class FogPass : ScriptableRenderPass
@@ -20,6 +22,8 @@ namespace UnityEngine.Rendering.Universal
         FOWSystem mFog;
         Camera mCam;
         Matrix4x4 mInverseMVP;
+
+        Texture2D tex;
 
         public FogPass(string tag)
         {
@@ -79,6 +83,11 @@ namespace UnityEngine.Rendering.Universal
         /// <inheritdoc/>
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
+            if (SceneManager.GetActiveScene().name != "NewGame")
+            {
+                return;
+            }
+
             //fog
             SendShaderValue();
 
@@ -149,7 +158,7 @@ namespace UnityEngine.Rendering.Universal
             //settings.blitMaterial.SetTexture("_FogTex1", mFog.texture1);
 
             settings.blitMaterial.SetTexture("_FogTex0", samTest.Instance.myText1);
-            settings.blitMaterial.SetTexture("_FogTex1", samTest.Instance.myText1);
+            //settings.blitMaterial.SetTexture("_FogTex1", rd);
 
             settings.blitMaterial.SetMatrix("_InverseMVP", mInverseMVP);
             settings.blitMaterial.SetVector("_CamPos", camPos);

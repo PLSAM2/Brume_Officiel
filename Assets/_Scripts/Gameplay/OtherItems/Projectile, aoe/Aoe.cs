@@ -68,7 +68,7 @@ public class Aoe : AutoKill
 				}
 				
 
-				_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfStrength);
+				_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false,  _percentageOfStrength);
 
 				if (_boucle)
 					StartCoroutine(CustomUpdate());
