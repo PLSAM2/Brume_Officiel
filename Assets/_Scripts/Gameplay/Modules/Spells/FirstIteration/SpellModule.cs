@@ -273,7 +273,7 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.spellInputedRecorded = actionLinked;
 	}
 
-	void Canalyse(Vector3 _BaseMousePos)
+	void Canalyse ( Vector3 _BaseMousePos )
 	{
 		timeToResolveSpell = FinalCanalisationTime();
 
@@ -307,7 +307,7 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.AddState(En_CharacterState.Root);
 	}
 
-	public virtual void ForceCanalyse(Vector3 _BaseMousePos )
+	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
 	{
 		Canalyse(_BaseMousePos);
 	}
@@ -380,6 +380,16 @@ public class SpellModule : MonoBehaviour
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
 
+		ApplyEffectAtTheEnd();
+
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+
+		myPlayerModule.spellResolved?.Invoke();
+	}
+
+	protected virtual void ApplyEffectAtTheEnd ()
+	{
 		if (spell.statusToApplyAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyAtTheEnd)
 				myPlayerModule.AddStatus(_statusToAdd.effect);
@@ -391,12 +401,8 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
 			myPlayerModule.rotationLock(false);
-
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
-
-		myPlayerModule.spellResolved?.Invoke();
 	}
+
 	protected virtual void StopSpell ()
 	{
 		isUsed = false;
