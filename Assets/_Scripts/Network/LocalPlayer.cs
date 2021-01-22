@@ -714,7 +714,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnForcedMovementReceived ( ForcedMovement _movementSent )
 	{
-		myPlayerModule.movementPart.AddDash(_movementSent);
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
+			myPlayerModule.movementPart.AddDash(_movementSent);
+		else
+			myPlayerModule.hitCountered?.Invoke();
 	}
 
 	Coroutine timerShow;

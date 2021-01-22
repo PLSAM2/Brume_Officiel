@@ -802,7 +802,7 @@ public class PlayerModule : MonoBehaviour
 
 	void BuffInput()
 	{
-		switch(spellInputedRecorded)
+		/*switch(spellInputedRecorded)
 		{
 			case En_SpellInput.Click:
 				leftClick.StartCanalysing(mousePos());
@@ -818,7 +818,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 
-		spellInputedRecorded = En_SpellInput.Null;
+		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
 	IEnumerator CheckForMenace ()
