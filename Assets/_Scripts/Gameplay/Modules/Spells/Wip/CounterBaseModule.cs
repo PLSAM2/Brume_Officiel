@@ -33,6 +33,7 @@ public class CounterBaseModule : SpellModule
 	{
 		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
+		asCounter = true;
 		ResolveSpell();
 	}
 
