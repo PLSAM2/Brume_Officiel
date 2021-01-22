@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
 public class CounterBaseModule : SpellModule
 {
 
 	public SpellModule spellToLaunchOnCounter;
+	public En_SpellInput spellToReduceCooldown = En_SpellInput.Click;
+	public float cooldownReduced= 1.5f;
 	bool asCounter = false;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -34,17 +36,19 @@ public class CounterBaseModule : SpellModule
 		myPlayerModule.RemoveState(En_CharacterState.Countering);
 	}
 
-	protected virtual void Counter()
+	protected virtual void Counter ()
 	{
 		asCounter = true;
 		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
+		myPlayerModule.reduceTargetCooldown(cooldownReduced, spellToReduceCooldown);
+
 		ResolveSpell();
 	}
 
 	protected override void ApplyEffectAtTheEnd ()
 	{
-		if(!asCounter)
+		if (!asCounter)
 			base.ApplyEffectAtTheEnd();
 	}
 }
