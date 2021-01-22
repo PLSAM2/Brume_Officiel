@@ -306,6 +306,7 @@ public class UiManager : MonoBehaviour
         {
             chat.Focus();
         }
+
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
         {
             DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);

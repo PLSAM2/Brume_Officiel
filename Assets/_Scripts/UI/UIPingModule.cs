@@ -1,18 +1,179 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIPingModule : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject radialMenu;
+    public List<Image> disCornerImg = new List<Image>();
+    public List<Image> enCornerImg = new List<Image>();
+    public LayerMask pingableLayer;
+    private Ray ray;
+    private RaycastHit hit;
+
+    private Vector3 initPos = Vector3.zero;
+    private float xOffset = 0;
+    private float yOffset = 0;
+    private bool activated = false;
+    private bool locked = false;
+    private int actualPos = -1;
+    private bool onCenter = false;
+
+    private void Update()
     {
-        
+        if (activated == false)
+        {
+            return;
+        }
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    TryChoosePos();
+        //}
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Desactivate();
+        }
+
+        //if (Input.GetMouseButton(0))
+        //{
+        //    PingChoiceHold();
+        //}
+
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    Ping();
+        //}
+    }
+    public void Init()
+    {
+        xOffset = 0;
+        yOffset = 0;
+        activated = true;
+
+        TryChoosePos();
+    }
+    public void Desactivate()
+    {
+        Ping();
+
+        activated = false;
+        radialMenu.SetActive(false);
+        locked = false;
+        xOffset = 0;
+        yOffset = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnEnterCenter()
     {
-        
+        onCenter = true;
     }
+    public void OnExitCenter()
+    {
+        onCenter = false;
+    }
+    public void TryChoosePos()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 300, pingableLayer))
+        {
+            initPos = hit.point;
+            radialMenu.transform.position = Input.mousePosition;
+            radialMenu.SetActive(true);
+            locked = true;
+        }
+    }
+    public void Ping()
+    {
+        if (locked)
+        {
+            ushort chosedPingID = 0;
+
+            if (onCenter)
+            {
+                chosedPingID = 2103;
+            }
+            else
+            {
+                switch (actualPos)
+                {
+                    case -1:
+                        return;
+                    case 0:
+                        chosedPingID = 2100;
+                        break;
+                    case 1:
+                        chosedPingID = 2101;
+                        break;
+                    case 2:
+                        chosedPingID = 2102;
+                        break;
+                    default: throw new System.Exception("NOT EXISTING EXCEPTION");
+                }
+            }
+
+            if (initPos != Vector3.zero)
+            {
+                NetworkObjectsManager.Instance.NetworkInstantiate(chosedPingID, initPos + new Vector3(0, 0.05f, 0), Vector3.zero);
+            }
+            xOffset = 0;
+            yOffset = 0;
+            radialMenu.SetActive(false);
+            locked = false;
+        }
+    }
+
+    public void PingChoiceHold()
+    {
+        xOffset += Input.GetAxis("Mouse X");
+        yOffset += Input.GetAxis("Mouse Y");
+
+        if (xOffset > 0 && yOffset > 0)
+        {
+            SelectUnselect(0, true);
+        }
+        else if (xOffset < 0 && yOffset > 0)
+        {
+            SelectUnselect(1, true);
+        }
+        else if (yOffset < 0)
+        {
+            SelectUnselect(2, true);
+        }
+    }
+
+    public void SelectUnselect(int pos, bool selected)
+    {
+        if (selected && pos != actualPos)
+        {
+            ResetAll();
+            actualPos = pos;
+        }
+        else if (selected == false)
+        {
+            ResetAll();
+            actualPos = -1;
+            return;
+        }
+        else
+        {
+            return;
+        }
+
+        disCornerImg[pos].gameObject.SetActive(!selected);
+        enCornerImg[pos].gameObject.SetActive(selected);
+    }
+
+    public void ResetAll()
+    {
+        for (int i = 0; i < disCornerImg.Count; i++)
+        {
+            disCornerImg[i].gameObject.SetActive(true);
+            enCornerImg[i].gameObject.SetActive(false);
+        }
+    }
+
 }
