@@ -50,7 +50,7 @@ public class AutoKill : MonoBehaviour
 		myLivelifeTime = mylifeTime;
 	}
 
-	protected virtual void Destroy ()
+	public virtual void Destroy ()
 	{
 		meshBlue.gameObject.SetActive(false);
 		meshRed.gameObject.SetActive(false);

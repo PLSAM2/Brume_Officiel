@@ -21,7 +21,7 @@ public class Projectile_SoulBurst : Projectile
 
 	
 
-	protected override void Destroy ()
+	public override void Destroy ()
 	{
 
 		if (!asExploded && hasTouched)

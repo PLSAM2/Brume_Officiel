@@ -121,7 +121,7 @@ public class Aoe : AutoKill
 			Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
-	protected override void Destroy ()
+	public override void Destroy ()
 	{
 		StopAllCoroutines();
 		base.Destroy();
