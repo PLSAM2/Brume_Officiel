@@ -27,7 +27,6 @@ public class Projectile : AutoKill
 	[SerializeField] ushort bouncingNumber;
 	ushort bouncingNumberLive;
 	public Action velocityChanged;
-	float projRadius;
 	public bool diesOnPlayerTouch = true;
 	public bool diesOnWallTouch;
 
@@ -70,7 +69,6 @@ public class Projectile : AutoKill
 	private void Start ()
 	{
 		myRb = GetComponent<Rigidbody>();
-		projRadius = GetComponent<SphereCollider>().radius;
 	}
 
 	void OnCollisionEnter ( Collision _coll )
@@ -158,7 +156,7 @@ public class Projectile : AutoKill
 		}
 
 		if (aoeToSpawn != null && isOwner)
-			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, Vector3.zero);
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 
 		bouncingNumberLive = bouncingNumber;
 		base.Destroy();

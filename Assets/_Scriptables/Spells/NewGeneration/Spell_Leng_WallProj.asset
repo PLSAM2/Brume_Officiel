@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_WuXin_ZoneStun
+  m_Name: Spell_Leng_WallProj
   m_EditorClassIdentifier: 
-  range: 8
+  range: 3
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 0
-  lockPosOnCanalisation: 0
-  canalisationTime: 0
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 1
+  canalisationTime: 0.2
   statusToApplyOnCanalisation: []
-  lockRotOnAnonciation: 0
-  LockPosOnAnonciation: 0
-  anonciationTime: 0
+  lockRotOnAnonciation: 1
+  LockPosOnAnonciation: 1
+  anonciationTime: 0.2
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
-  spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
+  throwBackDuration: 0.5
+  spellIcon: {fileID: 21300000, guid: 790c8fff634cfe140aed08abe7ef8e81, type: 3}
   damagesToDeal:
     playerName: 
-    damageHealth: 1
+    damageHealth: 0
     statusToApply:
     - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
     movementToApply: {fileID: 0}
@@ -39,13 +39,13 @@ MonoBehaviour:
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 211c74c92e275d143b583e4b927432ee, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: e6b1a59a6ec4bb842bdc0690f388aa16, type: 3}
   _reduceCooldowns: 0
   offSet: 1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1.5
+    timeToReachMaxRange: 0.3
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   cooldownReduction: 0
