@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4c03352caf05bb4abf42cd86b75a998, type: 3}
-  m_Name: Leng_BaseAttack_Rule
+  m_Name: Leng_Wall_OnCreation
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.5
-    timeBeforeFinalDisparition: 0.3
+    durationOfTheAoe: 5
+    timeBeforeFinalDisparition: 0
     damagesToDealOnImpact:
       playerName: 
-      damageHealth: 2
-      statusToApply:
-      - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
+      damageHealth: 0
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -37,13 +36,12 @@ MonoBehaviour:
     finalDamages:
       playerName: 
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
       additionalStatusToApply: []
       additionalMovementToApply: {fileID: 0}
     isBox: 1
-    aoeRadius: 4
-    boxDimension: {x: 3, y: 1, z: 5}
+    aoeRadius: 2.25
+    boxDimension: {x: 3.5, y: 1, z: 1.5}

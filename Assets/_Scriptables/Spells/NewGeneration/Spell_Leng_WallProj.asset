@@ -10,43 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_WuXin_Sniper 1
+  m_Name: Spell_Leng_WallProj
   m_EditorClassIdentifier: 
-  range: 9
-  cooldown: 2
+  range: 5
+  cooldown: 15
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 0
-  lockPosOnCanalisation: 0
-  canalisationTime: 0.4
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 1
+  canalisationTime: 0
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
-  LockPosOnAnonciation: 0
-  anonciationTime: 0.2
+  LockPosOnAnonciation: 1
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd: []
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
+  throwBackDuration: 0.5
+  spellIcon: {fileID: 21300000, guid: 790c8fff634cfe140aed08abe7ef8e81, type: 3}
   damagesToDeal:
     playerName: 
     damageHealth: 0
-    statusToApply: []
+    statusToApply:
+    - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 0}
+  prefab: {fileID: 1384060272247584325, guid: e6b1a59a6ec4bb842bdc0690f388aa16, type: 3}
   _reduceCooldowns: 0
-  offSet: 0
+  offSet: 1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
     timeToReachMaxRange: 0.2
-    timeToResolveTheSalve: 0.8
+    timeToResolveTheSalve: 0.1
   angleToSplit: 0
   cooldownReduction: 0
   bonusShot: 0

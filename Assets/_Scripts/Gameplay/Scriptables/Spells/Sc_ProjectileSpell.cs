@@ -15,6 +15,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[Header("Projectile Prefabs")]
 	[TabGroup("ProjectileSpecifications")] public Projectile prefab;
 	[TabGroup("ProjectileSpecifications")] public bool _reduceCooldowns = false;
+	[TabGroup("ProjectileSpecifications")] public AnimationCurve _curveSpeed = AnimationCurve.Constant(0,1,1);
 
 
 	[Header("SalveInfos")]

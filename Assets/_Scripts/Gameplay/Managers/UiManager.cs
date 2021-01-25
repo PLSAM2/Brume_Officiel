@@ -23,10 +23,11 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public GameObject loosePanel;
     [FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
     [FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
-    [FoldoutGroup("GlobalUi")] public Camera cameraMinimap;
     [FoldoutGroup("GlobalUi")] public ChatControl chat;
 
-    private bool waitForMinimapUpdate = false;
+    [FoldoutGroup("Minimap")] public Camera cameraMinimap;
+    [FoldoutGroup("Minimap")] private bool waitForMinimapUpdate = false;
+
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
@@ -76,6 +77,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Misc")]
     [FoldoutGroup("Misc")] public GameObject DebuggerPanel;
+
 
     private void Awake()
     {
@@ -149,7 +151,7 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerSpawn(ushort id)
     {
-        if (GameFactory.IsOnMyTeam(id)) 
+        if (GameFactory.IsOnMyTeam(id))
         {
             GetImageOfChamp(id).color = outViewBlueColor;
         }
@@ -219,7 +221,8 @@ public class UiManager : MonoBehaviour
                     {
                         myColor = inViewBlueColor;
                     }
-                    else{
+                    else
+                    {
                         myColor = inViewRedColor;
                     }
                     break;
@@ -294,6 +297,8 @@ public class UiManager : MonoBehaviour
         return null;
     }
 
+
+
     private void Update()
     {
         UpdateRadarIcons();
@@ -345,12 +350,12 @@ public class UiManager : MonoBehaviour
             Vector3 direction = (toPos - fromPos).normalized;
             Vector3 clampedDirection = fromPos + direction * pointerDistance;
             Debug.DrawLine(fromPos, clampedDirection, Color.yellow);
-            clampedDirection.y = 0; 
+            clampedDirection.y = 0;
             float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
             nextAltarRadarIcon.localEulerAngles = new Vector3(0, 0, angle);
 
-            Vector3 targetPositionScreenPoint = mainCam.WorldToScreenPoint(clampedDirection) ;
-            Vector3 offscreenpos = mainCam.WorldToScreenPoint(toPos) ;
+            Vector3 targetPositionScreenPoint = mainCam.WorldToScreenPoint(clampedDirection);
+            Vector3 offscreenpos = mainCam.WorldToScreenPoint(toPos);
             offscreenpos.z = 0;
             targetPositionScreenPoint.z = 0;
             bool isOffScreen = offscreenpos.x <= radarRangeXDistanceFromZero || offscreenpos.x >= radarRange.rect.width + radarRangeXDistanceFromZero
@@ -687,7 +692,7 @@ public class UiManager : MonoBehaviour
         toDisableInEndGame.SetActive(false);
     }
     public void FeedbackHit()
-	{
+    {
         if (hitFeedback == null)
         {
             return;
@@ -699,16 +704,16 @@ public class UiManager : MonoBehaviour
         int randomYSize = UnityEngine.Random.Range(-100, 100);
 
         if (randomXSize > 0)
-            hitFeedback.rectTransform.localScale = new Vector2(1,hitFeedback.rectTransform.localScale.y);
+            hitFeedback.rectTransform.localScale = new Vector2(1, hitFeedback.rectTransform.localScale.y);
         else
             hitFeedback.rectTransform.localScale = new Vector2(-1, hitFeedback.rectTransform.localScale.y);
 
-        if(randomYSize>0)
-            hitFeedback.rectTransform.localScale = new Vector2( hitFeedback.rectTransform.localScale.x,1);
+        if (randomYSize > 0)
+            hitFeedback.rectTransform.localScale = new Vector2(hitFeedback.rectTransform.localScale.x, 1);
         else
             hitFeedback.rectTransform.localScale = new Vector2(hitFeedback.rectTransform.localScale.x, -1);
 
         hitFeedback.DOColor(new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 0), 1.2f);
-	}
+    }
 
 }

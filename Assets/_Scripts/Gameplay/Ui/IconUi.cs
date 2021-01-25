@@ -42,7 +42,7 @@ public class IconUi : MonoBehaviour
 	}
 
 	public void HideIcon ( bool _hiding )
-	{
+	{/*
 		myRectTransform.DOKill();
 
 
@@ -53,7 +53,7 @@ public class IconUi : MonoBehaviour
 		else
 		{
 			myRectTransform.DOAnchorPos(basePos, .4f);
-		}
+		}*/
 	}
 	public void SetupInputName ( string _name )
 	{
