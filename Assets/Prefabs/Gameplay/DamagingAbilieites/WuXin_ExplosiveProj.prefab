@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 279285048789274863}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4805572185730596517}
   m_Father: {fileID: 4893502825971888538}
@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 4046907593915369113}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 3019420767287029772}
   m_Father: {fileID: 4893502825971888538}
@@ -243,7 +243,7 @@ MonoBehaviour:
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 02f9acdded9a54447b5cf3c3b168b853, type: 3}
   soundFollowObj: 1
-  aoeToSpawn: {fileID: 0}
+  aoeToSpawn: {fileID: 7776885188641116624, guid: 0abd4a7321a99ba4faa8ccb8fde14346, type: 3}
   localTrad: {fileID: 11400000, guid: 5a7859f7f5bcffb42ab241d54f9fa181, type: 2}
   doImpactFx: 1
   hasTouched: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   bouncingNumber: 0
   diesOnPlayerTouch: 1
-  diesOnWallTouch: 0
+  diesOnWallTouch: 1
   velocityKeptOnBounce: 0
 --- !u!135 &1795821538017011573
 SphereCollider:
@@ -264,7 +264,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &-1534728185079278919
 SphereCollider:
@@ -277,7 +277,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &63471337967116498
 Rigidbody:
