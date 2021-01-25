@@ -27,7 +27,7 @@ MonoBehaviour:
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0
+  throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
   damagesToDeal:
     playerName: 
@@ -41,13 +41,50 @@ MonoBehaviour:
     additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: 211c74c92e275d143b583e4b927432ee, type: 3}
   _reduceCooldowns: 0
+  _curveSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.6
+    timeToReachMaxRange: 1.25
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
+  bouncingNumber: 0
+  velocityKeptOnBounce: 1
+  diesOnPlayerTouch: 1
+  diesOnWallTouch: 0
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0

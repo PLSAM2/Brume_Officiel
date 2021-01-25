@@ -24,8 +24,7 @@ public class Projectile : AutoKill
 	[HideInInspector] public bool hasTouched = false;
 	[HideInInspector] public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
-	[TabGroup("Proj Specific touch interaction")] [HorizontalGroup(150)] public bool diesOnPlayerTouch = true;
-	[TabGroup("Proj Specific touch interaction")] [HorizontalGroup(150)] public bool diesOnWallTouch = false;
+
 
 	Vector3 direction = Vector3.zero;
 	ushort bouncingNumberLive;
@@ -121,7 +120,7 @@ public class Projectile : AutoKill
 				}
 
 
-				if (diesOnPlayerTouch)
+				if (localTrad.diesOnPlayerTouch)
 				{
 					Destroy();
 				}
@@ -140,7 +139,7 @@ public class Projectile : AutoKill
 			{
 				_proj.Destroy();
 			}
-			else if (diesOnWallTouch)
+			else if (localTrad.diesOnWallTouch)
 				Destroy();
 		}
 	}
