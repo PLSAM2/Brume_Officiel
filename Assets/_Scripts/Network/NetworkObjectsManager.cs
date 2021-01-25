@@ -297,7 +297,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         networkedObject.Init(_uniqueObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID, _ObjectPos);
         NetworkedObjectAdded(_uniqueObjId, networkedObject);
         _tempObject.SetActive(true);
-
+        
         if (autokill)
         {
             //TODO: ICI

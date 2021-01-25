@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,12 @@ public class UIPingModule : MonoBehaviour
     private bool locked = false;
     private int actualPos = -1;
     private bool onCenter = false;
+
+    [FoldoutGroup("Minimap")] public RectTransform minimapTransform;
+    [FoldoutGroup("Minimap")] public Transform downLimit;
+    [FoldoutGroup("Minimap")] public Transform upLimit;
+    [FoldoutGroup("Minimap")] public bool mouseOverMinimap = false;
+    private Vector3 newPingPos = Vector3.zero;
 
     private void Update()
     {
@@ -53,7 +60,36 @@ public class UIPingModule : MonoBehaviour
         yOffset = 0;
         activated = true;
         onCenter = true;
-        TryChoosePos();
+
+        if (mouseOverMinimap)
+        {
+            ClickOnMinimap();
+        } else
+        {
+            TryChoosePos();
+        }
+    }
+
+    public void OnMinimapOver(bool v)
+    {
+        mouseOverMinimap = v;
+    }
+
+    public void ClickOnMinimap()
+    {
+        Vector2 localpoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(minimapTransform, Input.mousePosition, GetComponentInParent<Canvas>().worldCamera, out localpoint);
+
+        Vector2 normalizedPoint = Rect.PointToNormalized(minimapTransform.rect, localpoint);
+
+        initPos = new Vector3(downLimit.position.x + ((upLimit.position.x - downLimit.position.x) * (normalizedPoint.x))
+            , 0,
+            downLimit.position.z + ((upLimit.position.z - downLimit.position.z) * (normalizedPoint.y))
+            );
+
+        radialMenu.transform.position = Input.mousePosition;
+        radialMenu.SetActive(true);
+        locked = true;
     }
     public void Desactivate()
     {

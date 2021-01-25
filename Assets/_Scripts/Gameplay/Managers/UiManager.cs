@@ -26,8 +26,8 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("GlobalUi")] public ChatControl chat;
 
     [FoldoutGroup("Minimap")] public Camera cameraMinimap;
-    [FoldoutGroup("Minimap")] public RectTransform minimapTransform;
     [FoldoutGroup("Minimap")] private bool waitForMinimapUpdate = false;
+
 
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
     [FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
@@ -77,6 +77,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Misc")]
     [FoldoutGroup("Misc")] public GameObject DebuggerPanel;
+
 
     private void Awake()
     {
@@ -297,14 +298,6 @@ public class UiManager : MonoBehaviour
     }
 
 
-    public void ClickOnMinimap()
-    {
-        Vector2 localpoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(minimapTransform, Input.mousePosition, GetComponentInParent<Canvas>().worldCamera, out localpoint);
-
-        Vector2 normalizedPoint = Rect.PointToNormalized(minimapTransform.rect, localpoint);
-        print(normalizedPoint);
-    }
 
     private void Update()
     {
