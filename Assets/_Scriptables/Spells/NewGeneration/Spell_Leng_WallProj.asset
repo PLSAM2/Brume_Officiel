@@ -12,21 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Leng_WallProj
   m_EditorClassIdentifier: 
-  range: 3
-  cooldown: 8
+  range: 5
+  cooldown: 15
   numberOfCharge: 1
   forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
-  canalisationTime: 0.2
+  canalisationTime: 0
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.2
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd: []
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
   throwBackDuration: 0.5
   spellIcon: {fileID: 21300000, guid: 790c8fff634cfe140aed08abe7ef8e81, type: 3}
   damagesToDeal:
@@ -45,7 +46,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.3
+    timeToReachMaxRange: 0.2
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   cooldownReduction: 0

@@ -71,6 +71,10 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             {
                 InstantiateInServer(sender, e);
             }
+            if (message.Tag == Tags.InstantiateAutoKillObject)
+            {
+                InstantiateInServer(sender, e, true);
+            }
             if (message.Tag == Tags.SynchroniseObject)
             {
                 SynchroniseObject(sender, e);
@@ -168,6 +172,9 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         if (_tempObject.GetComponent<AutoKill>() != null)
         {
             _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam);
+
+
+
         }/*
       else  if (_tempObject.GetComponent<aoe>() != null)
         {
@@ -176,36 +183,90 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
 
 
-      // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
+        // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
 
-            using (DarkRiftWriter writer = DarkRiftWriter.Create())
-            {
-                writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
-                writer.Write(networkedObjectID);
-                writer.Write(uniqueObjId);
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
+            writer.Write(networkedObjectID);
+            writer.Write(uniqueObjId);
 
-                writer.Write(position.x);
-                writer.Write(position.z);
+            writer.Write(position.x);
+            writer.Write(position.z);
 
-                writer.Write(eulerAngles.x);
-                writer.Write(eulerAngles.y);
-                writer.Write(eulerAngles.z);
+            writer.Write(eulerAngles.x);
+            writer.Write(eulerAngles.y);
+            writer.Write(eulerAngles.z);
 
-                using (Message message = Message.Create(Tags.InstantiateObject, writer))
-                    client.SendMessage(message, SendMode.Reliable);
-            }
-        
+            using (Message message = Message.Create(Tags.InstantiateObject, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+
 
         return _tempObject;
     }
 
-    private void InstantiateInServer(object sender, MessageReceivedEventArgs e)
+    /// <summary>
+    /// Use linq / Not efficient in Update
+    /// </summary>
+    /// <param name="networkedObjectID"></param>
+    /// <param name="position"></param>
+    /// <param name="eulerAngles"></param>
+    public GameObject NetworkAutoKillInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, float parameter)
+    {
+        GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
+
+        ushort uniqueObjId = GenerateUniqueObjID();
+
+        _tempObject.transform.position = position;
+        _tempObject.transform.rotation = Quaternion.Euler(eulerAngles);
+        NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
+        networkedObject.Init(uniqueObjId, NetworkManager.Instance.GetLocalPlayer(), networkedObjectID, position);
+        NetworkedObjectAdded(uniqueObjId, networkedObject);
+        _tempObject.SetActive(true);
+
+
+        if (_tempObject.GetComponent<AutoKill>() != null)
+        {
+            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam);
+            //TODO: ICI
+
+        }
+
+
+        // Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write(NetworkManager.Instance.GetLocalPlayer().ID);
+            writer.Write(networkedObjectID);
+            writer.Write(uniqueObjId);
+
+            writer.Write(position.x);
+            writer.Write(position.z);
+
+            writer.Write(eulerAngles.x);
+            writer.Write(eulerAngles.y);
+            writer.Write(eulerAngles.z);
+            writer.Write(parameter);
+
+            using (Message message = Message.Create(Tags.InstantiateObject, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+
+
+        return _tempObject;
+    }
+
+
+    private void InstantiateInServer(object sender, MessageReceivedEventArgs e, bool autokill = false)
     {
         ushort _ownerID;
         ushort _objectID;
         ushort _uniqueObjId;
         Vector3 _ObjectPos = new Vector3(0, 0, 0);
         Vector3 _ObjectRotation = new Vector3(0, 0, 0);
+        float _parameter = 1;
 
         using (Message message = e.GetMessage() as Message)
         {
@@ -221,8 +282,14 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
                 _ObjectRotation.x = reader.ReadSingle();
                 _ObjectRotation.y = reader.ReadSingle();
                 _ObjectRotation.z = reader.ReadSingle();
+
+                if (autokill)
+                {
+                    _parameter = reader.ReadSingle();
+                }
             }
         }
+
         GameObject _tempObject = GetFirstDisabledObject(_objectID);
         _tempObject.transform.position = _ObjectPos;
         _tempObject.transform.rotation = Quaternion.Euler(_ObjectRotation);
@@ -230,6 +297,11 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         networkedObject.Init(_uniqueObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID, _ObjectPos);
         NetworkedObjectAdded(_uniqueObjId, networkedObject);
         _tempObject.SetActive(true);
+        
+        if (autokill)
+        {
+            //TODO: ICI
+        }
 
         if (_tempObject.GetComponent<Projectile>() != null)
         {
