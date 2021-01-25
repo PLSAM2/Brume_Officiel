@@ -52,7 +52,7 @@ public class UIPingModule : MonoBehaviour
         xOffset = 0;
         yOffset = 0;
         activated = true;
-
+        onCenter = true;
         TryChoosePos();
     }
     public void Desactivate()
@@ -153,7 +153,7 @@ public class UIPingModule : MonoBehaviour
             return;
         }
 
-        if (selected && pos != actualPos)
+        if ((selected && pos != actualPos) || (selected && pos == actualPos && enCornerImg[pos].gameObject.activeInHierarchy == false))
         {
             ResetAll();
             actualPos = pos;
