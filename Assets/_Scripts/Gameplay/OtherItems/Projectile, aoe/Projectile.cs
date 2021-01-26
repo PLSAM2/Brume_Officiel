@@ -24,14 +24,11 @@ public class Projectile : AutoKill
 	[HideInInspector] public bool hasTouched = false;
 	[HideInInspector] public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
-	[TabGroup("Proj Specific touch interaction")] [HorizontalGroup(150)] public bool diesOnPlayerTouch = true;
-	[TabGroup("Proj Specific touch interaction")] [HorizontalGroup(150)] public bool diesOnWallTouch = false;
+
 
 	Vector3 direction = Vector3.zero;
 	ushort bouncingNumberLive;
-	[TabGroup("Proj Specific touch interaction")] [SerializeField] ushort bouncingNumber;
-	bool willBounce => bouncingNumber != 0;
-	[TabGroup("Proj Specific touch interaction")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
+
 
 	public Action velocityChanged;
 
@@ -39,7 +36,7 @@ public class Projectile : AutoKill
 	{
 		base.Init(ownerTeam);
 		startPos = transform.position;
-		bouncingNumberLive = bouncingNumber;
+		bouncingNumberLive = localTrad.bouncingNumber;
 
 		if (!isOwner)
 		{
@@ -91,7 +88,7 @@ public class Projectile : AutoKill
 			else
 			{
 				bouncingNumberLive--;
-				myLivelifeTime = mylifeTime * velocityKeptOnBounce;
+				myLivelifeTime = mylifeTime *	localTrad.velocityKeptOnBounce;
 				direction = Vector3.Reflect(direction, _coll.GetContact(0).normal).normalized;
 				myRb.velocity = speed * direction;
 
@@ -102,7 +99,7 @@ public class Projectile : AutoKill
 
 	private void Update ()
 	{
-		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate(myLivelifeTime / mylifeTime);
+		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate((mylifeTime -myLivelifeTime) / mylifeTime);
 	}
 
 	void OnTriggerEnter ( Collider _coll )
@@ -123,7 +120,7 @@ public class Projectile : AutoKill
 				}
 
 
-				if (diesOnPlayerTouch)
+				if (localTrad.diesOnPlayerTouch)
 				{
 					Destroy();
 				}
@@ -142,7 +139,7 @@ public class Projectile : AutoKill
 			{
 				_proj.Destroy();
 			}
-			else if (diesOnWallTouch)
+			else if (localTrad.diesOnWallTouch)
 				Destroy();
 		}
 	}
@@ -171,7 +168,7 @@ public class Projectile : AutoKill
 		if (aoeToSpawn != null && isOwner)
 			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 
-		bouncingNumberLive = bouncingNumber;
+		bouncingNumberLive =localTrad.bouncingNumber;
 		base.Destroy();
 	}
 }
