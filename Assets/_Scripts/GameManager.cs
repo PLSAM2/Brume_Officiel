@@ -104,6 +104,9 @@ public class GameManager : SerializedMonoBehaviour
         client.MessageReceived -= OnMessageReceive;
         OnPlayerGetDamage -= OnPlayerTakeDamage;
         NetworkManager.Instance.OnPlayerQuit -= PlayerQuitGame;
+
+        foreach (Material _mat in materialNeedingTheCamPos)
+            _mat.SetVector("_Object_Position", new Vector4(0, 0, 0, 1));
     }
 
     private void Start()
