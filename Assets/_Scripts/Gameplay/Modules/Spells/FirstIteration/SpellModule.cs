@@ -41,7 +41,7 @@ public class SpellModule : MonoBehaviour
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
 	protected bool isOwner = false;
-	public bool isAComboPiece = false;
+	public bool isAComboPiece, hasPreviewed = false;
 
 	[ReadOnly] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
@@ -189,6 +189,7 @@ public class SpellModule : MonoBehaviour
 			willResolve = true;
 			showingPreview = true;
 			UpdatePreview();
+			hasPreviewed = true;
 		}
 		else
 			return;
@@ -197,6 +198,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
 		showingPreview = false;
+		hasPreviewed = false;
 	}
 
 	protected virtual void UpdatePreview ()
@@ -265,7 +267,7 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if (canBeCast() && willResolve)
+		if (canStartCanalisation() && willResolve)
 		{
 			Canalyse(_BaseMousePos);
 		}
@@ -458,6 +460,17 @@ public class SpellModule : MonoBehaviour
 			return true;
 		}
 	}
+
+	protected virtual bool canStartCanalisation()
+	{
+		if (!canBeCast())
+			return false;
+		else if (hasPreviewed == true)
+			return true;
+		else
+			return false;
+	}
+
 	void StartCanalysingFeedBack ()
 	{
 		//PITIT BRUIT

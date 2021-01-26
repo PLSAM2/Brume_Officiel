@@ -199,7 +199,7 @@ public class Projectile : AutoKill
 			}
 		}
 
-		if (aoeToSpawn != null && isOwner)
+		if (aoeToSpawn != null && hasTouched  && isOwner)
 			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 
 		bouncingNumberLive = localTrad.bouncingNumber;
