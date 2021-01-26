@@ -80,7 +80,7 @@ public class BrumeDetection : MonoBehaviour
 
             Vector3 dir = DirFromAngle(angle, true);
 
-            if (Physics.Raycast(transform.position + Vector3.up * 1, dir, out hit, distanceRay, maskBrumeMesh))
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, out hit, distanceRay, maskBrumeMesh))
             {
                 allDistance.Add(hit.distance);
             }
