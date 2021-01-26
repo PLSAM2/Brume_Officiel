@@ -13,13 +13,14 @@ public class BrumeDetection : MonoBehaviour
 
     float viewAngle = 360;
     public float resolution = 0.1f;
-    public float distanceRay = 2f;
+    float distanceRay = 2f;
 
     [SerializeField] AnimationCurve curveAlpha;
 
     private void Start()
     {
         myPlayerModule = GetComponent<PlayerModule>();
+        distanceRay = curveAlpha.keys[curveAlpha.keys.Length - 1].time;
     }
 
     void Update()
@@ -79,7 +80,7 @@ public class BrumeDetection : MonoBehaviour
 
             Vector3 dir = DirFromAngle(angle, true);
 
-            if (Physics.Raycast(transform.position + Vector3.up * 1, dir, out hit, distanceRay, maskBrumeMesh))
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, out hit, distanceRay, maskBrumeMesh))
             {
                 allDistance.Add(hit.distance);
             }

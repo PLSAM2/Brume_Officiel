@@ -42,6 +42,30 @@ MonoBehaviour:
     additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
   _reduceCooldowns: 0
+  _curveSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 0.1
   salveInfos:
     NumberOfSalve: 1
@@ -49,6 +73,10 @@ MonoBehaviour:
     timeToReachMaxRange: 0.25
     timeToResolveTheSalve: 0
   angleToSplit: 0
+  bouncingNumber: 1
+  velocityKeptOnBounce: 1
+  diesOnPlayerTouch: 1
+  diesOnWallTouch: 0
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0

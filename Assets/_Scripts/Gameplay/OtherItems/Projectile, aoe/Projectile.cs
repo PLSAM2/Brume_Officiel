@@ -29,6 +29,8 @@ public class Projectile : AutoKill
 	Vector3 direction = Vector3.zero;
 	ushort bouncingNumberLive;
 
+	bool isBox = false;
+	Vector3 collisionSize;
 
 	public Action velocityChanged;
 
@@ -72,6 +74,20 @@ public class Projectile : AutoKill
 	private void Start ()
 	{
 		myRb = GetComponent<Rigidbody>();
+
+		BoxCollider _collBox = GetComponent<BoxCollider>();
+		if (_collBox != null)
+		{
+			isBox = true;
+			collisionSize = _collBox.size;
+		}
+		else
+		{
+			isBox = false;
+			SphereCollider _coll = GetComponent<SphereCollider>();
+			if (_coll != null)
+				collisionSize = new Vector3(_coll.radius, 0, 0);
+		}
 	}
 
 	void OnCollisionEnter ( Collision _coll )
@@ -88,18 +104,36 @@ public class Projectile : AutoKill
 			else
 			{
 				bouncingNumberLive--;
-				myLivelifeTime = mylifeTime *	localTrad.velocityKeptOnBounce;
+				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
 				direction = Vector3.Reflect(direction, _coll.GetContact(0).normal).normalized;
 				myRb.velocity = speed * direction;
 
+				if (isBox)
+				{
+					RaycastHit[] _collTouched = Physics.BoxCastAll(transform.position, collisionSize / 2, Vector3.zero, Quaternion.identity, 0, 1 << 8);
 
+					foreach(RaycastHit _hit in _collTouched)
+					{
+						_hit.collider.GetComponent<LocalPlayer>().DealDamages(localTrad.damagesToDeal, transform.position);
+					}
+				}
+				else
+				{
+					RaycastHit[] _collTouched = Physics.SphereCastAll(transform.position, transform.position.x, Vector3.zero, 1 << 8);
+
+					foreach (RaycastHit _hit in _collTouched)
+					{
+						_hit.collider.GetComponent<LocalPlayer>().DealDamages(localTrad.damagesToDeal, transform.position);
+					}
+				}
+			
 			}
 		}
 	}
 
 	private void Update ()
 	{
-		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate((mylifeTime -myLivelifeTime) / mylifeTime);
+		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime);
 	}
 
 	void OnTriggerEnter ( Collider _coll )
@@ -165,10 +199,10 @@ public class Projectile : AutoKill
 			}
 		}
 
-		if (aoeToSpawn != null && isOwner)
+		if (aoeToSpawn != null && hasTouched  && isOwner)
 			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 
-		bouncingNumberLive =localTrad.bouncingNumber;
+		bouncingNumberLive = localTrad.bouncingNumber;
 		base.Destroy();
 	}
 }
