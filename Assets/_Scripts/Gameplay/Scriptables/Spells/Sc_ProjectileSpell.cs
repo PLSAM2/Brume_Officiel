@@ -24,7 +24,8 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 
 
-	[Header("MultiProjectile")]
+	bool isMultiple => salveInfos.numberOfShotInSalve > 1;
+	[Header("MultiProjectile")] [ShowIf("isMultiple")]
 	[TabGroup("ProjectileSpecifications")] [Min(0)] public int angleToSplit;
 
 	[Header("ImpactPArt")]
@@ -32,8 +33,8 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[TabGroup("ProjectileSpecifications")] public ushort bouncingNumber;
 	bool willBounce => bouncingNumber != 0;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
-	[TabGroup("ProjectileSpecifications")] [HorizontalGroup(150)] public bool diesOnPlayerTouch = true;
-	[TabGroup("ProjectileSpecifications")] [HorizontalGroup(150)] public bool diesOnWallTouch = false;
+	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;
+	[TabGroup("ProjectileSpecifications")] public bool diesOnWallTouch = false;
 
 	[Header("UpgradePart")]
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;

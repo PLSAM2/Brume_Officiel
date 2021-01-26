@@ -290,7 +290,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   resolution: 0.1
-  distanceRay: 2
+  distanceRay: 1
   curveAlpha:
     serializedVersion: 2
     m_Curve:
@@ -304,13 +304,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 2
+      time: 0.25
+      value: 1
+      inSlope: -0
+      outSlope: -1.2079661
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10546894
+    - serializedVersion: 3
+      time: 1
       value: 0
-      inSlope: -0.12650585
-      outSlope: -0.12650585
+      inSlope: -1.2146372
+      outSlope: -1.2146372
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.12842435
+      inWeight: 0.118261576
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -803,7 +812,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3531234986128592076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.01, z: 0}
+  m_LocalPosition: {x: 0, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5578612187831143817}

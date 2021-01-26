@@ -23,8 +23,6 @@ namespace UnityEngine.Rendering.Universal
         Camera mCam;
         Matrix4x4 mInverseMVP;
 
-        Texture2D tex;
-
         public FogPass(string tag)
         {
             m_ProfilerTag = tag;
@@ -83,7 +81,7 @@ namespace UnityEngine.Rendering.Universal
         /// <inheritdoc/>
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            if (SceneManager.GetActiveScene().name != "NewGame")
+            if (SceneManager.GetActiveScene().name != "NewGame" || !Application.isPlaying)
             {
                 return;
             }
@@ -152,6 +150,7 @@ namespace UnityEngine.Rendering.Universal
                 }
             }
 
+            
             Vector4 p = new Vector4(-x * invScale, -y * invScale, invScale, mFog.blendFactor);
             settings.blitMaterial.SetColor("_Unexplored", mFog.unexploredColor);
             //settings.blitMaterial.SetTexture("_FogTex0", mFog.texture0);
