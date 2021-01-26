@@ -80,7 +80,7 @@ Shader "Image Effects/Fog of War Urp"
 				float remaining = 1.0f;
 				float coef = 1.0;
 				float fI = 0;
-				for (int j = 0; j < 3; j++) {
+				for (int j = 0; j < 10; j++) {
 					fI++;
 					coef *= 0.32;
 					texcol += tex2D(_FogTex0, float2(uv.x, uv.y - fI * _BlurAmount)) * coef;
