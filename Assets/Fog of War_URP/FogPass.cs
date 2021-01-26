@@ -83,7 +83,7 @@ namespace UnityEngine.Rendering.Universal
         /// <inheritdoc/>
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            if (SceneManager.GetActiveScene().name != "NewGame")
+            if (SceneManager.GetActiveScene().name != "NewGame" || !Application.isPlaying)
             {
                 return;
             }
