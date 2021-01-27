@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_WuXin_Sniper Transfo
+  m_Name: Spell_WuXin_SniperUlti
   m_EditorClassIdentifier: 
   range: 9
   cooldown: 1
@@ -42,6 +42,30 @@ MonoBehaviour:
     additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: 2cbfca213f9ecee4989ed3ccc444bcb1, type: 3}
   _reduceCooldowns: 0
+  _curveSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 0
   salveInfos:
     NumberOfSalve: 1
@@ -49,6 +73,10 @@ MonoBehaviour:
     timeToReachMaxRange: 0.25
     timeToResolveTheSalve: 0.2
   angleToSplit: 0
+  bouncingNumber: 0
+  velocityKeptOnBounce: 1
+  diesOnPlayerTouch: 1
+  diesOnWallTouch: 0
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
