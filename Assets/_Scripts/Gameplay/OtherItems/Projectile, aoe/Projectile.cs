@@ -200,7 +200,7 @@ public class Projectile : AutoKill
 
 		if (isOwner && aoeToSpawn!= null)
 		{
-			if(_spawnAoe)
+			if(_spawnAoe || localTrad.forcePrefabApparition)
 				NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 		}
 

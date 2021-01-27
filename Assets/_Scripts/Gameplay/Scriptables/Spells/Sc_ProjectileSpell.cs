@@ -36,6 +36,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[TabGroup("ProjectileSpecifications")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnWallTouch = false;
+	[TabGroup("ProjectileSpecifications")] public bool forcePrefabApparition = false;
 
 	[Header("UpgradePart")]
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;
