@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_WuXin_ZoneStun
   m_EditorClassIdentifier: 
-  range: 4
+  range: 3.5
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
@@ -65,7 +65,7 @@ MonoBehaviour:
       outWeight: 0.07626017
     - serializedVersion: 3
       time: 1
-      value: 5
+      value: 6
       inSlope: -0.4938387
       outSlope: -0.4938387
       tangentMode: 0
@@ -75,17 +75,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  asAdaptiveRange: 0
   offSet: 1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1.1
+    timeToReachMaxRange: 0.9
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
+  destroyProjectiles: 0
   bouncingNumber: 0
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 1
   diesOnWallTouch: 1
+  forcePrefabApparition: 1
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
