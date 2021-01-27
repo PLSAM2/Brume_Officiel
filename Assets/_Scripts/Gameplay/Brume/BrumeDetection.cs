@@ -25,6 +25,8 @@ public class BrumeDetection : MonoBehaviour
 
     void Update()
     {
+        PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+
         //sol detection
         RaycastHit hit;
         if (Physics.Raycast(transform.position + Vector3.up *1, -Vector3.up, out hit, 10, maskBrume))
@@ -34,8 +36,6 @@ public class BrumeDetection : MonoBehaviour
             if(!myPlayerModule.isInBrume || myPlayerModule.brumeId != currentBrume.GetInstanceID())
             {
                 myPlayerModule.SetInBrumeStatut(true, currentBrume.GetInstanceID());
-
-                PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
                 if (myPlayerModule == currentFollowPlayer)
                 {
@@ -50,8 +50,6 @@ public class BrumeDetection : MonoBehaviour
             {
                 myPlayerModule.SetInBrumeStatut(false, 0);
 
-                PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
-
                 if (myPlayerModule == currentFollowPlayer)
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, true);
@@ -61,7 +59,10 @@ public class BrumeDetection : MonoBehaviour
         }
 
         //border detection
-        UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(GetDistanceFromBrume()));
+        if (myPlayerModule == currentFollowPlayer)
+        {
+            UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(GetDistanceFromBrume()));
+        }
     }
 
     float GetDistanceFromBrume()
