@@ -11,7 +11,7 @@ public class ModuleProjectileSpell : SpellModule
 	SalveInfos myLiveSalve;
 	bool shooting = false;
 	float timeBetweenShot = 0;
-	List<ArrowPreview> myPreviewArrow  ;
+	List<ArrowPreview> myPreviewArrow;
 
 	protected override void FixedUpdate ()
 	{
@@ -73,7 +73,7 @@ public class ModuleProjectileSpell : SpellModule
 	#region 
 	protected virtual Vector3 PosToInstantiate ()
 	{
-		Vector3 _temp = transform.forward * .4f + transform.position;
+		Vector3 _temp = transform.forward * .1f + transform.position;
 		_temp.y = 0;
 		return _temp;
 	}
@@ -112,7 +112,12 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
-		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot);
+		if (localTrad.asAdaptiveRange)
+		{
+			print(Vector3.Distance(_posToSet, ) / spell.range);
+			NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot, Vector3.Distance(_posToSet, (transform.position - _posToSet).normalized * localTrad.range)/spell.range );
+		}
+		else NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot, 1);
 	}
 	#endregion
 
