@@ -5,7 +5,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Brume : MonoBehaviour
 {
-    [SerializeField] AnimationCurve curveAlpha;
     public Renderer myRenderer;
     [SerializeField] AudioClip sfxTransiBrume;
 
@@ -35,7 +34,6 @@ public class Brume : MonoBehaviour
         if (player == currentFollowPlayer)
         {
             ShowHideMesh(player, true);
-            UiManager.Instance.SetAlphaBrume(0);
             AudioManager.Instance.Play2DAudio(sfxTransiBrume);
         }
     }

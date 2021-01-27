@@ -427,8 +427,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-
-
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -518,25 +516,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-
-		if (isOwner)
-		{
-
-			if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
-			{
-				myPlayerModule.ApplyWxMark(dealerID);
-			}
-		}
-		else
-		{
-			if (GetComponent<WxController>() != null)
-				GameManager.Instance.currentLocalPlayer.wuXinTookDamages?.Invoke();
-		}
-
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
 		{
-			if(isOwner)
+			if (isOwner)
+			{
+				if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
+				{
+					myPlayerModule.ApplyWxMark(dealerID);
+				}
 				UiManager.Instance.FeedbackHit();
+
+			}
 
 			if ((int)liveHealth - (int)damages <= 0)
 			{

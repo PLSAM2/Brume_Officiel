@@ -33,6 +33,7 @@
     public static readonly ushort AskForStopGame = 311;
     public static readonly ushort NewRound = 315;
     public static readonly ushort InstantiateObject = 500;
+    public static readonly ushort InstantiateAutoKillObject = 502;
     public static readonly ushort SynchroniseObject = 510;
     public static readonly ushort DestroyObject = 515;
     public static readonly ushort Damages = 520;
