@@ -137,6 +137,7 @@ public class AudioManager : SerializedMonoBehaviour
     {
         if(_clip == null) { return; }
         ushort _id = GetIndexOfList(_clip);
+        if (_id == 0) { return; }
 
         Play3DAudio(networkAudio[_id], _position, id, isPlayer);
 
