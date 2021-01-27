@@ -474,6 +474,7 @@ public class SpellModule : MonoBehaviour
 
 	void StartCanalysingFeedBack ()
 	{
+        print("test");
 		//PITIT BRUIT
 		AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 
