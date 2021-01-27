@@ -171,7 +171,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
         if (_tempObject.GetComponent<AutoKill>() != null)
         {
-            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam);
+            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam,1) ;
 
 
 
@@ -212,7 +212,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
     /// <param name="networkedObjectID"></param>
     /// <param name="position"></param>
     /// <param name="eulerAngles"></param>
-    public GameObject NetworkAutoKillInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, float parameter)
+    public GameObject NetworkAutoKillInstantiate(ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, float _percentageOfLifeTime)
     {
         GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
 
@@ -225,12 +225,10 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         NetworkedObjectAdded(uniqueObjId, networkedObject);
         _tempObject.SetActive(true);
 
-
         if (_tempObject.GetComponent<AutoKill>() != null)
         {
-            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam);
+            _tempObject.GetComponent<AutoKill>().Init(NetworkManager.Instance.GetLocalPlayer().playerTeam,1);
             //TODO: ICI
-
         }
 
 
@@ -248,7 +246,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
             writer.Write(eulerAngles.x);
             writer.Write(eulerAngles.y);
             writer.Write(eulerAngles.z);
-            writer.Write(parameter);
+            writer.Write(_percentageOfLifeTime);
 
             using (Message message = Message.Create(Tags.InstantiateObject, writer))
                 client.SendMessage(message, SendMode.Reliable);
@@ -266,7 +264,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         ushort _uniqueObjId;
         Vector3 _ObjectPos = new Vector3(0, 0, 0);
         Vector3 _ObjectRotation = new Vector3(0, 0, 0);
-        float _parameter = 1;
+        float _LifePercentage = 1;
 
         using (Message message = e.GetMessage() as Message)
         {
@@ -285,7 +283,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
                 if (autokill)
                 {
-                    _parameter = reader.ReadSingle();
+                    _LifePercentage = reader.ReadSingle();
                 }
             }
         }
@@ -300,16 +298,8 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         
         if (autokill)
         {
-            //TODO: ICI
+            _tempObject.GetComponent<AutoKill>().Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, _LifePercentage);
         }
-
-        if (_tempObject.GetComponent<Projectile>() != null)
-        {
-            _tempObject.GetComponent<Projectile>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
-        }
-        else if (_tempObject.GetComponent<Aoe>() != null)
-            _tempObject.GetComponent<Aoe>().Init(RoomManager.Instance.GetPlayerData(_ownerID).playerTeam);
-
     }
 
     public void NetworkedObjectAdded(ushort lastObjId, NetworkedObject obj)

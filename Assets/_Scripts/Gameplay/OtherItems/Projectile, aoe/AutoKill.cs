@@ -25,7 +25,7 @@ public class AutoKill : MonoBehaviour
 
 	}
 
-	public virtual void Init ( Team ownerTeam )
+	public virtual void Init ( Team ownerTeam, float _percentageOfLifeTime )
 	{
 		myNetworkObject = GetComponent<NetworkedObject>();
 
@@ -46,14 +46,11 @@ public class AutoKill : MonoBehaviour
 		{
 			AudioManager.Instance.Play3DAudio(spawnSound, transform.position, myNetworkObject.GetItemID(), false);
 		}
+
+		myLivelifeTime = mylifeTime * _percentageOfLifeTime;
 	}
 
-	protected virtual void OnEnable ()
-	{
-		myLivelifeTime = mylifeTime;
-	}
-
-	public virtual void Destroy ()
+	public virtual void Destroy (bool _spawnAoe = false)
 	{
 		meshBlue.gameObject.SetActive(false);
 		meshRed.gameObject.SetActive(false);
