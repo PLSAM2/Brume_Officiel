@@ -71,6 +71,8 @@ public class FootstepAudio : MonoBehaviour
         yield return new WaitForSeconds(_clip.length);
 
         yield return new WaitForSeconds(0.2f);
+
+        print("walk");
         doSound = true;
     }
 
