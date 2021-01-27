@@ -48,7 +48,6 @@ public class Projectile : AutoKill
 			asDeal = false;
 
 		hasTouched = false;
-
 		if (_mySfxAudio != null)
 		{
 			if (soundFollowObj)
@@ -200,8 +199,10 @@ public class Projectile : AutoKill
 
 		if (isOwner && aoeToSpawn!= null)
 		{
-			if(_spawnAoe || localTrad.forcePrefabApparition)
+			if (_spawnAoe || localTrad.forcePrefabApparition)
+			{
 				NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
+			}
 		}
 
 		bouncingNumberLive = localTrad.bouncingNumber;

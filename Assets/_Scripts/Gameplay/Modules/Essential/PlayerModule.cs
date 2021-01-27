@@ -219,8 +219,7 @@ public class PlayerModule : MonoBehaviour
 		else
 		{
 			StartCoroutine(WaitForVisionCheck());
-
-				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
+			mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
 		if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
@@ -411,7 +410,6 @@ public class PlayerModule : MonoBehaviour
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
-		print("I try to reduce");
 		switch (_spell)
 		{
 			case En_SpellInput.FirstSpell:
@@ -427,7 +425,6 @@ public class PlayerModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.Click:
-				print("Ireduce click cooldown by " + _duration);
 				leftClick.ReduceCooldown(_duration);
 				break;
 
@@ -457,6 +454,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		if (ShouldBePinged())
 		{
+			Debug.Log("I shouldBePinged");
 			LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
 		}
 		lastRecordedPos = transform.position;
@@ -465,21 +463,24 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
+		//marké par la shili donc go ping
 		if (cursedByShili)
 			return true;
 
+		//le perso a pas bougé
 		if (lastRecordedPos == transform.position || isInBrume)
 			return false;
 
+		//on choppe le player local
 		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
+		//le perso est pas en train de crouched
 		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0)
 			return false;
 
+		//DISTANCE > a la range
 		if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
 			return false;
-
-
 
 		return true;
 	}
