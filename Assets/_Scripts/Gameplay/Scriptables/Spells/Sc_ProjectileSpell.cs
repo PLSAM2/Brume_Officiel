@@ -16,7 +16,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[TabGroup("ProjectileSpecifications")] public Projectile prefab;
 	[TabGroup("ProjectileSpecifications")] public bool _reduceCooldowns = false;
 	[TabGroup("ProjectileSpecifications")] public AnimationCurve _curveSpeed = AnimationCurve.Constant(0,1,1);
-
+	[TabGroup("ProjectileSpecifications")] public bool asAdaptiveRange = false;
 
 	[Header("SalveInfos")]
 	[TabGroup("ProjectileSpecifications")] public float offSet = .1f;
@@ -29,19 +29,20 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[TabGroup("ProjectileSpecifications")] [Min(0)] public int angleToSplit;
 
 	[Header("ImpactPArt")]
+	[TabGroup("ProjectileSpecifications")] public bool destroyProjectiles = false;
 
 	[TabGroup("ProjectileSpecifications")] public ushort bouncingNumber;
 	bool willBounce => bouncingNumber != 0;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnWallTouch = false;
+	[TabGroup("ProjectileSpecifications")] public bool forcePrefabApparition = false;
 
 	[Header("UpgradePart")]
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusShot;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public int bonusSalve;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float durationAdded;
-
 }
 
 [System.Serializable]

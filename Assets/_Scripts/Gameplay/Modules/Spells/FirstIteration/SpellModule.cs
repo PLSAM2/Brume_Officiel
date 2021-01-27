@@ -41,7 +41,8 @@ public class SpellModule : MonoBehaviour
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
 	protected bool isOwner = false;
-	public bool isAComboPiece, hasPreviewed = false;
+	public bool isAComboPiece = false;
+	[HideInInspector] public bool hasPreviewed;
 
 	[ReadOnly] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
@@ -461,7 +462,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	protected virtual bool canStartCanalisation()
+	protected virtual bool canStartCanalisation ()
 	{
 		if (!canBeCast())
 			return false;
