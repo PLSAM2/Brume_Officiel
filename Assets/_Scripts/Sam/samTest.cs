@@ -6,20 +6,10 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    private static samTest _instance;
-    public static samTest Instance { get { return _instance; } }
+    public float speed = 10;
 
-    public RenderTexture myText1;
-
-    private void Awake()
+    private void Update()
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
+        transform.Translate(Vector3.forward * speed);
     }
 }
