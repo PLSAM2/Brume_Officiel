@@ -44,9 +44,6 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     protected bool paused = false;
 
-    [TabGroup("InteractiblePart")]
-    [SerializeField] List<PlayerModule> playerTriggeredInZone = new List<PlayerModule>();
-
     [Header("Color")]
     [TabGroup("InteractiblePart")]
     [SerializeField] protected Color canBeCapturedColor;
@@ -108,6 +105,7 @@ public class Interactible : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+
         Capture();
 
         if (isViewed)
@@ -134,8 +132,8 @@ public class Interactible : MonoBehaviour
                 }
             }
         }
-
     }
+
     public void ProgressInServer(float progress)
     {
         timer = progress * interactTime;
@@ -167,7 +165,6 @@ public class Interactible : MonoBehaviour
     public virtual void UpdateTryCapture(ushort _capturingPlayerID)
     {
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
-
         if (NetworkManager.Instance.GetLocalPlayer().ID == _capturingPlayerID)
         {
             isCapturing = true;
@@ -248,7 +245,6 @@ public class Interactible : MonoBehaviour
 
         // capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
 
-        print("here4");
         UpdateCaptured(_capturingPlayerID);
     }
 

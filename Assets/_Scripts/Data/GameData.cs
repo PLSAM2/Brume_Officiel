@@ -26,7 +26,8 @@ public class GameData
         VisionTower = 2,
         Frog = 3,
         ResurectAltar = 4,
-        HealthPack = 5
+        HealthPack = 5,
+        UltPickup = 6
     }
 
 }
