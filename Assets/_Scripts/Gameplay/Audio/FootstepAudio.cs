@@ -65,8 +65,10 @@ public class FootstepAudio : MonoBehaviour
 
     IEnumerator WaitEndSound(AudioClip _clip)
     {
-        AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
-        myAudioSource.PlayOneShot(_clip);
+        if (GameFactory.DoSound(transform.position)) {
+            AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
+            myAudioSource.PlayOneShot(_clip);
+        }
 
         yield return new WaitForSeconds(_clip.length);
 
@@ -77,7 +79,7 @@ public class FootstepAudio : MonoBehaviour
 
     public void OnAnimRun()
     {
-        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && GameFactory.DoSound(transform.position))
         {
             AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId,true, myAudioSource.maxDistance);
             myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);

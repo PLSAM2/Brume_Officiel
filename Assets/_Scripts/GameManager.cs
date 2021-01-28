@@ -63,6 +63,8 @@ public class GameManager : SerializedMonoBehaviour
     
     public Animator globalVolumeAnimator;
 
+    public LayerMask brumeLayer;
+
     public GameObject brumeSoul;
     public Dictionary<ushort, BrumeSoul> brumeSouls = new Dictionary<ushort, BrumeSoul>();
 

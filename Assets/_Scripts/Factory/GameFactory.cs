@@ -275,4 +275,36 @@ public class GameFactory
         }
         return true;
     }
+
+    public static bool DoSound(Vector3 pos)
+    {
+        PlayerModule currentPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+
+        Brume currentBrume = null;
+        RaycastHit hit;
+        if (Physics.Raycast(pos + Vector3.up * 0.5f, -Vector3.up, out hit, 10, GameManager.Instance.brumeLayer))
+        {
+            currentBrume = hit.transform.GetComponent<BrumePlane>().myBrume;
+        }
+
+        if (currentPlayer.isInBrume)
+        {
+            if(currentBrume != null)
+            {
+                if(currentBrume.GetInstanceID() != currentPlayer.brumeId)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            if (currentBrume == null)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }

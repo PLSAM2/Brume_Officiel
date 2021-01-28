@@ -44,7 +44,7 @@ public class SpellModule : MonoBehaviour
 	public bool isAComboPiece = false;
 	[HideInInspector] public bool hasPreviewed;
 
-	[ReadOnly] public PlayerModule myPlayerModule;
+	[HideInInspector] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
