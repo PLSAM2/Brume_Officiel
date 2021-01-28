@@ -538,10 +538,10 @@ public class SpellModule : MonoBehaviour
 public enum En_SpellInput
 {
 	Null,
-	FirstSpell,
-	SecondSpell,
-	ThirdSpell,
-	Click,
+	Click = 0,
+	FirstSpell = 1,
+	SecondSpell=2,
+	ThirdSpell=3,
 	Maj,
 	Ward,
 	Special
