@@ -193,7 +193,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer, float _volume = 1)
     {
-        if (!DoSound()) { return null; }
+        if (!GameFactory.DoSound(_position)) { return null; }
 
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
@@ -204,7 +204,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     public AudioElement Play3DAudio(AudioClip _clip, Transform _followObj, ushort id, bool isPlayer, float _volume = 1)
     {
-        if (!DoSound()) { return null; }
+        if (!!GameFactory.DoSound(_followObj.position)) { return null; }
 
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
@@ -270,26 +270,5 @@ public class AudioManager : SerializedMonoBehaviour
 
         newAudioElement.gameObject.SetActive(true);
         return newAudioElement;
-    }
-
-    bool DoSound()
-    {
-        PlayerModule currentPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
-        if (currentPlayer.isInBrume)
-        {
-            return true;
-        }
-        else
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, -Vector3.up, out hit, 10, brumePlaneLayer))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
     }
 }

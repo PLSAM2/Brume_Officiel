@@ -275,4 +275,25 @@ public class GameFactory
         }
         return true;
     }
+
+    public static bool DoSound(Vector3 pos)
+    {
+        PlayerModule currentPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+        if (currentPlayer.isInBrume)
+        {
+            return true;
+        }
+        else
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(pos + Vector3.up * 0.5f, -Vector3.up, out hit, 10, GameManager.Instance.brumeLayer))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
 }
