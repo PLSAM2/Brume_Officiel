@@ -184,35 +184,35 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_1_Grunges:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: b33b36e28008b23459206c358b00d02a, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_1_Textures:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: 668ed38e9d9e517458c599bfa078a81c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_2_Grunges:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: b33b36e28008b23459206c358b00d02a, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_2_Textures:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: 13158ab32028fa147aa4b3da00ea7dc3, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_3_Grunges:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: 8f4c22a1083f0e64f8a4c34b3cc88618, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_3_Textures:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: 668ed38e9d9e517458c599bfa078a81c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_4_Grunges:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: b33b36e28008b23459206c358b00d02a, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_4_Textures:
-        m_Texture: {fileID: 18700000, guid: 35617828aa5bd8749a5fa9818f29cabe, type: 2}
+        m_Texture: {fileID: 18700000, guid: 13158ab32028fa147aa4b3da00ea7dc3, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainBlendingNoise_Texture:
@@ -345,7 +345,7 @@ Material:
     - _CustomWorldSpaceNormal: 0
     - _Cutoff: 0.5
     - _DebugTextureTiling: 9.7
-    - _DebugVertexPaint: 1
+    - _DebugVertexPaint: 0
     - _DebugVertexPaint_Blue: 0
     - _DebugVertexPaint_Green: 0
     - _DebugVertexPaint_Red: 0
@@ -396,6 +396,7 @@ Material:
     - _Float43: 2
     - _Float44: 2
     - _Float45: 2
+    - _Float8: 1.02
     - _Float9: 2
     - _Float94: 0.2
     - _Float95: 1
@@ -470,15 +471,19 @@ Material:
     - _StepAttenuation: -0.09
     - _StepShadow: 0.09
     - _Surface: 0
-    - _T1_AnimatedGrunge: 0
-    - _T1_AnimatedGrunge_Contrast: 0.46
-    - _T1_AnimatedGrunge_Flipbook_Columns: 1
-    - _T1_AnimatedGrunge_Flipbook_Rows: 1
-    - _T1_AnimatedGrunge_Flipbook_Speed: 1
-    - _T1_AnimatedGrunge_Multiply: 1.61
+    - _T1_Albedo_ProceduralTiling: 1
+    - _T1_Albedo_Tiling: 2.37
+    - _T1_AnimatedGrunge: 1
+    - _T1_AnimatedGrunge_Contrast: 1
+    - _T1_AnimatedGrunge_Flipbook_Columns: 4
+    - _T1_AnimatedGrunge_Flipbook_Rows: 4
+    - _T1_AnimatedGrunge_Flipbook_Speed: 6
+    - _T1_AnimatedGrunge_Multiply: 1
+    - _T1_AnimatedGrunge_Tiling: 4
     - _T1_CustomRimLight: 0
     - _T1_CustomRimLight_Opacity: 1
-    - _T1_CutomRimLight_Texture: 1
+    - _T1_CustomRimLight_Texture: 0
+    - _T1_CutomRimLight_Texture: 0
     - _T1_IB_NormalDrippingNoise_Smoothstep: 0.01
     - _T1_IB_NormalDrippingNoise_Step: 0.45
     - _T1_IB_NormalDrippingNoise_Tiling: 1
@@ -491,20 +496,26 @@ Material:
     - _T1_IB_ShadowGrunge_Contrast: -3.38
     - _T1_IB_ShadowGrunge_Tiling: 0.2
     - _T1_IB_ShadowGrunge_Tiling1: 0.2
-    - _T1_NonAnimatedGrunge_Tiling: 1
+    - _T1_IsGrungeAnimated: 1
+    - _T1_NonAnimatedGrunge_Tiling: 4
     - _T1_NormalDrippingNoise_Smoothstep: 0.01
     - _T1_NormalDrippingNoise_Step: 0.45
-    - _T1_PaintGrunge_Contrast: 0
-    - _T1_PaintGrunge_Multiply: 0
+    - _T1_PaintGrunge: 0
+    - _T1_PaintGrunge_Contrast: 1
+    - _T1_PaintGrunge_Multiply: 1
     - _T1_PaintGrunge_Tiling: 1
-    - _T2_AnimatedGrunge: 0
+    - _T2_Albedo_ProceduralTiling: 1
+    - _T2_Albedo_Tiling: 4
+    - _T2_AnimatedGrunge: 1
     - _T2_AnimatedGrunge_Contrast: 0.46
-    - _T2_AnimatedGrunge_Flipbook_Columns: 1
-    - _T2_AnimatedGrunge_Flipbook_Rows: 1
-    - _T2_AnimatedGrunge_Flipbook_Speed: 1
+    - _T2_AnimatedGrunge_Flipbook_Columns: 4
+    - _T2_AnimatedGrunge_Flipbook_Rows: 4
+    - _T2_AnimatedGrunge_Flipbook_Speed: 6
     - _T2_AnimatedGrunge_Multiply: 1.61
+    - _T2_AnimatedGrunge_Tiling: 4
+    - _T2_CustomRimLight: 0
     - _T2_CustomRimLight_Opacity: 1
-    - _T2_CutomRimLight_Texture: 1
+    - _T2_CutomRimLight_Texture: 0
     - _T2_IB_NormalDrippingNoise_Smoothstep: 0.01
     - _T2_IB_NormalDrippingNoise_Step: 0.45
     - _T2_IB_NormalDrippingNoise_Tiling: 1
@@ -515,19 +526,24 @@ Material:
     - _T2_IB_ShadowDrippingNoise_Transition: 1
     - _T2_IB_ShadowGrunge_Contrast: -3.38
     - _T2_IB_ShadowGrunge_Tiling: 0.2
+    - _T2_IsGrungeAnimated: 1
     - _T2_NonAnimatedGrunge_Tiling: 1
-    - _T2_PaintGrunge_Contrast: 0
-    - _T2_PaintGrunge_Multiply: 0
+    - _T2_PaintGrunge: 0
+    - _T2_PaintGrunge_Contrast: 1
+    - _T2_PaintGrunge_Multiply: 1
     - _T2_PaintGrunge_Tiling: 1
-    - _T3_AnimatedGrunge: 0
+    - _T3_Albedo_ProceduralTiling: 1
+    - _T3_Albedo_Tiling: 1
+    - _T3_AnimatedGrunge: 1
     - _T3_AnimatedGrunge_Contrast: 0.46
-    - _T3_AnimatedGrunge_Flipbook_Columns: 1
-    - _T3_AnimatedGrunge_Flipbook_Rows: 1
-    - _T3_AnimatedGrunge_Flipbook_Speed: 1
+    - _T3_AnimatedGrunge_Flipbook_Columns: 4
+    - _T3_AnimatedGrunge_Flipbook_Rows: 4
+    - _T3_AnimatedGrunge_Flipbook_Speed: 6
     - _T3_AnimatedGrunge_Multiply: 1.61
+    - _T3_AnimatedGrunge_Tiling: 4
     - _T3_CustomRimLight: 0
     - _T3_CustomRimLight_Opacity: 1
-    - _T3_CutomRimLight_Texture: 1
+    - _T3_CutomRimLight_Texture: 0
     - _T3_IB_NormalDrippingNoise_Smoothstep: 0.01
     - _T3_IB_NormalDrippingNoise_Step: 0.45
     - _T3_IB_NormalDrippingNoise_Tiling: 1
@@ -538,19 +554,24 @@ Material:
     - _T3_IB_ShadowDrippingNoise_Transition: 1
     - _T3_IB_ShadowGrunge_Contrast: -3.38
     - _T3_IB_ShadowGrunge_Tiling: 0.2
+    - _T3_IsGrungeAnimated: 1
     - _T3_NonAnimatedGrunge_Tiling: 1
-    - _T3_PaintGrunge_Contrast: 0
-    - _T3_PaintGrunge_Multiply: 0
+    - _T3_PaintGrunge: 0
+    - _T3_PaintGrunge_Contrast: 1
+    - _T3_PaintGrunge_Multiply: 1
     - _T3_PaintGrunge_Tiling: 1
-    - _T4_AnimatedGrunge: 0
+    - _T4_Albedo_ProceduralTiling: 1
+    - _T4_Albedo_Tiling: 2.06
+    - _T4_AnimatedGrunge: 1
     - _T4_AnimatedGrunge_Contrast: 0.46
-    - _T4_AnimatedGrunge_Flipbook_Columns: 1
-    - _T4_AnimatedGrunge_Flipbook_Rows: 1
-    - _T4_AnimatedGrunge_Flipbook_Speed: 1
+    - _T4_AnimatedGrunge_Flipbook_Columns: 4
+    - _T4_AnimatedGrunge_Flipbook_Rows: 4
+    - _T4_AnimatedGrunge_Flipbook_Speed: 6
     - _T4_AnimatedGrunge_Multiply: 1.61
+    - _T4_AnimatedGrunge_Tiling: 4
     - _T4_CustomRimLight: 0
     - _T4_CustomRimLight_Opacity: 1
-    - _T4_CutomRimLight_Texture: 1
+    - _T4_CutomRimLight_Texture: 0
     - _T4_IB_NormalDrippingNoise_Smoothstep: 0.01
     - _T4_IB_NormalDrippingNoise_Step: 0.45
     - _T4_IB_NormalDrippingNoise_Tiling: 1
@@ -561,9 +582,11 @@ Material:
     - _T4_IB_ShadowDrippingNoise_Transition: 1
     - _T4_IB_ShadowGrunge_Contrast: -3.38
     - _T4_IB_ShadowGrunge_Tiling: 0.2
+    - _T4_IsGrungeAnimated: 1
     - _T4_NonAnimatedGrunge_Tiling: 1
-    - _T4_PaintGrunge_Contrast: 0
-    - _T4_PaintGrunge_Multiply: 0
+    - _T4_PaintGrunge: 0
+    - _T4_PaintGrunge_Contrast: 1
+    - _T4_PaintGrunge_Multiply: 1
     - _T4_PaintGrunge_Tiling: 1
     - _TerrainBlending: 0
     - _TerrainBlending_BlendThickness: 0
@@ -605,7 +628,7 @@ Material:
     - _OutBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _PaperContrast: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
     - _SSS_Color: {r: 1, g: 0, b: 0, a: 0}
-    - _ShadowColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
+    - _ShadowColor: {r: 0.57547164, g: 0.57547164, b: 0.57547164, a: 0}
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowNoisePanner: {r: 0.01, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

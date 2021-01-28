@@ -12,16 +12,16 @@ public class Projectile_SoulBurst : Projectile
 
     [SerializeField] AudioClip explosionSound;
 
-	public override void Init ( GameData.Team ownerTeam )
+	public override void Init ( GameData.Team ownerTeam, float _percentage )
 	{
-		base.Init(ownerTeam);
+		base.Init(ownerTeam, _percentage);
 		asExploded = false;
 		print(myRb.velocity);
 	}
 
 	
 
-	public override void Destroy ()
+	public override void Destroy (bool _aoeToSpawn = false)
 	{
 
 		if (!asExploded && hasTouched)
@@ -33,7 +33,7 @@ public class Projectile_SoulBurst : Projectile
             //if (isOwner)
 			//	Explode();
 		}
-		base.Destroy();
+		base.Destroy(_aoeToSpawn);
 	}
 
 
