@@ -674,6 +674,36 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
+	/// <summary>
+	/// Synchronise une étape d'un sort
+	/// </summary>
+	/// <param name="_spellIndex"> Index du spell </param>
+	/// <param name="spellStep">Etape du spell a envoyer</param>
+	public void UpdateSpellStep(ushort _spellIndex, SpellStep spellStep)
+	{
+        using (DarkRiftWriter Writer = DarkRiftWriter.Create())
+        {
+            Writer.Write(_spellIndex);
+            Writer.Write((ushort)spellStep);
+
+            using (Message Message = Message.Create(Tags.SpellStep, Writer))
+            {
+                currentClient.SendMessage(Message, SendMode.Reliable);
+            }
+        }
+
+		UpdateSpellStepInServer(_spellIndex, spellStep);
+
+	}
+
+	/// <summary>
+	/// Recoit la synchro d'une étape d'un sort, non recu par l'envoyeur
+	/// </summary>
+	public void UpdateSpellStepInServer(ushort _spellIndex, SpellStep spellStep)
+	{
+
+	}
+
 	public void OnStateReceived ( ushort _state )
 	{
 		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0)
