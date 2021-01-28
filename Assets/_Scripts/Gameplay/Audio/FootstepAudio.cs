@@ -7,10 +7,6 @@ public class FootstepAudio : MonoBehaviour
     [SerializeField] PlayerModule myPlayerModule;
     Vector3 oldPos;
 
-    bool haveWaitDelay = true;
-
-    bool crouchedStatut = false;
-
     [SerializeField] AudioClip[] allFootsteps;
 
     [SerializeField] AudioSource myAudioSource;
@@ -50,19 +46,7 @@ public class FootstepAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (objMesh.activeSelf)
-        {
-            if (crouchedStatut && !myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
-            {
-                haveWaitDelay = false;
-
-                StopAllCoroutines();
-                StartCoroutine(WaitDelay());
-            }
-
-            crouchedStatut = myPlayerModule.state.HasFlag(En_CharacterState.Crouched);
-        }
-        else
+        if (!objMesh.activeSelf)
         {
             if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
             {
@@ -79,26 +63,23 @@ public class FootstepAudio : MonoBehaviour
         }
     }
 
-    IEnumerator WaitDelay()
-    {
-        yield return new WaitForSeconds(delayToDoSound);
-        haveWaitDelay = true;
-    }
-
     IEnumerator WaitEndSound(AudioClip _clip)
     {
-        AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
-        myAudioSource.PlayOneShot(_clip);
+        if (GameFactory.DoSound(transform.position)) {
+            AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
+            myAudioSource.PlayOneShot(_clip);
+        }
 
         yield return new WaitForSeconds(_clip.length);
 
         yield return new WaitForSeconds(0.2f);
+
         doSound = true;
     }
 
     public void OnAnimRun()
     {
-        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && haveWaitDelay)
+        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && GameFactory.DoSound(transform.position))
         {
             AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId,true, myAudioSource.maxDistance);
             myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);

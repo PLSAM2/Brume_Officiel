@@ -29,6 +29,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
+    [SerializeField] LayerMask brumePlaneLayer;
+
     bool init = false;
     private void Awake()
     {
@@ -137,6 +139,7 @@ public class AudioManager : SerializedMonoBehaviour
     {
         if(_clip == null) { return; }
         ushort _id = GetIndexOfList(_clip);
+        if (_id == 0) { return; }
 
         Play3DAudio(networkAudio[_id], _position, id, isPlayer);
 
@@ -190,6 +193,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer, float _volume = 1)
     {
+        if (!GameFactory.DoSound(_position)) { return null; }
+
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
         _myAudioElement.Init(_clip, 1, _volume);
@@ -199,6 +204,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public AudioElement Play3DAudio(AudioClip _clip, Transform _followObj, ushort id, bool isPlayer, float _volume = 1)
     {
+        if (!!GameFactory.DoSound(_followObj.position)) { return null; }
+
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
         _myAudioElement.Init(_clip, 1, _volume);

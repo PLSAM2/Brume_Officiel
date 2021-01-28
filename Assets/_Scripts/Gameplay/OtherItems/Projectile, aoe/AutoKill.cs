@@ -6,8 +6,8 @@ using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-	[HideInInspector] [TabGroup("AutokillParameters")] public float mylifeTime;
-	[HideInInspector][TabGroup("AutokillParameters")] public float myLivelifeTime;
+	[TabGroup("AutokillParameters")] public float mylifeTime;
+	[TabGroup("AutokillParameters")] public float myLivelifeTime;
 	[TabGroup("AutokillParameters")] public GameObject meshBlue;
 	[TabGroup("AutokillParameters")] public GameObject meshRed;
 
@@ -25,7 +25,7 @@ public class AutoKill : MonoBehaviour
 
 	}
 
-	public virtual void Init ( Team ownerTeam )
+	public virtual void Init ( Team ownerTeam, float _percentageOfLifeTime = 1 )
 	{
 		myNetworkObject = GetComponent<NetworkedObject>();
 
@@ -48,12 +48,12 @@ public class AutoKill : MonoBehaviour
 		}
 	}
 
-	protected virtual void OnEnable ()
+	private void OnDisable ()
 	{
 		myLivelifeTime = mylifeTime;
 	}
 
-	public virtual void Destroy ()
+	public virtual void Destroy (bool _spawnAoe = false)
 	{
 		meshBlue.gameObject.SetActive(false);
 		meshRed.gameObject.SetActive(false);

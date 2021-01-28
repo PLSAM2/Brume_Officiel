@@ -13,12 +13,13 @@ public class Aoe : AutoKill
 
 	protected override void Awake ()
 	{
-		mylifeTime = localTrad.rules.durationOfTheAoe;
 		layer = LayerMask.GetMask("Character");
+		mylifeTime = localTrad.rules.durationOfTheAoe;
+		myLivelifeTime = mylifeTime;
 	}
-	public override void Init ( GameData.Team ownerTeam )
+	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
-		base.Init(ownerTeam);
+		base.Init(ownerTeam, _LifePercentage);
 
 		if (isOwner)
 		{
@@ -26,7 +27,6 @@ public class Aoe : AutoKill
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, true);
 			else
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, false);
-
 		}
 	}
 
@@ -121,15 +121,14 @@ public class Aoe : AutoKill
 			Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
-	public override void Destroy ()
+	public override void Destroy (bool _spawnAoe = false)
 	{
 		StopAllCoroutines();
 		base.Destroy();
 	}
 
-	protected override void OnEnable ()
+	protected  void OnEnable ()
 	{
-		base.OnEnable();
 		asDealtFinal = false;
 	}
 }
