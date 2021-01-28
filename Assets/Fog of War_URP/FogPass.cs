@@ -71,7 +71,7 @@ namespace UnityEngine.Rendering.Universal
             //setup
             if(mFog == null)
             {
-                mFog = FOWSystem.instance;
+                mFog = FOWSystem.Instance;
             }
 
             mCam = Camera.main;
@@ -154,7 +154,7 @@ namespace UnityEngine.Rendering.Universal
             Vector4 p = new Vector4(-x * invScale, -y * invScale, invScale, mFog.blendFactor);
             settings.blitMaterial.SetColor("_Unexplored", mFog.unexploredColor);
 
-            settings.blitMaterial.SetTexture("_FogTex0", samTest.Instance.myText1);
+            settings.blitMaterial.SetTexture("_FogTex0", FOWSystem.Instance.myTexture);
 
             settings.blitMaterial.SetMatrix("_InverseMVP", mInverseMVP);
             settings.blitMaterial.SetVector("_CamPos", camPos);

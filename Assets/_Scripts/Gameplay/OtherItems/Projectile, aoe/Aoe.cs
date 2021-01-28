@@ -13,8 +13,9 @@ public class Aoe : AutoKill
 
 	protected override void Awake ()
 	{
-		mylifeTime = localTrad.rules.durationOfTheAoe;
 		layer = LayerMask.GetMask("Character");
+		mylifeTime = localTrad.rules.durationOfTheAoe;
+		myLivelifeTime = mylifeTime;
 	}
 	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
@@ -26,7 +27,6 @@ public class Aoe : AutoKill
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, true);
 			else
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, false);
-
 		}
 	}
 

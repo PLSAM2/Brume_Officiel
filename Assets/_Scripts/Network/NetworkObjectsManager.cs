@@ -279,7 +279,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 		NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
 		networkedObject.Init(_uniqueObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID, _ObjectPos);
 		NetworkedObjectAdded(_uniqueObjId, networkedObject);
-		_tempObject.SetActive(true);
 
 		Projectile _proj = _tempObject.GetComponent<Projectile>();
 		Aoe _aoe = _tempObject.GetComponent<Aoe>();
@@ -293,10 +292,14 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 			_aoe.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, 1);
 		}
 
-		if (autokill)
+
+		_tempObject.SetActive(true);
+
+
+		/*if (autokill)
 		{
 			_tempObject.GetComponent<AutoKill>().Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, _LifePercentage);
-		}
+		}*/
 	}
 
 	public void NetworkedObjectAdded ( ushort lastObjId, NetworkedObject obj )
