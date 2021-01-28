@@ -16,8 +16,6 @@ public class Fow : MonoBehaviour
     PlayerModule playerModule;
     bool isInBrumeGhost = false;
 
-    [SerializeField] FOWRevealer revealer;
-
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
         if(_target != null)
@@ -26,7 +24,6 @@ public class Fow : MonoBehaviour
             myTarget = _target;
             fowRaduis = _fowRaduis;
             myFieldOfView.viewRadius = fowRaduis;
-            revealer.range.y = fowRaduis;
         }
         else
         {
@@ -49,7 +46,6 @@ public class Fow : MonoBehaviour
     {
         fowRaduis = _size;
         myFieldOfView.viewRadius = fowRaduis;
-        revealer.range.y = fowRaduis;
     }
 
     public void ChangeFowRaduis(float _size)
@@ -74,13 +70,11 @@ public class Fow : MonoBehaviour
         {
             tOut = 0;
             myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, playerModule.characterParameters.curveInBrume.Evaluate(tIn) * Time.deltaTime);
-            revealer.range.y = myFieldOfView.viewRadius;
         }
         else
         {
             tIn = 0;
             myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, playerModule.characterParameters.curveOutBrume.Evaluate(tOut) * Time.deltaTime);
-            revealer.range.y = myFieldOfView.viewRadius;
         }
     }
 }

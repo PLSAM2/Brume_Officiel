@@ -44,7 +44,7 @@ public class SpellModule : MonoBehaviour
 	public bool isAComboPiece = false;
 	[HideInInspector] public bool hasPreviewed;
 
-	[ReadOnly] public PlayerModule myPlayerModule;
+	[HideInInspector] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
@@ -56,7 +56,6 @@ public class SpellModule : MonoBehaviour
 	{
 		LocalPlayer.disableModule += Disable;
 	}
-
 	//setup & inputs
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -80,8 +79,6 @@ public class SpellModule : MonoBehaviour
 		else
 			DestroyIfClient();
 	}
-
-
 	protected virtual void Disable ()
 	{
 		if (isOwner)
@@ -91,7 +88,6 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.backToNormalKit -= ReturnToNormal;
 		}
 	}
-
 	//inputs subscribing
 	#region
 	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
@@ -136,7 +132,6 @@ public class SpellModule : MonoBehaviour
 	{
 		LinkInputs(actionLinked);
 	}
-
 	protected virtual void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
@@ -175,39 +170,10 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 	#endregion
-
 	protected virtual void DestroyIfClient ()
 	{
 		Destroy(this);
 	}
-
-	//PREVIEW
-	#region
-	protected virtual void ShowPreview ( Vector3 mousePos )
-	{
-		if (canBeCast())
-		{
-			willResolve = true;
-			showingPreview = true;
-			UpdatePreview();
-			hasPreviewed = true;
-		}
-		else
-			return;
-	}
-
-	protected virtual void HidePreview ( Vector3 _posToHide )
-	{
-		showingPreview = false;
-		hasPreviewed = false;
-	}
-
-	protected virtual void UpdatePreview ()
-	{
-
-	}
-	#endregion
-
 	protected virtual void FixedUpdate ()
 	{
 		if (isUsed)
@@ -224,7 +190,6 @@ public class SpellModule : MonoBehaviour
 
 		TreatThrowBack();
 	}
-
 	protected virtual void TreatNormalCanalisation ()
 	{
 		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !startResolution)
@@ -236,7 +201,6 @@ public class SpellModule : MonoBehaviour
 			AnonceSpell(Vector3.zero);
 		}
 	}
-
 	protected virtual void TreatThrowBack ()
 	{
 		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
@@ -248,7 +212,6 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
-
 	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
@@ -265,7 +228,6 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.AddState(En_CharacterState.Root);
 		}
 	}
-
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		if (canStartCanalisation() && willResolve)
@@ -275,7 +237,6 @@ public class SpellModule : MonoBehaviour
 		else
 			myPlayerModule.spellInputedRecorded = actionLinked;
 	}
-
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
 		timeToResolveSpell = FinalCanalisationTime();
@@ -309,17 +270,14 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockPosOnCanalisation)
 			myPlayerModule.AddState(En_CharacterState.Root);
 	}
-
 	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
 	{
 		Canalyse(_BaseMousePos);
 	}
-
 	protected virtual void ApplyCanalisationEffect ()
 	{
 		myPlayerModule.AddState(En_CharacterState.Canalysing);
 	}
-
 	protected virtual void Resolution ()
 	{
 		ResolutionFeedBack();
@@ -396,7 +354,6 @@ public class SpellModule : MonoBehaviour
 
 		myPlayerModule.spellResolved?.Invoke();
 	}
-
 	protected virtual void ApplyEffectAtTheEnd ()
 	{
 		if (spell.statusToApplyAtTheEnd.Count > 0)
@@ -404,7 +361,6 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.AddStatus(_statusToAdd.effect);
 
 	}
-
 	protected virtual void StopSpell ()
 	{
 		isUsed = false;
@@ -461,7 +417,6 @@ public class SpellModule : MonoBehaviour
 			return true;
 		}
 	}
-
 	protected virtual bool canStartCanalisation ()
 	{
 		if (!canBeCast())
@@ -471,7 +426,6 @@ public class SpellModule : MonoBehaviour
 		else
 			return false;
 	}
-
 	void StartCanalysingFeedBack ()
 	{
 		//PITIT BRUIT
@@ -554,14 +508,40 @@ public class SpellModule : MonoBehaviour
 		if (!isAComboPiece)
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
 	}
+	//PREVIEW
+	#region
+	protected virtual void ShowPreview ( Vector3 mousePos )
+	{
+		if (canBeCast())
+		{
+			willResolve = true;
+			showingPreview = true;
+			UpdatePreview();
+			hasPreviewed = true;
+		}
+		else
+			return;
+	}
+
+	protected virtual void HidePreview ( Vector3 _posToHide )
+	{
+		showingPreview = false;
+		hasPreviewed = false;
+	}
+
+	protected virtual void UpdatePreview ()
+	{
+
+	}
+	#endregion
 }
 public enum En_SpellInput
 {
 	Null,
-	FirstSpell,
-	SecondSpell,
-	ThirdSpell,
-	Click,
+	Click = 0,
+	FirstSpell = 1,
+	SecondSpell=2,
+	ThirdSpell=3,
 	Maj,
 	Ward,
 	Special
