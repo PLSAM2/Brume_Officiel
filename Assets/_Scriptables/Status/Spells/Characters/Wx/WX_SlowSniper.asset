@@ -10,43 +10,52 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: Invulnerability
+  m_Name: WX_SlowSniper
   m_EditorClassIdentifier: 
   effect:
     tick: 0
-    finalLifeTime: 1.5
+    finalLifeTime: 0.4
     isConstant: 0
     canBeForcedStop: 0
     forcedKey: 0
     refreshOnApply: 0
     doNotApplyIfExist: 0
     tickRate: 0.2
-    isDamaging: 0
+    isDamaging: 1
     isHealing: 0
     tickValue: 0
-    stateApplied: 8192
-    percentageOfTheMovementModifier: 0.7
+    stateApplied: 4
+    percentageOfTheMovementModifier: 1
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: -0.100660615
-        outSlope: -0.100660615
-        tangentMode: 0
+        time: 0.0020980835
+        value: 1.985237
+        inSlope: -7.9859376
+        outSlope: -7.9859376
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.070290536
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.2506897
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: -3.2242792
-        outSlope: -3.2242792
-        tangentMode: 0
+        inSlope: Infinity
+        outSlope: -0.436246
+        tangentMode: 7
         weightedMode: 0
-        inWeight: 0.029990613
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
