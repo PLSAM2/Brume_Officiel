@@ -293,10 +293,10 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 			_aoe.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, 1);
 		}
 
-		if (autokill)
+		/*if (autokill)
 		{
 			_tempObject.GetComponent<AutoKill>().Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, _LifePercentage);
-		}
+		}*/
 	}
 
 	public void NetworkedObjectAdded ( ushort lastObjId, NetworkedObject obj )
