@@ -703,7 +703,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _playerId = reader.ReadUInt16();
                 ushort _size = reader.ReadUInt16();
 
-                RoomManager.Instance.TryAddUltimateStacks(_playerId, _size, true);
+                RoomManager.Instance.TryAddUltimateStacks(_playerId, _size, false);
             }
         }
     }
@@ -716,6 +716,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 Team _team = (Team)reader.ReadUInt16();
                 ushort _value = reader.ReadUInt16();
+
                 foreach (PlayerData p in GameFactory.GetAllPlayerInTeam(_team))
                 {
                     RoomManager.Instance.TryAddUltimateStacks(p.ID, _value, false);
