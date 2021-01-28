@@ -62,6 +62,7 @@
     public static readonly ushort FrogTimerElapsed = 778;
     public static readonly ushort VisionTowerTimerElapsed = 779;
     public static readonly ushort HealthPackTimerElapsed = 780;
+    public static readonly ushort UltPickupTimerElapsed = 782;
     public static readonly ushort ResurectPlayer = 783;
     public static readonly ushort BrumeSoulSpawnCall = 785;
     public static readonly ushort BrumeSoulPicked = 786;
@@ -99,6 +100,7 @@
 
     //SPELLS CHARACTER
     public static readonly ushort LaunchSplouch = 2600;
+    public static readonly ushort SpellStep = 2700;
     // <<
 
     //Audio
