@@ -12,9 +12,11 @@ public class WxController : PlayerModule
     [TabGroup("WX")] List<ushort> playerSouls = new List<ushort>();
 
     [TabGroup("WX")] [SerializeField] private ParticleSystem altarDebuffTrail;
+    [TabGroup("WX")] public GameObject tpZone;
     [TabGroup("WX")] public float outlineDebuffCooldown = 5;
     [TabGroup("WX")] public float outlineDebuffTime = 1.5f;
     [TabGroup("WX")] public List<GameObject> objectToShowOnOutlineDebuff = new List<GameObject>();
+
 
     private bool isDebuffTrailActive = false;
     private bool isDebuffOutlineActive = false;
@@ -111,5 +113,10 @@ public class WxController : PlayerModule
         }
 
         mylocalPlayer.forceOutline = value;
+    }
+
+    public void DisplayTpZone(bool v )
+    {
+        tpZone.gameObject.SetActive(v);
     }
 }
