@@ -166,6 +166,12 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 		NetworkedObject networkedObject = _tempObject.GetComponent<NetworkedObject>();
 		networkedObject.Init(uniqueObjId, NetworkManager.Instance.GetLocalPlayer(), networkedObjectID, position);
 		NetworkedObjectAdded(uniqueObjId, networkedObject);
+
+		AutoKill _proj = _tempObject.GetComponent<AutoKill>();
+
+		if (_proj != null)
+			_proj.Init(GameManager.Instance.networkPlayers[GameManager.Instance.currentLocalPlayer.myPlayerId].myPlayerModule.teamIndex);
+
 		_tempObject.SetActive(true);
 
 		// Demande l'instantiation de l'objet pour tout les joueurs présent dans la room

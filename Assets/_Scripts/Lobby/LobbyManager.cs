@@ -49,14 +49,15 @@ public class LobbyManager : MonoBehaviour
 
         //    roomPanelControl.InitRoom(RoomManager.Instance.actualRoom);
         //}
-        client = NetworkManager.Instance.GetLocalClient();
 
-        client.MessageReceived += MessageReceived;
-        NetworkManager.Instance.OnPlayerQuit += PlayerQuitActualRoom;
     }
 
     private void Start()
     {
+        client = NetworkManager.Instance.GetLocalClient();
+
+        client.MessageReceived += MessageReceived;
+        NetworkManager.Instance.OnPlayerQuit += PlayerQuitActualRoom;
         nameInputField.text = NetworkManager.Instance.GetLocalPlayer().Name;
     }
 
