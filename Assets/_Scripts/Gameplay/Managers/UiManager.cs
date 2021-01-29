@@ -49,7 +49,7 @@ public class UiManager : MonoBehaviour
 
 	[Header("Spell Icons")]
 	[FoldoutGroup("SpellIcon")] public IconUi firstSpell;
-	[FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, sprintIcon, autoAttackIcon, wardIcon;
+	[FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, tp, sprintIcon, autoAttackIcon, wardIcon;
 
 	[Header("Team Info")]
 	[FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
@@ -475,6 +475,9 @@ public class UiManager : MonoBehaviour
 			case En_SpellInput.Ward:
 				wardIcon.UpdateCooldown(_timeRemaining, _completeCd);
 				break;
+			case En_SpellInput.TP:
+				tp.UpdateCooldown(_timeRemaining, _completeCd);
+				break;
 		}
 	}
 
@@ -503,6 +506,10 @@ public class UiManager : MonoBehaviour
 			case En_SpellInput.Ward:
 				wardIcon.SetSprite(_spellAttached.spellIcon);
 				break;
+
+			case En_SpellInput.TP:
+				tp.SetSprite(_spellAttached.spellIcon);
+				break;
 		}
 	}
 
@@ -530,6 +537,9 @@ public class UiManager : MonoBehaviour
 				break;
 			case En_SpellInput.Ward:
 				wardIcon.SetupInputName(_name);
+				break;
+			case En_SpellInput.TP:
+				tp.SetupInputName(_name);
 				break;
 		}
 	}
@@ -602,6 +612,11 @@ public class UiManager : MonoBehaviour
 			case En_SpellInput.Click:
 				autoAttackIcon.CantCastFeedback();
 				break;
+
+			case En_SpellInput.TP:
+				tp.CantCastFeedback();
+				break;
+
 		}
 
 	}
