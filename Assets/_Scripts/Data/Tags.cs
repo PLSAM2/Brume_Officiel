@@ -42,6 +42,7 @@
     public static readonly ushort KillCharacter = 560;
     public static readonly ushort AddUltimatePoint = 600;
     public static readonly ushort AddUltimatePointToAllTeam = 601;
+    public static readonly ushort WXSonarState = 602;
 
     //Anim 750 --> 769 >>
     public static readonly ushort SyncTrigger = 750;
