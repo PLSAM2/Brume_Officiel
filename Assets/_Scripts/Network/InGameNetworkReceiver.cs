@@ -725,7 +725,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort _playerId = reader.ReadUInt16();
                 ushort _size = reader.ReadUInt16();
 
-                RoomManager.Instance.TryAddUltimateStacks(_playerId, _size, false);
+                RoomManager.Instance.TryAddUltimateStacks(_playerId, _size, true);
             }
         }
     }

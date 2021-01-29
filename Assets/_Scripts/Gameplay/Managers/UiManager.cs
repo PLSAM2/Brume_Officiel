@@ -65,6 +65,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
     [FoldoutGroup("Other Gameplay")] public Image hitFeedback;
     [FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
+    [FoldoutGroup("Other Gameplay")] public Image tpFillImage;
 
     private GameObject actualChar;
     private GameObject actualUnlockedAltar = null;
