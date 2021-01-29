@@ -72,7 +72,6 @@ public class TeleportationModule : SpellModule
 
     public static bool IsInLayer(int layer, LayerMask layermask)
     {
-        print(layer);
         return layermask == (layermask | (1 << layer));
     }
 
@@ -116,6 +115,12 @@ public class TeleportationModule : SpellModule
             }
         }
 
+        foreach (Interactible inter in playerModule.interactiblesClose)
+        {
+            inter.StopCapturing();
+
+        }
+        playerModule.interactiblesClose.Clear();
 
         isTping = !v;
         UiManager.Instance.tpFillImage.gameObject.SetActive(!v);
@@ -123,6 +128,7 @@ public class TeleportationModule : SpellModule
 
         if (v == false) // SI TP
         {
+
             this.gameObject.layer = integibleLayer;
             timer = tpMaxTIme;
             CameraManager.Instance.SetParent(wxTfs);
@@ -144,6 +150,13 @@ public class TeleportationModule : SpellModule
 
     public void SetTpStateInServer(bool v)
     {
+        foreach (Interactible inter in playerModule.interactiblesClose)
+        {
+            inter.StopCapturing();
+
+        }
+        playerModule.interactiblesClose.Clear();
+
         if (v == false)
         {
             this.gameObject.layer = integibleLayer;
