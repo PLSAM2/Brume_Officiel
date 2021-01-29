@@ -51,7 +51,7 @@ public class IconUi : MonoBehaviour
 
 		Color _color = new Vector4(255, 16, 16, 195);
 		feedbackCantCast.color = _color;
-		myRectTransform.DOShakeAnchorPos(.5f,2,20,90,false, false).OnComplete(()=> myRectTransform.localPosition = basePos);
+		myRectTransform.DOShakeAnchorPos(.5f,4,20,90,false, false).OnComplete(()=> myRectTransform.localPosition = basePos);
 		feedbackCantCast.rectTransform.localScale =  new Vector3(1.5f,1.5f,1);
 		feedbackCantCast.rectTransform.DOScale(1f, 1.5f);
 		feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
