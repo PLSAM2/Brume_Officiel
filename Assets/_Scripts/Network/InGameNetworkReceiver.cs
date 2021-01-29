@@ -165,6 +165,27 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 SpellStep(sender, e);
             }
+            else if (message.Tag == Tags.Tp)
+            {
+                TpInServer(sender, e);
+            }
+        }
+    }
+
+    private void TpInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                bool _tpState = reader.ReadBoolean();
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+                {
+                    GameManager.Instance.networkPlayers[_id].GetComponent<TeleportationModule>().SetTpStateInServer(_tpState);
+                }
+            }
         }
     }
 

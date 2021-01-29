@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Re_Projectile
   m_EditorClassIdentifier: 
-  range: 7
+  range: 8
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
@@ -74,10 +74,12 @@ MonoBehaviour:
     timeToReachMaxRange: 0.25
     timeToResolveTheSalve: 0
   angleToSplit: 0
+  destroyProjectiles: 0
   bouncingNumber: 1
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 1
   diesOnWallTouch: 0
+  forcePrefabApparition: 0
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
