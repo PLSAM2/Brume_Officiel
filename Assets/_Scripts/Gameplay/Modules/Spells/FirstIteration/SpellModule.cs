@@ -64,6 +64,7 @@ public class SpellModule : MonoBehaviour
 		cooldown = 0;
 
 		actionLinked = _actionLinked;
+		print(actionLinked);
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
 		if (isOwner)
