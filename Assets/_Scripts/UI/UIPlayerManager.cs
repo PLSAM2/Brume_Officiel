@@ -21,7 +21,7 @@ public class UIPlayerManager : MonoBehaviour
 
     [Header("WX Compass")]
     [TabGroup("Ui")] public GameObject WxCompass;
-    [TabGroup("Ui")] public Image WxLife;
+    [TabGroup("Ui")] public Image WxLife, arrow;
     [TabGroup("Ui")] public GameObject sonar;
     [TabGroup("Ui")] public List<Image> sonarImg;
     [TabGroup("Ui")] public Color wxInViewColor, wxTakeDamageColor;
@@ -103,17 +103,40 @@ public class UIPlayerManager : MonoBehaviour
         {
             if (wxRef != null)
             {
-                WxLife.fillAmount = wxRef.liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
+                //voit la shili
+                if (GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform)){
+                    WxLife.fillAmount = wxRef.liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
 
-                Vector3 fromPos = this.transform.position + Vector3.right;
-                Vector3 toPos = wxRef.transform.position;
+                    Vector3 fromPos = this.transform.position + Vector3.right;
+                    Vector3 toPos = wxRef.transform.position;
 
-                fromPos.y = 0;
-                toPos.y = 0;
-                Vector3 direction = (toPos - fromPos).normalized;
-                float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
-                WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
+                    fromPos.y = 0;
+                    toPos.y = 0;
+                    Vector3 direction = (toPos - fromPos).normalized;
+                    float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
+                    WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
 
+                    if(WxLife.material == grayMat)
+                    {
+                        switch (myLocalPlayer.myPlayerModule.teamIndex)
+                        {
+                            case Team.red:
+                                WxLife.material = redMat;
+                                break;
+
+                            case Team.blue:
+                                WxLife.material = greenMat;
+                                break;
+                        }
+
+                        arrow.material = null;
+                    }
+                }
+                else
+                {
+                    WxLife.material = grayMat;
+                    arrow.material = grayMat;
+                }
             }
         }
     }
