@@ -32,47 +32,43 @@ public class Aoe : AutoKill
 
 	IEnumerator CustomUpdate ()
 	{
-		print("i Start Custom");
 		yield return new WaitForSeconds(.2f);
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages, bool _boucle = true )
 	{
-
 		foreach (Collider _damageable in enemiesHit())
 		{
+			print("I deal");
 
+			float _percentageOfStrength = 1;
+
+			if (_damages.movementToApply != null)
 			{
-				float _percentageOfStrength = 1;
-
-
-				if(_damages.movementToApply != null)
+				if (localTrad.rules.isBox)
 				{
-					if (localTrad.rules.isBox)
-					{
-						if (_damages.movementToApply.isGrab)
-							_percentageOfStrength = Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z / 2;
-						else
-							_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
-
-					}
+					if (_damages.movementToApply.isGrab)
+						_percentageOfStrength = Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z / 2;
 					else
-					{
-						if (_damages.movementToApply.isGrab)
-							_percentageOfStrength = (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
+						_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _damageable.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 
-						else
-							_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
-					}
 				}
-				
+				else
+				{
+					if (_damages.movementToApply.isGrab)
+						_percentageOfStrength = (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius);
 
-				_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false,  _percentageOfStrength);
-
-				if (_boucle)
-					StartCoroutine(CustomUpdate());
+					else
+						_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _damageable.transform.position) / localTrad.rules.aoeRadius));
+				}
 			}
+
+
+			_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+
+			if (_boucle)
+				StartCoroutine(CustomUpdate());
 		}
 
 	}
@@ -83,7 +79,7 @@ public class Aoe : AutoKill
 		List<Collider> _allHitChecked = new List<Collider>();
 
 		if (localTrad.rules.isBox)
-			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2+ Vector3.up *8, Quaternion.identity, layer);
+			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2 + Vector3.up * 8, Quaternion.identity, layer);
 		else
 			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, layer);
 
@@ -121,13 +117,13 @@ public class Aoe : AutoKill
 			Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
-	public override void Destroy (bool _spawnAoe = false)
+	public override void Destroy ( bool _spawnAoe = false )
 	{
 		StopAllCoroutines();
 		base.Destroy();
 	}
 
-	protected  void OnEnable ()
+	protected void OnEnable ()
 	{
 		asDealtFinal = false;
 	}

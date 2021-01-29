@@ -542,6 +542,7 @@ public enum En_SpellInput
 	FirstSpell = 1,
 	SecondSpell=2,
 	ThirdSpell=3,
+	TP=4,
 	Maj,
 	Ward,
 	Special

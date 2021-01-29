@@ -9,7 +9,6 @@ public class IconUi : MonoBehaviour
 {
 	[SerializeField] Image icon, outline, fillAmount, feedbackCantCast;
 	[SerializeField] TextMeshProUGUI cooldownCount, input;
-	[SerializeField] En_SpellInput typeOfSpell;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
 	RectTransform myRectTransform;
