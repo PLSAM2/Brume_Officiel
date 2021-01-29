@@ -9,7 +9,7 @@ public class TeleportationModule : SpellModule
     public Transform wxTfs;
     public PlayerModule playerModule;
     public float tpMaxTIme = 5;
-
+    public int integibleLayer = 0;
     private bool isTping = false;
     private float timer = 0;
 

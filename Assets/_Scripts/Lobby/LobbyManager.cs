@@ -38,18 +38,6 @@ public class LobbyManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        //if (RoomManager.Instance.AlreadyInit)
-        //{
-        //    client = RoomManager.Instance.client;
-
-        //    mainMenu.SetActive(false);
-        //    loginMenu.SetActive(false);
-        //    roomPanel.SetActive(true);
-
-        //    roomPanelControl.InitRoom(RoomManager.Instance.actualRoom);
-        //}
-
     }
 
     private void Start()
