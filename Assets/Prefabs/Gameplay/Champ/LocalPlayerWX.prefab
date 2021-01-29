@@ -220,8 +220,8 @@ MonoBehaviour:
   mapIcon: {fileID: 8558393311301056792}
   movementPart: {fileID: 7156413905369074569}
   firstSpell: {fileID: 7427710637520717778}
-  secondSpell: {fileID: 2274970467351991188}
-  thirdSpell: {fileID: 6718998414688386687}
+  secondSpell: {fileID: 6718998414688386687}
+  thirdSpell: {fileID: 2274970467351991188}
   leftClick: {fileID: 5877863152829278795}
   ward: {fileID: 8913684591376409635}
   mylocalPlayer: {fileID: 0}
@@ -262,6 +262,31 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 20cbee49fcf34e847942844ec89429b8, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  myPlayerModule: {fileID: 0}
+  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  anonciationClip: {fileID: 0}
+--- !u!114 &6718998414688386687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b56435dced6f394089a1a8d153574f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: af96153213336e244a198047ccc74181, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
   myPlayerModule: {fileID: 0}
@@ -322,31 +347,6 @@ MonoBehaviour:
   deceleratedRatio: 1
   distanceMaxBeforeEndTravel: 0.01
   simpleSpeed: 0
---- !u!114 &6718998414688386687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b56435dced6f394089a1a8d153574f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: af96153213336e244a198047ccc74181, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
-  anonciationClip: {fileID: 0}
 --- !u!1 &1380234720182467712
 GameObject:
   m_ObjectHideFlags: 0

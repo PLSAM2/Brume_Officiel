@@ -42,8 +42,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Ui")] public Quaternion compassRot;
 	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
 	[TabGroup("Ui")] public LocalPlayer wxRef;
+    [TabGroup("Ui")] public Material greenMat, redMat;
 
-	private Camera mainCam;
+    private Camera mainCam;
 
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
@@ -107,12 +108,27 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
 
-		nameText.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
-		lifeImg.color = GameFactory.GetColorTeam(myPlayerModule.teamIndex);
-		feedbackCounter.SetActive(false);
-	}
+        switch (myPlayerModule.teamIndex)
+        {
+            case Team.red:
+                nameText.material = redMat;
+                lifeDamageImg.material = greenMat;
+                lifeImg.material = redMat;
+                WxLife.material = redMat;
+                break;
 
-	public void Init ( UnityClient newClient, bool respawned = false )
+            case Team.blue:
+                nameText.material = greenMat;
+                lifeDamageImg.material = redMat;
+                lifeImg.material = greenMat;
+                WxLife.material = greenMat;
+                break;
+        }
+
+        feedbackCounter.SetActive(false);
+    }
+
+    public void Init ( UnityClient newClient, bool respawned = false )
 	{
 		OnRespawn(respawned);
 
