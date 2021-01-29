@@ -330,15 +330,18 @@ public class RoomManager : MonoBehaviour
     {
         ultimateStack.Clear();
 
-        actualRoom.scores[Team.red] = 0;
-        actualRoom.scores[Team.blue] = 0;
+        if (actualRoom != null && actualRoom.scores.ContainsKey(Team.red))
+        {
+            actualRoom.scores[Team.red] = 0;
+            actualRoom.scores[Team.blue] = 0;
+
+            foreach (PlayerData p in actualRoom.playerList.Values)
+            {
+                p.playerCharacter = Character.none;
+            }
+        }
 
         roundCount = 0;
-
-        foreach (PlayerData p in actualRoom.playerList.Values)
-        {
-            p.playerCharacter = Character.none;
-        }
     }
 
     public void ResetPlayersReadyStates()

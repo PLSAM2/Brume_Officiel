@@ -42,6 +42,7 @@
     public static readonly ushort KillCharacter = 560;
     public static readonly ushort AddUltimatePoint = 600;
     public static readonly ushort AddUltimatePointToAllTeam = 601;
+    public static readonly ushort WXSonarState = 602;
 
     //Anim 750 --> 769 >>
     public static readonly ushort SyncTrigger = 750;
@@ -83,9 +84,9 @@
     // <<
 
     //Spells 810 --> XXX >>
+    public static readonly ushort Tp = 850;
     public static readonly ushort CurveSpellLaunch = 900;
     public static readonly ushort CurveSpellLanded = 901;
-
     //<<
 
     public static readonly ushort SpawnObjPlayer = 1000;
