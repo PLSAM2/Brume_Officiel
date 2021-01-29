@@ -8579,7 +8579,6 @@ MonoBehaviour:
   pointerDistance: 12
   hitFeedback: {fileID: 4215196417950273110}
   uIPingModule: {fileID: 5546929926066223058}
-  tpFillImage: {fileID: 5652655309806020778}
   specMode: {fileID: 1423263907}
   DebuggerPanel: {fileID: 3052707106167563754}
 --- !u!1001 &55778495871692059
@@ -12334,33 +12333,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8245477988667449381}
     m_Modifications:
-    - target: {fileID: 648344556078191693, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3211610801923609686, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_text
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3211610801923609686, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: m_fontSize
-      value: 18
+      propertyPath: m_fontSizeBase
+      value: 33
       objectReference: {fileID: 0}
-    - target: {fileID: 3349771131176499342, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
+    - target: {fileID: 3211610801923609686, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211610801923609686, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 3509583108425157762, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Name
       value: Auto
       objectReference: {fileID: 0}
-    - target: {fileID: 3509583108425157762, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: typeOfSpell
-      value: 3
+    - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Pivot.y
@@ -12393,10 +12388,6 @@ PrefabInstance:
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_SizeDelta.y
       value: 129.22705
-      objectReference: {fileID: 0}
-    - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12445,10 +12436,6 @@ PrefabInstance:
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9196743074545270177, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 24.76
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
