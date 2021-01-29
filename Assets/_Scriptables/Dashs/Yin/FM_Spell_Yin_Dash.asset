@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e239d9a6b2597104f8ef96348fdac0b6, type: 3}
+  m_Name: FM_Spell_Yin_Dash
+  m_EditorClassIdentifier: 
+  movementToApply:
+    myModule: {fileID: 0}
+    _duration: 0.8
+    baseDuration: 0.2
+    speedEvolution:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.070752576
+        outSlope: 0.070752576
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.18988532
+      - serializedVersion: 3
+        time: 0.37048137
+        value: 0.046572067
+        inSlope: 0.34505978
+        outSlope: 0.34505978
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.18606114
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6635117
+        value: 0.78781235
+        inSlope: 2.0766048
+        outSlope: 2.0766048
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: -0.023775993
+        outSlope: -0.023775993
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.22389522
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    strength: 20
+    fakeRange: 0
+  isGrab: 0

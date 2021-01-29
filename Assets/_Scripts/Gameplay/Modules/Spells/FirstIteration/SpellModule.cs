@@ -8,6 +8,7 @@ public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell, throwbackTime;
 
+	float _cooldown = 0;
 	[ReadOnly]
 	public float cooldown
 	{
@@ -34,7 +35,6 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
 	public Sc_Spell spell;
 	protected En_SpellInput actionLinked;
@@ -125,6 +125,12 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.wardInputReleased += StartCanalysing;
 				myPlayerModule.wardInputReleased += HidePreview;
 				break;
+
+			case En_SpellInput.TP:
+				myPlayerModule.tpInput += ShowPreview;
+				myPlayerModule.tpInputReleased += StartCanalysing;
+				myPlayerModule.tpInputReleased += HidePreview;
+				break;
 		}
 	}
 
@@ -166,6 +172,12 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= HidePreview;
+				break;
+
+			case En_SpellInput.TP:
+				myPlayerModule.tpInput -= ShowPreview;
+				myPlayerModule.tpInputReleased -= StartCanalysing;
+				myPlayerModule.tpInputReleased -= HidePreview;
 				break;
 		}
 	}
@@ -235,7 +247,7 @@ public class SpellModule : MonoBehaviour
 			Canalyse(_BaseMousePos);
 		}
 		else
-			myPlayerModule.spellInputedRecorded = actionLinked;
+			UiManager.Instance.CantCastFeedback(actionLinked);
 	}
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
@@ -542,6 +554,7 @@ public enum En_SpellInput
 	FirstSpell = 1,
 	SecondSpell=2,
 	ThirdSpell=3,
+	TP=4,
 	Maj,
 	Ward,
 	Special

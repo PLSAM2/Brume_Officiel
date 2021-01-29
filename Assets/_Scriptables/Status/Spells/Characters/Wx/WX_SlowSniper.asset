@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effect:
     tick: 0
-    finalLifeTime: 0.4
+    finalLifeTime: 0.55
     isConstant: 0
     canBeForcedStop: 0
     forcedKey: 0
@@ -25,21 +25,21 @@ MonoBehaviour:
     isHealing: 0
     tickValue: 0
     stateApplied: 4
-    percentageOfTheMovementModifier: 1
+    percentageOfTheMovementModifier: 0.9
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0.0020980835
         value: 1.985237
-        inSlope: -7.9859376
-        outSlope: -7.9859376
+        inSlope: -6.0084186
+        outSlope: -6.0084186
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.2506897
+        time: 0.3325073
         value: 0
         inSlope: Infinity
         outSlope: Infinity

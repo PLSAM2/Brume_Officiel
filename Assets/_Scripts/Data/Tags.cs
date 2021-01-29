@@ -84,9 +84,9 @@
     // <<
 
     //Spells 810 --> XXX >>
+    public static readonly ushort Tp = 850;
     public static readonly ushort CurveSpellLaunch = 900;
     public static readonly ushort CurveSpellLanded = 901;
-
     //<<
 
     public static readonly ushort SpawnObjPlayer = 1000;

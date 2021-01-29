@@ -732,6 +732,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				break;
 			case 3:
 				break;
+			case 4:
+				break;
 		}
 	}
 
