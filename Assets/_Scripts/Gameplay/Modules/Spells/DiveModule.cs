@@ -14,7 +14,7 @@ public class DiveModule : SpellModule
 	protected override void ResolveSpell ()
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", true);
-		myPlayerModule.mylocalPlayer.EnableBuff(true, "Diving");
+		myPlayerModule.mylocalPlayer.myUiPlayerManager.EnableBuff(true, "Diving");
 
 		/*
 		switch (actionLinked)
@@ -47,7 +47,7 @@ public class DiveModule : SpellModule
 	public override void Interrupt ()
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", false);
-		myPlayerModule.mylocalPlayer.EnableBuff(false, "Diving");
+		myPlayerModule.mylocalPlayer.myUiPlayerManager.EnableBuff(false, "Diving");
 
 		/*switch (actionLinked)
 		{
@@ -85,7 +85,7 @@ public class DiveModule : SpellModule
 
 		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
 		{
-			myPlayerModule.mylocalPlayer.UpdateBuffDuration(throwbackTime / spell.throwBackDuration);
+			myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateBuffDuration(throwbackTime / spell.throwBackDuration);
 		}
 	}
 

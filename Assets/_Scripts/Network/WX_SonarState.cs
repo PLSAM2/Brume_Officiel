@@ -143,15 +143,15 @@ public class WX_SonarState : MonoBehaviour
 
         if (RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin || state == wxSonarState.None)
         {
-            p.sonar.SetActive(false);
+            p.myUiPlayerManager.sonar.SetActive(false);
             return;
         }
 
-        foreach (Image img in p.sonarImg)
+        foreach (Image img in p.myUiPlayerManager.sonarImg)
         {
-            img.color = new Color(p.wxInViewColor.r, p.wxInViewColor.g, p.wxInViewColor.b, img.color.a);
+            img.color = new Color(p.myUiPlayerManager.wxInViewColor.r, p.myUiPlayerManager.wxInViewColor.g, p.myUiPlayerManager.wxInViewColor.b, img.color.a);
         }
-        p.sonar.SetActive(true);
+        p.myUiPlayerManager.sonar.SetActive(true);
     }
 
     void OnPlayerGetDamage(ushort id, ushort damage)
@@ -168,15 +168,15 @@ public class WX_SonarState : MonoBehaviour
 
         if(RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
         {
-            p.sonar.SetActive(false);
+            p.myUiPlayerManager.sonar.SetActive(false);
             yield break;
         }
 
-        foreach(Image img in p.sonarImg)
+        foreach(Image img in p.myUiPlayerManager.sonarImg)
         {
-            img.color = new Color(p.wxTakeDamageColor.r, p.wxTakeDamageColor.g, p.wxTakeDamageColor.b, img.color.a);
+            img.color = new Color(p.myUiPlayerManager.wxTakeDamageColor.r, p.myUiPlayerManager.wxTakeDamageColor.g, p.myUiPlayerManager.wxTakeDamageColor.b, img.color.a);
         }
-        p.sonar.SetActive(true);
+        p.myUiPlayerManager.sonar.SetActive(true);
 
         yield return new WaitForSeconds(timeDamageDisplay);
 
