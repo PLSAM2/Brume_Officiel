@@ -538,7 +538,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0)
 		{
 			if (isOwner)
 			{
@@ -570,7 +570,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				liveHealth = (ushort)_tempHp;
 			}
 		}
-		else
+		else if((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
 
 	}
@@ -685,7 +685,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (isOwner)
 		{
-			print("Idie");
 			//GameManager.Instance.hiddenEffect.enabled = false;
 			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
