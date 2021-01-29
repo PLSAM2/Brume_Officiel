@@ -76,7 +76,10 @@ public class UIPlayerManager : MonoBehaviour
                 break;
         }
 
-        feedbackCounter.SetActive(false);
+        if (feedbackCounter != null)
+        {
+            feedbackCounter.SetActive(false);
+        }
     }
 
     private void LateUpdate()
@@ -157,7 +160,11 @@ public class UIPlayerManager : MonoBehaviour
         EmbourbedIcon.SetActive(false);
         CounteringIcon.SetActive(false);
         stateText.text = "";
-        feedbackCounter.SetActive(false);
+
+        if(feedbackCounter != null)
+        {
+            feedbackCounter.SetActive(false);
+        }
         //	fillPart.fillAmount = actualTime / baseTime;f
 
         if ((_currentState & En_CharacterState.Hidden) != 0)
@@ -168,7 +175,10 @@ public class UIPlayerManager : MonoBehaviour
         }
         else if ((_currentState & En_CharacterState.Countering) != 0)
         {
-            feedbackCounter.SetActive(true);
+            if (feedbackCounter != null)
+            {
+                feedbackCounter.SetActive(true);
+            }
             CounteringIcon.SetActive(true);
             stateText.text = "Countering";
             return;
