@@ -11363,7 +11363,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 732939262}
-  m_LocalRotation: {x: 0.07479052, y: -0.9087088, z: 0.36336297, w: 0.19136895}
+  m_LocalRotation: {x: 0.07483861, y: -0.90868443, z: 0.36334926, w: 0.19149196}
   m_LocalPosition: {x: 14.5, y: 30, z: 38.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -23414,7 +23414,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201250984}
-  m_LocalRotation: {x: 0.14731592, y: -0.8290929, z: 0.47389725, w: 0.25753537}
+  m_LocalRotation: {x: 0.14739439, y: -0.82905066, z: 0.47387204, w: 0.2576728}
   m_LocalPosition: {x: 10.76, y: 27.39, z: 21.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -26226,6 +26226,10 @@ PrefabInstance:
     - target: {fileID: 5289982123031233750, guid: 6e60cc1c20f06d04dbb07349a41aecfe, type: 3}
       propertyPath: m_Name
       value: FX_Fleche
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289982123031233750, guid: 6e60cc1c20f06d04dbb07349a41aecfe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e60cc1c20f06d04dbb07349a41aecfe, type: 3}
@@ -31103,6 +31107,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlaneCloud_01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: df7f430e6041e4a4487792dfbe640821, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df7f430e6041e4a4487792dfbe640821, type: 3}
 --- !u!4 &1706377698 stripped
@@ -33519,7 +33527,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887216673}
-  m_LocalRotation: {x: 0.07701626, y: -0.8616645, z: 0.48153517, w: 0.14045206}
+  m_LocalRotation: {x: 0.07701505, y: -0.86166483, z: 0.48153532, w: 0.14044993}
   m_LocalPosition: {x: 1.4, y: 0.3, z: 8.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -36635,7 +36643,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 9
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -37332,7 +37340,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.52
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -37771,7 +37779,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -40455,7 +40463,7 @@ ParticleSystem:
     worldSpace: 0
     dieWithParticles: 0
     sizeAffectsWidth: 1
-    sizeAffectsLifetime: 1
+    sizeAffectsLifetime: 0
     inheritParticleColor: 0
     generateLightingData: 0
     splitSubEmitterRibbons: 0
@@ -40467,7 +40475,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 0, b: 0, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -40526,7 +40534,7 @@ ParticleSystem:
     widthOverTrail:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -40583,7 +40591,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 0, b: 0, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -41212,13 +41220,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076000105}
-  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -9.09, y: 1.08, z: 6.14}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 6.3, y: 1.08, z: 8.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!4 &2077305341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3503010201413380614, guid: b9bc0f557e460814282859fe60d0f1de, type: 3}
