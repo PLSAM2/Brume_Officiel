@@ -8,8 +8,7 @@ public class CounterBaseModule : SpellModule
 	public SpellModule spellToLaunchOnCounter;
 	public En_SpellInput spellToReduceCooldown = En_SpellInput.Click;
 	public float cooldownReduced= 1.5f;
-	bool asCounter = false;
-
+	bool hasCounter = false;
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -19,36 +18,43 @@ public class CounterBaseModule : SpellModule
 	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		base.StartCanalysing(_BaseMousePos);
-		asCounter = false;
+		hasCounter = false;
 	}
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		base.AnonceSpell(_toAnnounce);
-		myPlayerModule.hitCountered += Counter;
-		myPlayerModule.AddState(En_CharacterState.Countering);
+
 	}
 
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
-		myPlayerModule.hitCountered -= Counter;
-		myPlayerModule.RemoveState(En_CharacterState.Countering);
+		myPlayerModule.hitCountered += Counter;
+		myPlayerModule.AddState(En_CharacterState.Countering);
+
 	}
 
 	protected virtual void Counter ()
 	{
-		asCounter = true;
+		hasCounter = true;
 		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
 		myPlayerModule.reduceTargetCooldown(cooldownReduced, spellToReduceCooldown);
 
-		ResolveSpell();
+		Interrupt();
+	}
+
+	public override void Interrupt ()
+	{
+		base.Interrupt();
+		myPlayerModule.hitCountered -= Counter;
+		myPlayerModule.RemoveState(En_CharacterState.Countering);
 	}
 
 	protected override void ApplyEffectAtTheEnd ()
 	{
-		if (!asCounter)
+		if (!hasCounter)
 			base.ApplyEffectAtTheEnd();
 	}
 }

@@ -125,6 +125,12 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.wardInputReleased += StartCanalysing;
 				myPlayerModule.wardInputReleased += HidePreview;
 				break;
+
+			case En_SpellInput.TP:
+				myPlayerModule.tpInput += ShowPreview;
+				myPlayerModule.tpInputReleased += StartCanalysing;
+				myPlayerModule.tpInputReleased += HidePreview;
+				break;
 		}
 	}
 
@@ -166,6 +172,12 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= HidePreview;
+				break;
+
+			case En_SpellInput.TP:
+				myPlayerModule.tpInput -= ShowPreview;
+				myPlayerModule.tpInputReleased -= StartCanalysing;
+				myPlayerModule.tpInputReleased -= HidePreview;
 				break;
 		}
 	}
