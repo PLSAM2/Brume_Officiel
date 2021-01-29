@@ -25,37 +25,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 
 	[Header("UI")]
-	[TabGroup("Ui")] public GameObject canvas;
-	[TabGroup("Ui")] public Quaternion canvasRot;
-	[TabGroup("Ui")] public TextMeshProUGUI nameText;
-	[TabGroup("Ui")] public TextMeshProUGUI lifeCount;
-	[TabGroup("Ui")] public Image lifeImg;
-	[TabGroup("Ui")] public Image lifeDamageImg;
-	[TabGroup("Ui")] public GameObject feedbackCounter;
-	[Header("WX Compass")] [TabGroup("Ui")] public GameObject WxCompass;
-	[TabGroup("Ui")] public Image WxLife;
-    [TabGroup("Ui")] public GameObject sonar;
-    [TabGroup("Ui")] public List<Image> sonarImg;
-    [TabGroup("Ui")] public Color wxInViewColor, wxTakeDamageColor;
-    [Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
-	[TabGroup("Ui")] public Image fillAmountBuff;
-	[TabGroup("Ui")] public GameObject wholeBuffUi;
-	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
-	[TabGroup("Ui")] public GameObject pointerObj;
-	[TabGroup("Ui")] public Quaternion compassRot;
-	[TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
-	[TabGroup("Ui")] public LocalPlayer wxRef;
-    [TabGroup("Ui")] public Material greenMat, redMat;
-
-    private Camera mainCam;
-
-	[TabGroup("UiState")] public GameObject statePart;
-	[TabGroup("UiState")] public TextMeshProUGUI stateText;
-	[TabGroup("UiState")] public Image fillPart;
-	[TabGroup("UiState")] public GameObject StunIcon, HiddenIcon, CounteringIcon;
-	[TabGroup("UiState")] public GameObject SlowIcon;
-	[TabGroup("UiState")] public GameObject RootIcon;
-	[TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon;
+	[TabGroup("Ui")] public UIPlayerManager myUiPlayerManager;
 
 	Vector3 newNetorkPos;
 	[HideInInspector] [SerializeField] float syncSpeed = 10;
@@ -68,13 +38,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		get => _liveHealth; set
 		{
 			_liveHealth = value;
-			lifeCount.text = liveHealth.ToString();
-
-			lifeImg.fillAmount = (float)liveHealth / GameFactory.GetMaxLifeOfPlayer(myPlayerId);
-		}
+            myUiPlayerManager.UpdateLife();
+        }
 	}
 
-	private bool allCharacterSpawned = false;
+	[HideInInspector] public bool allCharacterSpawned = false;
 
 	public Action<string> triggerAnim;
     public Action OnInitFinish;
@@ -93,44 +61,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool isVisible = false;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-	public Action wuXinTookDamages;
-	WxController _WxControlerRef;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
 		lastRotation = transform.localEulerAngles;
-		canvasRot = canvas.transform.rotation;
-		compassRot = compassCanvas.transform.rotation;
-		mainCam = Camera.main;
-		canvas.GetComponent<Canvas>().worldCamera = mainCam;
-		compassCanvas.GetComponent<Canvas>().worldCamera = mainCam;
 		newNetorkPos = transform.position;
 	}
-
-
-	private void Start ()
-	{
-		nameText.text = RoomManager.Instance.actualRoom.playerList[myPlayerId].Name;
-
-        switch (myPlayerModule.teamIndex)
-        {
-            case Team.red:
-                nameText.material = redMat;
-                lifeDamageImg.material = greenMat;
-                lifeImg.material = redMat;
-                WxLife.material = redMat;
-                break;
-
-            case Team.blue:
-                nameText.material = greenMat;
-                lifeDamageImg.material = redMat;
-                lifeImg.material = greenMat;
-                WxLife.material = greenMat;
-                break;
-        }
-
-        feedbackCounter.SetActive(false);
-    }
 
     public void Init ( UnityClient newClient, bool respawned = false )
 	{
@@ -155,7 +91,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
-			WxCompass.transform.parent.gameObject.SetActive(false);
+			myUiPlayerManager.WxCompass.transform.parent.gameObject.SetActive(false);
 
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
@@ -175,27 +111,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void Update ()
 	{
-		if (allCharacterSpawned)
-		{
-			if (wxRef != null)
-			{
-				WxLife.fillAmount = wxRef._liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
-
-				Vector3 fromPos = this.transform.position + Vector3.right;
-				Vector3 toPos = wxRef.transform.position;
-
-				fromPos.y = 0;
-				toPos.y = 0;
-				Vector3 direction = (toPos - fromPos).normalized;
-				float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
-				WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
-
-			}
-		}
-
-		//ui life
-		lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
-
 		Debug();
 
 		if (!isOwner)
@@ -226,20 +141,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
 		{
-			wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
+			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
 		}
 		else
 		{
-			WxCompass.transform.parent.gameObject.SetActive(false);
+			myUiPlayerManager.WxCompass.transform.parent.gameObject.SetActive(false);
 		}
 
 		allCharacterSpawned = true;
-	}
-
-	private void LateUpdate ()
-	{
-		canvas.transform.rotation = canvasRot;
-		compassCanvas.transform.rotation = compassRot;
 	}
 
 	void SpawnFow ()
@@ -301,9 +210,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
-
-			if (_WxControlerRef == null)
-				wuXinTookDamages -= PingRadarRed;
 		}
 	}
 
@@ -789,111 +695,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			return;
 		}
-		GameObject _newPointer = GetFirstDisabledPointer();
+		GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
 		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj);
 	}
-
-	private GameObject GetFirstDisabledPointer ()
-	{
-		foreach (Transform t in compassCanvas.gameObject.transform)
-		{
-			if (!t.gameObject.activeInHierarchy)
-			{
-				t.gameObject.SetActive(true);
-				return t.gameObject;
-			}
-		}
-
-		GameObject newobj = Instantiate(pointerObj, compassCanvas.transform);
-		newobj.SetActive(true);
-
-		return newobj;
-	}
-
-	//Ui character
-	#region
-	public void HidePseudo ( bool _hidePseudo )
-	{
-		nameText.gameObject.SetActive(!_hidePseudo);
-		statePart.SetActive(_hidePseudo);
-	}
-
-	public void ShowStateIcon ( En_CharacterState _currentState, float actualTime, float baseTime )
-	{
-		RootIcon.SetActive(false);
-		SilencedIcon.SetActive(false);
-		StunIcon.SetActive(false);
-		SlowIcon.SetActive(false);
-		HiddenIcon.SetActive(false);
-		EmbourbedIcon.SetActive(false);
-		CounteringIcon.SetActive(false);
-		stateText.text = "";
-		feedbackCounter.SetActive(false);
-		//	fillPart.fillAmount = actualTime / baseTime;f
-
-		if ((_currentState & En_CharacterState.Hidden) != 0)
-		{
-			HiddenIcon.SetActive(true);
-			stateText.text = "Hidden";
-			return;
-		}
-		else if ((_currentState & En_CharacterState.Countering) != 0)
-		{
-			feedbackCounter.SetActive(true);
-			CounteringIcon.SetActive(true);
-			stateText.text = "Countering";
-			return;
-		}
-		else if ((_currentState & En_CharacterState.Embourbed) != 0)
-		{
-			EmbourbedIcon.SetActive(true);
-			stateText.text = "Embourbed";
-			return;
-		}
-		else if ((_currentState & En_CharacterState.Root) != 0 && (_currentState & En_CharacterState.Silenced) != 0)
-		{
-			StunIcon.SetActive(true);
-			stateText.text = "Stunned";
-			return;
-
-		}
-		else if ((_currentState & En_CharacterState.Silenced) != 0)
-		{
-			SilencedIcon.SetActive(true);
-			stateText.text = "Silenced";
-			return;
-
-		}
-		else if ((_currentState & En_CharacterState.Root) != 0)
-		{
-			RootIcon.SetActive(true);
-			stateText.text = "Root";
-			return;
-
-		}
-		else if ((_currentState & En_CharacterState.Slowed) != 0)
-		{
-			SlowIcon.SetActive(true);
-			stateText.text = "Slowed";
-			return;
-
-		}
-
-	}
-
-	public void EnableBuff ( bool _stateOfBuff, string _buffName )
-	{
-		wholeBuffUi.SetActive(_stateOfBuff);
-		nameOfTheBuff.text = _buffName;
-	}
-
-	public void UpdateBuffDuration ( float _fillAmount )
-	{
-		fillAmountBuff.fillAmount = _fillAmount;
-	}
-	#endregion
-
 
 	IEnumerator TimerShowPlayer ( float _time )
 	{
@@ -906,19 +711,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		return myPlayerModule.teamIndex == _indexTested;
 	}
-
-	public void PingRadarRed ()
-	{
-		print("I ping");
-		redDotRadar.SetTrigger("Trigger");
-	}
-
-	public void PingRadarYellow ()
-	{
-		yellowDotRadar.SetTrigger("Trigger");
-	}
-
-
 }
 
 public interface Damageable

@@ -2407,6 +2407,7 @@ MonoBehaviour:
   secondSpellKey: 32
   thirdSpellKey: 101
   freeCamera: 308
+  tpSpellKey: 102
   crouching: 304
   cancelSpellKey: 306
   interactKey: 102
@@ -2433,6 +2434,7 @@ MonoBehaviour:
   secondSpell: {fileID: 1286970584369722292}
   thirdSpell: {fileID: 1286970584369722292}
   leftClick: {fileID: 9035810358057001572}
+  tpModule: {fileID: 0}
   ward: {fileID: 9082095990713387351}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
@@ -2575,12 +2577,14 @@ MonoBehaviour:
   - {fileID: 5573407892547466031}
   - {fileID: 7030648629068466680}
   wxTfs: {fileID: 0}
+  wxController: {fileID: 0}
   playerModule: {fileID: 3038193427288463681}
   tpMaxTIme: 5
   integibleLayer: 16
   tpLayer:
     serializedVersion: 2
     m_Bits: 1409
+  tpDistance: 5
 --- !u!1 &7824080708604071312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3306,6 +3310,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5536610918040755446, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: feedbackCounter
+      value: 
+      objectReference: {fileID: 5778939177785948704}
     - target: {fileID: 5578612187831143817, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.14900008
@@ -3355,6 +3363,10 @@ PrefabInstance:
       value: 1085
       objectReference: {fileID: 0}
     - target: {fileID: 6822294291658222694, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988298653044389763, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
