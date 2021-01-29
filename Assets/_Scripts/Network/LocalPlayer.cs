@@ -34,7 +34,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Ui")] public GameObject feedbackCounter;
 	[Header("WX Compass")] [TabGroup("Ui")] public GameObject WxCompass;
 	[TabGroup("Ui")] public Image WxLife;
-	[Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
+    [TabGroup("Ui")] public GameObject sonar;
+    [TabGroup("Ui")] public List<Image> sonarImg;
+    [TabGroup("Ui")] public Color wxInViewColor, wxTakeDamageColor;
+    [Header("Buff")] [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
 	[TabGroup("Ui")] public Image fillAmountBuff;
 	[TabGroup("Ui")] public GameObject wholeBuffUi;
 	[Header("Compass Canvas")] [TabGroup("Ui")] public GameObject compassCanvas;
@@ -74,8 +77,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private bool allCharacterSpawned = false;
 
 	public Action<string> triggerAnim;
+    public Action OnInitFinish;
 
-	private UnityClient currentClient;
+    private UnityClient currentClient;
 	private Vector3 lastPosition;
 	private Vector3 lastRotation;
 
@@ -165,7 +169,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
-	}
+
+        OnInitFinish?.Invoke();
+    }
 
 	private void Update ()
 	{
@@ -725,6 +731,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			case 2:
 				break;
 			case 3:
+				break;
+			case 4:
 				break;
 		}
 	}
