@@ -172,6 +172,8 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 		if (_proj != null)
 			_proj.Init(GameManager.Instance.networkPlayers[GameManager.Instance.currentLocalPlayer.myPlayerId].myPlayerModule.teamIndex);
 
+		print("HEre");
+
 		_tempObject.SetActive(true);
 
 		// Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
@@ -203,7 +205,7 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 	/// <param name="networkedObjectID"></param>
 	/// <param name="position"></param>
 	/// <param name="eulerAngles"></param>
-	public GameObject NetworkAutoKillInstantiate ( ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, float _percentageOfLifeTime )
+	public GameObject NetworkAutoKillInstantiate ( ushort networkedObjectID, Vector3 position, Vector3 eulerAngles, float _percentageOfLifeTime =1)
 	{
 		GameObject _tempObject = GetFirstDisabledObject(networkedObjectID);
 
