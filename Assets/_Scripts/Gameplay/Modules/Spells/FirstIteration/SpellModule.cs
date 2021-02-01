@@ -596,6 +596,6 @@ public enum En_SpellInput
 	TP = 4,
 	Maj,
 	Ward,
-	Special
-
+	Special, 
+	Ping
 }
