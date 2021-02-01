@@ -9,7 +9,6 @@ using static GameData;
 public class UIPlayerManager : MonoBehaviour
 {
     [SerializeField] LocalPlayer myLocalPlayer;
-    public GameObject testcul;
 
     [Header("UI")]
     [TabGroup("Ui")] public GameObject canvas;
