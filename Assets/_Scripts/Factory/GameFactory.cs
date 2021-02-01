@@ -240,9 +240,10 @@ public class GameFactory
 
     public static bool CheckIfPlayerIsInView(ushort id)
     {
-        if (!GetActualPlayerFollow()) { return false; }
+        LocalPlayer actualPlayerFollow = GetActualPlayerFollow();
+        if (!actualPlayerFollow) { return false; }
 
-        if(GetActualPlayerFollow().myPlayerId == id)
+        if(actualPlayerFollow.myPlayerId == id)
         {
             return true;
         }
@@ -252,7 +253,7 @@ public class GameFactory
             return false;
         }
 
-        if (GetActualPlayerFollow().myPlayerModule.isInBrume)
+        if (actualPlayerFollow.myPlayerModule.isInBrume)
         {
             if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
             {
