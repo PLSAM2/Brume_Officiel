@@ -26,8 +26,6 @@ public class TeleportationModule : SpellModule
     private RaycastHit hit;
 
 
-
-
     private void Update()
     {
         if (isTping)
@@ -143,7 +141,6 @@ public class TeleportationModule : SpellModule
         wxController.DisplayTpZone(!v);
         UiManager.Instance.tpFillImage.gameObject.SetActive(!v);
         isTping = !v;
-
 
         if (v == false) // SI TP
         {
