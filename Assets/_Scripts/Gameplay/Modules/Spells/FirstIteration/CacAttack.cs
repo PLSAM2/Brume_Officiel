@@ -310,10 +310,4 @@ public class CacAttack : SpellModule
 	{
 		shapePreviewNetwork.gameObject.SetActive(isShowed);
 	}
-
-	protected override void DestroyIfClient ()
-	{
-		return;
-	}
-
 }

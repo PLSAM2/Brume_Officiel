@@ -93,7 +93,6 @@ public class WX_SonarState : MonoBehaviour
         {
             if (enemyList[id] != value)
             {
-                print(value);
                 enemyList[id] = value;
                 UpdateState();
             }
@@ -111,9 +110,6 @@ public class WX_SonarState : MonoBehaviour
                 break;
             }
         }
-
-        print(isInView);
-
         if (isInView && myState != wxSonarState.InView)
         {
             SendState(wxSonarState.InView);
