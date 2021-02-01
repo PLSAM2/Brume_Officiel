@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerRecupPos : MonoBehaviour
 {
-    public MeshRenderer renderer;
+    public MeshRenderer myRenderer;
     public Material myRefMat;
     Material _myInstanceMat;
     public Transform myPlayer;
@@ -14,7 +14,7 @@ public class PlayerRecupPos : MonoBehaviour
     {
         Material _myMatToInstance = new Material(myRefMat);
         _myInstanceMat = _myMatToInstance;
-        renderer.material = _myInstanceMat;
+        myRenderer.material = _myInstanceMat;
     }
 
 

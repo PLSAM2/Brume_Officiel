@@ -44,7 +44,7 @@ public class WardModule : SpellModule
 		}
 	}
 
-	protected override void DestroyIfClient () { } // Keep this for client
+
 
 	protected void Update ()
 	{

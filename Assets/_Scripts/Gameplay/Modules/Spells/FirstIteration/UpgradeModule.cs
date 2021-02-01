@@ -59,10 +59,4 @@ public class UpgradeModule : SpellModule
 	{
 		myPlayerModule.mylocalPlayer.SendStatus(localTrad.statusThrowback);
 	}
-
-	protected override float finalCooldownValue ()
-	{
-		float defValue = localTrad.duration + base.finalCooldownValue();
-		return defValue;
-	}
 }
