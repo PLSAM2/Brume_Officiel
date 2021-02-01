@@ -233,6 +233,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1431083735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +323,7 @@ MonoBehaviour:
   capturingPlayerModule: {fileID: 0}
   state: 0
   authorizedCaptureCharacter: 0a0014001e00
+  contestable: 1
   canBeCapturedColor: {r: 0.16579854, g: 1, b: 0, a: 0}
   noCaptureColor: {r: 0.9017889, g: 0.990566, b: 0.916392, a: 0}
   fillImg: {fileID: 606675981}
@@ -331,6 +333,7 @@ MonoBehaviour:
   iconRed: {fileID: 21300000, guid: 0e3502927c731f14f86b2b5bfc4eecae, type: 3}
   iconBlue: {fileID: 21300000, guid: ef9f2966b77199e48ae31771269ff234, type: 3}
   myAudioSource: {fileID: 9127678432812547465}
+  interactibleName: Vision tower
   vision: {fileID: 7394720336734371766}
   towerBody: {fileID: 3901029587825720986}
   capturableState: {fileID: 21300000, guid: 8c5aef8a8b895a54fb14fdf74f5e1e3b, type: 3}
@@ -715,7 +718,7 @@ PrefabInstance:
     - target: {fileID: 8969922443224354452, guid: 76aa17d1d1e5aea43bf97def22d14dd4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5e6a319cb8fd4694d87d5187367e3465, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76aa17d1d1e5aea43bf97def22d14dd4, type: 3}
 --- !u!4 &8506598382913849258 stripped

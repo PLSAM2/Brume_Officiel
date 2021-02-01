@@ -13,7 +13,6 @@ public class Altar : Interactible
     [Header("Altar properties")]
     public int life;
     public float unlockTime;
-    public string altarName = "";
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
     [SerializeField] AudioClip annoncementAltarSfx;
@@ -59,7 +58,7 @@ public class Altar : Interactible
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
-        UiManager.Instance.DisplayGeneralMessage("Altar " + altarName + " unlock in " + unlockTime + " seconds");
+        UiManager.Instance.DisplayGeneralMessage("Altar " + interactibleName + " unlock in " + unlockTime + " seconds");
         UiManager.Instance.UnlockNewAltar(this);
         if (value)
         {
@@ -79,6 +78,8 @@ public class Altar : Interactible
 
 	public override void Unlock ()
 	{
+        UiManager.Instance.chat.ReceiveNewMessage(interactibleName + " Unlock", 0, true);
+
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
