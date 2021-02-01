@@ -176,14 +176,21 @@ public class InGameNetworkReceiver : MonoBehaviour
     {
         using (Message message = e.GetMessage())
         {
+            Vector3 _newPos = Vector3.zero;
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _id = reader.ReadUInt16();
                 bool _tpState = reader.ReadBoolean();
 
+                if (_tpState)
+                {
+                    _newPos = new Vector3(reader.ReadSingle(), 0, reader.ReadSingle());
+                }
+
+
                 if (GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
-                    GameManager.Instance.networkPlayers[_id].GetComponent<TeleportationModule>().SetTpStateInServer(_tpState);
+                    GameManager.Instance.networkPlayers[_id].GetComponent<TeleportationModule>().SetTpStateInServer(_tpState, _newPos);
                 }
             }
         }

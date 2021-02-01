@@ -22,6 +22,8 @@ public class WX_SonarState : MonoBehaviour
     bool damagePlaying = false;
     bool viewPlaying = false;
 
+    Coroutine yellowCoroutine;
+
     private void OnEnable()
     {
         currentClient = NetworkManager.Instance.GetLocalClient();
@@ -110,6 +112,7 @@ public class WX_SonarState : MonoBehaviour
                 break;
             }
         }
+
         if (isInView && myState != wxSonarState.InView)
         {
             SendState(wxSonarState.InView);
@@ -138,12 +141,23 @@ public class WX_SonarState : MonoBehaviour
     {
         if(id == myLocalPlayer.myPlayerId)
         {
-            StartCoroutine(WxTakeDamage());
+            viewPlaying = false;
+
+            if (!damagePlaying)
+            {
+                StopCoroutine(yellowCoroutine);
+                StartCoroutine(WxTakeDamage());
+            }
         }
     }
 
     private void Update()
     {
+        if (myLocalPlayer.isOwner)
+        {
+            return;
+        }
+
         LocalPlayer p = GameFactory.GetActualPlayerFollow();
 
         if (RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
@@ -152,11 +166,7 @@ public class WX_SonarState : MonoBehaviour
         if (myState == wxSonarState.InView && !damagePlaying && !viewPlaying)
         {
             viewPlaying = true;
-            StartCoroutine(PingJaune());
-        }
-        else
-        {
-            GameFactory.GetActualPlayerFollow().myUiPlayerManager.sonar.SetActive(false);
+            yellowCoroutine = StartCoroutine(PingJaune());
         }
     }
 
