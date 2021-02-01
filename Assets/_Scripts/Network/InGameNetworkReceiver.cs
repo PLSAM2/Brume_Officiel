@@ -161,6 +161,49 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 NewChatMessage(sender, e);
             }
+            else if (message.Tag == Tags.SpellStep)
+            {
+                SpellStep(sender, e);
+            }
+            else if (message.Tag == Tags.Tp)
+            {
+                TpInServer(sender, e);
+            }
+        }
+    }
+
+    private void TpInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                bool _tpState = reader.ReadBoolean();
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+                {
+                    GameManager.Instance.networkPlayers[_id].GetComponent<TeleportationModule>().SetTpStateInServer(_tpState);
+                }
+            }
+        }
+    }
+
+    private void SpellStep(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                ushort _spellIndex = reader.ReadUInt16();
+                SpellStep _spellStep = (SpellStep)reader.ReadUInt16();
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+                {
+                    GameManager.Instance.networkPlayers[_id].UpdateSpellStepInServer(_spellIndex, _spellStep);
+                }
+            }
         }
     }
 
@@ -716,6 +759,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 Team _team = (Team)reader.ReadUInt16();
                 ushort _value = reader.ReadUInt16();
+
                 foreach (PlayerData p in GameFactory.GetAllPlayerInTeam(_team))
                 {
                     RoomManager.Instance.TryAddUltimateStacks(p.ID, _value, false);

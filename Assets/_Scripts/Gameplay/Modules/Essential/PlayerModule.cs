@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class PlayerModule : MonoBehaviour
 {
 	[TabGroup("InputsPart")] public KeyCode firstSpellKey = KeyCode.A;
-	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl;
+	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, tpSpellKey = KeyCode.F, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl;
 	[TabGroup("InputsPart")] public KeyCode interactKey = KeyCode.F;
 	[TabGroup("InputsPart")] public KeyCode wardKey = KeyCode.Alpha4;
 	bool boolWasClicked = false;
@@ -67,7 +67,7 @@ public class PlayerModule : MonoBehaviour
 
 	//ghost
 	[TabGroup("Debugging")] public bool isInGhost = false;
-	[TabGroup("Debugging")] [SerializeField]  Color enemyTeamColor, myTeamColor, myColor;
+	[TabGroup("Debugging")] [SerializeField] Color enemyTeamColor, myTeamColor, myColor;
 	bool _isCrouched = false;
 	bool isCrouched
 	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
@@ -78,7 +78,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
 
 	[TabGroup("Modules")] public MovementModule movementPart;
-	[TabGroup("Modules")] [SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, ward;
+	[TabGroup("Modules")] [SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, tpModule, ward;
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
@@ -105,8 +105,8 @@ public class PlayerModule : MonoBehaviour
 	#region
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, wardInput;
-	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, wardInputReleased;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, tpInput, wardInput;
+	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, tpInputReleased, wardInputReleased;
 	public Action startSneaking, stopSneaking;
 	public Action<bool> rotationLock, cancelSpell;
 	#endregion
@@ -175,11 +175,19 @@ public class PlayerModule : MonoBehaviour
 
 	public virtual void Setup ()
 	{
-		firstSpell?.SetupComponent(En_SpellInput.FirstSpell);
-		secondSpell?.SetupComponent(En_SpellInput.SecondSpell);
-		thirdSpell?.SetupComponent(En_SpellInput.ThirdSpell);
-		leftClick?.SetupComponent(En_SpellInput.Click);
-		ward?.SetupComponent(En_SpellInput.Ward);
+		if (firstSpell != null)
+			firstSpell.SetupComponent(En_SpellInput.FirstSpell);
+		if (secondSpell != null)
+			secondSpell.SetupComponent(En_SpellInput.SecondSpell);
+		if (thirdSpell != null)
+			thirdSpell.SetupComponent(En_SpellInput.ThirdSpell);
+		if (leftClick != null)
+			leftClick.SetupComponent(En_SpellInput.Click);
+
+		if (ward != null)
+			ward.SetupComponent(En_SpellInput.Ward);
+		if (tpModule != null)
+			tpModule.SetupComponent(En_SpellInput.TP);
 
 		spedUpParticle.gameObject.SetActive(false);
 		silencedParticle.gameObject.SetActive(false);
@@ -204,6 +212,8 @@ public class PlayerModule : MonoBehaviour
 			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, "RC");
 			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.TP, tpSpellKey.ToString());
+
 			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
 			spellResolved += BuffInput;
 			//modulesPArt
@@ -219,15 +229,22 @@ public class PlayerModule : MonoBehaviour
 		else
 		{
 			StartCoroutine(WaitForVisionCheck());
-
-				mapIcon.color = GameFactory.GetColorTeam(teamIndex);
+			mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
-		if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+		ResetLayer();
+	}
+
+	public void ResetLayer ()
+	{
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
 		{
-			gameObject.layer =  7;
+			gameObject.layer = 7;
 		}
-
+		else
+		{
+			gameObject.layer = 8;
+		}
 	}
 
 	protected virtual void Update ()
@@ -238,7 +255,7 @@ public class PlayerModule : MonoBehaviour
 			if ((state & En_CharacterState.Integenbility) != 0)
 				gameObject.layer = 16;
 			else if ((oldState & En_CharacterState.Integenbility) != 0)
-				gameObject.layer = 8;
+				ResetLayer();
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
@@ -283,7 +300,7 @@ public class PlayerModule : MonoBehaviour
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
 
-                /*
+				/*
 				if ((state & En_CharacterState.Hidden) != 0)
 					//GameManager.Instance.hiddenEffect.enabled = true;
 				else
@@ -299,10 +316,10 @@ public class PlayerModule : MonoBehaviour
 
 		if ((state & (En_CharacterState.Stunned | En_CharacterState.Slowed | En_CharacterState.Hidden)) != 0)
 		{
-			mylocalPlayer.HidePseudo(true);
+			mylocalPlayer.myUiPlayerManager.HidePseudo(true);
 		}
 		else
-			mylocalPlayer.HidePseudo(false);
+            mylocalPlayer.myUiPlayerManager.HidePseudo(false);
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -321,6 +338,8 @@ public class PlayerModule : MonoBehaviour
 				wardInput?.Invoke(mousePos());
 			else if (Input.GetKeyDown(cancelSpellKey))
 				cancelSpell?.Invoke(false);
+			else if (Input.GetKeyDown(tpSpellKey))
+				tpInput?.Invoke(mousePos());
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
 			{
@@ -336,6 +355,8 @@ public class PlayerModule : MonoBehaviour
 				thirdSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyUp(wardKey))
 				wardInputReleased?.Invoke(mousePos());
+			else if (Input.GetKeyUp(tpSpellKey))
+				tpInputReleased?.Invoke(mousePos());
 			else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
 			{
 				leftClickInputRealeased?.Invoke(mousePos());
@@ -367,8 +388,6 @@ public class PlayerModule : MonoBehaviour
 			{
 				isCrouched = true;
 			}
-
-
 			else if (Input.GetKeyUp(crouching))
 			{
 				isCrouched = false;
@@ -383,13 +402,13 @@ public class PlayerModule : MonoBehaviour
 				CameraManager.Instance.UpdateCameraPos?.Invoke();
 
 			//MEGA TEMP
-			mylocalPlayer.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
 
 		}
 		else
 		{
 			// TEMP
-			mylocalPlayer.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
 		}
 
 
@@ -397,11 +416,9 @@ public class PlayerModule : MonoBehaviour
 
 	protected virtual void FixedUpdate ()
 	{
-
 		TreatEffects();
 		TreatTickEffects();
 	}
-
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
@@ -411,7 +428,6 @@ public class PlayerModule : MonoBehaviour
 
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
-		print("I try to reduce");
 		switch (_spell)
 		{
 			case En_SpellInput.FirstSpell:
@@ -427,7 +443,6 @@ public class PlayerModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.Click:
-				print("Ireduce click cooldown by " + _duration);
 				leftClick.ReduceCooldown(_duration);
 				break;
 
@@ -442,8 +457,9 @@ public class PlayerModule : MonoBehaviour
 		firstSpell.ReduceCooldown(_duration);
 		secondSpell.ReduceCooldown(_duration);
 		thirdSpell.ReduceCooldown(_duration);
-		//leftClick.ReduceCooldown(_duration);
+		leftClick.ReduceCooldown(_duration);
 		ward.ReduceCooldown(_duration);
+		tpModule.ReduceCooldown(_duration);
 	}
 
 	//vision
@@ -457,6 +473,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		if (ShouldBePinged())
 		{
+			//Debug.Log("I shouldBePinged");
 			LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
 		}
 		lastRecordedPos = transform.position;
@@ -465,21 +482,24 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
+		//marké par la shili donc go ping
 		if (cursedByShili)
 			return true;
 
+		//le perso a pas bougé
 		if (lastRecordedPos == transform.position || isInBrume)
 			return false;
 
+		//on choppe le player local
 		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
+		//le perso est pas en train de crouched
 		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0)
 			return false;
 
+		//DISTANCE > a la range
 		if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
 			return false;
-
-
 
 		return true;
 	}
@@ -800,9 +820,9 @@ public class PlayerModule : MonoBehaviour
 		mylocalPlayer.SendState(state);
 	}
 
-	void BuffInput()
+	void BuffInput ()
 	{
-		switch(spellInputedRecorded)
+		/*switch(spellInputedRecorded)
 		{
 			case En_SpellInput.Click:
 				leftClick.StartCanalysing(mousePos());
@@ -818,7 +838,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 
-		spellInputedRecorded = En_SpellInput.Null;
+		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
 	IEnumerator CheckForMenace ()

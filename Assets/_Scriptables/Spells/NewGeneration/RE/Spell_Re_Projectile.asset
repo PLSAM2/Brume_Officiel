@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Re_Projectile
   m_EditorClassIdentifier: 
-  range: 7
+  range: 8
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
@@ -33,7 +33,8 @@ MonoBehaviour:
   damagesToDeal:
     playerName: 
     damageHealth: 1
-    statusToApply: []
+    statusToApply:
+    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
@@ -41,6 +42,31 @@ MonoBehaviour:
     additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
   _reduceCooldowns: 0
+  _curveSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  asAdaptiveRange: 1
   offSet: 0.1
   salveInfos:
     NumberOfSalve: 1
@@ -48,6 +74,12 @@ MonoBehaviour:
     timeToReachMaxRange: 0.25
     timeToResolveTheSalve: 0
   angleToSplit: 0
+  destroyProjectiles: 0
+  bouncingNumber: 1
+  velocityKeptOnBounce: 1
+  diesOnPlayerTouch: 1
+  diesOnWallTouch: 0
+  forcePrefabApparition: 0
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0

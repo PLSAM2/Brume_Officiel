@@ -13,9 +13,9 @@ public class ReactivableAoe : Aoe
 	LocalPlayer localPlayer;
 	bool hasReactivated;
 
-	public override void Init ( GameData.Team ownerTeam )
+	public override void Init ( GameData.Team ownerTeam, float _lifePercentage )
 	{
-		base.Init(ownerTeam);
+		base.Init(ownerTeam, _lifePercentage);
 		print(isOwner);
 
 		if (isOwner)

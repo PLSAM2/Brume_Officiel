@@ -8,6 +8,7 @@ public class SpellModule : MonoBehaviour
 {
 	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell, throwbackTime;
 
+	float _cooldown = 0;
 	[ReadOnly]
 	public float cooldown
 	{
@@ -34,7 +35,6 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	float _cooldown = 0;
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
 	public Sc_Spell spell;
 	protected En_SpellInput actionLinked;
@@ -42,8 +42,9 @@ public class SpellModule : MonoBehaviour
 	protected bool willResolve = false;
 	protected bool isOwner = false;
 	public bool isAComboPiece = false;
+	[HideInInspector] public bool hasPreviewed;
 
-	[ReadOnly] public PlayerModule myPlayerModule;
+	[HideInInspector] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
@@ -55,7 +56,6 @@ public class SpellModule : MonoBehaviour
 	{
 		LocalPlayer.disableModule += Disable;
 	}
-
 	//setup & inputs
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -64,6 +64,7 @@ public class SpellModule : MonoBehaviour
 		cooldown = 0;
 
 		actionLinked = _actionLinked;
+		print(actionLinked);
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
 		if (isOwner)
@@ -79,8 +80,6 @@ public class SpellModule : MonoBehaviour
 		else
 			DestroyIfClient();
 	}
-
-
 	protected virtual void Disable ()
 	{
 		if (isOwner)
@@ -90,7 +89,6 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.backToNormalKit -= ReturnToNormal;
 		}
 	}
-
 	//inputs subscribing
 	#region
 	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
@@ -128,6 +126,12 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.wardInputReleased += StartCanalysing;
 				myPlayerModule.wardInputReleased += HidePreview;
 				break;
+
+			case En_SpellInput.TP:
+				myPlayerModule.tpInput += ShowPreview;
+				myPlayerModule.tpInputReleased += StartCanalysing;
+				myPlayerModule.tpInputReleased += HidePreview;
+				break;
 		}
 	}
 
@@ -135,7 +139,6 @@ public class SpellModule : MonoBehaviour
 	{
 		LinkInputs(actionLinked);
 	}
-
 	protected virtual void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
@@ -171,40 +174,19 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= HidePreview;
 				break;
+
+			case En_SpellInput.TP:
+				myPlayerModule.tpInput -= ShowPreview;
+				myPlayerModule.tpInputReleased -= StartCanalysing;
+				myPlayerModule.tpInputReleased -= HidePreview;
+				break;
 		}
 	}
 	#endregion
-
 	protected virtual void DestroyIfClient ()
 	{
 		Destroy(this);
 	}
-
-	//PREVIEW
-	#region
-	protected virtual void ShowPreview ( Vector3 mousePos )
-	{
-		if (canBeCast())
-		{
-			willResolve = true;
-			showingPreview = true;
-			UpdatePreview();
-		}
-		else
-			return;
-	}
-
-	protected virtual void HidePreview ( Vector3 _posToHide )
-	{
-		showingPreview = false;
-	}
-
-	protected virtual void UpdatePreview ()
-	{
-
-	}
-	#endregion
-
 	protected virtual void FixedUpdate ()
 	{
 		if (isUsed)
@@ -221,7 +203,6 @@ public class SpellModule : MonoBehaviour
 
 		TreatThrowBack();
 	}
-
 	protected virtual void TreatNormalCanalisation ()
 	{
 		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !startResolution)
@@ -233,7 +214,6 @@ public class SpellModule : MonoBehaviour
 			AnonceSpell(Vector3.zero);
 		}
 	}
-
 	protected virtual void TreatThrowBack ()
 	{
 		if (resolved && throwbackTime <= spell.throwBackDuration && isUsed)
@@ -245,7 +225,6 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
-
 	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
@@ -262,17 +241,15 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.AddState(En_CharacterState.Root);
 		}
 	}
-
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		if (canBeCast() && willResolve)
+		if (canStartCanalisation() && willResolve)
 		{
 			Canalyse(_BaseMousePos);
 		}
 		else
-			myPlayerModule.spellInputedRecorded = actionLinked;
+			UiManager.Instance.CantCastFeedback(actionLinked);
 	}
-
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
 		timeToResolveSpell = FinalCanalisationTime();
@@ -306,17 +283,14 @@ public class SpellModule : MonoBehaviour
 		if (spell.lockPosOnCanalisation)
 			myPlayerModule.AddState(En_CharacterState.Root);
 	}
-
 	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
 	{
 		Canalyse(_BaseMousePos);
 	}
-
 	protected virtual void ApplyCanalisationEffect ()
 	{
 		myPlayerModule.AddState(En_CharacterState.Canalysing);
 	}
-
 	protected virtual void Resolution ()
 	{
 		ResolutionFeedBack();
@@ -380,6 +354,12 @@ public class SpellModule : MonoBehaviour
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
 
+		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
+			myPlayerModule.rotationLock(false);
+		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
+			myPlayerModule.RemoveState(En_CharacterState.Root);
+		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
+
 		ApplyEffectAtTheEnd();
 
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
@@ -387,22 +367,13 @@ public class SpellModule : MonoBehaviour
 
 		myPlayerModule.spellResolved?.Invoke();
 	}
-
 	protected virtual void ApplyEffectAtTheEnd ()
 	{
 		if (spell.statusToApplyAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyAtTheEnd)
 				myPlayerModule.AddStatus(_statusToAdd.effect);
 
-		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
-
-		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
-			myPlayerModule.RemoveState(En_CharacterState.Root);
-
-		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
-			myPlayerModule.rotationLock(false);
 	}
-
 	protected virtual void StopSpell ()
 	{
 		isUsed = false;
@@ -458,6 +429,15 @@ public class SpellModule : MonoBehaviour
 		{
 			return true;
 		}
+	}
+	protected virtual bool canStartCanalisation ()
+	{
+		if (!canBeCast())
+			return false;
+		else if (hasPreviewed == true)
+			return true;
+		else
+			return false;
 	}
 	void StartCanalysingFeedBack ()
 	{
@@ -541,14 +521,41 @@ public class SpellModule : MonoBehaviour
 		if (!isAComboPiece)
 			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
 	}
+	//PREVIEW
+	#region
+	protected virtual void ShowPreview ( Vector3 mousePos )
+	{
+		if (canBeCast())
+		{
+			willResolve = true;
+			showingPreview = true;
+			UpdatePreview();
+			hasPreviewed = true;
+		}
+		else
+			return;
+	}
+
+	protected virtual void HidePreview ( Vector3 _posToHide )
+	{
+		showingPreview = false;
+		hasPreviewed = false;
+	}
+
+	protected virtual void UpdatePreview ()
+	{
+
+	}
+	#endregion
 }
 public enum En_SpellInput
 {
 	Null,
-	FirstSpell,
-	SecondSpell,
-	ThirdSpell,
-	Click,
+	Click = 0,
+	FirstSpell = 1,
+	SecondSpell=2,
+	ThirdSpell=3,
+	TP=4,
 	Maj,
 	Ward,
 	Special

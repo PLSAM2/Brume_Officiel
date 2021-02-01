@@ -33,6 +33,7 @@
     public static readonly ushort AskForStopGame = 311;
     public static readonly ushort NewRound = 315;
     public static readonly ushort InstantiateObject = 500;
+    public static readonly ushort InstantiateAutoKillObject = 502;
     public static readonly ushort SynchroniseObject = 510;
     public static readonly ushort DestroyObject = 515;
     public static readonly ushort Damages = 520;
@@ -41,6 +42,7 @@
     public static readonly ushort KillCharacter = 560;
     public static readonly ushort AddUltimatePoint = 600;
     public static readonly ushort AddUltimatePointToAllTeam = 601;
+    public static readonly ushort WXSonarState = 602;
 
     //Anim 750 --> 769 >>
     public static readonly ushort SyncTrigger = 750;
@@ -61,6 +63,7 @@
     public static readonly ushort FrogTimerElapsed = 778;
     public static readonly ushort VisionTowerTimerElapsed = 779;
     public static readonly ushort HealthPackTimerElapsed = 780;
+    public static readonly ushort UltPickupTimerElapsed = 782;
     public static readonly ushort ResurectPlayer = 783;
     public static readonly ushort BrumeSoulSpawnCall = 785;
     public static readonly ushort BrumeSoulPicked = 786;
@@ -81,9 +84,9 @@
     // <<
 
     //Spells 810 --> XXX >>
+    public static readonly ushort Tp = 850;
     public static readonly ushort CurveSpellLaunch = 900;
     public static readonly ushort CurveSpellLanded = 901;
-
     //<<
 
     public static readonly ushort SpawnObjPlayer = 1000;
@@ -98,6 +101,7 @@
 
     //SPELLS CHARACTER
     public static readonly ushort LaunchSplouch = 2600;
+    public static readonly ushort SpellStep = 2700;
     // <<
 
     //Audio

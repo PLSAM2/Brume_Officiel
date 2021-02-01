@@ -49,7 +49,7 @@ public class GameManager : SerializedMonoBehaviour
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
 
-    public List<BrumeScript> allBrume = new List<BrumeScript>();
+    public List<Brume> allBrume = new List<Brume>();
 
     public List<Fx> allFx = new List<Fx>();
     public List<Transform> allVisibleFx = new List<Transform>();
@@ -62,6 +62,8 @@ public class GameManager : SerializedMonoBehaviour
     public bool gameStarted = false;
     
     public Animator globalVolumeAnimator;
+
+    public LayerMask brumeLayer;
 
     public GameObject brumeSoul;
     public Dictionary<ushort, BrumeSoul> brumeSouls = new Dictionary<ushort, BrumeSoul>();
@@ -104,6 +106,9 @@ public class GameManager : SerializedMonoBehaviour
         client.MessageReceived -= OnMessageReceive;
         OnPlayerGetDamage -= OnPlayerTakeDamage;
         NetworkManager.Instance.OnPlayerQuit -= PlayerQuitGame;
+
+        foreach (Material _mat in materialNeedingTheCamPos)
+            _mat.SetVector("_Object_Position", new Vector4(0, 0, 0, 1));
     }
 
     private void Start()

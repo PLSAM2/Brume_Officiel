@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 5103172767365961193}
   - component: {fileID: 3198480878554853157}
   - component: {fileID: 3306790019849509691}
-  - component: {fileID: 131188826}
   m_Layer: 0
   m_Name: Fow
   m_TagString: Untagged
@@ -132,7 +131,7 @@ MonoBehaviour:
   myFieldOfView: {fileID: 3306790019849509691}
   followSpeed: 10
   fowRaduis: 0
-  revealer: {fileID: 131188826}
+  revealer: {fileID: 0}
 --- !u!114 &3306790019849509691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +151,7 @@ MonoBehaviour:
     m_Bits: 8390912
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 33280
+    m_Bits: 8389120
   visibleTargets: []
   visibleFx: []
   meshResolution: 0.4
@@ -162,19 +161,3 @@ MonoBehaviour:
   viewMeshFilter: {fileID: 2090443133}
   myType: 0
   isStatic: 0
---- !u!114 &131188826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8593340304288630890}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d896faa75ea396d4baf03f14a79a912d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fieldOfView: 180
-  range: {x: 2, y: 10}
-  lineOfSightCheck: 2
-  isActive: 1

@@ -44,9 +44,6 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     protected bool paused = false;
 
-    [TabGroup("InteractiblePart")]
-    [SerializeField] List<PlayerModule> playerTriggeredInZone = new List<PlayerModule>();
-
     [Header("Color")]
     [TabGroup("InteractiblePart")]
     [SerializeField] protected Color canBeCapturedColor;
@@ -108,6 +105,7 @@ public class Interactible : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+
         Capture();
 
         if (isViewed)
@@ -134,11 +132,11 @@ public class Interactible : MonoBehaviour
                 }
             }
         }
-
     }
+
     public void ProgressInServer(float progress)
     {
-        timer = progress;
+        timer = progress * interactTime;
     }
 
     public virtual void TryCapture(Team team, PlayerModule capturingPlayer)
@@ -167,7 +165,6 @@ public class Interactible : MonoBehaviour
     public virtual void UpdateTryCapture(ushort _capturingPlayerID)
     {
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
-
         if (NetworkManager.Instance.GetLocalPlayer().ID == _capturingPlayerID)
         {
             isCapturing = true;
@@ -248,7 +245,6 @@ public class Interactible : MonoBehaviour
 
         // capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
 
-
         UpdateCaptured(_capturingPlayerID);
     }
 
@@ -321,7 +317,8 @@ public class Interactible : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8)
+
+        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
@@ -337,7 +334,7 @@ public class Interactible : MonoBehaviour
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
-                _pModule.interactiblesClose.Add(this);
+               _pModule.interactiblesClose.Add(this);
                 TryCapture(_pModule.teamIndex, _pModule);
             }
         }
@@ -345,7 +342,7 @@ public class Interactible : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
@@ -386,7 +383,7 @@ public class Interactible : MonoBehaviour
     {
         if (CheckOnUnlock)
         {
-            if (other.gameObject.layer == 8)
+            if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
             {
                 PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
