@@ -181,7 +181,12 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerTakeDamage ( ushort id, ushort damage )
 	{
-		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
+        {
+            return;
+        }
+
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
 			GetLifeImageOfTeamChamp(id).fillAmount = (float)GameManager.Instance.networkPlayers[id].liveHealth
 				/ GameFactory.GetMaxLifeOfPlayer(id);
@@ -211,6 +216,7 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerViewChange ( ushort id, bool isVisible )
 	{
+        //actualise icon and color team
 		if (GameManager.Instance.networkPlayers.ContainsKey(id) && GameManager.Instance.networkPlayers[id] != null)
 		{
 			Color myColor = Color.white;
@@ -247,7 +253,18 @@ public class UiManager : MonoBehaviour
 			//joueur est mort
 			GetImageOfChamp(id).color = killedColor;
 		}
-	}
+
+
+        //actualse life team
+        if (isVisible)
+        {
+            if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                GetLifeImageOfTeamChamp(id).fillAmount = (float)GameManager.Instance.networkPlayers[id].liveHealth
+                    / GameFactory.GetMaxLifeOfPlayer(id);
+            }
+        }
+    }
 
 	Image GetLifeImageOfTeamChamp ( ushort id )
 	{

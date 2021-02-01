@@ -78,7 +78,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
 
 	[TabGroup("Modules")] public MovementModule movementPart;
-	[TabGroup("Modules")] [SerializeField] SpellModule firstSpell, secondSpell, thirdSpell, leftClick, tpModule, ward;
+	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, thirdSpell, leftClick, tpModule, ward;
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
