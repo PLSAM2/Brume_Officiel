@@ -233,6 +233,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1431083735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +367,7 @@ MonoBehaviour:
   capturingPlayerModule: {fileID: 0}
   state: 0
   authorizedCaptureCharacter: 0a00
+  contestable: 1
   canBeCapturedColor: {r: 0.21382403, g: 1, b: 0, a: 0}
   noCaptureColor: {r: 1, g: 1, b: 1, a: 0}
   fillImg: {fileID: 606675981}
@@ -375,11 +377,12 @@ MonoBehaviour:
   iconRed: {fileID: 21300000, guid: 43a0280fe052d2b449c5c65454c592bf, type: 3}
   iconBlue: {fileID: 21300000, guid: 827c5bb2772e2c445a7af15af14819d5, type: 3}
   myAudioSource: {fileID: 4965694306807690536}
+  interactibleName: Altar
   unlockedAltar: {fileID: 21300000, guid: a7d2df1244e3dca4a932e60fd203e055, type: 3}
   life: 100
   unlockTime: 5
-  altarName: 
   altarBuff: {fileID: 0}
+  ultimateStackGive: 2
   annoncementAltarSfx: {fileID: 8300000, guid: 4973cc54e290e034c92d55c66e467bf6, type: 3}
   unlockAltarSfx: {fileID: 8300000, guid: 5d52ace2ff9ecbf40a1353bb41998aba, type: 3}
   capturedAltarSfx: {fileID: 8300000, guid: abf0efa21f4ba984c8f607d273cc83c3, type: 3}

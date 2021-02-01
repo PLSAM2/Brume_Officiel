@@ -10,6 +10,7 @@ public class UIPingModule : MonoBehaviour
     public List<Image> disCornerImg = new List<Image>();
     public List<Image> enCornerImg = new List<Image>();
     public LayerMask pingableLayer;
+
     private Ray ray;
     private RaycastHit hit;
 
@@ -64,7 +65,8 @@ public class UIPingModule : MonoBehaviour
         if (mouseOverMinimap)
         {
             ClickOnMinimap();
-        } else
+        }
+        else
         {
             TryChoosePos();
         }
@@ -116,6 +118,29 @@ public class UIPingModule : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 300, pingableLayer))
         {
+            GameObject _temp = hit.collider.gameObject;
+
+            if (_temp.layer == 7 || _temp.layer == 8)
+            {
+                if (_temp.GetComponent<LocalPlayer>().myPlayerId != NetworkManager.Instance.GetLocalPlayer().ID)
+                {
+                    UiManager.Instance.chat.SendNewForcedMessage("<color=red> I see " + RoomManager.Instance.GetPlayerData(hit.collider.GetComponent<LocalPlayer>().myPlayerId).playerCharacter.ToString() + " ! </color>");
+                }          
+            }
+            else if (_temp.CompareTag("Interactible"))
+            {
+                Interactible _inter = _temp.GetComponent<Interactible>();
+         
+                if (_inter.type == GameData.InteractibleType.Altar)
+                {
+                    UiManager.Instance.chat.SendNewForcedMessage("<color=green> Go to " + _inter.interactibleName + " ! </color>");
+                }
+                else
+                {
+                    UiManager.Instance.chat.SendNewForcedMessage("<color=green> I see " + _inter.interactibleName + " - "  + _inter.state.ToString() + " ! </color>");
+                }
+            }
+
             initPos = hit.point;
             radialMenu.transform.position = Input.mousePosition;
             radialMenu.SetActive(true);
@@ -153,7 +178,7 @@ public class UIPingModule : MonoBehaviour
 
             if (initPos != Vector3.zero)
             {
-                NetworkObjectsManager.Instance.NetworkInstantiate(chosedPingID, initPos + new Vector3(0, 0.05f, 0), Vector3.zero);
+                NetworkObjectsManager.Instance.NetworkInstantiate(chosedPingID,new Vector3(initPos.x,0.05f, initPos.z), Vector3.zero);
             }
             xOffset = 0;
             yOffset = 0;

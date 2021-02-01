@@ -65,7 +65,7 @@ public class Module_Spit : SpellModule
 		Destroy(spitObj);
 	}
 
-	protected override void DestroyIfClient () { } // Keep this for client
+
 
 	protected void Update ()
 	{
@@ -184,7 +184,7 @@ public class Module_Spit : SpellModule
 				}
 			}
 
-			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, Vector3.zero);
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, transform.rotation.eulerAngles);
 		}
 	}
 

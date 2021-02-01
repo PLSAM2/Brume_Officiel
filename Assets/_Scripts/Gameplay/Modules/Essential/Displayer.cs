@@ -183,7 +183,7 @@ public class Displayer : MonoBehaviour
         if (p.myOutline.enabled)
         {
             p.myOutline.enabled = false;
-            p.canvas.SetActive(_value);
+            p.myUiPlayerManager.canvas.SetActive(_value);
         }
 
         if (p.isVisible != _value)
@@ -193,7 +193,7 @@ public class Displayer : MonoBehaviour
             {
                 obj.SetActive(_value);
             }
-            p.canvas.SetActive(_value);
+            p.myUiPlayerManager.canvas.SetActive(_value);
 
             GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, _value);
         }
@@ -213,7 +213,7 @@ public class Displayer : MonoBehaviour
         {
             obj.SetActive(true);
         }
-        p.canvas.SetActive(false);
+        p.myUiPlayerManager.canvas.SetActive(false);
 
         if (!p.myOutline.enabled)
         {

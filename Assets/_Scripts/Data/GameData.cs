@@ -29,11 +29,11 @@ public class GameData
         HealthPack = 5,
         UltPickup = 6
     }
-    public enum SpellStep : ushort
+    public enum En_SpellStep : ushort
     {
-        canalisation = 0,
-        annonciation = 1,
-        resolution = 2,
-        throwback = 3
+        Canalisation = 0,
+        Annonciation = 1,
+        Resolution = 2,
+        Interrupt = 3
     }
 }

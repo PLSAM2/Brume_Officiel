@@ -9,11 +9,12 @@ public class TeleportationModule : SpellModule
     public List<GameObject> onTpDisabled = new List<GameObject>();
     public Transform wxTfs;
     public WxController wxController;
-
+    public ParticleSystem tpFx;
     public PlayerModule playerModule;
     public float tpMaxTIme = 5;
     public int integibleLayer = 16;
-    public LayerMask tpLayer = 10;
+    public LayerMask tpLayer;
+    public LayerMask raycastLayer;
     public float tpDistance = 5;
     private bool isTping = false;
     private float timer = 0;
@@ -22,7 +23,7 @@ public class TeleportationModule : SpellModule
     private RaycastHit hit;
 
 
-    protected override void DestroyIfClient(){}
+
 
     private void Update()
     {
@@ -30,11 +31,11 @@ public class TeleportationModule : SpellModule
         {
             timer -= Time.deltaTime;
             UiManager.Instance.tpFillImage.fillAmount = timer / tpMaxTIme;
+
             if (timer <= 0)
             {
                 Tp(true);
             }
-
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -42,7 +43,6 @@ public class TeleportationModule : SpellModule
                 {
                     Tp(false);
                 }
-
             }
         }
     }
@@ -51,7 +51,7 @@ public class TeleportationModule : SpellModule
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 _pos = Vector3.zero;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit,300, raycastLayer))
         {
             _pos = hit.point;
 
@@ -85,7 +85,7 @@ public class TeleportationModule : SpellModule
         {
             wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
             wxController = wxTfs.GetComponent<WxController>();
-            SetTpState(false);
+            SetTpState(false, wxId);
         }
     }
 
@@ -103,7 +103,7 @@ public class TeleportationModule : SpellModule
     }
 
     // false = ON TP
-    public void SetTpState(bool v)
+    public void SetTpState(bool v, ushort? wxId = 0)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
@@ -115,19 +115,26 @@ public class TeleportationModule : SpellModule
             }
         }
 
+        foreach (Interactible inter in playerModule.interactiblesClose)
+        {
+            inter.StopCapturing();
+
+        }
+        playerModule.interactiblesClose.Clear();
 
         isTping = !v;
         UiManager.Instance.tpFillImage.gameObject.SetActive(!v);
         wxController.DisplayTpZone(!v);
 
-        if (v == false)
+        if (v == false) // SI TP
         {
+
             this.gameObject.layer = integibleLayer;
             timer = tpMaxTIme;
             CameraManager.Instance.SetParent(wxTfs);
             playerModule.AddState(En_CharacterState.Stunned);
         }
-        else
+        else // sinon
         {
             timer = 0;
             playerModule.ResetLayer();
@@ -143,6 +150,13 @@ public class TeleportationModule : SpellModule
 
     public void SetTpStateInServer(bool v)
     {
+        foreach (Interactible inter in playerModule.interactiblesClose)
+        {
+            inter.StopCapturing();
+
+        }
+        playerModule.interactiblesClose.Clear();
+
         if (v == false)
         {
             this.gameObject.layer = integibleLayer;

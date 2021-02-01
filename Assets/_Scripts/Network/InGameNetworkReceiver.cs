@@ -197,7 +197,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 ushort _spellIndex = reader.ReadUInt16();
-                SpellStep _spellStep = (SpellStep)reader.ReadUInt16();
+                En_SpellStep _spellStep = (En_SpellStep)reader.ReadUInt16();
 
                 if (GameManager.Instance.networkPlayers.ContainsKey(_id))
                 {
@@ -215,8 +215,9 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 string _message = reader.ReadString();
+                bool fromServer = reader.ReadBoolean();
 
-                UiManager.Instance.chat.ReceiveNewMessage(_id, _message);
+                UiManager.Instance.chat.ReceiveNewMessage(_message, _id, fromServer);
             }
         }
 

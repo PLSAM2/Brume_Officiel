@@ -22,7 +22,7 @@ public class UpgradeModule : SpellModule
 		bonusTimeRemaining = localTrad.duration;
 		myPlayerModule.upgradeKit.Invoke();
 		inBonus = true;
-		myPlayerModule.mylocalPlayer.EnableBuff(true, "Overload");
+		myPlayerModule.mylocalPlayer.myUiPlayerManager.EnableBuff(true, "Overload");
 		//GameManager.Instance.surchargeEffect.enabled = true;
 	}
 
@@ -35,7 +35,7 @@ public class UpgradeModule : SpellModule
 			if (bonusTimeRemaining > 0)
 			{
 				bonusTimeRemaining -= Time.fixedDeltaTime;
-				myPlayerModule.mylocalPlayer.UpdateBuffDuration(bonusTimeRemaining/localTrad.duration);
+				myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateBuffDuration(bonusTimeRemaining/localTrad.duration);
 			}
 			else
 			{
@@ -48,7 +48,7 @@ public class UpgradeModule : SpellModule
 	void EndBonusCallBack ()
 	{
 		inBonus = false;
-		myPlayerModule.mylocalPlayer.EnableBuff(false, "Overload");
+		myPlayerModule.mylocalPlayer.myUiPlayerManager.EnableBuff(false, "Overload");
 
 		myPlayerModule.backToNormalKit.Invoke();
 		//GameManager.Instance.surchargeEffect.enabled = false;
@@ -58,11 +58,5 @@ public class UpgradeModule : SpellModule
 	void StartThrowBack ()
 	{
 		myPlayerModule.mylocalPlayer.SendStatus(localTrad.statusThrowback);
-	}
-
-	protected override float finalCooldownValue ()
-	{
-		float defValue = localTrad.duration + base.finalCooldownValue();
-		return defValue;
 	}
 }
