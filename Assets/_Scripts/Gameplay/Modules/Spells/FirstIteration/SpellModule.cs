@@ -375,8 +375,11 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void StartCanalysingFeedBack ()
 	{
-		//PITIT BRUIT
-		AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
+        //PITIT BRUIT
+        if (canalisationClip != null)
+        {
+			AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
+		}
 
 		switch (actionLinked)
 		{
@@ -407,8 +410,12 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ResolutionFeedBack ()
 	{
-		//PITIT BRUIT
-		AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
+        //PITIT BRUIT
+        if (anonciationClip != null)
+        {
+			AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
+		}
+
 
 		switch (actionLinked)
 		{
