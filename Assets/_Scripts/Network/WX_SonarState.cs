@@ -17,6 +17,10 @@ public class WX_SonarState : MonoBehaviour
     wxSonarState myState = wxSonarState.None;
 
     [SerializeField] float timeDamageDisplay = 1;
+    [SerializeField] float timeCD = 3;
+
+    bool damagePlaying = false;
+    bool viewPlaying = false;
 
     private void OnEnable()
     {
@@ -72,6 +76,17 @@ public class WX_SonarState : MonoBehaviour
         }
     }
 
+    void OnStateReceive(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                myState = (wxSonarState)reader.ReadUInt16();
+            }
+        }
+    }
+
     void OnPlayerViewChange(ushort id, bool value)
     {
         if (!myLocalPlayer.IsInMyTeam(RoomManager.Instance.GetPlayerData(id).playerTeam))
@@ -123,37 +138,6 @@ public class WX_SonarState : MonoBehaviour
         }
     }
 
-    void OnStateReceive(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                wxSonarState state = (wxSonarState) reader.ReadUInt16();
-                print(state);
-                OnStateChangeUpdate(state);
-            }
-        }
-    }
-
-    void OnStateChangeUpdate(wxSonarState state)
-    {
-        LocalPlayer p = GameFactory.GetActualPlayerFollow();
-        myState = state;
-
-        if (RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin || state == wxSonarState.None)
-        {
-            p.sonar.SetActive(false);
-            return;
-        }
-
-        foreach (Image img in p.sonarImg)
-        {
-            img.color = new Color(p.wxInViewColor.r, p.wxInViewColor.g, p.wxInViewColor.b, img.color.a);
-        }
-        p.sonar.SetActive(true);
-    }
-
     void OnPlayerGetDamage(ushort id, ushort damage)
     {
         if(id == myLocalPlayer.myPlayerId)
@@ -162,25 +146,68 @@ public class WX_SonarState : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        LocalPlayer p = GameFactory.GetActualPlayerFollow();
+
+        if (RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
+        { return; }
+
+        if (myState == wxSonarState.InView && !damagePlaying && !viewPlaying)
+        {
+            viewPlaying = true;
+            StartCoroutine(PingJaune());
+        }
+        else
+        {
+            GameFactory.GetActualPlayerFollow().myUiPlayerManager.sonar.SetActive(false);
+        }
+    }
+
+    IEnumerator PingJaune()
+    {
+        LocalPlayer p = GameFactory.GetActualPlayerFollow();
+
+        foreach (Image img in p.myUiPlayerManager.sonarImg)
+        {
+            img.color = new Color(p.myUiPlayerManager.wxInViewColor.r, p.myUiPlayerManager.wxInViewColor.g, p.myUiPlayerManager.wxInViewColor.b, img.color.a);
+        }
+        p.myUiPlayerManager.sonar.SetActive(true);
+
+
+        yield return new WaitForSeconds(timeDamageDisplay);
+
+        p.myUiPlayerManager.sonar.SetActive(false);
+
+        yield return new WaitForSeconds(timeCD);
+
+        viewPlaying = false;
+    }
+
     IEnumerator WxTakeDamage()
     {
         LocalPlayer p = GameFactory.GetActualPlayerFollow();
 
         if(RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
         {
-            p.sonar.SetActive(false);
+            p.myUiPlayerManager.sonar.SetActive(false);
             yield break;
         }
 
-        foreach(Image img in p.sonarImg)
+        damagePlaying = true;
+
+        foreach (Image img in p.myUiPlayerManager.sonarImg)
         {
-            img.color = new Color(p.wxTakeDamageColor.r, p.wxTakeDamageColor.g, p.wxTakeDamageColor.b, img.color.a);
+            img.color = new Color(p.myUiPlayerManager.wxTakeDamageColor.r, p.myUiPlayerManager.wxTakeDamageColor.g, p.myUiPlayerManager.wxTakeDamageColor.b, img.color.a);
         }
-        p.sonar.SetActive(true);
+        p.myUiPlayerManager.sonar.SetActive(true);
 
         yield return new WaitForSeconds(timeDamageDisplay);
 
-        OnStateChangeUpdate(myState);
+        p.myUiPlayerManager.sonar.SetActive(false);
+
+        yield return new WaitForSeconds(timeCD);
+        damagePlaying = false;
     }
 
     public enum wxSonarState

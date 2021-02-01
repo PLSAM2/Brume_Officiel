@@ -176,16 +176,18 @@ public class PlayerModule : MonoBehaviour
 	public virtual void Setup ()
 	{
 		if (firstSpell != null)
-			firstSpell?.SetupComponent(En_SpellInput.FirstSpell);
+			firstSpell.SetupComponent(En_SpellInput.FirstSpell);
 		if (secondSpell != null)
-			secondSpell?.SetupComponent(En_SpellInput.SecondSpell);
+			secondSpell.SetupComponent(En_SpellInput.SecondSpell);
 		if (thirdSpell != null)
-			thirdSpell?.SetupComponent(En_SpellInput.ThirdSpell);
-		leftClick?.SetupComponent(En_SpellInput.Click);
+			thirdSpell.SetupComponent(En_SpellInput.ThirdSpell);
+		if (leftClick != null)
+			leftClick.SetupComponent(En_SpellInput.Click);
+
 		if (ward != null)
-			ward?.SetupComponent(En_SpellInput.Ward);
+			ward.SetupComponent(En_SpellInput.Ward);
 		if (tpModule != null)
-			tpModule?.SetupComponent(En_SpellInput.TP);
+			tpModule.SetupComponent(En_SpellInput.TP);
 
 		spedUpParticle.gameObject.SetActive(false);
 		silencedParticle.gameObject.SetActive(false);
@@ -314,10 +316,10 @@ public class PlayerModule : MonoBehaviour
 
 		if ((state & (En_CharacterState.Stunned | En_CharacterState.Slowed | En_CharacterState.Hidden)) != 0)
 		{
-			mylocalPlayer.HidePseudo(true);
+			mylocalPlayer.myUiPlayerManager.HidePseudo(true);
 		}
 		else
-			mylocalPlayer.HidePseudo(false);
+            mylocalPlayer.myUiPlayerManager.HidePseudo(false);
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -400,13 +402,13 @@ public class PlayerModule : MonoBehaviour
 				CameraManager.Instance.UpdateCameraPos?.Invoke();
 
 			//MEGA TEMP
-			mylocalPlayer.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
 
 		}
 		else
 		{
 			// TEMP
-			mylocalPlayer.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
 		}
 
 
