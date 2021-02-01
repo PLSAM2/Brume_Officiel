@@ -23,7 +23,7 @@ public class TeleportationModule : SpellModule
     private RaycastHit hit;
 
 
-    protected override void DestroyIfClient(){}
+
 
     private void Update()
     {

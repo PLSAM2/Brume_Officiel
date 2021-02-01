@@ -227,10 +227,4 @@ public class ModuleCombo : SpellModule
 		allSpellsOfTheCombo[comboIndex].KillSpell();
 		base.KillSpell();
 	}
-
-	protected override void ResolutionFeedBack ()
-	{
-		base.ResolutionFeedBack();
-	}
-
 }
