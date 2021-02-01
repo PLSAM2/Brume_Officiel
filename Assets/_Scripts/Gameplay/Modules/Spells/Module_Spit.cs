@@ -49,7 +49,7 @@ public class Module_Spit : SpellModule
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
 			myAoePreview = PreviewManager.Instance.GetCirclePreview(transform);
-			myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, 0, myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
+			myAoePreview.Init(localTrad.radiusOfImpact, 0, myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 
 			//myAoePreview.
 			myRangePreview = PreviewManager.Instance.GetCirclePreview(transform);
@@ -154,7 +154,7 @@ public class Module_Spit : SpellModule
 			spitObj.transform.DOMoveX(destination.x, timeToReach).OnComplete(() => Landed());
 			spitObj.transform.DOMoveZ(destination.z, timeToReach);
 
-			LocalPoolManager.Instance.SpawnNewAOEInNetwork((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, timeToReach);
+			LocalPoolManager.Instance.SpawnNewAOEInNetwork((ushort)AOE_Fx_Type.circle, destination, 0, localTrad.radiusOfImpact, timeToReach);
 		}
 		else
 		{
@@ -184,7 +184,7 @@ public class Module_Spit : SpellModule
 				}
 			}
 
-			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, transform.rotation.eulerAngles);
+			NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, transform.rotation.eulerAngles);
 		}
 	}
 
@@ -209,7 +209,7 @@ public class Module_Spit : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		myAoePreview.Init(localTrad.onImpactInstantiate.localTrad.rules.aoeRadius, CirclePreview.circleCenter.center, 
+		myAoePreview.Init(localTrad.radiusOfImpact, CirclePreview.circleCenter.center, 
 			transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 
 		myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, transform.position);
