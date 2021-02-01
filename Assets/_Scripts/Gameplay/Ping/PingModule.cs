@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PingModule : MonoBehaviour
+public class PingModule : SpellModule
 {
     public KeyCode pingKey;
 

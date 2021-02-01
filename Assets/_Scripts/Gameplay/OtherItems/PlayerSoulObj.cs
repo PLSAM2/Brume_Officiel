@@ -45,7 +45,7 @@ public class PlayerSoulObj : MonoBehaviour
     {
         PlayerModule _p = null;
 
-        if (other.gameObject.layer == 8) // player)
+        if (other.gameObject.layer == 8 || other.gameObject.layer == 7) // player)
         {
             _p = other.gameObject.GetComponent<PlayerModule>();
         } else if (other.gameObject.layer == 23)
