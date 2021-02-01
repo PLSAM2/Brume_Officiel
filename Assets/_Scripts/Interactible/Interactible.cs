@@ -69,7 +69,7 @@ public class Interactible : MonoBehaviour
     [Header("Audio")]
     [TabGroup("InteractiblePart")]
     [SerializeField] AudioSource myAudioSource;
-
+    public string interactibleName = "";
     private bool isViewed = false;
     private bool CheckOnUnlock = false;
     private void Awake()

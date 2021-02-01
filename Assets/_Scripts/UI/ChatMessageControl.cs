@@ -15,4 +15,11 @@ public class ChatMessageControl : MonoBehaviour
         timeText.text = UiManager.Instance.timer.text;
         messageText.text = sender.Name + " : " + messageContent; ;
     }
+
+    public void InitNewServerMessage(string messageContent)
+    {
+        this.sender = sender;
+        timeText.text = UiManager.Instance.timer.text;
+        messageText.text = "SERVER : " + messageContent; ;
+    }
 }
