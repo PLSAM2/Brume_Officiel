@@ -167,12 +167,10 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 		networkedObject.Init(uniqueObjId, NetworkManager.Instance.GetLocalPlayer(), networkedObjectID, position);
 		NetworkedObjectAdded(uniqueObjId, networkedObject);
 
-		AutoKill _proj = _tempObject.GetComponent<AutoKill>();
+		AutoKill _autoKill = _tempObject.GetComponent<AutoKill>();
 
-		if (_proj != null)
-			_proj.Init(GameManager.Instance.networkPlayers[GameManager.Instance.currentLocalPlayer.myPlayerId].myPlayerModule.teamIndex);
-
-		print("HEre");
+		if (_autoKill != null)
+			_autoKill.Init(GameManager.Instance.networkPlayers[GameManager.Instance.currentLocalPlayer.myPlayerId].myPlayerModule.teamIndex);
 
 		_tempObject.SetActive(true);
 
@@ -288,26 +286,12 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 		networkedObject.Init(_uniqueObjId, RoomManager.Instance.actualRoom.playerList[_ownerID], _objectID, _ObjectPos);
 		NetworkedObjectAdded(_uniqueObjId, networkedObject);
 
-		Projectile _proj = _tempObject.GetComponent<Projectile>();
-		Aoe _aoe = _tempObject.GetComponent<Aoe>();
+		AutoKill _autoKill = _tempObject.GetComponent<AutoKill>();
 
-		if (_proj != null)
-		{
-			_proj.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, 1);
-		}
-		else if (_aoe != null)
-		{
-			_aoe.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, 1);
-		}
-
+		if (_autoKill != null)
+			_autoKill.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex);
 
 		_tempObject.SetActive(true);
-
-
-		/*if (autokill)
-		{
-			_tempObject.GetComponent<AutoKill>().Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex, _LifePercentage);
-		}*/
 	}
 
 	public void NetworkedObjectAdded ( ushort lastObjId, NetworkedObject obj )
