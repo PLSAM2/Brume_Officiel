@@ -172,8 +172,6 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 		if (_proj != null)
 			_proj.Init(GameManager.Instance.networkPlayers[GameManager.Instance.currentLocalPlayer.myPlayerId].myPlayerModule.teamIndex);
 
-		print("HEre");
-
 		_tempObject.SetActive(true);
 
 		// Demande l'instantiation de l'objet pour tout les joueurs présent dans la room
