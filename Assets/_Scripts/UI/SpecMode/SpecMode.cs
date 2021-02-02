@@ -167,7 +167,7 @@ public class SpecMode : MonoBehaviour
 
         if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
         {
-            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).ShowHideMesh(GameManager.Instance.networkPlayers[id].myPlayerModule, false);
+            GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).ForceEnter(GameManager.Instance.networkPlayers[id].myPlayerModule);
         }
     }
 }

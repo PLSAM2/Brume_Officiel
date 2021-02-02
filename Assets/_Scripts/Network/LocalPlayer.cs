@@ -60,7 +60,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
 
-	[TabGroup("Vision")] public QuickOutline myOutline;
+    //TP
+    public bool forceShow = false;
+    public bool isTp = false;
+
+    [TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
