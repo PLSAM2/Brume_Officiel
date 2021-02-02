@@ -68,6 +68,7 @@ public class GameManager : SerializedMonoBehaviour
     public GameObject brumeSoul;
     public Dictionary<ushort, BrumeSoul> brumeSouls = new Dictionary<ushort, BrumeSoul>();
 
+    public SpawnDynamicWalls dynamicWalls;
     //Event utile
     [HideInInspector] public Action<ushort, ushort> OnPlayerDie;
     [HideInInspector] public Action<ushort, bool> OnPlayerAtViewChange;
