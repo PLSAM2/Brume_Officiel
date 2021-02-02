@@ -6,10 +6,18 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    public float speed = 10;
+    public Transform fx;
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * speed);
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            fx.position = hit.point;
+        }
+
+        fx.gameObject.SetActive(Input.GetMouseButton(0));
     }
 }

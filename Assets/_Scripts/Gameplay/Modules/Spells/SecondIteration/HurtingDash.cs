@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class HurtingDash : SpellModule
 {
@@ -11,7 +12,10 @@ public class HurtingDash : SpellModule
 	[SerializeField] HurtingBox hurtBox;
 	ArrowPreview _myPreview;
 	public float dashDurationAddedIfNeeded = .05f;
-	public override void SetupComponent ( En_SpellInput _actionLinked )
+
+    [SerializeField] ParticleSystem dashFx;
+    [SerializeField] VisualEffect speedFx;
+    public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 		if (isOwner)
@@ -65,7 +69,23 @@ public class HurtingDash : SpellModule
 		base.Resolution();
 	}
 
-	public override void Interrupt ()
+    public override void ResolutionFeedBack()
+    {
+        base.ResolutionFeedBack();
+
+        dashFx.Play();
+        speedFx.Play();
+    }
+
+    public override void ThrowbackEndFeedBack()
+    {
+        base.ThrowbackEndFeedBack();
+
+        dashFx.Stop();
+        speedFx.Stop();
+    }
+
+    public override void Interrupt ()
 	{
 		hurtBox.gameObject.SetActive(false);
 
