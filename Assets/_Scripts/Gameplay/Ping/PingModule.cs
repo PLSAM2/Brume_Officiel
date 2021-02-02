@@ -2,25 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PingModule : MonoBehaviour
+public class PingModule : SpellModule
 {
     public KeyCode pingKey;
 
     private void Update()
     {
-        if (Input.GetKeyDown(pingKey))
+        if (charges > 0)
         {
-            UiManager.Instance.uIPingModule.Init();
-        }
+            if (Input.GetKeyDown(pingKey))
+            {
+                UiManager.Instance.uIPingModule.Init();
+            }
 
-        if (Input.GetKey(pingKey))
-        {
-            UiManager.Instance.uIPingModule.PingChoiceHold();
-        }
+            if (Input.GetKey(pingKey))
+            {
+                UiManager.Instance.uIPingModule.PingChoiceHold();
+            }
 
-        if (Input.GetKeyUp(pingKey))
-        {
-            UiManager.Instance.uIPingModule.Desactivate();
+            if (Input.GetKeyUp(pingKey))
+            {
+                Resolution();
+                UiManager.Instance.uIPingModule.Desactivate();
+            }
         }
     }
+
 }
