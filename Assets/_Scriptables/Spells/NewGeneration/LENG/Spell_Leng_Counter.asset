@@ -18,14 +18,16 @@ MonoBehaviour:
   forbiddenState: 48
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
-  canalisationTime: 0.45
-  statusToApplyOnCanalisation: []
+  canalisationTime: 0
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 7bed56c0cd4f8ac4e95b60580fcc33fe, type: 2}
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd: []
-  throwBackDuration: 0
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
+  throwBackDuration: 0.5
   spellIcon: {fileID: 21300000, guid: 62312ae8cff6f6d459706298e9e9814a, type: 3}
