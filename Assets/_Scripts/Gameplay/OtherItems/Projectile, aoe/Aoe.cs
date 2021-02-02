@@ -62,8 +62,11 @@ public class Aoe : AutoKill
 				}
 			}
 
+			Vector3 _posOfDealing = transform.position;
+			if (localTrad.rules.useOwnerPos)
+				_posOfDealing = GameManager.Instance.currentLocalPlayer.transform.position;
 
-			_damageable.GetComponent<Damageable>().DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+			_damageable.GetComponent<Damageable>().DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 
 			if (_boucle)
 				StartCoroutine(CustomUpdate());

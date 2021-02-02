@@ -87,6 +87,8 @@ MonoBehaviour:
   - {fileID: 1724655755996733115}
   - {fileID: 8821014092771391470}
   isVisible: 1
+  forceShow: 0
+  isTp: 0
   myOutline: {fileID: 724448695432556351}
 --- !u!114 &5951944403870468667
 MonoBehaviour:
@@ -362,7 +364,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 22
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -372,7 +374,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.325
+      time: 0.4
       value: 1
       inSlope: -4.51875
       outSlope: -4.51875
@@ -381,35 +383,35 @@ AudioSource:
       inWeight: 0
       outWeight: 0.03766877
     - serializedVersion: 3
-      time: 0.35
-      value: 0.66
-      inSlope: -1.1089658
+      time: 0.4005
+      value: 0.5
+      inSlope: Infinity
       outSlope: 0
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.675
-      value: 0.66
-      inSlope: -0
-      outSlope: -13.200013
-      tangentMode: 69
+      tangentMode: 71
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.7
-      value: 0.33
-      inSlope: 0.048451647
-      outSlope: 0
-      tangentMode: 65
+      value: 0.5
+      inSlope: -0
+      outSlope: -499.97662
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.975
-      value: 0.33
+      time: 0.7005
+      value: 0.25
+      inSlope: Infinity
+      outSlope: 0
+      tangentMode: 71
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.995
+      value: 0.25
       inSlope: -0
       outSlope: -0.4096773
       tangentMode: 5
@@ -419,9 +421,9 @@ AudioSource:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -0.02792802
+      inSlope: Infinity
       outSlope: -0.02792802
-      tangentMode: 0
+      tangentMode: 7
       weightedMode: 0
       inWeight: 0.13798077
       outWeight: 0
@@ -2151,12 +2153,28 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: d21914c7b29d03149bd6067ecd445cbc, type: 2}
+    - target: {fileID: 3037043676744702042, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3458617557754958944, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4379840293335386452, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622185738708308816, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622185738708308816, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622185738708308816, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4991894283064448377, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
@@ -2250,6 +2268,10 @@ PrefabInstance:
     - target: {fileID: 8152880853533928318, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166258145177865428, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8418530907482424644, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_IsActive
@@ -2573,10 +2595,6 @@ PrefabInstance:
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7381373153998814974, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Pivot.x
