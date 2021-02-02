@@ -11,9 +11,11 @@ using UnityEngine.UI;
 public class PlayerModule : MonoBehaviour
 {
 	[TabGroup("InputsPart")] public KeyCode firstSpellKey = KeyCode.A;
-	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, tpSpellKey = KeyCode.F, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl;
+	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, tpSpellKey = KeyCode.F, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl, pingKey = KeyCode.G;
 	[TabGroup("InputsPart")] public KeyCode interactKey = KeyCode.F;
 	[TabGroup("InputsPart")] public KeyCode wardKey = KeyCode.Alpha4;
+	[TabGroup("Modules")] public MovementModule movementPart;
+	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, thirdSpell, leftClick, tpModule, ward, pingModule;
 	bool boolWasClicked = false;
 
 	[TabGroup("GameplayInfos")] public Sc_CharacterParameters characterParameters;
@@ -77,8 +79,7 @@ public class PlayerModule : MonoBehaviour
 	private LayerMask brumeLayer;
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
 
-	[TabGroup("Modules")] public MovementModule movementPart;
-	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, thirdSpell, leftClick, tpModule, ward;
+	
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
@@ -105,8 +106,8 @@ public class PlayerModule : MonoBehaviour
 	#region
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, tpInput, wardInput;
-	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, tpInputReleased, wardInputReleased;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, tpInput, wardInput, pingInput;
+	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, tpInputReleased, wardInputReleased, pingInputReleased;
 	public Action startSneaking, stopSneaking;
 	public Action<bool> rotationLock, cancelSpell;
 	#endregion
@@ -183,7 +184,8 @@ public class PlayerModule : MonoBehaviour
 			thirdSpell.SetupComponent(En_SpellInput.ThirdSpell);
 		if (leftClick != null)
 			leftClick.SetupComponent(En_SpellInput.Click);
-
+		if (pingModule != null)
+			pingModule.SetupComponent(En_SpellInput.Ping);
 		if (ward != null)
 			ward.SetupComponent(En_SpellInput.Ward);
 		if (tpModule != null)
@@ -340,6 +342,9 @@ public class PlayerModule : MonoBehaviour
 				cancelSpell?.Invoke(false);
 			else if (Input.GetKeyDown(tpSpellKey))
 				tpInput?.Invoke(mousePos());
+			else if (Input.GetKeyDown(pingKey))
+				pingInput?.Invoke(mousePos());
+
 			//AUTO
 			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
 			{
@@ -357,6 +362,8 @@ public class PlayerModule : MonoBehaviour
 				wardInputReleased?.Invoke(mousePos());
 			else if (Input.GetKeyUp(tpSpellKey))
 				tpInputReleased?.Invoke(mousePos());
+			else if (Input.GetKeyUp(pingKey))
+				pingInputReleased?.Invoke(mousePos());
 			else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
 			{
 				leftClickInputRealeased?.Invoke(mousePos());

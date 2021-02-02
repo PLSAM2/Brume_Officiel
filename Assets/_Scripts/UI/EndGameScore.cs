@@ -12,12 +12,8 @@ public class EndGameScore : MonoBehaviour
     public TextMeshProUGUI enemyText;
     public TextMeshProUGUI newenemyText;
 
-    public void Init(Color allyTextColor, Color enemyTextColor, string allyScoreText, string enemyScoreText)
+    public void Init(string allyScoreText, string enemyScoreText)
     {
-        allyText.color = allyTextColor;
-        newAllyText.color = allyTextColor;
-        enemyText.color = enemyTextColor;
-        newenemyText.color = enemyTextColor;
         allyText.text = allyScoreText;
         enemyText.text = enemyScoreText;
     }

@@ -136,19 +136,14 @@ public class UiManager : MonoBehaviour
 
 		if (team == Team.blue)
 		{
-			allyScore.color = Color.blue;
-			ennemyScore.color = Color.red;
-			endGameScore.Init(Color.blue, Color.red, blueTeamScore, redTeamScore);
+			endGameScore.Init(blueTeamScore, redTeamScore);
 		}
-		//else if (team == Team.red)
-		//{
-		//    allyScore.color = Color.red;
-		//    ennemyScore.color = Color.blue;
-
-		//    endGameScore.Init(Color.red, Color.blue, redTeamScore, blueTeamScore);
-		//}
-		// <<
-	}
+        else if (team == Team.red)
+        {
+            endGameScore.Init(redTeamScore, blueTeamScore);
+        }
+        // <<
+    }
 
 	void OnPlayerSpawn ( ushort id )
 	{
