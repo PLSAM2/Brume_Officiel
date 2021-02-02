@@ -11,9 +11,8 @@ public class FootstepAudio : MonoBehaviour
 
     [SerializeField] AudioSource myAudioSource;
 
-    [SerializeField] float delayToDoSound = 0.5f;
+    [SerializeField] float delayAfterSound = 0.2f;
 
-    [SerializeField] GameObject objMesh;
     bool doSound = true;
 
     private void Start()
@@ -46,19 +45,16 @@ public class FootstepAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!objMesh.activeSelf)
+        if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
         {
-            if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
-            {
-                float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-                float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
-                oldPos = transform.position;
+            float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+            float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+            oldPos = transform.position;
 
-                if ((velocityX + velocityZ) != 0 && doSound)
-                {
-                    doSound = false;
-                    StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
-                }
+            if ((velocityX + velocityZ) != 0 && doSound)
+            {
+                doSound = false;
+                StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
             }
         }
     }
@@ -72,17 +68,8 @@ public class FootstepAudio : MonoBehaviour
 
         yield return new WaitForSeconds(_clip.length);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(delayAfterSound);
 
         doSound = true;
-    }
-
-    public void OnAnimRun()
-    {
-        if(!myPlayerModule.state.HasFlag(En_CharacterState.Crouched) && GameFactory.DoSound(transform.position))
-        {
-            AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId,true, myAudioSource.maxDistance);
-            myAudioSource.PlayOneShot(allFootsteps[Random.Range(0, allFootsteps.Length)]);
-        }
     }
 }
