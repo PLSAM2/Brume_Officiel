@@ -634,7 +634,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		switch (_spellIndex)
 		{
 			case 0:
-				print("I feedback the autoAttack" + _spellStep);
 				myPlayerModule.leftClick.FeedbackSpellStep(_spellStep);
 				break;
 			case 1:

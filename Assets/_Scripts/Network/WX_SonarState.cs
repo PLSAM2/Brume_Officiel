@@ -37,6 +37,7 @@ public class WX_SonarState : MonoBehaviour
         if (myLocalPlayer.isOwner)
         {
             GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
+            GameManager.Instance.OnPlayerDie += OnPlayerDie;
 
             foreach (KeyValuePair<ushort, PlayerData> player in RoomManager.Instance.actualRoom.playerList)
             {
@@ -59,6 +60,7 @@ public class WX_SonarState : MonoBehaviour
         if (myLocalPlayer.isOwner)
         {
             GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
+            GameManager.Instance.OnPlayerDie -= OnPlayerDie;
         }
         else
         {
@@ -86,6 +88,15 @@ public class WX_SonarState : MonoBehaviour
             {
                 myState = (wxSonarState)reader.ReadUInt16();
             }
+        }
+    }
+
+    void OnPlayerDie(ushort id, ushort idKiller)
+    {
+        if (!myLocalPlayer.IsInMyTeam(RoomManager.Instance.GetPlayerData(id).playerTeam))
+        {
+            enemyList[id] = false;
+            UpdateState();
         }
     }
 
@@ -139,7 +150,12 @@ public class WX_SonarState : MonoBehaviour
 
     void OnPlayerGetDamage(ushort id, ushort damage)
     {
-        if(id == myLocalPlayer.myPlayerId)
+        if (RoomManager.Instance.GetPlayerData(GameFactory.GetActualPlayerFollow().myPlayerId).playerTeam != RoomManager.Instance.GetPlayerData(id).playerTeam)
+        {
+            return;
+        }
+
+        if (id == myLocalPlayer.myPlayerId)
         {
             viewPlaying = false;
 
