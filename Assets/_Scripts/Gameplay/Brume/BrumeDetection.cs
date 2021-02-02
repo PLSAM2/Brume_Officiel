@@ -29,7 +29,7 @@ public class BrumeDetection : MonoBehaviour
 
         //sol detection
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up *1, -Vector3.up, out hit, 10, maskBrume))
+        if (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, maskBrume))
         {
             currentBrume = hit.transform.GetComponent<BrumePlane>().myBrume;
 

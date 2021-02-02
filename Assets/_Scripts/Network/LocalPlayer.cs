@@ -60,7 +60,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
 
-	[TabGroup("Vision")] public QuickOutline myOutline;
+    //TP
+    public bool forceShow = false;
+    public bool isTp = false;
+
+    [TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -630,7 +634,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		switch (_spellIndex)
 		{
 			case 0:
-				print("I feedback the autoAttack" + _spellStep);
 				myPlayerModule.leftClick.FeedbackSpellStep(_spellStep);
 				break;
 			case 1:

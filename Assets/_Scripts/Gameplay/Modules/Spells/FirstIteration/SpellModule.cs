@@ -55,8 +55,9 @@ public class SpellModule : MonoBehaviour
 
 	public AudioClip canalisationClip;
 	public AudioClip anonciationClip;
-	public Action<int> ChargeUpdate;
 
+	public Action<int> ChargeUpdate;
+	public GameObject toSetActiveOnResolve;
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
@@ -70,6 +71,9 @@ public class SpellModule : MonoBehaviour
 
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
+
+		if (toSetActiveOnResolve != null)
+			toSetActiveOnResolve.SetActive(false);
 
 		if (isOwner)
 		{
@@ -216,6 +220,9 @@ public class SpellModule : MonoBehaviour
 	{
 		resolved = true;
 
+		if (toSetActiveOnResolve != null)
+			toSetActiveOnResolve.SetActive(true);
+
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
 			myPlayerModule.forcedMovementInterrupted -= ResolveSpell;
@@ -274,6 +281,8 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
 		myPlayerModule.spellResolved?.Invoke();
+
+	
 	}
 	protected virtual void ApplyEffectAtTheEnd ()
 	{
@@ -410,8 +419,12 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ResolutionFeedBack ()
 	{
-        //PITIT BRUIT
-        if (anonciationClip != null)
+
+		if (toSetActiveOnResolve != null)
+			toSetActiveOnResolve.SetActive(true);
+
+		//PITIT BRUIT
+		if (anonciationClip != null)
         {
 			AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
@@ -442,6 +455,8 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{
+		if (toSetActiveOnResolve != null)
+			toSetActiveOnResolve.SetActive(false);
 	}
 	//inputs subscribing
 	#region
