@@ -40,8 +40,6 @@ public class Aoe : AutoKill
 	{
 		foreach (Collider _damageable in enemiesHit())
 		{
-			print("I deal");
-
 			float _percentageOfStrength = 1;
 
 			if (_damages.movementToApply != null)
