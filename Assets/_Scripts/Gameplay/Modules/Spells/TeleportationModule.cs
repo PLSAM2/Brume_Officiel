@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class TeleportationModule : SpellModule
 {
-    public List<GameObject> onTpDisabled = new List<GameObject>();
     public Transform wxTfs;
     public WxController wxController;
     public ParticleSystem tpFx;
@@ -114,13 +113,13 @@ public class TeleportationModule : SpellModule
     }
 
     // false = ON TP
-    public void SetTpState(bool v)
+    public void SetTpState(bool value)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(v);
+            _writer.Write(value);
 
-            if (v)
+            if (value)
             {
                 _writer.Write(newPos.x);
                 _writer.Write(newPos.z);
@@ -138,11 +137,11 @@ public class TeleportationModule : SpellModule
 
         }
         playerModule.interactiblesClose.Clear();
-        wxController.DisplayTpZone(!v);
-        UiManager.Instance.tpFillImage.gameObject.SetActive(!v);
-        isTping = !v;
+        wxController.DisplayTpZone(!value);
+        UiManager.Instance.tpFillImage.gameObject.SetActive(!value);
+        isTping = !value;
 
-        if (v == false) // SI TP
+        if (value == false) // SI TP
         {
             this.gameObject.layer = integibleLayer;
             timer = tpMaxTIme;
@@ -164,15 +163,17 @@ public class TeleportationModule : SpellModule
             playerModule.RemoveState(En_CharacterState.Stunned);
         }
 
-        foreach (GameObject obj in onTpDisabled)
+        foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
         {
-            obj.SetActive(v);
+            obj.SetActive(value);
         }
+        playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
+        playerModule.mylocalPlayer.circleDirection.SetActive(value);
     }
 
-    public void SetTpStateInServer(bool v, Vector3 _newPos)
+    public void SetTpStateInServer(bool value, Vector3 _newPos)
     {
-        if (v)
+        if (value)
         {
             this.transform.position = _newPos;
         }
@@ -184,7 +185,7 @@ public class TeleportationModule : SpellModule
         }
         playerModule.interactiblesClose.Clear();
 
-        if (v == false)
+        if (value == false)
         {
             this.gameObject.layer = integibleLayer;
         }
@@ -193,10 +194,11 @@ public class TeleportationModule : SpellModule
             playerModule.ResetLayer();
         }
 
-        foreach (GameObject obj in onTpDisabled)
+        foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
         {
-            obj.SetActive(v);
+            obj.SetActive(value);
         }
+        playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
     }
 
     public IEnumerator WaitForSpawn(bool isTimeEnded) 
