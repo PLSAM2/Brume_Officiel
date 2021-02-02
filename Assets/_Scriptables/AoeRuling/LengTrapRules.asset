@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4c03352caf05bb4abf42cd86b75a998, type: 3}
-  m_Name: WXStunRules
+  m_Name: LengTrapRules
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.1
-    timeBeforeFinalDisparition: 0.05
+    durationOfTheAoe: 1.1
+    timeBeforeFinalDisparition: 0.1
     damagesToDealOnImpact:
       playerName: 
       damageHealth: 0
       statusToApply:
-      - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
+      - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -38,11 +38,11 @@ MonoBehaviour:
       playerName: 
       damageHealth: 0
       statusToApply: []
-      movementToApply: {fileID: 0}
+      movementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
       stateNeeded: 128
       additionalDamages: 0
       additionalStatusToApply: []
       additionalMovementToApply: {fileID: 0}
     isBox: 0
-    aoeRadius: 6
+    aoeRadius: 3
     boxDimension: {x: 0, y: 0, z: 0}
