@@ -145,7 +145,11 @@ public class WX_SonarState : MonoBehaviour
 
             if (!damagePlaying)
             {
-                StopCoroutine(yellowCoroutine);
+                if(yellowCoroutine != null)
+                {
+                    StopCoroutine(yellowCoroutine);
+                }
+
                 StartCoroutine(WxTakeDamage());
             }
         }

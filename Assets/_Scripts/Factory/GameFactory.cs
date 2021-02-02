@@ -135,18 +135,8 @@ public class GameFactory
     {
         try
         {
-            if (GameManager.Instance.currentLocalPlayer != null)
+            if (GameManager.Instance.currentLocalPlayer != null && !GameManager.Instance.currentLocalPlayer.isTp)
             {
-                /*
-                if(RoomManager.Instance.GetPlayerData(GameManager.Instance.currentLocalPlayer.myPlayerId).playerCharacter == Character.Shili
-                    && GameManager.Instance.currentLocalPlayer.myPlayerModule.isInGhost)
-                {
-                    return GameManager.Instance.currentLocalPlayer;
-                }
-                else
-                {
-                    return GameManager.Instance.currentLocalPlayer;
-                }*/
                 return GameManager.Instance.currentLocalPlayer;
             }
             else
