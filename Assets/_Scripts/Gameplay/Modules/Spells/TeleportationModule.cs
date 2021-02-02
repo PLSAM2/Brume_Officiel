@@ -146,8 +146,15 @@ public class TeleportationModule : SpellModule
         {
             this.gameObject.layer = integibleLayer;
             timer = tpMaxTIme;
-            CameraManager.Instance.SetParent(wxTfs);
             playerModule.AddState(En_CharacterState.Stunned);
+
+            //
+            wxController.mylocalPlayer.forceShow = true;
+            playerModule.mylocalPlayer.isTp = true;
+
+            UiManager.Instance.specMode.ChangeSpecPlayer(wxController.mylocalPlayer.myPlayerId);
+            wxController.mylocalPlayer.ShowHideFow(true);
+
         }
         else // sinon
         {
@@ -167,7 +174,6 @@ public class TeleportationModule : SpellModule
     {
         if (v)
         {
-            print(_newPos);
             this.transform.position = _newPos;
         }
 
@@ -204,11 +210,16 @@ public class TeleportationModule : SpellModule
         }
         playerModule.interactiblesClose.Clear();
 
-
         wxController.DisplayTpZone(false);
         UiManager.Instance.tpFillImage.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(waitForTpTime);
+
+        //
+        wxController.mylocalPlayer.forceShow = false;
+        playerModule.mylocalPlayer.isTp = false;
+
+        CameraManager.Instance.ResetPlayerFollow();
 
         if (isTimeEnded)
         {
