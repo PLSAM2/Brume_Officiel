@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: WXStunRules
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.2
-    timeBeforeFinalDisparition: 0.05
+    durationOfTheAoe: 0.6
+    timeBeforeFinalDisparition: 0.1
     damagesToDealOnImpact:
       playerName: 
       damageHealth: 0
       statusToApply:
-      - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
+      - {fileID: 11400000, guid: b656c0c466d257d4ea798a08b7b31af2, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
       playerName: 
       damageHealth: 0
       statusToApply: []
-      movementToApply: {fileID: 0}
+      movementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
       stateNeeded: 128
       additionalDamages: 0
       additionalStatusToApply: []
