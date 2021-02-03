@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class HurtingDash : SpellModule
 {
@@ -10,8 +11,11 @@ public class HurtingDash : SpellModule
 	public float cooldownReduction;
 	[SerializeField] HurtingBox hurtBox;
 	ArrowPreview _myPreview;
+	public float dashDurationAddedIfNeeded = .05f;
 
-	public override void SetupComponent ( En_SpellInput _actionLinked )
+    [SerializeField] ParticleSystem dashFx;
+    [SerializeField] VisualEffect speedFx;
+    public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 		if (isOwner)
@@ -47,7 +51,7 @@ public class HurtingDash : SpellModule
 		_myPreview.gameObject.SetActive(false);
 	}
 
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void StartCanalysing ( Vector3 _BaseMousePos)
 	{
 		hurtBox.ResetHitbox();
 		hasTouched = false;
@@ -65,7 +69,23 @@ public class HurtingDash : SpellModule
 		base.Resolution();
 	}
 
-	public override void Interrupt ()
+    public override void ResolutionFeedBack()
+    {
+        base.ResolutionFeedBack();
+
+        dashFx.Play();
+        speedFx.Play();
+    }
+
+    public override void ThrowbackEndFeedBack()
+    {
+        base.ThrowbackEndFeedBack();
+
+        dashFx.Stop();
+        speedFx.Stop();
+    }
+
+    public override void Interrupt ()
 	{
 		hurtBox.gameObject.SetActive(false);
 
@@ -90,8 +110,8 @@ public class HurtingDash : SpellModule
 				ReduceCooldown(cooldownReduction);
 			}
 
-			if (myPlayerModule.movementPart.currentForcedMovement.duration <= .05f)
-				myPlayerModule.movementPart.currentForcedMovement.duration += .05f;
+			if (myPlayerModule.movementPart.currentForcedMovement.duration <= dashDurationAddedIfNeeded)
+				myPlayerModule.movementPart.currentForcedMovement.duration += dashDurationAddedIfNeeded;
 		}
 	}
 }

@@ -1,35 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
 public class CounterBaseModule : SpellModule
 {
 
-	Sc_Counter localTrad;
 	public SpellModule spellToLaunchOnCounter;
-
-	private void Awake ()
+	public En_SpellInput spellToReduceCooldown = En_SpellInput.Click;
+	public float cooldownReduced= 1.5f;
+	bool hasCounter = false;
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-		localTrad = (Sc_Counter)spell;
+		base.SetupComponent(_actionLinked);
+		spellToLaunchOnCounter.SetupComponent(En_SpellInput.Special);
+	}
+
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	{
+		base.StartCanalysing(_BaseMousePos);
+		hasCounter = false;
+	}
+
+	protected override void AnonceSpell ( Vector3 _toAnnounce )
+	{
+		base.AnonceSpell(_toAnnounce);
+
 	}
 
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
 		myPlayerModule.hitCountered += Counter;
+		myPlayerModule.AddState(En_CharacterState.Countering);
+
+	}
+
+	protected virtual void Counter ()
+	{
+		hasCounter = true;
+		spellToLaunchOnCounter.ForceCanalyse(myPlayerModule.mousePos());
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Counter");
+		myPlayerModule.reduceTargetCooldown(cooldownReduced, spellToReduceCooldown);
+
+		Interrupt();
 	}
 
 	public override void Interrupt ()
 	{
-		myPlayerModule.hitCountered -= Counter;
 		base.Interrupt();
+		myPlayerModule.hitCountered -= Counter;
+		myPlayerModule.RemoveState(En_CharacterState.Countering);
 	}
 
-	protected virtual void Counter(LocalPlayer playerCountered)
+	protected override void ApplyEffectAtTheEnd ()
 	{
-		foreach (Sc_Status _status in localTrad.StatusToApplyToSelf)
-			myPlayerModule.AddStatus(_status.effect);
-
-		spellToLaunchOnCounter.StartCanalysing(myPlayerModule.mousePos());
+		if (!hasCounter)
+			base.ApplyEffectAtTheEnd();
 	}
 }

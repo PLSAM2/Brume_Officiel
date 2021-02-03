@@ -6,13 +6,18 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        print("enter");
-    }
+    public Transform fx;
 
-    private void OnTriggerExit(Collider other)
+    private void Update()
     {
-        print("exit");
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            fx.position = hit.point;
+        }
+
+        fx.gameObject.SetActive(Input.GetMouseButton(0));
     }
 }

@@ -29,6 +29,9 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
+    [SerializeField] LayerMask brumePlaneLayer;
+
+    bool init = false;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -49,19 +52,26 @@ public class AudioManager : SerializedMonoBehaviour
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
 
-
+        client.MessageReceived += OnMessageReceive;
+        init = true;
     }
 
     private void OnEnable()
     {
+
         OnVolumeChange += OnMasterVolumeChange;
-        client.MessageReceived += OnMessageReceive;
+
     }
 
     private void OnDisable()
     {
-        OnVolumeChange -= OnMasterVolumeChange;
-        client.MessageReceived -= OnMessageReceive;
+        if (init == true)
+        {
+            OnVolumeChange -= OnMasterVolumeChange;
+
+            client.MessageReceived -= OnMessageReceive;
+        }
+
     }
 
     void OnMasterVolumeChange(float _value)
@@ -129,6 +139,7 @@ public class AudioManager : SerializedMonoBehaviour
     {
         if(_clip == null) { return; }
         ushort _id = GetIndexOfList(_clip);
+        if (_id == 0) { return; }
 
         Play3DAudio(networkAudio[_id], _position, id, isPlayer);
 
@@ -139,6 +150,9 @@ public class AudioManager : SerializedMonoBehaviour
             _writer.Write(_position.x);
             _writer.Write(_position.y);
             _writer.Write(_position.z);
+
+            _writer.Write(id);
+            _writer.Write(isPlayer);
 
             using (Message _message = Message.Create(Tags.Play3DSound, _writer))
             {
@@ -159,7 +173,7 @@ public class AudioManager : SerializedMonoBehaviour
             i++;
         }
 
-        print("<color=red>Frero le son il existe pas le manager </color>");
+        print("<color=red>" + _clip.name + " est pas dans le manager audio </color>");
         return 0;
     }
 
@@ -179,6 +193,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public AudioElement Play3DAudio(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer, float _volume = 1)
     {
+        if (!GameFactory.DoSound(_position)) { return null; }
+
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetPosition(_position);
         _myAudioElement.Init(_clip, 1, _volume);
@@ -188,6 +204,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public AudioElement Play3DAudio(AudioClip _clip, Transform _followObj, ushort id, bool isPlayer, float _volume = 1)
     {
+        if (!!GameFactory.DoSound(_followObj.position)) { return null; }
+
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.SetObjToFollow(_followObj);
         _myAudioElement.Init(_clip, 1, _volume);

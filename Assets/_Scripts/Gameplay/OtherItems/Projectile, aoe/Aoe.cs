@@ -13,20 +13,20 @@ public class Aoe : AutoKill
 
 	protected override void Awake ()
 	{
-		mylifeTime = localTrad.rules.durationOfTheAoe;
 		layer = LayerMask.GetMask("Character");
+		mylifeTime = localTrad.rules.durationOfTheAoe;
+		myLivelifeTime = mylifeTime;
 	}
-	public override void Init ( GameData.Team ownerTeam )
+	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
-		base.Init(ownerTeam);
+		base.Init(ownerTeam, _LifePercentage);
 
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnDuration.damageHealth != 0 || localTrad.rules.damagesToDealOnDuration.movementToApply != null)
-				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, true);
 			else
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact, false);
-
 		}
 	}
 
@@ -36,48 +36,63 @@ public class Aoe : AutoKill
 		DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 	}
 
-	void DealDamagesInRange ( DamagesInfos _damages, bool _boucle = true )
+	protected void DealDamagesInRange ( DamagesInfos _damages, bool _boucle = true )
 	{
-		Collider[] _allhits;
-
-		if (localTrad.rules.isBox)
-			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2, Quaternion.identity, layer);
-		else
-			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, layer);
-
-		foreach (Collider _coll in _allhits)
+		foreach (Collider _coll in playerTouched())
 		{
 			Damageable _damageable = _coll.GetComponent<Damageable>();
 			if (_damageable != null && !_damageable.IsInMyTeam(myteam))
 			{
-				float _percentageOfTheMovement = 1;
+				float _percentageOfStrength = 1;
 
-				if (adaptiveRange)
+				if (_damages.movementToApply != null)
 				{
 					if (localTrad.rules.isBox)
 					{
 						if (_damages.movementToApply.isGrab)
-							_percentageOfTheMovement = ((Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+							_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
 						else
-							_percentageOfTheMovement = (1 - ((Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2));
+							_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _damageable.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+
 					}
 					else
 					{
-						print("i m not a box");
 						if (_damages.movementToApply.isGrab)
-							_percentageOfTheMovement = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
-						else
-							_percentageOfTheMovement = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
-					}
-				}
+							_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
 
-				print(_percentageOfTheMovement);
-				_damageable.DealDamages(_damages, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, false, _percentageOfTheMovement);
+						else
+							_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+					}
+
+					Vector3 _posOfDealing = transform.position;
+					if (localTrad.rules.useOwnerPos)
+						_posOfDealing = GameManager.Instance.currentLocalPlayer.transform.position;
+
+					_coll.GetComponent<Damageable>().DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+				}
+			}else if (_damageable.IsInMyTeam(myteam))
+			{
+
 			}
 		}
 
 		if (_boucle)
 			StartCoroutine(CustomUpdate());
+	}
+
+	protected Collider[] playerTouched ()
+	{
+		Collider[] _allhits;
+		List<Collider> _allHitChecked = new List<Collider>();
+
+		if (localTrad.rules.isBox)
+			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2 + Vector3.up * 8, Quaternion.identity, layer);
+		else
+			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, layer);
+
+		
+
+		return _allHitChecked.ToArray();
 	}
 
 	protected override void FixedUpdate ()
@@ -102,15 +117,14 @@ public class Aoe : AutoKill
 			Gizmos.DrawSphere(transform.position, localTrad.rules.aoeRadius);
 	}
 
-	protected override void Destroy ()
+	public override void Destroy ( bool _spawnAoe = false )
 	{
 		StopAllCoroutines();
 		base.Destroy();
 	}
 
-	protected override void OnEnable ()
+	protected void OnEnable ()
 	{
-		base.OnEnable();
 		asDealtFinal = false;
 	}
 }

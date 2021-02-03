@@ -12,53 +12,28 @@ public class Projectile_SoulBurst : Projectile
 
     [SerializeField] AudioClip explosionSound;
 
-	public override void Init ( GameData.Team ownerTeam )
+	public override void Init ( GameData.Team ownerTeam, float _percentage )
 	{
-		base.Init(ownerTeam);
+		base.Init(ownerTeam, _percentage);
 		asExploded = false;
+		print(myRb.velocity);
 	}
 
-	private List<LocalPlayer> GetAllNearbyPlayers ()
-	{
-		List<LocalPlayer> _temp = new List<LocalPlayer>();
+	
 
-		foreach (LocalPlayer P in GameManager.Instance.networkPlayers.Values)
-		{
-			if (Vector3.Distance(P.transform.position, this.transform.position) < explosionRange)
-			{
-				if (P.myPlayerModule.teamIndex == myNetworkObject.GetOwner().playerTeam)
-				{
-					continue;
-				}
-				_temp.Add(P);
-			}
-		}
-		return _temp;
-	}
-
-	public void Explode ()
-	{
-		foreach (LocalPlayer P in GetAllNearbyPlayers())
-		{
-			P.DealDamages(damagesExplosion, transform.position, GameManager.Instance.currentLocalPlayer.myPlayerId);
-		}
-	}
-
-	protected override void Destroy ()
+	public override void Destroy (bool _aoeToSpawn = false)
 	{
 
 		if (!asExploded && hasTouched)
 		{
 			asExploded = true;
 
-			isInMyTeam = (myteam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex);
-
             AudioManager.Instance.Play3DAudio(explosionSound, transform.position, myNetworkObject.GetItemID(), false);
 
-            if (isOwner)
-				Explode();
+            //if (isOwner)
+			//	Explode();
 		}
-		base.Destroy();
+		base.Destroy(_aoeToSpawn);
 	}
 
 
@@ -69,8 +44,8 @@ public class Projectile_SoulBurst : Projectile
 			CirclePreview _mypreview = PreviewManager.Instance.GetCirclePreview(null);
 			_mypreview.Init(explosionRange, CirclePreview.circleCenter.center, transform.position);
 
-			if (isInMyTeam)
-				_mypreview.SetColor(Color.yellow, .2f);
+			if (myteam == GameData.Team.blue)
+				_mypreview.SetColor(Color.blue, .2f);
 			else
 				_mypreview.SetColor(Color.red, .2f);
 

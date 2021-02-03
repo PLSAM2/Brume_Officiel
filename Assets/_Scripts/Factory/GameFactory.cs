@@ -7,9 +7,9 @@ using static GameData;
 
 public class GameFactory
 {
-    public static BrumeScript GetBrumeById(int id)
+    public static Brume GetBrumeById(int id)
     {
-        foreach(BrumeScript brume in GameManager.Instance.allBrume)
+        foreach(Brume brume in GameManager.Instance.allBrume)
         {
             if(brume.GetInstanceID() == id)
             {
@@ -32,6 +32,20 @@ public class GameFactory
             default:
                 return new Color(1, 1, 1f, 1f);
         }
+    }
+
+    public static Color GetReferentialPlayerTeamColor(Team playerTeam)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer() != null)
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == playerTeam)
+            {
+                return GetColorTeam(Team.blue);
+            }
+        }
+
+        return GetColorTeam(Team.red);
+
     }
 
 
@@ -78,7 +92,19 @@ public class GameFactory
             return Team.blue;
         }
     }
+    public static bool IsOnMyTeam(ushort playerID)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer() != null && RoomManager.Instance.actualRoom.playerList.ContainsKey(playerID))
+        {
+            if (RoomManager.Instance.GetPlayerData(playerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                return true;
+            }
+        }
 
+        return false;
+
+    }
     public static bool PlayersAreOnSameBrume(PlayerModule p1, PlayerModule p2)
     {
         if(p1.isInBrume && p2.isInBrume
@@ -109,18 +135,8 @@ public class GameFactory
     {
         try
         {
-            if (GameManager.Instance.currentLocalPlayer != null)
+            if (GameManager.Instance.currentLocalPlayer != null && !GameManager.Instance.currentLocalPlayer.isTp)
             {
-                /*
-                if(RoomManager.Instance.GetPlayerData(GameManager.Instance.currentLocalPlayer.myPlayerId).playerCharacter == Character.Shili
-                    && GameManager.Instance.currentLocalPlayer.myPlayerModule.isInGhost)
-                {
-                    return GameManager.Instance.currentLocalPlayer;
-                }
-                else
-                {
-                    return GameManager.Instance.currentLocalPlayer;
-                }*/
                 return GameManager.Instance.currentLocalPlayer;
             }
             else
@@ -214,9 +230,10 @@ public class GameFactory
 
     public static bool CheckIfPlayerIsInView(ushort id)
     {
-        if (!GetActualPlayerFollow()) { return false; }
+        LocalPlayer actualPlayerFollow = GetActualPlayerFollow();
+        if (!actualPlayerFollow) { return false; }
 
-        if(GetActualPlayerFollow().myPlayerId == id)
+        if(actualPlayerFollow.myPlayerId == id)
         {
             return true;
         }
@@ -226,7 +243,7 @@ public class GameFactory
             return false;
         }
 
-        if (GetActualPlayerFollow().myPlayerModule.isInBrume)
+        if (actualPlayerFollow.myPlayerModule.isInBrume)
         {
             if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
             {
@@ -248,5 +265,37 @@ public class GameFactory
             }
         }
         return true;
+    }
+
+    public static bool DoSound(Vector3 pos)
+    {
+        PlayerModule currentPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+
+        Brume currentBrume = null;
+        RaycastHit hit;
+        if (Physics.Raycast(pos + Vector3.up * 0.5f, -Vector3.up, out hit, 10, GameManager.Instance.brumeLayer))
+        {
+            currentBrume = hit.transform.GetComponent<BrumePlane>().myBrume;
+        }
+
+        if (currentPlayer.isInBrume)
+        {
+            if(currentBrume != null)
+            {
+                if(currentBrume.GetInstanceID() != currentPlayer.brumeId)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            if (currentBrume == null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -22,6 +22,7 @@ public class Displayer : MonoBehaviour
     {
         LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
+        /*
         if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule.isInGhost)
         {
             if (GameManager.Instance.currentLocalGhost.isInBrume)
@@ -38,7 +39,7 @@ public class Displayer : MonoBehaviour
                     SetFow(currentFollowPlayer, true);
                 }
             }
-        }
+        }*/
 
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
@@ -58,12 +59,13 @@ public class Displayer : MonoBehaviour
                 }
             }
 
+            /*
             //InGhost
             if (currentFollowPlayer == player.Value && currentFollowPlayer.myPlayerModule.isInGhost)
             {
                 //HideOrShow(player.Value, GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform));
                 continue;
-            }
+            }*/
 
             if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
                 HideOrShow(player.Value, true);
@@ -180,10 +182,26 @@ public class Displayer : MonoBehaviour
 
     void HideOrShow(LocalPlayer p, bool _value)
     {
+        if (p.forceShow)
+        {
+            if (!p.isVisible)
+            {
+                p.isVisible = true;
+                foreach (GameObject obj in p.objToHide)
+                {
+                    obj.SetActive(true);
+                }
+                p.myUiPlayerManager.canvas.SetActive(true);
+
+                GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, true);
+            }
+            return;
+        }
+
         if (p.myOutline.enabled)
         {
             p.myOutline.enabled = false;
-            p.canvas.SetActive(_value);
+            p.myUiPlayerManager.canvas.SetActive(_value);
         }
 
         if (p.isVisible != _value)
@@ -193,7 +211,7 @@ public class Displayer : MonoBehaviour
             {
                 obj.SetActive(_value);
             }
-            p.canvas.SetActive(_value);
+            p.myUiPlayerManager.canvas.SetActive(_value);
 
             GameManager.Instance.OnPlayerAtViewChange?.Invoke(p.myPlayerId, _value);
         }
@@ -201,6 +219,12 @@ public class Displayer : MonoBehaviour
 
     void SetFow(LocalPlayer p, bool _value)
     {
+        if (p.forceShow)
+        {
+            p.ShowHideFow(true);
+            return;
+        }
+
         p.ShowHideFow(_value);
     }
 
@@ -213,7 +237,7 @@ public class Displayer : MonoBehaviour
         {
             obj.SetActive(true);
         }
-        p.canvas.SetActive(false);
+        p.myUiPlayerManager.canvas.SetActive(false);
 
         if (!p.myOutline.enabled)
         {

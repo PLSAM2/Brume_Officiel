@@ -2,24 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PingModule : MonoBehaviour
+public class PingModule : SpellModule
 {
     public KeyCode pingKey;
-    private PlayerModule playerModule;
-
-    private void Start()
-    {
-        playerModule = this.GetComponent<PlayerModule>();
-    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(pingKey))
+        if (charges > 0)
         {
-            if (playerModule.mousePos() != Vector3.zero)
+            if (Input.GetKeyDown(pingKey))
             {
-                NetworkObjectsManager.Instance.NetworkInstantiate(2100, playerModule.mousePos() + new Vector3(0, 0.05f, 0), Vector3.zero);
+                UiManager.Instance.uIPingModule.Init();
+            }
+
+            if (Input.GetKey(pingKey))
+            {
+                UiManager.Instance.uIPingModule.PingChoiceHold();
+            }
+
+            if (Input.GetKeyUp(pingKey))
+            {
+                Resolution();
+                UiManager.Instance.uIPingModule.Desactivate();
             }
         }
     }
+
 }

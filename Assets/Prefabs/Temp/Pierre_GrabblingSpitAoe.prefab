@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6620517674861165110}
   - component: {fileID: 9188923623546187145}
-  - component: {fileID: 3084847784757286562}
+  - component: {fileID: 8027883529589055175}
   m_Layer: 20
   m_Name: Pierre_GrabblingSpitAoe
   m_TagString: Untagged
@@ -216,7 +216,7 @@ MonoBehaviour:
   interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.02
   rotationRequiredBeforeSync: 6
---- !u!114 &3084847784757286562
+--- !u!114 &8027883529589055175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,24 +230,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mylifeTime: 0
   myLivelifeTime: 0
-  meshBlue: {fileID: 0}
-  meshRed: {fileID: 0}
+  meshBlue: {fileID: 807547197683120078}
+  meshRed: {fileID: 1809273859605590982}
   myteam: 0
   myNetworkObject: {fileID: 0}
   isOwner: 0
-  spawnSound: {fileID: 8300000, guid: 88aff94eefea3d94f9698bdde30730ca, type: 3}
+  spawnSound: {fileID: 8300000, guid: 60f7548e258c18e4bb3bb2708c8523a5, type: 3}
   localTrad: {fileID: 11400000, guid: 1e24cc25c0de93647b015e38a5682d46, type: 2}
-  inputLinked: 0
-  stateForbiddenForReactivation: 48
-  delayBeforeApplyingDamages: 0.5
+  adaptiveRange: 1
+  delayBeforeApplyingDamages: 0
   damagesToApplyOnReactivation:
     playerName: 
     damageHealth: 0
-    statusToApply:
-    - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
+    statusToApply: []
     movementToApply: {fileID: 11400000, guid: b466552c54cbc3a4abeade1c804fb547, type: 2}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  useCharacterPos: 1
+  useCharacterPos: 0

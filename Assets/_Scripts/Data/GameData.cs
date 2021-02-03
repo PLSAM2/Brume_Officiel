@@ -26,7 +26,14 @@ public class GameData
         VisionTower = 2,
         Frog = 3,
         ResurectAltar = 4,
-        HealthPack = 5
+        HealthPack = 5,
+        UltPickup = 6
     }
-
+    public enum En_SpellStep : ushort
+    {
+        Canalisation = 0,
+        Annonciation = 1,
+        Resolution = 2,
+        Interrupt = 3
+    }
 }

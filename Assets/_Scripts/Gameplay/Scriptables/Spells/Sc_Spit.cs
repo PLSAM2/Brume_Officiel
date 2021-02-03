@@ -6,7 +6,8 @@ using Sirenix.OdinInspector;
 
 public class Sc_Spit : Sc_Spell
 {
-	[TabGroup("Spit  Parameters")] public Aoe onImpactInstantiate;
+	[TabGroup("Spit  Parameters")] public GameObject onImpactInstantiate;
+	[TabGroup("Spit  Parameters")] [InfoBox("renseigner la zone d impact")] public float radiusOfImpact;
 	[TabGroup("Spit  Parameters")] public AnimationCurve launchCurve;
 	
 	[Header("simpleSpeed")]

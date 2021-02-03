@@ -161,6 +161,65 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 NewChatMessage(sender, e);
             }
+            else if (message.Tag == Tags.SpellStep)
+            {
+                SpellStep(sender, e);
+            }
+            else if (message.Tag == Tags.Tp)
+            {
+                TpInServer(sender, e);
+            }
+            else if (message.Tag == Tags.DynamicWallState)
+            {
+                DynamicWallState(sender, e);
+            }
+        }
+    }
+
+    private void DynamicWallState(object sender, MessageReceivedEventArgs e)
+    {
+        GameManager.Instance.dynamicWalls.SetDoorState(false);
+    }
+
+    private void TpInServer(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            Vector3 _newPos = Vector3.zero;
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                bool _tpState = reader.ReadBoolean();
+
+                if (_tpState)
+                {
+                    _newPos = new Vector3(reader.ReadSingle(), 0, reader.ReadSingle());
+                }
+
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+                {
+                    GameManager.Instance.networkPlayers[_id].GetComponent<TeleportationModule>().SetTpStateInServer(_tpState, _newPos);
+                }
+            }
+        }
+    }
+
+    private void SpellStep(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _id = reader.ReadUInt16();
+                ushort _spellIndex = reader.ReadUInt16();
+                En_SpellStep _spellStep = (En_SpellStep)reader.ReadUInt16();
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+                {
+                    GameManager.Instance.networkPlayers[_id].UpdateSpellStepInServer(_spellIndex, _spellStep);
+                }
+            }
         }
     }
 
@@ -172,8 +231,9 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 ushort _id = reader.ReadUInt16();
                 string _message = reader.ReadString();
+                bool fromServer = reader.ReadBoolean();
 
-                UiManager.Instance.chat.ReceiveNewMessage(_id, _message);
+                UiManager.Instance.chat.ReceiveNewMessage(_message, _id, fromServer);
             }
         }
 
@@ -716,6 +776,7 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 Team _team = (Team)reader.ReadUInt16();
                 ushort _value = reader.ReadUInt16();
+
                 foreach (PlayerData p in GameFactory.GetAllPlayerInTeam(_team))
                 {
                     RoomManager.Instance.TryAddUltimateStacks(p.ID, _value, false);

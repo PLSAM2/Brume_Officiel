@@ -233,6 +233,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1431083735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,12 +330,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactibleID: 0
   type: 3
-  interactTime: 0.1
+  interactTime: 8
   isInteractable: 1
   capturingTeam: 0
   capturingPlayerModule: {fileID: 0}
   state: 1
   authorizedCaptureCharacter: 0a0014001e00
+  contestable: 1
   canBeCapturedColor: {r: 0.17054713, g: 1, b: 0, a: 0}
   noCaptureColor: {r: 1, g: 1, b: 1, a: 0}
   fillImg: {fileID: 606675981}
@@ -344,6 +346,7 @@ MonoBehaviour:
   iconRed: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
   iconBlue: {fileID: 21300000, guid: 758bfb2e63bd7fb418126a54842de777, type: 3}
   myAudioSource: {fileID: 8109944235028613285}
+  interactibleName: Ward
   nest: {fileID: 0}
 --- !u!82 &8109944235028613285
 AudioSource:

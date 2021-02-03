@@ -38,25 +38,14 @@ public class LobbyManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        //if (RoomManager.Instance.AlreadyInit)
-        //{
-        //    client = RoomManager.Instance.client;
-
-        //    mainMenu.SetActive(false);
-        //    loginMenu.SetActive(false);
-        //    roomPanel.SetActive(true);
-
-        //    roomPanelControl.InitRoom(RoomManager.Instance.actualRoom);
-        //}
-        client = NetworkManager.Instance.GetLocalClient();
-
-        client.MessageReceived += MessageReceived;
-        NetworkManager.Instance.OnPlayerQuit += PlayerQuitActualRoom;
     }
 
     private void Start()
     {
+        client = NetworkManager.Instance.GetLocalClient();
+
+        client.MessageReceived += MessageReceived;
+        NetworkManager.Instance.OnPlayerQuit += PlayerQuitActualRoom;
         nameInputField.text = NetworkManager.Instance.GetLocalPlayer().Name;
     }
 
@@ -349,6 +338,7 @@ public class LobbyManager : MonoBehaviour
     {
         print("Room " + RoomManager.Instance.actualRoom.ID + " Quit");
         RoomManager.Instance.actualRoom = null;
+        RoomManager.Instance.ResetActualGame();
         NetworkManager.Instance.GetLocalPlayer().IsHost = false;
         DisplayMainMenu();
 
