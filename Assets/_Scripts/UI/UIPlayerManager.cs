@@ -21,6 +21,7 @@ public class UIPlayerManager : MonoBehaviour
 
     [Header("WX Compass")]
     [TabGroup("Ui")] public GameObject WxCompass;
+    [TabGroup("Ui")] public Vector3 WxCompassOffset;
     [TabGroup("Ui")] public Image WxLife, arrow;
     [TabGroup("Ui")] public GameObject sonar;
     [TabGroup("Ui")] public List<Image> sonarImg;
@@ -111,7 +112,7 @@ public class UIPlayerManager : MonoBehaviour
                     WxLife.fillAmount = wxRef.liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
 
                     Vector3 fromPos = this.transform.position + Vector3.right;
-                    Vector3 toPos = wxRef.transform.position;
+                    Vector3 toPos = wxRef.transform.position + WxCompassOffset;
 
                     fromPos.y = 0;
                     toPos.y = 0;
