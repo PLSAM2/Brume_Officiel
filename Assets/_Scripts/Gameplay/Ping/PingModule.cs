@@ -6,6 +6,11 @@ public class PingModule : SpellModule
 {
     private void Update()
     {
+        if (myPlayerModule == null)
+        {
+            return;
+        }
+
         if (charges > 0)
         {
             if (Input.GetKeyDown(myPlayerModule.pingKey))

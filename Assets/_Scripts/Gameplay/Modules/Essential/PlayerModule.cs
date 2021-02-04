@@ -881,6 +881,7 @@ public enum En_CharacterState
 	Stunned = Silenced | Root,
 }
 
+
 [System.Serializable]
 public class DamagesInfos
 {
