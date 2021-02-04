@@ -655,19 +655,19 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		switch (_spellIndex)
 		{
-			case 0:
+			case 1:
 				myPlayerModule.leftClick.FeedbackSpellStep(_spellStep);
 				break;
-			case 1:
+			case 2:
 				myPlayerModule.firstSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 2:
+			case 3:
 				myPlayerModule.secondSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 3:
+			case 4:
 				myPlayerModule.thirdSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 4:
+			case 5:
 				myPlayerModule.tpModule.FeedbackSpellStep(_spellStep);
 				break;
 		}
