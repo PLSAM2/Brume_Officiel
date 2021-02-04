@@ -443,6 +443,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
+		print("To Deal" + damages);
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -591,7 +592,28 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void KillPlayer ( PlayerData killer = null )
+    public void SendEnemySpot(ushort _id)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_id);
+
+            using (Message _message = Message.Create(Tags.SpotPlayer, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
+    [SerializeField] float timeSpotDisplay = 2;
+    public IEnumerator SpotPlayer()
+    {
+        myUiPlayerManager.Eye_Spot.SetActive(true);
+        yield return new WaitForSeconds(timeSpotDisplay);
+        myUiPlayerManager.Eye_Spot.SetActive(false);
+    }
+
+    public void KillPlayer ( PlayerData killer = null )
 	{
 		if (isOwner)
 		{
@@ -633,19 +655,19 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		switch (_spellIndex)
 		{
-			case 0:
+			case 1:
 				myPlayerModule.leftClick.FeedbackSpellStep(_spellStep);
 				break;
-			case 1:
+			case 2:
 				myPlayerModule.firstSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 2:
+			case 3:
 				myPlayerModule.secondSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 3:
+			case 4:
 				myPlayerModule.thirdSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 4:
+			case 5:
 				myPlayerModule.tpModule.FeedbackSpellStep(_spellStep);
 				break;
 		}

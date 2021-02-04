@@ -186,7 +186,7 @@ public class ChatControl : MonoBehaviour
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(messageText.text);
-
+            _writer.Write(false); // teamOnly
             using (Message _message = Message.Create(Tags.NewChatMessage, _writer))
             {
                 NetworkManager.Instance.GetLocalClient().SendMessage(_message, SendMode.Reliable);
@@ -196,13 +196,14 @@ public class ChatControl : MonoBehaviour
         messageText.text = "";
     }
 
-    public void SendNewForcedMessage(string message)
+    public void SendNewForcedMessage(string message, bool teamOnly = false)
     {
         timer = 4;
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(message);
+            _writer.Write(teamOnly);
 
             using (Message _message = Message.Create(Tags.NewChatMessage, _writer))
             {

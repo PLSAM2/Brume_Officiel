@@ -169,7 +169,25 @@ public class InGameNetworkReceiver : MonoBehaviour
             {
                 TpInServer(sender, e);
             }
+            else if (message.Tag == Tags.DynamicWallState)
+            {
+                DynamicWallState(sender, e);
+            }
+            else if (message.Tag == Tags.SpotPlayer)
+            {
+                SpotPlayer(sender, e);
+            }
         }
+    }
+
+    private void SpotPlayer(object sender, MessageReceivedEventArgs e)
+    {
+        StartCoroutine(GameManager.Instance.currentLocalPlayer.SpotPlayer());
+    }
+
+    private void DynamicWallState(object sender, MessageReceivedEventArgs e)
+    {
+        GameManager.Instance.dynamicWalls.SetDoorState(false);
     }
 
     private void TpInServer(object sender, MessageReceivedEventArgs e)

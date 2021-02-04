@@ -611,11 +611,11 @@ public class SpellModule : MonoBehaviour
 public enum En_SpellInput
 {
 	Null,
-	Click = 0,
-	FirstSpell = 1,
-	SecondSpell = 2,
-	ThirdSpell = 3,
-	TP = 4,
+	Click = 1,
+	FirstSpell = 2,
+	SecondSpell = 3,
+	ThirdSpell = 4,
+	TP = 5,
 	Maj,
 	Ward,
 	Special, 

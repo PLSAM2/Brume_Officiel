@@ -4,28 +4,35 @@ using UnityEngine;
 
 public class PingModule : SpellModule
 {
-    public KeyCode pingKey;
-
     private void Update()
     {
+        if (myPlayerModule == null)
+        {
+            return;
+        }
+
         if (charges > 0)
         {
-            if (Input.GetKeyDown(pingKey))
+            if (Input.GetKeyDown(myPlayerModule.pingKey))
             {
                 UiManager.Instance.uIPingModule.Init();
             }
-
-            if (Input.GetKey(pingKey))
+            if (Input.GetKey(myPlayerModule.pingKey))
             {
                 UiManager.Instance.uIPingModule.PingChoiceHold();
             }
-
-            if (Input.GetKeyUp(pingKey))
+            if (Input.GetKeyUp(myPlayerModule.pingKey))
             {
-                Resolution();
+                DecreaseCharge();
                 UiManager.Instance.uIPingModule.Desactivate();
             }
         }
+        else
+        {
+            if (Input.GetKeyDown(myPlayerModule.pingKey))
+            {
+                UiManager.Instance.chat.ReceiveNewMessage("No Ping available.. Wait...", 0, true);
+            }
+        }
     }
-
 }

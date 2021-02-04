@@ -45,12 +45,12 @@ public class FootstepAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+        oldPos = transform.position;
+
         if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
         {
-            float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-            float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
-            oldPos = transform.position;
-
             if ((velocityX + velocityZ) != 0 && doSound)
             {
                 doSound = false;
