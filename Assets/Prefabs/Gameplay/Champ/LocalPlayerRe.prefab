@@ -520,7 +520,7 @@ MonoBehaviour:
   canalisationClip: {fileID: 8300000, guid: afa1fcc3b83ec2f4a9bd7de846e34b34, type: 3}
   anonciationClip: {fileID: 0}
   toSetActiveOnResolve: {fileID: 0}
-  aoeInstantiated: {fileID: 5624599934099963903, guid: 3653d0c4f4d0fa64badf3f46223a36b3, type: 3}
+  aoeInstantiated: {fileID: 5624599934099963903, guid: b533af2fb6130ca45b0ae355e7252ee2, type: 3}
   spawnOnPos: 1
 --- !u!114 &1286970584369722292
 MonoBehaviour:
@@ -923,6 +923,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8807245438295185683}
     - target: {fileID: 2028525280424961145, guid: 8d173aa3ce9fdce40ba6d49ace7eba7b, type: 3}
+      propertyPath: dashParticle.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028525280424961145, guid: 8d173aa3ce9fdce40ba6d49ace7eba7b, type: 3}
       propertyPath: dashParticle.Array.data[0]
       value: 
       objectReference: {fileID: 0}
@@ -989,7 +993,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Animator Yang
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1806243595505791331, guid: 8d173aa3ce9fdce40ba6d49ace7eba7b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8d173aa3ce9fdce40ba6d49ace7eba7b, type: 3}
 --- !u!1 &5573407892547466031 stripped
 GameObject:
@@ -1118,7 +1123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 639526925569538375, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 669077784601782018, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_IsActive

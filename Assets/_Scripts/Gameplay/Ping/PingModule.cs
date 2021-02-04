@@ -29,7 +29,6 @@ public class PingModule : SpellModule
         {
             if (Input.GetKeyDown(pingKey))
             {
-                
             }
         }
     }

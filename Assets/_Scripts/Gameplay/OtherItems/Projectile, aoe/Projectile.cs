@@ -174,7 +174,7 @@ public class Projectile : AutoKill
 			{
 				_proj.Destroy(true);
 			}
-			else if (localTrad.diesOnWallTouch)
+			else if (localTrad.diesOnWallTrigger)
 				Destroy(true);
 		}
 	}
