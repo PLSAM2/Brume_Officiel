@@ -154,12 +154,10 @@ public class Projectile : AutoKill
 					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 
-
 				if (localTrad.diesOnPlayerTouch)
 				{
 					Destroy(true);
 				}
-
 
 				if (isOwner && localTrad._reduceCooldowns)
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
@@ -174,9 +172,9 @@ public class Projectile : AutoKill
 			{
 				_proj.Destroy(true);
 			}
-			else if (localTrad.diesOnWallTouch)
-				Destroy(true);
 		}
+		else if (localTrad.diesOnWallTrigger)
+			Destroy(true);
 	}
 
 

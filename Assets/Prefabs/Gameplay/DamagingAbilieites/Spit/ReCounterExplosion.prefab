@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7413957656858536171
 Transform:
   m_ObjectHideFlags: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 807547197683120078}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 2.4, y: 2.4, z: 1}
   m_Children: []
   m_Father: {fileID: 4607714072101977943}
   m_RootOrder: 0
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 5624599934099963903}
   - component: {fileID: 9188923623546187145}
   m_Layer: 20
-  m_Name: ExplosionLengCounter
+  m_Name: ReCounterExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,13 +228,7 @@ MonoBehaviour:
   myNetworkObject: {fileID: 9188923623546187145}
   isOwner: 0
   spawnSound: {fileID: 8300000, guid: 3844687891b93e640983458193c85ebc, type: 3}
-  localTrad: {fileID: 11400000, guid: 5f929d502f4b540458f0d45a170a2950, type: 2}
-  allyLayer:
-    serializedVersion: 2
-    m_Bits: 65536
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
+  localTrad: {fileID: 11400000, guid: a0c7e474e0104a04d947c5b8ab6cddef, type: 2}
   adaptiveRange: 0
 --- !u!114 &9188923623546187145
 MonoBehaviour:
@@ -270,7 +264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6132887511928527039
 Transform:
   m_ObjectHideFlags: 0
@@ -280,7 +274,7 @@ Transform:
   m_GameObject: {fileID: 8561045549746045336}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 2.4, y: 2.4, z: 1}
   m_Children: []
   m_Father: {fileID: 4607714072101977943}
   m_RootOrder: 1

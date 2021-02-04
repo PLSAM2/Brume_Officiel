@@ -894,6 +894,10 @@ public class DamagesInfos
 	[TabGroup("EffectIfConditionCompleted")] public ushort additionalDamages;
 	[TabGroup("EffectIfConditionCompleted")] public Sc_Status[] additionalStatusToApply;
 	[TabGroup("EffectIfConditionCompleted")] public Sc_ForcedMovement additionalMovementToApply = null;
+
+	[HideInInspector]
+	public bool isUsable => statusToApply.Length > 0 || damageHealth > 0 || movementToApply != null; 
+
 }
 
 [System.Serializable]

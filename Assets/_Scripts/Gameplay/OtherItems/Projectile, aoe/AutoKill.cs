@@ -48,7 +48,7 @@ public class AutoKill : MonoBehaviour
 		}
 	}
 
-	private void OnDisable ()
+	protected virtual void OnDisable ()
 	{
 		myLivelifeTime = mylifeTime;
 	}
