@@ -38,7 +38,7 @@ public class Projectile : AutoKill
 	{
 		base.Init(ownerTeam, _lifePercentage);
 		startPos = transform.position;
-		bouncingNumberLive = localTrad.bouncingNumber; 
+		bouncingNumberLive = localTrad.bouncingNumber;
 
 		if (!isOwner)
 		{
@@ -61,7 +61,7 @@ public class Projectile : AutoKill
 		}
 	}
 
-	protected  void OnEnable ()
+	protected void OnEnable ()
 	{
 		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
 		direction = transform.forward;
@@ -110,7 +110,7 @@ public class Projectile : AutoKill
 				{
 					RaycastHit[] _collTouched = Physics.BoxCastAll(transform.position, collisionSize / 2, Vector3.zero, Quaternion.identity, 0, 1 << 8);
 
-					foreach(RaycastHit _hit in _collTouched)
+					foreach (RaycastHit _hit in _collTouched)
 					{
 						_hit.collider.GetComponent<LocalPlayer>().DealDamages(localTrad.damagesToDeal, transform.position);
 					}
@@ -124,7 +124,7 @@ public class Projectile : AutoKill
 						_hit.collider.GetComponent<LocalPlayer>().DealDamages(localTrad.damagesToDeal, transform.position);
 					}
 				}
-			
+
 			}
 		}
 	}
@@ -136,6 +136,9 @@ public class Projectile : AutoKill
 
 	void OnTriggerEnter ( Collider _coll )
 	{
+		if (_coll.tag == "DestroyProj")
+			Destroy(false);
+
 		Damageable _damageableHit = _coll.gameObject.GetComponent<Damageable>();
 
 		if (_damageableHit != null)
@@ -151,12 +154,10 @@ public class Projectile : AutoKill
 					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
 				}
 
-
 				if (localTrad.diesOnPlayerTouch)
 				{
 					Destroy(true);
 				}
-
 
 				if (isOwner && localTrad._reduceCooldowns)
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
@@ -164,20 +165,20 @@ public class Projectile : AutoKill
 				return;
 			}
 		}
-		else if(localTrad.destroyProjectiles)
+		else if (localTrad.destroyProjectiles)
 		{
 			Projectile _proj = _coll.GetComponent<Projectile>();
 			if (_proj != null)
 			{
 				_proj.Destroy(true);
 			}
-			else if (localTrad.diesOnWallTouch)
-				Destroy(true);
 		}
+		else if (localTrad.diesOnWallTrigger)
+			Destroy(true);
 	}
 
 
-	public override void Destroy (bool _spawnAoe)
+	public override void Destroy ( bool _spawnAoe )
 	{
 		asDeal = true;
 		if (hasTouched && doImpactFx)
@@ -197,7 +198,7 @@ public class Projectile : AutoKill
 			}
 		}
 
-		if (isOwner && aoeToSpawn!= null)
+		if (isOwner && aoeToSpawn != null)
 		{
 			if (_spawnAoe || localTrad.forcePrefabApparition)
 			{

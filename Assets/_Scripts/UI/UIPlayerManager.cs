@@ -9,7 +9,6 @@ using static GameData;
 public class UIPlayerManager : MonoBehaviour
 {
     [SerializeField] LocalPlayer myLocalPlayer;
-    public GameObject testcul;
 
     [Header("UI")]
     [TabGroup("Ui")] public GameObject canvas;
@@ -22,6 +21,7 @@ public class UIPlayerManager : MonoBehaviour
 
     [Header("WX Compass")]
     [TabGroup("Ui")] public GameObject WxCompass;
+    [TabGroup("Ui")] public Vector3 WxCompassOffset;
     [TabGroup("Ui")] public Image WxLife, arrow;
     [TabGroup("Ui")] public GameObject sonar;
     [TabGroup("Ui")] public List<Image> sonarImg;
@@ -47,7 +47,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("UiState")] public GameObject StunIcon, HiddenIcon, CounteringIcon;
     [TabGroup("UiState")] public GameObject SlowIcon;
     [TabGroup("UiState")] public GameObject RootIcon;
-    [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon;
+    [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon, Eye_Spot;
 
     private void Awake()
     {
@@ -109,10 +109,10 @@ public class UIPlayerManager : MonoBehaviour
             {
                 //voit la shili
                 if (GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform)){
-                    WxLife.fillAmount = wxRef.liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
+                    WxLife.fillAmount = (float) wxRef.liveHealth / (float) wxRef.myPlayerModule.characterParameters.maxHealth;
 
                     Vector3 fromPos = this.transform.position + Vector3.right;
-                    Vector3 toPos = wxRef.transform.position;
+                    Vector3 toPos = wxRef.transform.position + WxCompassOffset;
 
                     fromPos.y = 0;
                     toPos.y = 0;

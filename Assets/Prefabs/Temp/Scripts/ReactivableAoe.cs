@@ -48,11 +48,12 @@ public class ReactivableAoe : Aoe
 		Vector3 posToGrabTo = GameManager.Instance.currentLocalPlayer.transform.position;
 		yield return new WaitForSeconds(delayBeforeApplyingDamages);
 	
+		/*
 		foreach(Collider _coll in enemiesHit())
 		{
 			print(_coll.name);
 			_coll.GetComponent<Damageable>().DealDamages(damagesToApplyOnReactivation, posToGrabTo, GameManager.Instance.currentLocalPlayer.myPlayerId);
 		}
-
+		*/
 	}
 }

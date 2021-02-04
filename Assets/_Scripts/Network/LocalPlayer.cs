@@ -38,16 +38,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		get => _liveHealth; set
 		{
 			_liveHealth = value;
-            myUiPlayerManager.UpdateLife();
-        }
+			myUiPlayerManager.UpdateLife();
+		}
 	}
 
 	[HideInInspector] public bool allCharacterSpawned = false;
 
 	public Action<string> triggerAnim;
-    public Action OnInitFinish;
+	public Action OnInitFinish;
 
-    private UnityClient currentClient;
+	private UnityClient currentClient;
 	private Vector3 lastPosition;
 	private Vector3 lastRotation;
 
@@ -60,7 +60,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
 
-	[TabGroup("Vision")] public QuickOutline myOutline;
+    //TP
+    public bool forceShow = false;
+    public bool isTp = false;
+
+    [TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -68,7 +72,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		newNetorkPos = transform.position;
 	}
 
-    public void Init ( UnityClient newClient, bool respawned = false )
+	public void Init ( UnityClient newClient, bool respawned = false )
 	{
 		OnRespawn(respawned);
 
@@ -106,8 +110,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-        OnInitFinish?.Invoke();
-    }
+		OnInitFinish?.Invoke();
+	}
 
 	private void Update ()
 	{
@@ -439,6 +443,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
+		print("To Deal" + damages);
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -476,7 +481,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				liveHealth = (ushort)_tempHp;
 			}
 		}
-		else if((myPlayerModule.state & En_CharacterState.Countering) != 0)
+		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
 
 	}
@@ -587,7 +592,28 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void KillPlayer ( PlayerData killer = null )
+    public void SendEnemySpot(ushort _id)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_id);
+
+            using (Message _message = Message.Create(Tags.SpotPlayer, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
+    [SerializeField] float timeSpotDisplay = 2;
+    public IEnumerator SpotPlayer()
+    {
+        myUiPlayerManager.Eye_Spot.SetActive(true);
+        yield return new WaitForSeconds(timeSpotDisplay);
+        myUiPlayerManager.Eye_Spot.SetActive(false);
+    }
+
+    public void KillPlayer ( PlayerData killer = null )
 	{
 		if (isOwner)
 		{
@@ -606,7 +632,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// </summary>
 	/// <param name="_spellIndex"> Index du spell </param>
 	/// <param name="spellStep">Etape du spell a envoyer</param>
-	public void UpdateSpellStep ( En_SpellInput _spellIndex, SpellStep spellStep )
+	public void UpdateSpellStep ( En_SpellInput _spellIndex, En_SpellStep spellStep )
 	{
 
 		using (DarkRiftWriter Writer = DarkRiftWriter.Create())
@@ -625,19 +651,24 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <summary>
 	/// Recoit la synchro d'une étape d'un sort, non recu par l'envoyeur
 	/// </summary>
-	public void UpdateSpellStepInServer ( ushort _spellIndex, SpellStep spellStep )
+	public void UpdateSpellStepInServer ( ushort _spellIndex, En_SpellStep _spellStep )
 	{
 		switch (_spellIndex)
 		{
-			case 0:
-				break;
 			case 1:
+				myPlayerModule.leftClick.FeedbackSpellStep(_spellStep);
 				break;
 			case 2:
+				myPlayerModule.firstSpell.FeedbackSpellStep(_spellStep);
 				break;
 			case 3:
+				myPlayerModule.secondSpell.FeedbackSpellStep(_spellStep);
 				break;
 			case 4:
+				myPlayerModule.thirdSpell.FeedbackSpellStep(_spellStep);
+				break;
+			case 5:
+				myPlayerModule.tpModule.FeedbackSpellStep(_spellStep);
 				break;
 		}
 	}

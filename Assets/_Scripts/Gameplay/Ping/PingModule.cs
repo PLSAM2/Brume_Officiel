@@ -2,25 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PingModule : MonoBehaviour
+public class PingModule : SpellModule
 {
-    public KeyCode pingKey;
-
     private void Update()
     {
-        if (Input.GetKeyDown(pingKey))
+        if (myPlayerModule == null)
         {
-            UiManager.Instance.uIPingModule.Init();
+            return;
         }
 
-        if (Input.GetKey(pingKey))
+        if (charges > 0)
         {
-            UiManager.Instance.uIPingModule.PingChoiceHold();
+            if (Input.GetKeyDown(myPlayerModule.pingKey))
+            {
+                UiManager.Instance.uIPingModule.Init();
+            }
+            if (Input.GetKey(myPlayerModule.pingKey))
+            {
+                UiManager.Instance.uIPingModule.PingChoiceHold();
+            }
+            if (Input.GetKeyUp(myPlayerModule.pingKey))
+            {
+                DecreaseCharge();
+                UiManager.Instance.uIPingModule.Desactivate();
+            }
         }
-
-        if (Input.GetKeyUp(pingKey))
+        else
         {
-            UiManager.Instance.uIPingModule.Desactivate();
+            if (Input.GetKeyDown(myPlayerModule.pingKey))
+            {
+                UiManager.Instance.chat.ReceiveNewMessage("No Ping available.. Wait...", 0, true);
+            }
         }
     }
 }

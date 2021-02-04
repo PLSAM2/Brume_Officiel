@@ -22,6 +22,8 @@ public class WX_SonarState : MonoBehaviour
     bool damagePlaying = false;
     bool viewPlaying = false;
 
+    Coroutine yellowCoroutine;
+
     private void OnEnable()
     {
         currentClient = NetworkManager.Instance.GetLocalClient();
@@ -35,6 +37,7 @@ public class WX_SonarState : MonoBehaviour
         if (myLocalPlayer.isOwner)
         {
             GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
+            GameManager.Instance.OnPlayerDie += OnPlayerDie;
 
             foreach (KeyValuePair<ushort, PlayerData> player in RoomManager.Instance.actualRoom.playerList)
             {
@@ -57,6 +60,7 @@ public class WX_SonarState : MonoBehaviour
         if (myLocalPlayer.isOwner)
         {
             GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
+            GameManager.Instance.OnPlayerDie -= OnPlayerDie;
         }
         else
         {
@@ -87,13 +91,21 @@ public class WX_SonarState : MonoBehaviour
         }
     }
 
+    void OnPlayerDie(ushort id, ushort idKiller)
+    {
+        if (!myLocalPlayer.IsInMyTeam(RoomManager.Instance.GetPlayerData(id).playerTeam))
+        {
+            enemyList[id] = false;
+            UpdateState();
+        }
+    }
+
     void OnPlayerViewChange(ushort id, bool value)
     {
         if (!myLocalPlayer.IsInMyTeam(RoomManager.Instance.GetPlayerData(id).playerTeam))
         {
             if (enemyList[id] != value)
             {
-                print(value);
                 enemyList[id] = value;
                 UpdateState();
             }
@@ -111,8 +123,6 @@ public class WX_SonarState : MonoBehaviour
                 break;
             }
         }
-
-        print(isInView);
 
         if (isInView && myState != wxSonarState.InView)
         {
@@ -140,14 +150,34 @@ public class WX_SonarState : MonoBehaviour
 
     void OnPlayerGetDamage(ushort id, ushort damage)
     {
-        if(id == myLocalPlayer.myPlayerId)
+        if (RoomManager.Instance.GetPlayerData(GameFactory.GetActualPlayerFollow().myPlayerId).playerTeam != RoomManager.Instance.GetPlayerData(id).playerTeam)
         {
-            StartCoroutine(WxTakeDamage());
+            return;
+        }
+
+        if (id == myLocalPlayer.myPlayerId)
+        {
+            viewPlaying = false;
+
+            if (!damagePlaying)
+            {
+                if(yellowCoroutine != null)
+                {
+                    StopCoroutine(yellowCoroutine);
+                }
+
+                StartCoroutine(WxTakeDamage());
+            }
         }
     }
 
     private void Update()
     {
+        if (myLocalPlayer.isOwner)
+        {
+            return;
+        }
+
         LocalPlayer p = GameFactory.GetActualPlayerFollow();
 
         if (RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
@@ -156,11 +186,7 @@ public class WX_SonarState : MonoBehaviour
         if (myState == wxSonarState.InView && !damagePlaying && !viewPlaying)
         {
             viewPlaying = true;
-            StartCoroutine(PingJaune());
-        }
-        else
-        {
-            GameFactory.GetActualPlayerFollow().myUiPlayerManager.sonar.SetActive(false);
+            yellowCoroutine = StartCoroutine(PingJaune());
         }
     }
 

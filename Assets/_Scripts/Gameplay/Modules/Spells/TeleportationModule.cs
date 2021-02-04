@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class TeleportationModule : SpellModule
 {
-    public List<GameObject> onTpDisabled = new List<GameObject>();
     public Transform wxTfs;
     public WxController wxController;
     public ParticleSystem tpFx;
@@ -16,14 +15,23 @@ public class TeleportationModule : SpellModule
     public LayerMask tpLayer;
     public LayerMask raycastLayer;
     public float tpDistance = 5;
+    public float waitForTpTime = 2;
+
+    private CirclePreview circlePreview;
+    private bool isWaitingForTp = false;
     private bool isTping = false;
     private float timer = 0;
     private Vector3 newPos = Vector3.zero;
     private Ray ray;
     private RaycastHit hit;
 
-
-    protected override void DestroyIfClient(){}
+    public override void DecreaseCooldown()
+    {
+    }
+    private void Start()
+    {
+        base.AddCharge();
+    }
 
     private void Update()
     {
@@ -34,7 +42,10 @@ public class TeleportationModule : SpellModule
 
             if (timer <= 0)
             {
-                Tp(true);
+                if (!isWaitingForTp)
+                {
+                    Tp(true);
+                }
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -49,6 +60,11 @@ public class TeleportationModule : SpellModule
 
     private bool CheckCanTp()
     {
+        if (isWaitingForTp)
+        {
+            return false;
+        }
+
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 _pos = Vector3.zero;
         if (Physics.Raycast(ray, out hit,300, raycastLayer))
@@ -62,6 +78,7 @@ public class TeleportationModule : SpellModule
            
             if (IsInLayer(hit.collider.gameObject.layer, tpLayer))
             {
+
                 newPos = new Vector3(_pos.x, 0, _pos.z);
                 return true;
             }
@@ -77,37 +94,49 @@ public class TeleportationModule : SpellModule
 
     protected override void Resolution()
     {
+        if (isTping)
+        {
+            return;
+        }
+
         base.Resolution();
 
         ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
 
         if (wxId != null)
         {
+
             wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
             wxController = wxTfs.GetComponent<WxController>();
-            SetTpState(false, wxId);
+            SetTpState(false);
         }
     }
 
     public void Tp(bool isTimeEnded)
     {
-        if (isTimeEnded)
+        if (!isWaitingForTp)
         {
-            this.transform.position = wxTfs.position;
-        } else
-        {
-            this.transform.position = newPos;
+            StartCoroutine(WaitForSpawn(isTimeEnded));
         }
 
-        SetTpState(true);
     }
 
-    // false = ON TP
-    public void SetTpState(bool v, ushort? wxId = 0)
+    /// <summary>
+    /// UNIQUEMENT EN LOCAL
+    /// </summary>
+    /// <param name="value">faux = lance le tp / se met invisble 
+    /// True = se tp sur newpos</param>
+    public void SetTpState(bool value)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
-            _writer.Write(v);
+            _writer.Write(value);
+
+            if (value)
+            {
+                _writer.Write(newPos.x);
+                _writer.Write(newPos.z);
+            }
 
             using (Message _message = Message.Create(Tags.Tp, _writer))
             {
@@ -121,18 +150,29 @@ public class TeleportationModule : SpellModule
 
         }
         playerModule.interactiblesClose.Clear();
+        wxController.DisplayTpZone(!value);
+        UiManager.Instance.tpFillImage.gameObject.SetActive(!value);
+        isTping = !value;
 
-        isTping = !v;
-        UiManager.Instance.tpFillImage.gameObject.SetActive(!v);
-        wxController.DisplayTpZone(!v);
-
-        if (v == false) // SI TP
+        if (value == false) // SI TP
         {
-
             this.gameObject.layer = integibleLayer;
             timer = tpMaxTIme;
-            CameraManager.Instance.SetParent(wxTfs);
             playerModule.AddState(En_CharacterState.Stunned);
+
+            //
+            wxController.mylocalPlayer.forceShow = true;
+            playerModule.mylocalPlayer.isTp = true;
+
+            UiManager.Instance.specMode.ChangeSpecPlayer(wxController.mylocalPlayer.myPlayerId);
+            wxController.mylocalPlayer.ShowHideFow(true);
+
+            if (circlePreview == null)
+            {
+                circlePreview = PreviewManager.Instance.GetCirclePreview(wxTfs);
+            }
+            circlePreview.gameObject.SetActive(true);
+            circlePreview.Init(tpDistance, CirclePreview.circleCenter.center, wxTfs.position);
         }
         else // sinon
         {
@@ -142,14 +182,25 @@ public class TeleportationModule : SpellModule
             playerModule.RemoveState(En_CharacterState.Stunned);
         }
 
-        foreach (GameObject obj in onTpDisabled)
+        foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
         {
-            obj.SetActive(v);
+            obj.SetActive(value);
         }
+        playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
+        playerModule.mylocalPlayer.circleDirection.SetActive(value);
     }
 
-    public void SetTpStateInServer(bool v)
+    /// <summary>
+    /// uniquement chez les autres
+    /// </summary>
+    /// <param name="_newPos">position de tp</param>
+    public void SetTpStateInServer(bool value, Vector3 _newPos)
     {
+        if (value)
+        {
+            this.transform.position = _newPos;
+        }
+
         foreach (Interactible inter in playerModule.interactiblesClose)
         {
             inter.StopCapturing();
@@ -157,7 +208,7 @@ public class TeleportationModule : SpellModule
         }
         playerModule.interactiblesClose.Clear();
 
-        if (v == false)
+        if (value == false)
         {
             this.gameObject.layer = integibleLayer;
         }
@@ -166,9 +217,58 @@ public class TeleportationModule : SpellModule
             playerModule.ResetLayer();
         }
 
-        foreach (GameObject obj in onTpDisabled)
+        foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
         {
-            obj.SetActive(v);
+            obj.SetActive(value);
         }
+        playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
+    }
+
+    public IEnumerator WaitForSpawn(bool isTimeEnded) 
+    {
+        isWaitingForTp = true;
+
+        foreach (Interactible inter in playerModule.interactiblesClose)
+        {
+            inter.StopCapturing();
+
+        }
+        playerModule.interactiblesClose.Clear();
+
+        wxController.DisplayTpZone(false);
+        UiManager.Instance.tpFillImage.gameObject.SetActive(false);
+
+        if (circlePreview != null)
+        {
+            circlePreview.gameObject.SetActive(false);
+
+        }
+
+        // QUAND ON CLIQUE POUR SE TP
+
+
+        yield return new WaitForSeconds(waitForTpTime);
+
+        // QUAND ON SE TP APRES LATTENTE
+
+
+        wxController.mylocalPlayer.forceShow = false;
+        playerModule.mylocalPlayer.isTp = false;
+
+        CameraManager.Instance.ResetPlayerFollow();
+
+        if (isTimeEnded)
+        {
+            this.transform.position = wxTfs.position;
+        }
+        else
+        {
+            this.transform.position = newPos;
+        }
+
+
+        SetTpState(true);
+
+        isWaitingForTp = false;
     }
 }

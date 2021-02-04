@@ -135,18 +135,8 @@ public class GameFactory
     {
         try
         {
-            if (GameManager.Instance.currentLocalPlayer != null)
+            if (GameManager.Instance.currentLocalPlayer != null && !GameManager.Instance.currentLocalPlayer.isTp)
             {
-                /*
-                if(RoomManager.Instance.GetPlayerData(GameManager.Instance.currentLocalPlayer.myPlayerId).playerCharacter == Character.Shili
-                    && GameManager.Instance.currentLocalPlayer.myPlayerModule.isInGhost)
-                {
-                    return GameManager.Instance.currentLocalPlayer;
-                }
-                else
-                {
-                    return GameManager.Instance.currentLocalPlayer;
-                }*/
                 return GameManager.Instance.currentLocalPlayer;
             }
             else
@@ -240,9 +230,10 @@ public class GameFactory
 
     public static bool CheckIfPlayerIsInView(ushort id)
     {
-        if (!GetActualPlayerFollow()) { return false; }
+        LocalPlayer actualPlayerFollow = GetActualPlayerFollow();
+        if (!actualPlayerFollow) { return false; }
 
-        if(GetActualPlayerFollow().myPlayerId == id)
+        if(actualPlayerFollow.myPlayerId == id)
         {
             return true;
         }
@@ -252,7 +243,7 @@ public class GameFactory
             return false;
         }
 
-        if (GetActualPlayerFollow().myPlayerModule.isInBrume)
+        if (actualPlayerFollow.myPlayerModule.isInBrume)
         {
             if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
             {

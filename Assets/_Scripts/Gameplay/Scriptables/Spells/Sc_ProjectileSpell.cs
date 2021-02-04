@@ -35,7 +35,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	bool willBounce => bouncingNumber != 0;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;
-	[TabGroup("ProjectileSpecifications")] public bool diesOnWallTouch = false;
+	[TabGroup("ProjectileSpecifications")] public bool diesOnWallTrigger = false;
 	[TabGroup("ProjectileSpecifications")] public bool forcePrefabApparition = false;
 
 	[Header("UpgradePart")]
