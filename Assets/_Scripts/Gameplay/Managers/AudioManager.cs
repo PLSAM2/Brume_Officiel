@@ -246,7 +246,7 @@ public class AudioManager : SerializedMonoBehaviour
             } else { return; }
 
         }
-        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance )
+        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < (audioDistance - audioDistance - 2)  )
         {
             OnAudioPlay?.Invoke(pos);
         }
