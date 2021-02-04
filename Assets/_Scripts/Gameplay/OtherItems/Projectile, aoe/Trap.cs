@@ -34,6 +34,12 @@ public class Trap : AutoKill
 			
 		}
 		base.Init(ownerTeam, _percentageOfLifeTime);
+
+		if(myteam != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+		{
+			meshBlue.SetActive(false);
+			meshRed.SetActive(false);
+		}
 	}
 
 	private void OnTriggerEnter ( Collider other )
