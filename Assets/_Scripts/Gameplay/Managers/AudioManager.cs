@@ -29,7 +29,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
-    [SerializeField] LayerMask brumePlaneLayer;
+    public AudioClip spotSound;
 
     bool init = false;
     private void Awake()

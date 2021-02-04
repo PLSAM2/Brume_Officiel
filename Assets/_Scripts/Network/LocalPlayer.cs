@@ -591,7 +591,28 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void KillPlayer ( PlayerData killer = null )
+    public void SendEnemySpot(ushort _id)
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(_id);
+
+            using (Message _message = Message.Create(Tags.SpotPlayer, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
+    [SerializeField] float timeSpotDisplay = 2;
+    public IEnumerator SpotPlayer()
+    {
+        myUiPlayerManager.Eye_Spot.SetActive(true);
+        yield return new WaitForSeconds(timeSpotDisplay);
+        myUiPlayerManager.Eye_Spot.SetActive(false);
+    }
+
+    public void KillPlayer ( PlayerData killer = null )
 	{
 		if (isOwner)
 		{
