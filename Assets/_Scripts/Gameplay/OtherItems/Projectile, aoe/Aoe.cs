@@ -56,21 +56,24 @@ public class Aoe : AutoKill
 
 				if (_damages.movementToApply != null)
 				{
-					if (localTrad.rules.isBox)
+					if (adaptiveRange)
 					{
-						if (_damages.movementToApply.isGrab)
-							_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
-						else
-							_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+						if (localTrad.rules.isBox)
+						{
+							if (_damages.movementToApply.isGrab)
+								_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+							else
+								_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 
-					}
-					else
-					{
-						if (_damages.movementToApply.isGrab)
-							_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
-
+						}
 						else
-							_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+						{
+							if (_damages.movementToApply.isGrab)
+								_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
+
+							else
+								_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+						}
 					}
 
 					if (localTrad.rules.useOwnerPos)
@@ -96,23 +99,25 @@ public class Aoe : AutoKill
 
 				if (_buff.movementToApply != null)
 				{
-					if (localTrad.rules.isBox)
+					if (adaptiveRange)
 					{
-						if (_buff.movementToApply.isGrab)
-							_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+						if (localTrad.rules.isBox)
+						{
+							if (_buff.movementToApply.isGrab)
+								_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+							else
+								_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+
+						}
 						else
-							_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+						{
+							if (_buff.movementToApply.isGrab)
+								_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
 
+							else
+								_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+						}
 					}
-					else
-					{
-						if (_buff.movementToApply.isGrab)
-							_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
-
-						else
-							_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
-					}
-
 
 					if (localTrad.rules.useOwnerPos)
 						_posOfDealing = GameManager.Instance.currentLocalPlayer.transform.position;
