@@ -10,7 +10,6 @@ public class Aoe : AutoKill
 	bool asDealtFinal = false;
 	LayerMask allyLayer, enemyLayer;
 	public bool adaptiveRange = true;
-	bool customUpdateStarted = false;
 
 	protected override void Awake ()
 	{
@@ -25,8 +24,6 @@ public class Aoe : AutoKill
 		base.Init(ownerTeam, _LifePercentage);
 		if (isOwner)
 		{
-			customUpdateStarted = false;
-
 			if (localTrad.rules.damagesToDealOnImpact.isUsable)
 				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
 
@@ -38,7 +35,6 @@ public class Aoe : AutoKill
 	IEnumerator CustomUpdate ()
 	{
 		yield return new WaitForSeconds(.2f);
-
 		if (localTrad.rules.damagesToDealOnDuration.isUsable)
 			DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
 
@@ -84,11 +80,6 @@ public class Aoe : AutoKill
 				_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 			}
 		}
-		if(!customUpdateStarted)
-		{
-			StartCoroutine(CustomUpdate());
-			customUpdateStarted = true;
-		}
 	}
 
 	protected void DealBuffInRange ( DamagesInfos _buff )
@@ -129,11 +120,6 @@ public class Aoe : AutoKill
 
 				_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 			}
-		}
-		if (!customUpdateStarted)
-		{
-			StartCoroutine(CustomUpdate());
-			customUpdateStarted = true;
 		}
 	}
 
@@ -195,5 +181,13 @@ public class Aoe : AutoKill
 	protected void OnEnable ()
 	{
 		asDealtFinal = false;
+		if (isOwner)
+			StartCoroutine(CustomUpdate());
+	}
+
+	protected override void OnDisable ()
+	{
+		base.OnDisable();
+		StopAllCoroutines();
 	}
 }
