@@ -108,7 +108,7 @@ public class UIPlayerManager : MonoBehaviour
             {
                 //voit la shili
                 if (GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform)){
-                    WxLife.fillAmount = wxRef.liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
+                    WxLife.fillAmount = (float) wxRef.liveHealth / (float) wxRef.myPlayerModule.characterParameters.maxHealth;
 
                     Vector3 fromPos = this.transform.position + Vector3.right;
                     Vector3 toPos = wxRef.transform.position;
