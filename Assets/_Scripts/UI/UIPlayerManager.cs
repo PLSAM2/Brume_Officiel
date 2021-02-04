@@ -46,7 +46,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("UiState")] public GameObject StunIcon, HiddenIcon, CounteringIcon;
     [TabGroup("UiState")] public GameObject SlowIcon;
     [TabGroup("UiState")] public GameObject RootIcon;
-    [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon;
+    [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon, Eye_Spot;
 
     private void Awake()
     {
