@@ -29,7 +29,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
-    [SerializeField] LayerMask brumePlaneLayer;
+    public AudioClip spotSound;
 
     bool init = false;
     private void Awake()
@@ -246,7 +246,7 @@ public class AudioManager : SerializedMonoBehaviour
             } else { return; }
 
         }
-        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance )
+        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < (audioDistance - audioDistance - 2)  )
         {
             OnAudioPlay?.Invoke(pos);
         }

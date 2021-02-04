@@ -17,6 +17,7 @@ public class TeleportationModule : SpellModule
     public float tpDistance = 5;
     public float waitForTpTime = 2;
 
+    private CirclePreview circlePreview;
     private bool isWaitingForTp = false;
     private bool isTping = false;
     private float timer = 0;
@@ -24,6 +25,13 @@ public class TeleportationModule : SpellModule
     private Ray ray;
     private RaycastHit hit;
 
+    public override void DecreaseCooldown()
+    {
+    }
+    private void Start()
+    {
+        base.AddCharge();
+    }
 
     private void Update()
     {
@@ -97,6 +105,7 @@ public class TeleportationModule : SpellModule
 
         if (wxId != null)
         {
+
             wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
             wxController = wxTfs.GetComponent<WxController>();
             SetTpState(false);
@@ -112,7 +121,11 @@ public class TeleportationModule : SpellModule
 
     }
 
-    // false = ON TP
+    /// <summary>
+    /// UNIQUEMENT EN LOCAL
+    /// </summary>
+    /// <param name="value">faux = lance le tp / se met invisble 
+    /// True = se tp sur newpos</param>
     public void SetTpState(bool value)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -154,6 +167,12 @@ public class TeleportationModule : SpellModule
             UiManager.Instance.specMode.ChangeSpecPlayer(wxController.mylocalPlayer.myPlayerId);
             wxController.mylocalPlayer.ShowHideFow(true);
 
+            if (circlePreview == null)
+            {
+                circlePreview = PreviewManager.Instance.GetCirclePreview(wxTfs);
+            }
+            circlePreview.gameObject.SetActive(true);
+            circlePreview.Init(tpDistance, CirclePreview.circleCenter.center, wxTfs.position);
         }
         else // sinon
         {
@@ -171,6 +190,10 @@ public class TeleportationModule : SpellModule
         playerModule.mylocalPlayer.circleDirection.SetActive(value);
     }
 
+    /// <summary>
+    /// uniquement chez les autres
+    /// </summary>
+    /// <param name="_newPos">position de tp</param>
     public void SetTpStateInServer(bool value, Vector3 _newPos)
     {
         if (value)
@@ -215,9 +238,20 @@ public class TeleportationModule : SpellModule
         wxController.DisplayTpZone(false);
         UiManager.Instance.tpFillImage.gameObject.SetActive(false);
 
+        if (circlePreview != null)
+        {
+            circlePreview.gameObject.SetActive(false);
+
+        }
+
+        // QUAND ON CLIQUE POUR SE TP
+
+
         yield return new WaitForSeconds(waitForTpTime);
 
-        //
+        // QUAND ON SE TP APRES LATTENTE
+
+
         wxController.mylocalPlayer.forceShow = false;
         playerModule.mylocalPlayer.isTp = false;
 

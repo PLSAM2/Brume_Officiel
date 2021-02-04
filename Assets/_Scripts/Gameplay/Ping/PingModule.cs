@@ -25,6 +25,11 @@ public class PingModule : SpellModule
                 Resolution();
                 UiManager.Instance.uIPingModule.Desactivate();
             }
+        } else
+        {
+            if (Input.GetKeyDown(pingKey))
+            {
+            }
         }
     }
 

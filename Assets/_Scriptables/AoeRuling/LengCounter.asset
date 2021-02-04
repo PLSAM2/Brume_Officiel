@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LengCounter
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.5
+    durationOfTheAoe: 1
     timeBeforeFinalDisparition: 0.05
     damagesToDealOnImpact:
       playerName: 
@@ -43,11 +43,10 @@ MonoBehaviour:
       additionalDamages: 0
       additionalStatusToApply: []
       additionalMovementToApply: {fileID: 0}
-    impactAlly:
+    imptactAlly:
       playerName: 
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: 9bd3555636d96784d96df0c00a05b876, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
