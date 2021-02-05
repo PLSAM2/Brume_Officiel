@@ -422,10 +422,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			if (!ignoreTickStatus)
 			{
-				if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
-				{
-					SendStatus(myPlayerModule.poisonousEffect);
+                if (GameFactory.GetLocalPlayerObj() != null)
+                {
+					if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+					{
+						SendStatus(myPlayerModule.poisonousEffect);
+					}
 				}
+
 			}
 
 			if (_damagesToDeal.movementToApply != null)

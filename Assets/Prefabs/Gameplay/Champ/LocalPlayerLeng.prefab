@@ -2426,6 +2426,32 @@ MonoBehaviour:
   toSetActiveOnResolve: {fileID: 0}
   aoeInstantiated: {fileID: 5624599934099963903, guid: 972c9f8a551f3134aa943b1d937af82d, type: 3}
   spawnOnPos: 0
+--- !u!114 &7470227906028443212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707809604279415472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTimeCanalised: 0
+  timeToResolveSpell: 0
+  throwbackTime: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 63d2ee4bf872d204b9eea29531c84e32, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  myPlayerModule: {fileID: 0}
+  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  anonciationClip: {fileID: 0}
+  toSetActiveOnResolve: {fileID: 0}
 --- !u!114 &8587129456808580366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2455,7 +2481,7 @@ MonoBehaviour:
   wxTfs: {fileID: 0}
   wxController: {fileID: 0}
   tpFx: {fileID: 0}
-  playerModule: {fileID: 0}
+  playerModule: {fileID: 1004634171397155041}
   tpMaxTime: 5
   integibleLayer: 16
   tpLayer:
@@ -2466,32 +2492,6 @@ MonoBehaviour:
     m_Bits: 18593729
   tpDistance: 5
   waitForTpTime: 1
---- !u!114 &7470227906028443212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8707809604279415472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  throwbackTime: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 63d2ee4bf872d204b9eea29531c84e32, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  myPlayerModule: {fileID: 0}
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
-  anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
 --- !u!114 &8053995420269610744
 MonoBehaviour:
   m_ObjectHideFlags: 0
