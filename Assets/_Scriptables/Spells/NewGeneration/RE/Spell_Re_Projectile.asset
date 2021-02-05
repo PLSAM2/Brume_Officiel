@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Spell_Re_Projectile
   m_EditorClassIdentifier: 
   range: 16
-  cooldown: 8
+  cooldown: 6
   numberOfCharge: 1
   forbiddenState: 48
+  useUltStacks: 0
+  stacksUsed: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.3
+  canalisationTime: 0.2
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: b656c0c466d257d4ea798a08b7b31af2, type: 2}
   lockRotOnAnonciation: 1
@@ -80,13 +82,13 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.4
+    timeToReachMaxRange: 0.5
     timeToResolveTheSalve: 0
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 1
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 1
+  diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   cooldownReduction: 0

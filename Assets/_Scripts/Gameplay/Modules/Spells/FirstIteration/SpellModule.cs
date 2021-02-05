@@ -174,6 +174,8 @@ public class SpellModule : MonoBehaviour
 			ApplyCanalisationEffect();
 
 			DecreaseCharge();
+
+
 			if (spell.statusToApplyOnCanalisation.Count > 0)
 			{
 				for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
@@ -307,6 +309,11 @@ public class SpellModule : MonoBehaviour
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
+
+        if (spell.useUltStacks)
+        {
+			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
+        }
 	}
 	public virtual void DecreaseCooldown ()
 	{
@@ -335,6 +342,11 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual bool canBeCast ()
 	{
+		if (spell.useUltStacks && spell.stacksUsed > RoomManager.Instance.GetPlayerUltStacks(NetworkManager.Instance.GetLocalPlayer().ID))
+		{
+			return false;
+		}
+
 		if (isAComboPiece)
 			return true;
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
