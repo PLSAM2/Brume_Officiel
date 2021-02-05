@@ -39,7 +39,7 @@ public class Waypoint : MonoBehaviour
         indicatorOut.SetActive(false);
 
         nameTextIn.gameObject.SetActive(displayNameIn);
-        nameTextOut.gameObject.SetActive(displayDistanceOut);
+        nameTextOut.gameObject.SetActive(displayNameOut);
     }
 
     private void LateUpdate()
