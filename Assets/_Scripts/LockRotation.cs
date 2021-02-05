@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleFollow : MonoBehaviour
+public class LockRotation : MonoBehaviour
 {
 	public Vector3 baseRot;
 
