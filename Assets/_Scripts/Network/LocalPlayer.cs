@@ -60,11 +60,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
 
-    //TP
-    public bool forceShow = false;
-    public bool isTp = false;
+	//TP
+	public bool forceShow = false;
+	public bool isTp = false;
 
-    [TabGroup("Vision")] public QuickOutline myOutline;
+	[TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -359,6 +359,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
+
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -368,29 +369,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
-		if (!ignoreStatusAndEffect)
-		{
-			if (!ignoreTickStatus)
-			{
-				if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
-				{
-					SendStatus(myPlayerModule.poisonousEffect);
-				}
-			}
 
-			if (_damagesToDeal.statusToApply != null)
-			{
-				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
-				{
-					SendStatus(_damagesToDeal.statusToApply[i]);
-				}
-			}
-
-			if (_damagesToDeal.movementToApply != null)
-			{
-				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
-			}
-		}
 
 
 		if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
@@ -438,6 +417,31 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 		}
+
+		if (!ignoreStatusAndEffect)
+		{
+			if (!ignoreTickStatus)
+			{
+				if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+				{
+					SendStatus(myPlayerModule.poisonousEffect);
+				}
+			}
+
+			if (_damagesToDeal.movementToApply != null)
+			{
+				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
+			}
+
+			if (_damagesToDeal.statusToApply != null)
+			{
+				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
+				{
+					SendStatus(_damagesToDeal.statusToApply[i]);
+				}
+			}
+
+		}
 	}
 
 
@@ -448,7 +452,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-		myPlayerModule.KillEveryStun();
+		if (isOwner)
+			myPlayerModule.KillEveryStun();
 
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0)
 		{
@@ -484,7 +489,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
-
 	}
 
 	public void LocallyDivideHealth ( ushort divider )
@@ -593,28 +597,28 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-    public void SendEnemySpot(ushort _id)
-    {
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(_id);
+	public void SendEnemySpot ( ushort _id )
+	{
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write(_id);
 
-            using (Message _message = Message.Create(Tags.SpotPlayer, _writer))
-            {
-                currentClient.SendMessage(_message, SendMode.Reliable);
-            }
-        }
-    }
+			using (Message _message = Message.Create(Tags.SpotPlayer, _writer))
+			{
+				currentClient.SendMessage(_message, SendMode.Reliable);
+			}
+		}
+	}
 
-    [SerializeField] float timeSpotDisplay = 2;
-    public IEnumerator SpotPlayer()
-    {
-        myUiPlayerManager.Eye_Spot.SetActive(true);
-        yield return new WaitForSeconds(timeSpotDisplay);
-        myUiPlayerManager.Eye_Spot.SetActive(false);
-    }
+	[SerializeField] float timeSpotDisplay = 2;
+	public IEnumerator SpotPlayer ()
+	{
+		myUiPlayerManager.Eye_Spot.SetActive(true);
+		yield return new WaitForSeconds(timeSpotDisplay);
+		myUiPlayerManager.Eye_Spot.SetActive(false);
+	}
 
-    public void KillPlayer ( PlayerData killer = null )
+	public void KillPlayer ( PlayerData killer = null )
 	{
 		if (isOwner)
 		{
@@ -688,7 +692,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void OnAddedStatus ( ushort _newStatus )
 	{
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
+		{
+			if (isNegative(_newStatus))
+				myPlayerModule.KillEveryStun();
+
 			myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
+		}
 		else if (isNegative(_newStatus))
 			myPlayerModule.hitCountered?.Invoke();
 	}
@@ -704,6 +713,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnForcedMovementReceived ( ForcedMovement _movementSent )
 	{
+		myPlayerModule.KillEveryStun();
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
 			myPlayerModule.movementPart.AddDash(_movementSent);
 		else

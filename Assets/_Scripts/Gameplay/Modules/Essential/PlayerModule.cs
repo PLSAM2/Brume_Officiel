@@ -863,7 +863,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		foreach(EffectLifeTimed _effect in allEffectLive)
 		{
-			if((_effect.effect.stateApplied & En_CharacterState.Root) !=0 || (_effect.effect.stateApplied & En_CharacterState.Silenced) != 0)
+			if((_effect.effect.stateApplied & En_CharacterState.Root) !=0 || (_effect.effect.stateApplied & En_CharacterState.Silenced) != 0 )
 			{
 				_effect.liveLifeTime = 0;
 			}
