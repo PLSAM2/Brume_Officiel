@@ -499,6 +499,11 @@ public class UiManager : MonoBehaviour
 
 	internal void AllPlayerJoinGameScene ()
 	{
+		foreach (KeyValuePair < ushort,ushort> pstacks in RoomManager.Instance.ultimateStack)
+        {
+			SetUltimateStacks(pstacks.Key, pstacks.Value);
+        }
+
 		waitingForPlayersPanel.SetActive(false);
 	}
 
