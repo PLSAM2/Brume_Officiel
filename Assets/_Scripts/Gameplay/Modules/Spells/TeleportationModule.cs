@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class TeleportationModule : SpellModule
 {
-    public Transform wxTfs;
-    public WxController wxController;
+
+    private Transform wxTfs;
+    private WxController wxController;
     public ParticleSystem tpFx;
     public PlayerModule playerModule;
     public float tpMaxTime = 5;
@@ -201,27 +202,31 @@ public class TeleportationModule : SpellModule
             this.transform.position = _newPos;
         }
 
-        foreach (Interactible inter in playerModule.interactiblesClose)
+        if (playerModule != null)
         {
-            inter.StopCapturing();
+            foreach (Interactible inter in playerModule.interactiblesClose)
+            {
+                inter.StopCapturing();
+            }
+            playerModule.interactiblesClose.Clear();
 
-        }
-        playerModule.interactiblesClose.Clear();
 
-        if (value == false)
-        {
-            this.gameObject.layer = integibleLayer;
-        }
-        else
-        {
-            playerModule.ResetLayer();
+            if (value == false)
+            {
+                this.gameObject.layer = integibleLayer;
+            }
+            else
+            {
+                playerModule.ResetLayer();
+            }
+
+            foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
+            {
+                obj.SetActive(value);
+            }
+            playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
         }
 
-        foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
-        {
-            obj.SetActive(value);
-        }
-        playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
     }
 
     public IEnumerator WaitForSpawn(bool isTimeEnded) 
