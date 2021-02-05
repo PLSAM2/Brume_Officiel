@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: Spell_Re_CounterPart1
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 4
+  cooldown: 8
   numberOfCharge: 1
-  forbiddenState: 48
-  lockRotOnCanalisation: 1
+  forbiddenState: 32
+  useUltStacks: 0
+  stacksUsed: 0
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
   statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 6d1228166dd73a544aa3850a5f1b5c8c, type: 2}
+  - {fileID: 11400000, guid: b56b0b07795a79440940bffb42c805e6, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
@@ -28,6 +30,6 @@ MonoBehaviour:
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd:
-  - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
-  throwBackDuration: 0.8
+  - {fileID: 11400000, guid: 94db95da7f1dc8c4086cb5abdfa73871, type: 2}
+  throwBackDuration: 1.2
   spellIcon: {fileID: 21300000, guid: 5ecc808705904c143b5a4e4bfa73b58b, type: 3}
