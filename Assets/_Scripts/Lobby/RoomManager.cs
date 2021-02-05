@@ -281,6 +281,8 @@ public class RoomManager : MonoBehaviour
 
     }
 
+
+
     public void UpdatePointDisplay()
     {
         if (UiManager.Instance != null)
@@ -400,13 +402,15 @@ public class RoomManager : MonoBehaviour
                 if (_lp.myPlayerModule.characterParameters.maxUltimateStack < value)
                 {
                     ultimateStack[playerId] = _lp.myPlayerModule.characterParameters.maxUltimateStack;
-                } else
+                }
+                else
                 {
 
                     ultimateStack[playerId] = value;
                 }
 
-            } else
+            }
+            else
             {
                 if (_lp.myPlayerModule.characterParameters.maxUltimateStack < ultimateStack[playerId] + value)
                 {
@@ -421,5 +425,36 @@ public class RoomManager : MonoBehaviour
 
             UiManager.Instance.SetUltimateStacks(playerId, ultimateStack[playerId]);
         }
+    }
+
+    internal void TryUseUltStacks(ushort stacksUsed)
+    {
+        ushort pId = NetworkManager.Instance.GetLocalPlayer().ID;
+        if (!GameManager.Instance.networkPlayers.ContainsKey(pId)) { return; }
+
+        if (ultimateStack[pId] >= stacksUsed)
+        {
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            {
+                _writer.Write(stacksUsed);
+
+                using (Message _message = Message.Create(Tags.UseUltPoint, _writer))
+                {
+                    client.SendMessage(_message, SendMode.Reliable);
+                }
+            }
+        }
+
+    }
+
+    internal ushort GetPlayerUltStacks(ushort id)
+    {
+        if (!GameManager.Instance.networkPlayers.ContainsKey(id)) { return 0 ; }
+        if (actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return ultimateStack[id];
+        }
+
+        return 0;
     }
 }
