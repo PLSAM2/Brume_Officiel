@@ -923,13 +923,14 @@ public class Effect
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
 	[HorizontalGroup("Group3")] public bool refreshOnApply = false;
 	[HorizontalGroup("Group3")] [HideIf("refreshOnApply")] public bool doNotApplyIfExist = false;
-
 	[ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
 	[ShowIf("tick")] [BoxGroup("Tick")] public bool isDamaging = true;
 	[ShowIf("tick")] [BoxGroup("Tick")] public bool isHealing = false;
 	[ShowIf("tick")] [BoxGroup("Tick")] public ushort tickValue = 0;
 
 	public En_CharacterState stateApplied;
+	public bool isHardControl => ((stateApplied & En_CharacterState.Root) != 0 || (stateApplied & En_CharacterState.Silenced) != 0);
+
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
