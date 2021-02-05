@@ -16,6 +16,8 @@ MonoBehaviour:
   cooldown: 2
   numberOfCharge: 1
   forbiddenState: 48
+  useUltStacks: 0
+  stacksUsed: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 1
   canalisationTime: 0
@@ -81,14 +83,14 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.5
+    timeToReachMaxRange: 0.7
     timeToResolveTheSalve: 0.2
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 0
-  diesOnWallTouch: 1
+  diesOnWallTrigger: 0
   forcePrefabApparition: 0
   cooldownReduction: 0
   bonusShot: 0

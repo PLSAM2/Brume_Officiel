@@ -858,6 +858,17 @@ public class PlayerModule : MonoBehaviour
 
 		StartCoroutine(CheckForMenace());
 	}
+
+	public void KillEveryStun()
+	{
+		foreach(EffectLifeTimed _effect in allEffectLive)
+		{
+			if((_effect.effect.stateApplied & En_CharacterState.Root) !=0 || (_effect.effect.stateApplied & En_CharacterState.Silenced) != 0)
+			{
+				_effect.liveLifeTime = 0;
+			}
+		}
+	}
 }
 
 [System.Flags]

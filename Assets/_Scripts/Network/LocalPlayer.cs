@@ -448,6 +448,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
+		myPlayerModule.KillEveryStun();
+
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0)
 		{
 			if (isOwner)
