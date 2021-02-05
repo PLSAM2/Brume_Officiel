@@ -1,5 +1,6 @@
 ﻿using PixelPlay.OffScreenIndicator;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +11,16 @@ public class Waypoint : MonoBehaviour
 
     [SerializeField] private List<Image> images = new List<Image>();
 
-    [SerializeField] private Text distanceTextIn;
-    [SerializeField] private Text distanceTextOut;
+    [SerializeField] private TextMeshProUGUI distanceTextIn;
+    [SerializeField] private TextMeshProUGUI distanceTextOut;
+
+    [SerializeField] private TextMeshProUGUI nameTextIn;
+    [SerializeField] private TextMeshProUGUI nameTextOut;
 
     public Transform target;
+
+    public bool displayNameIn = false;
+    public bool displayNameOut = false;
 
     public bool displayDistanceIn = false;
     public bool displayDistanceOut = false;
@@ -30,6 +37,9 @@ public class Waypoint : MonoBehaviour
 
         indicatorIn.SetActive(false);
         indicatorOut.SetActive(false);
+
+        nameTextIn.gameObject.SetActive(displayNameIn);
+        nameTextOut.gameObject.SetActive(displayDistanceOut);
     }
 
     private void LateUpdate()
