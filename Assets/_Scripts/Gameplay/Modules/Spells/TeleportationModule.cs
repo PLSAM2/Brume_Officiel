@@ -10,7 +10,7 @@ public class TeleportationModule : SpellModule
     public WxController wxController;
     public ParticleSystem tpFx;
     public PlayerModule playerModule;
-    public float tpMaxTIme = 5;
+    public float tpMaxTime = 5;
     public int integibleLayer = 16;
     public LayerMask tpLayer;
     public LayerMask raycastLayer;
@@ -38,7 +38,7 @@ public class TeleportationModule : SpellModule
         if (isTping)
         {
             timer -= Time.deltaTime;
-            UiManager.Instance.tpFillImage.fillAmount = timer / tpMaxTIme;
+            UiManager.Instance.tpFillImage.fillAmount = timer / tpMaxTime;
 
             if (timer <= 0)
             {
@@ -157,7 +157,7 @@ public class TeleportationModule : SpellModule
         if (value == false) // SI TP
         {
             this.gameObject.layer = integibleLayer;
-            timer = tpMaxTIme;
+            timer = tpMaxTime;
             playerModule.AddState(En_CharacterState.Stunned);
 
             //
