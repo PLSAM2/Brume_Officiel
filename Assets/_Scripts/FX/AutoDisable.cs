@@ -6,7 +6,6 @@ public class AutoDisable : MonoBehaviour
 {
     public void Init(float _time)
     {
-        print(_time);
         StartCoroutine(WaitToDisable(_time));
     }
 
