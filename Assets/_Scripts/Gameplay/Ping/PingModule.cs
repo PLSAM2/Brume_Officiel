@@ -6,7 +6,7 @@ public class PingModule : SpellModule
 {
     private void Update()
     {
-        if (myPlayerModule == null)
+        if (myPlayerModule == null || isOwner == false)
         {
             return;
         }

@@ -124,7 +124,7 @@ public class UIPingModule : MonoBehaviour
             {
                 if (_temp.GetComponent<LocalPlayer>().myPlayerId != NetworkManager.Instance.GetLocalPlayer().ID)
                 {
-                    UiManager.Instance.chat.SendNewForcedMessage("<color=red> I see " + RoomManager.Instance.GetPlayerData(hit.collider.GetComponent<LocalPlayer>().myPlayerId).playerCharacter.ToString() + " ! </color>");
+                    UiManager.Instance.chat.SendNewForcedMessage("<color=red> I see " + RoomManager.Instance.GetPlayerData(hit.collider.GetComponent<LocalPlayer>().myPlayerId).playerCharacter.ToString() + " ! </color>", true);
                 }          
             }
             else if (_temp.CompareTag("Interactible"))
@@ -133,11 +133,11 @@ public class UIPingModule : MonoBehaviour
          
                 if (_inter.type == GameData.InteractibleType.Altar)
                 {
-                    UiManager.Instance.chat.SendNewForcedMessage("<color=green> Go to " + _inter.interactibleName + " ! </color>");
+                    UiManager.Instance.chat.SendNewForcedMessage("<color=green> Go to " + _inter.interactibleName + " ! </color>", true);
                 }
                 else
                 {
-                    UiManager.Instance.chat.SendNewForcedMessage("<color=green> I see " + _inter.interactibleName + " - "  + _inter.state.ToString() + " ! </color>");
+                    UiManager.Instance.chat.SendNewForcedMessage("<color=green> I see " + _inter.interactibleName + " - "  + _inter.state.ToString() + " ! </color>", true);
                 }
             }
 
