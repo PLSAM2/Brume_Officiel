@@ -443,7 +443,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
-		print("To Deal" + damages);
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
