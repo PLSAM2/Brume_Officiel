@@ -44,88 +44,97 @@ public class Aoe : AutoKill
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
 	{
-		foreach (Collider _coll in enemiesTouched())
+		if (isOwner)
 		{
-			Damageable _damageable = _coll.GetComponent<Damageable>();
 
-			Vector3 _posOfDealing = transform.position;
-
-			if (_damageable != null)
+			foreach (Collider _coll in enemiesTouched())
 			{
-				float _percentageOfStrength = 1;
+				Damageable _damageable = _coll.GetComponent<Damageable>();
 
-				if (_damages.movementToApply != null)
+				Vector3 _posOfDealing = transform.position;
+
+				if (_damageable != null)
 				{
-					if (adaptiveRange)
+					float _percentageOfStrength = 1;
+
+					if (_damages.movementToApply != null)
 					{
-						if (localTrad.rules.isBox)
+						if (adaptiveRange)
 						{
-							if (_damages.movementToApply.isGrab)
-								_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
-							else
-								_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+							if (localTrad.rules.isBox)
+							{
+								if (_damages.movementToApply.isGrab)
+									_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+								else
+									_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 
-						}
-						else
-						{
-							if (_damages.movementToApply.isGrab)
-								_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
-
+							}
 							else
-								_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+							{
+								if (_damages.movementToApply.isGrab)
+									_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
+
+								else
+									_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+							}
 						}
+
+						if (localTrad.rules.useOwnerPos)
+							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
 					}
 
-					if (localTrad.rules.useOwnerPos)
-						_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
+					_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 				}
-
-				_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 			}
 		}
 	}
 
 	protected void DealBuffInRange ( DamagesInfos _buff )
 	{
-		foreach (Collider _coll in alliedTouched())
+		if (isOwner)
 		{
-			Damageable _damageable = _coll.GetComponent<Damageable>();
 
-			Vector3 _posOfDealing = transform.position;
-
-			if (_damageable != null && _damageable.IsInMyTeam(myteam))
+			foreach (Collider _coll in alliedTouched())
 			{
-				float _percentageOfStrength = 1;
+				Damageable _damageable = _coll.GetComponent<Damageable>();
 
-				if (_buff.movementToApply != null)
+				Vector3 _posOfDealing = transform.position;
+
+				if (_damageable != null && _damageable.IsInMyTeam(myteam))
 				{
-					if (adaptiveRange)
+					float _percentageOfStrength = 1;
+
+					if (_buff.movementToApply != null)
 					{
-						if (localTrad.rules.isBox)
+						if (adaptiveRange)
 						{
-							if (_buff.movementToApply.isGrab)
-								_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
-							else
-								_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
+							if (localTrad.rules.isBox)
+							{
+								if (_buff.movementToApply.isGrab)
+									_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+								else
+									_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 
-						}
-						else
-						{
-							if (_buff.movementToApply.isGrab)
-								_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
-
+							}
 							else
-								_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+							{
+								if (_buff.movementToApply.isGrab)
+									_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
+
+								else
+									_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+							}
 						}
+
+						if (localTrad.rules.useOwnerPos)
+							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
 					}
 
-					if (localTrad.rules.useOwnerPos)
-						_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
+					_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 				}
-
-				_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 			}
 		}
+
 	}
 
 	protected Collider[] enemiesTouched ()

@@ -29,7 +29,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
-    public AudioClip spotSound;
+    public AudioClip spotSound, cooldownUpSound;
 
     bool init = false;
     private void Awake()
