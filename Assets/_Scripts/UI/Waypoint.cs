@@ -1,16 +1,17 @@
 ﻿using PixelPlay.OffScreenIndicator;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Indicator : MonoBehaviour
+public class Waypoint : MonoBehaviour
 {
     [SerializeField] private GameObject indicatorOut;
     [SerializeField] private GameObject indicatorIn;
 
-    [SerializeField] private Image iconImageOut;
-    [SerializeField] private Image iconImageIn;
+    [SerializeField] private List<Image> images = new List<Image>();
 
-    [SerializeField] private Text distanceText;
+    [SerializeField] private Text distanceTextIn;
+    [SerializeField] private Text distanceTextOut;
 
     public Transform target;
 
@@ -37,7 +38,8 @@ public class Indicator : MonoBehaviour
         if (displayDistanceIn || displayDistanceOut)
         {
             float value = Vector3.Distance(target.position, GameManager.Instance.currentLocalPlayer.transform.position);
-            distanceText.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+            distanceTextIn.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+            distanceTextOut.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
         }
 
         //position
@@ -54,8 +56,11 @@ public class Indicator : MonoBehaviour
                 indicatorIn.SetActive(true);
                 indicatorOut.SetActive(false);
 
-                distanceText.gameObject.SetActive(displayDistanceIn);
+                distanceTextIn.gameObject.SetActive(displayDistanceIn);
+                distanceTextOut.gameObject.SetActive(false);
             }
+
+            transform.rotation = Quaternion.identity;
         }
         else if (!isTargetVisible)
         {
@@ -68,7 +73,8 @@ public class Indicator : MonoBehaviour
                 indicatorOut.SetActive(true);
                 indicatorIn.SetActive(false);
 
-                distanceText.gameObject.SetActive(displayDistanceOut);
+                distanceTextOut.gameObject.SetActive(displayDistanceOut);
+                distanceTextIn.gameObject.SetActive(false);
             }
         }
 
@@ -78,19 +84,15 @@ public class Indicator : MonoBehaviour
 
     public void SetImageColor(Color color)
     {
-        if (iconImageOut)
+        foreach(Image img in images)
         {
-            iconImageOut.color = color;
-        }
-
-        if (iconImageIn)
-        {
-            iconImageIn.color = color;
+            img.color = color;
         }
     }
 
     public void SetTextRotation(Quaternion rotation)
     {
-        distanceText.rectTransform.rotation = rotation;
+        distanceTextIn.rectTransform.rotation = rotation;
+        distanceTextOut.rectTransform.rotation = rotation;
     }
 }

@@ -16,6 +16,9 @@ public class PlayerSoulObj : MonoBehaviour
     [SerializeField] GameObject redObj;
     [SerializeField] GameObject blueObj;
 
+    [SerializeField] GameObject waypointSoulPrefab;
+    Waypoint waypointObj;
+
     private void OnEnable()
     {
         networkedObject = GetComponent<NetworkedObject>();
@@ -39,6 +42,15 @@ public class PlayerSoulObj : MonoBehaviour
         else
             mapIcon.sprite = iconYin;
 
+
+        Team myTeam = NetworkManager.Instance.GetLocalPlayer().playerTeam;
+        if (RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == myTeam)
+        {
+            waypointObj = Instantiate(waypointSoulPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+            waypointObj.SetImageColor(GameFactory.GetColorTeam(myTeam));
+
+            waypointObj.target = transform;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -82,6 +94,14 @@ public class PlayerSoulObj : MonoBehaviour
             wxController.PickPlayerSoul(playerSoul);
 
             NetworkObjectsManager.Instance.DestroyNetworkedObject(networkedObject.GetItemID(), true); //Bypass owner cause created by server
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (waypointObj)
+        {
+            Destroy(waypointObj.gameObject);
         }
     }
 }
