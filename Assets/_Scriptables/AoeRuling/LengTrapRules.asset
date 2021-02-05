@@ -20,6 +20,7 @@ MonoBehaviour:
       damageHealth: 0
       statusToApply:
       - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+      - {fileID: 11400000, guid: f7e9cec785802f748b05e92a20e018fe, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -28,7 +29,8 @@ MonoBehaviour:
     damagesToDealOnDuration:
       playerName: 
       damageHealth: 0
-      statusToApply: []
+      statusToApply:
+      - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -72,5 +74,5 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 0}
     useOwnerPos: 1
     isBox: 0
-    aoeRadius: 3
+    aoeRadius: 3.5
     boxDimension: {x: 0, y: 0, z: 0}

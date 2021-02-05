@@ -67,6 +67,8 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 	[FoldoutGroup("Other Gameplay")] public Image tpFillImage;
 
+    public Transform parentWaypoint;
+
 	private GameObject actualChar;
 	private GameObject actualUnlockedAltar = null;
 	private float radarRangeXDistanceFromZero = 0;
@@ -497,6 +499,11 @@ public class UiManager : MonoBehaviour
 
 	internal void AllPlayerJoinGameScene ()
 	{
+		foreach (KeyValuePair < ushort,ushort> pstacks in RoomManager.Instance.ultimateStack)
+        {
+			SetUltimateStacks(pstacks.Key, pstacks.Value);
+        }
+
 		waitingForPlayersPanel.SetActive(false);
 	}
 

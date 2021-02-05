@@ -77,7 +77,7 @@ public class Aoe : AutoKill
 					}
 
 					if (localTrad.rules.useOwnerPos)
-						_posOfDealing = GameManager.Instance.currentLocalPlayer.transform.position;
+						_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
 				}
 
 				_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
@@ -120,7 +120,7 @@ public class Aoe : AutoKill
 					}
 
 					if (localTrad.rules.useOwnerPos)
-						_posOfDealing = GameManager.Instance.currentLocalPlayer.transform.position;
+						_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
 				}
 
 				_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
