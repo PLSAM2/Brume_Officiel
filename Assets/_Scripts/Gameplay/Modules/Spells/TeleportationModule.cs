@@ -48,6 +48,10 @@ public class TeleportationModule : SpellModule
                     Tp(true);
                 }
             }
+            if (circlePreview != null)
+            {
+                circlePreview.transform.position = wxTfs.position;
+            }
 
             if (Input.GetMouseButtonDown(0))
             {
