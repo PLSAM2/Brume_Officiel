@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class ResurrectAltar : Interactible
 {
+    /// <summary>
+    /// DEPRECATED
+    /// </summary>
+ 
     void Start()
     {
         base.Init();

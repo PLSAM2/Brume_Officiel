@@ -200,7 +200,6 @@ public class PlayerModule : MonoBehaviour
 		_state = En_CharacterState.Clear;
 		oldState = state;
 
-		StartCoroutine(CheckForMenace());
 
 		if (teamIndex == Team.blue)
 			otherTeam = Team.red;
@@ -638,6 +637,9 @@ public class PlayerModule : MonoBehaviour
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
 
+		if ((_statusToAdd.stateApplied & En_CharacterState.WxMarked) != 0)
+			mylocalPlayer.MarkThirdEye(true);
+
 		if (_statusToAdd.forcedKey != 0)
 		{
 			_newElement.key = _statusToAdd.forcedKey;
@@ -848,17 +850,6 @@ public class PlayerModule : MonoBehaviour
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
-	IEnumerator CheckForMenace ()
-	{
-		yield return new WaitForSeconds(.1f);
-		if (GameFactory.IsInRangeOfHidden(revelationRangeWhileHidden, transform.position, otherTeam))
-			menacedIcon.gameObject.SetActive(true);
-		else
-			menacedIcon.gameObject.SetActive(false);
-
-		StartCoroutine(CheckForMenace());
-	}
-
 	public void KillEveryStun()
 	{
 		foreach(EffectLifeTimed _effect in allEffectLive)
@@ -891,7 +882,6 @@ public enum En_CharacterState
 
 	Stunned = Silenced | Root,
 }
-
 
 [System.Serializable]
 public class DamagesInfos
