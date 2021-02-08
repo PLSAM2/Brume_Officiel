@@ -59,6 +59,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
+	En_CharacterState oldState = En_CharacterState.Clear;
 
 	//TP
 	public bool forceShow = false;
@@ -687,10 +688,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnStateReceived ( ushort _state )
 	{
-		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0)
-			myPlayerModule.wxMark.SetActive(true);
-		else
-			myPlayerModule.wxMark.SetActive(false);
+		oldState = myPlayerModule.state;
+
+		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
+			MarkThirdEye(true);
+		else if (((En_CharacterState)_state & En_CharacterState.WxMarked) == 0 && (oldState & En_CharacterState.WxMarked) != 0)
+			MarkThirdEye(false);
 
 		if (!isOwner)
 			myPlayerModule.state = (En_CharacterState)_state;
