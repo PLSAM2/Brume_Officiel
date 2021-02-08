@@ -17,7 +17,8 @@ public class Waypoint : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameTextIn;
     [SerializeField] private TextMeshProUGUI nameTextOut;
 
-    public Transform target;
+    [HideInInspector] public Transform target;
+    [HideInInspector] public Vector3 targetVector;
 
     public bool displayNameIn = false;
     public bool displayNameOut = false;
@@ -51,14 +52,33 @@ public class Waypoint : MonoBehaviour
 
             if(playerActuel != null)
             {
-                float value = Vector3.Distance(target.position, playerActuel.transform.position);
+                float value = 0;
+
+                if (target)
+                {
+                    value = Vector3.Distance(target.position, playerActuel.transform.position);
+                }
+                else
+                {
+                    value = Vector3.Distance(targetVector, playerActuel.transform.position);
+                }
+                
                 distanceTextIn.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
                 distanceTextOut.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
             }
         }
 
         //position
-        Vector3 screenPosition = OffScreenIndicatorCore.GetScreenPosition(Camera.main, target.transform.position);
+        Vector3 screenPosition = Vector3.zero;
+
+        if (target)
+        {
+            screenPosition = OffScreenIndicatorCore.GetScreenPosition(Camera.main, target.transform.position);
+        }
+        else
+        {
+            screenPosition = OffScreenIndicatorCore.GetScreenPosition(Camera.main, targetVector);
+        }
         bool isTargetVisible = OffScreenIndicatorCore.IsTargetVisible(screenPosition);
 
         if (isTargetVisible)
