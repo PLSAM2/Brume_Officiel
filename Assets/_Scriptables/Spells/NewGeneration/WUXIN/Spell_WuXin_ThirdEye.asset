@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_WuXin_ThirdEye
   m_EditorClassIdentifier: 
-  range: 30
-  cooldown: 8
+  range: 80
+  cooldown: 30
   numberOfCharge: 1
   forbiddenState: 48
   useUltStacks: 0
@@ -48,35 +48,26 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5818764
-      value: 1.8079333
-      inSlope: 6.71498
-      outSlope: 6.71498
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.07626017
-    - serializedVersion: 3
       time: 1
-      value: 6
-      inSlope: -0.4938387
-      outSlope: -0.4938387
-      tangentMode: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.340273
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalSize: {x: 50, y: 1, z: 1}
+  finalSize: {x: 100, y: 1, z: 1}
   scaleCurve:
     serializedVersion: 2
     m_Curve:
@@ -105,7 +96,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 5
+    timeToReachMaxRange: 3
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
