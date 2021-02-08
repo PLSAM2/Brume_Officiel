@@ -10,40 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_WuXin_SniperUlti
+  m_Name: Spell_WuXin_ThirdEye
   m_EditorClassIdentifier: 
-  range: 6.75
-  cooldown: 2
+  range: 30
+  cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
   useUltStacks: 0
   stacksUsed: 0
   lockRotOnCanalisation: 0
-  lockPosOnCanalisation: 1
-  canalisationTime: 0
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 46d906520ac82a949a21bc5c08338e74, type: 2}
-  lockRotOnAnonciation: 1
+  lockPosOnCanalisation: 0
+  canalisationTime: 0.5
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
-  anonciationTime: 0
+  anonciationTime: 0.25
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
+  throwBackDuration: 0.01
+  spellIcon: {fileID: 21300000, guid: fdc3bf648557da0478b2a8daa6194a4e, type: 3}
   damagesToDeal:
     playerName: 
-    damageHealth: 1
+    damageHealth: 5
     statusToApply:
     - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 2cbfca213f9ecee4989ed3ccc444bcb1, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: 4790e43e6852efc48afeaec6b8b88313, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
     serializedVersion: 2
@@ -58,8 +56,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.73147357
-      value: 2.0355334
+      time: 0.5818764
+      value: 1.8079333
       inSlope: 6.71498
       outSlope: 6.71498
       tangentMode: 0
@@ -78,13 +76,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalSize: {x: 1, y: 1, z: 1}
-  offSet: 0
+  finalSize: {x: 50, y: 1, z: 1}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  offSet: 1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.7
-    timeToResolveTheSalve: 0.2
+    timeToReachMaxRange: 5
+    timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0

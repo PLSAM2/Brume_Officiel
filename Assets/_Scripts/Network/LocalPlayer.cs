@@ -756,6 +756,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		return myPlayerModule.teamIndex == _indexTested;
 	}
+
+	public void MarkThirdEye(bool _activate)
+	{
+		//TO DO SAM
+	}
 }
 
 public interface Damageable
