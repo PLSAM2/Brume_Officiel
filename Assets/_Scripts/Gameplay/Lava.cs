@@ -20,15 +20,15 @@ public class Lava : MonoBehaviour
 
     public void Spawn()
     {
-        collider.enabled = true;
-        canDamage = true;
-
         StartCoroutine(ValueToTime());
     }
 
     IEnumerator ValueToTime()
     {
         yield return new WaitForSeconds(spawnCD);
+
+        collider.enabled = true;
+        canDamage = true;
 
         float timeCounter = 0;
 
