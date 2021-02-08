@@ -47,11 +47,11 @@ public class Waypoint : MonoBehaviour
         //distance
         if (displayDistanceIn || displayDistanceOut)
         {
-            Transform playerTransform = GameFactory.GetLocalPlayerObj().transform;
+            LocalPlayer playerActuel = GameFactory.GetActualPlayerFollow();
 
-            if(playerTransform != null)
+            if(playerActuel != null)
             {
-                float value = Vector3.Distance(target.position, playerTransform.transform.position);
+                float value = Vector3.Distance(target.position, playerActuel.transform.position);
                 distanceTextIn.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
                 distanceTextOut.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
             }

@@ -55,7 +55,7 @@ public class Ghost : MonoBehaviour
 
     public void Init(PlayerModule playerModule, float lifetime, float ghostSpeed, En_SpellInput _inputLinked )
     {
-        GameManager.Instance.currentLocalGhost = this;
+        //GameManager.Instance.currentLocalGhost = this;
 
 		//GameManager.Instance.ghostEffect.enabled = true;
 

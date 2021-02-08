@@ -93,6 +93,20 @@ public class TeleportationModule : SpellModule
         return layermask == (layermask | (1 << layer));
     }
 
+    public void TpOnRes()
+    {
+
+
+        ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+
+        if (wxId != null)
+        {
+            wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
+            wxController = wxTfs.GetComponent<WxController>();
+            SetTpState(false);
+        }
+    }
+
     protected override void Resolution()
     {
         if (isTping)
