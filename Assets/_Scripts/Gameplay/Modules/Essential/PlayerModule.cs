@@ -260,12 +260,13 @@ public class PlayerModule : MonoBehaviour
 
 			if ((oldState & En_CharacterState.WxMarked) != 0 && (state & En_CharacterState.WxMarked) == 0)
 			{
-				mylocalPlayer.MarkThirdEye(true);
+				mylocalPlayer.MarkThirdEye(false);
 			}
 			else if ((state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
 			{
-				mylocalPlayer.MarkThirdEye(false);
+				mylocalPlayer.MarkThirdEye(true);
 			}
+
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)

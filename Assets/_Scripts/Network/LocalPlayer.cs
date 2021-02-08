@@ -688,13 +688,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnStateReceived ( ushort _state )
 	{
-		oldState = myPlayerModule.state;
-
-		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
-			MarkThirdEye(false);
-		else if (((En_CharacterState)_state & En_CharacterState.WxMarked) == 0 && (oldState & En_CharacterState.WxMarked) != 0)
-			MarkThirdEye(true);
-
 		if (!isOwner)
 			myPlayerModule.state = (En_CharacterState)_state;
 	}
@@ -781,7 +774,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
             }
             else
             {
-                if(waypointThirdEye)
+
+				if (waypointThirdEye)
                 {
                     Destroy(waypointThirdEye.gameObject);
                 }
