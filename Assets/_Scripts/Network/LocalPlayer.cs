@@ -65,6 +65,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public bool forceShow = false;
 	public bool isTp = false;
 
+    //ThirdEye
+    [SerializeField] GameObject waypointEnemyPrefab;
+
 	[TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
 	{
@@ -760,10 +763,30 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		return myPlayerModule.teamIndex == _indexTested;
 	}
 
+    Waypoint waypointThirdEye;
 	public void MarkThirdEye(bool _activate)
 	{
-		//TO DO SAM
-	}
+        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+        {
+            // LES YEUX
+            myUiPlayerManager.Eye_Spot.SetActive(_activate);
+        }
+        else
+        {
+            if (_activate)
+            {
+                waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+                waypointThirdEye.targetVector = transform.position;
+                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
+            }
+            else
+            {
+                Destroy(waypointThirdEye.gameObject);
+            }
+            forceOutline = _activate;
+        }
+      
+    }
 }
 
 public interface Damageable
