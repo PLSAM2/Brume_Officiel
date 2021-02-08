@@ -109,7 +109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1834172198630613284
 Transform:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3073313388587040675
 Transform:
   m_ObjectHideFlags: 0
@@ -465,6 +465,7 @@ MonoBehaviour:
   myLivelifeTime: 0
   meshBlue: {fileID: 4046907593915369113}
   meshRed: {fileID: 2663093280601111526}
+  hideMeshToEnemyTeam: 0
   myteam: 0
   myNetworkObject: {fileID: 1984787125783616747}
   isOwner: 0
@@ -472,12 +473,12 @@ MonoBehaviour:
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 8300000, guid: 39557d5dbf076bd4c8204d19aee7ba14, type: 3}
   soundFollowObj: 1
+  aoeToSpawn: {fileID: 0}
   localTrad: {fileID: 11400000, guid: 73e00071d2af8a544affed6a3ffbe953, type: 2}
   doImpactFx: 1
   hasTouched: 0
   myRb: {fileID: 7676648114141103316}
   hitSound: {fileID: 0}
-  myColl: {fileID: 1795821538017011573}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0

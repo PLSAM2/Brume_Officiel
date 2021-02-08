@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 using System;
+using DG.Tweening;
+
 public class Projectile : AutoKill
 {
 	bool asDeal = false;
@@ -22,7 +24,7 @@ public class Projectile : AutoKill
 	Vector3 startPos;
 
 	[HideInInspector] public bool hasTouched = false;
-	[HideInInspector] public Rigidbody myRb;
+	public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
 
 
@@ -66,7 +68,7 @@ public class Projectile : AutoKill
 		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
 		direction = transform.forward;
 		myRb.velocity = speed * direction;
-
+		transform.localScale = Vector3.one;
 	}
 
 	private void Start ()
@@ -132,6 +134,11 @@ public class Projectile : AutoKill
 	private void Update ()
 	{
 		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime);
+
+		if(localTrad.isScalable)
+		transform.localScale = new Vector3(1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.x - 1),
+										   1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.y - 1),
+										   1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.z - 1));
 	}
 
 	void OnTriggerEnter ( Collider _coll )

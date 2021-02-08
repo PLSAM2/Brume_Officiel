@@ -15,8 +15,11 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[Header("Projectile Prefabs")]
 	[TabGroup("ProjectileSpecifications")] public Projectile prefab;
 	[TabGroup("ProjectileSpecifications")] public bool _reduceCooldowns = false;
-	[TabGroup("ProjectileSpecifications")] public AnimationCurve _curveSpeed = AnimationCurve.Constant(0,1,1);
-	[TabGroup("ProjectileSpecifications")] public bool asAdaptiveRange = false;
+	[TabGroup("ProjectileSpecifications")] public AnimationCurve _curveSpeed = AnimationCurve.Constant(0, 1, 1);
+	[TabGroup("ProjectileSpecifications")] public Vector3 finalSize = Vector3.one;
+	[HideInInspector] public bool isScalable => finalSize != Vector3.one;
+	[TabGroup("ProjectileSpecifications")] [ShowIf("isScalable")] public AnimationCurve scaleCurve;
+
 
 	[Header("SalveInfos")]
 	[TabGroup("ProjectileSpecifications")] public float offSet = .1f;
@@ -25,7 +28,8 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 
 	bool isMultiple => salveInfos.numberOfShotInSalve > 1;
-	[Header("MultiProjectile")] [ShowIf("isMultiple")]
+	[Header("MultiProjectile")]
+	[ShowIf("isMultiple")]
 	[TabGroup("ProjectileSpecifications")] [Min(0)] public int angleToSplit;
 
 	[Header("ImpactPArt")]

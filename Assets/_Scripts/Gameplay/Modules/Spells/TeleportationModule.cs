@@ -48,6 +48,10 @@ public class TeleportationModule : SpellModule
                     Tp(true);
                 }
             }
+            if (circlePreview != null)
+            {
+                circlePreview.transform.position = wxTfs.position;
+            }
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -91,6 +95,20 @@ public class TeleportationModule : SpellModule
     public static bool IsInLayer(int layer, LayerMask layermask)
     {
         return layermask == (layermask | (1 << layer));
+    }
+
+    public void TpOnRes()
+    {
+
+
+        ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+
+        if (wxId != null)
+        {
+            wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
+            wxController = wxTfs.GetComponent<WxController>();
+            SetTpState(false);
+        }
     }
 
     protected override void Resolution()

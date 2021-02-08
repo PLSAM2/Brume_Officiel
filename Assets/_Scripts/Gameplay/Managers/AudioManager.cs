@@ -29,7 +29,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
-    public AudioClip spotSound;
+    public AudioClip spotSound, cooldownUpSound;
 
     bool init = false;
     private void Awake()
@@ -249,11 +249,13 @@ public class AudioManager : SerializedMonoBehaviour
 
         audioDistance = Mathf.Clamp(audioDistance - 2 , 0, float.MaxValue);
 
-        if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
+        if (GameFactory.GetLocalPlayerObj() != null)
         {
-            OnAudioPlay?.Invoke(pos);
+            if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
+            {
+                OnAudioPlay?.Invoke(pos);
+            }
         }
-
     }
 
     AudioElement GetFreeAudioElement()

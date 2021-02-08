@@ -112,11 +112,7 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected void ShootProjectile ( Vector3 _posToSet, Vector3 _rot )
 	{
-		if (localTrad.asAdaptiveRange)
-		{
-			NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot, Vector3.Distance(_posToSet, (transform.position - _posToSet).normalized * localTrad.range)/spell.range );
-		}
-		else NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot, 1);
+		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.prefab.gameObject), _posToSet, _rot, 1);
 	}
 	#endregion
 

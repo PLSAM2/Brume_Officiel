@@ -32,7 +32,7 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 			/*if (_charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();*/
-			if(isOwner)
+			if (isOwner)
 			{
 				UpdateUiCharge();
 				ChargeUpdate?.Invoke(charges);
@@ -161,7 +161,7 @@ public class SpellModule : MonoBehaviour
 	}
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
-		if(isOwner)
+		if (isOwner)
 		{
 			timeToResolveSpell = FinalCanalisationTime();
 
@@ -284,7 +284,7 @@ public class SpellModule : MonoBehaviour
 
 		myPlayerModule.spellResolved?.Invoke();
 
-	
+
 	}
 	protected virtual void ApplyEffectAtTheEnd ()
 	{
@@ -310,10 +310,10 @@ public class SpellModule : MonoBehaviour
 	{
 		charges -= 1;
 
-        if (spell.useUltStacks)
-        {
+		if (spell.useUltStacks)
+		{
 			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
-        }
+		}
 	}
 	public virtual void DecreaseCooldown ()
 	{
@@ -330,6 +330,8 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void AddCharge ()
 	{
+		if (isOwner)
+			AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
 		charges++;
 	}
 	protected virtual void UpgradeSpell () { }
@@ -396,9 +398,9 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void StartCanalysingFeedBack ()
 	{
-        //PITIT BRUIT
-        if (canalisationClip != null)
-        {
+		//PITIT BRUIT
+		if (canalisationClip != null)
+		{
 			AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
 
@@ -406,28 +408,28 @@ public class SpellModule : MonoBehaviour
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", true);
-			//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", true);
 				break;
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation1", true);
-			//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", true);
 
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation2", true);
-			//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", true);
 
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation3", true);
-			//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", true);
 
 				break;
 		}
 	}
 	public virtual void StartAnnonciationFeedBack ()
 	{
-		
+
 	}
 	public virtual void ResolutionFeedBack ()
 	{
@@ -437,7 +439,7 @@ public class SpellModule : MonoBehaviour
 
 		//PITIT BRUIT
 		if (anonciationClip != null)
-        {
+		{
 			AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
 
@@ -446,22 +448,22 @@ public class SpellModule : MonoBehaviour
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", false);
-			//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", false);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", false);
 
 				break;
 			case En_SpellInput.FirstSpell:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation1", false);
-			//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", false);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", false);
 
 				break;
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation2", false);
-		//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", false);
+				//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", false);
 
 				break;
 			case En_SpellInput.ThirdSpell:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation3", false);
-		//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", false);
+				//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", false);
 				break;
 		}
 	}
@@ -630,6 +632,6 @@ public enum En_SpellInput
 	TP = 5,
 	Maj,
 	Ward,
-	Special, 
+	Special,
 	Ping
 }

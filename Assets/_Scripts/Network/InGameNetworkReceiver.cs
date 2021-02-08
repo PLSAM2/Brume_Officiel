@@ -446,6 +446,12 @@ public class InGameNetworkReceiver : MonoBehaviour
 				if (isResurecting)
 				{
 					GameManager.Instance.OnPlayerRespawn?.Invoke(id);
+
+					if (myLocalPlayer.isOwner)
+					{
+						TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
+						_tp.TpOnRes();
+					}
 				}
 
 			}
