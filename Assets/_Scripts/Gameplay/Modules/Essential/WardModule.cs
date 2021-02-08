@@ -5,23 +5,20 @@ using UnityEngine;
 
 public class WardModule : SpellModule
 {
-	[SerializeField] private AnimationCurve launchCurve;
 	[SerializeField] private GameObject wardPrefab;
 	private GameObject wardObj;
 	public float wardSpeed;
-	public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
+
 	public float distanceMaxBeforeEndTravel = 0.01f;
 	private bool isLaunched = false;
-	private float deceleration = 1;
-	private float baseDistance;
-	private float lastOffest = 0;
+
 	private Vector3 startPos;
 	private Vector3 destination;
-	private Vector3 noCurvePosition;
-	private float animationCurveMaxValue;
 
 	CirclePreview myRangePreview, myAoePreview;
 	float wardVisionRange;
+
+	Vector3 lastPos = Vector3.zero;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -29,7 +26,6 @@ public class WardModule : SpellModule
 
 		wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
 		wardObj.SetActive(false);
-		animationCurveMaxValue = launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 		wardVisionRange = wardPrefab.GetComponent<Ward>().vision.myFieldOfView.viewRadius;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
@@ -56,17 +52,9 @@ public class WardModule : SpellModule
 				return;
 			}
 
-			deceleration = 1;
-			deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
-			Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (wardSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
-			noCurvePosition = newPosition;
+			lastPos = Vector3.MoveTowards(lastPos, destination, wardSpeed * Time.deltaTime);
 
-			float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
-			float UpOffset;
-
-			UpOffset = launchCurve.Evaluate(distanceProgress);
-			lastOffest = UpOffset;
-			wardObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
+			wardObj.transform.position = lastPos;
 		}
 	}
 
@@ -110,12 +98,11 @@ public class WardModule : SpellModule
 
 	public void InitWardLaunch ( Vector3 destination )
 	{
+		lastPos = this.transform.position;
 		this.destination = destination;
 		wardObj.SetActive(true);
-		startPos = (transform.position + Vector3.up);
+		startPos = (transform.position);
 		wardObj.transform.position = startPos;
-		baseDistance = Vector3.Distance(startPos, destination);
-		noCurvePosition = startPos;
 		isLaunched = true;
 	}
 

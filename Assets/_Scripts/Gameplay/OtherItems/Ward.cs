@@ -7,13 +7,35 @@ using static GameData;
 public class Ward : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 60;
-    [SerializeField] private float lifeTimeInBrume = 3;
+    [SerializeField] private float lifeTimeAcceleratorInBrume = 10;
       public Fow vision;
     [SerializeField] private LayerMask brumeLayer;
     private Team myTeam;
 
     public bool isInBrume = false;
     public int brumeId;
+
+    private bool landed = false;
+    private float timer = 0;
+    private void FixedUpdate()
+    {
+        if (landed)
+        {
+            if (isInBrume)
+            {
+                timer -= Time.fixedDeltaTime * lifeTimeAcceleratorInBrume;
+            } else
+            {
+                timer -= Time.fixedDeltaTime;
+            }
+
+
+            if (timer <= 0)
+            {
+                DestroyWard();
+            }
+        }
+    }
 
     public void Landed(Team _team)
     {
@@ -28,14 +50,6 @@ public class Ward : MonoBehaviour
             vision.Init();
 
             isInBrume = IsInBrume();
-            if (isInBrume)
-            {
-                StartCoroutine(WardLifeTime(lifeTimeInBrume));
-            }
-            else
-            {
-                StartCoroutine(WardLifeTime(lifeTime));
-            }
 
             GameManager.Instance.allWard.Add(this);
             GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
@@ -55,6 +69,9 @@ public class Ward : MonoBehaviour
             {
                 vision.gameObject.SetActive(true);
             }
+
+            timer = lifeTime;
+            landed = true;
         }
     }
 
@@ -78,12 +95,6 @@ public class Ward : MonoBehaviour
     {
         vision.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
-    }
-    IEnumerator WardLifeTime(float _time)
-    {
-        yield return new WaitForSeconds(_time);
-        DestroyWard();
-
     }
 
     private void OnDisable()
