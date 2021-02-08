@@ -691,9 +691,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		oldState = myPlayerModule.state;
 
 		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
-			MarkThirdEye(true);
-		else if (((En_CharacterState)_state & En_CharacterState.WxMarked) == 0 && (oldState & En_CharacterState.WxMarked) != 0)
 			MarkThirdEye(false);
+		else if (((En_CharacterState)_state & En_CharacterState.WxMarked) == 0 && (oldState & En_CharacterState.WxMarked) != 0)
+			MarkThirdEye(true);
 
 		if (!isOwner)
 			myPlayerModule.state = (En_CharacterState)_state;
@@ -768,7 +768,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
         if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
         {
-            // LES YEUX
+            // LES YEUx
             myUiPlayerManager.Eye_Spot.SetActive(_activate);
         }
         else
