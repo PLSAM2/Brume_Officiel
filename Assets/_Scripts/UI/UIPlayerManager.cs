@@ -46,7 +46,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("UiState")] public GameObject StunIcon, HiddenIcon, CounteringIcon;
     [TabGroup("UiState")] public GameObject SlowIcon;
     [TabGroup("UiState")] public GameObject RootIcon;
-    [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon;
+    [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon, Eye_Spot;
 
     private void Awake()
     {
@@ -108,9 +108,9 @@ public class UIPlayerManager : MonoBehaviour
             {
                 //voit la shili
                 if (GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform)){
-                    WxLife.fillAmount = wxRef.liveHealth / wxRef.myPlayerModule.characterParameters.maxHealth;
+                    WxLife.fillAmount = (float) wxRef.liveHealth / (float) wxRef.myPlayerModule.characterParameters.maxHealth;
 
-                    Vector3 fromPos = this.transform.position + Vector3.right;
+                    Vector3 fromPos = WxCompass.transform.position;
                     Vector3 toPos = wxRef.transform.position;
 
                     fromPos.y = 0;

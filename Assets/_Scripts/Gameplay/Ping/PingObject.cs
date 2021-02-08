@@ -17,9 +17,12 @@ public class PingObject : MonoBehaviour
         if (team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             this.gameObject.SetActive(false);
+        } else
+        {
+            StartCoroutine(AutoKillTime());
         }
 
-      StartCoroutine(AutoKillTime());
+
     }
 
     IEnumerator AutoKillTime()

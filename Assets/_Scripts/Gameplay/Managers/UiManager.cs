@@ -67,6 +67,8 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 	[FoldoutGroup("Other Gameplay")] public Image tpFillImage;
 
+    public Transform parentWaypoint;
+
 	private GameObject actualChar;
 	private GameObject actualUnlockedAltar = null;
 	private float radarRangeXDistanceFromZero = 0;
@@ -314,8 +316,6 @@ public class UiManager : MonoBehaviour
 
 	private void Update ()
 	{
-		UpdateRadarIcons();
-
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			SetEchapMenuState();
@@ -349,65 +349,6 @@ public class UiManager : MonoBehaviour
 		}
 
 
-	}
-
-	private void UpdateRadarIcons ()
-	{
-		if (actualUnlockedAltar != null && actualChar != null)
-		{
-			Vector3 fromPos = actualChar.transform.position;
-			Vector3 toPos = actualUnlockedAltar.transform.position;
-
-			fromPos.y = 0;
-			toPos.y = 0;
-			Vector3 direction = (toPos - fromPos).normalized;
-			Vector3 clampedDirection = fromPos + direction * pointerDistance;
-			Debug.DrawLine(fromPos, clampedDirection, Color.yellow);
-			clampedDirection.y = 0;
-			float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
-			nextAltarRadarIcon.localEulerAngles = new Vector3(0, 0, angle);
-
-			Vector3 targetPositionScreenPoint = mainCam.WorldToScreenPoint(clampedDirection);
-			Vector3 offscreenpos = mainCam.WorldToScreenPoint(toPos);
-			offscreenpos.z = 0;
-			targetPositionScreenPoint.z = 0;
-			bool isOffScreen = offscreenpos.x <= radarRangeXDistanceFromZero || offscreenpos.x >= radarRange.rect.width + radarRangeXDistanceFromZero
-				|| offscreenpos.y <= radarRangeYDistanceFromZero || offscreenpos.y >= radarRange.rect.height + radarRangeYDistanceFromZero;
-
-			if (!isOffScreen)
-			{
-				if (offscreenpos.x <= radarRangeXDistanceFromZero)
-					offscreenpos.x = radarRangeXDistanceFromZero;
-				if (offscreenpos.x >= radarRange.rect.width + radarRangeXDistanceFromZero)
-					offscreenpos.x = radarRange.rect.width + radarRangeXDistanceFromZero;
-				if (offscreenpos.y <= radarRangeYDistanceFromZero)
-					offscreenpos.y = radarRangeYDistanceFromZero;
-				if (offscreenpos.y >= radarRange.rect.height + radarRangeYDistanceFromZero)
-					offscreenpos.y = radarRange.rect.height + radarRangeYDistanceFromZero;
-
-				nextAltarRadarIconOnScreen.position = offscreenpos;
-				nextAltarRadarIcon.position = offscreenpos;
-				nextAltarRadarIconOnScreen.gameObject.SetActive(true);
-				nextAltarRadarIcon.gameObject.SetActive(false);
-			}
-			else
-			{
-				if (targetPositionScreenPoint.x <= radarRangeXDistanceFromZero)
-					targetPositionScreenPoint.x = radarRangeXDistanceFromZero;
-				if (targetPositionScreenPoint.x >= radarRange.rect.width + radarRangeXDistanceFromZero)
-					targetPositionScreenPoint.x = radarRange.rect.width + radarRangeXDistanceFromZero;
-				if (targetPositionScreenPoint.y <= radarRangeYDistanceFromZero)
-					targetPositionScreenPoint.y = radarRangeYDistanceFromZero;
-				if (targetPositionScreenPoint.y >= radarRange.rect.height + radarRangeYDistanceFromZero)
-					targetPositionScreenPoint.y = radarRange.rect.height + radarRangeYDistanceFromZero;
-
-				nextAltarRadarIconOnScreen.position = targetPositionScreenPoint;
-				nextAltarRadarIcon.position = targetPositionScreenPoint;
-
-				nextAltarRadarIconOnScreen.gameObject.SetActive(false);
-				nextAltarRadarIcon.gameObject.SetActive(true);
-			}
-		}
 	}
 
 	internal void SetUltimateStacks ( ushort playerId, ushort v )
@@ -558,6 +499,11 @@ public class UiManager : MonoBehaviour
 
 	internal void AllPlayerJoinGameScene ()
 	{
+		foreach (KeyValuePair < ushort,ushort> pstacks in RoomManager.Instance.ultimateStack)
+        {
+			SetUltimateStacks(pstacks.Key, pstacks.Value);
+        }
+
 		waitingForPlayersPanel.SetActive(false);
 	}
 

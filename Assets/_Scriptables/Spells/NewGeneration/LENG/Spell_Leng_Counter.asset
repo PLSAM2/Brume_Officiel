@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Spell_Leng_Counter
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 1
+  cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
+  useUltStacks: 0
+  stacksUsed: 0
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
   canalisationTime: 0
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 7bed56c0cd4f8ac4e95b60580fcc33fe, type: 2}
@@ -26,8 +28,9 @@ MonoBehaviour:
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
-  statusToApplyOnResolution: []
-  statusToApplyAtTheEnd:
-  - {fileID: 11400000, guid: 3027e6558621ca042b253f7b8baf1973, type: 2}
-  throwBackDuration: 0.5
+  statusToApplyOnResolution:
+  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
+  - {fileID: 11400000, guid: 81c3f802f1ef2e74fbc56fcd77461a2a, type: 2}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 62312ae8cff6f6d459706298e9e9814a, type: 3}

@@ -10,11 +10,10 @@ public class AutoKill : MonoBehaviour
 	[TabGroup("AutokillParameters")] [HideInInspector] public float myLivelifeTime;
 	[TabGroup("AutokillParameters")] public GameObject meshBlue;
 	[TabGroup("AutokillParameters")] public GameObject meshRed;
-
+	[TabGroup("AutokillParameters")] public bool hideMeshToEnemyTeam = false;
 	[HideInInspector] public Team myteam;
 	[HideInInspector] public NetworkedObject myNetworkObject;
 	[HideInInspector] public bool isOwner = false;
-
 	[SerializeField] AudioClip spawnSound;
 
 	protected virtual void Awake ()
@@ -22,15 +21,30 @@ public class AutoKill : MonoBehaviour
 		myNetworkObject = GetComponent<NetworkedObject>();
 		meshBlue.gameObject.SetActive(false);
 		meshRed.gameObject.SetActive(false);
-
 	}
 
 	public virtual void Init ( Team ownerTeam, float _percentageOfLifeTime = 1 )
 	{
 		myNetworkObject = GetComponent<NetworkedObject>();
-
 		isOwner = myNetworkObject.GetIsOwner();
 		myteam = ownerTeam;
+
+		if (hideMeshToEnemyTeam)
+		{
+			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myteam))
+				DisplayMesh();
+		}
+		else
+			DisplayMesh();
+
+		if (spawnSound)
+		{
+			AudioManager.Instance.Play3DAudio(spawnSound, transform.position, myNetworkObject.GetItemID(), false);
+		}
+	}
+
+	void DisplayMesh ()
+	{
 		switch (myteam)
 		{
 			case Team.red:
@@ -41,19 +55,14 @@ public class AutoKill : MonoBehaviour
 				meshBlue.gameObject.SetActive(true);
 				break;
 		}
-
-		if (spawnSound)
-		{
-			AudioManager.Instance.Play3DAudio(spawnSound, transform.position, myNetworkObject.GetItemID(), false);
-		}
 	}
 
-	private void OnDisable ()
+	protected virtual void OnDisable ()
 	{
 		myLivelifeTime = mylifeTime;
 	}
 
-	public virtual void Destroy (bool _spawnAoe = false)
+	public virtual void Destroy ( bool _spawnAoe = false )
 	{
 		meshBlue.gameObject.SetActive(false);
 		meshRed.gameObject.SetActive(false);

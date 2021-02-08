@@ -148,6 +148,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample4:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -173,6 +181,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaCutoff: 0.5
+    - _AnimatedGrunge: 0
+    - _AnimatedGrungeMultiply: 1.58
+    - _AnimatedGrunge_Flipbook_Columns: 1
+    - _AnimatedGrunge_Flipbook_Rows: 1
+    - _AnimatedGrunge_Flipbook_Speed: 1
+    - _AnimatedGrunge_Tiling: 1
     - _BaseColor: 0
     - _BumpScale: 1
     - _CustomOpacityMask: 0
@@ -180,6 +195,7 @@ Material:
     - _CustomRimLight_Opacity: 1
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
+    - _DebugGrayscale: 0
     - _DepthFade: 0
     - _DepthFade_ClampMax: 0.8
     - _DepthFade_ClampMin: 1
@@ -207,6 +223,7 @@ Material:
     - _InkSplatter: 0
     - _InkSplatter_Tiling: 3.93
     - _InverseCustomOpacityMask: 0
+    - _IsGrungeAnimated: 0
     - _LightDebug: 0
     - _Metallic: 0
     - _Mode: 0
@@ -223,6 +240,10 @@ Material:
     - _Opacity: 1
     - _OpacityTexture: 0
     - _Out_or_InBrume: 0
+    - _PaintGrunge: 0
+    - _PaintGrunge_Contrast: 0
+    - _PaintGrunge_Multiply: 0
+    - _PaintGrunge_Tiling: 1
     - _PaperMultiply: 5
     - _Paper_Flipbook_Columns: 4
     - _Paper_Flipbook_Rows: 4
@@ -252,6 +273,7 @@ Material:
     - _SpecularHighlights: 1
     - _SpecularNoise: 1
     - _SpecularStepMax: 1
+    - _Specular_Multiplier: 1
     - _SpeculartStepMin: 0
     - _SrcBlend: 1
     - _StepAttenuation: -0.07

@@ -42,8 +42,9 @@
     public static readonly ushort AddPoints = 550;
     public static readonly ushort KillCharacter = 560;
     public static readonly ushort AddUltimatePoint = 600;
-    public static readonly ushort AddUltimatePointToAllTeam = 601;
-    public static readonly ushort WXSonarState = 602;
+    public static readonly ushort UseUltPoint = 602;
+    public static readonly ushort AddUltimatePointToAllTeam = 605;
+    public static readonly ushort WXSonarState = 650;
 
     //Anim 750 --> 769 >>
     public static readonly ushort SyncTrigger = 750;
@@ -103,6 +104,7 @@
     //SPELLS CHARACTER
     public static readonly ushort LaunchSplouch = 2600;
     public static readonly ushort SpellStep = 2700;
+    public static readonly ushort SpotPlayer = 2701;
     // <<
 
     //Audio

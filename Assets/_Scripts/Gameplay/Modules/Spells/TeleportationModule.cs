@@ -6,17 +6,19 @@ using UnityEngine;
 
 public class TeleportationModule : SpellModule
 {
-    public Transform wxTfs;
-    public WxController wxController;
+
+    private Transform wxTfs;
+    private WxController wxController;
     public ParticleSystem tpFx;
     public PlayerModule playerModule;
-    public float tpMaxTIme = 5;
+    public float tpMaxTime = 5;
     public int integibleLayer = 16;
     public LayerMask tpLayer;
     public LayerMask raycastLayer;
     public float tpDistance = 5;
     public float waitForTpTime = 2;
 
+    private CirclePreview circlePreview;
     private bool isWaitingForTp = false;
     private bool isTping = false;
     private float timer = 0;
@@ -24,13 +26,20 @@ public class TeleportationModule : SpellModule
     private Ray ray;
     private RaycastHit hit;
 
+    public override void DecreaseCooldown()
+    {
+    }
+    private void Start()
+    {
+        base.AddCharge();
+    }
 
     private void Update()
     {
         if (isTping)
         {
             timer -= Time.deltaTime;
-            UiManager.Instance.tpFillImage.fillAmount = timer / tpMaxTIme;
+            UiManager.Instance.tpFillImage.fillAmount = timer / tpMaxTime;
 
             if (timer <= 0)
             {
@@ -38,6 +47,10 @@ public class TeleportationModule : SpellModule
                 {
                     Tp(true);
                 }
+            }
+            if (circlePreview != null)
+            {
+                circlePreview.transform.position = wxTfs.position;
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -84,6 +97,20 @@ public class TeleportationModule : SpellModule
         return layermask == (layermask | (1 << layer));
     }
 
+    public void TpOnRes()
+    {
+
+
+        ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+
+        if (wxId != null)
+        {
+            wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
+            wxController = wxTfs.GetComponent<WxController>();
+            SetTpState(false);
+        }
+    }
+
     protected override void Resolution()
     {
         if (isTping)
@@ -97,6 +124,7 @@ public class TeleportationModule : SpellModule
 
         if (wxId != null)
         {
+
             wxTfs = GameManager.Instance.networkPlayers[(ushort)wxId].transform;
             wxController = wxTfs.GetComponent<WxController>();
             SetTpState(false);
@@ -112,7 +140,11 @@ public class TeleportationModule : SpellModule
 
     }
 
-    // false = ON TP
+    /// <summary>
+    /// UNIQUEMENT EN LOCAL
+    /// </summary>
+    /// <param name="value">faux = lance le tp / se met invisble 
+    /// True = se tp sur newpos</param>
     public void SetTpState(bool value)
     {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -144,7 +176,7 @@ public class TeleportationModule : SpellModule
         if (value == false) // SI TP
         {
             this.gameObject.layer = integibleLayer;
-            timer = tpMaxTIme;
+            timer = tpMaxTime;
             playerModule.AddState(En_CharacterState.Stunned);
 
             //
@@ -154,6 +186,12 @@ public class TeleportationModule : SpellModule
             UiManager.Instance.specMode.ChangeSpecPlayer(wxController.mylocalPlayer.myPlayerId);
             wxController.mylocalPlayer.ShowHideFow(true);
 
+            if (circlePreview == null)
+            {
+                circlePreview = PreviewManager.Instance.GetCirclePreview(wxTfs);
+            }
+            circlePreview.gameObject.SetActive(true);
+            circlePreview.Init(tpDistance, CirclePreview.circleCenter.center, wxTfs.position);
         }
         else // sinon
         {
@@ -171,6 +209,10 @@ public class TeleportationModule : SpellModule
         playerModule.mylocalPlayer.circleDirection.SetActive(value);
     }
 
+    /// <summary>
+    /// uniquement chez les autres
+    /// </summary>
+    /// <param name="_newPos">position de tp</param>
     public void SetTpStateInServer(bool value, Vector3 _newPos)
     {
         if (value)
@@ -178,27 +220,31 @@ public class TeleportationModule : SpellModule
             this.transform.position = _newPos;
         }
 
-        foreach (Interactible inter in playerModule.interactiblesClose)
+        if (playerModule != null)
         {
-            inter.StopCapturing();
+            foreach (Interactible inter in playerModule.interactiblesClose)
+            {
+                inter.StopCapturing();
+            }
+            playerModule.interactiblesClose.Clear();
 
-        }
-        playerModule.interactiblesClose.Clear();
 
-        if (value == false)
-        {
-            this.gameObject.layer = integibleLayer;
-        }
-        else
-        {
-            playerModule.ResetLayer();
+            if (value == false)
+            {
+                this.gameObject.layer = integibleLayer;
+            }
+            else
+            {
+                playerModule.ResetLayer();
+            }
+
+            foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
+            {
+                obj.SetActive(value);
+            }
+            playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
         }
 
-        foreach (GameObject obj in playerModule.mylocalPlayer.objToHide)
-        {
-            obj.SetActive(value);
-        }
-        playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
     }
 
     public IEnumerator WaitForSpawn(bool isTimeEnded) 
@@ -215,9 +261,20 @@ public class TeleportationModule : SpellModule
         wxController.DisplayTpZone(false);
         UiManager.Instance.tpFillImage.gameObject.SetActive(false);
 
+        if (circlePreview != null)
+        {
+            circlePreview.gameObject.SetActive(false);
+
+        }
+
+        // QUAND ON CLIQUE POUR SE TP
+
+
         yield return new WaitForSeconds(waitForTpTime);
 
-        //
+        // QUAND ON SE TP APRES LATTENTE
+
+
         wxController.mylocalPlayer.forceShow = false;
         playerModule.mylocalPlayer.isTp = false;
 

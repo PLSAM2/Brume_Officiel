@@ -19,6 +19,11 @@ public class Altar : Interactible
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
     [SerializeField] Sprite willUnlockSprite;
+
+    [SerializeField] GameObject waypointAltarPrefab;
+    Waypoint waypointObj;
+
+    [SerializeField] Lava myLava;
     void Start()
     {
         base.Init();
@@ -33,6 +38,13 @@ public class Altar : Interactible
         UiManager.Instance.DisplayGeneralMessage("Altar captured");
 
         AudioManager.Instance.Play2DAudio(capturedAltarSfx);
+
+        if (waypointObj)
+        {
+            Destroy(waypointObj.gameObject);
+        }
+
+        myLava.Spawn();
     }
 
     public override void Captured(ushort _capturingPlayerID)
@@ -64,6 +76,15 @@ public class Altar : Interactible
         {
             StartCoroutine(ActivateAltar());
         }
+
+        if (waypointObj)
+        {
+            Destroy(waypointObj.gameObject);
+        }
+
+        waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+        waypointObj.target = transform;
+        waypointObj.SetImageColor(Color.gray);
     }
 
     IEnumerator ActivateAltar()
@@ -84,5 +105,7 @@ public class Altar : Interactible
         base.Unlock();
 
         AudioManager.Instance.Play2DAudio(unlockAltarSfx);
+
+        waypointObj.SetImageColor(Color.white);
     }
 }

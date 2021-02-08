@@ -59,12 +59,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
+	En_CharacterState oldState = En_CharacterState.Clear;
 
-    //TP
-    public bool forceShow = false;
-    public bool isTp = false;
+	//TP
+	public bool forceShow = false;
+	public bool isTp = false;
 
-    [TabGroup("Vision")] public QuickOutline myOutline;
+    //ThirdEye
+    [SerializeField] GameObject waypointEnemyPrefab;
+
+	[TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -359,6 +363,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
+
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -368,29 +373,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
-		if (!ignoreStatusAndEffect)
-		{
-			if (!ignoreTickStatus)
-			{
-				if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
-				{
-					SendStatus(myPlayerModule.poisonousEffect);
-				}
-			}
 
-			if (_damagesToDeal.statusToApply != null)
-			{
-				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
-				{
-					SendStatus(_damagesToDeal.statusToApply[i]);
-				}
-			}
-
-			if (_damagesToDeal.movementToApply != null)
-			{
-				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
-			}
-		}
 
 
 		if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
@@ -438,6 +421,35 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 		}
+
+		if (!ignoreStatusAndEffect)
+		{
+			if (!ignoreTickStatus)
+			{
+                if (GameFactory.GetLocalPlayerObj() != null)
+                {
+					if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
+					{
+						SendStatus(myPlayerModule.poisonousEffect);
+					}
+				}
+
+			}
+
+			if (_damagesToDeal.movementToApply != null)
+			{
+				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
+			}
+
+			if (_damagesToDeal.statusToApply != null)
+			{
+				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
+				{
+					SendStatus(_damagesToDeal.statusToApply[i]);
+				}
+			}
+
+		}
 	}
 
 
@@ -447,6 +459,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			return;
 		}
+
+		if (isOwner)
+			myPlayerModule.KillEveryStun();
 
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0)
 		{
@@ -482,7 +497,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
-
 	}
 
 	public void LocallyDivideHealth ( ushort divider )
@@ -591,6 +605,27 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
+	public void SendEnemySpot ( ushort _id )
+	{
+		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		{
+			_writer.Write(_id);
+
+			using (Message _message = Message.Create(Tags.SpotPlayer, _writer))
+			{
+				currentClient.SendMessage(_message, SendMode.Reliable);
+			}
+		}
+	}
+
+	[SerializeField] float timeSpotDisplay = 2;
+	public IEnumerator SpotPlayer ()
+	{
+		myUiPlayerManager.Eye_Spot.SetActive(true);
+		yield return new WaitForSeconds(timeSpotDisplay);
+		myUiPlayerManager.Eye_Spot.SetActive(false);
+	}
+
 	public void KillPlayer ( PlayerData killer = null )
 	{
 		if (isOwner)
@@ -633,19 +668,19 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		switch (_spellIndex)
 		{
-			case 0:
+			case 1:
 				myPlayerModule.leftClick.FeedbackSpellStep(_spellStep);
 				break;
-			case 1:
+			case 2:
 				myPlayerModule.firstSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 2:
+			case 3:
 				myPlayerModule.secondSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 3:
+			case 4:
 				myPlayerModule.thirdSpell.FeedbackSpellStep(_spellStep);
 				break;
-			case 4:
+			case 5:
 				myPlayerModule.tpModule.FeedbackSpellStep(_spellStep);
 				break;
 		}
@@ -653,11 +688,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnStateReceived ( ushort _state )
 	{
-		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0)
-			myPlayerModule.wxMark.SetActive(true);
-		else
-			myPlayerModule.wxMark.SetActive(false);
-
 		if (!isOwner)
 			myPlayerModule.state = (En_CharacterState)_state;
 	}
@@ -665,7 +695,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void OnAddedStatus ( ushort _newStatus )
 	{
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
+		{
+			if (isNegative(_newStatus))
+				myPlayerModule.KillEveryStun();
+
 			myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
+		}
 		else if (isNegative(_newStatus))
 			myPlayerModule.hitCountered?.Invoke();
 	}
@@ -681,6 +716,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnForcedMovementReceived ( ForcedMovement _movementSent )
 	{
+		myPlayerModule.KillEveryStun();
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0)
 			myPlayerModule.movementPart.AddDash(_movementSent);
 		else
@@ -719,6 +755,35 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		return myPlayerModule.teamIndex == _indexTested;
 	}
+
+    Waypoint waypointThirdEye;
+	public void MarkThirdEye(bool _activate)
+	{
+        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+        {
+            // LES YEUx
+            myUiPlayerManager.Eye_Spot.SetActive(_activate);
+        }
+        else
+        {
+            if (_activate)
+            {
+                waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+                waypointThirdEye.targetVector = transform.position;
+                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
+            }
+            else
+            {
+
+				if (waypointThirdEye)
+                {
+                    Destroy(waypointThirdEye.gameObject);
+                }
+            }
+            forceOutline = _activate;
+        }
+      
+    }
 }
 
 public interface Damageable

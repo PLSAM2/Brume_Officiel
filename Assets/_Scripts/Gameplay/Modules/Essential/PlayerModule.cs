@@ -79,7 +79,7 @@ public class PlayerModule : MonoBehaviour
 	private LayerMask brumeLayer;
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
 
-	
+
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
@@ -200,7 +200,6 @@ public class PlayerModule : MonoBehaviour
 		_state = En_CharacterState.Clear;
 		oldState = state;
 
-		StartCoroutine(CheckForMenace());
 
 		if (teamIndex == Team.blue)
 			otherTeam = Team.red;
@@ -258,6 +257,16 @@ public class PlayerModule : MonoBehaviour
 				gameObject.layer = 16;
 			else if ((oldState & En_CharacterState.Integenbility) != 0)
 				ResetLayer();
+
+			if ((oldState & En_CharacterState.WxMarked) != 0 && (state & En_CharacterState.WxMarked) == 0)
+			{
+				mylocalPlayer.MarkThirdEye(false);
+			}
+			else if ((state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
+			{
+				mylocalPlayer.MarkThirdEye(true);
+			}
+
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
@@ -290,28 +299,10 @@ public class PlayerModule : MonoBehaviour
 				embourbedParticle.gameObject.SetActive(false);
 
 			#endregion
-
-			if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (state & En_CharacterState.WxMarked) != 0)
-				mylocalPlayer.forceOutline = true;
-			else if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (oldState & En_CharacterState.WxMarked) != 0)
-				mylocalPlayer.forceOutline = false;
-
-
 			if (mylocalPlayer.isOwner)
 			{
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
-
-				/*
-				if ((state & En_CharacterState.Hidden) != 0)
-					//GameManager.Instance.hiddenEffect.enabled = true;
-				else
-					//GameManager.Instance.hiddenEffect.enabled = false;*/
-
-				if ((state & En_CharacterState.WxMarked) != 0)
-					wxMark.SetActive(true);
-				else
-					wxMark.SetActive(false);
 			}
 		}
 		oldState = state;
@@ -321,7 +312,7 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.myUiPlayerManager.HidePseudo(true);
 		}
 		else
-            mylocalPlayer.myUiPlayerManager.HidePseudo(false);
+			mylocalPlayer.myUiPlayerManager.HidePseudo(false);
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -638,6 +629,7 @@ public class PlayerModule : MonoBehaviour
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
 
+
 		if (_statusToAdd.forcedKey != 0)
 		{
 			_newElement.key = _statusToAdd.forcedKey;
@@ -848,15 +840,15 @@ public class PlayerModule : MonoBehaviour
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
-	IEnumerator CheckForMenace ()
+	public void KillEveryStun ()
 	{
-		yield return new WaitForSeconds(.1f);
-		if (GameFactory.IsInRangeOfHidden(revelationRangeWhileHidden, transform.position, otherTeam))
-			menacedIcon.gameObject.SetActive(true);
-		else
-			menacedIcon.gameObject.SetActive(false);
-
-		StartCoroutine(CheckForMenace());
+		foreach (EffectLifeTimed _effect in allEffectLive)
+		{
+			if ((_effect.effect.stateApplied & En_CharacterState.Root) != 0 || (_effect.effect.stateApplied & En_CharacterState.Silenced) != 0)
+			{
+				_effect.liveLifeTime = 0;
+			}
+		}
 	}
 }
 
@@ -894,6 +886,9 @@ public class DamagesInfos
 	[TabGroup("EffectIfConditionCompleted")] public ushort additionalDamages;
 	[TabGroup("EffectIfConditionCompleted")] public Sc_Status[] additionalStatusToApply;
 	[TabGroup("EffectIfConditionCompleted")] public Sc_ForcedMovement additionalMovementToApply = null;
+
+	[HideInInspector]
+	public bool isUsable => statusToApply.Length > 0 || damageHealth > 0 || movementToApply != null;
 }
 
 [System.Serializable]
@@ -907,13 +902,14 @@ public class Effect
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
 	[HorizontalGroup("Group3")] public bool refreshOnApply = false;
 	[HorizontalGroup("Group3")] [HideIf("refreshOnApply")] public bool doNotApplyIfExist = false;
-
 	[ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
 	[ShowIf("tick")] [BoxGroup("Tick")] public bool isDamaging = true;
 	[ShowIf("tick")] [BoxGroup("Tick")] public bool isHealing = false;
 	[ShowIf("tick")] [BoxGroup("Tick")] public ushort tickValue = 0;
 
 	public En_CharacterState stateApplied;
+	public bool isHardControl => ((stateApplied & En_CharacterState.Root) != 0 || (stateApplied & En_CharacterState.Silenced) != 0);
+
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
