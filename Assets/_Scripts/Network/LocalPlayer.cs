@@ -781,7 +781,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
             }
             else
             {
-                Destroy(waypointThirdEye.gameObject);
+                if(waypointThirdEye)
+                {
+                    Destroy(waypointThirdEye.gameObject);
+                }
             }
             forceOutline = _activate;
         }
