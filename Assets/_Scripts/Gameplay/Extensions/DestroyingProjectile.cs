@@ -7,7 +7,6 @@ public class DestroyingProjectile : MonoBehaviour
     [SerializeField] PlayerModule myPlayerModule;
 	float radius;
 
-
 	private void Awake ()
 	{
 		radius = GetComponent<SphereCollider>().radius;
