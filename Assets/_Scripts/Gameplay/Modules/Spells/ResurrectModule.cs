@@ -5,22 +5,21 @@ using UnityEngine;
 
 public class ResurrectModule : SpellModule
 {
-    public override void DecreaseCooldown()
-    {
-    }
-    private void Start()
-    {
-        base.AddCharge();
-    }
 
-    protected override void Resolution()
+    protected override bool canStartCanalisation()
     {
         WxController wxController = (WxController)myPlayerModule;
 
         if (wxController.GetPlayersSoulsCount() <= 0)
         {
-            return;
+            return false;
         }
+
+        return base.canStartCanalisation();
+    }
+    protected override void Resolution()
+    {
+        WxController wxController = (WxController)myPlayerModule;
 
         ushort[] IDList = new ushort[wxController.GetPlayersSoulsCount()];
 
