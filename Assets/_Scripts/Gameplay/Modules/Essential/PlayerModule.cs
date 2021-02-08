@@ -899,7 +899,6 @@ public class DamagesInfos
 
 	[HideInInspector]
 	public bool isUsable => statusToApply.Length > 0 || damageHealth > 0 || movementToApply != null; 
-
 }
 
 [System.Serializable]
