@@ -79,7 +79,7 @@ public class PlayerModule : MonoBehaviour
 	private LayerMask brumeLayer;
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
 
-	
+
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
@@ -257,6 +257,15 @@ public class PlayerModule : MonoBehaviour
 				gameObject.layer = 16;
 			else if ((oldState & En_CharacterState.Integenbility) != 0)
 				ResetLayer();
+
+			if ((oldState & En_CharacterState.WxMarked) != 0 && (state & En_CharacterState.WxMarked) == 0)
+			{
+				mylocalPlayer.MarkThirdEye(true);
+			}
+			else if ((state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
+			{
+				mylocalPlayer.MarkThirdEye(false);
+			}
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
@@ -320,7 +329,7 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.myUiPlayerManager.HidePseudo(true);
 		}
 		else
-            mylocalPlayer.myUiPlayerManager.HidePseudo(false);
+			mylocalPlayer.myUiPlayerManager.HidePseudo(false);
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -637,8 +646,6 @@ public class PlayerModule : MonoBehaviour
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
 
-		if ((_statusToAdd.stateApplied & En_CharacterState.WxMarked) != 0)
-			mylocalPlayer.MarkThirdEye(true);
 
 		if (_statusToAdd.forcedKey != 0)
 		{
@@ -850,11 +857,11 @@ public class PlayerModule : MonoBehaviour
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 
-	public void KillEveryStun()
+	public void KillEveryStun ()
 	{
-		foreach(EffectLifeTimed _effect in allEffectLive)
+		foreach (EffectLifeTimed _effect in allEffectLive)
 		{
-			if((_effect.effect.stateApplied & En_CharacterState.Root) !=0 || (_effect.effect.stateApplied & En_CharacterState.Silenced) != 0 )
+			if ((_effect.effect.stateApplied & En_CharacterState.Root) != 0 || (_effect.effect.stateApplied & En_CharacterState.Silenced) != 0)
 			{
 				_effect.liveLifeTime = 0;
 			}
@@ -898,7 +905,7 @@ public class DamagesInfos
 	[TabGroup("EffectIfConditionCompleted")] public Sc_ForcedMovement additionalMovementToApply = null;
 
 	[HideInInspector]
-	public bool isUsable => statusToApply.Length > 0 || damageHealth > 0 || movementToApply != null; 
+	public bool isUsable => statusToApply.Length > 0 || damageHealth > 0 || movementToApply != null;
 }
 
 [System.Serializable]
