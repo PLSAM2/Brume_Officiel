@@ -23,6 +23,7 @@ public class Altar : Interactible
     [SerializeField] GameObject waypointAltarPrefab;
     Waypoint waypointObj;
 
+    [SerializeField] Lava myLava;
     void Start()
     {
         base.Init();
@@ -42,6 +43,8 @@ public class Altar : Interactible
         {
             Destroy(waypointObj.gameObject);
         }
+
+        myLava.Spawn();
     }
 
     public override void Captured(ushort _capturingPlayerID)
