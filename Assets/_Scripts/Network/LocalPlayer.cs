@@ -59,10 +59,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
+	En_CharacterState oldState = En_CharacterState.Clear;
 
 	//TP
 	public bool forceShow = false;
 	public bool isTp = false;
+
+    //ThirdEye
+    [SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
@@ -684,10 +688,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnStateReceived ( ushort _state )
 	{
-		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0)
-			myPlayerModule.wxMark.SetActive(true);
-		else
-			myPlayerModule.wxMark.SetActive(false);
+		oldState = myPlayerModule.state;
+
+		if (((En_CharacterState)_state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
+			MarkThirdEye(true);
+		else if (((En_CharacterState)_state & En_CharacterState.WxMarked) == 0 && (oldState & En_CharacterState.WxMarked) != 0)
+			MarkThirdEye(false);
 
 		if (!isOwner)
 			myPlayerModule.state = (En_CharacterState)_state;
@@ -757,10 +763,30 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		return myPlayerModule.teamIndex == _indexTested;
 	}
 
+    Waypoint waypointThirdEye;
 	public void MarkThirdEye(bool _activate)
 	{
-		//TO DO SAM
-	}
+        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+        {
+            // LES YEUX
+            myUiPlayerManager.Eye_Spot.SetActive(_activate);
+        }
+        else
+        {
+            if (_activate)
+            {
+                waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+                waypointThirdEye.targetVector = transform.position;
+                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
+            }
+            else
+            {
+                Destroy(waypointThirdEye.gameObject);
+            }
+            forceOutline = _activate;
+        }
+      
+    }
 }
 
 public interface Damageable
