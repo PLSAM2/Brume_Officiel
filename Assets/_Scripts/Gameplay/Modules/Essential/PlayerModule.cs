@@ -260,12 +260,13 @@ public class PlayerModule : MonoBehaviour
 
 			if ((oldState & En_CharacterState.WxMarked) != 0 && (state & En_CharacterState.WxMarked) == 0)
 			{
-				mylocalPlayer.MarkThirdEye(true);
+				mylocalPlayer.MarkThirdEye(false);
 			}
 			else if ((state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
 			{
-				mylocalPlayer.MarkThirdEye(false);
+				mylocalPlayer.MarkThirdEye(true);
 			}
+
 			//PARTICLE FEEDBACK TOUSSA
 			#region
 			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
@@ -298,28 +299,10 @@ public class PlayerModule : MonoBehaviour
 				embourbedParticle.gameObject.SetActive(false);
 
 			#endregion
-
-			if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (state & En_CharacterState.WxMarked) != 0)
-				mylocalPlayer.forceOutline = true;
-			else if (teamIndex != GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex && (oldState & En_CharacterState.WxMarked) != 0)
-				mylocalPlayer.forceOutline = false;
-
-
 			if (mylocalPlayer.isOwner)
 			{
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
-
-				/*
-				if ((state & En_CharacterState.Hidden) != 0)
-					//GameManager.Instance.hiddenEffect.enabled = true;
-				else
-					//GameManager.Instance.hiddenEffect.enabled = false;*/
-
-				if ((state & En_CharacterState.WxMarked) != 0)
-					wxMark.SetActive(true);
-				else
-					wxMark.SetActive(false);
 			}
 		}
 		oldState = state;
