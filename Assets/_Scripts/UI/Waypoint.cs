@@ -47,9 +47,14 @@ public class Waypoint : MonoBehaviour
         //distance
         if (displayDistanceIn || displayDistanceOut)
         {
-            float value = Vector3.Distance(target.position, GameManager.Instance.currentLocalPlayer.transform.position);
-            distanceTextIn.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
-            distanceTextOut.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+            Transform playerTransform = GameFactory.GetLocalPlayerObj().transform;
+
+            if(playerTransform != null)
+            {
+                float value = Vector3.Distance(target.position, playerTransform.transform.position);
+                distanceTextIn.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+                distanceTextOut.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+            }
         }
 
         //position
