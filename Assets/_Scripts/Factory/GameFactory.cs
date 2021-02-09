@@ -298,4 +298,10 @@ public class GameFactory
             return false;
         }
     }
+
+    public static bool IsInLayer(int layer, LayerMask layermask)
+    {
+        return layermask == (layermask | (1 << layer));
+    }
+
 }
