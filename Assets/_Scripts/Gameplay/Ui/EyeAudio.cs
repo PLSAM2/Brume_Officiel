@@ -5,7 +5,7 @@ using UnityEngine;
 public class EyeAudio : MonoBehaviour
 {
     [SerializeField] AudioSource audioSource;
-    [SerializeField] LocalPlayer mylocalplayer; 
+    [SerializeField] LocalPlayer mylocalplayer;
 
     private void OnEnable()
     {

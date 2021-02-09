@@ -1,12 +1,4 @@
-﻿//
-//  OutlineFill.shader
-//  QuickOutline
-//
-//  Created by Chris Nolet on 2/21/18.
-//  Copyright © 2018 Chris Nolet. All rights reserved.
-//
-
-Shader "Custom/Outline Fill" {
+﻿Shader "Custom/Outline Fill" {
   Properties {
     [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
 
@@ -19,6 +11,7 @@ Shader "Custom/Outline Fill" {
       "Queue" = "Transparent+110"
       "RenderType" = "Transparent"
       "DisableBatching" = "True"
+	  "RenderPipeline" = "UniversalPipeline"
     }
 
     Pass {
@@ -34,7 +27,7 @@ Shader "Custom/Outline Fill" {
         Comp NotEqual
       }
 
-      CGPROGRAM
+	  HLSLPROGRAM
       #include "UnityCG.cginc"
 
       #pragma vertex vert
@@ -75,7 +68,7 @@ Shader "Custom/Outline Fill" {
       fixed4 frag(v2f input) : SV_Target {
         return input.color;
       }
-      ENDCG
+	  ENDHLSL
     }
   }
 }
