@@ -350,7 +350,10 @@ public class PlayerModule : MonoBehaviour
 			else if (Input.GetKeyUp(thirdSpellKey))
 				thirdSpellInputRealeased?.Invoke(mousePos());
 			else if (Input.GetKeyUp(wardKey))
+			{
 				wardInputReleased?.Invoke(mousePos());
+				RetryInteractibleCapture();
+			}
 			else if (Input.GetKeyUp(tpSpellKey))
 				tpInputReleased?.Invoke(mousePos());
 			else if (Input.GetKeyUp(pingKey))
@@ -424,6 +427,13 @@ public class PlayerModule : MonoBehaviour
 		brumeId = idBrume;
 	}
 
+	public void RetryInteractibleCapture()
+    {
+        foreach (Interactible inter in interactiblesClose)
+        {
+			inter.CheckOnUnlock = true;
+		}
+    }
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
 		switch (_spell)
@@ -876,6 +886,12 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
+
+	public DamagesInfos() { }
+	public DamagesInfos(ushort damageHealth) {
+		this.damageHealth = damageHealth;
+	}
+
 	[HideInInspector] public string playerName;
 
 	[TabGroup("NormalDamages")] public ushort damageHealth;

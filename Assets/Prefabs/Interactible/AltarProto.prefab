@@ -380,6 +380,7 @@ MonoBehaviour:
   iconBlue: {fileID: 21300000, guid: 827c5bb2772e2c445a7af15af14819d5, type: 3}
   myAudioSource: {fileID: 4965694306807690536}
   interactibleName: Altar
+  CheckOnUnlock: 0
   unlockedAltar: {fileID: 21300000, guid: a7d2df1244e3dca4a932e60fd203e055, type: 3}
   life: 100
   unlockTime: 20
@@ -670,12 +671,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spawnCD: 2
-  time: 10
+  spawnCD: 15
+  time: 15
   obj: {fileID: 3943261316875183741}
   sizeMax: 44
   collider: {fileID: 1442079666347253907}
-  cdDamage: 0.5
+  cdDamage: 5
 --- !u!1001 &3545456865294877078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -821,6 +822,10 @@ PrefabInstance:
     - target: {fileID: 2941477001736890429, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3734264536797907432, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53f581939cb799340a78f7ae92dd0460, type: 3}

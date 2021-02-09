@@ -100,6 +100,7 @@ public class RoomManager : MonoBehaviour
 
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
+
         StartNewRound();
         Team winningTeam = Team.none;
         using (Message message = e.GetMessage())
@@ -118,15 +119,40 @@ public class RoomManager : MonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
             UiManager.Instance.EndGamePanel(true, 0, winningTeam);
+            EndObjectives(true);
         }
         else
         {
             UiManager.Instance.EndGamePanel(false, 0, winningTeam);
+            EndObjectives(false);
         }
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
 
         StartCoroutine(EndGame(true, gameScene));
+    }
+
+    private void EndObjectives(bool isRoundWin = false)
+    {
+        ushort? _wxID = null;
+
+        if (isRoundWin)
+        {
+            _wxID = GameFactory.GetPlayerCharacterInEnemyTeam(Character.WuXin);
+        } else
+        {
+            _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam ,Character.WuXin);
+        }
+
+        if (_wxID != null)
+        {
+            if (GameManager.Instance.networkPlayers.ContainsKey((ushort)_wxID))
+            {
+                LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
+                _wx.ForceDealDamages(_wx.liveHealth);
+            }
+
+        }
     }
 
     IEnumerator EndGame(bool isNewRound = false, string sceneName = "")

@@ -9,7 +9,7 @@ public class TeleportationModule : SpellModule
 
     private Transform wxTfs;
     private WxController wxController;
-    public ParticleSystem tpFx;
+    public GameObject tpFx;
     public PlayerModule playerModule;
     public float tpMaxTime = 5;
     public int integibleLayer = 16;
@@ -71,7 +71,9 @@ public class TeleportationModule : SpellModule
         }
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         Vector3 _pos = Vector3.zero;
+
         if (Physics.Raycast(ray, out hit,300, raycastLayer))
         {
             _pos = hit.point;
@@ -81,9 +83,8 @@ public class TeleportationModule : SpellModule
                 return false;
             }
            
-            if (IsInLayer(hit.collider.gameObject.layer, tpLayer))
+            if (GameFactory.IsInLayer(hit.collider.gameObject.layer, tpLayer))
             {
-
                 newPos = new Vector3(_pos.x, 0, _pos.z);
                 return true;
             }
@@ -92,10 +93,6 @@ public class TeleportationModule : SpellModule
         return false;
     }
 
-    public static bool IsInLayer(int layer, LayerMask layermask)
-    {
-        return layermask == (layermask | (1 << layer));
-    }
 
     public void TpOnRes()
     {
@@ -269,6 +266,15 @@ public class TeleportationModule : SpellModule
 
         // QUAND ON CLIQUE POUR SE TP
 
+        //if (isTimeEnded)
+        //{
+        //    tpFx.transform.position = wxTfs.position;
+        //}
+        //else
+        //{
+        //    tpFx.transform.position = newPos;
+        //}
+        //tpFx.SetActive(true);
 
         yield return new WaitForSeconds(waitForTpTime);
 
@@ -279,6 +285,7 @@ public class TeleportationModule : SpellModule
         playerModule.mylocalPlayer.isTp = false;
 
         CameraManager.Instance.ResetPlayerFollow();
+       // tpFx.SetActive(false);
 
         if (isTimeEnded)
         {

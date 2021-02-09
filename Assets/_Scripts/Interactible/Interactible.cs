@@ -71,7 +71,7 @@ public class Interactible : MonoBehaviour
     [SerializeField] AudioSource myAudioSource;
     public string interactibleName = "";
     private bool isViewed = false;
-    private bool CheckOnUnlock = false;
+    public bool CheckOnUnlock = false;
     private void Awake()
     {
         client = RoomManager.Instance.client;
