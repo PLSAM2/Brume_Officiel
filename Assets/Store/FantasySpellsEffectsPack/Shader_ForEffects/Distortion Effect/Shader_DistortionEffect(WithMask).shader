@@ -25,7 +25,7 @@ Shader "GAPH Custom Shader/Distortion Effect/Distortion Texture/Distortion Effec
 					Name "BASE"
 					Tags { "LightMode" = "Always" }
 					
-					CGPROGRAM
+					HLSLPROGRAM
 					#pragma vertex vert
 					#pragma fragment frag
 					#pragma fragmentoption ARB_precision_hint_fastest
@@ -128,7 +128,7 @@ Shader "GAPH Custom Shader/Distortion Effect/Distortion Texture/Distortion Effec
 						UNITY_APPLY_FOG(i.fogCoord, res);
 						return res;
 					}
-				ENDCG
+				ENDHLSL
 			}
 		}
 	}
