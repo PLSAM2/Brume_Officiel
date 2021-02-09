@@ -766,21 +766,25 @@ public class LocalPlayer : MonoBehaviour, Damageable
         }
         else
         {
-            if (_activate)
-            {
-                waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
-                waypointThirdEye.targetVector = transform.position;
-                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
-            }
-            else
-            {
+			WxController _temp = GameManager.Instance.currentLocalPlayer.GetComponent<WxController>();
+			if(_temp != null)
+			{
+				if (_activate)
+				{
+					waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+					waypointThirdEye.targetVector = transform.position;
+					waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
+				}
+				else
+				{
 
-				if (waypointThirdEye)
-                {
-                    Destroy(waypointThirdEye.gameObject);
-                }
-            }
-            forceOutline = _activate;
+					if (waypointThirdEye)
+					{
+						Destroy(waypointThirdEye.gameObject);
+					}
+				}
+				forceOutline = _activate;
+			}
         }
       
     }
