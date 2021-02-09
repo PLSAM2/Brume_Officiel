@@ -76,6 +76,11 @@ public class UIPlayerManager : MonoBehaviour
                 break;
         }
 
+        if (myLocalPlayer.isOwner)
+        {
+            this.GetComponent<Canvas>().sortingLayerName = "LocalUI";
+        }
+
         if (feedbackCounter != null)
         {
             feedbackCounter.SetActive(false);

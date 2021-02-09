@@ -16,6 +16,7 @@ public class Lava : MonoBehaviour
 
     [SerializeField] float cdDamage = 0.5f;
     bool canDamage = false;
+    bool firstHit = true;
 
 
     public void Spawn()
@@ -45,8 +46,6 @@ public class Lava : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        print(other.transform);
-
         if(GameManager.Instance.currentLocalPlayer == null) { return; }
 
         if(other.transform != GameManager.Instance.currentLocalPlayer.transform) { return; }
@@ -58,13 +57,29 @@ public class Lava : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (GameManager.Instance.currentLocalPlayer == null) { return; }
+
+        if (other.transform != GameManager.Instance.currentLocalPlayer.transform) { return; }
+
+        firstHit = true;
+    }
+
     IEnumerator TakeDamage()
     {
         DamagesInfos _temp = new DamagesInfos();
         _temp.damageHealth = 1;
 
-        //take damage
-        GameManager.Instance.currentLocalPlayer.DealDamages(_temp, transform.position);
+        if (!firstHit)
+        {
+            //take damage
+            GameManager.Instance.currentLocalPlayer.DealDamages(_temp, transform.position);
+        }
+        else
+        {
+            firstHit = false;
+        }
 
         yield return new WaitForSeconds(cdDamage);
         canDamage = true;
