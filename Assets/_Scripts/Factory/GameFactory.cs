@@ -60,6 +60,27 @@ public class GameFactory
 
         return null;
     }
+
+    /// <summary>
+    /// Simpliest player find method but same as GetPlayerCharacterInTeam
+    /// </summary>
+    public static ushort? GetPlayerCharacterInEnemyTeam(Character character)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer() == null)
+        {
+            return null;
+        }
+
+        PlayerData _tempPlayer = RoomManager.Instance.actualRoom.playerList.Values.Where(x => x.playerTeam == GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam) && x.playerCharacter == character).FirstOrDefault();
+
+        if (_tempPlayer != null)
+        {
+            return _tempPlayer.ID;
+        }
+
+        return null;
+    }
+
     public static List<PlayerData> GetAllPlayerInTeam(Team team)
     {
         List<PlayerData> _tempPlayer = RoomManager.Instance.actualRoom.playerList.Values.Where(x => x.playerTeam == team).ToList();
