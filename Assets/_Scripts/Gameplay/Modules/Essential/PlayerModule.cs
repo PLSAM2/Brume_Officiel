@@ -886,6 +886,12 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
+
+	public DamagesInfos() { }
+	public DamagesInfos(ushort damageHealth) {
+		this.damageHealth = damageHealth;
+	}
+
 	[HideInInspector] public string playerName;
 
 	[TabGroup("NormalDamages")] public ushort damageHealth;
