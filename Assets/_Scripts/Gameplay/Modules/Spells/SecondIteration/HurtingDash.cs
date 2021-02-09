@@ -13,8 +13,9 @@ public class HurtingDash : SpellModule
 	ArrowPreview _myPreview;
 	public float dashDurationAddedIfNeeded = .05f;
 
-    [SerializeField] ParticleSystem dashFx;
-    [SerializeField] VisualEffect speedFx;
+    [SerializeField] List<ParticleSystem> dashFx = new List<ParticleSystem>();
+    //[SerializeField] VisualEffect speedFx;
+
     public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -73,16 +74,23 @@ public class HurtingDash : SpellModule
     {
         base.ResolutionFeedBack();
 
-        dashFx.Play();
-        speedFx.Play();
+        foreach(ParticleSystem fx in dashFx)
+        {
+            fx.Play();
+        }
+
+        //speedFx.Play();
     }
 
     public override void ThrowbackEndFeedBack()
     {
         base.ThrowbackEndFeedBack();
 
-        dashFx.Stop();
-        speedFx.Stop();
+        foreach (ParticleSystem fx in dashFx)
+        {
+            fx.Stop();
+        }
+        //speedFx.Stop();
     }
 
     public override void Interrupt ()
