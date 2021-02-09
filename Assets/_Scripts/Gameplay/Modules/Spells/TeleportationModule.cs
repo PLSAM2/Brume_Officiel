@@ -71,7 +71,9 @@ public class TeleportationModule : SpellModule
         }
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         Vector3 _pos = Vector3.zero;
+
         if (Physics.Raycast(ray, out hit,300, raycastLayer))
         {
             _pos = hit.point;
@@ -81,9 +83,8 @@ public class TeleportationModule : SpellModule
                 return false;
             }
            
-            if (IsInLayer(hit.collider.gameObject.layer, tpLayer))
+            if (GameFactory.IsInLayer(hit.collider.gameObject.layer, tpLayer))
             {
-
                 newPos = new Vector3(_pos.x, 0, _pos.z);
                 return true;
             }
@@ -92,10 +93,6 @@ public class TeleportationModule : SpellModule
         return false;
     }
 
-    public static bool IsInLayer(int layer, LayerMask layermask)
-    {
-        return layermask == (layermask | (1 << layer));
-    }
 
     public void TpOnRes()
     {
