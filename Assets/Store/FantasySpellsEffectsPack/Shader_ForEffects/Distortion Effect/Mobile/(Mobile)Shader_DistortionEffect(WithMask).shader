@@ -26,7 +26,7 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 					Name "BASE"
 					Tags { "LightMode" = "Always" }
 					
-					CGPROGRAM
+					HLSLPROGRAM
 					#pragma vertex vert
 					#pragma fragment frag
 					#pragma fragmentoption ARB_precision_hint_fastest
@@ -45,9 +45,7 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 						float2 uvnormal : TEXCOORD1;
 						float2 uvmask : TEXCOORD2;
 						fixed4 color : COLOR;
-						#ifdef SOFTPARTICLES_ON
-							float4 projPos : TEXCOORD3;
-						#endif
+						float4 projPos : TEXCOORD3;
 					};
 
 					fixed4 _TintColor;
@@ -67,23 +65,11 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 					{
 						v2f o;
 
-						#ifdef SHADER_API_D3D11
-							o.vertex = UnityObjectToClipPos(v.vertex);
-						#else 
-							o.vertex = UnityObjectToClipPos(v.vertex);
-						#endif
+						o.vertex = UnityObjectToClipPos(v.vertex);
 
-						#ifdef SOFTPARTICLES_ON
-							o.projPos = ComputeScreenPos (o.vertex);
-							COMPUTE_EYEDEPTH(o.projPos.z);
-						#endif
 						o.color = v.color;
 
-						#if UNITY_UV_STARTS_AT_TOP
-							float scale = -1.0;
-						#else
-							float scale = 1.0;
-						#endif
+						float scale = -1.0;
 
 						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y) + o.vertex.w) * 0.5;
 						o.uvgrab.zw = o.vertex.zw;
@@ -99,13 +85,6 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 
 					half4 frag( v2f i ) : COLOR
 					{
-						#ifdef SOFTPARTICLES_ON
-							float sceneZ = LinearEyeDepth (UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos))));
-							float partZ = i.projPos.z;
-							float fade = saturate (_InvFade * (sceneZ-partZ));
-							i.color.a *= fade;
-						#endif
-
 						half2 normal = UnpackNormal(tex2D( _NormalMap, i.uvnormal )).rg;
 						half2 distortValue = normal * _DistortFactor * _GrabTextureMobile_TexelSize.xy * 10;
 						i.uvgrab.xy = (distortValue * i.uvgrab.z) + i.uvgrab.xy;
@@ -114,10 +93,12 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 						half4 mask = tex2D(_Mask,i.uvmask);
 						
 						half4 res = distort;
-						res.a = _TintColor.a * i.color.a * mask.a;
+						res.a = _TintColor.a * i.color.a;
+						res.a = res.a * mask.a;
+
 						return res;
 					}
-				ENDCG
+				ENDHLSL
 			}
 		}
 	}
