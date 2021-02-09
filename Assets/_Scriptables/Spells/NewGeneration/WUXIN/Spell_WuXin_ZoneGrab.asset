@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
   m_Name: Spell_WuXin_ZoneGrab
   m_EditorClassIdentifier: 
-  range: 7
+  range: 9
   cooldown: 6
   numberOfCharge: 1
   forbiddenState: 48
+  useUltStacks: 0
+  stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
   canalisationTime: 0.1
@@ -30,7 +32,7 @@ MonoBehaviour:
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: b5fffadc70703cc4db30ec42e18751b1, type: 3}
   onImpactInstantiate: {fileID: 7776885188641116624, guid: 0df850445d1fab54a93c8f962c63fa2d, type: 3}
-  radiusOfImpact: 3
+  radiusOfImpact: 4.5
   launchCurve:
     serializedVersion: 2
     m_Curve:

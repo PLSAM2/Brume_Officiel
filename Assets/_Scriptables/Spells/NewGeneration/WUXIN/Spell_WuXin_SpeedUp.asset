@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Spell_WuXin_SpeedUp
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 8
+  cooldown: 1
   numberOfCharge: 1
   forbiddenState: 48
+  useUltStacks: 0
+  stacksUsed: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: f09449f3cb41dd44ba31341ef3c295cf, type: 2}
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
@@ -29,4 +30,4 @@ MonoBehaviour:
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 60fe3eb3d798f634fb072c9c3bb72da8, type: 3}
+  spellIcon: {fileID: 21300000, guid: 62312ae8cff6f6d459706298e9e9814a, type: 3}
