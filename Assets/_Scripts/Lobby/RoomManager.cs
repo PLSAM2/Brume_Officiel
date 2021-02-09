@@ -100,6 +100,7 @@ public class RoomManager : MonoBehaviour
 
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
+        EndObjectives();
         StartNewRound();
         Team winningTeam = Team.none;
         using (Message message = e.GetMessage())
@@ -127,6 +128,11 @@ public class RoomManager : MonoBehaviour
         InGameNetworkReceiver.Instance.SetEndGame(true);
 
         StartCoroutine(EndGame(true, gameScene));
+    }
+
+    private void EndObjectives()
+    {
+        
     }
 
     IEnumerator EndGame(bool isNewRound = false, string sceneName = "")
