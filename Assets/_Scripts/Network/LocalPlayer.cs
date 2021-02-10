@@ -393,8 +393,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			if (_damagesToDeal.damageHealth > 0)
 			{
-				DealDamagesLocaly(_damagesToDeal.additionalDamages, dealerID);
-
 				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
 					_writer.Write(myPlayerId);
@@ -463,7 +461,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (isOwner)
 			myPlayerModule.KillEveryStun();
 
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0)
+		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
 			if (isOwner)
 			{
@@ -471,14 +470,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				{
 					myPlayerModule.ApplyWxMark(dealerID);
 				}
-				UiManager.Instance.FeedbackHit();
 
+				if (damages > 0)
+					UiManager.Instance.FeedbackHit();
 			}
 
 			if ((int)liveHealth - (int)damages <= 0)
 			{
 				if (isOwner)
 				{
+				
+
 					if (dealerID != null)
 					{
 						KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
