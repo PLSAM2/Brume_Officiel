@@ -266,15 +266,15 @@ public class TeleportationModule : SpellModule
 
         // QUAND ON CLIQUE POUR SE TP
 
-        //if (isTimeEnded)
-        //{
-        //    tpFx.transform.position = wxTfs.position;
-        //}
-        //else
-        //{
-        //    tpFx.transform.position = newPos;
-        //}
-        //tpFx.SetActive(true);
+        if (isTimeEnded)
+        {
+            tpFx.transform.position = wxTfs.position;
+        }
+        else
+        {
+            tpFx.transform.position = newPos;
+        }
+        tpFx.SetActive(true);
 
         yield return new WaitForSeconds(waitForTpTime);
 
@@ -285,7 +285,7 @@ public class TeleportationModule : SpellModule
         playerModule.mylocalPlayer.isTp = false;
 
         CameraManager.Instance.ResetPlayerFollow();
-       // tpFx.SetActive(false);
+       tpFx.SetActive(false);
 
         if (isTimeEnded)
         {
