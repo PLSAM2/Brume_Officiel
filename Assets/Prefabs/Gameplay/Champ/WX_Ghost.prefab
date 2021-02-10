@@ -948,6 +948,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4957702267897450981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,7 +1356,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4371811094696334752}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 789e80e7e19e84c45908cba44d779a43, type: 3}
   m_Name: 
@@ -1369,11 +1370,9 @@ MonoBehaviour:
   myAnimator: {fileID: 4419065259284493766}
   speedAnim: 30
   characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  isVisible: 0
-  objToHide:
-  - {fileID: 7382885848438192413}
-  - {fileID: 2803508211929711914}
-  currentIdBrume: 0
+  myFow: {fileID: 0}
+  isInBrume: 0
+  brumeId: 0
 --- !u!114 &6888309236579929682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1395,7 +1394,6 @@ MonoBehaviour:
   forbidenWalkingState: 136
   chara: {fileID: 6408620564433633356}
   rotLocked: 0
-  collider: {fileID: 0}
   currentForcedMovement:
     myModule: {fileID: 0}
     _duration: 0
@@ -1425,6 +1423,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     strength: 0
+    fakeRange: 0
   isAGhost: 1
   ghost: {fileID: 4719444733785432451}
   ghostSpeed: 7
@@ -2243,7 +2242,6 @@ GameObject:
   - component: {fileID: 7760688025550860220}
   - component: {fileID: 4419065259284493766}
   - component: {fileID: 2844441703682802463}
-  - component: {fileID: 9172063487623789471}
   m_Layer: 23
   m_Name: AnimatorPerso
   m_TagString: Untagged
@@ -2285,7 +2283,14 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+    'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+    'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+    'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+    'mixamorig:LeftHandMiddle3'\n\tand more ...\n\tFrom animation clip 'Counter'\n\tFrom
+    animation clip 'Counter'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -2307,19 +2312,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &9172063487623789471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6987422820194481414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c5bf08902e9bd46945d2f2e8c6b74f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myFootstep: {fileID: 0}
 --- !u!1 &7086228337857880354
 GameObject:
   m_ObjectHideFlags: 0

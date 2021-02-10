@@ -19,7 +19,7 @@ public class Module_WxSoulBurst : ModuleProjectileSpell
 		_temp.soulPickedUp += AddChargeManualy;
 	}
 
-	protected override void Disable ()
+	public override void Disable ()
 	{
 		base.Disable();
 		WxController _temp = (WxController)myPlayerModule;

@@ -30,7 +30,7 @@ public class PlayerModule : MonoBehaviour
 		get => _state | LiveEffectCharacterState();
 		set { if (!mylocalPlayer.isOwner) { _state = value; } else return; }
 	}
-
+	[HideInInspector] public bool willListenInputs = true;
 	En_CharacterState LiveEffectCharacterState ()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
@@ -316,82 +316,84 @@ public class PlayerModule : MonoBehaviour
 
 		if (mylocalPlayer.isOwner)
 		{
-			//direction des fleches du clavier 
-			DirectionInputedUpdate?.Invoke(directionInputed());
-
-			//INPUT DETECTION SPELLS AND RUNNING
-			#region
-			if (Input.GetKeyDown(firstSpellKey))
-				firstSpellInput?.Invoke(mousePos());
-			else if (Input.GetKeyDown(secondSpellKey))
-				secondSpellInput?.Invoke(mousePos());
-			else if (Input.GetKeyDown(thirdSpellKey))
-				thirdSpellInput?.Invoke(mousePos());
-			else if (Input.GetKeyDown(wardKey))
-				wardInput?.Invoke(mousePos());
-			else if (Input.GetKeyDown(cancelSpellKey))
-				cancelSpell?.Invoke(false);
-			else if (Input.GetKeyDown(tpSpellKey))
-				tpInput?.Invoke(mousePos());
-			else if (Input.GetKeyDown(pingKey))
-				pingInput?.Invoke(mousePos());
-
-			//AUTO
-			else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
+			if (willListenInputs)
 			{
-				leftClickInput?.Invoke(mousePos());
-				boolWasClicked = true;
-			}
+				//direction des fleches du clavier 
+				DirectionInputedUpdate?.Invoke(directionInputed());
+				//INPUT DETECTION SPELLS AND RUNNING
+				#region
+				if (Input.GetKeyDown(firstSpellKey))
+					firstSpellInput?.Invoke(mousePos());
+				else if (Input.GetKeyDown(secondSpellKey))
+					secondSpellInput?.Invoke(mousePos());
+				else if (Input.GetKeyDown(thirdSpellKey))
+					thirdSpellInput?.Invoke(mousePos());
+				else if (Input.GetKeyDown(wardKey))
+					wardInput?.Invoke(mousePos());
+				else if (Input.GetKeyDown(cancelSpellKey))
+					cancelSpell?.Invoke(false);
+				else if (Input.GetKeyDown(tpSpellKey))
+					tpInput?.Invoke(mousePos());
+				else if (Input.GetKeyDown(pingKey))
+					pingInput?.Invoke(mousePos());
 
-			if (Input.GetKeyUp(firstSpellKey))
-				firstSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyUp(secondSpellKey))
-				secondSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyUp(thirdSpellKey))
-				thirdSpellInputRealeased?.Invoke(mousePos());
-			else if (Input.GetKeyUp(wardKey))
-			{
-				wardInputReleased?.Invoke(mousePos());
-				RetryInteractibleCapture();
-			}
-			else if (Input.GetKeyUp(tpSpellKey))
-				tpInputReleased?.Invoke(mousePos());
-			else if (Input.GetKeyUp(pingKey))
-				pingInputReleased?.Invoke(mousePos());
-			else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
-			{
-				leftClickInputRealeased?.Invoke(mousePos());
-				boolWasClicked = false;
-			}
+				//AUTO
+				else if (Input.GetAxis("Fire1") > 0 && !boolWasClicked)
+				{
+					leftClickInput?.Invoke(mousePos());
+					boolWasClicked = true;
+				}
 
-			//if (Input.GetKeyDown(interactKey))
-			//{
-			//	foreach (Interactible interactible in interactiblesClose)
-			//	{
-			//		if (interactible == null)
-			//			return;
-			//		LockingRotation(true);
-			//		interactible.TryCapture(teamIndex, this);
-			//	}
-			//}
-			//else if (Input.GetKeyUp(interactKey))
-			//{
-			//	foreach (Interactible interactible in interactiblesClose)
-			//	{
-			//		if (interactible == null)
-			//			return;
-			//		LockingRotation(false);
-			//		interactible.StopCapturing(teamIndex);
-			//	}
-			//}
+				if (Input.GetKeyUp(firstSpellKey))
+					firstSpellInputRealeased?.Invoke(mousePos());
+				else if (Input.GetKeyUp(secondSpellKey))
+					secondSpellInputRealeased?.Invoke(mousePos());
+				else if (Input.GetKeyUp(thirdSpellKey))
+					thirdSpellInputRealeased?.Invoke(mousePos());
+				else if (Input.GetKeyUp(wardKey))
+				{
+					wardInputReleased?.Invoke(mousePos());
+					RetryInteractibleCapture();
+				}
+				else if (Input.GetKeyUp(tpSpellKey))
+					tpInputReleased?.Invoke(mousePos());
+				else if (Input.GetKeyUp(pingKey))
+					pingInputReleased?.Invoke(mousePos());
+				else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
+				{
+					leftClickInputRealeased?.Invoke(mousePos());
+					boolWasClicked = false;
+				}
 
-			if (Input.GetKeyDown(crouching))
-			{
-				isCrouched = true;
-			}
-			else if (Input.GetKeyUp(crouching))
-			{
-				isCrouched = false;
+				//if (Input.GetKeyDown(interactKey))
+				//{
+				//	foreach (Interactible interactible in interactiblesClose)
+				//	{
+				//		if (interactible == null)
+				//			return;
+				//		LockingRotation(true);
+				//		interactible.TryCapture(teamIndex, this);
+				//	}
+				//}
+				//else if (Input.GetKeyUp(interactKey))
+				//{
+				//	foreach (Interactible interactible in interactiblesClose)
+				//	{
+				//		if (interactible == null)
+				//			return;
+				//		LockingRotation(false);
+				//		interactible.StopCapturing(teamIndex);
+				//	}
+				//}
+
+				if (Input.GetKeyDown(crouching))
+				{
+					isCrouched = true;
+				}
+				else if (Input.GetKeyUp(crouching))
+				{
+					isCrouched = false;
+				}
 			}
 
 			#endregion
@@ -427,13 +429,13 @@ public class PlayerModule : MonoBehaviour
 		brumeId = idBrume;
 	}
 
-	public void RetryInteractibleCapture()
-    {
-        foreach (Interactible inter in interactiblesClose)
-        {
+	public void RetryInteractibleCapture ()
+	{
+		foreach (Interactible inter in interactiblesClose)
+		{
 			inter.CheckOnUnlock = true;
 		}
-    }
+	}
 	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
 		switch (_spell)
@@ -886,6 +888,12 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
+
+	public DamagesInfos() { }
+	public DamagesInfos(ushort damageHealth) {
+		this.damageHealth = damageHealth;
+	}
+
 	[HideInInspector] public string playerName;
 
 	[TabGroup("NormalDamages")] public ushort damageHealth;

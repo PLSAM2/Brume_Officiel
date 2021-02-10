@@ -10,7 +10,7 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture(MaskFade)" {
 		_InvFade("Soft Particle Factor", Range(0.01,3.0)) = 1.0
 	}
 		Category{
-				Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+				Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
 				Blend SrcAlpha One
 				Cull Off
 				ZWrite Off

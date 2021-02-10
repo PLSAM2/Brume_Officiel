@@ -13,7 +13,10 @@ public class ModuleProjectileSpell : SpellModule
 	float timeBetweenShot = 0;
 	List<ArrowPreview> myPreviewArrow;
 
-	protected override void FixedUpdate ()
+    [SerializeField] GameObject fxCanalisation;
+    [SerializeField] GameObject fxRecalShoot;
+
+    protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
 
@@ -69,9 +72,44 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = localTrad.salveInfos;
 	}
 
-	//shootingPart
-	#region 
-	protected virtual Vector3 PosToInstantiate ()
+    public override void StartCanalysingFeedBack()
+    {
+        base.StartCanalysingFeedBack();
+
+        if (fxCanalisation)
+        {
+            fxCanalisation.SetActive(true);
+        }
+    }
+
+    public override void ResolutionFeedBack()
+    {
+        base.ResolutionFeedBack();
+
+        if (fxCanalisation)
+        {
+            fxCanalisation.SetActive(false);
+        }
+
+        if (fxRecalShoot)
+        {
+            fxRecalShoot.SetActive(true);
+        }
+    }
+
+    public override void ThrowbackEndFeedBack()
+    {
+        base.ThrowbackEndFeedBack();
+
+        if (fxRecalShoot)
+        {
+            fxRecalShoot.SetActive(false);
+        }
+    }
+
+    //shootingPart
+    #region 
+    protected virtual Vector3 PosToInstantiate ()
 	{
 		Vector3 _temp = transform.forward * .1f + transform.position;
 		_temp.y = 0;
