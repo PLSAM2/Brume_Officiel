@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
-  m_Name: Spell_Leng_BaseAttack_spell
+  m_Name: Spell_Leng_BaseAttackFast
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 1
+  cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
   useUltStacks: 0
   stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  canalisationTime: 0.7
+  canalisationTime: 0.1
   statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 8677008586179a74e9fc335af2e6e84e, type: 2}
+  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
-  anonciationTime: 0.5
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.5
+  throwBackDuration: 0.6
   spellIcon: {fileID: 21300000, guid: 7cd1c76f0bbc04848b8e86439cdc7b2c, type: 3}
