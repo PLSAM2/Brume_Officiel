@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1268798746132645660}
   - component: {fileID: 4469710588940079714}
-  - component: {fileID: 1308825936544468351}
+  - component: {fileID: 4661899890835186574}
   m_Layer: 11
   m_Name: Fx
   m_TagString: Hide
@@ -161,8 +161,8 @@ MonoBehaviour:
   isVisible: 0
   objToHide:
   - {fileID: 1821795708921040701}
---- !u!65 &1308825936544468351
-BoxCollider:
+--- !u!135 &4661899890835186574
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -172,8 +172,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.365915, y: 1, z: 4.4076414}
-  m_Center: {x: 0.013909578, y: 0, z: -0.0069537163}
+  m_Radius: 6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7776885188641116624
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +224,7 @@ MonoBehaviour:
   myLivelifeTime: 0
   meshBlue: {fileID: 807547197683120078}
   meshRed: {fileID: 8561045549746045336}
+  hideMeshToEnemyTeam: 0
   myteam: 0
   myNetworkObject: {fileID: 9188923623546187145}
   isOwner: 0
