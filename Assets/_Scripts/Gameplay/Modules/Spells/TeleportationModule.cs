@@ -9,7 +9,7 @@ public class TeleportationModule : SpellModule
 
     private Transform wxTfs;
     private WxController wxController;
-    public ParticleSystem tpFx;
+    public GameObject tpFx;
     public PlayerModule playerModule;
     public float tpMaxTime = 5;
     public int integibleLayer = 16;
@@ -266,6 +266,15 @@ public class TeleportationModule : SpellModule
 
         // QUAND ON CLIQUE POUR SE TP
 
+        //if (isTimeEnded)
+        //{
+        //    tpFx.transform.position = wxTfs.position;
+        //}
+        //else
+        //{
+        //    tpFx.transform.position = newPos;
+        //}
+        //tpFx.SetActive(true);
 
         yield return new WaitForSeconds(waitForTpTime);
 
@@ -276,6 +285,7 @@ public class TeleportationModule : SpellModule
         playerModule.mylocalPlayer.isTp = false;
 
         CameraManager.Instance.ResetPlayerFollow();
+       // tpFx.SetActive(false);
 
         if (isTimeEnded)
         {

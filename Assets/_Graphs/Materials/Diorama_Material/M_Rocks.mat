@@ -146,6 +146,22 @@ Material:
         m_Texture: {fileID: 2800000, guid: 8c8e6bd39f1d3c348a607b675e3dc417, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureArray_Grunges:
+        m_Texture: {fileID: 18700000, guid: 649e428ece482fe499fbfc248f5c6460, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Noises:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Textures:
+        m_Texture: {fileID: 18700000, guid: bab7337c8018c7042ada8f6325405b49, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample15:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TopTex_Albedo_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -176,6 +192,12 @@ Material:
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
+    - _AnimatedGrunge: 1
+    - _AnimatedGrungeMultiply: 1.58
+    - _AnimatedGrunge_Flipbook_Columns: 4
+    - _AnimatedGrunge_Flipbook_Rows: 4
+    - _AnimatedGrunge_Flipbook_Speed: 6
+    - _AnimatedGrunge_Tiling: 4
     - _BaseColor: 0
     - _BlendMode: 0
     - _BumpScale: 1
@@ -184,8 +206,10 @@ Material:
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
     - _CustomRimLight_Opacity: 1
+    - _CustomRimLight_Texture: 0
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
+    - _DebugGrayscale: 0
     - _DepthFade: 0
     - _DepthFade_ClampMax: 0.8
     - _DepthFade_ClampMin: 1
@@ -217,6 +241,7 @@ Material:
     - _InkSplatter: 0
     - _InkSplatter_Tiling: 3.93
     - _InverseCustomOpacityMask: 0
+    - _IsGrungeAnimated: 1
     - _LightDebug: 0
     - _Metallic: 0
     - _Mode: 0
@@ -230,9 +255,13 @@ Material:
     - _NormalInBrumeGrunge_Contrast: -6.1
     - _NormalInBrumeGrunge_Tiling: 6
     - _OcclusionStrength: 1
-    - _Opacity: 1
+    - _Opacity: 0
     - _OpacityTexture: 0
     - _Out_or_InBrume: 0
+    - _PaintGrunge: 0
+    - _PaintGrunge_Contrast: 0
+    - _PaintGrunge_Multiply: 0
+    - _PaintGrunge_Tiling: 1
     - _PaperMultiply: 5
     - _Paper_Flipbook_Columns: 4
     - _Paper_Flipbook_Rows: 4
@@ -265,6 +294,8 @@ Material:
     - _SpecularHighlights: 1
     - _SpecularNoise: 1
     - _SpecularStepMax: 1
+    - _SpecularTexture: 0
+    - _Specular_Multiplier: 1
     - _SpeculartStepMin: 0
     - _SrcBlend: 1
     - _StencilRef: 0
