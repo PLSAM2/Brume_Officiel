@@ -499,6 +499,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			myPlayerModule.hitCountered?.Invoke();
 	}
 
+	/// <summary>
+	/// DO NOT use this until YOU KNOW what you do :)
+	/// </summary>
+	public void ForceDealDamages(ushort dmg)
+    {
+		if ((int)liveHealth - (int)dmg <= 0)
+		{
+			liveHealth = 0;
+		} else
+        {
+			int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)dmg, 0, 1000);
+			liveHealth = (ushort)_tempHp;
+		}
+	}
+
 	public void LocallyDivideHealth ( ushort divider )
 	{
 		liveHealth = (ushort)Mathf.Round(liveHealth / divider);

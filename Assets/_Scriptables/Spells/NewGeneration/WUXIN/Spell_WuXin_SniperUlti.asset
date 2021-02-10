@@ -34,16 +34,14 @@ MonoBehaviour:
   spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
   damagesToDeal:
     playerName: 
-    damageHealth: 1
-    statusToApply:
-    - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
+    damageHealth: 0
+    statusToApply: []
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 2cbfca213f9ecee4989ed3ccc444bcb1, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: 7786475422951f24bb8b5996d55d3f05, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
     serializedVersion: 2
@@ -79,6 +77,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   finalSize: {x: 1, y: 1, z: 1}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 0
   salveInfos:
     NumberOfSalve: 1
@@ -89,7 +93,7 @@ MonoBehaviour:
   destroyProjectiles: 0
   bouncingNumber: 0
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 0
+  diesOnPlayerTouch: 1
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   cooldownReduction: 0
