@@ -135,10 +135,10 @@ public class Projectile : AutoKill
 	{
 		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime);
 
-		if(localTrad.isScalable)
-		transform.localScale = new Vector3(1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.x - 1),
-										   1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.y - 1),
-										   1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.z - 1));
+		if (localTrad.isScalable)
+			transform.localScale = new Vector3(1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.x - 1),
+											   1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.y - 1),
+											   1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.z - 1));
 	}
 
 	void OnTriggerEnter ( Collider _coll )
@@ -154,21 +154,23 @@ public class Projectile : AutoKill
 			{
 				hasTouched = true;
 
+
+				if (isOwner && localTrad._reduceCooldowns)
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
+
 				if (!asDeal)
 				{
 					DamagesInfos _temp = new DamagesInfos();
 					_temp = localTrad.damagesToDeal;
 					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
+					if (localTrad.statusToApplyOnHit != null)
+						GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(localTrad.statusToApplyOnHit.effect);
+
+					if (localTrad.diesOnPlayerTouch)
+					{
+						Destroy(true);
+					}
 				}
-
-				if (localTrad.diesOnPlayerTouch)
-				{
-					Destroy(true);
-				}
-
-				if (isOwner && localTrad._reduceCooldowns)
-					GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(localTrad.cooldownReduction);
-
 				return;
 			}
 		}

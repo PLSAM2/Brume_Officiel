@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell/ShootSpell")]
 public class Sc_ProjectileSpell : Sc_Spell
 {
-
+	public float fakeRange;
 	[Header("ProjectileParameters")]
 	[TabGroup("ProjectileSpecifications")] public DamagesInfos damagesToDeal;
 
@@ -41,6 +41,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnWallTrigger = false;
 	[TabGroup("ProjectileSpecifications")] public bool forcePrefabApparition = false;
+	[TabGroup("ProjectileSpecifications")] public Sc_Status statusToApplyOnHit;
 
 	[Header("UpgradePart")]
 	[TabGroup("ProjectileSpecifications")] [ShowIf("_reduceCooldowns")] [VerticalGroup("Group2")] public float cooldownReduction = 0;

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using static AOE_Fx;
 
 public class JumpModule : SpellModule
 {
 	public GameObject aoeToSpawnOnImpact;
-	public float impactRadius = 5;
+	public float impactRadius = 3.5f;
 	[SerializeField] LayerMask layerToRaycastOn;
-	Vector3 posToJumpOn;
+	public AnimationCurve progressionCurve;
+	Vector3 jumpPosStart, jumpPosEnd;
 	CirclePreview myPreviewRange, myPreviewImpact;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -23,15 +25,28 @@ public class JumpModule : SpellModule
 
 	public override void StartCanalysing ( Vector3 _toAnnounce )
 	{
-		posToJumpOn = transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(myPlayerModule.mousePos(), transform.position), 0, spell.range);
+		if(canStartCanalisation() && willResolve)
+		{
+			jumpPosStart = transform.position;
+			jumpPosEnd = transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(myPlayerModule.mousePos(), transform.position), 0, spell.range);
+			jumpPosEnd.y = 0;
+			jumpPosEnd = myPlayerModule.movementPart.FreeLocation(jumpPosEnd,Vector3.Distance(jumpPosEnd, transform.position));
+		}
+	
 		base.StartCanalysing(_toAnnounce);
+	}
+
+	protected override void AnonceSpell ( Vector3 _toAnnounce )
+	{
+		base.AnonceSpell(_toAnnounce);
+		LocalPoolManager.Instance.SpawnNewAOEInNetwork((ushort)AOE_Fx_Type.circle, jumpPosEnd, 0, impactRadius, spell.anonciationTime);
 	}
 
 	protected override void ResolveSpell ()
 	{
 		myPlayerModule.AddState(En_CharacterState.Integenbility);
 		myPlayerModule.AddState(En_CharacterState.Root);
-		transform.DOMove(new Vector3(posToJumpOn.x, 0, posToJumpOn.z), spell.throwBackDuration);
+		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), transform.position, transform.eulerAngles, 1);
 		base.ResolveSpell();
 	}
 
@@ -39,7 +54,6 @@ public class JumpModule : SpellModule
 	{
 		myPlayerModule.RemoveState(En_CharacterState.Integenbility);
 		myPlayerModule.RemoveState(En_CharacterState.Root);
-		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), transform.position, transform.eulerAngles, 1);
 		base.Interrupt();
 	}
 
@@ -61,7 +75,6 @@ public class JumpModule : SpellModule
 			myPreviewImpact.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
-
 	}
 
 	protected override void HidePreview ( Vector3 _posToHide )
@@ -69,6 +82,17 @@ public class JumpModule : SpellModule
 		myPreviewRange.gameObject.SetActive(false);
 		myPreviewImpact.gameObject.SetActive(false);
 		base.HidePreview(_posToHide);
-
 	}
+
+	private void Update ()
+	{
+		if(anonciated & !resolved)
+		{
+			Vector3 _posToSet = jumpPosStart + (jumpPosEnd - jumpPosStart) * progressionCurve.Evaluate((currentTimeCanalised - (spell.canalisationTime - spell.anonciationTime)) / spell.anonciationTime);
+
+			transform.position = Vector3.Lerp(transform.position, new Vector3(_posToSet.x, 0, _posToSet.z), Time.deltaTime * 10) ;
+		}
+	}
+
+	
 }
