@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class UltPickup : Interactible
 {
+    [SerializeField] Animator myAnimator;
+
+    private void Start()
+    {
+        ActualiseMesh();
+    }
+
     public ushort ultimateStackGive = 1;
     public override void Captured(ushort _capturingPlayerID)
     {
@@ -19,6 +26,30 @@ public class UltPickup : Interactible
         }
 
         base.Captured(_capturingPlayerID);
+        ActualiseMesh();
     }
 
+    public override void Unlock()
+    {
+        base.Unlock();
+        ActualiseMesh();
+    }
+
+    void ActualiseMesh()
+    {
+        switch (state)
+        {
+            case State.Locked:
+                myAnimator.SetBool("IsActive", false);
+                break;
+
+            case State.Capturable:
+                myAnimator.SetBool("IsActive", true);
+                break;
+
+            case State.Captured:
+                myAnimator.SetBool("IsActive", false);
+                break;
+        }
+    }
 }

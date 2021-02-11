@@ -5,10 +5,28 @@ using UnityEngine;
 public class Transformation : SpellModule
 {
 	public SpellModule newClick, newFirst, newSecond, newThird;
-
+	public Aoe aoeToInstantiate;
+	CirclePreview myPreview;
+	bool asTransformed = false;
+	private void Start ()
+	{
+		if (aoeToInstantiate != null)
+		{
+			myPreview = PreviewManager.Instance.GetCirclePreview(transform);
+			myPreview.Init(aoeToInstantiate.localTrad.rules.aoeRadius, CirclePreview.circleCenter.center, transform.position);
+			HidePreview(Vector3.zero);
+		}
+	}
 
 	protected override void ResolveSpell ()
 	{
+		asTransformed = !asTransformed;
+
+		if (asTransformed)
+		{
+			NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToInstantiate.gameObject), transform.position, transform.rotation.eulerAngles);
+		}
+
 		base.ResolveSpell();
 		if (newClick != null)
 		{
@@ -18,7 +36,7 @@ public class Transformation : SpellModule
 			myPlayerModule.leftClick = newClick;
 			newClick = _temp;
 		}
-		if(newFirst != null)
+		if (newFirst != null)
 		{
 			myPlayerModule.firstSpell.Disable();
 			SpellModule _temp = myPlayerModule.firstSpell;
@@ -26,7 +44,7 @@ public class Transformation : SpellModule
 			myPlayerModule.firstSpell = newFirst;
 			newFirst = _temp;
 		}
-		if(newSecond != null)
+		if (newSecond != null)
 		{
 			myPlayerModule.secondSpell.Disable();
 			SpellModule _temp = myPlayerModule.secondSpell;
@@ -42,5 +60,39 @@ public class Transformation : SpellModule
 			myPlayerModule.thirdSpell = newThird;
 			newThird = _temp;
 		}
+	}
+
+	protected override void HidePreview ( Vector3 _posToHide )
+	{
+		if (myPreview != null)
+			myPreview.gameObject.SetActive(false);
+		base.HidePreview(_posToHide);
+	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+		if (myPreview != null && canBeCast()) 
+			myPreview.gameObject.SetActive(true);
+	}
+
+	protected override void UpdatePreview ()
+	{
+		base.UpdatePreview();
+		if (myPreview != null)
+			myPreview.Init(aoeToInstantiate.localTrad.rules.aoeRadius, CirclePreview.circleCenter.center, transform.position);
+	}
+
+	protected override void AddCharge ()
+	{
+		print("I had charge");
+		ResolveSpell();
+		Interrupt();
+		return;
+	}
+
+	public override bool CanDeacreaseCooldown ()
+	{
+		return asTransformed;
 	}
 }

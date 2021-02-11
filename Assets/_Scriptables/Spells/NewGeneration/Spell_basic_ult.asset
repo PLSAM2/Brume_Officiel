@@ -32,6 +32,7 @@ MonoBehaviour:
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
+  fakeRange: 0
   damagesToDeal:
     playerName: 
     damageHealth: 1500
@@ -78,7 +79,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  asAdaptiveRange: 0
+  finalSize: {x: 1, y: 1, z: 1}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 0
   salveInfos:
     NumberOfSalve: 1
@@ -92,6 +99,7 @@ MonoBehaviour:
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
+  statusToApplyOnHit: {fileID: 0}
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
