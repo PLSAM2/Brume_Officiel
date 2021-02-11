@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TestBrumeVolume
-  m_Shader: {fileID: 4800000, guid: 83ed1d693b9b3424dbc47b07c441f418, type: 3}
+  m_Shader: {fileID: 4800000, guid: f758fd1cf6edc8c498cbd6de1071e373, type: 3}
   m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
     _COLOR_ON _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
     _ROTATORANIMATION_ON _TESSELATION_ON
@@ -30,6 +30,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BrumeTexture:
+        m_Texture: {fileID: 2800000, guid: d59eab6cece9db54b90d982bd90cd50d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BrumeTexture1:
         m_Texture: {fileID: 2800000, guid: d59eab6cece9db54b90d982bd90cd50d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -102,7 +106,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OpacityMask_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a24af4bf25040b448bb7a647ef0953a7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -134,11 +138,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture0:
-        m_Texture: {fileID: 2800000, guid: bb0988e7843e1044e95b7a17cd828759, type: 3}
+        m_Texture: {fileID: 2800000, guid: d59eab6cece9db54b90d982bd90cd50d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: bb0988e7843e1044e95b7a17cd828759, type: 3}
+        m_Texture: {fileID: 2800000, guid: d59eab6cece9db54b90d982bd90cd50d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
@@ -179,12 +187,12 @@ Material:
     - _CurvFix: 1
     - _Cutoff: 0.5
     - _DepthFade: 0.5
-    - _DepthFade_Distance: 0.34
+    - _DepthFade_Distance: 0.3
     - _DepthFade_Power: 1
     - _DetailNormalMapScale: 1
     - _Displacement: 1
-    - _DisplacementTexture_Contrast: 0.7
-    - _DisplacementTexture_Multiply: 0.25
+    - _DisplacementTexture_Contrast: 1.9
+    - _DisplacementTexture_Multiply: 42.55
     - _DisplacementTexture_Multiply1: 1
     - _DstBlend: 0
     - _Flipbook_Animation: 0
@@ -193,9 +201,9 @@ Material:
     - _Flipbook_Speed: 8
     - _Flipbook_Tiling: -1.54
     - _Flipbook_Time: 1
-    - _Float0: 1
-    - _Float11: 7.93
-    - _Float12: 0
+    - _Float0: 0
+    - _Float11: 0.25
+    - _Float12: 0.05
     - _Float19: 0.2
     - _Float20: 0.39
     - _Float23: 5
@@ -244,9 +252,9 @@ Material:
     - _SpecularHighlights: 1
     - _Speed: 0.2
     - _SrcBlend: 1
-    - _TessMax: 25
+    - _TessMax: 100
     - _TessMin: 10
-    - _TessValue: 16
+    - _TessValue: 32
     - _Tesselation: 1
     - _Tesselation_Factor: 128
     - _Tesselation_Factor1: 15
@@ -290,5 +298,5 @@ Material:
     - _PerlinNoise_PannerSpeed: {r: 0.5, g: 0, b: 0, a: 0}
     - _RotatorAnchor: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _ShadowColor: {r: 0.35849056, g: 0.35849056, b: 0.35849056, a: 0}
-    - _Vector0: {r: -2.71, g: 0, b: 0, a: 0}
+    - _Vector0: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
