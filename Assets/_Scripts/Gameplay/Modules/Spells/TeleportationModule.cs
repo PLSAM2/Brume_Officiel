@@ -6,10 +6,6 @@ using UnityEngine;
 
 public class TeleportationModule : SpellModule
 {
-
-    private Transform wxTfs;
-    private WxController wxController;
-    public GameObject tpFx;
     public PlayerModule playerModule;
     public float tpMaxTime = 5;
     public int integibleLayer = 16;
@@ -18,6 +14,7 @@ public class TeleportationModule : SpellModule
     public float tpDistance = 5;
     public float waitForTpTime = 2;
 
+    [SerializeField] private GameObject tpFxObj;
     private CirclePreview circlePreview;
     private bool isWaitingForTp = false;
     private bool isTping = false;
@@ -25,7 +22,9 @@ public class TeleportationModule : SpellModule
     private Vector3 newPos = Vector3.zero;
     private Ray ray;
     private RaycastHit hit;
-
+    private Transform wxTfs;
+    private WxController wxController;
+    private GameObject tpFx;
     public override void DecreaseCooldown()
     {
     }
@@ -96,8 +95,6 @@ public class TeleportationModule : SpellModule
 
     public void TpOnRes()
     {
-
-
         ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
 
         if (wxId != null)
@@ -134,7 +131,6 @@ public class TeleportationModule : SpellModule
         {
             StartCoroutine(WaitForSpawn(isTimeEnded));
         }
-
     }
 
     /// <summary>
@@ -142,8 +138,13 @@ public class TeleportationModule : SpellModule
     /// </summary>
     /// <param name="value">faux = lance le tp / se met invisble 
     /// True = se tp sur newpos</param>
-    public void SetTpState(bool value)
+    public void SetTpState(bool value, Vector3? finalPos = null )
     {
+        if (finalPos != null)
+        {
+            newPos = (Vector3)finalPos;
+        }
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(value);
@@ -251,8 +252,8 @@ public class TeleportationModule : SpellModule
         foreach (Interactible inter in playerModule.interactiblesClose)
         {
             inter.StopCapturing();
-
         }
+
         playerModule.interactiblesClose.Clear();
 
         wxController.DisplayTpZone(false);
@@ -266,38 +267,30 @@ public class TeleportationModule : SpellModule
 
         // QUAND ON CLIQUE POUR SE TP
 
-        //if (isTimeEnded)
-        //{
-        //    tpFx.transform.position = wxTfs.position;
-        //}
-        //else
-        //{
-        //    tpFx.transform.position = newPos;
-        //}
-        //tpFx.SetActive(true);
+        Vector3 finalPos = Vector3.zero;
+
+        if (isTimeEnded)
+        {
+            finalPos = wxTfs.position;        
+        }
+        else
+        {
+            finalPos = newPos;           
+        }
+        tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, finalPos);
 
         yield return new WaitForSeconds(waitForTpTime);
 
         // QUAND ON SE TP APRES LATTENTE
 
-
         wxController.mylocalPlayer.forceShow = false;
         playerModule.mylocalPlayer.isTp = false;
 
         CameraManager.Instance.ResetPlayerFollow();
-       // tpFx.SetActive(false);
 
-        if (isTimeEnded)
-        {
-            this.transform.position = wxTfs.position;
-        }
-        else
-        {
-            this.transform.position = newPos;
-        }
+        this.transform.position = finalPos;
 
-
-        SetTpState(true);
+        SetTpState(true, finalPos);
 
         isWaitingForTp = false;
     }
