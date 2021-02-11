@@ -31,6 +31,7 @@ public class NetworkedObject : MonoBehaviour
     public void Init(ushort lastObjId, PlayerData playerData, ushort objKey, Vector3 pos)
     {
         // Vérifie les droits lié à cette objets
+        print(pos);
         transform.position = pos;
         newNetorkPos = transform.position;
 
