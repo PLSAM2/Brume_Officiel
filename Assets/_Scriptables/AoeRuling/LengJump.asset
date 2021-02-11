@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4c03352caf05bb4abf42cd86b75a998, type: 3}
-  m_Name: LengCounter
+  m_Name: LengJump
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 3
+    durationOfTheAoe: 1
     timeBeforeFinalDisparition: 0.05
     damagesToDealOnImpact:
       playerName: 
       damageHealth: 0
-      statusToApply: []
+      statusToApply:
+      - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
+      - {fileID: 11400000, guid: fa220deae7980c74d8b2e3eb495e0fc6, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -54,8 +56,7 @@ MonoBehaviour:
     durationAlly:
       playerName: 
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: 4abd8fbff830e7548aca229a14ab6b2b, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -72,5 +73,5 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 0}
     useOwnerPos: 0
     isBox: 0
-    aoeRadius: 2.5
+    aoeRadius: 3.5
     boxDimension: {x: 0, y: 0, z: 0}
