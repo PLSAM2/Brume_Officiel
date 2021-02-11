@@ -6,10 +6,6 @@ using UnityEngine;
 
 public class TeleportationModule : SpellModule
 {
-
-    private Transform wxTfs;
-    private WxController wxController;
-    public GameObject tpFx;
     public PlayerModule playerModule;
     public float tpMaxTime = 5;
     public int integibleLayer = 16;
@@ -18,6 +14,7 @@ public class TeleportationModule : SpellModule
     public float tpDistance = 5;
     public float waitForTpTime = 2;
 
+    [SerializeField] private GameObject tpFxObj;
     private CirclePreview circlePreview;
     private bool isWaitingForTp = false;
     private bool isTping = false;
@@ -25,7 +22,9 @@ public class TeleportationModule : SpellModule
     private Vector3 newPos = Vector3.zero;
     private Ray ray;
     private RaycastHit hit;
-
+    private Transform wxTfs;
+    private WxController wxController;
+    private GameObject tpFx;
     public override void DecreaseCooldown()
     {
     }
@@ -96,8 +95,6 @@ public class TeleportationModule : SpellModule
 
     public void TpOnRes()
     {
-
-
         ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
 
         if (wxId != null)
@@ -134,7 +131,6 @@ public class TeleportationModule : SpellModule
         {
             StartCoroutine(WaitForSpawn(isTimeEnded));
         }
-
     }
 
     /// <summary>
@@ -251,8 +247,8 @@ public class TeleportationModule : SpellModule
         foreach (Interactible inter in playerModule.interactiblesClose)
         {
             inter.StopCapturing();
-
         }
+
         playerModule.interactiblesClose.Clear();
 
         wxController.DisplayTpZone(false);
@@ -265,27 +261,24 @@ public class TeleportationModule : SpellModule
         }
 
         // QUAND ON CLIQUE POUR SE TP
-
+       
         if (isTimeEnded)
         {
-            tpFx.transform.position = wxTfs.position;
+            tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, wxTfs.position);
         }
         else
         {
-            tpFx.transform.position = newPos;
+            tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, newPos);
         }
-        tpFx.SetActive(true);
 
         yield return new WaitForSeconds(waitForTpTime);
 
         // QUAND ON SE TP APRES LATTENTE
 
-
         wxController.mylocalPlayer.forceShow = false;
         playerModule.mylocalPlayer.isTp = false;
 
         CameraManager.Instance.ResetPlayerFollow();
-       tpFx.SetActive(false);
 
         if (isTimeEnded)
         {

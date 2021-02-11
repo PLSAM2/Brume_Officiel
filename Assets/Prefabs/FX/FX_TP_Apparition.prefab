@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4564669361944772}
+  - component: {fileID: 4075672058643193267}
+  - component: {fileID: 1648568213972853149}
   m_Layer: 0
-  m_Name: (Opt)Effect_06_PortalEffect_2
+  m_Name: FX_TP_Apparition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1142267975264660}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.093498, y: 0.093498, z: 0.093498}
+  m_LocalScale: {x: 0.055705175, y: 0.093498, z: 0.093498}
   m_Children:
   - {fileID: 4534709967422410}
   - {fileID: 4365162607787064}
@@ -35,6 +37,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &4075672058643193267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142267975264660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf52840442d9f3042bf7abbbd23353da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isNetworked: 0
+  synchronisePosition: 0
+  synchroniseRotation: 0
+  interpolateSpeed: 30
+  distanceRequiredBeforeSync: 0.1
+  rotationRequiredBeforeSync: 6
+--- !u!114 &1648568213972853149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142267975264660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c07169969aeada4dbaefc2104b03a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mylifeTime: 1
+  myLivelifeTime: 0
+  isUsingTeamMesh: 0
+  meshBlue: {fileID: 0}
+  meshRed: {fileID: 0}
+  hideMeshToEnemyTeam: 0
+  myteam: 0
+  myNetworkObject: {fileID: 0}
+  isOwner: 0
+  spawnSound: {fileID: 0}
 --- !u!1 &1425205117787086
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +104,7 @@ Transform:
   m_GameObject: {fileID: 1425205117787086}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.100000046}
-  m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
+  m_LocalScale: {x: 0.07642948, y: 0.07642951, z: 0.07642951}
   m_Children: []
   m_Father: {fileID: 4564669361944772}
   m_RootOrder: 3
@@ -319,8 +361,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 7.5
-      minScalar: 5
+      scalar: 3.62
+      minScalar: 0.58
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4878,7 +4920,7 @@ Transform:
   m_GameObject: {fileID: 1538059800280802}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.100000076}
-  m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
+  m_LocalScale: {x: 0.50586, y: 0.5058602, z: 0.5058602}
   m_Children: []
   m_Father: {fileID: 4564669361944772}
   m_RootOrder: 4
@@ -4966,7 +5008,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 0.78
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5135,8 +5177,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 4
+      scalar: 1.8
+      minScalar: 0.58
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14732,7 +14774,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 2.5
       minScalar: 3
       maxCurve:
         serializedVersion: 2
@@ -19426,7 +19468,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 2.49
       minScalar: 3
       maxCurve:
         serializedVersion: 2
