@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell/ShootSpell")]
 public class Sc_ProjectileSpell : Sc_Spell
 {
-
+	public float fakeRange;
 	[Header("ProjectileParameters")]
 	[TabGroup("ProjectileSpecifications")] public DamagesInfos damagesToDeal;
 
