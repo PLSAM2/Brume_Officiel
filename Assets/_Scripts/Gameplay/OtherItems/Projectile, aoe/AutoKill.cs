@@ -6,11 +6,12 @@ using static GameData;
 
 public class AutoKill : MonoBehaviour
 {
-	[TabGroup("AutokillParameters")] [HideInInspector] public float mylifeTime;
+	[TabGroup("AutokillParameters")] public float mylifeTime;
 	[TabGroup("AutokillParameters")] [HideInInspector] public float myLivelifeTime;
-	[TabGroup("AutokillParameters")] public GameObject meshBlue;
-	[TabGroup("AutokillParameters")] public GameObject meshRed;
-	[TabGroup("AutokillParameters")] public bool hideMeshToEnemyTeam = false;
+	[TabGroup("AutokillParameters")] public bool isUsingTeamMesh = true;
+	[TabGroup("AutokillParameters")] [ShowIf("isUsingTeamMesh")] public GameObject meshBlue;
+	[TabGroup("AutokillParameters")] [ShowIf("isUsingTeamMesh")] public GameObject meshRed;
+	[TabGroup("AutokillParameters")] [ShowIf("isUsingTeamMesh")] public bool hideMeshToEnemyTeam = false;
 	[HideInInspector] public Team myteam;
 	[HideInInspector] public NetworkedObject myNetworkObject;
 	[HideInInspector] public bool isOwner = false;
@@ -19,8 +20,12 @@ public class AutoKill : MonoBehaviour
 	protected virtual void Awake ()
 	{
 		myNetworkObject = GetComponent<NetworkedObject>();
-		meshBlue.gameObject.SetActive(false);
-		meshRed.gameObject.SetActive(false);
+
+        if (isUsingTeamMesh)
+        {
+			meshBlue.gameObject.SetActive(false);
+			meshRed.gameObject.SetActive(false);
+		}
 	}
 
 	public virtual void Init ( Team ownerTeam, float _percentageOfLifeTime = 1 )
@@ -29,13 +34,16 @@ public class AutoKill : MonoBehaviour
 		isOwner = myNetworkObject.GetIsOwner();
 		myteam = ownerTeam;
 
-		if (hideMeshToEnemyTeam)
-		{
-			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myteam))
+        if (isUsingTeamMesh)
+        {
+			if (hideMeshToEnemyTeam)
+			{
+				if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myteam))
+					DisplayMesh();
+			}
+			else
 				DisplayMesh();
 		}
-		else
-			DisplayMesh();
 
 		if (spawnSound)
 		{
@@ -64,8 +72,11 @@ public class AutoKill : MonoBehaviour
 
 	public virtual void Destroy ( bool _spawnAoe = false )
 	{
-		meshBlue.gameObject.SetActive(false);
-		meshRed.gameObject.SetActive(false);
+        if (isUsingTeamMesh)
+        {
+			meshBlue.gameObject.SetActive(false);
+			meshRed.gameObject.SetActive(false);
+		}
 
 		if (myNetworkObject.GetIsOwner())
 		{
