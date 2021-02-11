@@ -15,6 +15,7 @@ public class Projectile : AutoKill
 	[TabGroup("ProjectileParameters")] [SerializeField] AudioClip _mySfxAudio;
 	[TabGroup("ProjectileParameters")] [SerializeField] bool soundFollowObj = false;
 	[TabGroup("ProjectileParameters")] [SerializeField] GameObject aoeToSpawn;
+	[TabGroup("ProjectileParameters")] [SerializeField] Sc_Status statusToApplyOnHit;
 
 	[Header("SpellLinked")]
 	[TabGroup("ProjectileParameters")] [SerializeField] Sc_ProjectileSpell localTrad;
@@ -159,6 +160,7 @@ public class Projectile : AutoKill
 					DamagesInfos _temp = new DamagesInfos();
 					_temp = localTrad.damagesToDeal;
 					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(statusToApplyOnHit.effect);
 				}
 
 				if (localTrad.diesOnPlayerTouch)
