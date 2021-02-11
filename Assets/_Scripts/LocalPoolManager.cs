@@ -104,11 +104,12 @@ public class LocalPoolManager : SerializedMonoBehaviour
     {
         GameObject newObj = GetFreeGeneric(_index);
 
-        newObj.SetActive(true);
 
-        newObj.transform.position = transform.position;
+        newObj.transform.position = _followObj.position;
         newObj.transform.eulerAngles = new Vector3(0, _rota, 0);
         newObj.transform.localScale = new Vector3(1, 1, _scale);
+ 
+        newObj.SetActive(true);
 
         newObj.GetComponent<FxFollow>().target = _followObj;
         newObj.GetComponent<AutoDisable>().Init(_time);
