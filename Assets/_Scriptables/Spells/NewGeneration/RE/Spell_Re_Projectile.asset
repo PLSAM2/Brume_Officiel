@@ -77,7 +77,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  asAdaptiveRange: 1
+  finalSize: {x: 1, y: 1, z: 1}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 0.1
   salveInfos:
     NumberOfSalve: 1
@@ -91,6 +97,7 @@ MonoBehaviour:
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
+  statusToApplyOnHit: {fileID: 11400000, guid: a571a83a68b56be41884d54038808a44, type: 2}
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0

@@ -159,6 +159,7 @@ public class Projectile : AutoKill
 					DamagesInfos _temp = new DamagesInfos();
 					_temp = localTrad.damagesToDeal;
 					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(localTrad.statusToApplyOnHit.effect);
 				}
 
 				if (localTrad.diesOnPlayerTouch)

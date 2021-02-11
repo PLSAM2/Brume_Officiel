@@ -9,7 +9,7 @@ public class NetworkAnimationController : MonoBehaviour
 {
     UnityClient client;
 
-    [SerializeField] Animator animator;
+    public Animator animator;
 
     [SerializeField] LocalPlayer myLocalPlayer;
 

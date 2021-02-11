@@ -86,7 +86,7 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.backToNormalKit += ReturnToNormal;
 		}
 	}
-	protected virtual void Disable ()
+	public virtual void Disable ()
 	{
 		if (isOwner)
 		{
