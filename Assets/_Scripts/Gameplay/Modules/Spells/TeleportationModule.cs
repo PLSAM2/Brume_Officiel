@@ -138,8 +138,13 @@ public class TeleportationModule : SpellModule
     /// </summary>
     /// <param name="value">faux = lance le tp / se met invisble 
     /// True = se tp sur newpos</param>
-    public void SetTpState(bool value)
+    public void SetTpState(bool value, Vector3? finalPos = null )
     {
+        if (finalPos != null)
+        {
+            newPos = (Vector3)finalPos;
+        }
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(value);
@@ -261,15 +266,18 @@ public class TeleportationModule : SpellModule
         }
 
         // QUAND ON CLIQUE POUR SE TP
-       
+
+        Vector3 finalPos = Vector3.zero;
+
         if (isTimeEnded)
         {
-            tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, wxTfs.position);
+            finalPos = wxTfs.position;        
         }
         else
         {
-            tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, newPos);
+            finalPos = newPos;           
         }
+        tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, finalPos);
 
         yield return new WaitForSeconds(waitForTpTime);
 
@@ -280,17 +288,9 @@ public class TeleportationModule : SpellModule
 
         CameraManager.Instance.ResetPlayerFollow();
 
-        if (isTimeEnded)
-        {
-            this.transform.position = wxTfs.position;
-        }
-        else
-        {
-            this.transform.position = newPos;
-        }
+        this.transform.position = finalPos;
 
-
-        SetTpState(true);
+        SetTpState(true, finalPos);
 
         isWaitingForTp = false;
     }
