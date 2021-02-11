@@ -16,24 +16,25 @@ Shader "GAP/Additive_EdgeSoft" {
             "Queue"="Transparent"
             "RenderType"="Transparent"
             "PreviewType"="Plane"
-			"RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode"="LightweightForward"
             }
             Blend One One
             Cull Off
             ZWrite Off
             
-			HLSLPROGRAM
+            CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            //#define UNITY_PASS_FORWARDBASE
             #include "UnityCG.cginc"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
-            #pragma only_renderers d3d11 glcore gles gles3 metal d3d11_9x 
+			#pragma exclude_renderers d3d11_9x
+            //#pragma only_renderers d3d11 glcore gles gles3 metal d3d11_9x 
             #pragma target 2.0
             uniform sampler2D _CameraDepthTexture;
             uniform sampler2D _MainTex; uniform float4 _MainTex_ST;
@@ -76,7 +77,7 @@ Shader "GAP/Additive_EdgeSoft" {
                 UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
                 return finalRGBA;
             }
-			ENDHLSL
+            ENDCG
         }
     }
     FallBack "Mobile/Particles/Additive"
