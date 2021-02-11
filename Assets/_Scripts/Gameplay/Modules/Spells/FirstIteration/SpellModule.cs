@@ -103,7 +103,7 @@ public class SpellModule : MonoBehaviour
 			TreatNormalCanalisation();
 		}
 
-		if (charges < spell.numberOfCharge && !isUsed)
+		if (CanDeacreaseCooldown())
 			DecreaseCooldown();
 
 		if (showingPreview)
@@ -351,8 +351,9 @@ public class SpellModule : MonoBehaviour
 
 		if (isAComboPiece)
 			return true;
+
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
-			charges == 0 || isUsed)
+			charges < 1 || isUsed)
 		{
 			return false;
 		}
@@ -568,6 +569,11 @@ public class SpellModule : MonoBehaviour
 
 	//canalisation Ressources
 	#region
+	public virtual bool CanDeacreaseCooldown()
+	{
+	 return	charges < spell.numberOfCharge && !isUsed;
+	}
+
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
 	{ return spell.forcedMovementAppliedBeforeResolution; }
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyAfterRealisation ()
