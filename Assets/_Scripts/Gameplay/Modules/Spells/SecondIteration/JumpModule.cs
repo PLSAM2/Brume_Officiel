@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using static AOE_Fx;
 
 public class JumpModule : SpellModule
 {
@@ -33,6 +34,12 @@ public class JumpModule : SpellModule
 		}
 	
 		base.StartCanalysing(_toAnnounce);
+	}
+
+	protected override void AnonceSpell ( Vector3 _toAnnounce )
+	{
+		base.AnonceSpell(_toAnnounce);
+		LocalPoolManager.Instance.SpawnNewAOEInNetwork((ushort)AOE_Fx_Type.circle, jumpPosEnd, 0, impactRadius, spell.anonciationTime);
 	}
 
 	protected override void ResolveSpell ()
