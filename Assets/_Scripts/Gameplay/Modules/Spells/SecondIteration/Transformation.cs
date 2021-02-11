@@ -7,6 +7,7 @@ public class Transformation : SpellModule
 	public SpellModule newClick, newFirst, newSecond, newThird;
 	public Aoe aoeToInstantiate;
 	CirclePreview myPreview;
+	public GameObject objectToShow;
 	bool asTransformed = false;
 	private void Start ()
 	{
@@ -16,11 +17,12 @@ public class Transformation : SpellModule
 			myPreview.Init(aoeToInstantiate.localTrad.rules.aoeRadius, CirclePreview.circleCenter.center, transform.position);
 			HidePreview(Vector3.zero);
 		}
+		objectToShow.SetActive(false);
+
 	}
 
 	protected override void ResolveSpell ()
 	{
-		asTransformed = !asTransformed;
 
 		if (asTransformed)
 		{
@@ -94,5 +96,13 @@ public class Transformation : SpellModule
 	public override bool CanDeacreaseCooldown ()
 	{
 		return asTransformed;
+	}
+
+	public override void ResolutionFeedBack ()
+	{
+		asTransformed = !asTransformed;
+		objectToShow.SetActive(asTransformed);
+
+		base.ResolutionFeedBack();
 	}
 }
