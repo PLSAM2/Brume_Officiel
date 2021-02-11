@@ -99,6 +99,22 @@ public class LocalPoolManager : SerializedMonoBehaviour
         newObj.GetComponent<AutoDisable>().Init(_time);
     }
 
+    //generic
+    public void SpawnNewGenericInLocal(ushort _index, Transform _followObj, float _rota, float _scale, float _time = 1)
+    {
+        GameObject newObj = GetFreeGeneric(_index);
+
+
+        newObj.transform.position = _followObj.position;
+        newObj.transform.eulerAngles = new Vector3(0, _rota, 0);
+        newObj.transform.localScale = new Vector3(1, 1, _scale);
+ 
+        newObj.SetActive(true);
+
+        newObj.GetComponent<FxFollow>().target = _followObj;
+        newObj.GetComponent<AutoDisable>().Init(_time);
+    }
+
     public void SpawnNewGenericInNetwork(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
     {
         LocalPlayer myLocalPlayer = GameFactory.GetLocalPlayerObj();

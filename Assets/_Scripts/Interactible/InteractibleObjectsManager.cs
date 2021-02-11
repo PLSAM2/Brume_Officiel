@@ -93,9 +93,10 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             if (message.Tag == Tags.HealthPackTimerElapsed)
             {
                 ReactivateHealthPackInServer(sender, e);
-            }
+            }            
         }
     }
+
 
 
     public void InitInteractibleID()
@@ -120,6 +121,9 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
                 if (_interactible.GetType() == typeof(Altar))
                 {
                     ((Altar)_interactible).SetActiveState(true);
+                } else
+                {
+                    _interactible.Unlock();
                 }
             }
         }
@@ -229,7 +233,6 @@ public class InteractibleObjectsManager : SerializedMonoBehaviour
             }
         }
     }
-
     private void ReactivateVisionTowerInServer(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
