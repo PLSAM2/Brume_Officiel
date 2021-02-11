@@ -6,9 +6,9 @@ using DG.Tweening;
 public class JumpModule : SpellModule
 {
 	public GameObject aoeToSpawnOnImpact;
-	public float impactRadius = 5;
+	public float impactRadius = 3.5f;
 	[SerializeField] LayerMask layerToRaycastOn;
-	public AnimationCurve heightCurve, progressionCurve;
+	public AnimationCurve progressionCurve;
 	Vector3 jumpPosStart, jumpPosEnd;
 	CirclePreview myPreviewRange, myPreviewImpact;
 
