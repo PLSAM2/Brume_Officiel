@@ -121,6 +121,8 @@ public class Interactible : MonoBehaviour
 
                 if (reloadTimer >= serverReloadTime)
                 {
+                    reloadTimer = 0;
+                    reloadImage.fillAmount = 0;
                     reloading = false;
                 }
             }
