@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Brume : MonoBehaviour
 {
-    public Renderer myRenderer;
+    public List<Renderer> myRenderer = new List<Renderer>();
     [SerializeField] AudioClip sfxTransiBrume;
 
     private void Start()
@@ -45,7 +45,11 @@ public class Brume : MonoBehaviour
         SetWardFow(_module);
 
         SetTowerFow(_value);
-        myRenderer.enabled = _value;
+
+        foreach(Renderer r in myRenderer)
+        {
+            r.enabled = _value;
+        }
     }
 
     void SetWardFow(PlayerModule _player)
