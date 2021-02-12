@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Re_Projectile
   m_EditorClassIdentifier: 
   range: 16
-  cooldown: 6
+  cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
   useUltStacks: 0
@@ -32,6 +32,7 @@ MonoBehaviour:
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 60fe3eb3d798f634fb072c9c3bb72da8, type: 3}
+  fakeRange: 0
   damagesToDeal:
     playerName: 
     damageHealth: 1
@@ -77,7 +78,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  asAdaptiveRange: 1
+  finalSize: {x: 1, y: 1, z: 1}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 0.1
   salveInfos:
     NumberOfSalve: 1
@@ -91,6 +98,7 @@ MonoBehaviour:
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
+  statusToApplyOnHit: {fileID: 11400000, guid: a571a83a68b56be41884d54038808a44, type: 2}
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0

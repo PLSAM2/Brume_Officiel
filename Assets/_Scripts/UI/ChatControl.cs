@@ -39,7 +39,7 @@ public class ChatControl : MonoBehaviour
         if (isFocused == false && endEditAndSend == false)
         {
             stunnedStateGive = true;
-            GameFactory.GetLocalPlayerObj().myPlayerModule.AddState(En_CharacterState.Stunned);
+            GameFactory.GetLocalPlayerObj().myPlayerModule.willListenInputs = false;
             isFocused = true;
             DisplayChat();
             messageText.Select();
@@ -49,7 +49,7 @@ public class ChatControl : MonoBehaviour
         if (endEditAndSend)
         {
             stunnedStateGive = false;
-            GameFactory.GetLocalPlayerObj().myPlayerModule.RemoveState(En_CharacterState.Stunned);
+            GameFactory.GetLocalPlayerObj().myPlayerModule.willListenInputs = true;
             endEditAndSend = false;
         }
 
@@ -85,7 +85,7 @@ public class ChatControl : MonoBehaviour
             if (stunnedStateGive == true)
             {
                 stunnedStateGive = false;
-                GameFactory.GetLocalPlayerObj().myPlayerModule.RemoveState(En_CharacterState.Stunned);
+                GameFactory.GetLocalPlayerObj().myPlayerModule.willListenInputs = true;
             }
 
             if (timer >= 0)
