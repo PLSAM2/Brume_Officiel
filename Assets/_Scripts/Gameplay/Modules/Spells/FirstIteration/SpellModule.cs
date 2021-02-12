@@ -57,11 +57,16 @@ public class SpellModule : MonoBehaviour
 	public AudioClip anonciationClip;
 
 	public Action<int> ChargeUpdate;
-	public GameObject toSetActiveOnResolve;
+
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
+
+	[Header("FeedBackSpell")]
+	public GameObject objectToActivateOnCanlisation;
+	public GameObject objectToActivateOnAnnonciation, objectToActivateOnResolution;
+
 	//setup & inputs
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -72,8 +77,9 @@ public class SpellModule : MonoBehaviour
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(false);
+		objectToActivateOnCanlisation.SetActive(false);
+		objectToActivateOnAnnonciation.SetActive(false);
+		objectToActivateOnResolution.SetActive(false);
 
 		if (isOwner)
 		{
@@ -221,9 +227,6 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ResolveSpell ()
 	{
 		resolved = true;
-
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(true);
 
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
@@ -403,7 +406,7 @@ public class SpellModule : MonoBehaviour
 		{
 			AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
-
+		objectToActivateOnCanlisation.SetActive(true);
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
@@ -429,13 +432,15 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void StartAnnonciationFeedBack ()
 	{
+		objectToActivateOnCanlisation.SetActive(false);
+		objectToActivateOnAnnonciation.SetActive(true);
 
 	}
 	public virtual void ResolutionFeedBack ()
 	{
+		objectToActivateOnAnnonciation.SetActive(false);
+		objectToActivateOnResolution.SetActive(true);
 
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(true);
 
 		//PITIT BRUIT
 		if (anonciationClip != null)
@@ -469,8 +474,7 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(false);
+		objectToActivateOnResolution.SetActive(false);
 	}
 	//inputs subscribing
 	#region
