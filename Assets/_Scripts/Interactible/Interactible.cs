@@ -67,11 +67,16 @@ public class Interactible : MonoBehaviour
     [SerializeField] Sprite iconNeutral, iconRed, iconBlue;
 
     [Header("Audio")]
-    [TabGroup("InteractiblePart")]
-    [SerializeField] AudioSource myAudioSource;
-    public string interactibleName = "";
+
+    [TabGroup("InteractiblePart")] [SerializeField] AudioSource myAudioSource;
+    [TabGroup("InteractiblePart")] public string interactibleName = "";
+    [TabGroup("InteractiblePart")] public bool showReload = false;
+    [TabGroup("InteractiblePart")] [ShowIf("showReload")] public float serverReloadTime;
+    [TabGroup("InteractiblePart")] [ShowIf("showReload")] public Image reloadImage;
+    private float reloadTimer = 0;
+    private bool reloading = false;
     private bool isViewed = false;
-    public bool CheckOnUnlock = false;
+    [HideInInspector] public bool CheckOnUnlock = false;
     private void Awake()
     {
         client = RoomManager.Instance.client;
@@ -105,10 +110,23 @@ public class Interactible : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-
         Capture();
 
-        if (isViewed)
+        if (showReload)
+        {
+            if (reloading)
+            {
+                reloadTimer += Time.fixedDeltaTime;
+                reloadImage.fillAmount = reloadTimer / serverReloadTime;
+
+                if (reloadTimer >= serverReloadTime)
+                {
+                    reloading = false;
+                }
+            }
+        }
+
+        if (isViewed && reloading == false)
         {
             fillImg.fillAmount = (timer / interactTime) / 1;
         }
@@ -179,6 +197,8 @@ public class Interactible : MonoBehaviour
 
         myAudioSource.enabled = true;
         capturingTeam = capturingPlayerModule.teamIndex;
+
+
 
         if (isViewed)
         {
@@ -259,6 +279,12 @@ public class Interactible : MonoBehaviour
         timer = 0;
 
         myAudioSource.enabled = false;
+
+        if (showReload)
+        {
+            reloadTimer = 0;
+            reloading = true;
+        }
 
         if (mapIcon != null)
         {
