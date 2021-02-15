@@ -57,11 +57,16 @@ public class SpellModule : MonoBehaviour
 	public AudioClip anonciationClip;
 
 	public Action<int> ChargeUpdate;
-	public GameObject toSetActiveOnResolve;
+
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
+
+	[Header("FeedBackSpell")]
+	public GameObject objectToActivateOnCanlisation;
+	public GameObject objectToActivateOnAnnonciation, objectToActivateOnResolution;
+
 	//setup & inputs
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -72,8 +77,12 @@ public class SpellModule : MonoBehaviour
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(false);
+		if (objectToActivateOnCanlisation != null)
+			objectToActivateOnCanlisation?.SetActive(false);
+		if (objectToActivateOnAnnonciation != null)
+			objectToActivateOnAnnonciation?.SetActive(false);
+		if (objectToActivateOnResolution != null)
+			objectToActivateOnResolution?.SetActive(false);
 
 		if (isOwner)
 		{
@@ -221,9 +230,6 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ResolveSpell ()
 	{
 		resolved = true;
-
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(true);
 
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
@@ -404,7 +410,9 @@ public class SpellModule : MonoBehaviour
 		{
 			AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
+		if (objectToActivateOnCanlisation != null)
 
+			objectToActivateOnCanlisation?.SetActive(true);
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
@@ -430,13 +438,23 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void StartAnnonciationFeedBack ()
 	{
+		if (objectToActivateOnCanlisation != null)
+
+			objectToActivateOnCanlisation?.SetActive(false);
+		if (objectToActivateOnAnnonciation != null)
+
+			objectToActivateOnAnnonciation?.SetActive(true);
 
 	}
 	public virtual void ResolutionFeedBack ()
 	{
+		if (objectToActivateOnAnnonciation != null)
 
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(true);
+			objectToActivateOnAnnonciation?.SetActive(false);
+		if (objectToActivateOnResolution != null)
+
+			objectToActivateOnResolution?.SetActive(true);
+
 
 		//PITIT BRUIT
 		if (anonciationClip != null)
@@ -470,8 +488,8 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{
-		if (toSetActiveOnResolve != null)
-			toSetActiveOnResolve.SetActive(false);
+		if (objectToActivateOnResolution != null)
+			objectToActivateOnResolution.SetActive(false);
 	}
 	//inputs subscribing
 	#region
@@ -569,9 +587,9 @@ public class SpellModule : MonoBehaviour
 
 	//canalisation Ressources
 	#region
-	public virtual bool CanDeacreaseCooldown()
+	public virtual bool CanDeacreaseCooldown ()
 	{
-	 return	charges < spell.numberOfCharge && !isUsed;
+		return charges < spell.numberOfCharge && !isUsed;
 	}
 
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
