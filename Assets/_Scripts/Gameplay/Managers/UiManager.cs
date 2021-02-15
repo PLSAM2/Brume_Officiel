@@ -29,7 +29,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Minimap")] private bool waitForMinimapUpdate = false;
 
 
-	[FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalMessage;
+	[FoldoutGroup("GeneralMessage")] [SerializeField] private Text generalMessage;
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalMessageAnim;
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalPointsAnim;
@@ -647,11 +647,11 @@ public class UiManager : MonoBehaviour
 	IEnumerator GeneralMessage ()
 	{
 		waitForGenMessageAnimEnd = true;
-		generalMessage.text = generalMessageList[0];
+		generalMessage.DOText(generalMessageList[0], 0.7f, false, ScrambleMode.Uppercase);
 		generalMessageAnim.Play("GenMessage");
 
 		yield return new WaitForSeconds(generalMessageAnimTime);
-
+		generalMessage.text = "";
 		generalMessageList.RemoveAt(0);
 
 		if (generalMessageList.Count == 0)
