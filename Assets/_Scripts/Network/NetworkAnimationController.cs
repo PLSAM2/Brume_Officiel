@@ -13,6 +13,9 @@ public class NetworkAnimationController : MonoBehaviour
 
     [SerializeField] LocalPlayer myLocalPlayer;
 
+    Vector3 newNetorkPos;
+    [SerializeField] float syncSpeed = 10;
+
     private void Awake()
     {
         if (RoomManager.Instance == null)
@@ -25,15 +28,31 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived += Client_MessageReceived;
 
         oldPos = transform.position;
+        newNetorkPos = transform.position;
     }
     private void OnDisable()
     {
         client.MessageReceived -= Client_MessageReceived;
     }
 
-	private void LateUpdate ()
+    private void Update()
+    {
+        if (!myLocalPlayer.isOwner)
+        {
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * syncSpeed);
+            //transform.position = newNetorkPos;
+        }
+    }
+
+    private void LateUpdate ()
 	{
         DoAnimation();
+    }
+
+    public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
+    {
+        newNetorkPos = newPos;
+        transform.localEulerAngles = newRotation;
     }
 
     Vector3 oldPos;
