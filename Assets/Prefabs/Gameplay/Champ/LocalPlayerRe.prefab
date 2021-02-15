@@ -10158,7 +10158,9 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   fxCanalisation: {fileID: 0}
   fxRecalShoot: {fileID: 0}
 --- !u!114 &201590368787613686
@@ -10186,7 +10188,9 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 8300000, guid: afa1fcc3b83ec2f4a9bd7de846e34b34, type: 3}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   aoeInstantiated: {fileID: 5624599934099963903, guid: b533af2fb6130ca45b0ae355e7252ee2, type: 3}
   spawnOnPos: 1
 --- !u!114 &1286970584369722292
@@ -10214,7 +10218,9 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 8300000, guid: 810e7d9e312a6e3428cee5abf4e83f08, type: 3}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   spellToLaunchOnCounter: {fileID: 201590368787613686}
   spellToReduceCooldown: 1
   cooldownReduced: 10
@@ -10257,6 +10263,7 @@ MonoBehaviour:
   silencedParticle: {fileID: 2600404343052237690}
   embourbedParticle: {fileID: 7316010491871818690}
   _isInBrume: 0
+  willListenInputs: 1
   oldState: 1
   brumeId: 0
   isInGhost: 0
@@ -10303,7 +10310,9 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   fxCanalisation: {fileID: 0}
   fxRecalShoot: {fileID: 0}
 --- !u!114 &9035810358057001572
@@ -10331,7 +10340,9 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 8300000, guid: b2e9d5d063184c84f976a2bc2cf291b8, type: 3}
   anonciationClip: {fileID: 8300000, guid: 943125b275c90bc47a81e0f119106a9d, type: 3}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   hurtingBoxWidth: 0.8
   damages:
     playerName: 
@@ -10375,7 +10386,9 @@ MonoBehaviour:
   myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   playerModule: {fileID: 3038193427288463681}
   tpMaxTime: 5
   integibleLayer: 16
@@ -10386,7 +10399,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 18593729
   tpDistance: 5
-  waitForTpTime: 1
+  waitForTpTime: 0.5
   tpFxObj: {fileID: 1142267975264660, guid: d86042f698f5106479fcb319243aac46, type: 3}
 --- !u!225 &4984842728809382410
 CanvasGroup:
