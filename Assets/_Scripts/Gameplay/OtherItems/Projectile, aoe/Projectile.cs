@@ -105,9 +105,9 @@ public class Projectile : AutoKill
 			{
 				bouncingNumberLive--;
 				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
-				direction = Vector3.Reflect(direction, _coll.GetContact(0).normal).normalized;
-				myRb.velocity = speed * direction;
+				transform.LookAt(transform.position +  _coll.GetContact(0).normal.normalized);
 
+				print(transform.rotation.y);
 				if (isBox)
 				{
 					RaycastHit[] _collTouched = Physics.BoxCastAll(transform.position, collisionSize / 2, Vector3.zero, Quaternion.identity, 0, 1 << 8);
@@ -133,7 +133,7 @@ public class Projectile : AutoKill
 
 	private void Update ()
 	{
-		myRb.velocity = direction * speed * localTrad._curveSpeed.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime);
+		myRb.velocity = transform.forward * speed * localTrad._curveSpeed.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime);
 
 		if (localTrad.isScalable)
 			transform.localScale = new Vector3(1 + localTrad.scaleCurve.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime) * (localTrad.finalSize.x - 1),
