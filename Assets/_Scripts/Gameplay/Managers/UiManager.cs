@@ -8,7 +8,7 @@ using static GameData;
 using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-
+ 
 public class UiManager : MonoBehaviour
 {
 	private static UiManager _instance;
@@ -66,8 +66,10 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public Image hitFeedback;
 	[FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 	[FoldoutGroup("Other Gameplay")] public Image tpFillImage;
+	[FoldoutGroup("Cast")] public GameObject barCasting;
+	[FoldoutGroup("Cast")] public Image canalisationImage;
 
-    public Transform parentWaypoint;
+	public Transform parentWaypoint;
 
 	private GameObject actualChar;
 	private GameObject actualUnlockedAltar = null;
@@ -616,6 +618,20 @@ public class UiManager : MonoBehaviour
 			hiddenIcon.gameObject.SetActive(true);
 		else
 			hiddenIcon.gameObject.SetActive(false);
+	}
+
+	public void UpdateCanalisation(float _percentageOfTheCanalisation, bool _isCasting =true)
+	{
+		if (_isCasting)
+			canalisationImage.color = Color.red;
+		else
+			canalisationImage.color = Color.cyan;
+
+		canalisationImage.fillAmount = _percentageOfTheCanalisation;
+		if (_percentageOfTheCanalisation == 1)
+			barCasting.SetActive(false);
+		else
+			barCasting.SetActive(true);
 	}
 
 	public void SetAlphaBrume ( float value )

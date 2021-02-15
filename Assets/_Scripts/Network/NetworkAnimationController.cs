@@ -31,13 +31,12 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived -= Client_MessageReceived;
     }
 
-	private void Update ()
+	private void LateUpdate ()
 	{
         DoAnimation();
     }
 
     Vector3 oldPos;
-    [SerializeField] float speedAnim = 30;
     private void DoAnimation ()
     {
         float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
@@ -45,8 +44,8 @@ public class NetworkAnimationController : MonoBehaviour
 
         float speed = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed;
 
-        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
-        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityX = velocityX / speed;
+        velocityZ = velocityZ / speed;
 
         Vector3 pos = new Vector3(velocityX, 0, velocityZ);
 
