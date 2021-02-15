@@ -233,10 +233,8 @@ public class Displayer : MonoBehaviour
     {
         p.isVisible = true;
 
-        foreach (GameObject obj in p.objToHide)
-        {
-            obj.SetActive(true);
-        }
+        p.objToHide[0].SetActive(true);
+
         p.myUiPlayerManager.canvas.SetActive(false);
 
         if (!p.myOutline.enabled)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioStandAlone : MonoBehaviour
 {
-    AudioSource myAudioSource;
+    [SerializeField] AudioSource myAudioSource;
 
     private void Start()
     {

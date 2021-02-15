@@ -8,6 +8,8 @@ public class PingObject : MonoBehaviour
     public float lifeTime = 3;
     public List<SpriteRenderer> sprites = new List<SpriteRenderer>();
     public NetworkedObject networkedObject;
+    public AudioSource audioSource;
+
     private void OnEnable()
     {
         Init(networkedObject.GetOwner().playerTeam);
@@ -19,10 +21,12 @@ public class PingObject : MonoBehaviour
             this.gameObject.SetActive(false);
         } else
         {
+            if (audioSource != null)
+            {
+                audioSource.Play();
+            }
             StartCoroutine(AutoKillTime());
         }
-
-
     }
 
     IEnumerator AutoKillTime()
