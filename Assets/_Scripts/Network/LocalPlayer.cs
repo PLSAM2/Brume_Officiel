@@ -464,17 +464,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
-			if (isOwner)
-			{
-				if (((myPlayerModule.oldState & En_CharacterState.WxMarked) != 0))
-				{
-					myPlayerModule.ApplyWxMark(dealerID);
-				}
-
-				if (damages > 0)
-					UiManager.Instance.FeedbackHit();
-			}
-
 			if ((int)liveHealth - (int)damages <= 0)
 			{
 				if (isOwner)
