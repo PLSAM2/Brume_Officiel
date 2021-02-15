@@ -31,15 +31,12 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived -= Client_MessageReceived;
     }
 
-	private void FixedUpdate ()
+	private void LateUpdate ()
 	{
         DoAnimation();
     }
 
     Vector3 oldPos;
-
-    public float lerpSpeed = 20;
-
     private void DoAnimation ()
     {
         float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
@@ -47,10 +44,8 @@ public class NetworkAnimationController : MonoBehaviour
 
         float speed = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed;
 
-        velocityX = Mathf.Lerp(velocityX, velocityX / speed, Time.deltaTime * lerpSpeed);
-        velocityZ = Mathf.Lerp(velocityZ, velocityZ / speed, Time.deltaTime * lerpSpeed);
-
-        print(velocityX);
+        velocityX = velocityX / speed;
+        velocityZ = velocityZ / speed;
 
         Vector3 pos = new Vector3(velocityX, 0, velocityZ);
 

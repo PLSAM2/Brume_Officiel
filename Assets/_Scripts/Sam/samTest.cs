@@ -19,12 +19,12 @@ public class samTest : MonoBehaviour
 
     private void Update()
     {
-        charac.Move(new Vector3(1,0,0) * Time.deltaTime * speed);
-
         Vector3 velocity = (transform.position - oldPos) / Time.deltaTime;
 
         print(velocity.x);
 
         oldPos = transform.position;
+
+        charac.Move(new Vector3(1,0,1) * Time.deltaTime * speed);
     }
 }
