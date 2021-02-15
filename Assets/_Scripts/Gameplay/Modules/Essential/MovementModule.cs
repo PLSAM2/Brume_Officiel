@@ -139,7 +139,7 @@ public class MovementModule : MonoBehaviour
 		{
 			chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
 
-			myPlayerModule.onSendMovement?.Invoke(_directionInputed);
+            myPlayerModule.onSendMovement?.Invoke(_directionInputed);
 		}
 		else
 		{
