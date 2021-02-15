@@ -105,9 +105,8 @@ public class Projectile : AutoKill
 			{
 				bouncingNumberLive--;
 				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
-				transform.LookAt(transform.position +  _coll.GetContact(0).normal.normalized);
+				transform.LookAt(transform.position +  Vector3.Reflect(transform.forward, _coll.GetContact(0).normal.normalized));
 
-				print(transform.rotation.y);
 				if (isBox)
 				{
 					RaycastHit[] _collTouched = Physics.BoxCastAll(transform.position, collisionSize / 2, Vector3.zero, Quaternion.identity, 0, 1 << 8);
