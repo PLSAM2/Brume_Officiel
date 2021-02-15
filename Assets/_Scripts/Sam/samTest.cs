@@ -6,22 +6,25 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    public Transform obj;
+    public CharacterController charac;
 
-    public RectTransform icon;
+    private Vector3 oldPos;
 
-    private Vector3 playerTemp;
-    private Vector2 mapTemp;
+    public float speed = 5;
 
     void Start()
     {
-        mapTemp = icon.anchoredPosition;
+        oldPos = transform.position;
     }
 
     private void Update()
     {
-        var sp = RectTransformUtility.WorldToScreenPoint(Camera.main, obj.transform.position);
-        var rect = icon.rect;
-        var cp = new Vector2(sp.x / Screen.width * rect.width, sp.y / Screen.height * rect.height);
+        charac.Move(new Vector3(1,0,0) * Time.deltaTime * speed);
+
+        Vector3 velocity = (transform.position - oldPos) / Time.deltaTime;
+
+        print(velocity.x);
+
+        oldPos = transform.position;
     }
 }
