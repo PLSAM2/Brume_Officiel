@@ -8,7 +8,6 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using static GameData;
-using Sirenix.OdinInspector;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class LobbyManager : MonoBehaviour
     public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
 
     private UnityClient client;
-    [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private InputField nameInputField;
     [SerializeField] private GameObject loginMenu;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject roomPanel;
@@ -38,6 +37,7 @@ public class LobbyManager : MonoBehaviour
         {
             _instance = this;
         }
+
     }
 
     private void Start()
