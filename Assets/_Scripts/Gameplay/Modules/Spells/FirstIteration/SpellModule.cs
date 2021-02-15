@@ -7,8 +7,13 @@ using static GameData;
 
 public class SpellModule : MonoBehaviour
 {
-	[ReadOnly] public float currentTimeCanalised, timeToResolveSpell, throwbackTime;
+	[HideInInspector] public PlayerModule myPlayerModule;
 
+	float _currentTimeCanalised = 0, _throwbackTime = 0;
+	[ReadOnly] public float  timeToResolveSpell;
+	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
+	[ReadOnly]
+	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
 	float _cooldown = 0;
 	[ReadOnly]
 	public float cooldown
@@ -49,7 +54,6 @@ public class SpellModule : MonoBehaviour
 	public bool isAComboPiece = false;
 	[HideInInspector] public bool hasPreviewed;
 
-	[HideInInspector] public PlayerModule myPlayerModule;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
