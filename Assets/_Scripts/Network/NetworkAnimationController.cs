@@ -13,6 +13,9 @@ public class NetworkAnimationController : MonoBehaviour
 
     [SerializeField] LocalPlayer myLocalPlayer;
 
+    Vector3 newNetorkPos;
+    [SerializeField] float syncSpeed = 10;
+
     private void Awake()
     {
         if (RoomManager.Instance == null)
@@ -25,19 +28,34 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived += Client_MessageReceived;
 
         oldPos = transform.position;
+        newNetorkPos = transform.position;
     }
     private void OnDisable()
     {
         client.MessageReceived -= Client_MessageReceived;
     }
 
-	private void Update ()
+    private void Update()
+    {
+        if (!myLocalPlayer.isOwner)
+        {
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * syncSpeed);
+            //transform.position = newNetorkPos;
+        }
+    }
+
+    private void LateUpdate ()
 	{
         DoAnimation();
     }
 
+    public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
+    {
+        newNetorkPos = newPos;
+        transform.localEulerAngles = newRotation;
+    }
+
     Vector3 oldPos;
-    [SerializeField] float speedAnim = 30;
     private void DoAnimation ()
     {
         float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
@@ -45,8 +63,8 @@ public class NetworkAnimationController : MonoBehaviour
 
         float speed = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed;
 
-        velocityX = Mathf.Lerp(velocityX, Mathf.Clamp(velocityX / speed, -1, 1), Time.deltaTime * speedAnim);
-        velocityZ = Mathf.Lerp(velocityZ, Mathf.Clamp(velocityZ / speed, -1, 1), Time.deltaTime * speedAnim);
+        velocityX = velocityX / speed;
+        velocityZ = velocityZ / speed;
 
         Vector3 pos = new Vector3(velocityX, 0, velocityZ);
 

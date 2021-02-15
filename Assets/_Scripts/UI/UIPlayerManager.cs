@@ -35,7 +35,6 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject compassCanvas;
     [TabGroup("Ui")] public GameObject pointerObj;
     [TabGroup("Ui")] public Quaternion compassRot;
-    [TabGroup("Ui")] public Animator redDotRadar, yellowDotRadar;
     [TabGroup("Ui")] public LocalPlayer wxRef;
     [TabGroup("Ui")] public Material greenMat, redMat, grayMat;
 

@@ -104,11 +104,6 @@ public class MovementModule : MonoBehaviour
 		//Stamina = parameters.maxStamina;
 	}
 
-	void FixedUpdate ()
-	{
-		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-	}
-
 	void Move ( Vector3 _directionInputed )
 	{
 		//forceMovement
@@ -138,7 +133,6 @@ public class MovementModule : MonoBehaviour
 		else if (_directionInputed != Vector3.zero && CanMove())
 		{
 			chara.Move(_directionInputed * LiveMoveSpeed() * Time.deltaTime);
-
 			myPlayerModule.onSendMovement?.Invoke(_directionInputed);
 		}
 		else

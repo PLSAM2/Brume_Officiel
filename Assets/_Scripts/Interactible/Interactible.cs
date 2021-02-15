@@ -77,13 +77,13 @@ public class Interactible : MonoBehaviour
     private bool reloading = false;
     private bool isViewed = false;
     [HideInInspector] public bool CheckOnUnlock = false;
+
     private void Awake()
     {
         client = RoomManager.Instance.client;
         OnVolumeChange(AudioManager.Instance.currentPlayerVolume);
 
         myAudioSource.enabled = false;
-
     }
 
     protected void Init()
@@ -132,7 +132,6 @@ public class Interactible : MonoBehaviour
         {
             fillImg.fillAmount = (timer / interactTime) / 1;
         }
-
     }
 
     protected virtual void Capture()
