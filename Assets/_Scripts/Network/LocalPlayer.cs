@@ -27,9 +27,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[Header("UI")]
 	[TabGroup("Ui")] public UIPlayerManager myUiPlayerManager;
 
-	Vector3 newNetorkPos;
-	[HideInInspector] [SerializeField] float syncSpeed = 10;
-
 	[TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
 
 	[ReadOnly]
@@ -73,7 +70,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		lastPosition = transform.position;
 		lastRotation = transform.localEulerAngles;
-		newNetorkPos = transform.position;
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -120,11 +116,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private void Update ()
 	{
 		Debug();
-
-		if (!isOwner)
-		{
-			transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * syncSpeed);
-		}
 	}
 
 	void Debug ()
@@ -338,12 +329,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRange);
 				break;
 		}
-	}
-
-	public void SetMovePosition ( Vector3 newPos, Vector3 newRotation )
-	{
-		newNetorkPos = newPos;
-		transform.localEulerAngles = newRotation;
 	}
 
 	public void OnRespawn ( bool respawned = false )
