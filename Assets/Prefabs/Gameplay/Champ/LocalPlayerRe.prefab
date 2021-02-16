@@ -10213,7 +10213,7 @@ MonoBehaviour:
   movementPart: {fileID: 1743416214871874484}
   firstSpell: {fileID: -8860574723703708623}
   secondSpell: {fileID: 1286970584369722292}
-  thirdSpell: {fileID: 8756151508105791012}
+  thirdSpell: {fileID: 8662341731980038855}
   leftClick: {fileID: 9035810358057001572}
   tpModule: {fileID: 9082095990713387351}
   ward: {fileID: 59302847324730398}
@@ -10249,6 +10249,34 @@ MonoBehaviour:
   wxMark: {fileID: 6064497781811295582}
   wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
   spellInputedRecorded: 0
+--- !u!114 &8662341731980038855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94049148aa06c9a4994070315c0fdb1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 594a5559b97e45c46a1343988bbb3f7a, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  canalisationClip: {fileID: 0}
+  anonciationClip: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
+  aoeInstantiated: {fileID: 5624599934099963903, guid: 1d8aefbe5b8371c4d976cd21ffa9aead, type: 3}
+  spawnOnPos: 1
 --- !u!114 &8756151508105791012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10360,34 +10388,6 @@ MonoBehaviour:
   waitForTpTime: 0.5
   tpFxObj: {fileID: 1142267975264660, guid: d86042f698f5106479fcb319243aac46, type: 3}
   particleTrail: {fileID: 1023573488749385353}
---- !u!114 &8662341731980038855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94049148aa06c9a4994070315c0fdb1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerModule: {fileID: 0}
-  timeToResolveSpell: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 594a5559b97e45c46a1343988bbb3f7a, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
-  aoeInstantiated: {fileID: 5624599934099963903, guid: 1d8aefbe5b8371c4d976cd21ffa9aead, type: 3}
-  spawnOnPos: 1
 --- !u!225 &4984842728809382410
 CanvasGroup:
   m_ObjectHideFlags: 0
