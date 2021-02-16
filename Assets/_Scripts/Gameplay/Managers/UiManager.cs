@@ -69,7 +69,11 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Cast")] public GameObject barCasting;
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
-	public Transform parentWaypoint;
+    [Header("Ulti")]
+    [FoldoutGroup("Ulti")] public UltiBar parentUltiWX, parentUltiRE, parentUltiLENG;
+    [FoldoutGroup("Ulti")] public GameObject prefabUltiPoint;
+
+    public Transform parentWaypoint;
 
 	private GameObject actualChar;
 	private GameObject actualUnlockedAltar = null;
