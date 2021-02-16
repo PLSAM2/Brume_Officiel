@@ -24,6 +24,9 @@ public class WX_SonarState : MonoBehaviour
 
     Coroutine yellowCoroutine;
 
+    [SerializeField] AudioClip spotedSound;
+    [SerializeField] AudioClip hitSound;
+
     private void OnEnable()
     {
         currentClient = NetworkManager.Instance.GetLocalClient();
@@ -200,6 +203,7 @@ public class WX_SonarState : MonoBehaviour
         }
         p.myUiPlayerManager.sonar.SetActive(true);
 
+        AudioManager.Instance.Play2DAudio(spotedSound);
 
         yield return new WaitForSeconds(timeDamageDisplay);
 
@@ -227,6 +231,8 @@ public class WX_SonarState : MonoBehaviour
             img.color = new Color(p.myUiPlayerManager.wxTakeDamageColor.r, p.myUiPlayerManager.wxTakeDamageColor.g, p.myUiPlayerManager.wxTakeDamageColor.b, img.color.a);
         }
         p.myUiPlayerManager.sonar.SetActive(true);
+
+        AudioManager.Instance.Play2DAudio(hitSound);
 
         yield return new WaitForSeconds(timeDamageDisplay);
 

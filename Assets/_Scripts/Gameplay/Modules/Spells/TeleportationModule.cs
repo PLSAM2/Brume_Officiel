@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
 
 public class TeleportationModule : SpellModule
 {
@@ -25,6 +26,9 @@ public class TeleportationModule : SpellModule
     private Transform wxTfs;
     private WxController wxController;
     private GameObject tpFx;
+
+    [SerializeField] ParticleSystem particleTrail;
+
     public override void DecreaseCooldown()
     {
     }
@@ -243,6 +247,23 @@ public class TeleportationModule : SpellModule
             playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
         }
 
+    }
+
+    public override void ResolutionFeedBack()
+    {
+        base.ResolutionFeedBack();
+
+        ParticleSystem.MainModule main = particleTrail.main;
+        main.startColor = GameFactory.GetColorTeam(RoomManager.Instance.GetPlayerData(playerModule.mylocalPlayer.myPlayerId).playerTeam);
+
+        particleTrail.Play();
+    }
+
+    public override void ThrowbackEndFeedBack()
+    {
+        base.ThrowbackEndFeedBack();
+
+        particleTrail.Stop();
     }
 
     public IEnumerator WaitForSpawn(bool isTimeEnded) 

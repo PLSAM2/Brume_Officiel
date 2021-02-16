@@ -10,96 +10,102 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_WuXin_Sniper
+  m_Name: Spell_Leng_Ult_Placeholder
   m_EditorClassIdentifier: 
-  range: 6.75
-  cooldown: 2
+  range: 14
+  cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
-  useUltStacks: 0
-  stacksUsed: 0
-  lockRotOnCanalisation: 0
+  useUltStacks: 1
+  stacksUsed: 7
+  lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
-  canalisationTime: 0
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 46d906520ac82a949a21bc5c08338e74, type: 2}
+  canalisationTime: 0.5
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
-  LockPosOnAnonciation: 0
-  anonciationTime: 0
+  LockPosOnAnonciation: 1
+  anonciationTime: 0.25
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 07d252e763a53054bae1a78726380345, type: 3}
-  spellName: Spectral Shot
-  spellDescription: Wuxin shoot a projectile exploding on impact dealing one damage
-    in a small range.
+  throwBackDuration: 0.01
+  spellIcon: {fileID: 21300000, guid: fdc3bf648557da0478b2a8daa6194a4e, type: 3}
+  spellName: MyNameIsStan
+  spellDescription: My Description
   fakeRange: 0
   damagesToDeal:
     playerName: 
-    damageHealth: 1
+    damageHealth: 0
     statusToApply:
-    - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
+    - {fileID: 11400000, guid: 92f8f58d81a5fd6498eea40f4f4cb3b8, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 2cbfca213f9ecee4989ed3ccc444bcb1, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: 9f503d9d4895bfd4f984a7e6b01f0410, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.73147357
-      value: 2.0355334
-      inSlope: 6.71498
-      outSlope: 6.71498
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.07626017
-    - serializedVersion: 3
       time: 1
-      value: 6
-      inSlope: -0.4938387
-      outSlope: -0.4938387
-      tangentMode: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.340273
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalSize: {x: 1, y: 1, z: 1}
+  finalSize: {x: 9, y: 1, z: 1}
   scaleCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  offSet: 0
+  offSet: 1
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.7
-    timeToResolveTheSalve: 0.2
+    timeToReachMaxRange: 1.75
+    timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 1
+  diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 0}
