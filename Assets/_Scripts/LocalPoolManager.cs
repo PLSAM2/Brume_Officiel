@@ -86,7 +86,7 @@ public class LocalPoolManager : SerializedMonoBehaviour
     }
 
     //generic
-    public void SpawnNewGenericInLocal(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
+    public GameObject SpawnNewGenericInLocal(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
     {
         GameObject newObj = GetFreeGeneric(_index);
 
@@ -97,10 +97,12 @@ public class LocalPoolManager : SerializedMonoBehaviour
         newObj.transform.localScale = new Vector3(1, 1, _scale);
 
         newObj.GetComponent<AutoDisable>().Init(_time);
+
+        return newObj;
     }
 
     //generic
-    public void SpawnNewGenericInLocal(ushort _index, Transform _followObj, float _rota, float _scale, float _time = 1)
+    public GameObject SpawnNewGenericInLocal(ushort _index, Transform _followObj, float _rota, float _scale, float _time = 0)
     {
         GameObject newObj = GetFreeGeneric(_index);
 
@@ -112,10 +114,16 @@ public class LocalPoolManager : SerializedMonoBehaviour
         newObj.SetActive(true);
 
         newObj.GetComponent<FxFollow>().target = _followObj;
-        newObj.GetComponent<AutoDisable>().Init(_time);
+
+        if(_time != 0)
+        {
+            newObj.GetComponent<AutoDisable>().Init(_time);
+        }
+
+        return newObj;
     }
 
-    public void SpawnNewGenericInNetwork(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
+    public void SpawnNewGenericInNetwork(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 0)
     {
         LocalPlayer myLocalPlayer = GameFactory.GetLocalPlayerObj();
 
