@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Leng_Ult_Placeholder
   m_EditorClassIdentifier: 
-  range: 12
-  cooldown: 12
+  range: 14
+  cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
   useUltStacks: 1
-  stacksUsed: 1
+  stacksUsed: 7
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
   canalisationTime: 0.5
@@ -70,7 +70,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalSize: {x: 1, y: 1, z: 1}
+  finalSize: {x: 9, y: 1, z: 1}
   scaleCurve:
     serializedVersion: 2
     m_Curve:
@@ -99,7 +99,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 3
+    timeToReachMaxRange: 1.75
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
