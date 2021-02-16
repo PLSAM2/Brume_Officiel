@@ -616,7 +616,32 @@ public class UiManager : MonoBehaviour
 				break;
 
 		}
+	}
 
+	public void CooldownReady ( En_SpellInput _spellInput )
+	{
+		switch (_spellInput)
+		{
+			case En_SpellInput.FirstSpell:
+				firstSpell.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.SecondSpell:
+				secondSpell.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.Click:
+				autoAttackIcon.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.TP:
+				tp.CooldownReadyFeedback();
+				break;
+		}
 	}
 
 	public void StatusUpdate ( En_CharacterState _currentState )
