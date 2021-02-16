@@ -8,7 +8,7 @@ public class Ward : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 60;
     [SerializeField] private float lifeTimeAcceleratorInBrume = 10;
-      public Fow vision;
+    public Fow vision;
     [SerializeField] private LayerMask brumeLayer;
     private Team myTeam;
 
@@ -17,6 +17,10 @@ public class Ward : MonoBehaviour
 
     private bool landed = false;
     private float timer = 0;
+
+    [SerializeField] GameObject mesh;
+
+    [SerializeField] Transform rangePreview;
     private void FixedUpdate()
     {
         if (landed)
@@ -54,24 +58,28 @@ public class Ward : MonoBehaviour
             GameManager.Instance.allWard.Add(this);
             GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
 
-            vision.gameObject.SetActive(false);
+            isInBrume = IsInBrume();
 
-            if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule,this))
+            bool isView = false;
+            if (GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
             {
-                vision.gameObject.SetActive(true);
+                if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule, this) || isInBrume == false)
+                {
+                    isView = true;
+                }
+                else
+                {
+                    isView = false;
+                }
             }
 
-            if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && !isInBrume){
-                vision.gameObject.SetActive(true);
-            }
-
-            if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && isInBrume)
-            {
-                vision.gameObject.SetActive(true);
-            }
+            GetMesh().SetActive(isView);
+            vision.gameObject.SetActive(isView);
 
             timer = lifeTime;
             landed = true;
+
+            rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
         }
     }
 
@@ -80,15 +88,27 @@ public class Ward : MonoBehaviour
         return vision;
     }
 
-    public bool IsInBrume()
+    public GameObject GetMesh()
+    {
+        return mesh;
+    }
+
+    bool IsInBrume()
     {
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity, brumeLayer)){
-            brumeId = hit.transform.GetChild(0).GetComponent<Brume>().GetInstanceID();
+        if (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, brumeLayer))
+        {
+            brumeId = hit.transform.parent.parent.GetComponent<Brume>().GetInstanceID();
             return true;
         }
 
         return false;
+    }
+
+    private void OnEnable()
+    {
+        GetMesh().SetActive(false);
+        vision.gameObject.SetActive(false);
     }
 
     public void DestroyWard()

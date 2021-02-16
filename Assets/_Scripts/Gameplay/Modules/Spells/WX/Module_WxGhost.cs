@@ -27,7 +27,7 @@ public class Module_WxGhost : SpellModule
         _tempPlayerModule.AddState(En_CharacterState.Stunned);
         ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed, actionLinked);
 
-        _tempPlayerModule.isInGhost = true;
+        //_tempPlayerModule.isInGhost = true;
 
         GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
     }

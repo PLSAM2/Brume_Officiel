@@ -61,7 +61,7 @@ public class Fow : MonoBehaviour
     {
         if (isStatic) { return; }
 
-        transform.position = Vector3.Lerp(transform.position, myTarget.position, Time.deltaTime * followSpeed);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(myTarget.position.x, 0, myTarget.position.z), Time.deltaTime * followSpeed);
 
         tIn += Time.deltaTime;
         tOut += Time.deltaTime;
