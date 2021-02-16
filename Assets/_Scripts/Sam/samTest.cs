@@ -6,25 +6,13 @@ using static GameData;
 
 public class samTest : MonoBehaviour
 {
-    public CharacterController charac;
+    public Transform posEnd;
 
-    private Vector3 oldPos;
+    public float speed = 2.5f;
 
-    public float speed = 5;
-
-    void Start()
-    {
-        oldPos = transform.position;
-    }
 
     private void Update()
     {
-        Vector3 velocity = (transform.position - oldPos) / Time.deltaTime;
-
-        print(velocity.x);
-
-        oldPos = transform.position;
-
-        charac.Move(new Vector3(1,0,1) * Time.deltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, posEnd.position, speed);
     }
 }
