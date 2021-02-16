@@ -440,6 +440,40 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
+	public void UpdateDescription(En_SpellInput _spell, string _name, string _cooldownText, string _description)
+	{
+		switch (_spell)
+		{
+			case En_SpellInput.FirstSpell:
+				firstSpell.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.SecondSpell:
+				secondSpell.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.Maj:
+				sprintIcon.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.Click:
+				autoAttackIcon.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.Ward:
+				wardIcon.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.TP:
+				tp.SetupTooltip(_name, _cooldownText, _description);
+				break;
+		}
+	}
+
 	public void SetupIcon ( Sc_Spell _spellAttached, En_SpellInput _input )
 	{
 		switch (_input)
