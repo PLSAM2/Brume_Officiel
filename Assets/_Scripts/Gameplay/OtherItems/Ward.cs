@@ -8,7 +8,7 @@ public class Ward : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 60;
     [SerializeField] private float lifeTimeAcceleratorInBrume = 10;
-      public Fow vision;
+    public Fow vision;
     [SerializeField] private LayerMask brumeLayer;
     private Team myTeam;
 
@@ -17,6 +17,10 @@ public class Ward : MonoBehaviour
 
     private bool landed = false;
     private float timer = 0;
+
+    [SerializeField] GameObject mesh;
+
+    [SerializeField] Transform rangePreview;
     private void FixedUpdate()
     {
         if (landed)
@@ -72,6 +76,10 @@ public class Ward : MonoBehaviour
 
             timer = lifeTime;
             landed = true;
+
+            isInBrume = IsInBrume();
+
+            rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
         }
     }
 
@@ -80,11 +88,17 @@ public class Ward : MonoBehaviour
         return vision;
     }
 
-    public bool IsInBrume()
+    public GameObject GetMesh()
+    {
+        return mesh;
+    }
+
+    bool IsInBrume()
     {
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity, brumeLayer)){
-            brumeId = hit.transform.GetChild(0).GetComponent<Brume>().GetInstanceID();
+        if (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, brumeLayer))
+        {
+            brumeId = hit.transform.parent.parent.GetComponent<Brume>().GetInstanceID();
             return true;
         }
 

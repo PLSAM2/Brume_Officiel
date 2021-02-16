@@ -188,7 +188,7 @@ public class Ghost : MonoBehaviour
             playerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
             gameObject.SetActive(false);
 
-            playerModule.isInGhost = false;
+            //playerModule.isInGhost = false;
 
             //gestion vision si cut
             if (haveCut)

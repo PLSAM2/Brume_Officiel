@@ -77,7 +77,7 @@ public class Brume : MonoBehaviour
                 }
             }
 
-            ward.GetFow().gameObject.SetActive(fogValue);
+            ward.GetMesh().SetActive(fogValue);
         }
     }
 
