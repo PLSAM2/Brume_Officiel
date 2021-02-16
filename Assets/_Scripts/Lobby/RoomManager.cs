@@ -248,7 +248,6 @@ public class RoomManager : MonoBehaviour
         {
             ultimateStack.Add(item.Key, 0);
         }
-        Debug.Log("yo");
         SceneManager.LoadScene(loadingGameScene);
     }
 
