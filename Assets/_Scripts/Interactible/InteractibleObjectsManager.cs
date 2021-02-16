@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 using static GameData;
 
-public class InteractibleObjectsManager : SerializedMonoBehaviour
+public class InteractibleObjectsManager : MonoBehaviour
 {
     [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
