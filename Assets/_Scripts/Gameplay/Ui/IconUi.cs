@@ -15,7 +15,7 @@ public class IconUi : MonoBehaviour
 	RectTransform myRectTransform;
 	Vector2 basePos;
 	[TabGroup("Tooltip")] public GameObject wholeTooltip;
-	[TabGroup("Tooltip")]public TextMeshProUGUI myDescription, myName, myCdText;	
+	[TabGroup("Tooltip")] public TextMeshProUGUI myDescription, myName, myCdText;
 
 	private void Start ()
 	{
@@ -44,6 +44,13 @@ public class IconUi : MonoBehaviour
 
 	}
 
+	public void SetupTooltip(string _name, string _cooldown, string _description)
+	{
+		myName.text = _name;
+		myCdText.text = _cooldown + "s";
+		myDescription.text = _description;
+	}
+
 	public void UpdatesChargesAmont ( int _numberOfCharges )
 	{
 		//chargesSpot.text = _numberOfCharges.ToString();
@@ -55,13 +62,13 @@ public class IconUi : MonoBehaviour
 
 		Color _color = new Vector4(255, 16, 16, 195);
 		feedbackCantCast.color = _color;
-		myRectTransform.DOShakeAnchorPos(.5f,4,20,90,false, false).OnComplete(()=> myRectTransform.localPosition = basePos);
-		feedbackCantCast.rectTransform.localScale =  new Vector3(1.5f,1.5f,1);
+		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
+		feedbackCantCast.rectTransform.localScale = new Vector3(1.5f, 1.5f, 1);
 		feedbackCantCast.rectTransform.DOScale(1f, 1.5f);
 		feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
 	}
 
-	public void ResetIcon()
+	public void ResetIcon ()
 	{
 		myRectTransform.DOKill();
 		myRectTransform.localPosition = basePos;
@@ -91,12 +98,11 @@ public class IconUi : MonoBehaviour
 		input.text = _name;
 	}
 
-	private void OnMouseOver ()
+	public void ShowIcon()
 	{
 		wholeTooltip.SetActive(true);
 	}
-
-	private void OnMouseExit ()
+	public void HideIcon ()
 	{
 		wholeTooltip.SetActive(false);
 	}
