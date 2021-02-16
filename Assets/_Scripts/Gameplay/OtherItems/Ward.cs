@@ -58,26 +58,26 @@ public class Ward : MonoBehaviour
             GameManager.Instance.allWard.Add(this);
             GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
 
-            vision.gameObject.SetActive(false);
+            isInBrume = IsInBrume();
 
-            if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule,this))
+            bool isView = false;
+            if (GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
             {
-                vision.gameObject.SetActive(true);
+                if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule, this) || isInBrume == false)
+                {
+                    isView = true;
+                }
+                else
+                {
+                    isView = false;
+                }
             }
 
-            if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && !isInBrume){
-                vision.gameObject.SetActive(true);
-            }
-
-            if (!GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume && isInBrume)
-            {
-                vision.gameObject.SetActive(true);
-            }
+            GetMesh().SetActive(isView);
+            vision.gameObject.SetActive(isView);
 
             timer = lifeTime;
             landed = true;
-
-            isInBrume = IsInBrume();
 
             rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
         }
@@ -103,6 +103,12 @@ public class Ward : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnEnable()
+    {
+        GetMesh().SetActive(false);
+        vision.gameObject.SetActive(false);
     }
 
     public void DestroyWard()
