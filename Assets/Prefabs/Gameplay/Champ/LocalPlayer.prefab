@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1163919473078000102}
   myLocalPlayer: {fileID: 1217320960498770133}
-  speedAnim: 30
+  syncSpeed: 10
 --- !u!114 &1217320960498770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +79,6 @@ MonoBehaviour:
   circleDirection: {fileID: 3531234986128592076}
   respawnTime: 2
   myUiPlayerManager: {fileID: 5536610918040755446}
-  syncSpeed: 20
   allCharacterSpawned: 0
   fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
   forceOutline: 0
@@ -105,9 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5366a649ab2882c44bf6059b29cad6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
+  myPlayerModule: {fileID: 0}
   timeToResolveSpell: 0
-  throwbackTime: 0
   isUsed: 0
   startResolution: 0
   resolved: 0
@@ -115,10 +113,11 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: e5d259702f1056640b345ff8341e02af, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,9 +185,9 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SlopeLimit: 0
+  m_StepOffset: 0.1
+  m_SkinWidth: 0.04
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!114 &7642602275245690328
@@ -203,9 +202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90a70e44b85c9f4e87e8990786d246c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
+  myPlayerModule: {fileID: 0}
   timeToResolveSpell: 0
-  throwbackTime: 0
   isUsed: 0
   startResolution: 0
   resolved: 0
@@ -213,10 +211,11 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  myPlayerModule: {fileID: 0}
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  toSetActiveOnResolve: {fileID: 0}
+  objectToActivateOnCanlisation: {fileID: 0}
+  objectToActivateOnAnnonciation: {fileID: 0}
+  objectToActivateOnResolution: {fileID: 0}
   wardPrefab: {fileID: 1785922920789865436, guid: 1925b94b1d7ce1f4ab12e6cd5a1114bf, type: 3}
   wardSpeed: 18
   distanceMaxBeforeEndTravel: 0.01
@@ -783,6 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43a91cb6e469d2447b705bed51cde25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAudioSource: {fileID: 0}
 --- !u!114 &8693062460797006116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,8 +1329,6 @@ MonoBehaviour:
   compassCanvas: {fileID: 3206967552854313362}
   pointerObj: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
   compassRot: {x: 0, y: 0, z: 0, w: 0}
-  redDotRadar: {fileID: 0}
-  yellowDotRadar: {fileID: 0}
   wxRef: {fileID: 0}
   greenMat: {fileID: 2100000, guid: b20b5a182f59af24ca29e57b67cf63e6, type: 2}
   redMat: {fileID: 2100000, guid: be9521ec802c7d0468a996abf8200b79, type: 2}
