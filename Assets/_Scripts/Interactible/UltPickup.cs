@@ -26,6 +26,11 @@ public class UltPickup : Interactible
         }
 
         base.Captured(_capturingPlayerID);
+
+    }
+    public override void UpdateCaptured(ushort _capturingPlayerID)
+    {
+        base.UpdateCaptured(_capturingPlayerID);
         ActualiseMesh();
     }
 

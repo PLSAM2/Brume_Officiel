@@ -16,6 +16,7 @@ public class RoomManager : MonoBehaviour
     public static RoomManager Instance { get { return _instance; } }
 
     public string gameScene;
+    public string loadingGameScene;
     public string champSelectScene;
     public string menuScene;
 
@@ -247,9 +248,9 @@ public class RoomManager : MonoBehaviour
         {
             ultimateStack.Add(item.Key, 0);
         }
-
         SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
     }
+
 
     private void StartNewRound()
     {

@@ -97,6 +97,7 @@ public class SpellModule : MonoBehaviour
 			//action 
 			myPlayerModule.upgradeKit += UpgradeSpell;
 			myPlayerModule.backToNormalKit += ReturnToNormal;
+			UiManager.Instance.UpdateDescription(_actionLinked,spell.spellName, spell.cooldown.ToString(), spell.spellDescription);
 		}
 	}
 	public virtual void Disable ()

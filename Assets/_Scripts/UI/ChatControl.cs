@@ -123,7 +123,6 @@ public class ChatControl : MonoBehaviour
                 textToFadeDisplay[i].color = new Color(textToFadeDisplay[i].color.r, textToFadeDisplay[i].color.g, textToFadeDisplay[i].color.b, value * maxColorOpacity);
             }
         }
-
       
          chatMessageImage.color = new Color(chatMessageImage.color.r, chatMessageImage.color.g, chatMessageImage.color.b, value * 0.05f);
     }
