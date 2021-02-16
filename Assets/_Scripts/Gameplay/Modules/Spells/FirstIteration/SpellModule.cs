@@ -342,7 +342,10 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		if (isOwner)
+		{
+			UiManager.Instance.CooldownReady(actionLinked);
 			AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
+		}
 		charges++;
 	}
 	protected virtual void UpgradeSpell () { }
