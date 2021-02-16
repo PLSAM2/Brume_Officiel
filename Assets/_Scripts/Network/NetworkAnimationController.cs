@@ -35,18 +35,22 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived -= Client_MessageReceived;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!myLocalPlayer.isOwner)
         {
-            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Time.deltaTime * syncSpeed);
-            //transform.position = newNetorkPos;
+            //transform.position = Vector3.MoveTowards(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
+            DoAnimation();
         }
     }
 
     private void LateUpdate ()
 	{
-        DoAnimation();
+        if (myLocalPlayer.isOwner)
+        {
+            DoAnimation();
+        }
     }
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
