@@ -16,7 +16,7 @@ public class ChatControl : MonoBehaviour
     public int maxChatMessage = 50;
     [Header("Fade / Display")]
     public List<Image> imageToFadeDisplay = new List<Image>();
-    public List<Text> textToFadeDisplay = new List<Text>();
+    public List<TextMeshProUGUI> textToFadeDisplay = new List<TextMeshProUGUI>();
     public Image chatMessageImage;
     public float timeToFade = 4;
     public float maxColorOpacity = 0.75f;
@@ -123,7 +123,6 @@ public class ChatControl : MonoBehaviour
                 textToFadeDisplay[i].color = new Color(textToFadeDisplay[i].color.r, textToFadeDisplay[i].color.g, textToFadeDisplay[i].color.b, value * maxColorOpacity);
             }
         }
-
       
          chatMessageImage.color = new Color(chatMessageImage.color.r, chatMessageImage.color.g, chatMessageImage.color.b, value * 0.05f);
     }
