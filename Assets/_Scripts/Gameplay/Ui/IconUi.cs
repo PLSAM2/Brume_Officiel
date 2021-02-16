@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using Sirenix.OdinInspector;
+using UnityEngine.EventSystems;
 public class IconUi : MonoBehaviour
 {
 	[TabGroup("IconSpell")] [SerializeField] Image icon, outline, fillAmount, feedbackCantCast;
