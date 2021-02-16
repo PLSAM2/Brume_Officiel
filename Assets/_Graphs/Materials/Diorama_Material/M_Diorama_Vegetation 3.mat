@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
     _MOVINGGRAIN_ON _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON
     _WINDVERTEXDISPLACEMENT_ON
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -162,6 +162,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
     - _ColorNoise_Contrast: 0.5
     - _ColorNoise_Power: 1.5

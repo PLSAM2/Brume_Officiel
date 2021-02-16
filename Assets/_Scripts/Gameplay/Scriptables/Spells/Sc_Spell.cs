@@ -35,6 +35,10 @@ public class Sc_Spell : ScriptableObject
 	[TabGroup("Generic SpellParameters")] public List<Sc_Status> statusToApplyAtTheEnd = new List<Sc_Status>();
 	[TabGroup("Generic SpellParameters")] public float throwBackDuration;
 
-	[Header("Ui")]
-	[TabGroup("Generic SpellParameters")] public Sprite spellIcon;
+	[TabGroup("Generic SpellParameters")]
+	[TabGroup("Ui")] public Sprite spellIcon;
+	[TabGroup("Ui")] public string spellName = "MyNameIsStan";
+	[TextArea(15, 20)]
+	[TabGroup("Ui")] public string spellDescription = "My Description";
+
 }

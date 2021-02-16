@@ -69,7 +69,11 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Cast")] public GameObject barCasting;
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
-	public Transform parentWaypoint;
+    [Header("Ulti")]
+    [FoldoutGroup("Ulti")] public UltiBar parentUltiWX, parentUltiRE, parentUltiLENG;
+    [FoldoutGroup("Ulti")] public GameObject prefabUltiPoint;
+
+    public Transform parentWaypoint;
 
 	private GameObject actualChar;
 	private GameObject actualUnlockedAltar = null;
@@ -432,6 +436,40 @@ public class UiManager : MonoBehaviour
 				break;
 			case En_SpellInput.TP:
 				tp.UpdateCooldown(_timeRemaining, _completeCd);
+				break;
+		}
+	}
+
+	public void UpdateDescription(En_SpellInput _spell, string _name, string _cooldownText, string _description)
+	{
+		switch (_spell)
+		{
+			case En_SpellInput.FirstSpell:
+				firstSpell.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.SecondSpell:
+				secondSpell.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.Maj:
+				sprintIcon.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.Click:
+				autoAttackIcon.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.Ward:
+				wardIcon.SetupTooltip(_name, _cooldownText, _description);
+				break;
+
+			case En_SpellInput.TP:
+				tp.SetupTooltip(_name, _cooldownText, _description);
 				break;
 		}
 	}
