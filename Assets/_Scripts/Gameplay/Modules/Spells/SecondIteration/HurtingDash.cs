@@ -97,7 +97,7 @@ public class HurtingDash : SpellModule
 	{
 		hurtBox.gameObject.SetActive(false);
 
-		gameObject.layer = 8;
+		gameObject.layer = 7;
 
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
 
