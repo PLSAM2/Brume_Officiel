@@ -4,15 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-
+using Sirenix.OdinInspector;
 public class IconUi : MonoBehaviour
 {
-	[SerializeField] Image icon, outline, fillAmount, feedbackCantCast;
-	[SerializeField] TextMeshProUGUI cooldownCount, input;
+	[TabGroup("IconSpell")] [SerializeField] Image icon, outline, fillAmount, feedbackCantCast;
+	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount, input;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
 	RectTransform myRectTransform;
 	Vector2 basePos;
+	[TabGroup("Tooltip")] public GameObject wholeTooltip;
+	[TabGroup("Tooltip")]public TextMeshProUGUI myDescription, myName, myCdText;	
+
 	private void Start ()
 	{
 		myRectTransform = GetComponent<RectTransform>();
@@ -85,5 +88,15 @@ public class IconUi : MonoBehaviour
 	public void SetupInputName ( string _name )
 	{
 		input.text = _name;
+	}
+
+	private void OnMouseOver ()
+	{
+		wholeTooltip.SetActive(true);
+	}
+
+	private void OnMouseExit ()
+	{
+		wholeTooltip.SetActive(false);
 	}
 }
