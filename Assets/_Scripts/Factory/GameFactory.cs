@@ -47,7 +47,19 @@ public class GameFactory
         return GetColorTeam(Team.red);
 
     }
+    public static Team GetReferentialPlayerTeam(Team playerTeam)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer() != null)
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == playerTeam)
+            {
+                return Team.blue;
+            }
+        }
 
+        return Team.red;
+
+    }
 
     public static ushort? GetPlayerCharacterInTeam(Team team, Character character)
     {
