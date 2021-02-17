@@ -67,6 +67,9 @@ public class GameManager : SerializedMonoBehaviour
     public Dictionary<ushort, BrumeSoul> brumeSouls = new Dictionary<ushort, BrumeSoul>();
 
     public SpawnDynamicWalls dynamicWalls;
+
+    [HideInInspector] public bool playerJoinedAndInit = false; //spawnpurpose
+
     //Event utile
     [HideInInspector] public Action<ushort, ushort> OnPlayerDie;
     [HideInInspector] public Action<ushort, bool> OnPlayerAtViewChange;
@@ -122,16 +125,7 @@ public class GameManager : SerializedMonoBehaviour
     }
     public void PlayerJoinedAndInitInScene()
     {
-
-        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        {
-            _writer.Write(RoomManager.Instance.actualRoom.ID);
-
-            using (Message _message = Message.Create(Tags.PlayerJoinGameScene, _writer))
-            {
-                client.SendMessage(_message, SendMode.Reliable);
-            }
-        }
+        RoomManager.Instance.SpawnDelayedPlayer();
     }
     private void Update()
     {
