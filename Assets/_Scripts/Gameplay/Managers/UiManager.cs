@@ -593,6 +593,8 @@ public class UiManager : MonoBehaviour
 
 	public void CantCastFeedback ( En_SpellInput _spellInput )
 	{
+
+		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound,.3f);
 		switch (_spellInput)
 		{
 			case En_SpellInput.FirstSpell:

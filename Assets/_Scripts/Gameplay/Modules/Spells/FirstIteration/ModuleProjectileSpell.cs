@@ -175,7 +175,7 @@ public class ModuleProjectileSpell : SpellModule
 			myPreviewArrow[bounce].Init(transform.position, _hit.point, .1f);
 
 			myPreviewArrow[bounce].gameObject.SetActive(true);
-			if(localTrad.bouncingNumber > 0)
+			 if(localTrad.bouncingNumber > 0)
 			{
 
 				RaycastHit _newHit;
