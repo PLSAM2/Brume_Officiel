@@ -398,7 +398,7 @@ public class UiManager : MonoBehaviour
 	{
 		waitForMinimapUpdate = true;
 		yield return new WaitForSeconds(0.1f);
-		cameraMinimap.Render();
+		//cameraMinimap.Render();
 		waitForMinimapUpdate = false;
 	}
 

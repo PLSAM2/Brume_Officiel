@@ -76,7 +76,6 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
-		cooldown = 1;
 
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
@@ -93,7 +92,8 @@ public class SpellModule : MonoBehaviour
 			LinkInputs(_actionLinked);
 			UiManager.Instance.SetupIcon(spell, _actionLinked);
 
-			charges = spell.numberOfCharge;
+			charges = 0;
+			cooldown = 1;
 			//action 
 			myPlayerModule.upgradeKit += UpgradeSpell;
 			myPlayerModule.backToNormalKit += ReturnToNormal;
