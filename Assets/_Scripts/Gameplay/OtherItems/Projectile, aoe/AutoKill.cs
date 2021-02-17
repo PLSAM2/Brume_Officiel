@@ -45,7 +45,7 @@ public class AutoKill : MonoBehaviour
 
 	void DisplayMesh ()
 	{
-		if (GameFactory.IsOnMyTeam(myNetworkObject.GetOwnerID()))
+		if (!GameFactory.IsOnMyTeam(myNetworkObject.GetOwnerID()))
 			meshRed.gameObject.SetActive(true);
 		else
 			meshBlue.gameObject.SetActive(true);
