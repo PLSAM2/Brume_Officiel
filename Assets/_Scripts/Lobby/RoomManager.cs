@@ -1,7 +1,6 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
-using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +30,12 @@ public class RoomManager : MonoBehaviour
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
     [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 
+
+    //SPAWN
+    [SerializeField] GameObject prefabShili;
+    [SerializeField] GameObject prefabRe;
+    [SerializeField] GameObject prefabLeng;
+    public List<ushort> delayedPlayerSpawn = new List<ushort>();
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -64,6 +69,10 @@ public class RoomManager : MonoBehaviour
     {
         using (Message message = e.GetMessage() as Message)
         {
+            if (message.Tag == Tags.SpawnObjPlayer)
+            {
+                SpawnPlayerObjReceiver(sender, e);
+            }
             if (message.Tag == Tags.SwapHostRoom)
             {
                 SwapHost(sender, e);
@@ -101,7 +110,6 @@ public class RoomManager : MonoBehaviour
 
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
-
         StartNewRound();
         Team winningTeam = Team.none;
         using (Message message = e.GetMessage())
@@ -155,6 +163,8 @@ public class RoomManager : MonoBehaviour
 
         }
     }
+
+
 
     IEnumerator EndGame(bool isNewRound = false, string sceneName = "")
     {
@@ -228,8 +238,6 @@ public class RoomManager : MonoBehaviour
         StartNewRound();
         ResetPlayersReadyStates();
         SceneManager.LoadScene(champSelectScene, LoadSceneMode.Single);
-
-
     }
 
     private void StartGameInServer(object sender, MessageReceivedEventArgs e)
@@ -248,7 +256,7 @@ public class RoomManager : MonoBehaviour
         {
             ultimateStack.Add(item.Key, 0);
         }
-        SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
+        SceneManager.LoadScene(loadingGameScene, LoadSceneMode.Single);
     }
 
 
@@ -308,6 +316,145 @@ public class RoomManager : MonoBehaviour
 
     }
 
+    // PLYER SPAWN 
+
+    void SpawnPlayerObjReceiver(object _sender, MessageReceivedEventArgs _e)
+    {
+        using (Message message = _e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort id = reader.ReadUInt16();
+                bool isResurecting = reader.ReadBoolean();
+
+                if (NetworkManager.Instance.GetLocalPlayer().ID != id)
+                {
+                    if (GameManager.Instance == null || GameManager.Instance.playerJoinedAndInit == false) // SI ON A RECU UNE DEMANDE DE SPAWN PENDANT LE LOAD
+                    {
+                        delayedPlayerSpawn.Add(id);
+                        return;
+                    }
+                }
+
+                if (GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
+
+                SpawnPlayerObj(id, isResurecting);      
+            }
+        }
+    }
+
+    internal void SpawnPlayerObj(ushort id, bool isResurecting)
+    {
+        Vector3 spawnPos = Vector3.zero;
+
+        if (!isResurecting)
+        {
+            foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+            {
+                if (spawn.CanSpawn())
+                {
+                    spawnPos = spawn.transform.position;
+                }
+            }
+        }
+        else
+        {
+            bool emptySpace = false;
+
+            foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
+            {
+                if (spawn.CanSpawn())
+                {
+                    emptySpace = true;
+                    spawnPos = spawn.transform.position;
+                }
+            }
+
+            if (!emptySpace)
+            {
+                spawnPos = GameManager.Instance.resSpawns[1].transform.position;
+            }
+        }
+
+
+        GameObject obj = null;
+
+        switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
+        {
+            case Character.WuXin:
+                obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
+                break;
+
+            case Character.Re:
+                obj = Instantiate(prefabRe, spawnPos, Quaternion.identity);
+                break;
+
+            case Character.Leng:
+                obj = Instantiate(prefabLeng, spawnPos, Quaternion.identity);
+                break;
+            default:
+                using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+                {
+                    using (Message _message = Message.Create(Tags.AskForStopGame, _writer))
+                    {
+                        client.SendMessage(_message, SendMode.Reliable);
+                    }
+                }
+                throw new Exception("CHARACTER NONE LORS DU LANCEMENT D'UNE PARTIE");
+        }
+
+        LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
+        myLocalPlayer.myPlayerId = id;
+        myLocalPlayer.isOwner = client.ID == id;
+        myLocalPlayer.Init(client, true);
+
+        if (myLocalPlayer.isOwner)
+        {
+            GameManager.Instance.currentLocalPlayer = myLocalPlayer;
+
+            if (isResurecting)
+                myLocalPlayer.myPlayerModule.Setup();
+
+        }
+
+        GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
+
+        GameManager.Instance.OnPlayerSpawn?.Invoke(id);
+
+        if (isResurecting)
+        {
+            GameManager.Instance.OnPlayerRespawn?.Invoke(id);
+
+            if (myLocalPlayer.isOwner)
+            {
+                TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
+                _tp.TpOnRes();
+            }
+        }
+
+    }
+    internal void SpawnDelayedPlayer()
+    {
+        foreach (ushort id in delayedPlayerSpawn) 
+        {
+            SpawnPlayerObj(id, false);
+        }
+
+        delayedPlayerSpawn.Clear();
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(RoomManager.Instance.actualRoom.ID);
+
+            using (Message _message = Message.Create(Tags.PlayerJoinGameScene, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
+
+
+    //
 
 
     public void UpdatePointDisplay()
