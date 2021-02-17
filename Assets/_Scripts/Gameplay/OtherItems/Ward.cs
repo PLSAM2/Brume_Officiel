@@ -29,7 +29,7 @@ public class Ward : MonoBehaviour
 
     private void Awake()
     {
-        myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+        //myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
     }
 
     private void FixedUpdate()
@@ -92,7 +92,7 @@ public class Ward : MonoBehaviour
 
             rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
 
-            myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
+            //myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
         }
     }
 
