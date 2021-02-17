@@ -10,7 +10,7 @@ public class SpellModule : MonoBehaviour
 	[HideInInspector] public PlayerModule myPlayerModule;
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
-	[ReadOnly] public float  timeToResolveSpell;
+	[ReadOnly] public float timeToResolveSpell;
 	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
 	[ReadOnly]
 	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
@@ -92,12 +92,12 @@ public class SpellModule : MonoBehaviour
 			LinkInputs(_actionLinked);
 			UiManager.Instance.SetupIcon(spell, _actionLinked);
 
-			charges = 0;
-			cooldown = 1;
+
+			charges = spell.numberOfCharge;
 			//action 
 			myPlayerModule.upgradeKit += UpgradeSpell;
 			myPlayerModule.backToNormalKit += ReturnToNormal;
-			UiManager.Instance.UpdateDescription(_actionLinked,spell.spellName, spell.cooldown.ToString(), spell.spellDescription);
+			UiManager.Instance.UpdateDescription(_actionLinked, spell.spellName, spell.cooldown.ToString(), spell.spellDescription);
 		}
 	}
 	public virtual void Disable ()
@@ -344,7 +344,7 @@ public class SpellModule : MonoBehaviour
 		if (isOwner)
 		{
 			UiManager.Instance.CooldownReady(actionLinked);
-			AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
+			//AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
 		}
 		charges++;
 	}
