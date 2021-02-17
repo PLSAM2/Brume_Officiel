@@ -21,8 +21,8 @@ public class AutoKill : MonoBehaviour
 	{
 		myNetworkObject = GetComponent<NetworkedObject>();
 
-        if (isUsingTeamMesh)
-        {
+		if (isUsingTeamMesh)
+		{
 			meshBlue.gameObject.SetActive(false);
 			meshRed.gameObject.SetActive(false);
 		}
@@ -34,16 +34,8 @@ public class AutoKill : MonoBehaviour
 		isOwner = myNetworkObject.GetIsOwner();
 		myteam = ownerTeam;
 
-        if (isUsingTeamMesh)
-        {
-			if (hideMeshToEnemyTeam)
-			{
-				if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myteam))
-					DisplayMesh();
-			}
-			else
-				DisplayMesh();
-		}
+
+		DisplayMesh();
 
 		if (spawnSound)
 		{
@@ -53,16 +45,11 @@ public class AutoKill : MonoBehaviour
 
 	void DisplayMesh ()
 	{
-		switch (myteam)
-		{
-			case Team.red:
-				meshRed.gameObject.SetActive(true);
-				break;
+		if (GameFactory.IsOnMyTeam(myNetworkObject.GetOwnerID()))
+			meshRed.gameObject.SetActive(true);
+		else
+			meshBlue.gameObject.SetActive(true);
 
-			case Team.blue:
-				meshBlue.gameObject.SetActive(true);
-				break;
-		}
 	}
 
 	protected virtual void OnDisable ()
@@ -72,8 +59,8 @@ public class AutoKill : MonoBehaviour
 
 	public virtual void Destroy ( bool _spawnAoe = false )
 	{
-        if (isUsingTeamMesh)
-        {
+		if (isUsingTeamMesh)
+		{
 			meshBlue.gameObject.SetActive(false);
 			meshRed.gameObject.SetActive(false);
 		}
