@@ -344,7 +344,7 @@ public class SpellModule : MonoBehaviour
 		if (isOwner)
 		{
 			UiManager.Instance.CooldownReady(actionLinked);
-			AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
+			//AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
 		}
 		charges++;
 	}
