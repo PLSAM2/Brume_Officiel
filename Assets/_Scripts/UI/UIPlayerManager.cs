@@ -36,7 +36,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject pointerObj;
     [TabGroup("Ui")] public Quaternion compassRot;
     [TabGroup("Ui")] public LocalPlayer wxRef;
-    [TabGroup("Ui")] public Material greenMat, redMat, grayMat;
+    [TabGroup("Ui")] public Material blueMat, redMat, grayMat;
 
     [Header("State")]
     [TabGroup("UiState")] public GameObject statePart;
@@ -58,21 +58,21 @@ public class UIPlayerManager : MonoBehaviour
     {
         nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
-        switch (myLocalPlayer.myPlayerModule.teamIndex)
+        switch (GameFactory.GetReferentialPlayerTeam( myLocalPlayer.myPlayerModule.teamIndex))
         {
             case Team.red:
                 nameText.material = redMat;
-                lifeDamageImg.material = greenMat;
                 lifeImg.material = redMat;
                 WxLife.material = redMat;
                 break;
 
             case Team.blue:
-                nameText.material = greenMat;
-                lifeDamageImg.material = redMat;
-                lifeImg.material = greenMat;
-                WxLife.material = greenMat;
+                nameText.material = blueMat;
+                lifeImg.material = blueMat;
+                WxLife.material = blueMat;
                 break;
+            default:
+                throw new System.Exception();
         }
 
         if (myLocalPlayer.isOwner)
@@ -125,14 +125,14 @@ public class UIPlayerManager : MonoBehaviour
 
                     if(WxLife.material == grayMat)
                     {
-                        switch (myLocalPlayer.myPlayerModule.teamIndex)
+                        switch (GameFactory.GetReferentialPlayerTeam(myLocalPlayer.myPlayerModule.teamIndex))
                         {
                             case Team.red:
                                 WxLife.material = redMat;
                                 break;
 
                             case Team.blue:
-                                WxLife.material = greenMat;
+                                WxLife.material = blueMat;
                                 break;
                         }
 

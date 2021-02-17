@@ -21,6 +21,7 @@ public class IconUi : MonoBehaviour
 	{
 		myRectTransform = GetComponent<RectTransform>();
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
+		CooldownReadyFeedback();
 	}
 
 	public void SetSprite ( Sprite _icon )
@@ -60,7 +61,7 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
-
+		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .8f);
 		Color _color = new Vector4(255, 16, 16, 195);
 		feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
