@@ -65,17 +65,19 @@ public class Displayer : MonoBehaviour
             {
                 ShowOutline(player.Value);
 
+                bool show = false;
                 if(player.Value.myPlayerModule.isInBrume == currentFollowPlayer.myPlayerModule.isInBrume)
                 {
                     if (GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule) || player.Value.myPlayerModule.isInBrume == false)
                     {
-                        HideOrShow(player.Value, true);
+                        show = true;
                     }
                     else
                     {
-                        HideOrShow(player.Value, false);
+                        show = false;
                     }
                 }
+                HideOrShow(player.Value, show);
                 continue;
             }
 

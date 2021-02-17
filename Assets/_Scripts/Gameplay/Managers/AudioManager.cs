@@ -173,7 +173,7 @@ public class AudioManager : SerializedMonoBehaviour
             i++;
         }
 
-        print("<color=red>" + _clip.name + " est pas dans le manager audio </color>");
+        //print("<color=red>" + _clip.name + " est pas dans le manager audio </color>");
         return 0;
     }
 
