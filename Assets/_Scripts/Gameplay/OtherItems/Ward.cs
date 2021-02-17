@@ -63,7 +63,7 @@ public class Ward : MonoBehaviour
         else
         {
             vision.Init();
-
+            timer = lifeTime;
             isInBrume = IsInBrume();
 
             GameManager.Instance.allWard.Add(this);
@@ -87,7 +87,7 @@ public class Ward : MonoBehaviour
             GetMesh().SetActive(isView);
             vision.gameObject.SetActive(isView);
 
-            timer = lifeTime;
+
             landed = true;
 
             rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
@@ -159,6 +159,7 @@ public class Ward : MonoBehaviour
 
     public void DestroyWard()
     {
+        landed = false;
         vision.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
