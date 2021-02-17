@@ -58,7 +58,7 @@ public class UIPlayerManager : MonoBehaviour
     {
         nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
-        switch (myLocalPlayer.myPlayerModule.teamIndex)
+        switch (GameFactory.GetReferentialPlayerTeam( myLocalPlayer.myPlayerModule.teamIndex))
         {
             case Team.red:
                 nameText.material = redMat;
@@ -71,6 +71,8 @@ public class UIPlayerManager : MonoBehaviour
                 lifeImg.material = blueMat;
                 WxLife.material = blueMat;
                 break;
+            default:
+                throw new System.Exception();
         }
 
         if (myLocalPlayer.isOwner)
