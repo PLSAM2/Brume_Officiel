@@ -85,7 +85,7 @@ public class Ward : MonoBehaviour
             }
 
             GetMesh().SetActive(isView);
-            vision.gameObject.SetActive(isView);
+            //vision.gameObject.SetActive(isView);
 
 
             landed = true;
@@ -154,7 +154,7 @@ public class Ward : MonoBehaviour
     private void OnEnable()
     {
         GetMesh().SetActive(false);
-        vision.gameObject.SetActive(false);
+        vision.gameObject.SetActive(true);
     }
 
     public void DestroyWard()

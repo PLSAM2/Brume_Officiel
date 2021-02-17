@@ -73,7 +73,6 @@ public class Brume : MonoBehaviour
                 }
             }
 
-            print(fogValue);
             ward.GetMesh().SetActive(fogValue);
         }
     }

@@ -65,6 +65,7 @@ public class Displayer : MonoBehaviour
             {
                 ShowOutline(player.Value);
 
+                /*
                 bool show = false;
                 if(player.Value.myPlayerModule.isInBrume == currentFollowPlayer.myPlayerModule.isInBrume)
                 {
@@ -76,8 +77,8 @@ public class Displayer : MonoBehaviour
                     {
                         show = false;
                     }
-                }
-                HideOrShow(player.Value, show);
+                }*/
+                HideOrShow(player.Value, true);
                 continue;
             }
 
