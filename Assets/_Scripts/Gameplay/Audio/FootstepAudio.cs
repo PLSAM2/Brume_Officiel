@@ -51,7 +51,7 @@ public class FootstepAudio : MonoBehaviour
 
         if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
         {
-            if ((velocityX + velocityZ) != 0 && doSound)
+            if (((velocityX + velocityZ) > 1 || (velocityX + velocityZ) < -1) && doSound)
             {
                 doSound = false;
                 StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
