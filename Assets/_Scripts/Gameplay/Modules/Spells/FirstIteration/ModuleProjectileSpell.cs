@@ -43,7 +43,6 @@ public class ModuleProjectileSpell : SpellModule
 			myPreviewArrow = new List<ArrowPreview>();
 			for (int i = 0; i <= localTrad.bouncingNumber; i++)
 			{
-				print("ol,gszeo,foze,fz");
 				ArrowPreview _temp = PreviewManager.Instance.GetArrowPreview();
 				myPreviewArrow.Add(_temp);
 			}
@@ -176,12 +175,16 @@ public class ModuleProjectileSpell : SpellModule
 			myPreviewArrow[bounce].Init(transform.position, _hit.point, .1f);
 
 			myPreviewArrow[bounce].gameObject.SetActive(true);
+			if(localTrad.bouncingNumber > 0)
+			{
 
-			RaycastHit _newHit;
-			if (localTrad.bouncingNumber > 0 && Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
+				RaycastHit _newHit;
+			if (Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
 				myPreviewArrow[bounce + 1].Init(_hit.point, _newHit.point, .1f);
 			else
 				myPreviewArrow[bounce + 1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
+			}
+
 		}
 		else
 		{
