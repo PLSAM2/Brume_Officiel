@@ -39,8 +39,8 @@ public class NetworkAnimationController : MonoBehaviour
     {
         if (!myLocalPlayer.isOwner)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos) * 10);
-            //transform.position = Vector3.Lerp(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
+            //transform.position = Vector3.MoveTowards(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos) * 10);
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
             DoAnimation();
         }
     }
