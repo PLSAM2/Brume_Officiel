@@ -36,7 +36,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject pointerObj;
     [TabGroup("Ui")] public Quaternion compassRot;
     [TabGroup("Ui")] public LocalPlayer wxRef;
-    [TabGroup("Ui")] public Material greenMat, redMat, grayMat;
+    [TabGroup("Ui")] public Material blueMat, redMat, grayMat;
 
     [Header("State")]
     [TabGroup("UiState")] public GameObject statePart;
@@ -62,16 +62,14 @@ public class UIPlayerManager : MonoBehaviour
         {
             case Team.red:
                 nameText.material = redMat;
-                lifeDamageImg.material = greenMat;
                 lifeImg.material = redMat;
                 WxLife.material = redMat;
                 break;
 
             case Team.blue:
-                nameText.material = greenMat;
-                lifeDamageImg.material = redMat;
-                lifeImg.material = greenMat;
-                WxLife.material = greenMat;
+                nameText.material = blueMat;
+                lifeImg.material = blueMat;
+                WxLife.material = blueMat;
                 break;
         }
 
@@ -132,7 +130,7 @@ public class UIPlayerManager : MonoBehaviour
                                 break;
 
                             case Team.blue:
-                                WxLife.material = greenMat;
+                                WxLife.material = blueMat;
                                 break;
                         }
 
