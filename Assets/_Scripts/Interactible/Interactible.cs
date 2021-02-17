@@ -203,7 +203,7 @@ public class Interactible : MonoBehaviour
 
         if (isViewed)
         {
-            SetColor(GameFactory.GetReferentialPlayerTeamColor(capturingTeam));
+            SetColor(GameFactory.GetRelativeColor(capturingTeam));
         }
 
     }
@@ -327,7 +327,7 @@ public class Interactible : MonoBehaviour
             case State.Captured:
                 if (capturingTeam != Team.none)
                 {
-                    SetColor(GameFactory.GetReferentialPlayerTeamColor(capturingTeam));
+                    SetColor(GameFactory.GetRelativeColor(capturingTeam));
                 }
                 break;
             default:
