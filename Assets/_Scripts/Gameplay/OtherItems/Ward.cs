@@ -19,8 +19,19 @@ public class Ward : MonoBehaviour
     private float timer = 0;
 
     [SerializeField] GameObject mesh;
-
     [SerializeField] Transform rangePreview;
+
+    Waypoint myWaypoint;
+    [SerializeField] GameObject prefabWaypoint;
+
+    [SerializeField] float timePingDisplay = 2;
+    [SerializeField] float cdPing = 5;
+
+    private void Awake()
+    {
+        //myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+    }
+
     private void FixedUpdate()
     {
         if (landed)
@@ -80,7 +91,42 @@ public class Ward : MonoBehaviour
             landed = true;
 
             rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
+
+            //myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
         }
+    }
+
+
+    Coroutine currentPing;
+    Dictionary<ushort, float> oldPing = new Dictionary<ushort, float>();
+
+    public void PingPlayerInWard(ushort id)
+    {
+        if (!oldPing.ContainsKey(id) || oldPing[id] >= cdPing + GameManager.Instance.timer)
+        {
+            if (!oldPing.ContainsKey(id))
+            {
+                oldPing.Add(id, GameManager.Instance.timer);
+            }
+            else
+            {
+                oldPing[id] = GameManager.Instance.timer;
+            }
+
+            StartCoroutine(PingPlayer());
+        }
+    }
+
+    IEnumerator PingPlayer()
+    {
+        //play sound + circle sound feedback
+
+
+        myWaypoint.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(timePingDisplay);
+
+        myWaypoint.gameObject.SetActive(false);
     }
 
     public Fow GetFow()

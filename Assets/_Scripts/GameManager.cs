@@ -37,7 +37,7 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Timer")]
     private bool timeStart = false;
-    private float timer = 0;
+    public float timer = 0;
 
     [Header("Camera")]
     public Camera defaultCam;
