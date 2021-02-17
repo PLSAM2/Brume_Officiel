@@ -125,7 +125,7 @@ public class UIPlayerManager : MonoBehaviour
 
                     if(WxLife.material == grayMat)
                     {
-                        switch (myLocalPlayer.myPlayerModule.teamIndex)
+                        switch (GameFactory.GetReferentialPlayerTeam(myLocalPlayer.myPlayerModule.teamIndex))
                         {
                             case Team.red:
                                 WxLife.material = redMat;

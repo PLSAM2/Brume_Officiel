@@ -34,8 +34,10 @@ public class AutoKill : MonoBehaviour
 		isOwner = myNetworkObject.GetIsOwner();
 		myteam = ownerTeam;
 
-
-		DisplayMesh();
+        if (isUsingTeamMesh)
+        {
+			DisplayMesh();
+		}
 
 		if (spawnSound)
 		{
