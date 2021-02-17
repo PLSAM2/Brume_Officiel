@@ -492,6 +492,7 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
+		return false;
 		//marké par la shili donc go ping
 		if (cursedByShili)
 			return true;
