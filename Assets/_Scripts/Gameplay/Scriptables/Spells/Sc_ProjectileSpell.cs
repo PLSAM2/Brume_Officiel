@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 [CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell/ShootSpell")]
 public class Sc_ProjectileSpell : Sc_Spell
 {
-	public float fakeRange;
 	[Header("ProjectileParameters")]
 	[TabGroup("ProjectileSpecifications")] public DamagesInfos damagesToDeal;
 
@@ -36,6 +35,7 @@ public class Sc_ProjectileSpell : Sc_Spell
 	[TabGroup("ProjectileSpecifications")] public bool destroyProjectiles = false;
 
 	[TabGroup("ProjectileSpecifications")] public ushort bouncingNumber;
+	[TabGroup("ProjectileSpecifications")] public float fakeRange;
 	bool willBounce => bouncingNumber != 0;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;

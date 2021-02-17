@@ -13,10 +13,10 @@ public class ModuleProjectileSpell : SpellModule
 	float timeBetweenShot = 0;
 	List<ArrowPreview> myPreviewArrow;
 
-    [SerializeField] GameObject fxCanalisation;
-    [SerializeField] GameObject fxRecalShoot;
+	[SerializeField] GameObject fxCanalisation;
+	[SerializeField] GameObject fxRecalShoot;
 
-    protected override void FixedUpdate ()
+	protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
 
@@ -41,8 +41,9 @@ public class ModuleProjectileSpell : SpellModule
 			myLiveSalve = localTrad.salveInfos;
 
 			myPreviewArrow = new List<ArrowPreview>();
-			for (int i = 0; i < localTrad.salveInfos.numberOfShotInSalve; i++)
+			for (int i = 0; i <= localTrad.bouncingNumber; i++)
 			{
+				print("ol,gszeo,foze,fz");
 				ArrowPreview _temp = PreviewManager.Instance.GetArrowPreview();
 				myPreviewArrow.Add(_temp);
 			}
@@ -72,44 +73,44 @@ public class ModuleProjectileSpell : SpellModule
 		myLiveSalve = localTrad.salveInfos;
 	}
 
-    public override void StartCanalysingFeedBack()
-    {
-        base.StartCanalysingFeedBack();
+	public override void StartCanalysingFeedBack ()
+	{
+		base.StartCanalysingFeedBack();
 
-        if (fxCanalisation)
-        {
-            fxCanalisation.SetActive(true);
-        }
-    }
+		if (fxCanalisation)
+		{
+			fxCanalisation.SetActive(true);
+		}
+	}
 
-    public override void ResolutionFeedBack()
-    {
-        base.ResolutionFeedBack();
+	public override void ResolutionFeedBack ()
+	{
+		base.ResolutionFeedBack();
 
-        if (fxCanalisation)
-        {
-            fxCanalisation.SetActive(false);
-        }
+		if (fxCanalisation)
+		{
+			fxCanalisation.SetActive(false);
+		}
 
-        if (fxRecalShoot)
-        {
-            fxRecalShoot.SetActive(true);
-        }
-    }
+		if (fxRecalShoot)
+		{
+			fxRecalShoot.SetActive(true);
+		}
+	}
 
-    public override void ThrowbackEndFeedBack()
-    {
-        base.ThrowbackEndFeedBack();
+	public override void ThrowbackEndFeedBack ()
+	{
+		base.ThrowbackEndFeedBack();
 
-        if (fxRecalShoot)
-        {
-            fxRecalShoot.SetActive(false);
-        }
-    }
+		if (fxRecalShoot)
+		{
+			fxRecalShoot.SetActive(false);
+		}
+	}
 
-    //shootingPart
-    #region 
-    protected virtual Vector3 PosToInstantiate ()
+	//shootingPart
+	#region 
+	protected virtual Vector3 PosToInstantiate ()
 	{
 		Vector3 _temp = transform.forward * .1f + transform.position;
 		_temp.y = 0;
@@ -166,21 +167,30 @@ public class ModuleProjectileSpell : SpellModule
 	protected override void UpdatePreview ()
 	{
 		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
-		float _angleToAdd = localTrad.angleToSplit / localTrad.salveInfos.numberOfShotInSalve;
 
-		for (int i = 0; i < localTrad.salveInfos.numberOfShotInSalve; i++)
+		RaycastHit _hit;
+		int bounce = 0;
+		Vector3 _baseDirection = Quaternion.AngleAxis(_baseAngle, Vector3.up) * myPlayerModule.directionOfTheMouse();
+		if (Physics.Raycast(transform.position, _baseDirection, out _hit, localTrad.fakeRange, 1 << 9))
 		{
-			RaycastHit _hit;
-			if (Physics.Raycast(transform.position, Quaternion.AngleAxis(_baseAngle, Vector3.up) * myPlayerModule.directionOfTheMouse(), out _hit, localTrad.prefab.myLivelifeTime * localTrad.prefab.speed, 1 << 9))
-			{
-				myPreviewArrow[i].Init(transform.position, _hit.point, .1f);
-				print(_hit.point);
-			}
-			else
-				myPreviewArrow[i].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.range)), .1f);
+			myPreviewArrow[bounce].Init(transform.position, _hit.point, .1f);
 
-			_baseAngle += _angleToAdd;
+			myPreviewArrow[bounce].gameObject.SetActive(true);
+
+			RaycastHit _newHit;
+			if (localTrad.bouncingNumber > 0 && Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
+				myPreviewArrow[bounce + 1].Init(_hit.point, _newHit.point, .1f);
+			else
+				myPreviewArrow[bounce + 1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
 		}
+		else
+		{
+			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), .1f);
+			for (int i = 1; i < myPreviewArrow.Count; i++)
+				myPreviewArrow[i].gameObject.SetActive(false);
+		}
+
+
 		base.UpdatePreview();
 	}
 
