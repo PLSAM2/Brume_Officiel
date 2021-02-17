@@ -64,6 +64,18 @@ public class Displayer : MonoBehaviour
                         GameManager.Instance.visiblePlayer[player.Value.transform] == fowType.ward)
             {
                 ShowOutline(player.Value);
+
+                if(player.Value.myPlayerModule.isInBrume == currentFollowPlayer.myPlayerModule.isInBrume)
+                {
+                    if (GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule) || player.Value.myPlayerModule.isInBrume == false)
+                    {
+                        HideOrShow(player.Value, true);
+                    }
+                    else
+                    {
+                        HideOrShow(player.Value, false);
+                    }
+                }
                 continue;
             }
 
