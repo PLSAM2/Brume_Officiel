@@ -863,6 +863,32 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
+
+
+	public SpellModule ModuleLinkedToInput (En_SpellInput _inputOfTheSpell)
+	{
+		switch(_inputOfTheSpell)
+		{
+			case En_SpellInput.FirstSpell:
+				return firstSpell;
+
+			case En_SpellInput.SecondSpell:
+				return secondSpell;
+
+			case En_SpellInput.ThirdSpell:
+				return thirdSpell;
+
+			case En_SpellInput.Click:
+				return leftClick;
+
+			case En_SpellInput.Ward:
+				return ward;
+			case En_SpellInput.TP:
+				return tpModule;
+		}
+
+		return pingModule;
+	}
 }
 
 [System.Flags]

@@ -41,7 +41,7 @@ public class ModuleProjectileSpell : SpellModule
 			myLiveSalve = localTrad.salveInfos;
 
 			myPreviewArrow = new List<ArrowPreview>();
-			for (int i = 0; i <= localTrad.bouncingNumber; i++)
+			for (int i = 0; i < 1; i++)
 			{
 				ArrowPreview _temp = PreviewManager.Instance.GetArrowPreview();
 				myPreviewArrow.Add(_temp);
@@ -56,20 +56,6 @@ public class ModuleProjectileSpell : SpellModule
 		shotRemainingInSalve = myLiveSalve.NumberOfSalve;
 		shooting = true;
 		ShootSalve();
-	}
-
-	protected override void UpgradeSpell ()
-	{
-		base.UpgradeSpell();
-		myLiveSalve.timeToResolveTheSalve += localTrad.durationAdded;
-		myLiveSalve.NumberOfSalve += localTrad.bonusSalve;
-		myLiveSalve.numberOfShotInSalve += localTrad.bonusShot;
-	}
-
-	protected override void ReturnToNormal ()
-	{
-		base.ReturnToNormal();
-		myLiveSalve = localTrad.salveInfos;
 	}
 
 	public override void StartCanalysingFeedBack ()
@@ -168,23 +154,28 @@ public class ModuleProjectileSpell : SpellModule
 		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
 
 		RaycastHit _hit;
-		int bounce = 0;
 		Vector3 _baseDirection = Quaternion.AngleAxis(_baseAngle, Vector3.up) * myPlayerModule.directionOfTheMouse();
-		if (Physics.Raycast(transform.position, _baseDirection, out _hit, localTrad.fakeRange, 1 << 9))
-		{
-			myPreviewArrow[bounce].Init(transform.position, _hit.point, .1f);
 
-			myPreviewArrow[bounce].gameObject.SetActive(true);
-			 if(localTrad.bouncingNumber > 0)
+		
+		if (Physics.SphereCast(transform.position, 
+			localTrad.prefab.collisionSize.x,
+			transform.forward,
+			out _hit,
+			localTrad.fakeRange,
+			1 << 9))
+		{
+			myPreviewArrow[0].Init(transform.position, _hit.point, .1f);
+			myPreviewArrow[0].gameObject.SetActive(true);
+
+			if (localTrad.bouncingNumber > 0)
 			{
 
 				RaycastHit _newHit;
-			if (Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
-				myPreviewArrow[bounce + 1].Init(_hit.point, _newHit.point, .1f);
-			else
-				myPreviewArrow[bounce + 1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
+				if (Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
+					myPreviewArrow[1].Init(_hit.point, _newHit.point, .1f);
+				else
+					myPreviewArrow[1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
 			}
-
 		}
 		else
 		{
