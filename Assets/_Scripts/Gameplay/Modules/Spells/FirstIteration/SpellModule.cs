@@ -99,6 +99,11 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.backToNormalKit += ReturnToNormal;
 			UiManager.Instance.UpdateDescription(_actionLinked, spell.spellName, spell.cooldown.ToString(), spell.spellDescription);
 		}
+
+        if (spell.useUltStacks)
+        {
+            myPlayerModule.mylocalPlayer.ultiMax = spell.stacksUltUsed;
+        }
 	}
 	public virtual void Disable ()
 	{
@@ -323,7 +328,7 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.useUltStacks)
 		{
-			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
+			RoomManager.Instance.TryUseUltStacks(spell.stacksUltUsed);
 		}
 	}
 	public virtual void DecreaseCooldown ()
@@ -358,7 +363,7 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual bool canBeCast ()
 	{
-		if (spell.useUltStacks && spell.stacksUsed > RoomManager.Instance.GetPlayerUltStacks(NetworkManager.Instance.GetLocalPlayer().ID))
+		if (spell.useUltStacks && spell.stacksUltUsed > RoomManager.Instance.GetPlayerUltStacks(NetworkManager.Instance.GetLocalPlayer().ID))
 		{
 			return false;
 		}

@@ -104,13 +104,17 @@ public class GameFactory
         return Random.Range(min, max);
     }
 
-    public static ushort GetMaxLifeOfPlayer(ushort id)
+    public static ushort GetMaxLifeOfPlayer(Character champ)
     {
-        if (GameManager.Instance.networkPlayers.ContainsKey(id))
+        switch (champ)
         {
-            return GameManager.Instance.networkPlayers[id].myPlayerModule.characterParameters.maxHealth;
+            case Character.WuXin:
+                return 5;
+            case Character.Re:
+                return 4;
+            case Character.Leng:
+                return 6;
         }
-
         return 0;
     }
 
@@ -337,4 +341,19 @@ public class GameFactory
         return layermask == (layermask | (1 << layer));
     }
 
+    public static UltiBar GetMyUltiBar()
+    {
+        switch (NetworkManager.Instance.GetLocalPlayer().playerCharacter)
+        {
+            case Character.WuXin:
+                return UiManager.Instance.parentUltiWX;
+
+            case Character.Re:
+                return UiManager.Instance.parentUltiRE;
+
+            case Character.Leng:
+                return UiManager.Instance.parentUltiLENG;
+        }
+        return null;
+    }
 }
