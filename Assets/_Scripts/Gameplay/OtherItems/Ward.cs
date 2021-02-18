@@ -113,14 +113,17 @@ public class Ward : MonoBehaviour
                 oldPing[id] = GameManager.Instance.timer;
             }
 
-            StartCoroutine(PingPlayer());
+            StartCoroutine(PingPlayer(id));
         }
     }
 
-    IEnumerator PingPlayer()
+    IEnumerator PingPlayer(ushort id)
     {
         //play sound + circle sound feedback
-
+        if (GameManager.Instance.networkPlayers.ContainsKey(id))
+        {
+            UiManager.Instance.uIPingModule.Ping(true, GameManager.Instance.networkPlayers[id].transform.position);
+        }
 
         myWaypoint.gameObject.SetActive(true);
 
