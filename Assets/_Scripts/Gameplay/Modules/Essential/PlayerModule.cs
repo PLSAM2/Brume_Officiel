@@ -67,9 +67,8 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("Debugging")] [ReadOnly] public int brumeId;
 	Vector3 lastRecordedPos;
 
-	//ghost
-	[TabGroup("Debugging")] public bool isInGhost = false;
-	[TabGroup("Debugging")] [SerializeField] Color enemyTeamColor, myTeamColor, myColor;
+
+	[TabGroup("Debugging")] [SerializeField] Color myColor;
 	bool _isCrouched = false;
 	bool isCrouched
 	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
@@ -155,6 +154,7 @@ public class PlayerModule : MonoBehaviour
 
 		if (mylocalPlayer.isOwner)
 		{
+			GameManager.Instance.playerJoinedAndInit = true;
 			GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
 		}
 		//	oldPos = transform.position;
@@ -492,6 +492,7 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
+		return false;
 		//marké par la shili donc go ping
 		if (cursedByShili)
 			return true;

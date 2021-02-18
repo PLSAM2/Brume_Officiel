@@ -22,25 +22,6 @@ public class Displayer : MonoBehaviour
     {
         LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
-        /*
-        if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule.isInGhost)
-        {
-            if (GameManager.Instance.currentLocalGhost.isInBrume)
-            {
-                SetFow(currentFollowPlayer, false);
-            }
-            else
-            {
-                if (currentFollowPlayer.myPlayerModule.isInBrume)
-                {
-                    SetFow(currentFollowPlayer, false);
-                }else
-                {
-                    SetFow(currentFollowPlayer, true);
-                }
-            }
-        }*/
-
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
             if (currentFollowPlayer == null)
@@ -59,15 +40,7 @@ public class Displayer : MonoBehaviour
                 }
             }
 
-            /*
-            //InGhost
-            if (currentFollowPlayer == player.Value && currentFollowPlayer.myPlayerModule.isInGhost)
-            {
-                //HideOrShow(player.Value, GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform));
-                continue;
-            }*/
-
-            if (currentFollowPlayer == player.Value && !currentFollowPlayer.myPlayerModule.isInGhost) {
+            if (currentFollowPlayer == player.Value) {
                 HideOrShow(player.Value, true);
                 SetFow(player.Value, true);
                 continue;
@@ -86,6 +59,22 @@ public class Displayer : MonoBehaviour
                 }
                 continue;
             }
+
+            if(GameManager.Instance.visiblePlayer.ContainsKey(player.Value.transform) &&
+                        GameManager.Instance.visiblePlayer[player.Value.transform] == fowType.ward)
+            {
+                ShowOutline(player.Value);
+
+                if(player.Value.myPlayerModule.isInBrume == currentFollowPlayer.myPlayerModule.isInBrume)
+                {
+                    if (GameFactory.PlayersAreOnSameBrume(player.Value.myPlayerModule, currentFollowPlayer.myPlayerModule) || player.Value.myPlayerModule.isInBrume == false)
+                    {
+                        HideOrShow(player.Value, true);
+                    }
+                }
+                continue;
+            }
+
 
             if (currentFollowPlayer.myPlayerModule.isInBrume)
             {

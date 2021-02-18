@@ -186,35 +186,94 @@ public class MovementModule : MonoBehaviour
 
 	public Vector3 FreeLocation ( Vector3 _locationToFindFrom, float maxRange )
 	{
-		if (Physics.Raycast(_locationToFindFrom + Vector3.up *50,Vector3.down, 60, dashBlockingLayer))
+		Collider[] _hits;
+		_locationToFindFrom.y = 0;
+
+		_hits = Physics.OverlapCapsule(_locationToFindFrom + Vector3.down * 10, _locationToFindFrom + Vector3.up * 10, chara.radius, dashBlockingLayer);
+		if (_hits.Length > 0)
 		{
-			Vector3 _direction = (_locationToFindFrom - transform.position).normalized;
+			print("I touchSomething");
+			return TryToFindFreePos(_locationToFindFrom, 1);
+		}
+		else
+		{
+			Debug.DrawLine(_locationToFindFrom + Vector3.down * 10, _locationToFindFrom + Vector3.up * 10, Color.red, 1000);
+			return _locationToFindFrom;
+		}
+	}
 
-			//	Vector3 _direction = (transform.position - _locationToFindFrom).normalized;
-			RaycastHit _closestHit;
-			//trouver le bord de collider dans la direction du joueur
-			if (Physics.Raycast(_locationToFindFrom, _direction, out _closestHit, 100, dashBlockingLayer))
+	/*
+	if (Physics.Raycast(_locationToFindFrom + Vector3.up *50,Vector3.down, 60, dashBlockingLayer))
+	{
+		Vector3 _direction = (_locationToFindFrom - transform.position).normalized;
+
+		//	Vector3 _direction = (transform.position - _locationToFindFrom).normalized;
+		RaycastHit _closestHit;
+		//trouver le bord de collider dans la direction du joueur
+		if (Physics.Raycast(_locationToFindFrom, _direction, out _closestHit, 100, dashBlockingLayer))
+		{
+			//trouver le bord de collider dans la direction inverse du joueur
+			RaycastHit _farthestHit;
+			if (Physics.Raycast(_locationToFindFrom, -_direction, out _farthestHit, 100, dashBlockingLayer))
 			{
-				//trouver le bord de collider dans la direction inverse du joueur
-				RaycastHit _farthestHit;
-				if (Physics.Raycast(_locationToFindFrom, -_direction, out _farthestHit, 100, dashBlockingLayer))
-				{
 
-					if (Vector3.Distance(_closestHit.point, _locationToFindFrom) > Vector3.Distance(_farthestHit.point, _locationToFindFrom))
-						return _farthestHit.point - _direction * chara.radius;
-					else
-						return _closestHit.point + _direction * chara.radius;
-				}
+				if (Vector3.Distance(_closestHit.point, _locationToFindFrom) > Vector3.Distance(_farthestHit.point, _locationToFindFrom))
+					return _farthestHit.point - _direction * chara.radius;
 				else
 					return _closestHit.point + _direction * chara.radius;
 			}
 			else
-				return transform.position;
+				return _closestHit.point + _direction * chara.radius;
+		}
+		else
+			return transform.position;
+	}
+	else
+	{
+		print("PosIsFree");
+		return _locationToFindFrom;
+	}*/
+
+	Vector3 TryToFindFreePos ( Vector3 _locationToFindFrom, int _iteration )
+	{
+		Collider[] _hits;
+		Vector3 posToCheck = _locationToFindFrom + (transform.position - _locationToFindFrom).normalized * _iteration * chara.radius;
+
+		_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
+			posToCheck + Vector3.up * 10,
+			chara.radius,
+			dashBlockingLayer);
+
+		Debug.DrawLine(posToCheck + Vector3.down * 10 ,
+			posToCheck + Vector3.up * 10 ,
+			Color.red,
+			100);
+
+		if (_hits.Length == 0)
+		{
+			print("iteration " + _iteration);
+			return posToCheck;
 		}
 		else
 		{
-			print("PosIsFree");
-			return _locationToFindFrom;
+
+			posToCheck = _locationToFindFrom - (transform.position - _locationToFindFrom).normalized * _iteration * chara.radius;
+			_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10 ,
+			posToCheck + Vector3.up * 10,
+			chara.radius,
+			dashBlockingLayer);
+
+			Debug.DrawLine(posToCheck + Vector3.down * 10,
+						posToCheck + Vector3.up * 10,
+						Color.red,
+						100);
+
+			if (_hits.Length == 0)
+			{
+				return posToCheck;
+			}
+			else
+				return TryToFindFreePos(_locationToFindFrom, _iteration + 1);
 		}
 	}
 	/*void StopRunning()

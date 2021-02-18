@@ -79,7 +79,7 @@ public class ChatControl : MonoBehaviour
         if (isFocused)
         {
             NoClickImage.SetActive(false);
-        }
+        } 
         if (isFocused == false)
         {
             if (stunnedStateGive == true)

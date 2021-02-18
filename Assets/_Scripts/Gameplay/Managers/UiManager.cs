@@ -398,7 +398,7 @@ public class UiManager : MonoBehaviour
 	{
 		waitForMinimapUpdate = true;
 		yield return new WaitForSeconds(0.1f);
-		cameraMinimap.Render();
+		//cameraMinimap.Render();
 		waitForMinimapUpdate = false;
 	}
 
@@ -593,6 +593,8 @@ public class UiManager : MonoBehaviour
 
 	public void CantCastFeedback ( En_SpellInput _spellInput )
 	{
+
+		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound,.3f);
 		switch (_spellInput)
 		{
 			case En_SpellInput.FirstSpell:
@@ -616,7 +618,32 @@ public class UiManager : MonoBehaviour
 				break;
 
 		}
+	}
 
+	public void CooldownReady ( En_SpellInput _spellInput )
+	{
+		switch (_spellInput)
+		{
+			case En_SpellInput.FirstSpell:
+				firstSpell.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.SecondSpell:
+				secondSpell.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.ThirdSpell:
+				thirdSpell.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.Click:
+				autoAttackIcon.CooldownReadyFeedback();
+				break;
+
+			case En_SpellInput.TP:
+				tp.CooldownReadyFeedback();
+				break;
+		}
 	}
 
 	public void StatusUpdate ( En_CharacterState _currentState )

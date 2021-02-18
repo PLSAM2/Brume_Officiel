@@ -14,10 +14,10 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject canvas;
     [TabGroup("Ui")] public Quaternion canvasRot;
     [TabGroup("Ui")] public TextMeshProUGUI nameText;
-    [TabGroup("Ui")] public TextMeshProUGUI lifeCount;
-    [TabGroup("Ui")] public Image lifeImg;
-    [TabGroup("Ui")] public Image lifeDamageImg;
     [TabGroup("Ui")] public GameObject feedbackCounter;
+    [TabGroup("Ui")] public Transform parentListLife;
+    [TabGroup("Ui")] public GameObject prefabLifeBar;
+    List<Image> allBarLife = new List<Image>();
 
     [Header("WX Compass")]
     [TabGroup("Ui")] public GameObject WxCompass;
@@ -36,7 +36,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject pointerObj;
     [TabGroup("Ui")] public Quaternion compassRot;
     [TabGroup("Ui")] public LocalPlayer wxRef;
-    [TabGroup("Ui")] public Material greenMat, redMat, grayMat;
+    [TabGroup("Ui")] public Material blueMat, redMat, grayMat;
 
     [Header("State")]
     [TabGroup("UiState")] public GameObject statePart;
@@ -47,6 +47,8 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("UiState")] public GameObject RootIcon;
     [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon, Eye_Spot;
 
+
+    Material currentColorTeam;
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
@@ -58,22 +60,16 @@ public class UIPlayerManager : MonoBehaviour
     {
         nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
-        switch (myLocalPlayer.myPlayerModule.teamIndex)
+        currentColorTeam = redMat;
+        if(GameFactory.GetReferentialPlayerTeam( myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
         {
-            case Team.red:
-                nameText.material = redMat;
-                lifeDamageImg.material = greenMat;
-                lifeImg.material = redMat;
-                WxLife.material = redMat;
-                break;
-
-            case Team.blue:
-                nameText.material = greenMat;
-                lifeDamageImg.material = redMat;
-                lifeImg.material = greenMat;
-                WxLife.material = greenMat;
-                break;
+            currentColorTeam = blueMat;
         }
+
+        nameText.material = currentColorTeam;
+        WxLife.material = currentColorTeam;
+
+        SpawnLifeBar();
 
         if (myLocalPlayer.isOwner)
         {
@@ -86,6 +82,16 @@ public class UIPlayerManager : MonoBehaviour
         }
     }
 
+    void SpawnLifeBar()
+    {
+        for(int i=0; i < GameFactory.GetMaxLifeOfPlayer(myLocalPlayer.myPlayerId); i++)
+        {
+            Image img = Instantiate(prefabLifeBar, parentListLife).GetComponent<Image>();
+            img.material = currentColorTeam;
+            allBarLife.Add(img);
+        }
+    }
+
     private void LateUpdate()
     {
         canvas.transform.rotation = canvasRot;
@@ -94,17 +100,23 @@ public class UIPlayerManager : MonoBehaviour
 
     public void UpdateLife()
     {
-        //Update UI
-        lifeCount.text = myLocalPlayer.liveHealth.ToString();
-        lifeImg.fillAmount = (float)myLocalPlayer.liveHealth / GameFactory.GetMaxLifeOfPlayer(myLocalPlayer.myPlayerId);
+        int i = 0;
+        foreach(Image img in allBarLife)
+        {
+            if(i < myLocalPlayer.liveHealth)
+            {
+                img.material = currentColorTeam;
+            }
+            else
+            {
+                img.material = grayMat;
+            }
+            i++;
+        }
     }
 
     private void Update()
     {
-        //ui life
-        lifeDamageImg.fillAmount = Mathf.Lerp(lifeDamageImg.fillAmount, lifeImg.fillAmount, 3 * Time.deltaTime);
-
-
         //compase rota
         if (myLocalPlayer.allCharacterSpawned)
         {
@@ -125,14 +137,14 @@ public class UIPlayerManager : MonoBehaviour
 
                     if(WxLife.material == grayMat)
                     {
-                        switch (myLocalPlayer.myPlayerModule.teamIndex)
+                        switch (GameFactory.GetReferentialPlayerTeam(myLocalPlayer.myPlayerModule.teamIndex))
                         {
                             case Team.red:
                                 WxLife.material = redMat;
                                 break;
 
                             case Team.blue:
-                                WxLife.material = greenMat;
+                                WxLife.material = blueMat;
                                 break;
                         }
 

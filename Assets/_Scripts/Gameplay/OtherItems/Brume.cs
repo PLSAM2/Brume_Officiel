@@ -61,23 +61,19 @@ public class Brume : MonoBehaviour
             if(ward == null) { continue; }
             bool fogValue = false;
 
-            if (GameFactory.PlayerWardAreOnSameBrume(_player, ward))
+            if (_player.isInBrume == ward.isInBrume)
             {
-                fogValue = true;
-            }
-            else
-            {
-                if (_player.isInBrume)
-                {
-                    fogValue = false;
-                }
-                else
+                if (GameFactory.PlayerWardAreOnSameBrume(_player, ward) || _player.isInBrume == false)
                 {
                     fogValue = true;
                 }
+                else
+                {
+                    fogValue = false;
+                }
             }
 
-            ward.GetFow().gameObject.SetActive(fogValue);
+            ward.GetMesh().SetActive(fogValue);
         }
     }
 

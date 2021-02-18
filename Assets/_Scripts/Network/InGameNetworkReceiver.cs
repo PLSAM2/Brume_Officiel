@@ -12,11 +12,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 	private static InGameNetworkReceiver _instance;
 	public static InGameNetworkReceiver Instance { get { return _instance; } }
 
-	//Spawn
-	[SerializeField] GameObject prefabShili;
-	[SerializeField] GameObject prefabYang;
-	[SerializeField] GameObject prefabYin;
-
 	// int numberOfPlayerToSpawn;
 	// <<
 
@@ -56,12 +51,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 		using (Message message = e.GetMessage() as Message)
 		{
-
-			if (message.Tag == Tags.SpawnObjPlayer)
-			{
-				SpawnPlayerObj(sender, e);
-			}
-			else if (message.Tag == Tags.MovePlayerTag)
+			if (message.Tag == Tags.MovePlayerTag)
 			{
 				SendPlayerMove(sender, e);
 			}
@@ -285,7 +275,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 				float _time = reader.ReadSingle();
 
-				LocalPoolManager.Instance.SpawnNewAOELocal(_id, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+				LocalPoolManager.Instance.SpawnNewAOELocal(_id, new Vector3(_posX, 0, _posZ), _rota, _scale, _time,GameManager.Instance.networkPlayers[_id].myPlayerModule.teamIndex);
 			}
 		}
 	}
@@ -354,109 +344,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 	}
 
 
-	void SpawnPlayerObj ( object _sender, MessageReceivedEventArgs _e )
-	{
-		using (Message message = _e.GetMessage())
-		{
-			using (DarkRiftReader reader = message.GetReader())
-			{
-				ushort id = reader.ReadUInt16();
-				bool isResurecting = reader.ReadBoolean();
-
-				if (GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
-
-				Vector3 spawnPos = Vector3.zero;
-
-				if (!isResurecting)
-				{
-					foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
-					{
-						if (spawn.CanSpawn())
-						{
-							spawnPos = spawn.transform.position;
-						}
-					}
-				}
-				else
-				{
-					bool emptySpace = false;
-
-					foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
-					{
-						if (spawn.CanSpawn())
-						{
-							emptySpace = true;
-							spawnPos = spawn.transform.position;
-						}
-					}
-
-					if (!emptySpace)
-					{
-						spawnPos = GameManager.Instance.resSpawns[1].transform.position;
-					}
-				}
-
-
-				GameObject obj = null;
-
-				switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
-				{
-					case Character.WuXin:
-						obj = Instantiate(prefabShili, spawnPos, Quaternion.identity);
-						break;
-
-					case Character.Re:
-						obj = Instantiate(prefabYang, spawnPos, Quaternion.identity);
-						break;
-
-					case Character.Leng:
-						obj = Instantiate(prefabYin, spawnPos, Quaternion.identity);
-						break;
-					default:
-						using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-						{
-							using (Message _message = Message.Create(Tags.AskForStopGame, _writer))
-							{
-								client.SendMessage(_message, SendMode.Reliable);
-							}
-						}
-						throw new Exception("CHARACTER NONE LORS DU LANCEMENT D'UNE PARTIE");
-				}
-
-				LocalPlayer myLocalPlayer = obj.GetComponent<LocalPlayer>();
-				myLocalPlayer.myPlayerId = id;
-				myLocalPlayer.isOwner = client.ID == id;
-				myLocalPlayer.Init(client, true);
-
-
-
-				if (myLocalPlayer.isOwner)
-				{
-					GameManager.Instance.currentLocalPlayer = myLocalPlayer;
-
-					if (isResurecting)
-						myLocalPlayer.myPlayerModule.Setup();
-
-				}
-
-				GameManager.Instance.networkPlayers.Add(id, myLocalPlayer);
-
-				GameManager.Instance.OnPlayerSpawn?.Invoke(id);
-
-				if (isResurecting)
-				{
-					GameManager.Instance.OnPlayerRespawn?.Invoke(id);
-
-					if (myLocalPlayer.isOwner)
-					{
-						TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
-						_tp.TpOnRes();
-					}
-				}
-
-			}
-		}
-	}
 
 
 	void SendSpawnChamp ()
