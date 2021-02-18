@@ -226,7 +226,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (!isOwner) { return; }
 
-		if (lastPosition != transform.position || lastRotation != transform.localEulerAngles)
+		if (Vector3.Distance(lastPosition,transform.position) > 0.01f || Vector3.Distance(lastRotation,transform.localEulerAngles) > 1f)
 		{
 			lastPosition = transform.position;
 			lastRotation = transform.localEulerAngles;

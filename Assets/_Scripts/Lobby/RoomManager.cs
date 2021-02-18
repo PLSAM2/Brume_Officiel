@@ -158,6 +158,7 @@ public class RoomManager : MonoBehaviour
             if (GameManager.Instance.networkPlayers.ContainsKey((ushort)_wxID))
             {
                 LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
+                _wx.myPlayerModule.willListenInputs = false;
                 _wx.ForceDealDamages(_wx.liveHealth);
             }
 
@@ -208,10 +209,12 @@ public class RoomManager : MonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
             UiManager.Instance.EndGamePanel(true, 1, winningTeam);
+            EndObjectives(true);
         }
         else
         {
             UiManager.Instance.EndGamePanel(false, 1, winningTeam);
+            EndObjectives(false);
         }
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
