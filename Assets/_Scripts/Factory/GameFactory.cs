@@ -34,7 +34,7 @@ public class GameFactory
         }
     }
 
-    public static Color GetReferentialPlayerTeamColor(Team playerTeam)
+    public static Color GetRelativeColor(Team playerTeam)
     {
         if (NetworkManager.Instance.GetLocalPlayer() != null)
         {
