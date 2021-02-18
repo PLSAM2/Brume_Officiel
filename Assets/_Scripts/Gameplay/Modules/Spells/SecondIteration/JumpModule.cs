@@ -27,6 +27,8 @@ public class JumpModule : SpellModule
 	{
 		if(canStartCanalisation() && willResolve)
 		{
+			myPlayerModule.AddState(En_CharacterState.Integenbility);
+			myPlayerModule.AddState(En_CharacterState.Root);
 			jumpPosStart = transform.position;
 			jumpPosEnd = transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(myPlayerModule.mousePos(), transform.position), 0, spell.range);
 			jumpPosEnd.y = 0;
@@ -44,16 +46,15 @@ public class JumpModule : SpellModule
 
 	protected override void ResolveSpell ()
 	{
-		myPlayerModule.AddState(En_CharacterState.Integenbility);
-		myPlayerModule.AddState(En_CharacterState.Root);
+		myPlayerModule.RemoveState(En_CharacterState.Integenbility);
+		myPlayerModule.RemoveState(En_CharacterState.Root);
 		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), transform.position, transform.eulerAngles, 1);
 		base.ResolveSpell();
 	}
 
 	public override void Interrupt ()
 	{
-		myPlayerModule.RemoveState(En_CharacterState.Integenbility);
-		myPlayerModule.RemoveState(En_CharacterState.Root);
+
 		base.Interrupt();
 	}
 
