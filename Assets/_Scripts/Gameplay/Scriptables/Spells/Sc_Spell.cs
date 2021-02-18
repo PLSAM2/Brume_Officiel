@@ -13,7 +13,7 @@ public class Sc_Spell : ScriptableObject
 	[TabGroup("Generic SpellParameters")] public int numberOfCharge = 1;
 	[TabGroup("Generic SpellParameters")] public En_CharacterState forbiddenState = En_CharacterState.Canalysing | En_CharacterState.Silenced;
 	[TabGroup("Generic SpellParameters")] public bool useUltStacks = false;
-	[TabGroup("Generic SpellParameters")] [ShowIf("useUltStacks")] public ushort stacksUltUsed = 0;
+	[TabGroup("Generic SpellParameters")] [ShowIf("useUltStacks")] public ushort stacksUsed = 0;
 
 	[Header("StartCanalisation")]
 	[TabGroup("Generic SpellParameters")] public bool lockRotOnCanalisation = true;
