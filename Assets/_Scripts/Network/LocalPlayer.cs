@@ -574,11 +574,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void SendSpawnAOEFx ( ushort _id, Vector3 _pos, float _rota, float _scale, float _time )
+	public void SendSpawnAOEFx ( ushort _idType, Vector3 _pos, float _rota, float _scale, float _time )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write(_id);
+            _writer.Write(_idType);
 
 			_writer.Write(_pos.x);
 			_writer.Write(_pos.z);
