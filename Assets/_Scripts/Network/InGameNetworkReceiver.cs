@@ -277,7 +277,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 				float _time = reader.ReadSingle();
 
                 print(_idPlayer);
-				LocalPoolManager.Instance.SpawnNewAOELocal(_idPlayer, _idType, new Vector3(_posX, 0, _posZ), _rota, _scale, _time,GameManager.Instance.networkPlayers[_idType].myPlayerModule.teamIndex);
+				LocalPoolManager.Instance.SpawnNewAOELocal(_idPlayer, _idType, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
 			}
 		}
 	}

@@ -32,9 +32,7 @@ public class Projectile : AutoKill
 	ushort bouncingNumberLive;
 
 	bool isBox = false;
-	Vector3 collisionSize;
-
-	public Action velocityChanged;
+	[HideInInspector] public Vector3 collisionSize;
 
 	public override void Init ( Team ownerTeam, float _lifePercentage )
 	{
@@ -105,7 +103,7 @@ public class Projectile : AutoKill
 			{
 				bouncingNumberLive--;
 				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
-				transform.LookAt(transform.position +  Vector3.Reflect(transform.forward, _coll.GetContact(0).normal.normalized));
+				transform.LookAt(transform.position + Vector3.Reflect(transform.forward, _coll.GetContact(0).normal.normalized));
 
 				if (isBox)
 				{

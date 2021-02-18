@@ -12,10 +12,8 @@ public class SpellModule : MonoBehaviour
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
 	[ReadOnly] public float timeToResolveSpell;
 	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
-	[ReadOnly]
 	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
 	float _cooldown = 0;
-	[ReadOnly]
 	public float cooldown
 	{
 		get => _cooldown; set
@@ -27,7 +25,6 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 	private int _charges;
-
 	[ReadOnly]
 	public int charges
 	{
@@ -37,14 +34,14 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 			/*if (_charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();*/
-			if (isOwner)
+			if (isOwner && _charges>0)
 			{
-				UpdateUiCharge();
-				ChargeUpdate?.Invoke(charges);
+
+				SpellAvaible?.Invoke();
+				//ChargeUpdate?.Invoke(charges);
 			}
 		}
 	}
-
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
 	public Sc_Spell spell;
 	protected En_SpellInput actionLinked;
@@ -53,25 +50,23 @@ public class SpellModule : MonoBehaviour
 	protected bool isOwner = false;
 	public bool isAComboPiece = false;
 	[HideInInspector] public bool hasPreviewed;
-
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
 	public AudioClip canalisationClip;
 	public AudioClip anonciationClip;
 
-	public Action<int> ChargeUpdate;
-
-	private void OnEnable ()
-	{
-		LocalPlayer.disableModule += Disable;
-	}
+	//public Action<int> ChargeUpdate;
+	public Action SpellAvaible, SpellNotAvaible;
 
 	[Header("FeedBackSpell")]
 	public GameObject objectToActivateOnCanlisation;
 	public GameObject objectToActivateOnAnnonciation, objectToActivateOnResolution;
-
-	//setup & inputs
+	
+	private void OnEnable ()
+	{
+		LocalPlayer.disableModule += Disable;
+	}
 	public virtual void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
@@ -90,14 +85,9 @@ public class SpellModule : MonoBehaviour
 		if (isOwner)
 		{
 			LinkInputs(_actionLinked);
-			UiManager.Instance.SetupIcon(spell, _actionLinked);
-
-
 			charges = spell.numberOfCharge;
 			//action 
-			myPlayerModule.upgradeKit += UpgradeSpell;
-			myPlayerModule.backToNormalKit += ReturnToNormal;
-			UiManager.Instance.UpdateDescription(_actionLinked, spell.spellName, spell.cooldown.ToString(), spell.spellDescription);
+			UiManager.Instance.SetupIcon(_actionLinked, spell);
 		}
 
         if (spell.useUltStacks)
@@ -110,8 +100,6 @@ public class SpellModule : MonoBehaviour
 		if (isOwner)
 		{
 			DelinkInput();
-			myPlayerModule.upgradeKit -= UpgradeSpell;
-			myPlayerModule.backToNormalKit -= ReturnToNormal;
 		}
 	}
 	protected virtual void FixedUpdate ()
@@ -152,23 +140,7 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
-	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
-	{
-		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
-		if (isUsed)
-		{
-			anonciated = true;
-			currentTimeCanalised = FinalAnonciationTime();
-			FeedbackSpellStep(En_SpellStep.Annonciation);
 
-			if (spell.lockRotOnAnonciation)
-				myPlayerModule.rotationLock(true);
-
-
-			if (spell.LockPosOnAnonciation)
-				myPlayerModule.AddState(En_CharacterState.Root);
-		}
-	}
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 		if (canStartCanalisation() && willResolve)
@@ -176,7 +148,7 @@ public class SpellModule : MonoBehaviour
 			Canalyse(_BaseMousePos);
 		}
 		else
-			UiManager.Instance.CantCastFeedback(actionLinked);
+			SpellNotAvaible?.Invoke();
 	}
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
@@ -215,13 +187,22 @@ public class SpellModule : MonoBehaviour
 
 		}
 	}
-	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
+	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
-		Canalyse(_BaseMousePos);
-	}
-	protected virtual void ApplyCanalisationEffect ()
-	{
-		myPlayerModule.AddState(En_CharacterState.Canalysing);
+		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
+		if (isUsed)
+		{
+			anonciated = true;
+			currentTimeCanalised = FinalAnonciationTime();
+			FeedbackSpellStep(En_SpellStep.Annonciation);
+
+			if (spell.lockRotOnAnonciation)
+				myPlayerModule.rotationLock(true);
+
+
+			if (spell.LockPosOnAnonciation)
+				myPlayerModule.AddState(En_CharacterState.Root);
+		}
 	}
 	protected virtual void Resolution ()
 	{
@@ -255,6 +236,40 @@ public class SpellModule : MonoBehaviour
 				statusToStopAtTheEnd.Add(_statusToAdd);
 				myPlayerModule.AddStatus(_statusToAdd.effect);
 			}
+	}
+
+
+	protected virtual void DecreaseCharge ()
+	{
+		charges -= 1;
+
+		if (spell.useUltStacks)
+		{
+			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
+		}
+	}
+	public virtual void DecreaseCooldown ()
+	{
+		if (charges < spell.numberOfCharge)
+		{
+			if (cooldown <= spell.cooldown)
+				cooldown += Time.fixedDeltaTime;
+			else
+			{
+				cooldown = 0;
+				AddCharge();
+			}
+		}
+	}
+
+
+	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
+	{
+		Canalyse(_BaseMousePos);
+	}
+	protected virtual void ApplyCanalisationEffect ()
+	{
+		myPlayerModule.AddState(En_CharacterState.Canalysing);
 	}
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
@@ -322,28 +337,7 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 		Interrupt();
 	}
-	protected virtual void DecreaseCharge ()
-	{
-		charges -= 1;
 
-		if (spell.useUltStacks)
-		{
-			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
-		}
-	}
-	public virtual void DecreaseCooldown ()
-	{
-		if (charges < spell.numberOfCharge)
-		{
-			if (cooldown <= spell.cooldown)
-				cooldown += Time.fixedDeltaTime;
-			else
-			{
-				cooldown = 0;
-				AddCharge();
-			}
-		}
-	}
 	protected virtual void AddCharge ()
 	{
 		if (isOwner)
@@ -353,8 +347,6 @@ public class SpellModule : MonoBehaviour
 		}
 		charges++;
 	}
-	protected virtual void UpgradeSpell () { }
-	protected virtual void ReturnToNormal () { }
 	public void ReduceCooldown ( float _durationShorten )
 	{
 		if (charges < spell.numberOfCharge)
@@ -504,6 +496,7 @@ public class SpellModule : MonoBehaviour
 		if (objectToActivateOnResolution != null)
 			objectToActivateOnResolution.SetActive(false);
 	}
+
 	//inputs subscribing
 	#region
 	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
@@ -625,11 +618,6 @@ public class SpellModule : MonoBehaviour
 	{
 		if (!isAComboPiece)
 			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
-	}
-	protected virtual void UpdateUiCharge ()
-	{
-		if (!isAComboPiece)
-			UiManager.Instance.UpdateChargesUi(charges, actionLinked);
 	}
 	#endregion
 

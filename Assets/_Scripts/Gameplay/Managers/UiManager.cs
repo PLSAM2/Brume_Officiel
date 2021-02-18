@@ -443,68 +443,36 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	public void UpdateDescription(En_SpellInput _spell, string _name, string _cooldownText, string _description)
+	public void SetupIcon(En_SpellInput _spell,Sc_Spell _spellToTooltip)
 	{
 		switch (_spell)
 		{
 			case En_SpellInput.FirstSpell:
-				firstSpell.SetupTooltip(_name, _cooldownText, _description);
+				firstSpell.SetupIcon(_spell,_spellToTooltip);
 				break;
 
 			case En_SpellInput.SecondSpell:
-				secondSpell.SetupTooltip(_name, _cooldownText, _description);
+				secondSpell.SetupIcon(_spell,_spellToTooltip);
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				thirdSpell.SetupTooltip(_name, _cooldownText, _description);
+				thirdSpell.SetupIcon(_spell,_spellToTooltip);
 				break;
 
 			case En_SpellInput.Maj:
-				sprintIcon.SetupTooltip(_name, _cooldownText, _description);
+				sprintIcon.SetupIcon(_spell,_spellToTooltip);
 				break;
 
 			case En_SpellInput.Click:
-				autoAttackIcon.SetupTooltip(_name, _cooldownText, _description);
+				autoAttackIcon.SetupIcon(_spell,_spellToTooltip);
 				break;
 
 			case En_SpellInput.Ward:
-				wardIcon.SetupTooltip(_name, _cooldownText, _description);
+				wardIcon.SetupIcon(_spell,_spellToTooltip);
 				break;
 
 			case En_SpellInput.TP:
-				tp.SetupTooltip(_name, _cooldownText, _description);
-				break;
-		}
-	}
-
-	public void SetupIcon ( Sc_Spell _spellAttached, En_SpellInput _input )
-	{
-		switch (_input)
-		{
-			case En_SpellInput.FirstSpell:
-				firstSpell.SetSprite(_spellAttached.spellIcon);
-				break;
-
-			case En_SpellInput.SecondSpell:
-				secondSpell.SetSprite(_spellAttached.spellIcon);
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				thirdSpell.SetSprite(_spellAttached.spellIcon);
-				break;
-
-			case En_SpellInput.Maj:
-				break;
-
-			case En_SpellInput.Click:
-				autoAttackIcon.SetSprite(_spellAttached.spellIcon);
-				break;
-			case En_SpellInput.Ward:
-				wardIcon.SetSprite(_spellAttached.spellIcon);
-				break;
-
-			case En_SpellInput.TP:
-				tp.SetSprite(_spellAttached.spellIcon);
+				tp.SetupIcon(_spell,_spellToTooltip);
 				break;
 		}
 	}
