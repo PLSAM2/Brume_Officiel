@@ -16,6 +16,7 @@ public class IconUi : MonoBehaviour
 	Vector2 basePos;
 	[TabGroup("Tooltip")] public GameObject wholeTooltip;
 	[TabGroup("Tooltip")] public TextMeshProUGUI myDescription, myName, myCdText;
+	En_SpellInput inputLinked;
 
 	private void Start ()
 	{
@@ -23,15 +24,24 @@ public class IconUi : MonoBehaviour
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
 		CooldownReadyFeedback();
 	}
-
-	public void SetSprite ( Sprite _icon )
+	public void SetupIcon( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip)
 	{
-		icon.sprite = _icon;
-	}
+		inputLinked = _inputLinked;
+		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible += CooldownReadyFeedback;
+		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible += CantCastFeedback;
 
+		myName.text = _spellToToolTip.spellName;
+		myCdText.text = _spellToToolTip.cooldown + "s";
+		myDescription.text = _spellToToolTip.spellDescription;
+		icon.sprite = _spellToToolTip.spellIcon;
+	}
+	private void OnDisable ()
+	{
+		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible -= CooldownReadyFeedback;
+		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
+	}
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
 	{
-
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
@@ -41,23 +51,12 @@ public class IconUi : MonoBehaviour
 		else
 		{
 			cooldownCount.text = "";
-
 		}
-
 	}
-
-	public void SetupTooltip(string _name, string _cooldown, string _description)
-	{
-		myName.text = _name;
-		myCdText.text = _cooldown + "s";
-		myDescription.text = _description;
-	}
-
 	public void UpdatesChargesAmont ( int _numberOfCharges )
 	{
 		//chargesSpot.text = _numberOfCharges.ToString();
 	}
-
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
@@ -69,14 +68,12 @@ public class IconUi : MonoBehaviour
 		feedbackCantCast.rectTransform.DOScale(1f, 1.5f);
 		feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
 	}
-
 	public void CooldownReadyFeedback ()
 	{
 		ResetIcon();
 		outlineIcon.color = new Color(248, 189, 67, 255);
 		myRectTransform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
 	}
-
 	public void ResetIcon ()
 	{
 		myRectTransform.DOKill();
@@ -87,7 +84,6 @@ public class IconUi : MonoBehaviour
 		feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
 		feedbackCantCast.color = _color;
 	}
-
 	public void HideIcon ( bool _hiding )
 	{/*
 		myRectTransform.DOKill();
@@ -102,17 +98,15 @@ public class IconUi : MonoBehaviour
 			myRectTransform.DOAnchorPos(basePos, .4f);
 		}*/
 	}
-
 	public void SetupInputName ( string _name )
 	{
 		input.text = _name;
 	}
-
-	public void ShowIcon()
+	public void ShowTooltip()
 	{
 		wholeTooltip.SetActive(true);
 	}
-	public void HideIcon ()
+	public void HideToolTip ()
 	{
 		wholeTooltip.SetActive(false);
 	}

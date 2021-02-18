@@ -192,7 +192,6 @@ public class MovementModule : MonoBehaviour
 		_hits = Physics.OverlapCapsule(_locationToFindFrom + Vector3.down * 10, _locationToFindFrom + Vector3.up * 10, chara.radius, dashBlockingLayer);
 		if (_hits.Length > 0)
 		{
-			print("I touchSomething");
 			return TryToFindFreePos(_locationToFindFrom, 1);
 		}
 		else
