@@ -89,11 +89,6 @@ public class SpellModule : MonoBehaviour
 			//action 
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
 		}
-
-        if (spell.useUltStacks)
-        {
-            myPlayerModule.mylocalPlayer.ultiMax = spell.stacksUsed;
-        }
 	}
 	public virtual void Disable ()
 	{

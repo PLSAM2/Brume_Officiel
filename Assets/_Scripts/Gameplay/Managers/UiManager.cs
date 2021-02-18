@@ -513,23 +513,9 @@ public class UiManager : MonoBehaviour
 		waitingForPlayersPanel.SetActive(false);
 
         //InitUlti
-        foreach(PlayerData p in GameFactory.GetAllPlayerInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)){
-
-            switch (p.playerCharacter)
-            {
-                case Character.WuXin:
-                    parentUltiWX.Init(GameManager.Instance.networkPlayers[p.ID].ultiMax);
-                    break;
-
-                case Character.Re:
-                    parentUltiRE.Init(GameManager.Instance.networkPlayers[p.ID].ultiMax);
-                    break;
-
-                case Character.Leng:
-                    parentUltiLENG.Init(GameManager.Instance.networkPlayers[p.ID].ultiMax);
-                    break;
-            }
-        }
+        parentUltiWX.Init(GameData.ultiMaxWX);
+        parentUltiRE.Init(GameData.ultiMaxRE);
+        parentUltiLENG.Init(GameData.ultiMaxLENG);
     }
 
     void OnPlayerUltiChange(ushort _player, ushort _number)

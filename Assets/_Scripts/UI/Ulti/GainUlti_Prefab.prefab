@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4226400439996733077}
   - component: {fileID: 5921675478248659113}
+  - component: {fileID: 6232824320805175681}
+  - component: {fileID: 8165154525543328425}
   m_Layer: 5
   m_Name: GainUlti_Prefab
   m_TagString: Untagged
@@ -62,3 +64,32 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6232824320805175681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902162433929212609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77570914d34cb9a46a79e95ec9874e8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabUltiElement: {fileID: 8238338128589463800, guid: 2943fce6ff3934344b94131a89c2ecc2, type: 3}
+  myCanvasGroup: {fileID: 8165154525543328425}
+  moveSpeed: 1
+  startSize: 40
+  endSize: 12
+--- !u!225 &8165154525543328425
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902162433929212609}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

@@ -29,8 +29,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	[TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
 
-    public ushort ultiMax = 0;
-
 	[ReadOnly]
 	public ushort liveHealth
 	{
