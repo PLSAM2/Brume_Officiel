@@ -224,7 +224,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (!isOwner) { return; }
 
-		if (lastPosition != transform.position || lastRotation != transform.localEulerAngles)
+		if (Vector3.Distance(lastPosition,transform.position) > 0.01f || Vector3.Distance(lastRotation,transform.localEulerAngles) > 1f)
 		{
 			lastPosition = transform.position;
 			lastRotation = transform.localEulerAngles;
@@ -574,11 +574,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void SendSpawnAOEFx ( ushort _id, Vector3 _pos, float _rota, float _scale, float _time )
+	public void SendSpawnAOEFx ( ushort _idType, Vector3 _pos, float _rota, float _scale, float _time )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write(_id);
+            _writer.Write(_idType);
 
 			_writer.Write(_pos.x);
 			_writer.Write(_pos.z);
