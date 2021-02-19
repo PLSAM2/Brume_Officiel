@@ -16,10 +16,10 @@ MonoBehaviour:
   cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
-  stacksUsed: 7
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 0.5
+  stacksUsed: 0
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 1.5
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
@@ -28,7 +28,7 @@ MonoBehaviour:
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
+  throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
   spellName: Corruption Core
   spellDescription: Leng creates a wide wave moving slowly over a huge range which
@@ -37,13 +37,13 @@ MonoBehaviour:
     playerName: 
     damageHealth: 0
     statusToApply:
-    - {fileID: 11400000, guid: 92f8f58d81a5fd6498eea40f4f4cb3b8, type: 2}
+    - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 9f503d9d4895bfd4f984a7e6b01f0410, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: 46d7ba2305bc0b84195896207166d0f7, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
     serializedVersion: 2
@@ -69,7 +69,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalSize: {x: 9, y: 1, z: 1}
+  finalSize: {x: 1, y: 1, z: 1}
   scaleCurve:
     serializedVersion: 2
     m_Curve:
@@ -98,12 +98,12 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1.75
+    timeToReachMaxRange: 1.25
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0
-  fakeRange: 0
+  fakeRange: 14
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
