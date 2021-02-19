@@ -592,7 +592,6 @@ public class RoomManager : MonoBehaviour
 
     internal void TryUseUltStacks(ushort stacksUsed)
     {
-        print(stacksUsed);
         ushort pId = NetworkManager.Instance.GetLocalPlayer().ID;
         if (!GameManager.Instance.networkPlayers.ContainsKey(pId)) { return; }
 
