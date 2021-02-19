@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyingProjectile : MonoBehaviour
 {
-    [SerializeField] PlayerModule myPlayerModule;
+    public PlayerModule myPlayerModule;
 	float radius;
 
 	private void Awake ()
@@ -19,7 +19,10 @@ public class DestroyingProjectile : MonoBehaviour
 
 		foreach(Collider _coll in _temp)
 		{
-			_coll.GetComponent<Projectile>().Destroy(false);
+			if(!_coll.GetComponent<Damageable>().IsInMyTeam(myPlayerModule.teamIndex))
+			{
+				_coll.GetComponent<Projectile>().Destroy(false);
+			}
 		}
 	}
 }

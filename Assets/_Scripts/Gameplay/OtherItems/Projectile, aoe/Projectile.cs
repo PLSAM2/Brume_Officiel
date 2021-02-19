@@ -140,7 +140,9 @@ public class Projectile : AutoKill
 
 	void OnTriggerEnter ( Collider _coll )
 	{
-		if (_coll.tag == "DestroyProj")
+		DestroyingProjectile _destroyProj = _coll.GetComponent< DestroyingProjectile>();
+
+		if (_destroyProj!=null && !_destroyProj.myPlayerModule.mylocalPlayer.IsInMyTeam(myteam))
 			Destroy(false);
 
 		Damageable _damageableHit = _coll.gameObject.GetComponent<Damageable>();
