@@ -10,7 +10,7 @@ Material:
   m_Name: M_PI_Guirlandes
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
   m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _MOVINGGRAIN_ON
-    _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON _WINDVERTEXDISPLACEMENT_ON
+    _MOVINGPAPER_ON _RIMLIGHT_CUSTOMNORMAL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -152,6 +152,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureArray_Grunges:
+        m_Texture: {fileID: 18700000, guid: 649e428ece482fe499fbfc248f5c6460, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Noises:
+        m_Texture: {fileID: 18700000, guid: 829b1744df5e7e1438fda8b5bb926ccc, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Textures:
+        m_Texture: {fileID: 18700000, guid: d22ffc10222807745bf5b2482a9d89c6, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample15:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TopTex_Albedo_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -170,17 +186,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _AnimatedGrunge: 0
+    - _AnimatedGrunge: 1
     - _AnimatedGrungeMultiply: 1.58
-    - _AnimatedGrunge_Flipbook_Columns: 1
-    - _AnimatedGrunge_Flipbook_Rows: 1
-    - _AnimatedGrunge_Flipbook_Speed: 1
-    - _AnimatedGrunge_Tiling: 1
+    - _AnimatedGrunge_Flipbook_Columns: 4
+    - _AnimatedGrunge_Flipbook_Rows: 4
+    - _AnimatedGrunge_Flipbook_Speed: 6
+    - _AnimatedGrunge_Tiling: 4
     - _BaseColor: 0
     - _BumpScale: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
     - _CustomRimLight_Opacity: 1
+    - _CustomRimLight_Texture: 0
     - _CustomWorldSpaceNormal: 1
     - _Cutoff: 0.5
     - _DebugGrayscale: 0
@@ -211,7 +228,7 @@ Material:
     - _InkSplatter: 0
     - _InkSplatter_Tiling: 3.93
     - _InverseCustomOpacityMask: 0
-    - _IsGrungeAnimated: 0
+    - _IsGrungeAnimated: 1
     - _LightDebug: 0
     - _Metallic: 0
     - _Mode: 0
@@ -220,10 +237,10 @@ Material:
     - _Noise_Tiling: 10
     - _NormalDebug: 0
     - _NormalDrippingNoise_Smoothstep: 0
-    - _NormalDrippingNoise_Step: 0.469
+    - _NormalDrippingNoise_Step: 0.461
     - _NormalDrippingNoise_Tiling: 1
-    - _NormalInBrumeGrunge_Contrast: -6.1
-    - _NormalInBrumeGrunge_Tiling: 1
+    - _NormalInBrumeGrunge_Contrast: -4
+    - _NormalInBrumeGrunge_Tiling: 2
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _OpacityTexture: 1
@@ -250,10 +267,10 @@ Material:
     - _SSS_Scale: 0.46
     - _ScreenBasedNoise: 0
     - _ShadowDrippingNoise_Smoothstep: 0.003
-    - _ShadowDrippingNoise_Step: 0
+    - _ShadowDrippingNoise_Step: 0.2
     - _ShadowDrippingNoise_Transition: 0
-    - _ShadowInBrumeGrunge_Contrast: -61.98
-    - _ShadowInBrumeGrunge_Tiling: 1
+    - _ShadowInBrumeGrunge_Contrast: -30
+    - _ShadowInBrumeGrunge_Tiling: 0.2
     - _Shininess: 1
     - _SmoothnessTextureChannel: 0
     - _Specular: 0
@@ -261,6 +278,7 @@ Material:
     - _SpecularHighlights: 1
     - _SpecularNoise: 1
     - _SpecularStepMax: 1
+    - _SpecularTexture: 0
     - _Specular_Multiplier: 1
     - _SpeculartStepMin: 0
     - _SrcBlend: 1
@@ -273,23 +291,23 @@ Material:
     - _TerrainBlending_Opacity: 0
     - _TerrainBlending_TextureTiling: 1
     - _TopTex: 0
-    - _TopTex_NoiseHoles: 0
+    - _TopTex_NoiseHoles: 1
     - _TopTex_NoiseTiling: 1
     - _TopTex_Smoothstep: 0.3
-    - _TopTex_Step: 0
+    - _TopTex_Step: 0.6
     - _UVSec: 0
     - _Wave_Speed: 0
-    - _WindVertexDisplacement: 1
+    - _WindVertexDisplacement: 0
     - _Wind_Density: 0.2
     - _Wind_Direction: 1
-    - _Wind_Strength: 0.002
+    - _Wind_Strength: 2
     - _Wind_Texture_Tiling: 0.5
     - _ZWrite: 1
     - __dirty: 0
     - _edgeNoise_Attenuation1: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorShadow: {r: 0.15094328, g: 0.15094328, b: 0.15094328, a: 0}
+    - _ColorShadow: {r: 0.15094334, g: 0.15094334, b: 0.15094334, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowDirection: {r: 1, g: 1, b: 0, a: 0}

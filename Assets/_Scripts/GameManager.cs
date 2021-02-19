@@ -200,10 +200,12 @@ public class GameManager : SerializedMonoBehaviour
 
     void OnPlayerTakeDamage(ushort idPlayer, ushort _damage)
     {
+        /*
         if (GameFactory.CheckIfPlayerIsInView(idPlayer))
         {
             LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f, _damage.ToString(), Color.red, 0.5f);
         }
+        */
     }
 
     public void QuitGame()

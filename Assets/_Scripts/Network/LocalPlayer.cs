@@ -62,8 +62,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public bool forceShow = false;
 	public bool isTp = false;
 
-    //ThirdEye
-    [SerializeField] GameObject waypointEnemyPrefab;
+	//ThirdEye
+	[SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
 	private void Awake ()
@@ -224,7 +224,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (!isOwner) { return; }
 
-		if (Vector3.Distance(lastPosition,transform.position) > 0.01f || Vector3.Distance(lastRotation,transform.localEulerAngles) > 1f)
+		if (Vector3.Distance(lastPosition, transform.position) > 0.01f || Vector3.Distance(lastRotation, transform.localEulerAngles) > 1f)
 		{
 			lastPosition = transform.position;
 			lastRotation = transform.localEulerAngles;
@@ -409,8 +409,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			if (!ignoreTickStatus)
 			{
-                if (GameFactory.GetLocalPlayerObj() != null)
-                {
+				if (GameFactory.GetLocalPlayerObj() != null)
+				{
 					if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
 					{
 						SendStatus(myPlayerModule.poisonousEffect);
@@ -449,12 +449,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
 		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
+			if (isOwner)
+				UiManager.Instance.FeedbackHit();
+
 			if ((int)liveHealth - (int)damages <= 0)
 			{
 				if (isOwner)
 				{
-				
-
 					if (dealerID != null)
 					{
 						KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
@@ -478,13 +479,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <summary>
 	/// DO NOT use this until YOU KNOW what you do :)
 	/// </summary>
-	public void ForceDealDamages(ushort dmg)
-    {
+	public void ForceDealDamages ( ushort dmg )
+	{
 		if ((int)liveHealth - (int)dmg <= 0)
 		{
 			liveHealth = 0;
-		} else
-        {
+		}
+		else
+		{
 			int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)dmg, 0, 1000);
 			liveHealth = (ushort)_tempHp;
 		}
@@ -578,7 +580,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-            _writer.Write(_idType);
+			_writer.Write(_idType);
 
 			_writer.Write(_pos.x);
 			_writer.Write(_pos.z);
@@ -747,18 +749,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		return myPlayerModule.teamIndex == _indexTested;
 	}
 
-    Waypoint waypointThirdEye;
-	public void MarkThirdEye(bool _activate)
+	Waypoint waypointThirdEye;
+	public void MarkThirdEye ( bool _activate )
 	{
-        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
-        {
-            // LES YEUx
-            myUiPlayerManager.Eye_Spot.SetActive(_activate);
-        }
-        else
-        {
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+		{
+			// LES YEUx
+			myUiPlayerManager.Eye_Spot.SetActive(_activate);
+		}
+		else
+		{
 			WxController _temp = GameManager.Instance.currentLocalPlayer.GetComponent<WxController>();
-			if(_temp != null)
+			if (_temp != null)
 			{
 				if (_activate)
 				{
@@ -776,9 +778,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 				forceOutline = _activate;
 			}
-        }
-      
-    }
+		}
+
+	}
 }
 
 public interface Damageable
