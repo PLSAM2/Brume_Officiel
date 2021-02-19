@@ -288,7 +288,7 @@ public class UiManager : MonoBehaviour
 
     void SetLife(int numberLife, List<Image> imgs)
     {
-        int i = 0;
+        int i = 1;
         foreach(Image img in imgs)
         {
             if(i <= numberLife)
@@ -518,6 +518,7 @@ public class UiManager : MonoBehaviour
 
         //InitUlti
         ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
+        //print(RoomManager.Instance.GetPlayerData((ushort)wxId).ultStacks);
         parentUltiWX.Init(GameData.ultiMaxWX, wxId != null ? RoomManager.Instance.GetPlayerData((ushort) wxId).ultStacks : (ushort) 0);
 
         ushort? reId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Re);

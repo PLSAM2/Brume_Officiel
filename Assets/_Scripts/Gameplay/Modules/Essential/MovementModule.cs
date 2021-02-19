@@ -250,7 +250,6 @@ public class MovementModule : MonoBehaviour
 
 		if (_hits.Length == 0)
 		{
-			print("iteration " + _iteration);
 			return posToCheck;
 		}
 		else

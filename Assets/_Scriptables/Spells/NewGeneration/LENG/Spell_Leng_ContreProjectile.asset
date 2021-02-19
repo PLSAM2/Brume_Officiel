@@ -10,34 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_Leng_Ult_Placeholder
+  m_Name: Spell_Leng_ContreProjectile
   m_EditorClassIdentifier: 
-  range: 14
-  cooldown: 0
+  range: 12
+  cooldown: 7
   numberOfCharge: 1
   forbiddenState: 48
-  stacksUsed: 6
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 0.5
-  statusToApplyOnCanalisation: []
+  stacksUsed: 0
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 1.5
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 7bed56c0cd4f8ac4e95b60580fcc33fe, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.25
+  anonciationTime: 0.3
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
-  spellIcon: {fileID: 21300000, guid: b5fffadc70703cc4db30ec42e18751b1, type: 3}
+  throwBackDuration: 0
+  spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
   spellName: Corruption Core
   spellDescription: Leng creates a wide wave moving slowly over a huge range which
     roots enemies touched by it.
   damagesToDeal:
     playerName: 
-    damageHealth: 0
+    damageHealth: 1
     statusToApply:
     - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
@@ -50,22 +52,22 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      value: 0.5
+      inSlope: 1.135005
+      outSlope: 1.135005
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.07780784
     - serializedVersion: 3
-      time: 1
+      time: 1.001648
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      inSlope: 0.016822739
+      outSlope: 0.016822739
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.3118991
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -98,14 +100,14 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1.75
+    timeToReachMaxRange: 0.75
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0
-  fakeRange: 0
+  fakeRange: 14
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 0
+  diesOnPlayerTouch: 1
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 0}
