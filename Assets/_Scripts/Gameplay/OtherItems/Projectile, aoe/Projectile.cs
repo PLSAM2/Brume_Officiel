@@ -140,11 +140,6 @@ public class Projectile : AutoKill
 
 	void OnTriggerEnter ( Collider _coll )
 	{
-		DestroyingProjectile _destroyProj = _coll.GetComponent< DestroyingProjectile>();
-
-		if (_destroyProj!=null && !_destroyProj.myPlayerModule.mylocalPlayer.IsInMyTeam(myteam))
-			Destroy(false);
-
 		Damageable _damageableHit = _coll.gameObject.GetComponent<Damageable>();
 
 		if (_damageableHit != null)
@@ -173,16 +168,20 @@ public class Projectile : AutoKill
 				return;
 			}
 		}
-		else if (localTrad.destroyProjectiles)
+		/*else if (localTrad.destroyProjectiles)
 		{
 			Projectile _proj = _coll.GetComponent<Projectile>();
 			if (_proj != null)
 			{
 				_proj.Destroy(true);
 			}
-		}
-		else if (localTrad.diesOnWallTrigger)
+		}*/
+		else if (localTrad.diesOnWallTrigger && _coll.tag != "DestroyProj")
+		{
+			print(_coll.tag);
+
 			Destroy(true);
+		}
 	}
 
 
