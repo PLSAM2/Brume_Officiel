@@ -288,7 +288,7 @@ public class UiManager : MonoBehaviour
 
     void SetLife(int numberLife, List<Image> imgs)
     {
-        int i = 0;
+        int i = 1;
         foreach(Image img in imgs)
         {
             if(i <= numberLife)
