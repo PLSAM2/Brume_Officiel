@@ -167,7 +167,7 @@ public class ModuleProjectileSpell : SpellModule
 			myPreviewArrow[0].Init(transform.position, _hit.point, .1f);
 			myPreviewArrow[0].gameObject.SetActive(true);
 
-			if (localTrad.bouncingNumber > 0)
+		/*	if (localTrad.bouncingNumber > 0)
 			{
 
 				RaycastHit _newHit;
@@ -175,13 +175,13 @@ public class ModuleProjectileSpell : SpellModule
 					myPreviewArrow[1].Init(_hit.point, _newHit.point, .1f);
 				else
 					myPreviewArrow[1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
-			}
+			}*/
 		}
 		else
 		{
 			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), .1f);
-			for (int i = 1; i < myPreviewArrow.Count; i++)
-				myPreviewArrow[i].gameObject.SetActive(false);
+			myPreviewArrow[1].gameObject.SetActive(true);
+
 		}
 
 

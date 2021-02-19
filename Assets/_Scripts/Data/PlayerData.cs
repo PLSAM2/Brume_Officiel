@@ -11,6 +11,7 @@ public class PlayerData : IDarkRiftSerializable
     public bool IsHost { get; set; }
     public string Name { get; set; }
     public bool IsReady { get; set; }
+    public ushort ultStacks { get; set; }
 
     public Team playerTeam = Team.none;
 
@@ -22,6 +23,7 @@ public class PlayerData : IDarkRiftSerializable
         this.IsHost = false;
         this.Name = "NULL";
         this.playerTeam = Team.none;
+        this.ultStacks = 0;
     }
 
     public void ResetGameData()
@@ -30,6 +32,7 @@ public class PlayerData : IDarkRiftSerializable
         playerTeam = Team.none;
         IsReady = false;
         IsHost = false;
+        ultStacks = 0;
         InGameUniqueID = 0;
     }
 
@@ -39,6 +42,7 @@ public class PlayerData : IDarkRiftSerializable
         this.IsHost = isHost;
         this.Name = name;
         this.playerTeam = team;
+        this.ultStacks = 0;
     }
 
     public void Deserialize(DeserializeEvent e)
@@ -47,6 +51,7 @@ public class PlayerData : IDarkRiftSerializable
         this.IsHost = e.Reader.ReadBoolean();
         this.Name = e.Reader.ReadString();
         this.IsReady = e.Reader.ReadBoolean();
+        this.ultStacks = e.Reader.ReadUInt16();
         this.playerTeam = (Team)e.Reader.ReadUInt16();
         this.playerCharacter = (Character)e.Reader.ReadUInt16();
     }
@@ -57,6 +62,7 @@ public class PlayerData : IDarkRiftSerializable
         e.Writer.Write(IsHost);
         e.Writer.Write(Name);
         e.Writer.Write(IsReady);
+        e.Writer.Write(ultStacks);
         e.Writer.Write((ushort)playerTeam);
         e.Writer.Write((ushort)playerCharacter);
     }

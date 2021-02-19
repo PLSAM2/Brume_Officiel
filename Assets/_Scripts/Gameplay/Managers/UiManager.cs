@@ -54,8 +54,6 @@ public class UiManager : MonoBehaviour
 	[Header("Team Info")]
 	[FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
 	[FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
-	[FoldoutGroup("TeamInfo")] public Image lifeYang, lifeShili, lifeYin;
-	[FoldoutGroup("TeamInfo")] public List<AllyIconUI> allyIconUIs = new List<AllyIconUI>();
 
 	[Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
@@ -71,7 +69,13 @@ public class UiManager : MonoBehaviour
 
     [Header("Ulti")]
     [FoldoutGroup("Ulti")] public UltiBar parentUltiWX, parentUltiRE, parentUltiLENG;
-    [FoldoutGroup("Ulti")] public GameObject prefabUltiPoint;
+    [FoldoutGroup("Ulti")] public FeedBackGainUlti feedBackUlti;
+    [FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
+    [FoldoutGroup("Ulti")] public Material blueColor, grayColor;
+    [FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
+    List<Image> wxImgLife = new List<Image>();
+    List<Image> reImgLife = new List<Image>();
+    List<Image> lengImgLife = new List<Image>();
 
     public Transform parentWaypoint;
 
@@ -108,17 +112,32 @@ public class UiManager : MonoBehaviour
 		enemyRe.color = killedColor;
 		enemyLeng.color = killedColor;
 
-		lifeShili.fillAmount = 0;
-		lifeYang.fillAmount = 0;
-		lifeYin.fillAmount = 0;
-	}
+        SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
+        SpawnLifeBar(parentLifeRE, reImgLife, Character.Re);
+        SpawnLifeBar(parentLifeLENG, lengImgLife, Character.Leng);
 
-	private void OnEnable ()
+        parentUltiWX.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin;
+        parentUltiRE.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.Re;
+        parentUltiLENG.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.Leng;
+    }
+
+    void SpawnLifeBar(Transform parent, List<Image> listImg, Character champ)
+    {
+        for (int i = 0; i < GameFactory.GetMaxLifeOfPlayer(champ); i++)
+        {
+            Image img = Instantiate(prefabLifeBar, parent).GetComponent<Image>();
+            img.material = grayColor;
+            listImg.Add(img);
+        }
+    }
+
+    private void OnEnable ()
 	{
 		GameManager.Instance.OnPlayerDie += OnPlayerDie;
 		GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
 		GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerSpawn += OnPlayerSpawn;
+        GameManager.Instance.OnPlayerUltiChange += OnPlayerUltiChange;
 	}
 
 	private void OnDisable ()
@@ -127,7 +146,8 @@ public class UiManager : MonoBehaviour
 		GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
 		GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerSpawn -= OnPlayerSpawn;
-	}
+        GameManager.Instance.OnPlayerUltiChange -= OnPlayerUltiChange;
+    }
 
 	private void Start ()
 	{
@@ -166,9 +186,9 @@ public class UiManager : MonoBehaviour
 
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			GetLifeImageOfTeamChamp(id).fillAmount = 1;
+            SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
 
-			if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
+            if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
 			{
 				if (GameFactory.IsOnMyTeam(id))
 				{
@@ -191,8 +211,7 @@ public class UiManager : MonoBehaviour
 
         if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			GetLifeImageOfTeamChamp(id).fillAmount = (float)GameManager.Instance.networkPlayers[id].liveHealth
-				/ GameFactory.GetMaxLifeOfPlayer(id);
+            SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
 		}
 	}
 
@@ -210,9 +229,8 @@ public class UiManager : MonoBehaviour
 		//UI Minimap info
 		if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			GetLifeImageOfTeamChamp(idKilled).fillAmount = 0;
-
-		}
+            SetLife(0, GetLifeImageOfTeamChamp(idKilled));
+        }
 
 		GetImageOfChamp(idKilled).color = killedColor;
 	}
@@ -263,24 +281,40 @@ public class UiManager : MonoBehaviour
         {
             if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
-                GetLifeImageOfTeamChamp(id).fillAmount = (float)GameManager.Instance.networkPlayers[id].liveHealth
-                    / GameFactory.GetMaxLifeOfPlayer(id);
+                SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
             }
         }
     }
 
-	Image GetLifeImageOfTeamChamp ( ushort id )
+    void SetLife(int numberLife, List<Image> imgs)
+    {
+        int i = 0;
+        foreach(Image img in imgs)
+        {
+            if(i <= numberLife)
+            {
+                img.material = blueColor;
+            }
+            else
+            {
+                img.material = grayColor;
+            }
+            i++;
+        }
+    }
+
+	List<Image> GetLifeImageOfTeamChamp ( ushort id )
 	{
 		switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
 		{
 			case Character.WuXin:
-				return lifeShili;
+				return wxImgLife;
 
 			case Character.Re:
-				return lifeYang;
+				return reImgLife;
 
 			case Character.Leng:
-				return lifeYin;
+				return lengImgLife;
 		}
 		return null;
 	}
@@ -318,8 +352,6 @@ public class UiManager : MonoBehaviour
 		return null;
 	}
 
-
-
 	private void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -355,31 +387,6 @@ public class UiManager : MonoBehaviour
 		}
 
 
-	}
-
-	internal void SetUltimateStacks ( ushort playerId, ushort v )
-	{
-		int index = 1;
-		switch (RoomManager.Instance.actualRoom.playerList[playerId].playerCharacter)
-		{
-			case Character.none:
-				throw new Exception("none character");
-			case Character.WuXin:
-				index = 0;
-				break;
-			case Character.Re:
-				index = 1;
-				break;
-			case Character.Leng:
-				index = 2;
-				break;
-			case Character.test:
-				throw new Exception("test character");
-			default:
-				throw new Exception("DEFAULT");
-		}
-
-		allyIconUIs[index].SetUltimateProgress(v);
 	}
 
 	internal void UnlockNewAltar ( Altar altar )
@@ -507,15 +514,31 @@ public class UiManager : MonoBehaviour
 
 	internal void AllPlayerJoinGameScene ()
 	{
-		foreach (KeyValuePair < ushort,ushort> pstacks in RoomManager.Instance.ultimateStack)
-        {
-			SetUltimateStacks(pstacks.Key, pstacks.Value);
-        }
-
 		waitingForPlayersPanel.SetActive(false);
-	}
 
-	public void UpdateChargesUi ( int _charges, En_SpellInput _spellInput )
+        //InitUlti
+        parentUltiWX.Init(GameData.ultiMaxWX);
+        parentUltiRE.Init(GameData.ultiMaxRE);
+        parentUltiLENG.Init(GameData.ultiMaxLENG);
+    }
+
+    void OnPlayerUltiChange(ushort _player, ushort _number)
+    {
+        switch (RoomManager.Instance.actualRoom.playerList[_player].playerCharacter)
+        {
+            case Character.WuXin:
+                parentUltiWX.SetValue(_number);
+                break;
+            case Character.Re:
+                parentUltiRE.SetValue(_number);
+                break;
+            case Character.Leng:
+                parentUltiLENG.SetValue(_number);
+                break;
+        }
+    }
+
+    public void UpdateChargesUi ( int _charges, En_SpellInput _spellInput )
 	{
 		switch (_spellInput)
 		{

@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class GameData
 {
+    public static ushort ultiMaxWX = 7;
+    public static ushort ultiMaxRE = 5;
+    public static ushort ultiMaxLENG = 6;
+
     public enum Team : ushort
     {
         none = 0,

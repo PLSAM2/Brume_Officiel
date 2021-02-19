@@ -25,7 +25,6 @@ public class GameManager : SerializedMonoBehaviour
     // <<
 
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
-    [HideInInspector] public Action AllCharacterSpawned;
 
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
@@ -76,6 +75,8 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<ushort, ushort> OnPlayerGetDamage;
     [HideInInspector] public Action<ushort> OnPlayerRespawn;
     [HideInInspector] public Action<ushort> OnPlayerSpawn;
+    [HideInInspector] public Action<ushort, ushort> OnPlayerUltiChange;
+    [HideInInspector] public Action OnAllCharacterSpawned;
 
     [HideInInspector] public Action<Ward> OnWardTeamSpawn;
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
@@ -172,7 +173,7 @@ public class GameManager : SerializedMonoBehaviour
     private void AllPlayerJoinGameScene()
     {
         UiManager.Instance.AllPlayerJoinGameScene();
-        AllCharacterSpawned?.Invoke();
+        OnAllCharacterSpawned?.Invoke();
         gameStarted = true;
     }
 

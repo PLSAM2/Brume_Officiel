@@ -141,8 +141,8 @@ public class PlayerModule : MonoBehaviour
 	void Awake ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
-		GameManager.Instance.AllCharacterSpawned += Setup;
-		GameManager.Instance.AllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
+		GameManager.Instance.OnAllCharacterSpawned += Setup;
+		GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 
 		//A VIRER QUAND C EST TROUVER.
 	}
@@ -162,8 +162,8 @@ public class PlayerModule : MonoBehaviour
 
 	private void OnDestroy ()
 	{
-		GameManager.Instance.AllCharacterSpawned -= Setup;
-		GameManager.Instance.AllCharacterSpawned -= mylocalPlayer.AllCharacterSpawn;
+		GameManager.Instance.OnAllCharacterSpawned -= Setup;
+		GameManager.Instance.OnAllCharacterSpawned -= mylocalPlayer.AllCharacterSpawn;
 		if (mylocalPlayer.isOwner)
 		{
 			rotationLock -= LockingRotation;
