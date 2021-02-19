@@ -26,7 +26,6 @@ public class RoomManager : MonoBehaviour
 
     [Header("ActualGameInfo")]
     public int roundCount = 0;
-    public Dictionary<ushort, ushort> ultimateStack = new Dictionary<ushort, ushort>();
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
     [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 
@@ -254,11 +253,6 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-        foreach (KeyValuePair<ushort, PlayerData> item in actualRoom.playerList.Where
-            (x => x.Value.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam))
-        {
-            ultimateStack.Add(item.Key, 0);
-        }
         SceneManager.LoadScene(loadingGameScene, LoadSceneMode.Single);
     }
 
@@ -512,7 +506,6 @@ public class RoomManager : MonoBehaviour
 
     public void ResetActualGame()
     {
-        ultimateStack.Clear();
 
         if (actualRoom != null && actualRoom.scores.ContainsKey(Team.red))
         {
@@ -575,18 +568,19 @@ public class RoomManager : MonoBehaviour
     {
         if (NetworkManager.Instance.GetLocalPlayer() == null) { return; }
 
+        PlayerData p = NetworkManager.Instance.GetLocalPlayer();
         if (actualRoom.playerList[playerId].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             if (set)
             {
-                ultimateStack[playerId] = value;
+                p.ultStacks = value;
             }
             else
             {
-                ultimateStack[playerId] += value;
+                p.ultStacks += value;
             }
 
-            GameManager.Instance.OnPlayerUltiChange(playerId, ultimateStack[playerId]);
+            GameManager.Instance.OnPlayerUltiChange(playerId, p.ultStacks);
         }
     }
 
@@ -596,7 +590,8 @@ public class RoomManager : MonoBehaviour
         ushort pId = NetworkManager.Instance.GetLocalPlayer().ID;
         if (!GameManager.Instance.networkPlayers.ContainsKey(pId)) { return; }
 
-        if (ultimateStack[pId] >= stacksUsed)
+        PlayerData p = NetworkManager.Instance.GetLocalPlayer();
+        if (p.ultStacks >= stacksUsed)
         {
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
@@ -616,7 +611,7 @@ public class RoomManager : MonoBehaviour
         if (!GameManager.Instance.networkPlayers.ContainsKey(id)) { return 0; }
         if (actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            return ultimateStack[id];
+            return actualRoom.playerList[id].ultStacks;
         }
 
         return 0;
