@@ -20,7 +20,8 @@ MonoBehaviour:
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 1.5
-  statusToApplyOnCanalisation: []
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 7bed56c0cd4f8ac4e95b60580fcc33fe, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
   anonciationTime: 0.3
@@ -35,9 +36,10 @@ MonoBehaviour:
     roots enemies touched by it.
   damagesToDeal:
     playerName: 
-    damageHealth: 0
+    damageHealth: 1
     statusToApply:
     - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
@@ -105,7 +107,7 @@ MonoBehaviour:
   bouncingNumber: 0
   fakeRange: 14
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 0
+  diesOnPlayerTouch: 1
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 0}
