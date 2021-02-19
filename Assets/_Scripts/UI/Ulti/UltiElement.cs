@@ -19,7 +19,8 @@ public class UltiElement : MonoBehaviour
         if (state) { return; }
 
         state = true;
-        StartCoroutine(AddValue());
+        myFillImg.gameObject.SetActive(true);
+        cross.gameObject.SetActive(false);
     }
 
     public void UnFill()
@@ -27,47 +28,25 @@ public class UltiElement : MonoBehaviour
         if (!state) { return; }
 
         state = false;
-        StartCoroutine(SupprValue());
+        myFillImg.gameObject.SetActive(false);
+        cross.gameObject.SetActive(true);
     }
 
     public void InstantSetValue(int value)
     {
         myFillImg.fillAmount = value;
 
-        if(value == 1)
+        if (value == 1)
         {
             state = true;
+            myFillImg.gameObject.SetActive(true);
+            cross.gameObject.SetActive(false);
         }
         else
         {
             state = false;
+            myFillImg.gameObject.SetActive(false);
+            cross.gameObject.SetActive(false);
         }
-    }
-
-    IEnumerator AddValue()
-    {
-        cross.gameObject.SetActive(false);
-        float startValue = myFillImg.fillAmount;
-        while (myFillImg.fillAmount != 1)
-        {
-            myFillImg.fillAmount = Mathf.Lerp(startValue, 1, speedFill * Time.deltaTime);
-            yield return null;
-        }
-
-        yield return null;
-    }
-
-    IEnumerator SupprValue()
-    {
-        cross.gameObject.SetActive(true);
-        float startValue = myFillImg.fillAmount;
-        while (myFillImg.fillAmount != 0)
-        {
-            myFillImg.fillAmount = Mathf.Lerp(startValue, 0, speedFill * Time.deltaTime);
-            yield return null;
-        }
-
-        cross.gameObject.SetActive(false);
-        yield return null;
     }
 }

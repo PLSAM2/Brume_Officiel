@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5921675478248659113}
   - component: {fileID: 6232824320805175681}
   - component: {fileID: 8165154525543328425}
+  - component: {fileID: 386385905133256677}
   m_Layer: 5
   m_Name: GainUlti_Prefab
   m_TagString: Untagged
@@ -26,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5902162433929212609}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6500001, y: 0.6500001, z: 1}
   m_Children: []
@@ -77,10 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabUltiElement: {fileID: 8238338128589463800, guid: 2943fce6ff3934344b94131a89c2ecc2, type: 3}
-  myCanvasGroup: {fileID: 8165154525543328425}
-  moveSpeed: 1
   startSize: 40
-  endSize: 12
 --- !u!225 &8165154525543328425
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -93,3 +91,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!95 &386385905133256677
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902162433929212609}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7da7a7d3ff1817c4b9a861e526d994ce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

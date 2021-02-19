@@ -177,7 +177,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 	private void DynamicWallState ( object sender, MessageReceivedEventArgs e )
 	{
-		GameManager.Instance.dynamicWalls.SetDoorState(false);
+		//GameManager.Instance.dynamicWalls.SetDoorState(false);
 	}
 
 	private void TpInServer ( object sender, MessageReceivedEventArgs e )
@@ -276,7 +276,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 				float _time = reader.ReadSingle();
 
-                print(_idPlayer);
 				LocalPoolManager.Instance.SpawnNewAOELocal(_idPlayer, _idType, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
 			}
 		}

@@ -115,7 +115,11 @@ public class UiManager : MonoBehaviour
         SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
         SpawnLifeBar(parentLifeRE, reImgLife, Character.Re);
         SpawnLifeBar(parentLifeLENG, lengImgLife, Character.Leng);
-	}
+
+        parentUltiWX.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin;
+        parentUltiRE.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.Re;
+        parentUltiLENG.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.Leng;
+    }
 
     void SpawnLifeBar(Transform parent, List<Image> listImg, Character champ)
     {

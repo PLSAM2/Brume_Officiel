@@ -8,13 +8,13 @@ public class UltiBar : MonoBehaviour
     [SerializeField] GameObject prefabUlti;
     public bool isOwner = false;
     int number = 0;
+    int numberMax = 0;
     List<UltiElement> allUltiElement = new List<UltiElement>();
 
     public void Init(ushort numberUlti)
     {
-        number = numberUlti;
-
-        for(int i=0; i < numberUlti; i++)
+        numberMax = numberUlti;
+        for (int i=0; i < numberUlti; i++)
         {
             UltiElement newUltiElement = Instantiate(prefabUlti, transform).GetComponent<UltiElement>();
             newUltiElement.InstantSetValue(0);
@@ -26,7 +26,7 @@ public class UltiBar : MonoBehaviour
     public void SetValue(int numberUlti)
     {
         //add
-        int i = 0;
+        int i = 1;
         foreach (UltiElement ult in allUltiElement)
         {
             if (i <= numberUlti)
@@ -37,7 +37,10 @@ public class UltiBar : MonoBehaviour
             {
                 ult.UnFill();
             }
+            i++;
         }
+
+        if (!isOwner) { return; }
 
         int numberChange = number - numberUlti;
         if (numberChange < 0)

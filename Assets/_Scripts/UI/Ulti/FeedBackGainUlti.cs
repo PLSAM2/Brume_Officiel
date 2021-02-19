@@ -9,6 +9,6 @@ public class FeedBackGainUlti : MonoBehaviour
     public void GainUlti(int number)
     {
         GainUltiElement newGain = Instantiate(prefabGainUlti, transform).GetComponent<GainUltiElement>();
-        newGain.Init(number, GameFactory.GetMyUltiBar().transform.position);
+        newGain.Init(number);
     }
 }
