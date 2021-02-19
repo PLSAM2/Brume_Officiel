@@ -17,7 +17,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject feedbackCounter;
     [TabGroup("Ui")] public Transform parentListLife;
     [TabGroup("Ui")] public GameObject prefabLifeBar;
-    List<Image> allBarLife = new List<Image>();
+    List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
 
     [Header("WX Compass")]
     [TabGroup("Ui")] public GameObject WxCompass;
@@ -86,8 +86,8 @@ public class UIPlayerManager : MonoBehaviour
     {
         for(int i=0; i < myLocalPlayer.liveHealth; i++)
         {
-            Image img = Instantiate(prefabLifeBar, parentListLife).GetComponent<Image>();
-            img.material = currentColorTeam;
+            UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
+            img.Init(currentColorTeam);
             allBarLife.Add(img);
         }
     }
@@ -101,15 +101,16 @@ public class UIPlayerManager : MonoBehaviour
     public void UpdateLife()
     {
         int i = 0;
-        foreach(Image img in allBarLife)
+        foreach(UIBarLifePerso img in allBarLife)
         {
             if(i < myLocalPlayer.liveHealth)
             {
-                img.material = currentColorTeam;
+                img.SetColorLife(currentColorTeam, true);
             }
             else
             {
-                img.material = grayMat;
+                img.CrackLife();
+                img.SetColorLife(grayMat, false);
             }
             i++;
         }
