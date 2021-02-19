@@ -517,9 +517,14 @@ public class UiManager : MonoBehaviour
 		waitingForPlayersPanel.SetActive(false);
 
         //InitUlti
-        parentUltiWX.Init(GameData.ultiMaxWX);
-        parentUltiRE.Init(GameData.ultiMaxRE);
-        parentUltiLENG.Init(GameData.ultiMaxLENG);
+        ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
+        parentUltiWX.Init(GameData.ultiMaxWX, wxId != null ? RoomManager.Instance.GetPlayerData((ushort) wxId).ultStacks : (ushort) 0);
+
+        ushort? reId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Re);
+        parentUltiRE.Init(GameData.ultiMaxRE, reId != null ? RoomManager.Instance.GetPlayerData((ushort) reId).ultStacks : (ushort) 0);
+
+        ushort? lengId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Leng);
+        parentUltiLENG.Init(GameData.ultiMaxLENG, lengId != null ? RoomManager.Instance.GetPlayerData((ushort)lengId).ultStacks : (ushort)0);
     }
 
     void OnPlayerUltiChange(ushort _player, ushort _number)

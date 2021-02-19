@@ -240,6 +240,7 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.useUltStacks)
 		{
+            print(spell.stacksUsed);
 			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
 		}
 	}

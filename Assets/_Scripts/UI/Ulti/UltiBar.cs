@@ -11,21 +11,39 @@ public class UltiBar : MonoBehaviour
     int numberMax = 0;
     List<UltiElement> allUltiElement = new List<UltiElement>();
 
-    public void Init(ushort numberUlti)
+    public void Init(ushort numberUltiMax, ushort numberUlti)
     {
-        numberMax = numberUlti;
-        for (int i=0; i < numberUlti; i++)
+        number = numberUlti;
+        numberMax = numberUltiMax;
+        for (int i=0; i < numberUltiMax; i++)
         {
             UltiElement newUltiElement = Instantiate(prefabUlti, transform).GetComponent<UltiElement>();
             newUltiElement.InstantSetValue(0);
 
             allUltiElement.Add(newUltiElement);
         }
+
+        UpdateUltiBar(number);
     }
 
     public void SetValue(int numberUlti)
     {
-        //add
+        UpdateUltiBar(numberUlti);
+
+        if (!isOwner) { return; }
+
+        int numberChange = number - numberUlti;
+        if (numberChange < 0)
+        {
+            //add anim
+            int numberAdd = numberUlti - number;
+            UiManager.Instance.feedBackUlti.GainUlti(numberAdd);
+        }
+        number = numberUlti;
+    }
+
+    void UpdateUltiBar(int numberUlti)
+    {
         int i = 1;
         foreach (UltiElement ult in allUltiElement)
         {
@@ -39,16 +57,5 @@ public class UltiBar : MonoBehaviour
             }
             i++;
         }
-
-        if (!isOwner) { return; }
-
-        int numberChange = number - numberUlti;
-        if (numberChange < 0)
-        {
-            //add anim
-            int numberAdd = numberUlti - number;
-            UiManager.Instance.feedBackUlti.GainUlti(numberAdd);
-        }
-        number = numberUlti;
     }
 }
