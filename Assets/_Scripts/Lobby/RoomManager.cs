@@ -505,6 +505,11 @@ public class RoomManager : MonoBehaviour
         return InGameUniqueIDList[NetworkManager.Instance.GetLocalPlayer().ID];
     }
 
+    public PlayerData GetLocalPlayerData()
+    {
+        return GetPlayerData(InGameUniqueIDList[NetworkManager.Instance.GetLocalPlayer().ID]);
+    }
+
     public void ResetActualGame()
     {
         ultimateStack.Clear();
@@ -581,12 +586,13 @@ public class RoomManager : MonoBehaviour
                 ultimateStack[playerId] += value;
             }
 
-            UiManager.Instance.SetUltimateStacks(playerId, ultimateStack[playerId]);
+            GameManager.Instance.OnPlayerUltiChange(playerId, ultimateStack[playerId]);
         }
     }
 
     internal void TryUseUltStacks(ushort stacksUsed)
     {
+        print(stacksUsed);
         ushort pId = NetworkManager.Instance.GetLocalPlayer().ID;
         if (!GameManager.Instance.networkPlayers.ContainsKey(pId)) { return; }
 

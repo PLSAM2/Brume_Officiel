@@ -84,7 +84,7 @@ public class UIPlayerManager : MonoBehaviour
 
     void SpawnLifeBar()
     {
-        for(int i=0; i < GameFactory.GetMaxLifeOfPlayer(myLocalPlayer.myPlayerId); i++)
+        for(int i=0; i < myLocalPlayer.liveHealth; i++)
         {
             Image img = Instantiate(prefabLifeBar, parentListLife).GetComponent<Image>();
             img.material = currentColorTeam;

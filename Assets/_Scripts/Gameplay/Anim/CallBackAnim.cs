@@ -11,7 +11,7 @@ public class CallBackAnim : MonoBehaviour
 
 	private void Start ()
 	{
-		GameManager.Instance.AllCharacterSpawned += Setup;
+		GameManager.Instance.OnAllCharacterSpawned += Setup;
 	}
 
 	void Setup()
@@ -21,7 +21,7 @@ public class CallBackAnim : MonoBehaviour
 
 	private void OnDisable ()
 	{
-		GameManager.Instance.AllCharacterSpawned -= Setup;
+		GameManager.Instance.OnAllCharacterSpawned -= Setup;
 	}
 
 	public void StartCounting()
