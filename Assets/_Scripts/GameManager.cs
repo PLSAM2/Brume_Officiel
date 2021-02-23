@@ -83,6 +83,8 @@ public class GameManager : SerializedMonoBehaviour
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
 
+    public GameObject deadPostProcess;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

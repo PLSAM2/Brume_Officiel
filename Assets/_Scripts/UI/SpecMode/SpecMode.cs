@@ -48,6 +48,8 @@ public class SpecMode : MonoBehaviour
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             isSpec = true;
+            GameManager.Instance.deadPostProcess.SetActive(true);
+
             CameraManager.Instance.isSpectate = true;
 
             UiManager.Instance.SetAlphaBrume(0);
@@ -75,6 +77,7 @@ public class SpecMode : MonoBehaviour
     {
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
+            GameManager.Instance.deadPostProcess.SetActive(false);
             isSpec = false;
             CameraManager.Instance.ResetPlayerFollow();
             SuprrOld();
