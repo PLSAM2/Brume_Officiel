@@ -16,6 +16,8 @@ public class HurtingDash : SpellModule
     [SerializeField] List<ParticleSystem> dashFx = new List<ParticleSystem>();
     //[SerializeField] VisualEffect speedFx;
 
+    [SerializeField] AudioClip hitDashSound;
+
     public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -111,6 +113,8 @@ public class HurtingDash : SpellModule
 		if (_hit != null && !_hit.IsInMyTeam(myPlayerModule.teamIndex))
 		{
 			_hit.DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+
+            AudioManager.Instance.Play3DAudioInNetwork(hitDashSound, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 
 			if (!hasTouched)
 			{

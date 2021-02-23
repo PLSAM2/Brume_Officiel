@@ -14,6 +14,8 @@ public class SpecMode : MonoBehaviour
     bool isSpec = false;
     public ushort playerSpected;
 
+    [SerializeField] AudioClip deathAudio;
+
     private void OnEnable()
     {
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
@@ -48,6 +50,9 @@ public class SpecMode : MonoBehaviour
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             isSpec = true;
+            GameManager.Instance.deadPostProcess.SetActive(true);
+            AudioManager.Instance.Play2DAudio(deathAudio);
+
             CameraManager.Instance.isSpectate = true;
 
             UiManager.Instance.SetAlphaBrume(0);
@@ -75,6 +80,7 @@ public class SpecMode : MonoBehaviour
     {
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
+            GameManager.Instance.deadPostProcess.SetActive(false);
             isSpec = false;
             CameraManager.Instance.ResetPlayerFollow();
             SuprrOld();

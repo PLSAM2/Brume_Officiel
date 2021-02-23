@@ -79,7 +79,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+		myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
 
 		if (isOwner)
 		{
@@ -402,7 +402,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 
-			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, _damagesToDeal.damageHealth);
 		}
 
 		if (!ignoreStatusAndEffect)
@@ -435,7 +434,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-
 	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
@@ -452,7 +450,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			if (isOwner)
 				UiManager.Instance.FeedbackHit();
 
-			if ((int)liveHealth - (int)damages <= 0)
+
+            LocalPoolManager.Instance.SpawnNewImpactDamageFX(
+                    transform.position + Vector3.up * 1,
+                    (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam ? GameFactory.GetColorTeam(Team.blue) : GameFactory.GetColorTeam(Team.red))
+                );
+
+            if ((int)liveHealth - (int)damages <= 0)
 			{
 				if (isOwner)
 				{
@@ -471,7 +475,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
 				liveHealth = (ushort)_tempHp;
 			}
-		}
+
+            GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages);
+        }
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
 	}

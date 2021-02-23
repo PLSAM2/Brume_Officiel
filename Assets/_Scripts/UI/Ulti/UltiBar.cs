@@ -30,8 +30,6 @@ public class UltiBar : MonoBehaviour
     {
         UpdateUltiBar(numberUlti);
 
-        print(RoomManager.Instance.GetPlayerData(NetworkManager.Instance.GetLocalPlayer().ID).ultStacks);
-
         if (!isOwner) { return; }
 
         int numberChange = number - numberUlti;
