@@ -420,8 +420,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 				LocalPlayer target = GameManager.Instance.networkPlayers[_id];
 				target.DealDamagesLocaly(_damages, _dealer);
-
-				GameManager.Instance.OnPlayerGetDamage?.Invoke(_id, _damages);
 			}
 		}
 	}
