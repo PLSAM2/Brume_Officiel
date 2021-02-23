@@ -18,6 +18,7 @@ public class RoomManager : MonoBehaviour
     public string loadingGameScene;
     public string champSelectScene;
     public string menuScene;
+    public string trainingScene;
 
     public RoomData actualRoom;
 
@@ -29,12 +30,13 @@ public class RoomManager : MonoBehaviour
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
     [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 
-
     //SPAWN
     [SerializeField] GameObject prefabShili;
     [SerializeField] GameObject prefabRe;
     [SerializeField] GameObject prefabLeng;
+
     public List<ushort> delayedPlayerSpawn = new List<ushort>();
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -615,4 +617,7 @@ public class RoomManager : MonoBehaviour
 
         return 0;
     }
+
+
+
 }
