@@ -79,7 +79,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-		myOutline.SetColor(GameFactory.GetColorTeam(myPlayerModule.teamIndex));
+		myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
 
 		if (isOwner)
 		{
