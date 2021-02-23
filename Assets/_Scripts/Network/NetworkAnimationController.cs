@@ -14,7 +14,7 @@ public class NetworkAnimationController : MonoBehaviour
     [SerializeField] LocalPlayer myLocalPlayer;
 
     Vector3 newNetorkPos;
-    [SerializeField] float syncSpeed = 10;
+    [SerializeField] float speed = 10;
 
     private void Awake()
     {
@@ -35,13 +35,12 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived -= Client_MessageReceived;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!myLocalPlayer.isOwner)
         {
-            //transform.position = Vector3.MoveTowards(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos) * 10);
-            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
-            DoAnimation();
+            //transform.position = Vector3.MoveTowards(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
+            transform.position = Vector3.Lerp(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos) * speed * Time.deltaTime);
         }
     }
 
@@ -49,8 +48,10 @@ public class NetworkAnimationController : MonoBehaviour
 	{
         if (myLocalPlayer.isOwner)
         {
-            DoAnimation();
+            //DoAnimation();
         }
+
+        DoAnimation();
     }
 
     public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
@@ -60,6 +61,7 @@ public class NetworkAnimationController : MonoBehaviour
     }
 
     Vector3 oldPos;
+    Vector3 direction;
     private void DoAnimation ()
     {
         float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
@@ -70,14 +72,13 @@ public class NetworkAnimationController : MonoBehaviour
         velocityX = velocityX / speed;
         velocityZ = velocityZ / speed;
 
-        Vector3 pos = new Vector3(velocityX, 0, velocityZ);
+        direction = Vector3.Lerp(direction, new Vector3(velocityX, 0, velocityZ), Time.deltaTime * 10);
 
-        float right = Vector3.Dot(transform.right, pos);
-        float forward = Vector3.Dot(transform.forward, pos);
+        float right = Vector3.Dot(transform.right, direction);
+        float forward = Vector3.Dot(transform.forward, direction);
 
         animator.SetFloat("Forward", forward);
         animator.SetFloat("Turn", right);
-
         oldPos = transform.position;
     }
 
