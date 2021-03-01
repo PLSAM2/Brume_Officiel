@@ -8,134 +8,71 @@ using UnityEngine.UI;
 
 public class ChatControl : MonoBehaviour
 {
-    public GameObject chatMessageObj;
-    public GameObject chatMessageLayout;
-    public GameObject chatMessagePool;
+    public GameObject chatMessagePrefab;
+    public Transform chatParent;
 
     public InputField messageText;
-    public int maxChatMessage = 50;
-    [Header("Fade / Display")]
-    public List<Image> imageToFadeDisplay = new List<Image>();
-    public List<Text> textToFadeDisplay = new List<Text>();
-    public Image chatMessageImage;
+
     public float timeToFade = 4;
-    public float maxColorOpacity = 0.75f;
-    public GameObject NoClickImage;
+
+    public Scrollbar myScrollbar;
+
+    public GameObject button;
 
     private List<ChatMessageControl> chatMessageControls = new List<ChatMessageControl>();
-    private bool isFocused = false;
-    private bool endEditAndSend = false;
-    private bool sendAfter = false;
 
-    private bool stunnedStateGive = false;
-    private float timer = 0;
-    public void Focus()
-    {
-        if (sendAfter)
-        {
-            sendAfter = false;
-            SendNewMessage();
-        }
-        if (isFocused == false && endEditAndSend == false)
-        {
-            stunnedStateGive = true;
-            GameFactory.GetLocalPlayerObj().myPlayerModule.willListenInputs = false;
-            isFocused = true;
-            DisplayChat();
-            messageText.Select();
-            messageText.ActivateInputField();
-        }
+    public bool isFocus = false;
 
-        if (endEditAndSend)
-        {
-            stunnedStateGive = false;
-            GameFactory.GetLocalPlayerObj().myPlayerModule.willListenInputs = true;
-            endEditAndSend = false;
-        }
-
-    }
-    public void UnFocus()
+    public void Send()
     {
         if (CheckMessage())
         {
-            sendAfter = true;
-        } else
-        {
-            endEditAndSend = true;
-            if (!EventSystem.current.alreadySelecting) EventSystem.current.SetSelectedGameObject(null);
-            timer = timeToFade;
+            SendChatMessage();
+            UnFocus();
         }
-
-        isFocused = false;
     }
 
-    public void DisplayChat()
+    public void Focus()
     {
-        FadeDisplayProgress(maxColorOpacity, true);
+        ShowOrHide(true);
+        button.SetActive(true);
+
+        isFocus = true;
+
+        messageText.Select();
+        messageText.ActivateInputField();
     }
 
-    private void FixedUpdate()
+    void ShowOrHide(bool value)
     {
-        if (isFocused)
+        foreach(ChatMessageControl message in chatMessageControls)
         {
-            NoClickImage.SetActive(false);
-        } 
-        if (isFocused == false)
-        {
-            if (stunnedStateGive == true)
+            switch (value)
             {
-                stunnedStateGive = false;
-                GameFactory.GetLocalPlayerObj().myPlayerModule.willListenInputs = true;
-            }
+                case true:
+                    message.gameObject.SetActive(true);
+                    message.Show();
+                    break;
 
-            if (timer >= 0)
-            {
-                timer -= Time.fixedDeltaTime;
-                FadeDisplayProgress(timer / timeToFade);
-            } else
-            {
-                NoClickImage.SetActive(true);
-                FadeDisplayProgress(0);
+                case false:
+                    message.Hide();
+                    break;
             }
         }
     }
 
-    public void FadeDisplayProgress(float value, bool ignoreMaxOpacity = false)
+    public void UnFocus()
     {
-        if (ignoreMaxOpacity)
-        {
-            for (int i = 0; i < imageToFadeDisplay.Count; i++)
-            {
-                imageToFadeDisplay[i].color = new Color(imageToFadeDisplay[i].color.r, imageToFadeDisplay[i].color.g, imageToFadeDisplay[i].color.b, value);
-            }
-            for (int i = 0; i < textToFadeDisplay.Count; i++)
-            {
-                textToFadeDisplay[i].color = new Color(textToFadeDisplay[i].color.r, textToFadeDisplay[i].color.g, textToFadeDisplay[i].color.b, value);
-            }
-        } else
-        {
-            for (int i = 0; i < imageToFadeDisplay.Count; i++)
-            {
-                imageToFadeDisplay[i].color = new Color(imageToFadeDisplay[i].color.r, imageToFadeDisplay[i].color.g, imageToFadeDisplay[i].color.b, value * maxColorOpacity);
-            }
-            for (int i = 0; i < textToFadeDisplay.Count; i++)
-            {
-                textToFadeDisplay[i].color = new Color(textToFadeDisplay[i].color.r, textToFadeDisplay[i].color.g, textToFadeDisplay[i].color.b, value * maxColorOpacity);
-            }
-        }
-      
-         chatMessageImage.color = new Color(chatMessageImage.color.r, chatMessageImage.color.g, chatMessageImage.color.b, value * 0.05f);
+        ShowOrHide(false);
+        button.SetActive(false);
+
+        isFocus = false;
     }
 
     public void ReceiveNewMessage( string _message, ushort _id = 0, bool fromServer = false)
     {
-        timer = 4;
-        GameObject newMessage = GetFirstDisabledObject();
-        newMessage.transform.SetParent(chatMessageLayout.transform);
-        ChatMessageControl newMessageControl = newMessage.GetComponent<ChatMessageControl>();
+        ChatMessageControl newMessageControl = GetNewChatPrefab();
         chatMessageControls.Add(newMessageControl);
-        CheckMessageLimit();
-        newMessage.SetActive(true);
 
         if (fromServer)
         {
@@ -145,19 +82,10 @@ public class ChatControl : MonoBehaviour
             newMessageControl.InitNewMessage(RoomManager.Instance.GetPlayerData(_id), _message);
         }
 
-        newMessage.GetComponent<RectTransform>().localScale = Vector3.one;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)chatMessageLayout.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)newMessage.transform);
-    }
+        //LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)newMessage.transform);
 
-    public bool CheckMessageLimit()
-    {
-        if (chatMessageControls.Count > maxChatMessage)
-        {
-            chatMessageControls[0].gameObject.SetActive(false);
-            return false;
-        }
-        return true;
+        //if pas en train de l utiliser //TODO
+        myScrollbar.value = 0;
     }
 
     public bool CheckMessage()
@@ -170,7 +98,7 @@ public class ChatControl : MonoBehaviour
         return true;
     }
 
-    public void SendNewMessage()
+    public void SendChatMessage()
     {
         if (!CheckMessage())
         {
@@ -179,7 +107,7 @@ public class ChatControl : MonoBehaviour
 
         if (messageText.text.ToLower().Contains("<size"))
         {
-            messageText.text = "JE SUIS UN PETIT FOU";
+            return;
         }
 
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -197,8 +125,6 @@ public class ChatControl : MonoBehaviour
 
     public void SendNewForcedMessage(string message, bool teamOnly = false)
     {
-        timer = 4;
-
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(message);
@@ -210,21 +136,8 @@ public class ChatControl : MonoBehaviour
             }
         }
     }
-    private GameObject GetFirstDisabledObject()
+    private ChatMessageControl GetNewChatPrefab()
     {
-        foreach (Transform t in chatMessagePool.gameObject.transform)
-        {
-            if (!t.gameObject.activeInHierarchy)
-            {
-                return t.gameObject;
-            }
-        }
-
-        GameObject newobj = Instantiate(chatMessageObj, chatMessagePool.gameObject.transform);
-
-        return newobj;
+        return Instantiate(chatMessagePrefab, chatParent).GetComponent<ChatMessageControl>();
     }
-
-
-
 }
