@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
     _MOVINGGRAIN_ON _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON
     _WINDVERTEXDISPLACEMENT_ON
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -22,6 +22,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorNoise_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -158,7 +162,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
+    - _ColorNoise_Contrast: 0
+    - _ColorNoise_Power: 0
+    - _ColorNoise_Tiling: 0
     - _CustomAlphaMask: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
@@ -238,6 +246,7 @@ Material:
     - _Wave_Speed1: 0
     - _WindVertexDisplacement: 1
     - _WindVertexDisplacement1: 0
+    - _WindWave_Frequency: 0
     - _Wind_Density: 0.3
     - _Wind_Density1: 0.2
     - _Wind_Direction: 1

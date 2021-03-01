@@ -6,13 +6,26 @@ using UnityEngine;
 public class UltPickup : Interactible
 {
     [SerializeField] Animator myAnimator;
+    public ushort ultimateStackGive = 1;
+
 
     private void Start()
     {
         ActualiseMesh();
     }
 
-    public ushort ultimateStackGive = 1;
+    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
+    {
+        PlayerData _p = NetworkManager.Instance.GetLocalPlayer();
+
+        if (_p.ultStacks >= GameData.characterUltMax[_p.playerCharacter])
+        {
+            return;
+        }
+
+        base.TryCapture(team, capturingPlayer);
+
+    }
     public override void Captured(ushort _capturingPlayerID)
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())

@@ -32,7 +32,8 @@ public class Interactible : MonoBehaviour
     [HideInInspector] public PlayerModule capturingPlayerModule;
     [TabGroup("InteractiblePart")]
     public State state = State.Locked;
-
+    [TabGroup("InteractiblePart")]
+    public LayerMask playerLayer = ((1 << 7) | (1 << 8));
     [TabGroup("InteractiblePart")]
     public Character[] authorizedCaptureCharacter = new Character[1];
     [TabGroup("InteractiblePart")]
@@ -345,7 +346,7 @@ public class Interactible : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
+        if (GameFactory.IsInLayer(other.gameObject.layer, playerLayer))
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
@@ -369,7 +370,7 @@ public class Interactible : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
+        if (GameFactory.IsInLayer(other.gameObject.layer, playerLayer))
         {
             PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 
@@ -410,7 +411,7 @@ public class Interactible : MonoBehaviour
     {
         if (CheckOnUnlock)
         {
-            if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
+            if (GameFactory.IsInLayer(other.gameObject.layer, playerLayer))
             {
                 PlayerModule _pModule = other.gameObject.GetComponent<PlayerModule>();
 

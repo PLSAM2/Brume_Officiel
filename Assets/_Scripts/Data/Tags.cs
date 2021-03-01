@@ -32,6 +32,7 @@
     public static readonly ushort StopGame = 310;
     public static readonly ushort AskForStopGame = 311;
     public static readonly ushort NewRound = 315;
+    public static readonly ushort RoundFinalPhase = 317;
     public static readonly ushort DynamicWallState = 320;
     public static readonly ushort InstantiateObject = 500;
     public static readonly ushort InstantiateAutoKillObject = 502;

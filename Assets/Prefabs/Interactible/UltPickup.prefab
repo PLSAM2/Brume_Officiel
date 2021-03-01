@@ -23819,7 +23819,6 @@ GameObject:
   - component: {fileID: 3256185278440745717}
   - component: {fileID: 2187858774642262449}
   - component: {fileID: 1622183724230680871}
-  - component: {fileID: 2488073477766749244}
   m_Layer: 0
   m_Name: Ring_Spawn
   m_TagString: Untagged
@@ -28485,20 +28484,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &2488073477766749244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3427705364763527798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6149a196091504ea943da7ac5cc277, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAudio: {fileID: 8300000, guid: 5d52ace2ff9ecbf40a1353bb41998aba, type: 3}
-  inNetwork: 0
 --- !u!1 &8324318283832621077
 GameObject:
   m_ObjectHideFlags: 0
@@ -28568,6 +28553,9 @@ MonoBehaviour:
   capturingTeam: 0
   capturingPlayerModule: {fileID: 0}
   state: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 65920
   authorizedCaptureCharacter: 0a0014001e00
   contestable: 1
   canBeCapturedColor: {r: 0, g: 1, b: 0.038576365, a: 0}
@@ -29043,7 +29031,6 @@ GameObject:
   - component: {fileID: 2392432418543568418}
   - component: {fileID: 2836181669909789317}
   - component: {fileID: 430412935061532355}
-  - component: {fileID: 1480858127675424810}
   m_Layer: 0
   m_Name: Ring_Taken
   m_TagString: Untagged
@@ -33709,17 +33696,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1480858127675424810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9153038321157755575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6149a196091504ea943da7ac5cc277, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAudio: {fileID: 8300000, guid: 5d52ace2ff9ecbf40a1353bb41998aba, type: 3}
-  inNetwork: 0
