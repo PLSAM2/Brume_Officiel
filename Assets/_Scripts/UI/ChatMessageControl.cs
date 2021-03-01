@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class ChatMessageControl : MonoBehaviour
 
         name += sender.Name + " (" + sender.playerCharacter.ToString() + ") : </color>";
 
-        messageText.text = "<color=white>[" + UiManager.Instance.timer.text + "] </color>" + name + messageContent;
+        messageText.text = "<color=white>[" + (int)GameManager.Instance.timer % 60 + ":"+ (int)Math.Floor(GameManager.Instance.timer / 60) + "] </color>" + name + messageContent;
 
         StartCoroutine(HideThis());
     }
