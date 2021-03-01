@@ -8,9 +8,6 @@ public class LoadingGameScene : MonoBehaviour
 {
     public Image progressBar;
     public float fakeLoadingTime = 3;
-
-    public List<RectTransform> spawnPointList = new List<RectTransform>();
-    public RectTransform spawnHelp;
     private string scene;
 
     private void Awake()
@@ -21,14 +18,6 @@ public class LoadingGameScene : MonoBehaviour
     void Start()
     {
         StartCoroutine(FakeLoadingTime());
-        InitMimimap();
-    }
-
-    private void InitMimimap()
-    {
-        spawnHelp.position = spawnPointList[RoomManager.Instance.assignedSpawn[NetworkManager.Instance.GetLocalPlayer().playerTeam] - 1].position;
-        spawnHelp.gameObject.SetActive(true);
-
     }
 
     private IEnumerator FakeLoadingTime()
@@ -40,7 +29,7 @@ public class LoadingGameScene : MonoBehaviour
 
     private IEnumerator LoadSceneAsyncOperation()
     {
-        AsyncOperation gameLevelLoad = SceneManager.LoadSceneAsync(scene);
+        AsyncOperation gameLevelLoad = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
 
         while (gameLevelLoad.progress < 1)
         {
