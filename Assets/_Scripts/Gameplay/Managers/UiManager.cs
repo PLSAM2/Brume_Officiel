@@ -519,13 +519,13 @@ public class UiManager : MonoBehaviour
         //InitUlti
         ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
         //print(RoomManager.Instance.GetPlayerData((ushort)wxId).ultStacks);
-        parentUltiWX.Init(GameData.ultiMaxWX, wxId != null ? RoomManager.Instance.GetPlayerData((ushort) wxId).ultStacks : (ushort) 0);
+        parentUltiWX.Init(GameData.characterUltMax[Character.WuXin], wxId != null ? RoomManager.Instance.GetPlayerData((ushort) wxId).ultStacks : (ushort) 0);
 
         ushort? reId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Re);
-        parentUltiRE.Init(GameData.ultiMaxRE, reId != null ? RoomManager.Instance.GetPlayerData((ushort) reId).ultStacks : (ushort) 0);
+        parentUltiRE.Init(GameData.characterUltMax[Character.Re], reId != null ? RoomManager.Instance.GetPlayerData((ushort) reId).ultStacks : (ushort) 0);
 
         ushort? lengId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Leng);
-        parentUltiLENG.Init(GameData.ultiMaxLENG, lengId != null ? RoomManager.Instance.GetPlayerData((ushort)lengId).ultStacks : (ushort)0);
+        parentUltiLENG.Init(GameData.characterUltMax[Character.Leng], lengId != null ? RoomManager.Instance.GetPlayerData((ushort)lengId).ultStacks : (ushort)0);
     }
 
     void OnPlayerUltiChange(ushort _player, ushort _number)
