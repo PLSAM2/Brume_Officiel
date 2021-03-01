@@ -1,8 +1,10 @@
-﻿using Sirenix.OdinInspector;
+﻿using DG.Tweening;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.VFX;
 using static AOE_Fx;
 using static GameData;
 
@@ -20,6 +22,12 @@ public class LocalPoolManager : SerializedMonoBehaviour
     public GameObject prefabImpactFx;
     List<GameObject> allImpactFx = new List<GameObject>();
 
+    public GameObject prefabTrailTpFx;
+    List<GameObject> allTrailTpFx = new List<GameObject>();
+
+    public GameObject prefabImpactDamageFx;
+    List<GameObject> allImpactDamageFx = new List<GameObject>();
+
     public Dictionary<ushort, GameObject> prefabGeneric = new Dictionary<ushort, GameObject>();
     Dictionary<ushort, List<GameObject>> allGeneric = new Dictionary<ushort, List<GameObject>>();
 
@@ -33,6 +41,22 @@ public class LocalPoolManager : SerializedMonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    //impact feedback
+    public void SpawnNewTrailTpFX(Vector3 _pos, Team _team)
+    {
+        Transform currentFeedback = GetFree(allTrailTpFx, prefabTrailTpFx).transform;
+
+        currentFeedback.position = _pos;
+        currentFeedback.gameObject.SetActive(true);
+
+        ParticleSystem.MainModule main = currentFeedback.GetComponent<ParticleSystem>().main;
+        main.startColor = GameFactory.GetRelativeColor(_team);
+
+        //tp wx
+        currentFeedback.DOMove(GameManager.Instance.networkPlayers[(ushort) GameFactory.GetPlayerCharacterInTeam(_team, Character.WuXin)].transform.position, 1);
+        currentFeedback.GetComponent<AutoDisable>().Init(10);
     }
 
     //AOE
@@ -83,6 +107,20 @@ public class LocalPoolManager : SerializedMonoBehaviour
         currentFeedback.GetChild(0).GetChild(1).gameObject.SetActive(_team == Team.blue);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time);
+    }
+
+    //impact damage feedback
+    public void SpawnNewImpactDamageFX(Vector3 _pos, Color _color)
+    {
+        Transform currentFeedback = GetFree(allImpactDamageFx, prefabImpactDamageFx).transform;
+
+        currentFeedback.gameObject.SetActive(true);
+
+        currentFeedback.position = _pos;
+
+        currentFeedback.GetComponent<VisualEffect>().SetVector4("Color Flash 1", _color);
+
+        currentFeedback.GetComponent<AutoDisable>().Init(0.5f);
     }
 
     //generic

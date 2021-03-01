@@ -20,6 +20,7 @@ public class samTest : MonoBehaviour
         DoAnimation();
     }
 
+    Vector3 direction;
     private void DoAnimation()
     {
         float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
@@ -30,10 +31,11 @@ public class samTest : MonoBehaviour
         velocityX = velocityX / speed;
         velocityZ = velocityZ / speed;
 
-        Vector3 pos = Vector3.Lerp(oldPos, new Vector3(velocityX, 0, velocityZ), Time.deltaTime * speedoo);
+        direction = Vector3.Lerp(direction, new Vector3(velocityX, 0, velocityZ), Time.deltaTime * speedoo);
+        //direction = new Vector3(velocityX, 0, velocityZ);
 
-        float right = Vector3.Dot(transform.right, pos);
-        float forward = Vector3.Dot(transform.forward, pos);
+        float right = Vector3.Dot(transform.right, direction);
+        float forward = Vector3.Dot(transform.forward, direction);
 
         animator.SetFloat("Forward", forward);
         animator.SetFloat("Turn", right);

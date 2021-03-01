@@ -27,8 +27,6 @@ public class TeleportationModule : SpellModule
     private WxController wxController;
     private GameObject tpFx;
 
-    [SerializeField] ParticleSystem particleTrail;
-
     public override void DecreaseCooldown()
     {
     }
@@ -53,7 +51,7 @@ public class TeleportationModule : SpellModule
             }
             if (circlePreview != null)
             {
-                circlePreview.transform.position = wxTfs.position;
+                circlePreview.transform.position = wxTfs.position + Vector3.up * 0.1f;
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -193,7 +191,7 @@ public class TeleportationModule : SpellModule
                 circlePreview = PreviewManager.Instance.GetCirclePreview(wxTfs);
             }
             circlePreview.gameObject.SetActive(true);
-            circlePreview.Init(tpDistance, CirclePreview.circleCenter.center, wxTfs.position);
+            circlePreview.Init(tpDistance, CirclePreview.circleCenter.center, wxTfs.position + Vector3.up * 0.1f);
         }
         else // sinon
         {
@@ -253,17 +251,12 @@ public class TeleportationModule : SpellModule
     {
         base.ResolutionFeedBack();
 
-        ParticleSystem.MainModule main = particleTrail.main;
-        main.startColor = GameFactory.GetColorTeam(RoomManager.Instance.GetPlayerData(playerModule.mylocalPlayer.myPlayerId).playerTeam);
-
-        particleTrail.Play();
+        LocalPoolManager.Instance.SpawnNewTrailTpFX(transform.position, myPlayerModule.teamIndex);
     }
 
     public override void ThrowbackEndFeedBack()
     {
         base.ThrowbackEndFeedBack();
-
-        particleTrail.Stop();
     }
 
     public IEnumerator WaitForSpawn(bool isTimeEnded) 

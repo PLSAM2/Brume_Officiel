@@ -13,8 +13,8 @@ public class PlayerSoulObj : MonoBehaviour
     [SerializeField] SpriteRenderer mapIcon;
     [SerializeField] Sprite iconYang, iconYin;
 
-    [SerializeField] GameObject redObj;
-    [SerializeField] GameObject blueObj;
+    [SerializeField] GameObject meshRed;
+    [SerializeField] GameObject meshBlue;
 
     [SerializeField] GameObject waypointSoulPrefab;
     Waypoint waypointObj;
@@ -25,17 +25,18 @@ public class PlayerSoulObj : MonoBehaviour
 
         playerSoul = networkedObject.GetOwnerID();
 
-        if (RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == Team.red)
+        mapIcon.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(playerSoul).playerTeam);
+
+        if (!GameFactory.IsOnMyTeam(networkedObject.GetOwnerID()))
         {
-            mapIcon.color = Color.red;
+            meshRed.gameObject.SetActive(true);
+            meshBlue.gameObject.SetActive(false);
         }
         else
-		{
-            mapIcon.color = Color.blue;
+        {
+            meshBlue.gameObject.SetActive(true);
+            meshRed.gameObject.SetActive(false);
         }
-
-        redObj.SetActive(RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == Team.red);
-        blueObj.SetActive(RoomManager.Instance.GetPlayerData(playerSoul).playerTeam == Team.blue);
 
         if (RoomManager.Instance.GetPlayerData(playerSoul).playerCharacter == Character.Re)
             mapIcon.sprite = iconYang;
