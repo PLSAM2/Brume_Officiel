@@ -41,7 +41,7 @@ public class ChatMessageControl : MonoBehaviour
                 break;
         }
 
-        name += sender.Name + " : </color>";
+        name += sender.Name + " (" + sender.playerCharacter.ToString() + ") : </color>";
 
         messageText.text = "<color=white>[" + UiManager.Instance.timer.text + "] </color>" + name + messageContent;
 
