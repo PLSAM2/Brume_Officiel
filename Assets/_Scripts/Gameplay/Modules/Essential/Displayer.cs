@@ -20,6 +20,11 @@ public class Displayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.Instance.gameStarted)
+        {
+            return;
+        }
+
         LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
         foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)

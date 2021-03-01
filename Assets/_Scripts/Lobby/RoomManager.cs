@@ -254,7 +254,6 @@ public class RoomManager : MonoBehaviour
                 assignedSpawn[Team.blue] = reader.ReadUInt16();
             }
         }
-
         SceneManager.LoadScene(loadingGameScene, LoadSceneMode.Single);
     }
 

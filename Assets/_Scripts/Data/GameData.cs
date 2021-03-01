@@ -1,12 +1,9 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameData
 {
-    public static ushort ultiMaxWX = 7;
-    public static ushort ultiMaxRE = 5;
-    public static ushort ultiMaxLENG = 6;
-
     public enum Team : ushort
     {
         none = 0,
@@ -23,7 +20,15 @@ public class GameData
 		test = 40,
 
 	}
-	public enum InteractibleType : ushort
+
+    public static Dictionary<Character, ushort> characterUltMax = new Dictionary<Character, ushort>()
+    {
+        { Character.WuXin, 7 },
+        { Character.Re, 5 },
+        { Character.Leng, 6 }
+    };
+
+    public enum InteractibleType : ushort
     {
         none = 0,
         Altar = 1,

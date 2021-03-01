@@ -176,6 +176,7 @@ public class GameManager : SerializedMonoBehaviour
     {
         UiManager.Instance.AllPlayerJoinGameScene();
         OnAllCharacterSpawned?.Invoke();
+
         gameStarted = true;
     }
 
