@@ -44,7 +44,7 @@ public class Altar : Interactible
             Destroy(waypointObj.gameObject);
         }
 
-        myLava.Spawn();
+        //myLava.Spawn();
     }
 
     public override void Captured(ushort _capturingPlayerID)
