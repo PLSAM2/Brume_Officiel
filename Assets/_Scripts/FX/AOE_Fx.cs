@@ -5,36 +5,21 @@ using static GameData;
 public class AOE_Fx : MonoBehaviour
 {
 	[SerializeField] AnimationCurve myCurve;
+	[SerializeField] ParticleSystem imgInter;
 
-	[SerializeField] SpriteRenderer imgExt;
-	[SerializeField] SpriteRenderer imgInter;
+    [SerializeField] GameObject redMesh;
+    [SerializeField] GameObject blueMesh;
 
-	[SerializeField] Sprite circle;
-	[SerializeField] Sprite square;
-
-	float size = 0;
+    float size = 0;
 
 	float currentWaveTime = 0;
 
 	float timeToSize = 1;
 
-	public void Init ( AOE_Fx_Type _myType, Vector3 _pos, float _rota, float _scale, float _time, Team _team )
+	public void Init (Vector3 _pos, float _scale, float _time, Team _team)
 	{
-		switch (_myType)
-		{
-			case AOE_Fx_Type.circle:
-				imgExt.sprite = circle;
-				imgInter.sprite = circle;
-				break;
-
-			case AOE_Fx_Type.square:
-				imgExt.sprite = square;
-				imgInter.sprite = square;
-				break;
-		}
-
-		transform.position = _pos;
-		transform.eulerAngles = new Vector3(0, _rota, 0);
+        transform.position = _pos;
+		transform.eulerAngles = new Vector3(0, 0, 0);
 		transform.localScale = new Vector3(_scale, _scale, _scale);
 
 		imgInter.transform.localScale = Vector3.zero;
@@ -42,10 +27,12 @@ public class AOE_Fx : MonoBehaviour
 		currentWaveTime = 0;
 		timeToSize = _time;
 
-		imgExt.color = GameFactory.GetRelativeColor(_team);
-		imgInter.color = GameFactory.GetRelativeColor(_team);
+        ParticleSystem.MainModule m = imgInter.main;
+        m.startColor = GameFactory.GetRelativeColor(_team);
 
-	}
+        blueMesh.SetActive(_team == NetworkManager.Instance.GetLocalPlayer().playerTeam);
+        redMesh.SetActive(_team != NetworkManager.Instance.GetLocalPlayer().playerTeam);
+    }
 
 	private void Update ()
 	{
@@ -53,12 +40,8 @@ public class AOE_Fx : MonoBehaviour
 		currentWaveTime += Time.deltaTime;
 
 		imgInter.transform.localScale = new Vector3(size, size, size);
-		imgInter.color = new Color(imgInter.color.r, imgInter.color.g, imgInter.color.b, size);
-	}
 
-	public enum AOE_Fx_Type
-	{
-		circle,
-		square
+        ParticleSystem.MainModule m = imgInter.main;
+        m.startColor = new Color(imgInter.startColor.r, imgInter.startColor.g, imgInter.startColor.b, size);
 	}
 }
