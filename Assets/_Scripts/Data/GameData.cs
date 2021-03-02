@@ -36,7 +36,8 @@ public class GameData
         Frog = 3,
         ResurectAltar = 4,
         HealthPack = 5,
-        UltPickup = 6
+        UltPickup = 6,
+        EndZone = 7
     }
     public enum En_SpellStep : ushort
     {

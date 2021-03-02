@@ -356,11 +356,25 @@ public class UiManager : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			SetEchapMenuState();
+            if (chat.isFocus)
+            {
+                chat.UnFocus();
+            }
+            else
+            {
+                SetEchapMenuState();
+            }
 		}
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
-			chat.Focus();
+            if (chat.isFocus)
+            {
+                chat.Send();
+            }
+            else
+            {
+                chat.Focus();
+            }
 		}
 
 		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
