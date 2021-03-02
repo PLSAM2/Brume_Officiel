@@ -233,6 +233,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1431083735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,7 +431,11 @@ MonoBehaviour:
   capturingTeam: 0
   capturingPlayerModule: {fileID: 0}
   state: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 65920
   authorizedCaptureCharacter: 0a0014001e00
+  contestable: 1
   canBeCapturedColor: {r: 0.31948957, g: 0.9528302, b: 0.17528482, a: 1}
   noCaptureColor: {r: 1, g: 0, b: 0, a: 1}
   fillImg: {fileID: 606675981}
@@ -440,6 +445,11 @@ MonoBehaviour:
   iconRed: {fileID: 0}
   iconBlue: {fileID: 0}
   myAudioSource: {fileID: 8109944235028613285}
+  interactibleName: 
+  showReload: 0
+  serverReloadTime: 0
+  reloadImage: {fileID: 0}
+  CheckOnUnlock: 0
   healValue: 40
 --- !u!1001 &7132121449817620314
 PrefabInstance:

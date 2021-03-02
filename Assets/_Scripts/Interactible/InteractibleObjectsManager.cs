@@ -13,8 +13,7 @@ public class InteractibleObjectsManager : MonoBehaviour
 {
     [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
-
-    private List<Altar> altarList = new List<Altar>();
+    public EndZoneInteractible endZone;
 
     UnityClient client;
 
@@ -32,15 +31,6 @@ public class InteractibleObjectsManager : MonoBehaviour
     }
     void Start()
     {
-
-        foreach (KeyInteractiblePair KeyInteractiblePair in interactibleList)
-        {
-            if (KeyInteractiblePair.interactible.GetType() == typeof(Altar))
-            {
-                altarList.Add((Altar)KeyInteractiblePair.interactible);
-            }
-        }
-
         client.MessageReceived += MessageReceived;
     }
 
@@ -93,10 +83,13 @@ public class InteractibleObjectsManager : MonoBehaviour
             if (message.Tag == Tags.HealthPackTimerElapsed)
             {
                 ReactivateHealthPackInServer(sender, e);
-            }            
+            }
+            if (message.Tag == Tags.RoundFinalPhase)
+            {
+                RoundFinalPhase(sender, e);
+            }
         }
     }
-
 
 
     public void InitInteractibleID()
@@ -303,6 +296,10 @@ public class InteractibleObjectsManager : MonoBehaviour
                 }
             }
         }
+    }
+    private void RoundFinalPhase(object sender, MessageReceivedEventArgs e)
+    {
+        endZone.Unlock();
     }
 
 }

@@ -316,7 +316,7 @@ public class PlayerModule : MonoBehaviour
 
 		if (mylocalPlayer.isOwner)
 		{
-			if (willListenInputs)
+			if (willListenInputs && !UiManager.Instance.chat.isFocus)
 			{
 				//direction des fleches du clavier 
 				DirectionInputedUpdate?.Invoke(directionInputed());
