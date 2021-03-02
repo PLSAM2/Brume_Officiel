@@ -105,7 +105,7 @@ public class ChatControl : MonoBehaviour
             return;
         }
 
-        if (messageText.text.ToLower().Contains("<size"))
+        if (messageText.text.ToLower().Contains("<size") || messageText.text.ToLower().Contains("<color"))
         {
             return;
         }

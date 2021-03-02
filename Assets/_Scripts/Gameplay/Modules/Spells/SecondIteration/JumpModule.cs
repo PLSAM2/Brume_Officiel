@@ -41,7 +41,7 @@ public class JumpModule : SpellModule
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		base.AnonceSpell(_toAnnounce);
-		LocalPoolManager.Instance.SpawnNewAOEInNetwork(myPlayerModule.mylocalPlayer.myPlayerId,(ushort)AOE_Fx_Type.circle, jumpPosEnd, 0, impactRadius, spell.anonciationTime);
+		LocalPoolManager.Instance.SpawnNewAOEInNetwork(myPlayerModule.mylocalPlayer.myPlayerId, jumpPosEnd, impactRadius, spell.anonciationTime);
 	}
 
 	protected override void ResolveSpell ()
