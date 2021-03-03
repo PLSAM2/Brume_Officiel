@@ -188,6 +188,7 @@ public class Projectile : AutoKill
 	public override void Destroy ( bool _spawnAoe )
 	{
 		asDeal = true;
+
 		if (hasTouched && doImpactFx)
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
@@ -207,11 +208,12 @@ public class Projectile : AutoKill
 
 		if (isOwner && aoeToSpawn != null)
 		{
-			if (_spawnAoe || localTrad.forcePrefabApparition)
+			if (_spawnAoe || localTrad.forcePrefabApparition )
 			{
 				NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 			}
 		}
+
 
 		bouncingNumberLive = localTrad.bouncingNumber;
 		base.Destroy();

@@ -258,6 +258,11 @@ public class PlayerModule : MonoBehaviour
 			else if ((oldState & En_CharacterState.Integenbility) != 0)
 				ResetLayer();
 
+            if(oldState.HasFlag(En_CharacterState.Crouched) != state.HasFlag(En_CharacterState.Crouched))
+            {
+                mylocalPlayer.myAnimController.animator.SetBool("walk" ,state.HasFlag(En_CharacterState.Crouched));
+            }
+
 			if ((oldState & En_CharacterState.WxMarked) != 0 && (state & En_CharacterState.WxMarked) == 0)
 			{
 				mylocalPlayer.MarkThirdEye(false);
