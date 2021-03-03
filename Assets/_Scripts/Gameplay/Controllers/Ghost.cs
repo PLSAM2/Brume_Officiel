@@ -98,7 +98,6 @@ public class Ghost : MonoBehaviour
         myFow.InitPlayerModule(playerModule);
 
         CameraManager.Instance.SetFollowObj(this.transform);
-        UiManager.Instance.SetAlphaBrume(0);
 
         isInBrume = playerModule.isInBrume;
         brumeId = playerModule.brumeId;
