@@ -82,9 +82,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fbab199e6d2c542bb828af3aeed692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  percentageOfTheScreenToScrollFromWidth: 0.05
-  percentageOfTheScreenToScrollFromHeight: 0.05
-  scrollingSpeed: 20
+  distancetoScrollfrom: 12
+  maxDistanceWithCharacter: 3
   playerToFollow: {fileID: 0}
   myCinemachine: {fileID: 3131054539172475765}
   groundlayer:
@@ -483,7 +482,7 @@ MonoBehaviour:
   m_YDamping: 0.2
   m_ZDamping: 0.2
   m_ScreenX: 0.5
-  m_ScreenY: 0.43
+  m_ScreenY: 0.5
   m_CameraDistance: 15
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -544,7 +543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4937095375379038111}
   m_LocalRotation: {x: 0.53729963, y: -0, z: -0, w: 0.8433915}
-  m_LocalPosition: {x: 80.2, y: 95.33223, z: -18.1381}
+  m_LocalPosition: {x: 80.2, y: 95.84463, z: -17.039265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6662946735498762051}
