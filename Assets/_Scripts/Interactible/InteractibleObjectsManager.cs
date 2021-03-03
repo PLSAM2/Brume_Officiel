@@ -11,9 +11,9 @@ using static GameData;
 
 public class InteractibleObjectsManager : MonoBehaviour
 {
+    [InfoBox("Altar en premier \n EndZoneInteractible dans les altars à rajouter aussi")]
     [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
-    public EndZoneInteractible endZone;
 
     UnityClient client;
 
@@ -299,7 +299,17 @@ public class InteractibleObjectsManager : MonoBehaviour
     }
     private void RoundFinalPhase(object sender, MessageReceivedEventArgs e)
     {
-        endZone.Unlock();
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort _ID = reader.ReadUInt16();
+
+                Interactible _interactible = interactibleList[_ID].interactible;
+
+                ((Altar)_interactible).StarFinalPhase();
+            }
+        }
     }
 
 }

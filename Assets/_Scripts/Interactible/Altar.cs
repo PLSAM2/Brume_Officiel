@@ -1,5 +1,6 @@
 ﻿
 using DarkRift;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class Altar : Interactible
     public float unlockTime;
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
+
+    public EndZoneInteractible endZoneInteractible;
     [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
@@ -107,5 +110,13 @@ public class Altar : Interactible
         AudioManager.Instance.Play2DAudio(unlockAltarSfx);
 
         waypointObj.SetImageColor(Color.white);
+    }
+
+    internal void StarFinalPhase()
+    {
+        endZoneInteractible.gameObject.SetActive(true);
+        endZoneInteractible.Unlock();
+        fillImg.gameObject.SetActive(false);
+        zoneImg.gameObject.SetActive(false);
     }
 }

@@ -53,9 +53,9 @@ public class Interactible : MonoBehaviour
 
     [Header("UI")]
     [TabGroup("InteractiblePart")]
-    [SerializeField] private Image fillImg;
+    [SerializeField] protected Image fillImg;
     [TabGroup("InteractiblePart")]
-    [SerializeField] private Image zoneImg;
+    [SerializeField] protected Image zoneImg;
 
     protected UnityClient client;
 
