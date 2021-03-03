@@ -93,7 +93,9 @@ public class CameraManager : MonoBehaviour
 	void LerpCameraPos ()
 	{
 		LocalPlayer _character = GameManager.Instance.currentLocalPlayer;
-		float _distanceFromCenter = Vector2.Distance(new Vector2(Input.mousePosition.x, Input.mousePosition.y * heightMultiplier), new Vector2(pixelSizeScreen.x/2, pixelSizeScreen.y/2));
+		float _distanceY = Vector2.Distance(new Vector2(0, Input.mousePosition.y) , new Vector2(0, pixelSizeScreen.y / 2)) * heightMultiplier;
+		float _distanceX = Vector2.Distance(new Vector2( Input.mousePosition.x,0) , new Vector2( pixelSizeScreen.x / 2, 0)) ;
+		float _distanceFromCenter = _distanceY + _distanceX;
 
 		if (_distanceFromCenter > pixelToScrollFrom)
 		{
