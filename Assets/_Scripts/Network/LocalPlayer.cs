@@ -120,14 +120,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	void Debug ()
 	{
-		if (Input.GetKeyDown(KeyCode.K) && isOwner)
+		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus)
 		{
 			DamagesInfos _temp = new DamagesInfos();
-			_temp.damageHealth = 100;
+			_temp.damageHealth = 1;
 			DealDamages(_temp, transform.position, null, true, true);
 		}
 
-		if (Input.GetKeyDown(KeyCode.P) && isOwner)
+		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus)
 		{
 			transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
 		}
@@ -582,16 +582,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void SendSpawnAOEFx ( ushort _idType, Vector3 _pos, float _rota, float _scale, float _time )
+	public void SendSpawnAOEFx (Vector3 _pos, float _scale, float _time )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write(_idType);
-
 			_writer.Write(_pos.x);
 			_writer.Write(_pos.z);
-
-			_writer.Write(_rota);
 
 			_writer.Write(_scale);
 
