@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Cinemachine;
+using Sirenix.OdinInspector;
 
 public class CameraManager : MonoBehaviour
 {
 	private static CameraManager _instance;
 	public static CameraManager Instance { get { return _instance; } }
 
-	[SerializeField] float percentageOfTheScreenToScrollFromWidth = .1f, percentageOfTheScreenToScrollFromHeight = .1f, scrollingSpeed = 10;
+	[TabGroup("CameraScroll")] [SerializeField] float /*percentageOfTheScreenToScrollFromWidth = .1f, percentageOfTheScreenToScrollFromHeight = .1f, scrollingSpeed = 10,*/distancetoScrollfrom = 14, maxDistanceWithCharacter = 6;
 	Transform cameraLocker;
 	public Action UpdateCameraPos, LockCamera;
 
 	//float et taille d ecran histoire que on la recalcule pas a chaque fois
 	Vector2 pixelSizeScreen;
 	float minX, maxX, minY, maxY, screenEdgeBorder;
-	bool isLocked = true;
+	bool isLocked = false;
+
+
 	public Transform playerToFollow;
 	[SerializeField] CinemachineVirtualCamera myCinemachine;
 	CinemachineBasicMultiChannelPerlin myCinemachinePerlin;
 	[SerializeField] LayerMask groundlayer;
 	float screenEdgeBorderHeight, screenEdgeBorderWidth;
-
+	Camera cam;
 	public bool isSpectate = false;
 
 	private float cameraShakeTimer = 0;
 	private bool cameraShakeStarted = false;
 
-    private void Awake ()
+	private void Awake ()
 	{
 		if (_instance != null && _instance != this)
 		{
@@ -38,21 +41,22 @@ public class CameraManager : MonoBehaviour
 		{
 			_instance = this;
 		}
+		cam = Camera.main;
 	}
 
-    private void OnEnable()
+	private void OnEnable ()
 	{
 		UpdateCameraPos += CameraScroll;
 		LockCamera += LockingCam;
 	}
 
-    private void OnDisable()
-    {
+	private void OnDisable ()
+	{
 		UpdateCameraPos -= CameraScroll;
 		LockCamera -= LockingCam;
 	}
 
-    private void Start ()
+	private void Start ()
 	{
 		GameObject _go = new GameObject();
 		cameraLocker = _go.transform;
@@ -60,11 +64,13 @@ public class CameraManager : MonoBehaviour
 		myCinemachinePerlin = myCinemachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 		OnResolutionChanged();
 
-		screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
-		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;
+		/*screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
+		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;*/
+
+		
 	}
 
-	public void SetParent ( Transform _characterToStick)
+	public void SetParent ( Transform _characterToStick )
 	{
 		playerToFollow = _characterToStick;
 		cameraLocker.transform.position = _characterToStick.transform.position;
@@ -73,10 +79,10 @@ public class CameraManager : MonoBehaviour
 	void OnResolutionChanged ()
 	{
 		pixelSizeScreen = new Vector2(Screen.width, Screen.height);
-		minX = pixelSizeScreen.x / 2 - pixelSizeScreen.x * percentageOfTheScreenToScrollFromWidth;
+		/*minX = pixelSizeScreen.x / 2 - pixelSizeScreen.x * percentageOfTheScreenToScrollFromWidth;
 		maxX = pixelSizeScreen.x / 2 + pixelSizeScreen.x * percentageOfTheScreenToScrollFromWidth;
 		minY = pixelSizeScreen.y / 2 - pixelSizeScreen.y * percentageOfTheScreenToScrollFromHeight;
-		maxY = pixelSizeScreen.y / 2 + pixelSizeScreen.y * percentageOfTheScreenToScrollFromHeight;
+		maxY = pixelSizeScreen.y / 2 + pixelSizeScreen.y * percentageOfTheScreenToScrollFromHeight;*/
 	}
 
 	public void LockingCam ()
@@ -84,51 +90,86 @@ public class CameraManager : MonoBehaviour
 		isLocked = true;
 	}
 
+	void LerpCameraPos ()
+	{
+		LocalPlayer _character = GameManager.Instance.currentLocalPlayer;
+		float _ydistanceFromCenter =Mathf.Clamp( Vector3.Distance(new Vector3(0, 0, _character.myPlayerModule.mousePos().z),
+		new Vector3(0, 0, CenterOfScreen().z)),5, 10);
+		float _xdistanceFromCenter = Vector3.Distance(new Vector3(_character.myPlayerModule.mousePos().x, 0,0 ),
+		new Vector3(CenterOfScreen().x, 0, 0));
+
+		float _distanceFromCenter = _ydistanceFromCenter *2f  + _xdistanceFromCenter;
+
+		print(_ydistanceFromCenter);
+		if (_distanceFromCenter > distancetoScrollfrom && !isLocked)
+		{
+			cameraLocker.transform.position = playerToFollow.transform.position + _character.myPlayerModule.directionOfTheMouse() * Mathf.Clamp((_distanceFromCenter - distancetoScrollfrom)*.33f, 0, maxDistanceWithCharacter);
+		}
+		else
+			cameraLocker.transform.position = playerToFollow.transform.position;
+	}
+
+	Vector3 CenterOfScreen()
+	{
+		Ray ray = Camera.main.ScreenPointToRay(new Vector2(pixelSizeScreen.x /2, pixelSizeScreen.y /2));
+		RaycastHit hit;
+
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 10))
+		{
+			return new Vector3(hit.point.x, 0, hit.point.z);
+		}
+		else
+		{
+			return Vector3.zero;
+		}
+	}
+
 	void CameraScroll ()
 	{
-		isLocked = false;
-		/* 
-        float inputX = Input.mousePosition.x;
-        float inputY = Input.mousePosition.y;
+		//isLocked = false;
 
-        if(inputX <= minX)
+		float inputX = Input.mousePosition.x;
+		float inputY = Input.mousePosition.y;
+
+		/*if (inputX <= minX)
 		{
-            print("Scroll left");
-            cameraLocker.position -= new Vector3(((minX - inputX)/pixelSizeScreen.x) * scrollingSpeed * Time.deltaTime, 0, 0);
-        }
-        else if (inputX >= maxX)
+			print("Scroll left");
+			float posX = (minX - inputX) / pixelSizeScreen.x;
+			cameraLocker.position -= new Vector3(( * scrollingSpeed * Time.deltaTime, 0, 0);
+		}
+		else if (inputX >= maxX)
 		{
-            print("Scroll right");
+			print("Scroll right");
 
-            cameraLocker.position += new Vector3(((inputX - maxX) / pixelSizeScreen.x) * scrollingSpeed * Time.deltaTime,0,0);
-        }
+			cameraLocker.position += new Vector3(((inputX - maxX) / pixelSizeScreen.x) * scrollingSpeed * Time.deltaTime, 0, 0);
+		}
 
-        if(inputY <= minY)
+		if (inputY <= minY)
 		{
-            print("Scroll down");
+			print("Scroll down");
 
-            cameraLocker.position -= new Vector3(0,0,((minY - inputY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
-        }
-        else if (inputY >= maxY)
+			cameraLocker.position -= new Vector3(0, 0, ((minY - inputY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
+		}
+		else if (inputY >= maxY)
 		{
-            print("Scroll up");
+			print("Scroll up");
 
-            cameraLocker.position += new Vector3(0,0, ((inputY - maxY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
-        }
-        cameraLocker.position = new Vector3(cameraLocker.position.x, 0, cameraLocker.position.z);
-            }*/
+			cameraLocker.position += new Vector3(0, 0, ((inputY - maxY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
+		}
+		cameraLocker.position = new Vector3(cameraLocker.position.x, 0, cameraLocker.position.z);
+		//}
 
-/*
-			float inputX = Input.mousePosition.x;
-			float inputY = Input.mousePosition.y;
+		/*
+					float inputX = Input.mousePosition.x;
+					float inputY = Input.mousePosition.y;
 
-			if (inputX <= minX || inputX >= maxX || inputY <= minY || inputY >= maxY)
-			{
-				cameraLocker.position += Vector3.Normalize(playerToFollow.mousePos() - cameraLocker.position) * scrollingSpeed;
-				//new Vector3(0, 0, ((inputY - maxY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
-			}
-	*/
-		Vector3 desiredMove = new Vector3();
+					if (inputX <= minX || inputX >= maxX || inputY <= minY || inputY >= maxY)
+					{
+						cameraLocker.position += Vector3.Normalize(playerToFollow.mousePos() - cameraLocker.position) * scrollingSpeed;
+						//new Vector3(0, 0, ((inputY - maxY) / pixelSizeScreen.y) * scrollingSpeed * Time.deltaTime);
+					}
+			*/
+	/*	Vector3 desiredMove = new Vector3();
 
 		Rect leftRect = new Rect(0, 0, screenEdgeBorderWidth, Screen.height);
 		Rect rightRect = new Rect(Screen.width - screenEdgeBorderWidth, 0, screenEdgeBorderWidth, Screen.height);
@@ -141,8 +182,7 @@ public class CameraManager : MonoBehaviour
 
 		desiredMove *= Time.deltaTime;
 		desiredMove.y = 0;
-		cameraLocker.position += new Vector3(desiredMove.x, 0,desiredMove.z) ;
-			
+		cameraLocker.position += new Vector3(desiredMove.x, 0, desiredMove.z);*/
 	}
 
 	private Vector2 MouseInput
@@ -151,49 +191,50 @@ public class CameraManager : MonoBehaviour
 	}
 
 
-    private void Update()
-    {
-        if (cameraShakeTimer > 0 && cameraShakeStarted)
-        {
+	private void Update ()
+	{
+		if (cameraShakeTimer > 0 && cameraShakeStarted)
+		{
 			cameraShakeTimer -= Time.deltaTime;
 
-            if (cameraShakeTimer < 0)
+			if (cameraShakeTimer < 0)
 			{
 				myCinemachinePerlin.m_AmplitudeGain = 0;
 				cameraShakeStarted = false;
 				cameraShakeTimer = 0;
 			}
-        }
-    }
+		}
+		LerpCameraPos();
+	}
 
-    private void LateUpdate ()
+	private void LateUpdate ()
 	{
-        if (isSpectate) { return; }
+		if (isSpectate) { return; }
 
 		if (isLocked && GameManager.Instance.gameStarted && playerToFollow != null)
 		{
-			cameraLocker.transform.position = playerToFollow.transform.position;
+			//cameraLocker.transform.position = playerToFollow.transform.position;
 		}
 	}
 
-	public void SetFollowObj(Transform obj)
-    {
+	public void SetFollowObj ( Transform obj )
+	{
 		myCinemachine.Follow = obj;
 	}
 
-	public void ResetPlayerFollow()
-    {
+	public void ResetPlayerFollow ()
+	{
 		isSpectate = false;
 		myCinemachine.Follow = cameraLocker;
 	}
 
 	// Camera Shake >>
-	public void SetNewCameraShake( float time, float intensity = 0.3f)
-    {
+	public void SetNewCameraShake ( float time, float intensity = 0.3f )
+	{
 		myCinemachinePerlin.m_AmplitudeGain = intensity;
 		cameraShakeTimer = time;
 		cameraShakeStarted = true;
-    }
+	}
 	// <<
 
 
