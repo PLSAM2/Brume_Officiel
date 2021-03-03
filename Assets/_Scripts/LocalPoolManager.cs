@@ -60,23 +60,23 @@ public class LocalPoolManager : SerializedMonoBehaviour
     }
 
     //AOE
-    public void SpawnNewAOELocal(ushort _idPlayer, ushort _type, Vector3 _pos, float _rota, float _scale, float _time)
+    public void SpawnNewAOELocal(ushort _idPlayer, Vector3 _pos, float _scale, float _time)
     {
         AOE_Fx currentFeedback = GetFree(allAOE, prefabAOEFeedback).GetComponent<AOE_Fx>();
 
         currentFeedback.gameObject.SetActive(true);
-        currentFeedback.Init((AOE_Fx_Type) _type, _pos, _rota, _scale *2, _time,  GameManager.Instance.networkPlayers[_idPlayer].myPlayerModule.teamIndex);
+        currentFeedback.Init(_pos, _scale *2, _time,  GameManager.Instance.networkPlayers[_idPlayer].myPlayerModule.teamIndex);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time + 0.2f);
     }
 
-    public void SpawnNewAOEInNetwork(ushort _idPlayer, ushort _idType, Vector3 _pos, float _rota, float _scale, float _time)
+    public void SpawnNewAOEInNetwork(ushort _idPlayer, Vector3 _pos, float _scale, float _time)
     {
         LocalPlayer myLocalPlayer = GameFactory.GetLocalPlayerObj();
 
-        SpawnNewAOELocal(_idPlayer, _idType, _pos, _rota, _scale, _time);
+        SpawnNewAOELocal(_idPlayer, _pos, _scale, _time);
 
-        myLocalPlayer.SendSpawnAOEFx(_idType, _pos, _rota, _scale, _time);
+        myLocalPlayer.SendSpawnAOEFx(_pos, _scale, _time);
     }
 
 
