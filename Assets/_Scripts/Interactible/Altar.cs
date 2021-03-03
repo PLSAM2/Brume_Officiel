@@ -30,6 +30,7 @@ public class Altar : Interactible
     void Start()
     {
         base.Init();
+        endZoneInteractible.Init(this);
         isInteractable = false;
     }
 

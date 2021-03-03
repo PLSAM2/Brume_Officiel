@@ -307,6 +307,8 @@ public class InteractibleObjectsManager : MonoBehaviour
 
                 Interactible _interactible = interactibleList[_ID].interactible;
 
+                GameManager.Instance.StartEndZone();
+
                 ((Altar)_interactible).StarFinalPhase();
             }
         }
