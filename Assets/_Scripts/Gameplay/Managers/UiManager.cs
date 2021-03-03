@@ -15,6 +15,8 @@ public class UiManager : MonoBehaviour
 	public static UiManager Instance { get { return _instance; } }
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
+	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI endZoneTimer;
+	[FoldoutGroup("GlobalUi")] public GameObject endZoneTimerObj;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
@@ -39,8 +41,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GeneralMessage")] public float generalMessageAnimTime = 3;
 	private List<string> generalMessageList = new List<string>();
 	private bool waitForGenMessageAnimEnd = false;
-
-	[SerializeField] Image brumeFilter;
 
 	[Header("GamePlayPart")]
 	[Header("Status Icon")]
@@ -708,11 +708,6 @@ public class UiManager : MonoBehaviour
 			barCasting.SetActive(false);
 		else
 			barCasting.SetActive(true);
-	}
-
-	public void SetAlphaBrume ( float value )
-	{
-		brumeFilter.color = new Color(brumeFilter.color.r, brumeFilter.color.g, brumeFilter.color.b, value);
 	}
 
 	public void DisplayGeneralMessage ( string value )

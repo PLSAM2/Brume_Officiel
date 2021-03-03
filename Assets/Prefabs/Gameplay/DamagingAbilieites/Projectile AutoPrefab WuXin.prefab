@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mylifeTime: 0
   myLivelifeTime: 0
+  isUsingTeamMesh: 1
   meshBlue: {fileID: 4046907593915369113}
   meshRed: {fileID: 279285048789274863}
   hideMeshToEnemyTeam: 0
@@ -245,10 +246,11 @@ MonoBehaviour:
   soundFollowObj: 1
   aoeToSpawn: {fileID: 0}
   localTrad: {fileID: 11400000, guid: 20cbee49fcf34e847942844ec89429b8, type: 2}
-  doImpactFx: 1
+  doImpactFx: 0
   hasTouched: 0
   myRb: {fileID: 63471337967116498}
   hitSound: {fileID: 0}
+  collisionSize: {x: 0, y: 0, z: 0}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -95,5 +95,18 @@ public class JumpModule : SpellModule
 		}
 	}
 
-	
+	public override void ResolutionFeedBack ()
+	{
+
+		Transform player = GameFactory.GetActualPlayerFollow().transform;
+
+		if (player != null && Vector3.Distance(player.position, transform.position) < 7)
+		{
+			CameraManager.Instance.SetNewCameraShake(.15f, 0.5f);
+		}
+
+		base.ResolutionFeedBack();
+	}
+
+
 }
