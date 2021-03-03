@@ -82,8 +82,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fbab199e6d2c542bb828af3aeed692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distancetoScrollfrom: 12
-  maxDistanceWithCharacter: 3
+  pixelToScrollFrom: 500
+  maxPixelTraveled: 150
+  maxDistanceInGameTraveled: 3
+  heightMultiplier: 1.4
   playerToFollow: {fileID: 0}
   myCinemachine: {fileID: 3131054539172475765}
   groundlayer:
