@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TerrainMaterialShader
   m_Shader: {fileID: 4800000, guid: 5840f803f40465843a003e972b4ebbea, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _IB_SHADOW_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -400,6 +400,8 @@ Material:
     - _Float43: 2
     - _Float44: 2
     - _Float45: 2
+    - _Float47: 0.01
+    - _Float6: 0
     - _Float8: 1.02
     - _Float9: 2
     - _Float94: 0.2
@@ -413,6 +415,9 @@ Material:
     - _Grayscale: 0
     - _GrayscaleDebug: 0
     - _HeightTransition: 0
+    - _IB_Shadow: 1
+    - _IB_StepAttenuation: 0.01
+    - _IB_StepShadow: 0
     - _InkGrunge_Contrast: 0
     - _InkGrunge_Multiply: 0
     - _InkGrunge_Tiling: 1
@@ -630,6 +635,7 @@ Material:
     - _ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _IB_ShadowColor: {r: 0.3301886, g: 0.3301886, b: 0.3301886, a: 0}
     - _InBrumeBackColor: {r: 1, g: 1, b: 1, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Noise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
