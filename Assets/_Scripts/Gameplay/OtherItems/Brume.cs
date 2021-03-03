@@ -27,11 +27,11 @@ public class Brume : MonoBehaviour
         float value = 0;
         if (isShow)
         {
-            value = Mathf.Lerp(0, 1, Time.deltaTime * speedTransition);
+            value = Mathf.Lerp(1, 0, Time.deltaTime * speedTransition);
         }
         else
         {
-            value = Mathf.Lerp(1, 0, Time.deltaTime * speedTransition);
+            value = Mathf.Lerp(0, 1, Time.deltaTime * speedTransition);
         }
 
         foreach (Renderer r in myRenderer)
@@ -73,7 +73,7 @@ public class Brume : MonoBehaviour
 
         SetTowerFow(_value);
 
-
+        isShow = _value;
     }
 
     void SetWardFow(PlayerModule _player)
