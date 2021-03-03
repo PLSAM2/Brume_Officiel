@@ -2,15 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public class Brume : MonoBehaviour
 {
     public List<Renderer> myRenderer = new List<Renderer>();
     [SerializeField] AudioClip sfxTransiBrume;
 
+    bool isShow = true;
+    [SerializeField] float speedTransition = 10;
+
     private void Start()
     {
         GameManager.Instance.allBrume.Add(this);
+
+        foreach (Renderer r in myRenderer)
+        {
+            r.material = Instantiate<Material>(r.material);
+        }
+    }
+
+    private void Update()
+    {
+        float value = 0;
+        if (isShow)
+        {
+            value = Mathf.Lerp(0, 1, Time.deltaTime * speedTransition);
+        }
+        else
+        {
+            value = Mathf.Lerp(1, 0, Time.deltaTime * speedTransition);
+        }
+
+        foreach (Renderer r in myRenderer)
+        {
+            r.material.SetFloat("_Alpha", value);
+        }
     }
 
     public void ForceEnter(PlayerModule player)
@@ -46,10 +73,7 @@ public class Brume : MonoBehaviour
 
         SetTowerFow(_value);
 
-        foreach(Renderer r in myRenderer)
-        {
-            r.enabled = _value;
-        }
+
     }
 
     void SetWardFow(PlayerModule _player)
