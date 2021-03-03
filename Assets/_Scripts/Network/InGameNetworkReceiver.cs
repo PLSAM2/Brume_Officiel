@@ -266,17 +266,15 @@ public class InGameNetworkReceiver : MonoBehaviour
 			using (DarkRiftReader reader = message.GetReader())
 			{
                 ushort _idPlayer = reader.ReadUInt16();
-                ushort _idType = reader.ReadUInt16();
 
 				float _posX = reader.ReadSingle();
 				float _posZ = reader.ReadSingle();
 
-				float _rota = reader.ReadSingle();
 				float _scale = reader.ReadSingle();
 
 				float _time = reader.ReadSingle();
 
-				LocalPoolManager.Instance.SpawnNewAOELocal(_idPlayer, _idType, new Vector3(_posX, 0, _posZ), _rota, _scale, _time);
+				LocalPoolManager.Instance.SpawnNewAOELocal(_idPlayer, new Vector3(_posX, 0, _posZ), _scale, _time);
 			}
 		}
 	}
