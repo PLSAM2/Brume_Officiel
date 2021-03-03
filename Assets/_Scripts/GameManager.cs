@@ -36,7 +36,9 @@ public class GameManager : SerializedMonoBehaviour
 
     [Header("Timer")]
     private bool timeStart = false;
+    private bool endZoneStarted = false;
     public float timer = 0;
+    public float endZoneTimer = 61;
 
     [Header("Camera")]
     public Camera defaultCam;
@@ -119,9 +121,14 @@ public class GameManager : SerializedMonoBehaviour
     private void Start()
     {
         timer = 0;
+        endZoneTimer = 61;
         int secondRemaining = (int)timer % 60;
         int minuteRemaining = (int)Math.Floor(timer / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+
+        secondRemaining = (int)endZoneTimer % 60;
+        minuteRemaining = (int)Math.Floor(endZoneTimer / 60);
+        UiManager.Instance.endZoneTimer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
         RoomManager.Instance.UpdatePointDisplay();
         UiManager.Instance.DisplayGeneralMessage("Round : " + RoomManager.Instance.roundCount);
@@ -194,11 +201,35 @@ public class GameManager : SerializedMonoBehaviour
         int minuteRemaining = (int)Math.Floor(timer / 60);
         UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
+
+        if (endZoneStarted)
+        {
+            endZoneTimer -= Time.deltaTime;
+
+            secondRemaining = (int)endZoneTimer % 60;
+            minuteRemaining = (int)Math.Floor(endZoneTimer / 60);
+            UiManager.Instance.endZoneTimer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+
+
+            if (secondRemaining <= 0 && minuteRemaining <= 0)
+            {
+                
+            }
+
+        }
+
+    }
+
+    public void StartEndZone()
+    {
+        endZoneStarted = true;
+        UiManager.Instance.endZoneTimerObj.SetActive(true);
     }
 
     private void StartTimerInServer()
     {
         timeStart = true;
+
     }
 
     void OnPlayerTakeDamage(ushort idPlayer, ushort _damage)

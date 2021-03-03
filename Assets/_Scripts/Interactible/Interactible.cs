@@ -53,9 +53,9 @@ public class Interactible : MonoBehaviour
 
     [Header("UI")]
     [TabGroup("InteractiblePart")]
-    [SerializeField] private Image fillImg;
+    [SerializeField] protected Image fillImg;
     [TabGroup("InteractiblePart")]
-    [SerializeField] private Image zoneImg;
+    [SerializeField] protected Image zoneImg;
 
     protected UnityClient client;
 
@@ -79,6 +79,7 @@ public class Interactible : MonoBehaviour
     private bool isViewed = false;
     [HideInInspector] public bool CheckOnUnlock = false;
 
+    public Team lastTeamCaptured = Team.none;
     private void Awake()
     {
         client = RoomManager.Instance.client;
@@ -273,7 +274,7 @@ public class Interactible : MonoBehaviour
     public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
-
+        lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         fillImg.fillAmount = 0;
         isCapturing = false;
@@ -290,7 +291,7 @@ public class Interactible : MonoBehaviour
 
         if (mapIcon != null)
         {
-            if (capturingPlayerModule.teamIndex == Team.red && showOnMap)
+            if (lastTeamCaptured == Team.red && showOnMap)
                 mapIcon.sprite = iconRed;
             else if (showOnMap)
                 mapIcon.sprite = iconBlue;
