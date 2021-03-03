@@ -10,7 +10,7 @@ public class CameraManager : MonoBehaviour
 	private static CameraManager _instance;
 	public static CameraManager Instance { get { return _instance; } }
 
-	[TabGroup("CameraScroll")] [SerializeField] float /*percentageOfTheScreenToScrollFromWidth = .1f, percentageOfTheScreenToScrollFromHeight = .1f, scrollingSpeed = 10,*/distancetoScrollfrom = 14, maxDistanceWithCharacter = 6;
+	[TabGroup("CameraScroll")] [SerializeField] float /*percentageOfTheScreenToScrollFromWidth = .1f, percentageOfTheScreenToScrollFromHeight = .1f, scrollingSpeed = 10,*/pixelToScrollFrom = 700, maxPixelTraveled = 200, maxDistanceInGameTraveled = 3, heightMultiplier = 1.4f;
 	Transform cameraLocker;
 	public Action UpdateCameraPos, LockCamera;
 
@@ -93,17 +93,13 @@ public class CameraManager : MonoBehaviour
 	void LerpCameraPos ()
 	{
 		LocalPlayer _character = GameManager.Instance.currentLocalPlayer;
-		float _ydistanceFromCenter =Mathf.Clamp( Vector3.Distance(new Vector3(0, 0, _character.myPlayerModule.mousePos().z),
-		new Vector3(0, 0, CenterOfScreen().z)),5, 10);
-		float _xdistanceFromCenter = Vector3.Distance(new Vector3(_character.myPlayerModule.mousePos().x, 0,0 ),
-		new Vector3(CenterOfScreen().x, 0, 0));
+		float _distanceFromCenter = Vector2.Distance(new Vector2(Input.mousePosition.x, Input.mousePosition.y * heightMultiplier), new Vector2(pixelSizeScreen.x/2, pixelSizeScreen.y/2));
 
-		float _distanceFromCenter = _ydistanceFromCenter *2f  + _xdistanceFromCenter;
-
-		print(_ydistanceFromCenter);
-		if (_distanceFromCenter > distancetoScrollfrom && !isLocked)
+		if (_distanceFromCenter > pixelToScrollFrom)
 		{
-			cameraLocker.transform.position = playerToFollow.transform.position + _character.myPlayerModule.directionOfTheMouse() * Mathf.Clamp((_distanceFromCenter - distancetoScrollfrom)*.33f, 0, maxDistanceWithCharacter);
+			Vector3 _direction = new Vector3( Input.mousePosition.x - pixelSizeScreen.x / 2, 0, Input.mousePosition.y - pixelSizeScreen.y / 2).normalized;
+			print(_direction);
+			cameraLocker.transform.position = _character.transform.position + _direction * Mathf.Clamp((_distanceFromCenter - pixelToScrollFrom) / maxPixelTraveled, 0, maxDistanceInGameTraveled);
 		}
 		else
 			cameraLocker.transform.position = playerToFollow.transform.position;
