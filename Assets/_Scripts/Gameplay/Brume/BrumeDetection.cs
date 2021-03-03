@@ -11,16 +11,16 @@ public class BrumeDetection : MonoBehaviour
 
     Brume currentBrume;
 
+    /*
     float viewAngle = 360;
     public float resolution = 0.1f;
     float distanceRay = 2f;
-
-    [SerializeField] AnimationCurve curveAlpha;
+    */
 
     private void Start()
     {
         myPlayerModule = GetComponent<PlayerModule>();
-        distanceRay = curveAlpha.keys[curveAlpha.keys.Length - 1].time;
+        //distanceRay = curveAlpha.keys[curveAlpha.keys.Length - 1].time;
     }
 
     void Update()
@@ -58,13 +58,16 @@ public class BrumeDetection : MonoBehaviour
             }
         }
 
+        /*
         //border detection
         if (myPlayerModule == currentFollowPlayer)
         {
             UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(GetDistanceFromBrume()));
         }
+        */
     }
 
+    /* old
     float GetDistanceFromBrume()
     {
         RaycastHit hit;
@@ -93,7 +96,8 @@ public class BrumeDetection : MonoBehaviour
             return allDistance.Min();
         }
         return distanceRay;
-    } 
+    }
+    */
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {

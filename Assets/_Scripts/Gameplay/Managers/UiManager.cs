@@ -40,8 +40,6 @@ public class UiManager : MonoBehaviour
 	private List<string> generalMessageList = new List<string>();
 	private bool waitForGenMessageAnimEnd = false;
 
-	[SerializeField] Image brumeFilter;
-
 	[Header("GamePlayPart")]
 	[Header("Status Icon")]
 	[FoldoutGroup("StatusIcon")] public Image slowIcon;
@@ -708,11 +706,6 @@ public class UiManager : MonoBehaviour
 			barCasting.SetActive(false);
 		else
 			barCasting.SetActive(true);
-	}
-
-	public void SetAlphaBrume ( float value )
-	{
-		brumeFilter.color = new Color(brumeFilter.color.r, brumeFilter.color.g, brumeFilter.color.b, value);
 	}
 
 	public void DisplayGeneralMessage ( string value )
