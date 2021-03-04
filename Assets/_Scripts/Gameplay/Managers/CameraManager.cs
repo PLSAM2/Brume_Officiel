@@ -95,12 +95,11 @@ public class CameraManager : MonoBehaviour
 		LocalPlayer _character = GameManager.Instance.currentLocalPlayer;
 		float _distanceY = Vector2.Distance(new Vector2(0, Input.mousePosition.y) , new Vector2(0, pixelSizeScreen.y / 2)) * heightMultiplier;
 		float _distanceX = Vector2.Distance(new Vector2( Input.mousePosition.x,0) , new Vector2( pixelSizeScreen.x / 2, 0)) ;
-		float _distanceFromCenter = _distanceY + _distanceX;
+		float _distanceFromCenter = Mathf.Sqrt(_distanceY * _distanceY + _distanceX * _distanceX);
 
 		if (_distanceFromCenter > pixelToScrollFrom)
 		{
 			Vector3 _direction = new Vector3( Input.mousePosition.x - pixelSizeScreen.x / 2, 0,( Input.mousePosition.y - pixelSizeScreen.y / 2) * heightMultiplier).normalized;
-			print(_direction);
 			cameraLocker.transform.position = _character.transform.position + _direction * Mathf.Clamp((_distanceFromCenter - pixelToScrollFrom) / maxPixelTraveled, 0, maxDistanceInGameTraveled);
 		}
 		else

@@ -10126,9 +10126,18 @@ MonoBehaviour:
   hasPreviewed: 0
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
   fxCanalisation: {fileID: 0}
   fxRecalShoot: {fileID: 0}
 --- !u!114 &201590368787613686
@@ -10154,9 +10163,18 @@ MonoBehaviour:
   hasPreviewed: 0
   canalisationClip: {fileID: 8300000, guid: afa1fcc3b83ec2f4a9bd7de846e34b34, type: 3}
   anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
   aoeInstantiated: {fileID: 5624599934099963903, guid: b533af2fb6130ca45b0ae355e7252ee2, type: 3}
   spawnOnPos: 1
 --- !u!114 &1286970584369722292
@@ -10182,9 +10200,18 @@ MonoBehaviour:
   hasPreviewed: 0
   canalisationClip: {fileID: 8300000, guid: 810e7d9e312a6e3428cee5abf4e83f08, type: 3}
   anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 731335209741717061}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
   spellToLaunchOnCounter: {fileID: 201590368787613686}
   spellToReduceCooldown: 1
   cooldownReduced: 10
@@ -10269,39 +10296,20 @@ MonoBehaviour:
   hasPreviewed: 0
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
   aoeInstantiated: {fileID: 5624599934099963903, guid: 1d8aefbe5b8371c4d976cd21ffa9aead, type: 3}
   spawnOnPos: 1
---- !u!114 &8756151508105791012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerModule: {fileID: 0}
-  timeToResolveSpell: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 63d2ee4bf872d204b9eea29531c84e32, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
-  anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &9035810358057001572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10325,9 +10333,18 @@ MonoBehaviour:
   hasPreviewed: 0
   canalisationClip: {fileID: 8300000, guid: b2e9d5d063184c84f976a2bc2cf291b8, type: 3}
   anonciationClip: {fileID: 8300000, guid: 943125b275c90bc47a81e0f119106a9d, type: 3}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
   hurtingBoxWidth: 0.8
   damages:
     playerName: 
@@ -10370,9 +10387,18 @@ MonoBehaviour:
   hasPreviewed: 0
   canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
-  objectToActivateOnCanlisation: {fileID: 0}
-  objectToActivateOnAnnonciation: {fileID: 0}
-  objectToActivateOnResolution: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
   playerModule: {fileID: 3038193427288463681}
   tpMaxTime: 5
   integibleLayer: 16
@@ -15609,6 +15635,10 @@ PrefabInstance:
       propertyPath: objToHide.Array.data[4]
       value: 
       objectReference: {fileID: 731335209741717061}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: myPlayerModule
+      value: 
+      objectReference: {fileID: 3038193427288463681}
     - target: {fileID: 1360074147772094877, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_Sprite
       value: 
