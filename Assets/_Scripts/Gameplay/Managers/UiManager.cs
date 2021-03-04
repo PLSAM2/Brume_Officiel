@@ -91,7 +91,8 @@ public class UiManager : MonoBehaviour
 
 	[Header("Misc")]
 	[FoldoutGroup("Misc")] public GameObject DebuggerPanel;
-
+	[FoldoutGroup("spellDescription")] public GameObject wholeTooltip;
+	[FoldoutGroup("spellDescription")] public TextMeshProUGUI skillNameText, cooldownText, descriptionText ;
 
 	private void Awake ()
 	{

@@ -14,10 +14,8 @@ public class IconUi : MonoBehaviour
 	bool ishiding;
 	RectTransform myRectTransform;
 	Vector2 basePos;
-	[TabGroup("Tooltip")] public GameObject wholeTooltip;
-	[TabGroup("Tooltip")] public TextMeshProUGUI myDescription, myName, myCdText;
 	En_SpellInput inputLinked;
-
+	Sc_Spell spellLinked;
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
 	{
 		myRectTransform = GetComponent<RectTransform>();
@@ -29,10 +27,9 @@ public class IconUi : MonoBehaviour
 
 		if (!_spellToToolTip.useUltStacks)
 			CooldownReadyFeedback();
-	
-		myName.text = _spellToToolTip.spellName;
-		myCdText.text = _spellToToolTip.cooldown + "s";
-		myDescription.text = _spellToToolTip.spellDescription;
+
+		spellLinked = _spellToToolTip;
+
 		icon.sprite = _spellToToolTip.spellIcon;
 
 		if (NetworkManager.Instance.GetLocalPlayer().ultStacks < _spellToToolTip.stacksUsed)
@@ -110,10 +107,13 @@ public class IconUi : MonoBehaviour
 	}
 	public void ShowTooltip ()
 	{
-		wholeTooltip.SetActive(true);
+		UiManager.Instance.wholeTooltip.SetActive(true);
+		UiManager.Instance.skillNameText.text = spellLinked.spellName;
+		UiManager.Instance.cooldownText.text = spellLinked.cooldown + "s";
+		UiManager.Instance.descriptionText.text = spellLinked.spellDescription;
 	}
 	public void HideToolTip ()
 	{
-		wholeTooltip.SetActive(false);
+		UiManager.Instance.wholeTooltip.SetActive(false);
 	}
 }
