@@ -17,7 +17,21 @@ public class UIAltarList : MonoBehaviour
     int blueGain = 0;
     int redGain = 0;
 
-    public void GainBlue()
+    public void GainTeam(Team _team)
+    {
+        switch (_team == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            case true:
+                GainBlue();
+                break;
+
+            case false:
+                GainRed();
+                break;
+        }
+    }
+
+    void GainBlue()
     {
         blueGain++;
 
@@ -39,7 +53,7 @@ public class UIAltarList : MonoBehaviour
         }
     }
 
-    public void GainRed()
+    void GainRed()
     {
         redGain++;
 

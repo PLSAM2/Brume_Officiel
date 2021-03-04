@@ -500,11 +500,6 @@ public class RoomManager : MonoBehaviour
         return InGameUniqueIDList[NetworkManager.Instance.GetLocalPlayer().ID];
     }
 
-    public PlayerData GetLocalPlayerData()
-    {
-        return GetPlayerData(InGameUniqueIDList[NetworkManager.Instance.GetLocalPlayer().ID]);
-    }
-
     public void ResetActualGame()
     {
 

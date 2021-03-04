@@ -50,7 +50,7 @@ public class Altar : Interactible
 
         //myLava.Spawn();
 
-        UiManager.Instance.OnAltarUnlock(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
 
     public override void Captured(ushort _capturingPlayerID)

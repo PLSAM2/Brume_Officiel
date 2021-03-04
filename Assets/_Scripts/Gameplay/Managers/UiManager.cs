@@ -408,18 +408,16 @@ public class UiManager : MonoBehaviour
 		nextAltarRadarIcon.gameObject.SetActive(true);
 	}
 
-	public void OnAltarUnlock ( Team capturingTeam )
+    List<Altar> altarCapture = new List<Altar>();
+	public void OnAltarUnlock (Altar _altar, Team _capturingTeam )
 	{
-        switch (capturingTeam)
+        if (altarCapture.Contains(_altar))
         {
-            case Team.blue:
-                uiAltarList.GainBlue();
-                break;
-
-            case Team.red:
-                uiAltarList.GainRed();
-                break;
+            return;
         }
+
+        altarCapture.Add(_altar);
+        uiAltarList.GainTeam(_capturingTeam);
 	}
 
 	IEnumerator MinimapUpdate ()
