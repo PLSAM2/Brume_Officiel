@@ -18,22 +18,28 @@ public class IconUi : MonoBehaviour
 	[TabGroup("Tooltip")] public TextMeshProUGUI myDescription, myName, myCdText;
 	En_SpellInput inputLinked;
 
-	private void Start ()
+	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
 	{
 		myRectTransform = GetComponent<RectTransform>();
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
-		CooldownReadyFeedback();
-	}
-	public void SetupIcon( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip)
-	{
+
 		inputLinked = _inputLinked;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible += CooldownReadyFeedback;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible += CantCastFeedback;
 
+		if (!_spellToToolTip.useUltStacks)
+			CooldownReadyFeedback();
+	
 		myName.text = _spellToToolTip.spellName;
 		myCdText.text = _spellToToolTip.cooldown + "s";
 		myDescription.text = _spellToToolTip.spellDescription;
 		icon.sprite = _spellToToolTip.spellIcon;
+
+		if (NetworkManager.Instance.GetLocalPlayer().ultStacks < _spellToToolTip.stacksUsed)
+		{
+			CantCastFeedback();
+		}
+
 	}
 	private void OnDisable ()
 	{
@@ -61,7 +67,7 @@ public class IconUi : MonoBehaviour
 	{
 		ResetIcon();
 		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .8f);
-		Color _color = new Vector4(255, 16, 16, 195);
+		Color _color = new Vector4(0, 0, 0, 255);
 		feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
 		feedbackCantCast.rectTransform.localScale = new Vector3(1.5f, 1.5f, 1);
@@ -72,7 +78,7 @@ public class IconUi : MonoBehaviour
 	{
 		ResetIcon();
 		outlineIcon.color = new Color(248, 189, 67, 255);
-		myRectTransform.DOScale(new Vector3(1.4f, 1.5f, 1.5f), .25f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .25f));
+		myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
 	}
 	public void ResetIcon ()
 	{
@@ -102,7 +108,7 @@ public class IconUi : MonoBehaviour
 	{
 		input.text = _name;
 	}
-	public void ShowTooltip()
+	public void ShowTooltip ()
 	{
 		wholeTooltip.SetActive(true);
 	}

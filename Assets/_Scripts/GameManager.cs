@@ -31,7 +31,6 @@ public class GameManager : SerializedMonoBehaviour
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
     public LocalPlayer currentLocalPlayer { get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
-
     [SerializeField] UnityClient client;
 
     LocalPlayer _currentSpecPlayer;

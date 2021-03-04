@@ -135,7 +135,7 @@ public class PlayerModule : MonoBehaviour
 	//buffer input
 	public Action spellResolved;
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
-
+	public Action ultPointPickedUp;
 	#endregion
 
 	void Awake ()
