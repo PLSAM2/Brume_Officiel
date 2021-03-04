@@ -35,11 +35,10 @@ public class SpellModule : MonoBehaviour
 			_charges = value;
 			/*if (_charges == spell.numberOfCharge)
 				cooldown = finalCooldownValue();*/
-			if (isOwner && _charges>0)
+			if (isOwner && _charges > 0 && NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
 			{
 
-				SpellAvaible?.Invoke();
-				//ChargeUpdate?.Invoke(charges);
+				CheckForUse();
 			}
 		}
 	}
@@ -60,11 +59,11 @@ public class SpellModule : MonoBehaviour
 	//public Action<int> ChargeUpdate;
 	public Action SpellAvaible, SpellNotAvaible;
 
-    [Header("FeedBack Spell ")]
-    public UnityEvent onCanalisation;
-       public UnityEvent onAnnonciation, onResolution, onInterrupt;
+	[Header("FeedBack Spell ")]
+	public UnityEvent onCanalisation;
+	public UnityEvent onAnnonciation, onResolution, onInterrupt;
 
-    private void OnEnable ()
+	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
 	}
@@ -76,14 +75,26 @@ public class SpellModule : MonoBehaviour
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-        if (isOwner)
+		if (isOwner)
 		{
 			LinkInputs(_actionLinked);
 			charges = spell.numberOfCharge;
 			//action 
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
+
+			if(spell.stacksUsed >0)
+				myPlayerModule.ultPointPickedUp += CheckForUse;
 		}
 	}
+
+	void CheckForUse ()
+	{
+		if (isOwner && _charges > 0 && NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
+		{
+			SpellAvaible?.Invoke();
+		}
+	}
+
 	public virtual void Disable ()
 	{
 		if (isOwner)
@@ -97,10 +108,10 @@ public class SpellModule : MonoBehaviour
 		{
 			currentTimeCanalised += Time.fixedDeltaTime;
 			TreatNormalCanalisation();
-            TreatThrowBack();
-        }
+			TreatThrowBack();
+		}
 
-        if (CanDeacreaseCooldown())
+		if (CanDeacreaseCooldown())
 			DecreaseCooldown();
 
 		if (showingPreview)
@@ -235,7 +246,7 @@ public class SpellModule : MonoBehaviour
 
 		if (spell.useUltStacks)
 		{
-            print(spell.stacksUsed);
+			print(spell.stacksUsed);
 			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
 		}
 	}
@@ -286,10 +297,10 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void Interrupt ()
 	{
-        print("I interrupt");
-        isUsed = false;
-        throwbackTime = 0;
-        FeedbackSpellStep(En_SpellStep.Interrupt);
+		print("I interrupt");
+		isUsed = false;
+		throwbackTime = 0;
+		FeedbackSpellStep(En_SpellStep.Interrupt);
 
 		if (statusToStopAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
@@ -319,7 +330,7 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void KillSpell ()
 	{
-        print("The spell as been killed");
+		print("The spell as been killed");
 		ResolutionFeedBack();
 		willResolve = false;
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
@@ -329,11 +340,6 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void AddCharge ()
 	{
-		if (isOwner)
-		{
-			UiManager.Instance.CooldownReady(actionLinked);
-			//AudioManager.Instance.Play2DAudio(AudioManager.Instance.cooldownUpSound, 1);
-		}
 		charges++;
 	}
 	public void ReduceCooldown ( float _durationShorten )
@@ -399,16 +405,16 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void StartCanalysingFeedBack ()
 	{
-        onCanalisation?.Invoke();
+		onCanalisation?.Invoke();
 		//PITIT BRUIT
 		if (canalisationClip != null)
 		{
 			AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
 
-        onCanalisation?.Invoke();
+		onCanalisation?.Invoke();
 
-        switch (actionLinked)
+		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
 				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", true);
@@ -433,14 +439,14 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void StartAnnonciationFeedBack ()
 	{
-        onAnnonciation?.Invoke();
-    }
+		onAnnonciation?.Invoke();
+	}
 	public virtual void ResolutionFeedBack ()
 	{
-        onResolution?.Invoke();
+		onResolution?.Invoke();
 
-        //PITIT BRUIT
-        if (anonciationClip != null)
+		//PITIT BRUIT
+		if (anonciationClip != null)
 		{
 			AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 		}
@@ -471,12 +477,12 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{
-        onInterrupt?.Invoke();
-    }
+		onInterrupt?.Invoke();
+	}
 
-    //inputs subscribing
-    #region
-    protected virtual void LinkInputs ( En_SpellInput _actionLinked )
+	//inputs subscribing
+	#region
+	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule.cancelSpell += CancelSpell;
 
@@ -526,6 +532,11 @@ public class SpellModule : MonoBehaviour
 	protected virtual void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
+
+		if (spell.stacksUsed > 0)
+		{
+			myPlayerModule.ultPointPickedUp -= CheckForUse;
+		}
 
 		switch (actionLinked)
 		{

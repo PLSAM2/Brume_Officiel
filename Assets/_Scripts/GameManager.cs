@@ -31,7 +31,6 @@ public class GameManager : SerializedMonoBehaviour
     [Header("Player")]
     LocalPlayer _currentLocalPlayer;
     public LocalPlayer currentLocalPlayer { get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
-
     [SerializeField] UnityClient client;
 
     LocalPlayer _currentSpecPlayer;
@@ -39,8 +38,13 @@ public class GameManager : SerializedMonoBehaviour
     [Header("Timer")]
     private bool timeStart = false;
     private bool endZoneStarted = false;
+    private bool inOvertime = false;
     public float timer = 0;
-    public float endZoneTimer = 61;
+    public float endZoneTimer = 46;
+    private float baseEndZoneTimer = 46;
+
+    private float overtime = 3;
+    private float baseOvertime = 3;
 
     [Header("Camera")]
     public Camera defaultCam;
@@ -61,7 +65,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private bool stopInit = false;
     public bool gameStarted = false;
-    
+
     public Animator globalVolumeAnimator;
 
     public LayerMask brumeLayer;
@@ -124,13 +128,12 @@ public class GameManager : SerializedMonoBehaviour
     {
         timer = 0;
         endZoneTimer = 61;
-        int secondRemaining = (int)timer % 60;
-        int minuteRemaining = (int)Math.Floor(timer / 60);
-        UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+        baseEndZoneTimer = endZoneTimer;
+        baseOvertime = overtime;
 
-        secondRemaining = (int)endZoneTimer % 60;
-        minuteRemaining = (int)Math.Floor(endZoneTimer / 60);
-        UiManager.Instance.endZoneTimer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+        SetTimer(timer, ref UiManager.Instance.timer);
+
+        SetTimer(endZoneTimer, ref UiManager.Instance.endZoneTimer);
 
         RoomManager.Instance.UpdatePointDisplay();
         UiManager.Instance.DisplayGeneralMessage("Round : " + RoomManager.Instance.roundCount);
@@ -147,7 +150,7 @@ public class GameManager : SerializedMonoBehaviour
         }
 
         foreach (Material _mat in materialNeedingTheCamPos)
-            _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z,1));
+            _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z, 1));
     }
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
     {
@@ -197,6 +200,12 @@ public class GameManager : SerializedMonoBehaviour
 
     void UpdateTime()
     {
+        if (inOvertime)
+        {
+            overtime -= Time.deltaTime;
+            UiManager.Instance.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
+        }
+
         timer += Time.deltaTime;
         SetTimer(timer, ref UiManager.Instance.timer);
 
@@ -204,14 +213,13 @@ public class GameManager : SerializedMonoBehaviour
         {
             endZoneTimer -= Time.deltaTime;
 
-            int secondRemaining = (int)endZoneTimer % 60;
-            int minuteRemaining = (int)Math.Floor(endZoneTimer / 60);
-            UiManager.Instance.endZoneTimer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+            int remainingSec = SetTimer(endZoneTimer, ref UiManager.Instance.endZoneTimer);
+            UiManager.Instance.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
 
-            if (secondRemaining <= 0 && minuteRemaining <= 0)
+            if (remainingSec <= 0)
             {
                 endZoneStarted = false;
-                UiManager.Instance.endZoneTimer.color = Color.red;
+                UiManager.Instance.endZoneAnim.SetTrigger("Overtime");
 
                 SetTimer(0, ref UiManager.Instance.timer);
             }
@@ -219,11 +227,24 @@ public class GameManager : SerializedMonoBehaviour
         }
     }
 
-    public void SetTimer(float timer, ref TextMeshProUGUI text)
+    public void SetOvertimeTimerState(bool state)
+    {
+        if (state)
+        {
+            overtime = baseOvertime;
+        }
+
+        inOvertime = state;
+    }
+
+    public int SetTimer(float timer, ref TextMeshProUGUI text)
     {
         int secondRemaining = (int)timer % 60;
         int minuteRemaining = (int)Math.Floor(timer / 60);
+
         text.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+
+        return secondRemaining + (minuteRemaining * 60);
     }
     public void StartEndZone()
     {
@@ -253,7 +274,7 @@ public class GameManager : SerializedMonoBehaviour
         {
             GameFactory.GetLocalPlayerObj().gameObject.SetActive(false);
         }
-        
+
         RoomManager.Instance.QuitGame();
     }
 

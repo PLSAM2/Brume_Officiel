@@ -135,7 +135,7 @@ public class PlayerModule : MonoBehaviour
 	//buffer input
 	public Action spellResolved;
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
-
+	public Action ultPointPickedUp;
 	#endregion
 
 	void Awake ()
@@ -497,7 +497,6 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
-		return false;
 		//marké par la shili donc go ping
 		if (cursedByShili)
 			return true;
@@ -782,7 +781,6 @@ public class PlayerModule : MonoBehaviour
 	{
 		isPoisonousEffectActive = true;
 	}
-
 	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
 	{
 		if (value)
@@ -807,7 +805,6 @@ public class PlayerModule : MonoBehaviour
 	{
 		menacedIcon.gameObject.SetActive(false);
 	}
-
 	internal void ApplyWxMark ( ushort? dealerID = null )
 	{
 		if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
@@ -836,7 +833,6 @@ public class PlayerModule : MonoBehaviour
 		}
 		mylocalPlayer.SendState(state);
 	}
-
 	void BuffInput ()
 	{
 		/*switch(spellInputedRecorded)
@@ -857,7 +853,6 @@ public class PlayerModule : MonoBehaviour
 
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
-
 	public void KillEveryStun ()
 	{
 		foreach (EffectLifeTimed _effect in allEffectLive)
@@ -868,7 +863,6 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-
 
 	public SpellModule ModuleLinkedToInput (En_SpellInput _inputOfTheSpell)
 	{
