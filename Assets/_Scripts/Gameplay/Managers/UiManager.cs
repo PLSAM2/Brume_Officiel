@@ -85,14 +85,14 @@ public class UiManager : MonoBehaviour
 	private GameObject actualUnlockedAltar = null;
 	private float radarRangeXDistanceFromZero = 0;
 	private float radarRangeYDistanceFromZero = 0;
-	private int altarCaptured = 0;
 
 	[Header("Spec Mode")]
 	[FoldoutGroup("SpecMode")] public SpecMode specMode;
 
 	[Header("Misc")]
 	[FoldoutGroup("Misc")] public GameObject DebuggerPanel;
-
+	[FoldoutGroup("spellDescription")] public GameObject wholeTooltip;
+	[FoldoutGroup("spellDescription")] public TextMeshProUGUI skillNameText, cooldownText, descriptionText ;
 
 	private void Awake ()
 	{
@@ -411,10 +411,16 @@ public class UiManager : MonoBehaviour
 		nextAltarRadarIcon.gameObject.SetActive(true);
 	}
 
-	internal void NewAltarCaptured ( Team capturingTeam )
+    List<Altar> altarCapture = new List<Altar>();
+	public void OnAltarUnlock (Altar _altar, Team _capturingTeam )
 	{
-		uiAltarList.DisplayImage(altarCaptured, capturingTeam);
-		altarCaptured++;
+        if (altarCapture.Contains(_altar))
+        {
+            return;
+        }
+
+        altarCapture.Add(_altar);
+        uiAltarList.GainTeam(_capturingTeam);
 	}
 
 	IEnumerator MinimapUpdate ()

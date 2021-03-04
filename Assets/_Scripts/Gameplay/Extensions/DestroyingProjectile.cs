@@ -29,7 +29,6 @@ public class DestroyingProjectile : MonoBehaviour
 	{
 		if (!myPlayerModule.mylocalPlayer.IsInMyTeam(other.GetComponent<Projectile>().myteam) && myPlayerModule.mylocalPlayer.isOwner)
 		{
-			print("Destroy projectile based on the spe component");
 			other.GetComponent<Projectile>().Destroy(false);
 		}
 	}
