@@ -22,16 +22,16 @@ public class Brume : MonoBehaviour
         }
     }
 
+    float value = 1;
     private void Update()
     {
-        float value = 0;
         if (isShow)
         {
-            value = Mathf.Lerp(1, 0, Time.deltaTime * speedTransition);
+            value = Mathf.Lerp(value, 1, Time.deltaTime * speedTransition);
         }
         else
         {
-            value = Mathf.Lerp(0, 1, Time.deltaTime * speedTransition);
+            value = Mathf.Lerp(value, 0, Time.deltaTime * speedTransition);
         }
 
         foreach (Renderer r in myRenderer)
