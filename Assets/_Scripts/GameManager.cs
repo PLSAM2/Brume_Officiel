@@ -8,9 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static FieldOfView;
 using static GameData;
 
@@ -196,30 +198,33 @@ public class GameManager : SerializedMonoBehaviour
     void UpdateTime()
     {
         timer += Time.deltaTime;
-
-        int secondRemaining = (int)timer % 60;
-        int minuteRemaining = (int)Math.Floor(timer / 60);
-        UiManager.Instance.timer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
-
+        SetTimer(timer, ref UiManager.Instance.timer);
 
         if (endZoneStarted)
         {
             endZoneTimer -= Time.deltaTime;
 
-            secondRemaining = (int)endZoneTimer % 60;
-            minuteRemaining = (int)Math.Floor(endZoneTimer / 60);
+            int secondRemaining = (int)endZoneTimer % 60;
+            int minuteRemaining = (int)Math.Floor(endZoneTimer / 60);
             UiManager.Instance.endZoneTimer.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
-
 
             if (secondRemaining <= 0 && minuteRemaining <= 0)
             {
-                
+                endZoneStarted = false;
+                UiManager.Instance.endZoneTimer.color = Color.red;
+
+                SetTimer(0, ref UiManager.Instance.timer);
             }
 
         }
-
     }
 
+    public void SetTimer(float timer, ref TextMeshProUGUI text)
+    {
+        int secondRemaining = (int)timer % 60;
+        int minuteRemaining = (int)Math.Floor(timer / 60);
+        text.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
+    }
     public void StartEndZone()
     {
         endZoneStarted = true;

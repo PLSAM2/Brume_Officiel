@@ -95,7 +95,7 @@ public class CameraManager : MonoBehaviour
 		LocalPlayer _character = GameManager.Instance.currentLocalPlayer;
 		float _distanceY = Vector2.Distance(new Vector2(0, Input.mousePosition.y) , new Vector2(0, pixelSizeScreen.y / 2)) * heightMultiplier;
 		float _distanceX = Vector2.Distance(new Vector2( Input.mousePosition.x,0) , new Vector2( pixelSizeScreen.x / 2, 0)) ;
-		float _distanceFromCenter = _distanceY + _distanceX;
+		float _distanceFromCenter = Mathf.Sqrt(_distanceY * _distanceY + _distanceX * _distanceX);
 
 		if (_distanceFromCenter > pixelToScrollFrom)
 		{
