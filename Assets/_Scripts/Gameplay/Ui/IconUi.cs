@@ -72,7 +72,7 @@ public class IconUi : MonoBehaviour
 	{
 		ResetIcon();
 		outlineIcon.color = new Color(248, 189, 67, 255);
-		myRectTransform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
+		myRectTransform.DOScale(new Vector3(1.4f, 1.5f, 1.5f), .25f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .25f));
 	}
 	public void ResetIcon ()
 	{

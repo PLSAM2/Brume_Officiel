@@ -94,19 +94,4 @@ public class JumpModule : SpellModule
 			transform.position = Vector3.Lerp(transform.position, new Vector3(_posToSet.x, 0, _posToSet.z), Time.deltaTime * 10) ;
 		}
 	}
-
-	public override void ResolutionFeedBack ()
-	{
-
-		Transform player = GameFactory.GetActualPlayerFollow().transform;
-
-		if (player != null && Vector3.Distance(player.position, transform.position) < 7)
-		{
-			CameraManager.Instance.SetNewCameraShake(.15f, 0.5f);
-		}
-
-		base.ResolutionFeedBack();
-	}
-
-
 }
