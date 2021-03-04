@@ -72,17 +72,35 @@ public class NetworkAnimationController : MonoBehaviour
         velocityX = velocityX / speed;
         velocityZ = velocityZ / speed;
 
-        direction = Vector3.Lerp(direction, new Vector3(velocityX, 0, velocityZ), Time.deltaTime * 10);
+        direction = new Vector3(velocityX, 0, velocityZ);
 
-        float right = Vector3.Dot(transform.right, direction);
-        float forward = Vector3.Dot(transform.forward, direction);
+        float turn = CalculateAngle180_v3(transform.forward, direction);
 
-        animator.SetFloat("Forward", forward);
-        animator.SetFloat("Turn", right);
+        float foward = Vector3.Dot(transform.forward, direction);
+
+        //si je bouge
+        animator.SetBool("IsMoving", foward != 0);
+
+        //si je recule
+        if (foward < 0)
+        {
+            turn = -turn;
+        }
+
+        animator.SetFloat("Turn", turn);
+
         oldPos = transform.position;
     }
 
-    public void SetTriggerToAnim ( string triggerName )
+
+    float CalculateAngle180_v3(Vector3 fromDir, Vector3 toDir)
+    {
+        float angle = Quaternion.FromToRotation(fromDir, toDir).eulerAngles.y;
+        if (angle > 180) { return angle - 360f; }
+        return angle;
+    }
+
+    public void SetTriggerToAnim(string triggerName)
     {
         animator.SetTrigger(triggerName);
     }

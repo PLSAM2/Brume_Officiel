@@ -16,6 +16,8 @@ public class UiManager : MonoBehaviour
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI endZoneTimer;
+	[FoldoutGroup("GlobalUi")] public Image endZoneBarTimer;
+	[FoldoutGroup("GlobalUi")] public Animator endZoneAnim;
 	[FoldoutGroup("GlobalUi")] public GameObject endZoneTimerObj;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
@@ -83,7 +85,6 @@ public class UiManager : MonoBehaviour
 	private GameObject actualUnlockedAltar = null;
 	private float radarRangeXDistanceFromZero = 0;
 	private float radarRangeYDistanceFromZero = 0;
-	private int altarCaptured = 0;
 
 	[Header("Spec Mode")]
 	[FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -409,10 +410,16 @@ public class UiManager : MonoBehaviour
 		nextAltarRadarIcon.gameObject.SetActive(true);
 	}
 
-	internal void NewAltarCaptured ( Team capturingTeam )
+    List<Altar> altarCapture = new List<Altar>();
+	public void OnAltarUnlock (Altar _altar, Team _capturingTeam )
 	{
-		uiAltarList.DisplayImage(altarCaptured, capturingTeam);
-		altarCaptured++;
+        if (altarCapture.Contains(_altar))
+        {
+            return;
+        }
+
+        altarCapture.Add(_altar);
+        uiAltarList.GainTeam(_capturingTeam);
 	}
 
 	IEnumerator MinimapUpdate ()
