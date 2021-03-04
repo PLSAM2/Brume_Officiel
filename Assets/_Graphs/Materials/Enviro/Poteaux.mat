@@ -60,6 +60,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _IB_Edges_Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -93,7 +97,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureArray_Textures:
-        m_Texture: {fileID: 18700000, guid: ed412ac1dac62614d83e11bae7f59ce6, type: 2}
+        m_Texture: {fileID: 18700000, guid: ecadb39280982d54fac0f7134ebf2344, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample15:
@@ -101,6 +105,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TopTex_Albedo_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -149,9 +157,16 @@ Material:
     - _DrippingNoise_Tiling: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _Float29: 2
+    - _Float30: 3
+    - _Float38: 0
+    - _Float39: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _IB_Noise_Tiling: 1
+    - _IB_TerrainBlending_BlendThickness: 0
+    - _IB_TerrainBlending_Falloff: 0
     - _IsGrungeAnimated: 0
     - _LightDebug: 0
     - _Metallic: 0
@@ -174,6 +189,7 @@ Material:
     - _ReceiveShadows: 1
     - _ScreenBasedNoise: 0
     - _ShadowDrippingNoise_Smoothstep: 0.2
+    - _ShadowDrippingNoise_SmoothstepAnimated: 0
     - _ShadowDrippingNoise_Step: 0
     - _ShadowDrippingNoise_Transition: 1
     - _ShadowInBrumeGrunge_Contrast: -3.38
@@ -215,6 +231,11 @@ Material:
     - _ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
+    - _IB_ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
+    - _IB_Noise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
+    - _IB_TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _IB_TerrainBlending_Color: {r: 0.42452827, g: 0.42452827, b: 0.42452827, a: 0}
     - _InBrumeBackColor: {r: 1, g: 1, b: 1, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Noise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
