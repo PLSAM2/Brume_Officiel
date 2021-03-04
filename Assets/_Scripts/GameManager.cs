@@ -39,9 +39,13 @@ public class GameManager : SerializedMonoBehaviour
     [Header("Timer")]
     private bool timeStart = false;
     private bool endZoneStarted = false;
+    private bool inOvertime = false;
     public float timer = 0;
     public float endZoneTimer = 46;
     private float baseEndZoneTimer = 46;
+
+    private float overtime = 3;
+    private float baseOvertime = 3;
 
     [Header("Camera")]
     public Camera defaultCam;
@@ -62,7 +66,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private bool stopInit = false;
     public bool gameStarted = false;
-    
+
     public Animator globalVolumeAnimator;
 
     public LayerMask brumeLayer;
@@ -126,6 +130,7 @@ public class GameManager : SerializedMonoBehaviour
         timer = 0;
         endZoneTimer = 61;
         baseEndZoneTimer = endZoneTimer;
+        baseOvertime = overtime;
 
         SetTimer(timer, ref UiManager.Instance.timer);
 
@@ -146,7 +151,7 @@ public class GameManager : SerializedMonoBehaviour
         }
 
         foreach (Material _mat in materialNeedingTheCamPos)
-            _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z,1));
+            _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z, 1));
     }
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
     {
@@ -196,6 +201,12 @@ public class GameManager : SerializedMonoBehaviour
 
     void UpdateTime()
     {
+        if (inOvertime)
+        {
+            overtime -= Time.deltaTime;
+            UiManager.Instance.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
+        }
+
         timer += Time.deltaTime;
         SetTimer(timer, ref UiManager.Instance.timer);
 
@@ -204,6 +215,7 @@ public class GameManager : SerializedMonoBehaviour
             endZoneTimer -= Time.deltaTime;
 
             int remainingSec = SetTimer(endZoneTimer, ref UiManager.Instance.endZoneTimer);
+            UiManager.Instance.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
 
             if (remainingSec <= 0)
             {
@@ -214,6 +226,16 @@ public class GameManager : SerializedMonoBehaviour
             }
 
         }
+    }
+
+    public void SetOvertimeTimerState(bool state)
+    {
+        if (state)
+        {
+            overtime = baseOvertime;
+        }
+
+        inOvertime = state;
     }
 
     public int SetTimer(float timer, ref TextMeshProUGUI text)
@@ -253,7 +275,7 @@ public class GameManager : SerializedMonoBehaviour
         {
             GameFactory.GetLocalPlayerObj().gameObject.SetActive(false);
         }
-        
+
         RoomManager.Instance.QuitGame();
     }
 

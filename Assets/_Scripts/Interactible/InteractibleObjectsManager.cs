@@ -87,9 +87,14 @@ public class InteractibleObjectsManager : MonoBehaviour
             if (message.Tag == Tags.RoundFinalPhase)
             {
                 RoundFinalPhase(sender, e);
+            }           
+            if (message.Tag == Tags.OvertimeState)
+            {
+                OvertimeState(sender, e);
             }
         }
     }
+
 
 
     public void InitInteractibleID()
@@ -310,6 +315,19 @@ public class InteractibleObjectsManager : MonoBehaviour
                 GameManager.Instance.StartEndZone();
 
                 ((Altar)_interactible).StarFinalPhase();
+            }
+        }
+    }
+
+    private void OvertimeState(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                bool _state = reader.ReadBoolean();
+
+                GameManager.Instance.SetOvertimeTimerState(_state);
             }
         }
     }

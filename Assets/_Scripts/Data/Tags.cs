@@ -69,6 +69,7 @@
     public static readonly ushort ResurectPlayer = 783;
     public static readonly ushort BrumeSoulSpawnCall = 785;
     public static readonly ushort BrumeSoulPicked = 786;
+    public static readonly ushort OvertimeState = 788;
     // <<
 
     //Ward & Vision 790 --> 799 >>
