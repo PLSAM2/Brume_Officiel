@@ -6,40 +6,58 @@ using static GameData;
 
 public class UIAltarList : MonoBehaviour
 {
-    public List<Image> altarImagesAlly = new List<Image>();
-    public List<Image> altarImagesEnemy = new List<Image>();
+    public Animator altarBlueAnim;
+    public Animator altarRedAnim;
+    public Animator altarCenterAnim;
 
-    public GameObject separator;
-    public void ResetImageState()
+    public Image altarBlueImg;
+    public Image altarRedImg;
+    public Image altarCenterImg;
+
+    int blueGain = 0;
+    int redGain = 0;
+
+    public void GainBlue()
     {
-        separator.SetActive(false);
+        blueGain++;
 
-        foreach (Image altImg in altarImagesAlly)
+        switch (blueGain)
         {
-            altImg.gameObject.SetActive(false);
-        }
-        foreach (Image altImg in altarImagesEnemy)
-        {
-            altImg.gameObject.SetActive(false);
+            case 1:
+                altarBlueImg.color = GameFactory.GetColorTeam(Team.blue);
+                altarBlueAnim.SetTrigger("Gain");
+
+                //Play sound
+                break;
+
+            case 2:
+                altarCenterImg.color = GameFactory.GetColorTeam(Team.blue);
+                altarCenterAnim.SetTrigger("Gain");
+
+                //Play sound
+                break;
         }
     }
 
-    public void DisplayImage(int index, Team team = Team.red)
+    public void GainRed()
     {
-        switch (team)
-        {
-            case Team.none:
-                throw new System.Exception("None team");
-            case Team.red:
-                altarImagesAlly[index].gameObject.SetActive(true);
-                break;
-            case Team.blue:
-                altarImagesEnemy[index].gameObject.SetActive(true);
-                break;
-            default:
-                throw new System.Exception("Team not existing");
-        }
+        redGain++;
 
-        separator.SetActive(true);
+        switch (redGain)
+        {
+            case 1:
+                altarRedImg.color = GameFactory.GetColorTeam(Team.red);
+                altarRedAnim.SetTrigger("Gain");
+
+                //Play sound
+                break;
+
+            case 2:
+                altarCenterImg.color = GameFactory.GetColorTeam(Team.red);
+                altarCenterAnim.SetTrigger("Gain");
+
+                //Play sound
+                break;
+        }
     }
 }

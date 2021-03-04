@@ -83,7 +83,6 @@ public class UiManager : MonoBehaviour
 	private GameObject actualUnlockedAltar = null;
 	private float radarRangeXDistanceFromZero = 0;
 	private float radarRangeYDistanceFromZero = 0;
-	private int altarCaptured = 0;
 
 	[Header("Spec Mode")]
 	[FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -409,10 +408,18 @@ public class UiManager : MonoBehaviour
 		nextAltarRadarIcon.gameObject.SetActive(true);
 	}
 
-	internal void NewAltarCaptured ( Team capturingTeam )
+	public void OnAltarUnlock ( Team capturingTeam )
 	{
-		uiAltarList.DisplayImage(altarCaptured, capturingTeam);
-		altarCaptured++;
+        switch (capturingTeam)
+        {
+            case Team.blue:
+                uiAltarList.GainBlue();
+                break;
+
+            case Team.red:
+                uiAltarList.GainRed();
+                break;
+        }
 	}
 
 	IEnumerator MinimapUpdate ()
