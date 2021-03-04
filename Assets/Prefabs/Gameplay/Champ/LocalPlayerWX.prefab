@@ -154,6 +154,80 @@ Transform:
   m_Father: {fileID: 4459679795679916480}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2751134237571388320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 20cbee49fcf34e847942844ec89429b8, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  anonciationClip: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+  fxCanalisation: {fileID: 286360599064014489}
+  fxRecalShoot: {fileID: 3239377099234831965}
+--- !u!114 &3871719149801002437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 1443eebcc768da3448bed2fae97b112a, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  anonciationClip: {fileID: 0}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+  fxCanalisation: {fileID: 0}
+  fxRecalShoot: {fileID: 0}
 --- !u!114 &5231333726942406148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +292,7 @@ MonoBehaviour:
   outlineDebuffTime: 3
   objectToShowOnOutlineDebuff:
   - {fileID: 455721093710559040}
---- !u!114 &-2751134237571388320
+--- !u!114 &5877863152829278795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,7 +310,7 @@ MonoBehaviour:
   startResolution: 0
   resolved: 0
   anonciated: 0
-  spell: {fileID: 11400000, guid: 20cbee49fcf34e847942844ec89429b8, type: 2}
+  spell: {fileID: 11400000, guid: 30b0207a72778654794f951cc1b295ff, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
   canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
@@ -253,48 +327,8 @@ MonoBehaviour:
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
-  fxCanalisation: {fileID: 286360599064014489}
-  fxRecalShoot: {fileID: 3239377099234831965}
---- !u!114 &7427710637520717778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 834e563613a033248931fbd987fecf65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerModule: {fileID: 0}
-  timeToResolveSpell: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 5eb9ae179aefbe2498ba436bf8a76d74, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
-  anonciationClip: {fileID: 0}
-  onCanalisation:
-    m_PersistentCalls:
-      m_Calls: []
-  onAnnonciation:
-    m_PersistentCalls:
-      m_Calls: []
-  onResolution:
-    m_PersistentCalls:
-      m_Calls: []
-  onInterrupt:
-    m_PersistentCalls:
-      m_Calls: []
-  spitTravelPrefab: {fileID: 6421260997992176977, guid: 4acb6614bf5e84342bd5d5c637a87db2, type: 3}
-  spitObj: {fileID: 0}
-  deceleratedRatio: 1
-  distanceMaxBeforeEndTravel: 0.01
-  simpleSpeed: 0
+  fxCanalisation: {fileID: 0}
+  fxRecalShoot: {fileID: 0}
 --- !u!114 &6718998414688386687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +412,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5877863152829278795
+--- !u!114 &7427710637520717778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -387,7 +421,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 27948769369624699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 834e563613a033248931fbd987fecf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
@@ -396,7 +430,7 @@ MonoBehaviour:
   startResolution: 0
   resolved: 0
   anonciated: 0
-  spell: {fileID: 11400000, guid: 30b0207a72778654794f951cc1b295ff, type: 2}
+  spell: {fileID: 11400000, guid: 5eb9ae179aefbe2498ba436bf8a76d74, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
   canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
@@ -413,45 +447,11 @@ MonoBehaviour:
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
---- !u!114 &3871719149801002437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aef689afaf09543aee2703af8034aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerModule: {fileID: 0}
-  timeToResolveSpell: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 1443eebcc768da3448bed2fae97b112a, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
-  anonciationClip: {fileID: 0}
-  onCanalisation:
-    m_PersistentCalls:
-      m_Calls: []
-  onAnnonciation:
-    m_PersistentCalls:
-      m_Calls: []
-  onResolution:
-    m_PersistentCalls:
-      m_Calls: []
-  onInterrupt:
-    m_PersistentCalls:
-      m_Calls: []
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
+  spitTravelPrefab: {fileID: 6421260997992176977, guid: 4acb6614bf5e84342bd5d5c637a87db2, type: 3}
+  spitObj: {fileID: 0}
+  deceleratedRatio: 1
+  distanceMaxBeforeEndTravel: 0.01
+  simpleSpeed: 0
 --- !u!1 &1380234720182467712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3174,6 +3174,10 @@ PrefabInstance:
       propertyPath: objToHide.Array.data[5]
       value: 
       objectReference: {fileID: 2777399519659773585}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: myPlayerModule
+      value: 
+      objectReference: {fileID: 5231333726942406148}
     - target: {fileID: 1461855470822321989, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
