@@ -47,8 +47,10 @@ public class SpecMode : MonoBehaviour
 
     void OnPlayerDie(ushort playerId, ushort killerId)
     {
+        print("spec mode");
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
+            print("star spec mode");
             isSpec = true;
             GameManager.Instance.deadPostProcess.SetActive(true);
             AudioManager.Instance.Play2DAudio(deathAudio);
