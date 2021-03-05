@@ -45,7 +45,8 @@ public class GameManager : SerializedMonoBehaviour
 
     private float overtime = 3;
     private float baseOvertime = 3;
-
+    [Header("EndZone")]
+    private Team endZoneCapturingTeam; 
     [Header("Camera")]
     public Camera defaultCam;
     public Material[] materialNeedingTheCamPos;
@@ -220,7 +221,7 @@ public class GameManager : SerializedMonoBehaviour
             {
                 endZoneStarted = false;
                 UiManager.Instance.endZoneAnim.SetTrigger("Overtime");
-
+                UiManager.Instance.endZoneBarTimer.color = GameFactory.GetRelativeColor(endZoneCapturingTeam);
                 SetTimer(0, ref UiManager.Instance.timer);
             }
 
@@ -229,6 +230,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public void SetOvertimeTimerState(bool state)
     {
+        print("yo");
+
         if (state)
         {
             overtime = baseOvertime;
@@ -246,7 +249,7 @@ public class GameManager : SerializedMonoBehaviour
 
         return secondRemaining + (minuteRemaining * 60);
     }
-    public void StartEndZone()
+    public void StartEndZone(Team team)
     {
         endZoneStarted = true;
         UiManager.Instance.endZoneTimerObj.SetActive(true);
@@ -255,7 +258,6 @@ public class GameManager : SerializedMonoBehaviour
     private void StartTimerInServer()
     {
         timeStart = true;
-
     }
 
     void OnPlayerTakeDamage(ushort idPlayer, ushort _damage)

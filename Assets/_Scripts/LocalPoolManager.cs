@@ -103,14 +103,14 @@ public class LocalPoolManager : SerializedMonoBehaviour
         currentFeedback.position = _pos;
         currentFeedback.rotation = Quaternion.identity;
 
-        currentFeedback.GetChild(0).GetChild(0).gameObject.SetActive(_team == Team.red);
-        currentFeedback.GetChild(0).GetChild(1).gameObject.SetActive(_team == Team.blue);
+        currentFeedback.GetChild(0).GetChild(0).gameObject.SetActive(GameFactory.GetRelativeTeam(_team) == Team.red);
+        currentFeedback.GetChild(0).GetChild(1).gameObject.SetActive(GameFactory.GetRelativeTeam(_team) == Team.blue);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time);
     }
 
     //impact damage feedback
-    public void SpawnNewImpactDamageFX(Vector3 _pos, Color _color)
+    public void SpawnNewImpactDamageFX(Vector3 _pos, Team _team)
     {
         Transform currentFeedback = GetFree(allImpactDamageFx, prefabImpactDamageFx).transform;
 
@@ -118,7 +118,8 @@ public class LocalPoolManager : SerializedMonoBehaviour
 
         currentFeedback.position = _pos;
 
-        currentFeedback.GetComponent<VisualEffect>().SetVector4("Color Flash 1", _color);
+        currentFeedback.GetChild(0).GetChild(0).gameObject.SetActive(GameFactory.GetRelativeTeam(_team) == Team.red);
+        currentFeedback.GetChild(0).GetChild(1).gameObject.SetActive(GameFactory.GetRelativeTeam(_team) == Team.blue);
 
         currentFeedback.GetComponent<AutoDisable>().Init(0.5f);
     }

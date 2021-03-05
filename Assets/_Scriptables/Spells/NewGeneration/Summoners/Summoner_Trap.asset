@@ -10,27 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
-  m_Name: Spell_Leng_BaseAttackFast
+  m_Name: Summoner_Trap
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 0.8
+  cooldown: 30
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 0
-  canalisationTime: 0.3
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: 34bd3710a9de8a4479e4698daf10276c, type: 2}
+  lockPosOnCanalisation: 1
+  canalisationTime: 3
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
-  LockPosOnAnonciation: 0
+  LockPosOnAnonciation: 1
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 35eef125a3763114bb6a05afcca3f9b7, type: 3}
-  spellName: Slash
-  spellDescription: Leng slams the ground in front of her dealing 1 damage and grabbing
-    enemies hit.
+  spellIcon: {fileID: 21300000, guid: 38d03b424552d474eaae8548bc202766, type: 3}
+  spellName: Trap
+  spellDescription: Sets a trap lasting 60s. When an enemy is hit reveal him and
+    root him for a short duration.
