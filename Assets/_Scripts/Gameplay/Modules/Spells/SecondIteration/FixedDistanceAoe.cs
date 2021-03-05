@@ -10,6 +10,7 @@ public class FixedDistanceAoe : SpellModule
 	public bool spawnOnPos = false;
 	public float radius;
 	public Vector3 previewSquare;
+	public GameObject preview;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -68,7 +69,5 @@ public class FixedDistanceAoe : SpellModule
 		else
 			myCirclePreview.gameObject.SetActive(false);
 	}
-
-	
 }
 
