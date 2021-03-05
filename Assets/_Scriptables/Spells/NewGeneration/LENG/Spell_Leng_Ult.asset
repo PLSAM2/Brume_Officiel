@@ -27,15 +27,16 @@ MonoBehaviour:
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd: []
-  throwBackDuration: 0
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
+  throwBackDuration: 0.3
   spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
   spellName: Corruption Core
   spellDescription: Leng creates a wide wave moving slowly over a huge range which
     roots enemies touched by it.
   damagesToDeal:
     playerName: 
-    damageHealth: 1
+    damageHealth: 0
     statusToApply:
     - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
     - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
@@ -106,7 +107,7 @@ MonoBehaviour:
   bouncingNumber: 0
   fakeRange: 7
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 1
+  diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 0}
