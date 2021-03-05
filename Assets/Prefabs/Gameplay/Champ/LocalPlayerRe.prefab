@@ -10179,6 +10179,45 @@ MonoBehaviour:
   spawnOnPos: 1
   radius: 0
   previewSquare: {x: 0, y: 0, z: 0}
+--- !u!114 &785181123967513983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94049148aa06c9a4994070315c0fdb1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 26efd744666901c47aa09aa85fa1255f, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  canalisationClip: {fileID: 0}
+  anonciationClip: {fileID: 8300000, guid: 19f086b1a406cbc4eb0809148baf05fa, type: 3}
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+  aoeInstantiated: {fileID: 7776885188641116624, guid: 3653d0c4f4d0fa64badf3f46223a36b3, type: 3}
+  spawnOnPos: 1
+  radius: 3.5
+  previewSquare: {x: 0, y: 0, z: 0}
 --- !u!114 &1286970584369722292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10204,7 +10243,19 @@ MonoBehaviour:
   anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 731335209741717061}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onAnnonciation:
     m_PersistentCalls:
       m_Calls: []
@@ -10213,7 +10264,19 @@ MonoBehaviour:
       m_Calls: []
   onInterrupt:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 731335209741717061}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   spellToLaunchOnCounter: {fileID: 201590368787613686}
   spellToReduceCooldown: 1
   cooldownReduced: 10
@@ -10415,45 +10478,6 @@ MonoBehaviour:
   tpDistance: 5
   waitForTpTime: 0.5
   tpFxObj: {fileID: 1142267975264660, guid: d86042f698f5106479fcb319243aac46, type: 3}
---- !u!114 &785181123967513983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94049148aa06c9a4994070315c0fdb1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerModule: {fileID: 0}
-  timeToResolveSpell: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 26efd744666901c47aa09aa85fa1255f, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 8300000, guid: 19f086b1a406cbc4eb0809148baf05fa, type: 3}
-  onCanalisation:
-    m_PersistentCalls:
-      m_Calls: []
-  onAnnonciation:
-    m_PersistentCalls:
-      m_Calls: []
-  onResolution:
-    m_PersistentCalls:
-      m_Calls: []
-  onInterrupt:
-    m_PersistentCalls:
-      m_Calls: []
-  aoeInstantiated: {fileID: 7776885188641116624, guid: 3653d0c4f4d0fa64badf3f46223a36b3, type: 3}
-  spawnOnPos: 1
-  radius: 3.5
-  previewSquare: {x: 0, y: 0, z: 0}
 --- !u!225 &4984842728809382410
 CanvasGroup:
   m_ObjectHideFlags: 0
