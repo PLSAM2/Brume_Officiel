@@ -9,33 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e86e42b74e358c84e809038a725397da, type: 3}
-  m_Name: Spell_Wx_Auto
+  m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
+  m_Name: Summoner_Trap
   m_EditorClassIdentifier: 
-  range: 9
-  cooldown: 1.5
+  range: 0
+  cooldown: 30
   numberOfCharge: 1
   forbiddenState: 48
+  stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
-  canalisationTime: 0.4
+  canalisationTime: 3
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.35
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
-  spellIcon: {fileID: 21300000, guid: 1eb98b4e05673114d890283d7f57121b, type: 3}
-  damagesToDeal:
-    playerName: 
-    damageHealth: 5
-    statusToApply:
-    - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
-    movementToApply: {fileID: 0}
-    stateNeeded: 128
-    additionalDamages: 0
-    additionalStatusToApply: []
-    additionalMovementToApply: {fileID: 0}
+  throwBackDuration: 0
+  spellIcon: {fileID: 21300000, guid: 38d03b424552d474eaae8548bc202766, type: 3}
+  spellName: Trap
+  spellDescription: Sets a trap lasting 60s. When an enemy is hit reveal him and
+    root him for a short duration.

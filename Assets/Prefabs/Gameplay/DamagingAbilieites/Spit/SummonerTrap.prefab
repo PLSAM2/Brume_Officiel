@@ -183,10 +183,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6620517674861165110}
-  - component: {fileID: 5624599934099963903}
   - component: {fileID: 9188923623546187145}
+  - component: {fileID: 1441821505630022462}
   m_Layer: 20
-  m_Name: LengTrap
+  m_Name: SummonerTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,28 +208,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5624599934099963903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776885188641116624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb1a18d70ea2d8649939545ef322823c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mylifeTime: 0
-  myLivelifeTime: 0
-  meshBlue: {fileID: 807547197683120078}
-  meshRed: {fileID: 8561045549746045336}
-  myteam: 0
-  myNetworkObject: {fileID: 9188923623546187145}
-  isOwner: 0
-  spawnSound: {fileID: 8300000, guid: 3844687891b93e640983458193c85ebc, type: 3}
-  localTrad: {fileID: 11400000, guid: 09d06036bc37e8842b3a961385abdfda, type: 2}
-  adaptiveRange: 0
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +226,30 @@ MonoBehaviour:
   interpolateSpeed: 10
   distanceRequiredBeforeSync: 0.02
   rotationRequiredBeforeSync: 6
+--- !u!114 &1441821505630022462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7776885188641116624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad38f0f5e1f3d74db34c26d011a2b29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mylifeTime: 60
+  myLivelifeTime: 0
+  isUsingTeamMesh: 1
+  meshBlue: {fileID: 807547197683120078}
+  meshRed: {fileID: 8561045549746045336}
+  hideMeshToEnemyTeam: 1
+  myteam: 0
+  myNetworkObject: {fileID: 0}
+  isOwner: 0
+  spawnSound: {fileID: 0}
+  objectToSpawn: {fileID: 6234301381807575755, guid: b9654fa005c68164cabea42c80c129f2, type: 3}
+  radiusOfTheTrap: 3.5
 --- !u!1 &8561045549746045336
 GameObject:
   m_ObjectHideFlags: 0
