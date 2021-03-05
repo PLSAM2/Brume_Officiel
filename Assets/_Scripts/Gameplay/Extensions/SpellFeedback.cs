@@ -23,15 +23,8 @@ public class SpellFeedback : MonoBehaviour
 	}
 	public void ShakeScreen(float _shakingStrength )
 	{
-		Transform player = GameFactory.GetActualPlayerFollow().transform;
-
-		if (player != null && Vector3.Distance(player.position, transform.position) < heardDistance)
-		{
-			CameraManager.Instance.SetNewCameraShake(shakingTime, _shakingStrength);
-		}
-
-	}
-
+        GameFactory.DoScreenShack(shakingTime, _shakingStrength, transform.position, heardDistance);
+    }
 }
 
 
