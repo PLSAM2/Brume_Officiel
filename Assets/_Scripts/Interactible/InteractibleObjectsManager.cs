@@ -322,6 +322,7 @@ public class InteractibleObjectsManager : MonoBehaviour
 
     private void OvertimeState(object sender, MessageReceivedEventArgs e)
     {
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
