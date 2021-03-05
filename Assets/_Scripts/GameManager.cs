@@ -128,7 +128,6 @@ public class GameManager : SerializedMonoBehaviour
     private void Start()
     {
         timer = 0;
-        endZoneTimer = 61;
         baseEndZoneTimer = endZoneTimer;
         baseOvertime = overtime;
 
@@ -230,8 +229,6 @@ public class GameManager : SerializedMonoBehaviour
 
     public void SetOvertimeTimerState(bool state)
     {
-        print("yo");
-
         if (state)
         {
             overtime = baseOvertime;
