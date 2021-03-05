@@ -93,6 +93,11 @@ public class CameraManager : MonoBehaviour
 	void LerpCameraPos ()
 	{
 		LocalPlayer _character = GameManager.Instance.currentLocalPlayer;
+        if(_character == null) {
+
+            return;
+        }
+
 		float _distanceY = Vector2.Distance(new Vector2(0, Input.mousePosition.y) , new Vector2(0, pixelSizeScreen.y / 2)) * heightMultiplier;
 		float _distanceX = Vector2.Distance(new Vector2( Input.mousePosition.x,0) , new Vector2( pixelSizeScreen.x / 2, 0)) ;
 		float _distanceFromCenter = Mathf.Sqrt(_distanceY * _distanceY + _distanceX * _distanceX);

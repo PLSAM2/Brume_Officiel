@@ -61,7 +61,7 @@ public class UIPlayerManager : MonoBehaviour
         nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
         currentColorTeam = redMat;
-        if(GameFactory.GetReferentialPlayerTeam( myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
+        if(GameFactory.GetRelativeTeam( myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
         {
             currentColorTeam = blueMat;
         }
@@ -138,7 +138,7 @@ public class UIPlayerManager : MonoBehaviour
 
                     if(WxLife.material == grayMat)
                     {
-                        switch (GameFactory.GetReferentialPlayerTeam(myLocalPlayer.myPlayerModule.teamIndex))
+                        switch (GameFactory.GetRelativeTeam(myLocalPlayer.myPlayerModule.teamIndex))
                         {
                             case Team.red:
                                 WxLife.material = redMat;
