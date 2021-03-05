@@ -25,6 +25,22 @@ public class SpellFeedback : MonoBehaviour
 	{
         GameFactory.DoScreenShack(shakingTime, _shakingStrength, transform.position, heardDistance);
     }
+
+	public void ShowPreview(Transform _objectToShow)
+	{
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+			_objectToShow.GetChild(0).gameObject.SetActive(true);
+		else
+			_objectToShow.GetChild(1).gameObject.SetActive(true);
+	}
+
+	public void HidePreview ( Transform _objectToShow )
+	{
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+			_objectToShow.GetChild(0).gameObject.SetActive(false);
+		else
+			_objectToShow.GetChild(1).gameObject.SetActive(false);
+	}
 }
 
 
