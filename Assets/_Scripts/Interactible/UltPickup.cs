@@ -20,6 +20,7 @@ public class UltPickup : Interactible
 
         if (_p.ultStacks >= GameData.characterUltMax[_p.playerCharacter])
         {
+            print(_p.ultStacks + " - " + GameData.characterUltMax[_p.playerCharacter]);
             return;
         }
 

@@ -18,15 +18,15 @@ public class EndGameScore : MonoBehaviour
         enemyText.text = enemyScoreText;
     }
 
-    public void EndGame(ushort newPoints, Team team)
+    public void EndGame(Team team)
     {
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == team)
         {
-            newAllyText.text = RoomManager.Instance.actualRoom.scores[team] + newPoints + "";
+            newAllyText.text = RoomManager.Instance.actualRoom.scores[team]+ "";
             animator.SetTrigger("UpdateAllyScore");
         } else
         {
-            newenemyText.text = RoomManager.Instance.actualRoom.scores[team] + newPoints + "";
+            newenemyText.text = RoomManager.Instance.actualRoom.scores[team] + "";
             animator.SetTrigger("UpdateEnemyScore");
         }
 
