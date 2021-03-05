@@ -34,8 +34,8 @@ public class AutoKill : MonoBehaviour
 		isOwner = myNetworkObject.GetIsOwner();
 		myteam = ownerTeam;
 
-        if (isUsingTeamMesh)
-        {
+		if (isUsingTeamMesh)
+		{
 			DisplayMesh();
 		}
 
@@ -45,7 +45,7 @@ public class AutoKill : MonoBehaviour
 		}
 	}
 
-	void DisplayMesh ()
+	protected virtual void DisplayMesh ()
 	{
 		if (!GameFactory.IsOnMyTeam(myNetworkObject.GetOwnerID()))
 			meshRed.gameObject.SetActive(true);

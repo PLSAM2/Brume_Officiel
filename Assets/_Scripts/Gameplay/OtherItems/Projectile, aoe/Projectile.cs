@@ -63,7 +63,6 @@ public class Projectile : AutoKill
 
 	protected void OnEnable ()
 	{
-		print(localTrad.spellName);
 		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
 		direction = transform.forward;
 		myRb.velocity = speed * direction;

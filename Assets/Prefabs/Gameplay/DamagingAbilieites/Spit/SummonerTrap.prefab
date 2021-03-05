@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7413957656858536171
 Transform:
   m_ObjectHideFlags: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 807547197683120078}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4607714072101977943}
   m_RootOrder: 0
@@ -185,6 +185,8 @@ GameObject:
   - component: {fileID: 6620517674861165110}
   - component: {fileID: 9188923623546187145}
   - component: {fileID: 1441821505630022462}
+  - component: {fileID: 5534790440720933025}
+  - component: {fileID: 8008459582981764264}
   m_Layer: 20
   m_Name: SummonerTrap
   m_TagString: Untagged
@@ -248,8 +250,37 @@ MonoBehaviour:
   myNetworkObject: {fileID: 0}
   isOwner: 0
   spawnSound: {fileID: 0}
-  objectToSpawn: {fileID: 6234301381807575755, guid: b9654fa005c68164cabea42c80c129f2, type: 3}
+  objectToSpawn: {fileID: 7776885188641116624, guid: 7447fee5ca2e21840bcf700fda848e0f, type: 3}
   radiusOfTheTrap: 3.5
+--- !u!54 &5534790440720933025
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7776885188641116624}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 116
+  m_CollisionDetection: 2
+--- !u!135 &8008459582981764264
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7776885188641116624}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8561045549746045336
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6132887511928527039
 Transform:
   m_ObjectHideFlags: 0
@@ -276,7 +307,7 @@ Transform:
   m_GameObject: {fileID: 8561045549746045336}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4607714072101977943}
   m_RootOrder: 1
