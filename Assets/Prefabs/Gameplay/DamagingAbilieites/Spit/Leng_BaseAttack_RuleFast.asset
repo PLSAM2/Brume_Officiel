@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leng_BaseAttack_RuleFast
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.2
+    durationOfTheAoe: 0.5
     timeBeforeFinalDisparition: 0.05
     damagesToDealOnImpact:
       playerName: 
@@ -37,8 +37,7 @@ MonoBehaviour:
     finalDamages:
       playerName: 
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0

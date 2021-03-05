@@ -11,6 +11,8 @@ public class Trap : AutoKill
 
 	public override void Init ( GameData.Team ownerTeam, float _percentageOfLifeTime = 1 )
 	{
+		radiusOfTheTrap = GetComponent<SphereCollider>().radius;
+
 		if (isOwner)
 		{
 			Collider[] _hits = Physics.OverlapSphere(transform.position, radiusOfTheTrap, 8);
@@ -44,8 +46,13 @@ public class Trap : AutoKill
 
 	void ActivateTrap ()
 	{
-
 		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(objectToSpawn), transform.position, transform.rotation.eulerAngles);
 		Destroy(true);
+	}
+
+	protected override void DisplayMesh ()
+	{
+		if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myteam))
+			base.DisplayMesh();
 	}
 }
