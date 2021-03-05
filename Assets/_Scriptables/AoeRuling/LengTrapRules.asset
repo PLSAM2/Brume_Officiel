@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: LengTrapRules
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 1.1
-    timeBeforeFinalDisparition: 0.1
+    durationOfTheAoe: 1.5
+    timeBeforeFinalDisparition: 0.5
     damagesToDealOnImpact:
       playerName: 
       damageHealth: 0
       statusToApply:
       - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
-      - {fileID: 11400000, guid: f7e9cec785802f748b05e92a20e018fe, type: 2}
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -29,8 +28,7 @@ MonoBehaviour:
     damagesToDealOnDuration:
       playerName: 
       damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+      statusToApply: []
       movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
@@ -39,8 +37,10 @@ MonoBehaviour:
     finalDamages:
       playerName: 
       damageHealth: 0
-      statusToApply: []
-      movementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
+      statusToApply:
+      - {fileID: 11400000, guid: f7e9cec785802f748b05e92a20e018fe, type: 2}
+      - {fileID: 11400000, guid: 94db95da7f1dc8c4086cb5abdfa73871, type: 2}
+      movementToApply: {fileID: 0}
       stateNeeded: 128
       additionalDamages: 0
       additionalStatusToApply: []

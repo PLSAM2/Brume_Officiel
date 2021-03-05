@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class FixedDistanceAoe : SpellModule
 {
-	public Aoe aoeInstantiated;
+	public GameObject aoeInstantiated;
 	SquarePreview mySquarePreview;
 	CirclePreview myCirclePreview;
 	public bool spawnOnPos = false;
+	public float radius;
+	public Vector3 previewSquare;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 		if (isOwner)
 		{
-			if (aoeInstantiated.localTrad.rules.isBox)
+			if (radius==0)
 			{
 				mySquarePreview = PreviewManager.Instance.GetSquarePreview();
 				mySquarePreview.gameObject.SetActive(false);
@@ -37,10 +39,10 @@ public class FixedDistanceAoe : SpellModule
 			posToInstantiate = transform.position;
 		else
 		{
-			if (aoeInstantiated.localTrad.rules.isBox)
-				posToInstantiate += transform.forward * aoeInstantiated.localTrad.rules.boxDimension.z / 2;
+			if (radius == 0)
+				posToInstantiate += transform.forward * previewSquare.z / 2;
 			else
-				posToInstantiate += transform.forward * aoeInstantiated.localTrad.rules.aoeRadius;
+				posToInstantiate += transform.forward * radius;
 		}
 
 		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeInstantiated.gameObject), posToInstantiate, transform.rotation.eulerAngles);
@@ -49,17 +51,17 @@ public class FixedDistanceAoe : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		if (aoeInstantiated.localTrad.rules.isBox)
+		if (radius == 0)
 		{
 			mySquarePreview.gameObject.SetActive(true);
-			mySquarePreview.Init(aoeInstantiated.localTrad.rules.boxDimension.z, aoeInstantiated.localTrad.rules.boxDimension.x, transform.eulerAngles.y, SquarePreview.squareCenter.center, transform.position + myPlayerModule.directionOfTheMouse() * aoeInstantiated.localTrad.rules.boxDimension.z / 2);
+			mySquarePreview.Init(previewSquare.z, previewSquare.x, transform.eulerAngles.y, SquarePreview.squareCenter.center, transform.position + myPlayerModule.directionOfTheMouse() * previewSquare.z / 2);
 		}
 	}
 
 	protected override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
-		if (aoeInstantiated.localTrad.rules.isBox)
+		if (radius == 0)
 		{
 			mySquarePreview.gameObject.SetActive(false);
 		}

@@ -15,10 +15,12 @@ public class UiManager : MonoBehaviour
 	public static UiManager Instance { get { return _instance; } }
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
+
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI endZoneTimer;
 	[FoldoutGroup("GlobalUi")] public Image endZoneBarTimer;
 	[FoldoutGroup("GlobalUi")] public Animator endZoneAnim;
 	[FoldoutGroup("GlobalUi")] public GameObject endZoneTimerObj;
+
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
@@ -774,12 +776,12 @@ public class UiManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
 	}
-	public void EndGamePanel ( bool victory = false, ushort newPoints = 0, Team team = Team.none )
+	public void EndGamePanel ( bool victory = false, Team team = Team.none )
 	{
 		victoryPanel.SetActive(victory);
 		loosePanel.SetActive(!victory);
 		endGameScore.gameObject.SetActive(true);
-		endGameScore.EndGame(newPoints, team);
+		endGameScore.EndGame(team);
 
 		toDisableInEndGame.SetActive(false);
 	}

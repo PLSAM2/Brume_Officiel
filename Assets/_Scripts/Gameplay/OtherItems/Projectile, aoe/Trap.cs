@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class Trap : AutoKill
 {
-	public float lifeTime;
 	public GameObject objectToSpawn;
 	NetworkedObject myNetworkedObject;
-	float radiusOfTheTrap;
-	private void Start ()
-	{
-		radiusOfTheTrap = GetComponent<SphereCollider>().radius;
-	}
+	public float radiusOfTheTrap;
+
 
 	public override void Init ( GameData.Team ownerTeam, float _percentageOfLifeTime = 1 )
 	{
-		mylifeTime = lifeTime;
-		myLivelifeTime = mylifeTime;
-
 		if (isOwner)
 		{
 			Collider[] _hits = Physics.OverlapSphere(transform.position, radiusOfTheTrap, 8);
