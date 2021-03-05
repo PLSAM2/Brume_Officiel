@@ -69,15 +69,5 @@ public class FixedDistanceAoe : SpellModule
 		else
 			myCirclePreview.gameObject.SetActive(false);
 	}
-
-	public void DisplayPreview(bool _activate)
-	{
-		if (preview != null)
-			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
-				preview.transform.GetChild(0).gameObject.SetActive(_activate);
-		else
-				preview.transform.GetChild(1).gameObject.SetActive(_activate);
-	}
-	
 }
 
