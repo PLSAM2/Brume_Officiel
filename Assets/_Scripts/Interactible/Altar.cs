@@ -26,6 +26,10 @@ public class Altar : Interactible
     [SerializeField] GameObject waypointAltarPrefab;
     Waypoint waypointObj;
 
+    [SerializeField] Color lockColor;
+    [SerializeField] Color unlockColor;
+
+
     [SerializeField] Lava myLava;
     void Start()
     {
@@ -90,7 +94,7 @@ public class Altar : Interactible
 
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
         waypointObj.target = transform;
-        waypointObj.SetImageColor(Color.gray);
+        waypointObj.SetImageColor(lockColor);
     }
 
     IEnumerator ActivateAltar()
@@ -112,7 +116,7 @@ public class Altar : Interactible
 
         AudioManager.Instance.Play2DAudio(unlockAltarSfx);
 
-        waypointObj.SetImageColor(Color.white);
+        waypointObj.SetImageColor(unlockColor);
     }
 
     internal void StarFinalPhase()
