@@ -193,14 +193,9 @@ public class Projectile : AutoKill
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
-			Transform player = GameFactory.GetActualPlayerFollow().transform;
+            GameFactory.DoScreenShack(0.05f, 0.05f, transform.position);
 
-			if (player != null && Vector3.Distance(player.position, transform.position) < 7)
-			{
-				CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
-			}
-
-			if (hitSound)
+            if (hitSound)
 			{
 				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}

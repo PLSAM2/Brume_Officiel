@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Leng_Ult_Placeholder
   m_EditorClassIdentifier: 
-  range: 14
+  range: 12
   cooldown: 0
   numberOfCharge: 1
   forbiddenState: 48
@@ -37,13 +37,13 @@ MonoBehaviour:
     playerName: 
     damageHealth: 0
     statusToApply:
-    - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
+    - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
     additionalMovementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 46d7ba2305bc0b84195896207166d0f7, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: cb5e69a4079de3d42bf123da770918cb, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
     serializedVersion: 2
@@ -98,14 +98,14 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1.75
+    timeToReachMaxRange: 0.5
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0
   fakeRange: 0
   velocityKeptOnBounce: 1
-  diesOnPlayerTouch: 0
+  diesOnPlayerTouch: 1
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 0}

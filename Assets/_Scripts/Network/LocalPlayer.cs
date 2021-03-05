@@ -452,7 +452,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
             LocalPoolManager.Instance.SpawnNewImpactDamageFX(
                     transform.position + Vector3.up * 1,
-                    (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam ? GameFactory.GetColorTeam(Team.blue) : GameFactory.GetColorTeam(Team.red))
+                    myPlayerModule.teamIndex
                 );
 
             if ((int)liveHealth - (int)damages <= 0)
@@ -771,14 +771,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 				else
 				{
-
 					if (waypointThirdEye)
 					{
 						Destroy(waypointThirdEye.gameObject);
 					}
 				}
-				forceOutline = _activate;
 			}
+			forceOutline = _activate;
 		}
 
 	}

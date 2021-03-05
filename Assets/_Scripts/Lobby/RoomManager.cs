@@ -128,12 +128,12 @@ public class RoomManager : MonoBehaviour
 
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
-            UiManager.Instance.EndGamePanel(true, 0, winningTeam);
+            UiManager.Instance.EndGamePanel(true, winningTeam);
             EndObjectives(true);
         }
         else
         {
-            UiManager.Instance.EndGamePanel(false, 0, winningTeam);
+            UiManager.Instance.EndGamePanel(false, winningTeam);
             EndObjectives(false);
         }
 
@@ -209,12 +209,12 @@ public class RoomManager : MonoBehaviour
 
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
-            UiManager.Instance.EndGamePanel(true, 1, winningTeam);
+            UiManager.Instance.EndGamePanel(true, winningTeam);
             EndObjectives(true);
         }
         else
         {
-            UiManager.Instance.EndGamePanel(false, 1, winningTeam);
+            UiManager.Instance.EndGamePanel(false, winningTeam);
             EndObjectives(false);
         }
 
@@ -564,7 +564,8 @@ public class RoomManager : MonoBehaviour
     {
         if (NetworkManager.Instance.GetLocalPlayer() == null) { return; }
 
-        PlayerData p = NetworkManager.Instance.GetLocalPlayer();
+        PlayerData p = RoomManager._instance.GetPlayerData(playerId);
+
         if (actualRoom.playerList[playerId].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             if (set)

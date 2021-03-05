@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4642286905541268345
 Transform:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3073313388587040675
 Transform:
   m_ObjectHideFlags: 0
@@ -260,16 +260,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad38f0f5e1f3d74db34c26d011a2b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mylifeTime: 0
+  mylifeTime: 60
   myLivelifeTime: 0
+  isUsingTeamMesh: 1
   meshBlue: {fileID: 4046907593915369113}
   meshRed: {fileID: 279285048789274863}
+  hideMeshToEnemyTeam: 1
   myteam: 0
   myNetworkObject: {fileID: 0}
   isOwner: 0
   spawnSound: {fileID: 0}
-  lifeTime: 20
-  objectToSpawn: {fileID: 7776885188641116624, guid: 3653d0c4f4d0fa64badf3f46223a36b3, type: 3}
+  objectToSpawn: {fileID: 7776885188641116624, guid: 7447fee5ca2e21840bcf700fda848e0f, type: 3}
 --- !u!1 &6778488771910484773
 GameObject:
   m_ObjectHideFlags: 0

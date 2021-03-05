@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class Trap : AutoKill
 {
-	public float lifeTime;
 	public GameObject objectToSpawn;
 	NetworkedObject myNetworkedObject;
-	float radiusOfTheTrap;
-	private void Start ()
-	{
-		radiusOfTheTrap = GetComponent<SphereCollider>().radius;
-	}
+	public float radiusOfTheTrap;
+
 
 	public override void Init ( GameData.Team ownerTeam, float _percentageOfLifeTime = 1 )
 	{
-		mylifeTime = lifeTime;
-		myLivelifeTime = mylifeTime;
+		radiusOfTheTrap = GetComponent<SphereCollider>().radius;
 
 		if (isOwner)
 		{
@@ -51,8 +46,13 @@ public class Trap : AutoKill
 
 	void ActivateTrap ()
 	{
-
 		NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(objectToSpawn), transform.position, transform.rotation.eulerAngles);
 		Destroy(true);
+	}
+
+	protected override void DisplayMesh ()
+	{
+		if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(myteam))
+			base.DisplayMesh();
 	}
 }
