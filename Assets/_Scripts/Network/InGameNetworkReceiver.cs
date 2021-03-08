@@ -177,7 +177,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 	private void DynamicWallState ( object sender, MessageReceivedEventArgs e )
 	{
-		//GameManager.Instance.dynamicWalls.SetDoorState(false);
+		GameManager.Instance.dynamicWalls.SetDoorState(false);
 	}
 
 	private void TpInServer ( object sender, MessageReceivedEventArgs e )
