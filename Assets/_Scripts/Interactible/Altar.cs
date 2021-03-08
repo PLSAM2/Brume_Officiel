@@ -111,6 +111,9 @@ public class Altar : Interactible
 	{
         UiManager.Instance.chat.ReceiveNewMessage(interactibleName + " Unlock", 0, true);
 
+        fillImg.gameObject.SetActive(true);
+        zoneImg.gameObject.SetActive(true);
+
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
