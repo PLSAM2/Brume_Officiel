@@ -27,8 +27,7 @@ public class EndZoneInteractible : Interactible
 
     public override void Unlock()
     {
-        UiManager.Instance.DisplayGeneralMessage(interactibleName + " of Altar " + parentAltar.interactibleName + " Started !");
-        UiManager.Instance.chat.ReceiveNewMessage(interactibleName + " of Altar " + parentAltar.interactibleName + " Started !", 0, true);
+        UiManager.Instance.myAnnoncement.AltarEndAnnoncement((interactibleName + " of Altar " + parentAltar.interactibleName + " Started").ToUpper(), parentAltar);
 
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
         waypointObj.target = transform;

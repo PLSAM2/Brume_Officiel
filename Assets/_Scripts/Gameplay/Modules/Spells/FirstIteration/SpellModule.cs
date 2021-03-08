@@ -297,7 +297,6 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void Interrupt ()
 	{
-		print("I interrupt");
 		isUsed = false;
 		throwbackTime = 0;
 		FeedbackSpellStep(En_SpellStep.Interrupt);

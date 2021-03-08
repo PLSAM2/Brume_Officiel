@@ -249,7 +249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -351}
+  m_AnchoredPosition: {x: 0, y: -247}
   m_SizeDelta: {x: 717.8705, y: 221.54828}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &937476303
@@ -920,7 +920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.0017700195}
+  m_AnchoredPosition: {x: 0, y: -0.0018310547}
   m_SizeDelta: {x: 0, y: 0.100097656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2146607219
@@ -937,9 +937,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 937476303}
   text: {fileID: 1579294595}
-  waypointAltarPrefab: {fileID: 0}
-  altarLockColor: {r: 0, g: 0, b: 0, a: 0}
-  altarUnlockColor: {r: 0, g: 0, b: 0, a: 0}
+  iconPos: {fileID: 1212373001}
+  waypointAltarPrefab: {fileID: 150680, guid: 3d6451009c16eb041aeb44b376f2f7f8, type: 3}
+  altarLockColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+  altarUnlockColor: {r: 0.8962264, g: 0.77392906, b: 0.19023676, a: 1}
+  altarEndColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &110001110795167749
 GameObject:
   m_ObjectHideFlags: 0
@@ -8479,7 +8481,6 @@ MonoBehaviour:
   generalMessageAnim: {fileID: 802436175980286777}
   generalPointsAnim: {fileID: 2731160894595153254}
   waitingForPlayersPanel: {fileID: 2149868481675046182}
-  generalMessageAnimTime: 5
   slowIcon: {fileID: 8886969023996719449}
   spedUpIcon: {fileID: 5864149322612306360}
   silencedIcon: {fileID: 8934313759807998911}
@@ -8532,7 +8533,7 @@ MonoBehaviour:
   skillNameText: {fileID: 7219736219694520306}
   cooldownText: {fileID: 39402338933680525}
   descriptionText: {fileID: 8333541474137885194}
-  myAnnoncement: {fileID: 0}
+  myAnnoncement: {fileID: 2146607219}
 --- !u!1001 &55778495871692059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9270,7 +9271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3484649705775502699, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4108635888547544469, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
       propertyPath: m_margin.x
