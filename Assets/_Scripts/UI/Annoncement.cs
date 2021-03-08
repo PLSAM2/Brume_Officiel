@@ -20,7 +20,6 @@ public class Annoncement : MonoBehaviour
     private void Start()
     {
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
-        waypointObj.target = transform;
         waypointObj.SetImageColor(altarLockColor);
         waypointObj.gameObject.SetActive(false);
     }
@@ -48,6 +47,8 @@ public class Annoncement : MonoBehaviour
 
         waypointObj.SetImageColor(altarEndColor);
 
+        waypointObj.target = _altar.transform;
+
         waypointObj.gameObject.SetActive(true);
         waypointObj.ActiveAnnonciation(iconPos);
 
@@ -57,6 +58,8 @@ public class Annoncement : MonoBehaviour
     public void NewAltarAnnoncement(string _value, Altar _altar) {
         text.text = _value;
         myAnimator.SetTrigger("Show");
+
+        waypointObj.target = _altar.transform;
 
         waypointObj.gameObject.SetActive(true);
         waypointObj.ActiveAnnonciation(iconPos);
