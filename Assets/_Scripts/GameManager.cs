@@ -92,6 +92,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public GameObject deadPostProcess;
 
+    [HideInInspector] public bool menuOpen = false;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
