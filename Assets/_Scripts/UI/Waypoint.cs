@@ -70,7 +70,7 @@ public class Waypoint : MonoBehaviour
         var t = 0f;
         while (t < 1)
         {
-            t += Time.deltaTime / 1;
+            t += Time.deltaTime / 1.2f;
             iconIn.position = Vector3.Lerp(currentPos, posIconIn.position, t);
             iconOut.position = Vector3.Lerp(currentPos, posIconOut.position, t);
             yield return null;

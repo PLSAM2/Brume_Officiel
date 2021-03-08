@@ -134,7 +134,7 @@ public class GameManager : SerializedMonoBehaviour
         SetTimer(endZoneTimer,UiManager.Instance.endZoneTimer.timer);
 
         RoomManager.Instance.UpdatePointDisplay();
-        UiManager.Instance.DisplayGeneralMessage("Round : " + RoomManager.Instance.roundCount);
+        UiManager.Instance.chat.DisplayMessage("Round : " + RoomManager.Instance.roundCount);
     }
     public void PlayerJoinedAndInitInScene()
     {
@@ -172,14 +172,14 @@ public class GameManager : SerializedMonoBehaviour
         return spawns[RoomManager.Instance.assignedSpawn[team]];
     }
 
-    private void PlayerQuitGame(PlayerData Obj)
+    private void PlayerQuitGame(PlayerData p)
     {
-        if (NetworkManager.Instance.GetLocalPlayer().ID != Obj.ID)
+        if (NetworkManager.Instance.GetLocalPlayer().ID != p.ID)
         {
-            UiManager.Instance.DisplayGeneralMessage("Player " + Obj.Name + " quit");
+            UiManager.Instance.chat.DisplayMessage(GameFactory.GetNameAddChamp(p) + " left the game");
         }
 
-        networkPlayers.Remove(Obj.ID);
+        networkPlayers.Remove(p.ID);
     }
 
     private void AllPlayerJoinGameScene()

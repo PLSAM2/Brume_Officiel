@@ -29,20 +29,7 @@ public class ChatMessageControl : MonoBehaviour
     public void InitNewMessage(PlayerData sender, string messageContent)
     {
         this.sender = sender;
-        string name = "";
-
-        switch (sender.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            case true:
-                name += "<color=" + GameFactory.GetColorTeamInHex(GameData.Team.blue) + ">";
-                break;
-
-            case false:
-                name += "<color=" + GameFactory.GetColorTeamInHex(GameData.Team.red) + ">";
-                break;
-        }
-
-        name += sender.Name + " (" + sender.playerCharacter.ToString() + ") : </color>";
+        string name = GameFactory.GetNameAddChamp(sender);
 
         messageText.text = "<color=white>[" + (int)Math.Floor(GameManager.Instance.timer / 60) + ":" + ((int)GameManager.Instance.timer % 60).ToString("D2") + "] </color>" + name + messageContent;
 
