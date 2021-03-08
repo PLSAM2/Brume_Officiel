@@ -224,13 +224,11 @@ public class PlayerModule : MonoBehaviour
 			reduceAllCooldown += ReduceAllCooldowns;
 			reduceTargetCooldown += ReduceCooldown;
 
-			mapIcon.color = myColor;
-
 		}
 		else
 		{
+			mapIcon.gameObject.SetActive(false);
 			StartCoroutine(WaitForVisionCheck());
-			mapIcon.color = GameFactory.GetColorTeam(teamIndex);
 		}
 
 		ResetLayer();

@@ -27,7 +27,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
-	[FoldoutGroup("Minimap")] private bool waitForMinimapUpdate = false;
+	[FoldoutGroup("Minimap")] public GameObject minimapObj;
 
 
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Text generalMessage;
@@ -362,6 +362,8 @@ public class UiManager : MonoBehaviour
                 SetEchapMenuState();
             }
 		}
+
+
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
             if (chat.isFocus)
@@ -378,18 +380,25 @@ public class UiManager : MonoBehaviour
 		{
 			DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
 		}
-	}
+		if (Input.GetKeyDown(KeyCode.Tab))
+		{
+			minimapObj.SetActive(true);
+		}
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            cameraMinimap.Render();
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            minimapObj.SetActive(false);
+        }
+    }
 
 	private void FixedUpdate ()
 	{
 		if (actualChar == null && GameFactory.GetLocalPlayerObj() != null)
 		{
 			actualChar = GameFactory.GetLocalPlayerObj().gameObject;
-		}
-
-		if (!waitForMinimapUpdate)
-		{
-			StartCoroutine(MinimapUpdate());
 		}
 	}
 
@@ -409,14 +418,6 @@ public class UiManager : MonoBehaviour
 
         altarCapture.Add(_altar);
         uiAltarList.GainTeam(_capturingTeam);
-	}
-
-	IEnumerator MinimapUpdate ()
-	{
-		waitForMinimapUpdate = true;
-		yield return new WaitForSeconds(0.1f);
-		//cameraMinimap.Render();
-		waitForMinimapUpdate = false;
 	}
 
 	public void SetEchapMenuState ()
