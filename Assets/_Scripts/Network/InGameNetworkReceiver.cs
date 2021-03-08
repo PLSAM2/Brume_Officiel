@@ -688,7 +688,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-
 	public void SetEndGame ( bool value = true )
 	{
 		isEndGame = value;

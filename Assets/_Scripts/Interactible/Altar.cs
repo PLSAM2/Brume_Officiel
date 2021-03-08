@@ -23,12 +23,6 @@ public class Altar : Interactible
     [SerializeField] AudioClip capturedAltarSfx;
     [SerializeField] Sprite willUnlockSprite;
 
-    [SerializeField] GameObject waypointAltarPrefab;
-    Waypoint waypointObj;
-
-    [SerializeField] Color lockColor;
-    [SerializeField] Color unlockColor;
-
 
     [SerializeField] Lava myLava;
     void Start()
@@ -46,11 +40,6 @@ public class Altar : Interactible
         UiManager.Instance.DisplayGeneralMessage("Altar captured");
 
         AudioManager.Instance.Play2DAudio(capturedAltarSfx);
-
-        if (waypointObj)
-        {
-            Destroy(waypointObj.gameObject);
-        }
 
         //myLava.Spawn();
 
@@ -87,14 +76,7 @@ public class Altar : Interactible
             StartCoroutine(ActivateAltar());
         }
 
-        if (waypointObj)
-        {
-            Destroy(waypointObj.gameObject);
-        }
-
-        waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
-        waypointObj.target = transform;
-        waypointObj.SetImageColor(lockColor);
+        UiManager.Instance.myAnnoncement.NewAltarAnnoncement("Altar " + interactibleName + " ACTIVATED", this);
     }
 
     IEnumerator ActivateAltar()
@@ -116,7 +98,7 @@ public class Altar : Interactible
 
         AudioManager.Instance.Play2DAudio(unlockAltarSfx);
 
-        waypointObj.SetImageColor(unlockColor);
+        UiManager.Instance.myAnnoncement.SetUnlockAltar();
     }
 
     internal void StarFinalPhase()

@@ -27,6 +27,9 @@ public class Waypoint : MonoBehaviour
     [HideInInspector] public Transform target;
     [HideInInspector] public Vector3 targetVector;
 
+    public bool displayIn = true;
+    public bool displayOut = true;
+
     public bool displayNameIn = false;
     public bool displayNameOut = false;
 
@@ -106,13 +109,10 @@ public class Waypoint : MonoBehaviour
             screenPosition.z = 0;
             //indicator = GetIndicator(ref target.indicator, IndicatorType.BOX); // Gets the box indicator from the pool.
 
-            if (!indicatorIn.activeSelf)
-            {
-                indicatorIn.SetActive(true);
-                indicatorOut.SetActive(false);
+            indicatorIn.SetActive(displayIn);
+            indicatorOut.SetActive(false);
 
-                distanceTextOut.gameObject.SetActive(false);
-            }
+            distanceTextOut.gameObject.SetActive(false);
 
             transform.rotation = Quaternion.identity;
         }
@@ -122,13 +122,10 @@ public class Waypoint : MonoBehaviour
             OffScreenIndicatorCore.GetArrowIndicatorPositionAndAngle(ref screenPosition, ref angle, screenCentre, screenBounds);
             transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg); // Sets the rotation for the arrow indicator.
 
-            if (!indicatorOut.activeSelf)
-            {
-                indicatorOut.SetActive(true);
-                indicatorIn.SetActive(false);
+            indicatorOut.SetActive(displayOut);
+            indicatorIn.SetActive(false);
 
-                distanceTextIn.gameObject.SetActive(false);
-            }
+            distanceTextIn.gameObject.SetActive(false);
         }
 
         transform.position = screenPosition; //Sets the position of the indicator on the screen.

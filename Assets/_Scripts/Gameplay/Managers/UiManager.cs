@@ -96,7 +96,10 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("spellDescription")] public GameObject wholeTooltip;
 	[FoldoutGroup("spellDescription")] public TextMeshProUGUI skillNameText, cooldownText, descriptionText ;
 
-	private void Awake ()
+    [Header("Annoncement")]
+    [FoldoutGroup("Annoncement")] public Annoncement myAnnoncement;
+
+    private void Awake ()
 	{
 		if (_instance != null && _instance != this)
 		{
