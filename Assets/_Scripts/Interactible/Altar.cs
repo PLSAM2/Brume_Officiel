@@ -37,7 +37,8 @@ public class Altar : Interactible
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         base.UpdateCaptured(_capturingPlayerID);
 
-        UiManager.Instance.DisplayGeneralMessage("Altar captured");
+        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CAPTURED");
+        UiManager.Instance.myAnnoncement.DisableAltar();
 
         AudioManager.Instance.Play2DAudio(capturedAltarSfx);
 
@@ -69,14 +70,13 @@ public class Altar : Interactible
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
-        UiManager.Instance.DisplayGeneralMessage("Altar " + interactibleName + " unlock in " + unlockTime + " seconds");
         UiManager.Instance.UnlockNewAltar(this);
         if (value)
         {
             StartCoroutine(ActivateAltar());
         }
 
-        UiManager.Instance.myAnnoncement.NewAltarAnnoncement("Altar " + interactibleName + " ACTIVATED", this);
+        UiManager.Instance.myAnnoncement.NewAltarAnnoncement(("Altar " + interactibleName + " ACTIVATED").ToUpper(), this);
     }
 
     IEnumerator ActivateAltar()
@@ -85,16 +85,12 @@ public class Altar : Interactible
         mapIcon.sprite = willUnlockSprite;
         yield return new WaitForSeconds(unlockTime);
 
-        UiManager.Instance.DisplayGeneralMessage("Altar unlock");
-
-        UiManager.Instance.myAnnoncement.DisableAltar();
+        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNLOCK");
         Unlock();
     }
 
 	public override void Unlock ()
 	{
-        UiManager.Instance.chat.ReceiveNewMessage(interactibleName + " Unlock", 0, true);
-
         fillImg.gameObject.SetActive(true);
         zoneImg.gameObject.SetActive(true);
 

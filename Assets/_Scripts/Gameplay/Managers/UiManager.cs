@@ -37,10 +37,6 @@ public class UiManager : MonoBehaviour
 
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private GameObject waitingForPlayersPanel;
 
-	[FoldoutGroup("GeneralMessage")] public float generalMessageAnimTime = 3;
-	private List<string> generalMessageList = new List<string>();
-	private bool waitForGenMessageAnimEnd = false;
-
 	[Header("GamePlayPart")]
 	[Header("Status Icon")]
 	[FoldoutGroup("StatusIcon")] public Image slowIcon;
@@ -222,9 +218,8 @@ public class UiManager : MonoBehaviour
 		//
 		if (idKilled == idKiller)
 		{
-			DisplayGeneralMessage("You slain an ennemy");
-			//play son kill
-
+            //play son kill todo
+            myAnnoncement.ShowAnnoncement("You slain an ennemy");
 		}
 
 
@@ -396,13 +391,6 @@ public class UiManager : MonoBehaviour
 		{
 			StartCoroutine(MinimapUpdate());
 		}
-
-		if (generalMessageList.Count > 0 && !waitForGenMessageAnimEnd)
-		{
-			StartCoroutine(GeneralMessage());
-		}
-
-
 	}
 
 	internal void UnlockNewAltar ( Altar altar )
@@ -716,32 +704,6 @@ public class UiManager : MonoBehaviour
 			barCasting.SetActive(false);
 		else
 			barCasting.SetActive(true);
-	}
-
-	public void DisplayGeneralMessage ( string value )
-	{
-		generalMessageList.Add(value);
-	}
-
-	IEnumerator GeneralMessage ()
-	{
-		waitForGenMessageAnimEnd = true;
-		generalMessage.DOText(generalMessageList[0], 0.7f, false, ScrambleMode.Uppercase);
-		generalMessageAnim.Play("GenMessage");
-
-		yield return new WaitForSeconds(generalMessageAnimTime);
-		generalMessage.text = "";
-		generalMessageList.RemoveAt(0);
-
-		if (generalMessageList.Count == 0)
-		{
-			waitForGenMessageAnimEnd = false;
-		}
-		else
-		{
-			StartCoroutine(GeneralMessage());
-		}
-
 	}
 
 	public void DisplayGeneralPoints ( Team team, int value )

@@ -10,6 +10,9 @@ public class PingObject : MonoBehaviour
     public NetworkedObject networkedObject;
     public AudioSource audioSource;
 
+    [SerializeField] GameObject waypointPrefab;
+    Waypoint waypointObj;
+
     private void OnEnable()
     {
         Init(networkedObject.GetOwner().playerTeam);
@@ -21,6 +24,15 @@ public class PingObject : MonoBehaviour
             this.gameObject.SetActive(false);
         } else
         {
+
+            if (waypointObj)
+            {
+                Destroy(waypointObj.gameObject);
+            }
+
+            waypointObj = Instantiate(waypointPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+            waypointObj.target = transform;
+
             if (audioSource != null)
             {
                 audioSource.Play();
@@ -33,6 +45,7 @@ public class PingObject : MonoBehaviour
     {
         yield return new WaitForSeconds(lifeTime);
 
+        Destroy(waypointObj.gameObject);
         this.gameObject.SetActive(false);
     }
 }
