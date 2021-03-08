@@ -16,6 +16,7 @@ MonoBehaviour:
   cooldown: 8
   numberOfCharge: 1
   forbiddenState: 48
+  stacksUsed: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
@@ -30,6 +31,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a8171a7cebbdc44d93bc40e14adab5c, type: 2}
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: 497c8c9733c30c643bbd7b768e76e63b, type: 3}
+  spellName: Spectral Surge
+  spellDescription: My Description
   damagesToDeal:
     playerName: 
     damageHealth: 0
@@ -74,7 +77,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  asAdaptiveRange: 0
+  finalSize: {x: 1, y: 1, z: 1}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   offSet: 1
   salveInfos:
     NumberOfSalve: 1
@@ -84,10 +93,12 @@ MonoBehaviour:
   angleToSplit: 0
   destroyProjectiles: 0
   bouncingNumber: 0
+  fakeRange: 0
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 1
-  diesOnWallTouch: 1
+  diesOnWallTrigger: 0
   forcePrefabApparition: 1
+  statusToApplyOnHit: {fileID: 0}
   cooldownReduction: 0
   bonusShot: 0
   bonusSalve: 0
