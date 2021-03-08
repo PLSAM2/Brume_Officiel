@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Leng_ArthurGrab
   m_EditorClassIdentifier: 
-  range: 12
-  cooldown: 1
+  range: 7
+  cooldown: 7
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
-  lockRotOnCanalisation: 0
-  lockPosOnCanalisation: 0
-  canalisationTime: 0.5
+  lockRotOnCanalisation: 1
+  lockPosOnCanalisation: 1
+  canalisationTime: 0.6
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
@@ -27,7 +27,8 @@ MonoBehaviour:
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
-  statusToApplyAtTheEnd: []
+  statusToApplyAtTheEnd:
+  - {fileID: 11400000, guid: 874d7758917fc1e49b50c33471a784a4, type: 2}
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: b5fffadc70703cc4db30ec42e18751b1, type: 3}
   spellName: Corrupted Pull
@@ -37,7 +38,7 @@ MonoBehaviour:
     damageHealth: 0
     statusToApply:
     - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
-    movementToApply: {fileID: 0}
+    movementToApply: {fileID: 11400000, guid: 56eefc1f9dccba745a47facd2bb0bc34, type: 2}
     stateNeeded: 128
     additionalDamages: 0
     additionalStatusToApply: []
@@ -97,7 +98,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.5
+    timeToReachMaxRange: 0.6
     timeToResolveTheSalve: 0.1
   angleToSplit: 0
   destroyProjectiles: 0
