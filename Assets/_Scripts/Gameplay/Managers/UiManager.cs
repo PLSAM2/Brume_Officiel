@@ -422,7 +422,8 @@ public class UiManager : MonoBehaviour
 	public void SetEchapMenuState ()
 	{
 		echapMenu.SetActive(!echapMenu.activeInHierarchy);
-	}
+        GameManager.Instance.menuOpen = echapMenu.activeInHierarchy;
+    }
 
 	public void UpdateUiCooldownSpell ( En_SpellInput spell, float _timeRemaining, float _completeCd )
 	{
