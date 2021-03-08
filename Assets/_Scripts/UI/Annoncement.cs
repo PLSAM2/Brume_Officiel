@@ -7,6 +7,7 @@ public class Annoncement : MonoBehaviour
 {
     [SerializeField] Animator myAnimator;
     [SerializeField] TextMeshProUGUI text;
+    [SerializeField] RectTransform iconPos;
 
     [SerializeField] GameObject waypointAltarPrefab;
     Waypoint waypointObj;
@@ -26,7 +27,13 @@ public class Annoncement : MonoBehaviour
 
     public void SetUnlockAltar()
     {
+        waypointObj.SetImageColor(altarUnlockColor);
+    }
 
+    public void DisableAltar()
+    {
+        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.gameObject.SetActive(false);
     }
 
     public void NewAltarAnnoncement(string _value, Altar _altar) {
@@ -34,6 +41,8 @@ public class Annoncement : MonoBehaviour
         myAnimator.SetTrigger("Show");
 
         waypointObj.gameObject.SetActive(true);
+        waypointObj.ActiveAnnonciation(iconPos);
+
 
         currentAltar = _altar;
     }
