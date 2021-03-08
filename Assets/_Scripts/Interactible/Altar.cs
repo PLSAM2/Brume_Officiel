@@ -86,6 +86,8 @@ public class Altar : Interactible
         yield return new WaitForSeconds(unlockTime);
 
         UiManager.Instance.DisplayGeneralMessage("Altar unlock");
+
+        UiManager.Instance.myAnnoncement.DisableAltar();
         Unlock();
     }
 
