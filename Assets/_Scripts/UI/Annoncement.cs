@@ -15,7 +15,7 @@ public class Annoncement : MonoBehaviour
 
     [SerializeField] Color altarLockColor;
     [SerializeField] Color altarUnlockColor;
-
+    [SerializeField] Color altarEndColor;
 
     private void Start()
     {
@@ -23,6 +23,11 @@ public class Annoncement : MonoBehaviour
         waypointObj.target = transform;
         waypointObj.SetImageColor(altarLockColor);
         waypointObj.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        //TODO afficher timer altar
     }
 
     public void SetUnlockAltar()
@@ -34,6 +39,19 @@ public class Annoncement : MonoBehaviour
     {
         waypointObj.SetImageColor(altarLockColor);
         waypointObj.gameObject.SetActive(false);
+    }
+
+    public void AltarEndAnnoncement(string _value, Altar _altar)
+    {
+        text.text = _value;
+        myAnimator.SetTrigger("Show");
+
+        waypointObj.SetImageColor(altarEndColor);
+
+        waypointObj.gameObject.SetActive(true);
+        waypointObj.ActiveAnnonciation(iconPos);
+
+        currentAltar = _altar;
     }
 
     public void NewAltarAnnoncement(string _value, Altar _altar) {

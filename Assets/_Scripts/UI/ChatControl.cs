@@ -69,6 +69,16 @@ public class ChatControl : MonoBehaviour
         isFocus = false;
     }
 
+    public void DisplayMessage(string _message)
+    {
+        ChatMessageControl newMessageControl = GetNewChatPrefab();
+        chatMessageControls.Add(newMessageControl);
+
+        newMessageControl.InitNewServerMessage(_message);
+
+        myScrollbar.value = 0;
+    }
+
     public void ReceiveNewMessage( string _message, ushort _id = 0, bool fromServer = false)
     {
         ChatMessageControl newMessageControl = GetNewChatPrefab();

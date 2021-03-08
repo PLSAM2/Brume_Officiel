@@ -628,7 +628,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
-			UiManager.Instance.DisplayGeneralMessage("You have been slain");
+			UiManager.Instance.myAnnoncement.ShowAnnoncement("YOU HAVE BEEN SLAIN");
 
 			GameManager.Instance.ResetCam();
 		}
