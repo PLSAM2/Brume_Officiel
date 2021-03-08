@@ -12,9 +12,6 @@ public class samTest : MonoBehaviour
 
         Vector3 targetDir = mousePos() - transform.position;
         targetDir = new Vector3(Mathf.Clamp(targetDir.x, -1, 1), 0, Mathf.Clamp(targetDir.z, -1, 1));
-
-        print(targetDir);
-        print(CalculateAngle180_v3(transform.forward, targetDir));
     }
 
     float CalculateAngle180_v3(Vector3 fromDir, Vector3 toDir)

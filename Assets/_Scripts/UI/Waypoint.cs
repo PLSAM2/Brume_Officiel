@@ -1,4 +1,6 @@
-﻿using PixelPlay.OffScreenIndicator;
+﻿using DG.Tweening;
+using PixelPlay.OffScreenIndicator;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,6 +10,11 @@ public class Waypoint : MonoBehaviour
 {
     [SerializeField] private GameObject indicatorOut;
     [SerializeField] private GameObject indicatorIn;
+
+    [SerializeField] private Transform posIconIn;
+    [SerializeField] private Transform posIconOut;
+    [SerializeField] private Transform iconIn;
+    [SerializeField] private Transform iconOut;
 
     [SerializeField] private List<Image> images = new List<Image>();
 
@@ -23,13 +30,12 @@ public class Waypoint : MonoBehaviour
     public bool displayNameIn = false;
     public bool displayNameOut = false;
 
-    public bool displayDistanceIn = false;
-    public bool displayDistanceOut = false;
-
     private Vector3 screenCentre;
     private Vector3 screenBounds;
 
     [SerializeField] private float screenBoundOffset = 0.9f;
+
+    RectTransform posCenter;
 
     private void Start()
     {
@@ -43,29 +49,43 @@ public class Waypoint : MonoBehaviour
         nameTextOut.gameObject.SetActive(displayNameOut);
     }
 
+    public void ActiveAnnonciation(RectTransform _posCenter)
+    {
+        posCenter = _posCenter;
+        StartCoroutine(StartAnonciation());
+    }
+
+    bool moveIcon = false;
+    IEnumerator StartAnonciation()
+    {
+        moveIcon = true;
+
+        yield return new WaitForSeconds(2f);
+        moveIcon = false;
+
+        var currentPos = iconIn.position;
+        var t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / 1;
+            iconIn.position = Vector3.Lerp(currentPos, posIconIn.position, t);
+            iconOut.position = Vector3.Lerp(currentPos, posIconOut.position, t);
+            yield return null;
+        }
+    }
+
+    public void SetUnderText(string _value)
+    {
+        distanceTextIn.text = _value;
+        distanceTextOut.text = _value;
+    }
+
     private void LateUpdate()
     {
-        //distance
-        if (displayDistanceIn || displayDistanceOut)
+        if (moveIcon)
         {
-            LocalPlayer playerActuel = GameFactory.GetActualPlayerFollow();
-
-            if(playerActuel != null)
-            {
-                float value = 0;
-
-                if (target)
-                {
-                    value = Vector3.Distance(target.position, playerActuel.transform.position);
-                }
-                else
-                {
-                    value = Vector3.Distance(targetVector, playerActuel.transform.position);
-                }
-                
-                distanceTextIn.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
-                distanceTextOut.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
-            }
+            iconIn.transform.position = posCenter.position;
+            iconOut.transform.position = posCenter.position;
         }
 
         //position
@@ -91,7 +111,6 @@ public class Waypoint : MonoBehaviour
                 indicatorIn.SetActive(true);
                 indicatorOut.SetActive(false);
 
-                distanceTextIn.gameObject.SetActive(displayDistanceIn);
                 distanceTextOut.gameObject.SetActive(false);
             }
 
@@ -108,7 +127,6 @@ public class Waypoint : MonoBehaviour
                 indicatorOut.SetActive(true);
                 indicatorIn.SetActive(false);
 
-                distanceTextOut.gameObject.SetActive(displayDistanceOut);
                 distanceTextIn.gameObject.SetActive(false);
             }
         }
