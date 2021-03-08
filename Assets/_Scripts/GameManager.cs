@@ -45,8 +45,6 @@ public class GameManager : SerializedMonoBehaviour
 
     private float overtime = 3;
     private float baseOvertime = 3;
-    [Header("EndZone")]
-    private Team endZoneCapturingTeam; 
     [Header("Camera")]
     public Camera defaultCam;
     public Material[] materialNeedingTheCamPos;
@@ -131,9 +129,9 @@ public class GameManager : SerializedMonoBehaviour
         baseEndZoneTimer = endZoneTimer;
         baseOvertime = overtime;
 
-        SetTimer(timer, ref UiManager.Instance.timer);
+        SetTimer(timer,UiManager.Instance.timer);
 
-        SetTimer(endZoneTimer, ref UiManager.Instance.endZoneTimer);
+        SetTimer(endZoneTimer,UiManager.Instance.endZoneTimer.timer);
 
         RoomManager.Instance.UpdatePointDisplay();
         UiManager.Instance.DisplayGeneralMessage("Round : " + RoomManager.Instance.roundCount);
@@ -203,25 +201,25 @@ public class GameManager : SerializedMonoBehaviour
         if (inOvertime)
         {
             overtime -= Time.deltaTime;
-            UiManager.Instance.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
+            UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
         }
 
         timer += Time.deltaTime;
-        SetTimer(timer, ref UiManager.Instance.timer);
+        SetTimer(timer,UiManager.Instance.timer);
 
         if (endZoneStarted)
         {
             endZoneTimer -= Time.deltaTime;
 
-            int remainingSec = SetTimer(endZoneTimer, ref UiManager.Instance.endZoneTimer);
-            UiManager.Instance.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
+            int remainingSec = SetTimer(endZoneTimer, UiManager.Instance.endZoneTimer.timer);
+            UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
 
             if (remainingSec <= 0)
             {
                 endZoneStarted = false;
-                UiManager.Instance.endZoneAnim.SetTrigger("Overtime");
-                UiManager.Instance.endZoneBarTimer.color = GameFactory.GetRelativeColor(endZoneCapturingTeam);
-                SetTimer(0, ref UiManager.Instance.timer);
+                UiManager.Instance.endZoneTimer.endZoneAnim.SetTrigger("Overtime");
+
+                SetTimer(0,UiManager.Instance.endZoneTimer.timer);
             }
 
         }
@@ -237,19 +235,23 @@ public class GameManager : SerializedMonoBehaviour
         inOvertime = state;
     }
 
-    public int SetTimer(float timer, ref TextMeshProUGUI text)
+    public int SetTimer(float timer,TextMeshProUGUI text = null)
     {
         int secondRemaining = (int)timer % 60;
         int minuteRemaining = (int)Math.Floor(timer / 60);
 
+        if (true)
+        {
+
+        }
         text.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
         return secondRemaining + (minuteRemaining * 60);
     }
     public void StartEndZone(Team team)
     {
+        UiManager.Instance.endZoneTimer.Init(team);
         endZoneStarted = true;
-        UiManager.Instance.endZoneTimerObj.SetActive(true);
     }
 
     private void StartTimerInServer()
