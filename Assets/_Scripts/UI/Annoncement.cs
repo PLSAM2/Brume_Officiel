@@ -48,6 +48,8 @@ public class Annoncement : MonoBehaviour
 
         waypointObj.SetImageColor(altarEndColor);
 
+        waypointObj.target = _altar.transform;
+
         waypointObj.gameObject.SetActive(true);
         waypointObj.ActiveAnnonciation(iconPos);
 
