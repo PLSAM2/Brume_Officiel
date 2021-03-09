@@ -628,7 +628,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
-			UiManager.Instance.myAnnoncement.ShowAnnoncement("YOU HAVE BEEN SLAIN");
+			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
 
 			GameManager.Instance.ResetCam();
 		}

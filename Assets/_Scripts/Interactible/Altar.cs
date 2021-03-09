@@ -23,6 +23,7 @@ public class Altar : Interactible
     [SerializeField] AudioClip capturedAltarSfx;
     [SerializeField] Sprite willUnlockSprite;
 
+    [HideInInspector] public float currentTime = 0;
 
     [SerializeField] Lava myLava;
     void Start()
@@ -37,7 +38,15 @@ public class Altar : Interactible
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         base.UpdateCaptured(_capturingPlayerID);
 
-        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CAPTURED");
+        if(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLAIMED BY "+ "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>");
+        }
+        else
+        {
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLAIMED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>");
+        }
+
         UiManager.Instance.myAnnoncement.DisableAltar();
 
         AudioManager.Instance.Play2DAudio(capturedAltarSfx);
@@ -76,16 +85,18 @@ public class Altar : Interactible
             StartCoroutine(ActivateAltar());
         }
 
-        UiManager.Instance.myAnnoncement.NewAltarAnnoncement(("Altar " + interactibleName + " ACTIVATED").ToUpper(), this);
+        UiManager.Instance.myAnnoncement.NewAltarAnnoncement((interactibleName + " ALTAR AWAKENS").ToUpper(), this);
     }
 
     IEnumerator ActivateAltar()
     {
         AudioManager.Instance.Play2DAudio(annoncementAltarSfx);
         mapIcon.sprite = willUnlockSprite;
+        currentTime = Time.fixedTime;
+
         yield return new WaitForSeconds(unlockTime);
 
-        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNLOCK");
+        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNSEALED");
         Unlock();
     }
 

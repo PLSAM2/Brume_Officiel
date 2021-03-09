@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static GameData;
 
 public class Annoncement : MonoBehaviour
 {
@@ -24,9 +25,51 @@ public class Annoncement : MonoBehaviour
         waypointObj.gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        GameManager.Instance.OnPlayerDie += OnPlayerDie;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPlayerDie -= OnPlayerDie;
+    }
+
     private void Update()
     {
         //TODO afficher timer altar
+        if(currentAltar != null)
+        {
+            float currentTimeLeft = currentAltar.unlockTime - (Time.fixedTime - currentAltar.currentTime);
+            if(currentTimeLeft > 0)
+            {
+                waypointObj.SetUnderText(Mathf.RoundToInt(currentTimeLeft) + "s");
+            }
+            else
+            {
+                waypointObj.SetUnderText("");
+            }
+        }
+    }
+
+    void OnPlayerDie(ushort _playerDie, ushort _killer)
+    {
+        ushort myId = NetworkManager.Instance.GetLocalPlayer().ID;
+
+        if(myId == _playerDie) { return; }
+
+        string result = "<color=";
+        if (RoomManager.Instance.GetPlayerData(_playerDie).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
+        }
+        else
+        {
+            result += GameFactory.GetColorTeamInHex(Team.red) + ">";
+        }
+
+        result += RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter.ToString();
+        UiManager.Instance.myAnnoncement.ShowAnnoncement(result + " HAS BEEN KILLED</color>");
     }
 
     public void SetUnlockAltar()
