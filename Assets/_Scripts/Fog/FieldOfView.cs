@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] fowType myType;
 
     Coroutine refreshCoroutine;
+
+    public Action<LocalPlayer> OnPlayerEnterInFow;
 
     private void OnEnable()
     {
@@ -141,6 +144,7 @@ public class FieldOfView : MonoBehaviour
             {
                 //print("add");
                 GameManager.Instance.visiblePlayer.Add(enemy, myType);
+                OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>());
             }
             else
             {
@@ -148,6 +152,7 @@ public class FieldOfView : MonoBehaviour
                 {
                     //print("update");
                     GameManager.Instance.visiblePlayer[enemy] = myType;
+                    OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>());
                 }
             }
         }
