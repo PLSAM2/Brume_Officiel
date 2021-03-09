@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 22278040}
   - component: {fileID: 11434930}
   m_Layer: 5
-  m_Name: EnemyWaypoint
+  m_Name: enemyWaypoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,6 +61,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorOut: {fileID: 2610331879403718521}
   indicatorIn: {fileID: 3068296903238028560}
+  posIconIn: {fileID: 0}
+  posIconOut: {fileID: 0}
+  iconIn: {fileID: 0}
+  iconOut: {fileID: 0}
   images:
   - {fileID: 946596942010456404}
   - {fileID: 6685323621923339939}
@@ -71,10 +75,11 @@ MonoBehaviour:
   nameTextOut: {fileID: 2872938658160535051}
   target: {fileID: 0}
   targetVector: {x: 0, y: 0, z: 0}
+  arrow: {fileID: 0}
+  displayIn: 1
+  displayOut: 1
   displayNameIn: 0
   displayNameOut: 0
-  displayDistanceIn: 0
-  displayDistanceOut: 0
   screenBoundOffset: 0.8
 --- !u!1 &511395789045358216
 GameObject:

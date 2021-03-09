@@ -40,11 +40,11 @@ public class Altar : Interactible
 
         if(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLAIMED BY "+ "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>");
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY "+ "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>");
         }
         else
         {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLAIMED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>");
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>");
         }
 
         UiManager.Instance.myAnnoncement.DisableAltar();
