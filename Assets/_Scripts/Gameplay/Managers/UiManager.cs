@@ -64,7 +64,6 @@ public class UiManager : MonoBehaviour
 
     [Header("Ulti")]
     [FoldoutGroup("Ulti")] public UltiBar parentUltiWX, parentUltiRE, parentUltiLENG;
-    [FoldoutGroup("Ulti")] public FeedBackGainUlti feedBackUlti;
     [FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
     [FoldoutGroup("Ulti")] public Material blueColor, grayColor;
     [FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
@@ -542,16 +541,18 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerUltiChange(ushort _player, ushort _number)
     {
+        bool islocal = (NetworkManager.Instance.GetLocalPlayer().ID == _player);
+
         switch (RoomManager.Instance.actualRoom.playerList[_player].playerCharacter)
         {
             case Character.WuXin:
-                parentUltiWX.SetValue(_number);
+                parentUltiWX.SetValue(_number, islocal);
                 break;
             case Character.Re:
-                parentUltiRE.SetValue(_number);
+                parentUltiRE.SetValue(_number, islocal);
                 break;
             case Character.Leng:
-                parentUltiLENG.SetValue(_number);
+                parentUltiLENG.SetValue(_number, islocal);
                 break;
         }
     }
