@@ -175,7 +175,7 @@ public class Ward : MonoBehaviour
 
 	void OnPlayerSpotted ( LocalPlayer _playerSpot )
 	{
-		if (!_playerSpot.IsInMyTeam(myTeam))
+		if (!_playerSpot.IsInMyTeam(myTeam) && myTeam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
 		{
 			if (statusToApply != null)
 			{
