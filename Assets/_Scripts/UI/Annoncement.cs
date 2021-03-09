@@ -61,11 +61,11 @@ public class Annoncement : MonoBehaviour
         string result = "<color=";
         if (RoomManager.Instance.GetPlayerData(_playerDie).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
+            result += GameFactory.GetColorTeamInHex(Team.red) + ">";
         }
         else
         {
-            result += GameFactory.GetColorTeamInHex(Team.red) + ">";
+            result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
         }
 
         result += RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter.ToString();
