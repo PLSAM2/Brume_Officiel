@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 279285048789274863}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1.98, y: 1.98, z: 1.98}
   m_Children:
   - {fileID: 4805572185730596517}
   m_Father: {fileID: 4893502825971888538}
@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 4046907593915369113}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1.98, y: 1.98, z: 1.98}
   m_Children:
   - {fileID: 3019420767287029772}
   m_Father: {fileID: 4893502825971888538}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: -1534728185079278919}
   - component: {fileID: 63471337967116498}
   m_Layer: 20
-  m_Name: Leng_Projectile_Ult
+  m_Name: Leng_ArthurGrab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   _mySfxAudio: {fileID: 0}
   soundFollowObj: 1
   aoeToSpawn: {fileID: 0}
-  localTrad: {fileID: 11400000, guid: 22bbcc628dfacd2489d4782fdb06886b, type: 2}
+  localTrad: {fileID: 11400000, guid: c7ffac72d42b9884585e3cb1c0809e76, type: 2}
   doImpactFx: 1
   hasTouched: 0
   myRb: {fileID: 63471337967116498}
@@ -276,7 +276,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &63471337967116498
 Rigidbody:
