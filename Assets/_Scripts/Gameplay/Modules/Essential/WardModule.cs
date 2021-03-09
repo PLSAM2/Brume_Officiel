@@ -58,13 +58,6 @@ public class WardModule : SpellModule
 		}
 	}
 
-	public override void DecreaseCooldown () { } // Disabled
-
-	public void AddCharge ( int value = 1 )
-	{
-		charges += value;
-	}
-
 	protected override void Resolution (  )
 	{
 		if (isLaunched)

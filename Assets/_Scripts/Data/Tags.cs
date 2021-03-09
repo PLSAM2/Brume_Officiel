@@ -12,6 +12,7 @@
     public static readonly ushort PlayerQuitRoom = 45;
     public static readonly ushort QuitRoom = 50;
     public static readonly ushort StartGame = 80;
+    public static readonly ushort StartTraining = 85;
     public static readonly ushort LobbyStartGame = 90;
     public static readonly ushort QuitGame = 100;
     public static readonly ushort ChangeName = 110;
