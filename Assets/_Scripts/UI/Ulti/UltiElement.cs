@@ -10,17 +10,26 @@ public class UltiElement : MonoBehaviour
 
     [SerializeField] float speedFill = 0.5f;
 
-    Coroutine myCurrentCoroutine;
-
     bool state = false;
 
-    public void Fill()
+    [SerializeField] Animator gainAnimator;
+
+    public void Fill(bool isLocal)
     {
         if (state) { return; }
 
         state = true;
         myFillImg.gameObject.SetActive(true);
         cross.gameObject.SetActive(false);
+
+        if (isLocal)
+        {
+            gainAnimator.SetTrigger("Local");
+        }
+        else
+        {
+            gainAnimator.SetTrigger("Other");
+        }
     }
 
     public void UnFill()
