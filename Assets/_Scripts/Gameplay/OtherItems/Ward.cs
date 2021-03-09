@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
-
+using Sirenix.OdinInspector;
 public class Ward : MonoBehaviour
 {
-	[SerializeField] private float lifeTime = 60;
-	[SerializeField] private float lifeTimeAcceleratorInBrume = 10;
+	[TabGroup("Twikable")]
+	[SerializeField] private float lifeTime = 30;
+	[TabGroup("Twikable")] [SerializeField] private float lifeTimeInBrume = 7;
+	[TabGroup("Twikable")] public float wardLifeDurationOnSpot;
+	public Sc_Status statusToApply;
+
 	public Fow vision;
 	[SerializeField] private LayerMask brumeLayer;
 	private Team myTeam;
-
-	public float wardLifeDurationOnSpot;
-	public Sc_Status statusToApply;
+	bool asTriggered = false;
 
 	public bool isInBrume = false;
 	public int brumeId;
@@ -25,9 +27,6 @@ public class Ward : MonoBehaviour
 
 	Waypoint myWaypoint;
 	[SerializeField] GameObject prefabWaypoint;
-
-	[SerializeField] float timePingDisplay = 2;
-	[SerializeField] float cdPing = 5;
 
 	private void Awake ()
 	{
@@ -41,15 +40,8 @@ public class Ward : MonoBehaviour
 	{
 		if (landed)
 		{
-			if (isInBrume)
-			{
-				timer -= Time.fixedDeltaTime * lifeTimeAcceleratorInBrume;
-			}
-			else
-			{
-				timer -= Time.fixedDeltaTime;
-			}
 
+			timer -= Time.fixedDeltaTime;
 
 			if (timer <= 0)
 			{
@@ -70,8 +62,13 @@ public class Ward : MonoBehaviour
 		else
 		{
 			vision.Init();
-			timer = lifeTime;
+
 			isInBrume = IsInBrume();
+			asTriggered = false;
+			if (isInBrume)
+				timer = lifeTimeInBrume;
+			else
+				timer = lifeTime;
 
 			GameManager.Instance.allWard.Add(this);
 			GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
@@ -114,12 +111,9 @@ public class Ward : MonoBehaviour
 
 	IEnumerator PingPlayer ()
 	{
-		lifeTime = wardLifeDurationOnSpot;
-
 		myWaypoint.gameObject.SetActive(true);
-
-		yield return new WaitForSeconds(timePingDisplay);
-
+		lifeTime = wardLifeDurationOnSpot;
+		yield return new WaitForSeconds(wardLifeDurationOnSpot);
 		myWaypoint.gameObject.SetActive(false);
 	}
 
@@ -186,8 +180,12 @@ public class Ward : MonoBehaviour
 				_playerSpot.DealDamages(_temp, transform.position);
 			}
 			//ping
-			myWaypoint.gameObject.SetActive(true);
-			PingWard();
+			if(!asTriggered)
+			{
+				asTriggered = true;
+				myWaypoint.gameObject.SetActive(true);
+				PingWard();
+			}
 		}
 	}
 }
