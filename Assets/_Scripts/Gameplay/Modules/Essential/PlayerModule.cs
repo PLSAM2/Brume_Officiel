@@ -487,7 +487,11 @@ public class PlayerModule : MonoBehaviour
 		if (ShouldBePinged())
 		{
 			//Debug.Log("I shouldBePinged");
-			LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+			if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+				LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+			else
+				LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
+
 		}
 		lastRecordedPos = transform.position;
 
