@@ -17,6 +17,7 @@ public class UIBarLifePerso : MonoBehaviour
         foreach (Image img in allImgLife)
         {
             img.material = matColor;
+            img.enabled = true;
         }
     }
 
@@ -24,6 +25,12 @@ public class UIBarLifePerso : MonoBehaviour
     {
         isFull = state;
         allImgLife[0].material = matColor;
+        allImgLife[0].enabled = true;
+    }
+
+    public void HideLife()
+    {
+        allImgLife[0].enabled = false;
     }
 
     public void CrackLife()
