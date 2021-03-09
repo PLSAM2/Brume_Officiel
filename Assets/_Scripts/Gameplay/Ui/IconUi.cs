@@ -63,6 +63,7 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
+		icon.color = new Color(68, 68, 68, 255);
 		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .8f);
 		Color _color = new Vector4(0, 0, 0, 255);
 		feedbackCantCast.color = _color;
@@ -74,6 +75,8 @@ public class IconUi : MonoBehaviour
 	public void CooldownReadyFeedback ()
 	{
 		ResetIcon();
+		icon.color = new Color(255, 255, 255, 255);
+
 		outlineIcon.color = new Color(248, 189, 67, 255);
 		myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
 	}
