@@ -6,174 +6,188 @@ using static GameData;
 
 public class Ward : MonoBehaviour
 {
-    [SerializeField] private float lifeTime = 60;
-    [SerializeField] private float lifeTimeAcceleratorInBrume = 10;
-    public Fow vision;
-    [SerializeField] private LayerMask brumeLayer;
-    private Team myTeam;
+	[SerializeField] private float lifeTime = 60;
+	[SerializeField] private float lifeTimeAcceleratorInBrume = 10;
+	public Fow vision;
+	[SerializeField] private LayerMask brumeLayer;
+	private Team myTeam;
 
-    public bool isInBrume = false;
-    public int brumeId;
+	public float wardLifeDurationOnSpot;
+	public Sc_Status statusToApply;
 
-    private bool landed = false;
-    private float timer = 0;
+	public bool isInBrume = false;
+	public int brumeId;
+	private bool landed = false;
+	private float timer = 0;
 
-    [SerializeField] GameObject mesh;
-    [SerializeField] Transform rangePreview;
+	[SerializeField] GameObject mesh;
+	[SerializeField] Transform rangePreview;
 
-    Waypoint myWaypoint;
-    [SerializeField] GameObject prefabWaypoint;
+	Waypoint myWaypoint;
+	[SerializeField] GameObject prefabWaypoint;
 
-    [SerializeField] float timePingDisplay = 2;
-    [SerializeField] float cdPing = 5;
+	[SerializeField] float timePingDisplay = 2;
+	[SerializeField] float cdPing = 5;
 
-    private void Awake()
-    {
-        //myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
-    }
+	private void Awake ()
+	{
+		myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+		myWaypoint.target = transform;
+		myWaypoint.SetImageColor(GameFactory.GetColorTeam(Team.red));
+		myWaypoint.gameObject.SetActive(false);
+	}
 
-    private void FixedUpdate()
-    {
-        if (landed)
-        {
-            if (isInBrume)
-            {
-                timer -= Time.fixedDeltaTime * lifeTimeAcceleratorInBrume;
-            } else
-            {
-                timer -= Time.fixedDeltaTime;
-            }
-
-
-            if (timer <= 0)
-            {
-                DestroyWard();
-            }
-        }
-    }
-
-    public void Landed(Team _team)
-    {
-        myTeam = _team;
-
-        if (_team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            this.DestroyWard();
-        }
-        else
-        {
-            vision.Init();
-            timer = lifeTime;
-            isInBrume = IsInBrume();
-
-            GameManager.Instance.allWard.Add(this);
-            GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
-
-            isInBrume = IsInBrume();
-
-            bool isView = false;
-            if (GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
-            {
-                if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule, this) || isInBrume == false)
-                {
-                    isView = true;
-                }
-                else
-                {
-                    isView = false;
-                }
-            }
-
-            GetMesh().SetActive(isView);
-            //vision.gameObject.SetActive(isView);
+	private void FixedUpdate ()
+	{
+		if (landed)
+		{
+			if (isInBrume)
+			{
+				timer -= Time.fixedDeltaTime * lifeTimeAcceleratorInBrume;
+			}
+			else
+			{
+				timer -= Time.fixedDeltaTime;
+			}
 
 
-            landed = true;
+			if (timer <= 0)
+			{
+				DestroyWard();
+			}
 
-            rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
+		}
+	}
 
-            //myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
-        }
-    }
+	public void Landed ( Team _team )
+	{
+		myTeam = _team;
+
+		if (_team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		{
+			this.DestroyWard();
+		}
+		else
+		{
+			vision.Init();
+			timer = lifeTime;
+			isInBrume = IsInBrume();
+
+			GameManager.Instance.allWard.Add(this);
+			GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
+
+			isInBrume = IsInBrume();
+
+			bool isView = false;
+			if (GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
+			{
+				if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule, this) || isInBrume == false)
+				{
+					isView = true;
+				}
+				else
+				{
+					isView = false;
+				}
+			}
+
+			GetMesh().SetActive(isView);
+			//vision.gameObject.SetActive(isView);
 
 
-    Coroutine currentPing;
-    Dictionary<ushort, float> oldPing = new Dictionary<ushort, float>();
+			landed = true;
 
-    public void PingPlayerInWard(ushort id)
-    {
-        if (!oldPing.ContainsKey(id) || oldPing[id] >= cdPing + GameManager.Instance.timer)
-        {
-            if (!oldPing.ContainsKey(id))
-            {
-                oldPing.Add(id, GameManager.Instance.timer);
-            }
-            else
-            {
-                oldPing[id] = GameManager.Instance.timer;
-            }
+			rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
 
-            StartCoroutine(PingPlayer(id));
-        }
-    }
+			//myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
+		}
+	}
 
-    IEnumerator PingPlayer(ushort id)
-    {
-        //play sound + circle sound feedback
-        if (GameManager.Instance.networkPlayers.ContainsKey(id))
-        {
-            UiManager.Instance.uIPingModule.Ping(true, GameManager.Instance.networkPlayers[id].transform.position);
-        }
 
-        myWaypoint.gameObject.SetActive(true);
+	Coroutine currentPing;
+	Dictionary<ushort, float> oldPing = new Dictionary<ushort, float>();
 
-        yield return new WaitForSeconds(timePingDisplay);
+	public void PingWard ()
+	{
+		StartCoroutine(PingPlayer());
+	}
 
-        myWaypoint.gameObject.SetActive(false);
-    }
+	IEnumerator PingPlayer ()
+	{
+		lifeTime = wardLifeDurationOnSpot;
 
-    public Fow GetFow()
-    {
-        return vision;
-    }
+		myWaypoint.gameObject.SetActive(true);
 
-    public GameObject GetMesh()
-    {
-        return mesh;
-    }
+		yield return new WaitForSeconds(timePingDisplay);
 
-    bool IsInBrume()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, brumeLayer))
-        {
-            brumeId = hit.transform.parent.parent.GetComponent<Brume>().GetInstanceID();
-            return true;
-        }
+		myWaypoint.gameObject.SetActive(false);
+	}
 
-        return false;
-    }
+	public Fow GetFow ()
+	{
+		return vision;
+	}
 
-    private void OnEnable()
-    {
-        GetMesh().SetActive(false);
-        vision.gameObject.SetActive(true);
-    }
+	public GameObject GetMesh ()
+	{
+		return mesh;
+	}
 
-    public void DestroyWard()
-    {
-        landed = false;
-        vision.gameObject.SetActive(false);
-        this.gameObject.SetActive(false);
-    }
+	bool IsInBrume ()
+	{
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, brumeLayer))
+		{
+			brumeId = hit.transform.parent.parent.GetComponent<Brume>().GetInstanceID();
+			return true;
+		}
 
-    private void OnDisable()
-    {
-        if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            vision.gameObject.SetActive(false);
+		return false;
+	}
 
-            GameManager.Instance.allWard.Remove(this);
-        }
-    }
+	private void OnEnable ()
+	{
+		GetMesh().SetActive(false);
+
+		vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
+		vision.gameObject.SetActive(true);
+	}
+
+	public void DestroyWard ()
+	{
+		landed = false;
+		vision.gameObject.SetActive(false);
+		this.gameObject.SetActive(false);
+	}
+
+	private void OnDisable ()
+	{
+		if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		{
+			vision.gameObject.SetActive(false);
+
+			GameManager.Instance.allWard.Remove(this);
+		}
+		vision.myFieldOfView.OnPlayerEnterInFow -= OnPlayerSpotted;
+
+		myWaypoint.gameObject.SetActive(false);
+	}
+
+	void OnPlayerSpotted ( LocalPlayer _playerSpot )
+	{
+		if (!_playerSpot.IsInMyTeam(myTeam))
+		{
+			if (statusToApply != null)
+			{
+				DamagesInfos _temp = new DamagesInfos();
+				List<Sc_Status> _toApply = new List<Sc_Status>();
+				_toApply.Add(statusToApply);
+				_temp.statusToApply = _toApply.ToArray();
+				_playerSpot.DealDamages(_temp, transform.position);
+			}
+			//ping
+			myWaypoint.gameObject.SetActive(true);
+			PingWard();
+		}
+	}
 }
