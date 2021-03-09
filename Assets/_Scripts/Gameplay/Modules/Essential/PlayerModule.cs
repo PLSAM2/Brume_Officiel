@@ -284,10 +284,10 @@ public class PlayerModule : MonoBehaviour
 				slowParticle.gameObject.SetActive(false);
 
 
-			if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
+		/*	if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
 				rootParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
-				rootParticle.gameObject.SetActive(false);
+				rootParticle.gameObject.SetActive(false);*/
 
 
 			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
