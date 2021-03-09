@@ -24,8 +24,8 @@ public class GameData
     public static Dictionary<Character, ushort> characterUltMax = new Dictionary<Character, ushort>()
     {
         { Character.WuXin, 7 },
-        { Character.Re, 5 },
-        { Character.Leng, 6 }
+        { Character.Re, 7 },
+        { Character.Leng, 7 }
     };
 
     public enum InteractibleType : ushort

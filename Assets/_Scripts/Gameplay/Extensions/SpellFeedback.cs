@@ -23,15 +23,24 @@ public class SpellFeedback : MonoBehaviour
 	}
 	public void ShakeScreen(float _shakingStrength )
 	{
-		Transform player = GameFactory.GetActualPlayerFollow().transform;
+        GameFactory.DoScreenShack(shakingTime, _shakingStrength, transform.position, heardDistance);
+    }
 
-		if (player != null && Vector3.Distance(player.position, transform.position) < heardDistance)
-		{
-			CameraManager.Instance.SetNewCameraShake(shakingTime, _shakingStrength);
-		}
-
+	public void ShowPreview(Transform _objectToShow)
+	{
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+			_objectToShow.GetChild(0).gameObject.SetActive(true);
+		else
+			_objectToShow.GetChild(1).gameObject.SetActive(true);
 	}
 
+	public void HidePreview ( Transform _objectToShow )
+	{
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+			_objectToShow.GetChild(0).gameObject.SetActive(false);
+		else
+			_objectToShow.GetChild(1).gameObject.SetActive(false);
+	}
 }
 
 

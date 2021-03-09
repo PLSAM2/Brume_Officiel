@@ -309,10 +309,11 @@ public class InteractibleObjectsManager : MonoBehaviour
             using (DarkRiftReader reader = message.GetReader())
             {
                 ushort _ID = reader.ReadUInt16();
+                Team team = (Team)reader.ReadUInt16();
 
                 Interactible _interactible = interactibleList[_ID].interactible;
 
-                GameManager.Instance.StartEndZone();
+                GameManager.Instance.StartEndZone(team);
 
                 ((Altar)_interactible).StarFinalPhase();
             }
@@ -321,6 +322,7 @@ public class InteractibleObjectsManager : MonoBehaviour
 
     private void OvertimeState(object sender, MessageReceivedEventArgs e)
     {
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())

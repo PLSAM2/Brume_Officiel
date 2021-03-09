@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &22753860
 RectTransform:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &606675980
 RectTransform:
   m_ObjectHideFlags: 0
@@ -365,7 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactibleID: 0
   type: 1
-  interactTime: 8
+  interactTime: 15
   isInteractable: 1
   capturingTeam: 0
   capturingPlayerModule: {fileID: 0}
@@ -401,6 +401,8 @@ MonoBehaviour:
   capturedAltarSfx: {fileID: 8300000, guid: abf0efa21f4ba984c8f607d273cc83c3, type: 3}
   willUnlockSprite: {fileID: 21300000, guid: 34559ddda6623574691b41a754d9d72f, type: 3}
   waypointAltarPrefab: {fileID: 150680, guid: 3d6451009c16eb041aeb44b376f2f7f8, type: 3}
+  lockColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+  unlockColor: {r: 0.9245283, g: 0.8044125, b: 0.23113208, a: 1}
   myLava: {fileID: 678481159521537992}
 --- !u!54 &5867301088352787088
 Rigidbody:
@@ -956,6 +958,10 @@ PrefabInstance:
     - target: {fileID: 235839203089970697, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
       propertyPath: m_Name
       value: GA_Autel_V2
+      objectReference: {fileID: 0}
+    - target: {fileID: 235839203089970697, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 580416992423029939, guid: becf654d55a029a43a1325cb7bf8de54, type: 3}
       propertyPath: m_RootOrder

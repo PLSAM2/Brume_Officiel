@@ -15,10 +15,7 @@ public class UiManager : MonoBehaviour
 	public static UiManager Instance { get { return _instance; } }
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
-	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI endZoneTimer;
-	[FoldoutGroup("GlobalUi")] public Image endZoneBarTimer;
-	[FoldoutGroup("GlobalUi")] public Animator endZoneAnim;
-	[FoldoutGroup("GlobalUi")] public GameObject endZoneTimerObj;
+	[FoldoutGroup("GlobalUi")] public EndZoneTimerUIGroup endZoneTimer;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
@@ -30,7 +27,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
-	[FoldoutGroup("Minimap")] private bool waitForMinimapUpdate = false;
+	[FoldoutGroup("Minimap")] public GameObject minimapObj;
 
 
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Text generalMessage;
@@ -39,10 +36,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalPointsAnim;
 
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private GameObject waitingForPlayersPanel;
-
-	[FoldoutGroup("GeneralMessage")] public float generalMessageAnimTime = 3;
-	private List<string> generalMessageList = new List<string>();
-	private bool waitForGenMessageAnimEnd = false;
 
 	[Header("GamePlayPart")]
 	[Header("Status Icon")]
@@ -94,7 +87,10 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("spellDescription")] public GameObject wholeTooltip;
 	[FoldoutGroup("spellDescription")] public TextMeshProUGUI skillNameText, cooldownText, descriptionText ;
 
-	private void Awake ()
+    [Header("Annoncement")]
+    [FoldoutGroup("Annoncement")] public Annoncement myAnnoncement;
+
+    private void Awake ()
 	{
 		if (_instance != null && _instance != this)
 		{
@@ -222,9 +218,8 @@ public class UiManager : MonoBehaviour
 		//
 		if (idKilled == idKiller)
 		{
-			DisplayGeneralMessage("You slain an ennemy");
-			//play son kill
-
+            //play son kill todo
+            myAnnoncement.ShowAnnoncement("You slain an ennemy");
 		}
 
 
@@ -367,6 +362,8 @@ public class UiManager : MonoBehaviour
                 SetEchapMenuState();
             }
 		}
+
+
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
             if (chat.isFocus)
@@ -383,7 +380,19 @@ public class UiManager : MonoBehaviour
 		{
 			DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
 		}
-	}
+		if (Input.GetKeyDown(KeyCode.Tab))
+		{
+			minimapObj.SetActive(true);
+		}
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            cameraMinimap.Render();
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            minimapObj.SetActive(false);
+        }
+    }
 
 	private void FixedUpdate ()
 	{
@@ -391,18 +400,6 @@ public class UiManager : MonoBehaviour
 		{
 			actualChar = GameFactory.GetLocalPlayerObj().gameObject;
 		}
-
-		if (!waitForMinimapUpdate)
-		{
-			StartCoroutine(MinimapUpdate());
-		}
-
-		if (generalMessageList.Count > 0 && !waitForGenMessageAnimEnd)
-		{
-			StartCoroutine(GeneralMessage());
-		}
-
-
 	}
 
 	internal void UnlockNewAltar ( Altar altar )
@@ -423,18 +420,11 @@ public class UiManager : MonoBehaviour
         uiAltarList.GainTeam(_capturingTeam);
 	}
 
-	IEnumerator MinimapUpdate ()
-	{
-		waitForMinimapUpdate = true;
-		yield return new WaitForSeconds(0.1f);
-		//cameraMinimap.Render();
-		waitForMinimapUpdate = false;
-	}
-
 	public void SetEchapMenuState ()
 	{
 		echapMenu.SetActive(!echapMenu.activeInHierarchy);
-	}
+        GameManager.Instance.menuOpen = echapMenu.activeInHierarchy;
+    }
 
 	public void UpdateUiCooldownSpell ( En_SpellInput spell, float _timeRemaining, float _completeCd )
 	{
@@ -718,32 +708,6 @@ public class UiManager : MonoBehaviour
 			barCasting.SetActive(true);
 	}
 
-	public void DisplayGeneralMessage ( string value )
-	{
-		generalMessageList.Add(value);
-	}
-
-	IEnumerator GeneralMessage ()
-	{
-		waitForGenMessageAnimEnd = true;
-		generalMessage.DOText(generalMessageList[0], 0.7f, false, ScrambleMode.Uppercase);
-		generalMessageAnim.Play("GenMessage");
-
-		yield return new WaitForSeconds(generalMessageAnimTime);
-		generalMessage.text = "";
-		generalMessageList.RemoveAt(0);
-
-		if (generalMessageList.Count == 0)
-		{
-			waitForGenMessageAnimEnd = false;
-		}
-		else
-		{
-			StartCoroutine(GeneralMessage());
-		}
-
-	}
-
 	public void DisplayGeneralPoints ( Team team, int value )
 	{
 		generalPoints.text = "+" + value;
@@ -774,12 +738,12 @@ public class UiManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
 	}
-	public void EndGamePanel ( bool victory = false, ushort newPoints = 0, Team team = Team.none )
+	public void EndGamePanel ( bool victory = false, Team team = Team.none )
 	{
 		victoryPanel.SetActive(victory);
 		loosePanel.SetActive(!victory);
 		endGameScore.gameObject.SetActive(true);
-		endGameScore.EndGame(newPoints, team);
+		endGameScore.EndGame(team);
 
 		toDisableInEndGame.SetActive(false);
 	}

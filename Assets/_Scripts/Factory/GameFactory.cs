@@ -7,6 +7,35 @@ using static GameData;
 
 public class GameFactory
 {
+    public static string GetNameAddChamp(PlayerData p)
+    {
+        string name = "";
+
+        switch (p.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            case true:
+                name += "<color=" + GameFactory.GetColorTeamInHex(GameData.Team.blue) + ">";
+                break;
+
+            case false:
+                name += "<color=" + GameFactory.GetColorTeamInHex(GameData.Team.red) + ">";
+                break;
+        }
+
+        name += p.Name + " (" + p.playerCharacter.ToString() + ") : </color>";
+
+        return name;
+    }
+
+    public static void DoScreenShack(float _time, float _strength, Vector3 _pos, float distance = 7)
+    {
+        Transform player = GameFactory.GetActualPlayerFollow().transform;
+        if (player != null && Vector3.Distance(player.position, _pos) < distance)
+        {
+            CameraManager.Instance.SetNewCameraShake(_time, _strength);
+        }
+    }
+
     public static Brume GetBrumeById(int id)
     {
         foreach(Brume brume in GameManager.Instance.allBrume)
@@ -62,7 +91,7 @@ public class GameFactory
         return GetColorTeam(Team.red);
 
     }
-    public static Team GetReferentialPlayerTeam(Team playerTeam)
+    public static Team GetRelativeTeam(Team playerTeam)
     {
         if (NetworkManager.Instance.GetLocalPlayer() != null)
         {

@@ -120,14 +120,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	void Debug ()
 	{
-		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus)
+		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 1;
 			DealDamages(_temp, transform.position, null, true, true);
 		}
 
-		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus)
+		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
 		}
@@ -452,7 +452,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
             LocalPoolManager.Instance.SpawnNewImpactDamageFX(
                     transform.position + Vector3.up * 1,
-                    (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam ? GameFactory.GetColorTeam(Team.blue) : GameFactory.GetColorTeam(Team.red))
+                    myPlayerModule.teamIndex
                 );
 
             if ((int)liveHealth - (int)damages <= 0)
@@ -628,7 +628,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			//GameManager.Instance.surchargeEffect.enabled = false;
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
-			UiManager.Instance.DisplayGeneralMessage("You have been slain");
+			UiManager.Instance.myAnnoncement.ShowAnnoncement("YOU HAVE BEEN SLAIN");
 
 			GameManager.Instance.ResetCam();
 		}
@@ -771,14 +771,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 				else
 				{
-
 					if (waypointThirdEye)
 					{
 						Destroy(waypointThirdEye.gameObject);
 					}
 				}
-				forceOutline = _activate;
 			}
+			forceOutline = _activate;
 		}
 
 	}
