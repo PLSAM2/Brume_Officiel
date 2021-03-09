@@ -23,7 +23,7 @@ public class Frog : Interactible
         //Ajoute une ward 
         if (GameManager.Instance.networkPlayers[_capturingPlayerID].GetComponent<WardModule>() != null)
         {
-            capturingPlayerModule.GetComponent<WardModule>().AddCharge();
+       //     capturingPlayerModule.GetComponent<WardModule>().AddCharge();
         }
     }
     public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
