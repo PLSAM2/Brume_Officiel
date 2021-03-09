@@ -23,6 +23,7 @@ public class Altar : Interactible
     [SerializeField] AudioClip capturedAltarSfx;
     [SerializeField] Sprite willUnlockSprite;
 
+    [HideInInspector] public float currentTime = 0;
 
     [SerializeField] Lava myLava;
     void Start()
@@ -83,6 +84,8 @@ public class Altar : Interactible
     {
         AudioManager.Instance.Play2DAudio(annoncementAltarSfx);
         mapIcon.sprite = willUnlockSprite;
+        currentTime = Time.fixedTime;
+
         yield return new WaitForSeconds(unlockTime);
 
         UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNLOCK");

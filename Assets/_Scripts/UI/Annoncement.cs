@@ -27,6 +27,18 @@ public class Annoncement : MonoBehaviour
     private void Update()
     {
         //TODO afficher timer altar
+        if(currentAltar != null)
+        {
+            float currentTimeLeft = currentAltar.unlockTime -  (Time.fixedTime - currentAltar.currentTime);
+            if(currentTimeLeft > 0)
+            {
+                waypointObj.SetUnderText(Mathf.RoundToInt(currentTimeLeft) + "s");
+            }
+            else
+            {
+                waypointObj.SetUnderText("");
+            }
+        }
     }
 
     public void SetUnlockAltar()
