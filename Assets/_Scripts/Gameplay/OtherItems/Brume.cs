@@ -42,16 +42,12 @@ public class Brume : MonoBehaviour
 
     public void ForceEnter(PlayerModule player)
     {
-        //player.SetInBrumeStatut(true, GetInstanceID());
-        PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
-
         ShowHideMesh(player, false);
         AudioManager.Instance.Play2DAudio(sfxTransiBrume);
     }
 
     public void ForceExit(PlayerModule player)
     {
-        //player.SetInBrumeStatut(false, 0);
         PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
         if (player == currentFollowPlayer)
