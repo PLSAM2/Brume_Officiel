@@ -111,6 +111,7 @@ public class UIPlayerManager : MonoBehaviour
             {
                 img.CrackLife();
                 img.SetColorLife(grayMat, false);
+                img.HideLife();
             }
             i++;
         }

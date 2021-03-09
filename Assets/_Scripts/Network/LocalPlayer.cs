@@ -120,14 +120,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	void Debug ()
 	{
-		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus)
+		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 1;
 			DealDamages(_temp, transform.position, null, true, true);
 		}
 
-		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus)
+		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
 		}

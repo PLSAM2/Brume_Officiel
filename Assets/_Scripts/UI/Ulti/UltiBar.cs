@@ -23,33 +23,26 @@ public class UltiBar : MonoBehaviour
             allUltiElement.Add(newUltiElement);
         }
 
-        UpdateUltiBar(number);
+        UpdateUltiBar(number, false);
     }
 
-    public void SetValue(int numberUlti)
+    public void SetValue(int numberUlti, bool islocal)
     {
-        UpdateUltiBar(numberUlti);
+        UpdateUltiBar(numberUlti, islocal);
 
         if (!isOwner) { return; }
 
-        int numberChange = number - numberUlti;
-        if (numberChange < 0)
-        {
-            //add anim
-            int numberAdd = numberUlti - number;
-            UiManager.Instance.feedBackUlti.GainUlti(numberAdd);
-        }
         number = numberUlti;
     }
 
-    void UpdateUltiBar(int numberUlti)
+    void UpdateUltiBar(int numberUlti, bool islocal)
     {
         int i = 1;
         foreach (UltiElement ult in allUltiElement)
         {
             if (i <= numberUlti)
             {
-                ult.Fill();
+                ult.Fill(islocal);
             }
             else
             {

@@ -27,7 +27,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
-	[FoldoutGroup("Minimap")] private bool waitForMinimapUpdate = false;
+	[FoldoutGroup("Minimap")] public GameObject minimapObj;
 
 
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Text generalMessage;
@@ -64,7 +64,6 @@ public class UiManager : MonoBehaviour
 
     [Header("Ulti")]
     [FoldoutGroup("Ulti")] public UltiBar parentUltiWX, parentUltiRE, parentUltiLENG;
-    [FoldoutGroup("Ulti")] public FeedBackGainUlti feedBackUlti;
     [FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
     [FoldoutGroup("Ulti")] public Material blueColor, grayColor;
     [FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
@@ -362,6 +361,8 @@ public class UiManager : MonoBehaviour
                 SetEchapMenuState();
             }
 		}
+
+
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
             if (chat.isFocus)
@@ -378,18 +379,25 @@ public class UiManager : MonoBehaviour
 		{
 			DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
 		}
-	}
+		if (Input.GetKeyDown(KeyCode.Tab))
+		{
+			minimapObj.SetActive(true);
+		}
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            cameraMinimap.Render();
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            minimapObj.SetActive(false);
+        }
+    }
 
 	private void FixedUpdate ()
 	{
 		if (actualChar == null && GameFactory.GetLocalPlayerObj() != null)
 		{
 			actualChar = GameFactory.GetLocalPlayerObj().gameObject;
-		}
-
-		if (!waitForMinimapUpdate)
-		{
-			StartCoroutine(MinimapUpdate());
 		}
 	}
 
@@ -411,18 +419,11 @@ public class UiManager : MonoBehaviour
         uiAltarList.GainTeam(_capturingTeam);
 	}
 
-	IEnumerator MinimapUpdate ()
-	{
-		waitForMinimapUpdate = true;
-		yield return new WaitForSeconds(0.1f);
-		//cameraMinimap.Render();
-		waitForMinimapUpdate = false;
-	}
-
 	public void SetEchapMenuState ()
 	{
 		echapMenu.SetActive(!echapMenu.activeInHierarchy);
-	}
+        GameManager.Instance.menuOpen = echapMenu.activeInHierarchy;
+    }
 
 	public void UpdateUiCooldownSpell ( En_SpellInput spell, float _timeRemaining, float _completeCd )
 	{
@@ -540,16 +541,18 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerUltiChange(ushort _player, ushort _number)
     {
+        bool islocal = (NetworkManager.Instance.GetLocalPlayer().ID == _player);
+
         switch (RoomManager.Instance.actualRoom.playerList[_player].playerCharacter)
         {
             case Character.WuXin:
-                parentUltiWX.SetValue(_number);
+                parentUltiWX.SetValue(_number, islocal);
                 break;
             case Character.Re:
-                parentUltiRE.SetValue(_number);
+                parentUltiRE.SetValue(_number, islocal);
                 break;
             case Character.Leng:
-                parentUltiLENG.SetValue(_number);
+                parentUltiLENG.SetValue(_number, islocal);
                 break;
         }
     }

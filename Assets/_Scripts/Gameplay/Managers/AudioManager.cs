@@ -17,7 +17,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     Dictionary<AudioElement, bool> allAudioElement = new Dictionary<AudioElement, bool>(); // true = utilisé // false = libre
 
-    public float currentPlayerVolume = 1;
+    public float currentPlayerVolume = 0.2f;
 
     public Action<float> OnVolumeChange;
 
@@ -47,6 +47,10 @@ public class AudioManager : SerializedMonoBehaviour
         if (PlayerPrefs.HasKey("Volume"))
         {
             currentPlayerVolume = PlayerPrefs.GetFloat("Volume");
+        }
+        else
+        {
+            currentPlayerVolume = 0.2f;
         }
 
         OnMasterVolumeChange(currentPlayerVolume);
