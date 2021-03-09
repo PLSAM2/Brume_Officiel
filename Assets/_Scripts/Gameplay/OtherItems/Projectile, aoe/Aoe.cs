@@ -142,7 +142,7 @@ public class Aoe : AutoKill
 		Collider[] _allhits;
 
 		if (localTrad.rules.isBox)
-			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2 + Vector3.up * 8, Quaternion.identity, enemyLayer);
+			_allhits = Physics.OverlapBox(transform.position, localTrad.rules.boxDimension / 2 + Vector3.up * 8, transform.rotation, enemyLayer);
 		else
 			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, enemyLayer);
 

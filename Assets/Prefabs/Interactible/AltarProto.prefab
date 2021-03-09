@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22753859}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000030966}
+  m_LocalPosition: {x: 0, y: 0, z: 28.5}
   m_LocalScale: {x: 9.3312, y: 9.3312, z: 9.3312}
   m_Children: []
   m_Father: {fileID: 1431083734}
@@ -400,9 +400,7 @@ MonoBehaviour:
   unlockAltarSfx: {fileID: 8300000, guid: 5d52ace2ff9ecbf40a1353bb41998aba, type: 3}
   capturedAltarSfx: {fileID: 8300000, guid: abf0efa21f4ba984c8f607d273cc83c3, type: 3}
   willUnlockSprite: {fileID: 21300000, guid: 34559ddda6623574691b41a754d9d72f, type: 3}
-  waypointAltarPrefab: {fileID: 150680, guid: 3d6451009c16eb041aeb44b376f2f7f8, type: 3}
-  lockColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
-  unlockColor: {r: 0.9245283, g: 0.8044125, b: 0.23113208, a: 1}
+  currentTime: 0
   myLava: {fileID: 678481159521537992}
 --- !u!54 &5867301088352787088
 Rigidbody:
@@ -811,18 +809,6 @@ PrefabInstance:
     - target: {fileID: 5461372675387200605, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5461372675387200605, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5905
-      objectReference: {fileID: 0}
-    - target: {fileID: 5461372675387200605, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5905
-      objectReference: {fileID: 0}
-    - target: {fileID: 5461372675387200605, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5905
       objectReference: {fileID: 0}
     - target: {fileID: 5461372675387200605, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
       propertyPath: m_LocalPosition.x
