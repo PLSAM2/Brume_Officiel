@@ -11,6 +11,7 @@ public class Brume : MonoBehaviour
 
     bool isShow = true;
     [SerializeField] float speedTransition = 10;
+    float value = 1;
 
     private void Start()
     {
@@ -22,12 +23,13 @@ public class Brume : MonoBehaviour
         }
     }
 
-    float value = 1;
+
     private void Update()
     {
         if (isShow)
         {
             value = Mathf.Lerp(value, 1, Time.deltaTime * speedTransition);
+
         }
         else
         {
@@ -39,6 +41,7 @@ public class Brume : MonoBehaviour
             r.material.SetFloat("_Alpha", value);
         }
     }
+
 
     public void ForceEnter(PlayerModule player)
     {

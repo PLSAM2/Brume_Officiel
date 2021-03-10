@@ -117,8 +117,6 @@ public class Waypoint : MonoBehaviour
             indicatorIn.SetActive(displayIn);
             indicatorOut.SetActive(false);
 
-            distanceTextOut.gameObject.SetActive(false);
-
             transform.rotation = Quaternion.identity;
         }
         else if (!isTargetVisible)
@@ -129,8 +127,6 @@ public class Waypoint : MonoBehaviour
 
             indicatorOut.SetActive(displayOut);
             indicatorIn.SetActive(false);
-
-            distanceTextIn.gameObject.SetActive(false);
         }
 
         transform.position = screenPosition; //Sets the position of the indicator on the screen.
