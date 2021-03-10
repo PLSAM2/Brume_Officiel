@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
 public class IconUi : MonoBehaviour
 {
-	[TabGroup("IconSpell")] [SerializeField] Image icon, outline, fillAmount, feedbackCantCast, outlineIcon;
+	[TabGroup("IconSpell")] [SerializeField] Image icon, outline, fillAmount, feedbackCantCast, outlineIcon, grisage;
 	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount, input;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
@@ -47,6 +47,7 @@ public class IconUi : MonoBehaviour
 	{
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
+			grisage.gameObject.SetActive(true);
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
 			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
 			outlineIcon.color = Color.black;
@@ -63,6 +64,7 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
+		grisage.gameObject.SetActive(true);
 		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .8f);
 		Color _color = new Vector4(0, 0, 0, 255);
 		feedbackCantCast.color = _color;
@@ -74,6 +76,7 @@ public class IconUi : MonoBehaviour
 	public void CooldownReadyFeedback ()
 	{
 		ResetIcon();
+		grisage.gameObject.SetActive(false);
 		outlineIcon.color = new Color(248, 189, 67, 255);
 		myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
 	}

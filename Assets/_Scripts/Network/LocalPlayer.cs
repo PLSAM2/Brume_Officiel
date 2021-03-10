@@ -450,10 +450,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			if (isOwner)
 				UiManager.Instance.FeedbackHit();
 
-            LocalPoolManager.Instance.SpawnNewImpactDamageFX(
+            if(damages > 0)
+            {
+                LocalPoolManager.Instance.SpawnNewImpactDamageFX(
                     transform.position + Vector3.up * 1,
                     myPlayerModule.teamIndex
                 );
+            }
 
             if ((int)liveHealth - (int)damages <= 0)
 			{
