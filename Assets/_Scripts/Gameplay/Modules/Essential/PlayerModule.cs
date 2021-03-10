@@ -99,6 +99,8 @@ public class PlayerModule : MonoBehaviour
 	[Header("Cursed")]
 	[TabGroup("GameplayInfos")] [SerializeField] public GameObject wxMark;
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status wxMarkRef;
+	[TabGroup("GameplayInfos")] [SerializeField] float shaderSpeedTransition = 10;
+	[TabGroup("GameplayInfos")] float shaderTransitionValue = 1;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -424,6 +426,24 @@ public class PlayerModule : MonoBehaviour
 	{
 		TreatEffects();
 		TreatTickEffects();
+
+		if (_isInBrume)
+		{
+			foreach (Material mat in GameManager.Instance.shaderDifMaterial)
+			{
+				shaderTransitionValue = Mathf.Lerp(shaderTransitionValue, 1, Time.deltaTime * shaderSpeedTransition);
+				mat.SetFloat(GameManager.Instance.property, shaderTransitionValue);
+			}
+
+		}
+		else
+		{
+			foreach (Material mat in GameManager.Instance.shaderDifMaterial)
+			{
+				shaderTransitionValue = Mathf.Lerp(shaderTransitionValue, 0, Time.deltaTime * shaderSpeedTransition);
+				mat.SetFloat(GameManager.Instance.property, shaderTransitionValue);
+			}
+		}
 	}
 
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )

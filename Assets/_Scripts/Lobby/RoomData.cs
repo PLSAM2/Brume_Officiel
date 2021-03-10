@@ -22,10 +22,12 @@ public class RoomData : IDarkRiftSerializable
     public Dictionary<Team, ushort> scores = new Dictionary<Team, ushort>();
     // <<
     public bool IsStarted = false;
-    public RoomData(ushort iD, string name)
+    public bool isATrainingRoom = false;
+    public RoomData(ushort iD, string name, bool isATrainingRoom = false)
     {
         this.ID = iD;
         this.Name = name;
+        this.isATrainingRoom = isATrainingRoom;
 
         scores.Add(Team.blue, 0);
         scores.Add(Team.red, 0);

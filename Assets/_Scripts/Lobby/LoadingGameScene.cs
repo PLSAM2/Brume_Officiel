@@ -8,12 +8,8 @@ public class LoadingGameScene : MonoBehaviour
 {
     public Image progressBar;
     public float fakeLoadingTime = 3;
-    private string scene;
 
-    private void Awake()
-    {
-        scene = RoomManager.Instance.gameScene;
-    }
+    public string scene;
 
     void Start()
     {

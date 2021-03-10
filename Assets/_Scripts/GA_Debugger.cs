@@ -3,12 +3,14 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GA_Debugger : SerializedMonoBehaviour
 {
     private bool sw = false;
     [Header("Shader Debugger")]
     [TabGroup("Shader")] public List<Shader> shader = new List<Shader>();
+
     [TabGroup("Shader")] public string property;
     public GameObject Brume;
 
@@ -16,11 +18,12 @@ public class GA_Debugger : SerializedMonoBehaviour
     [Button("Shader debug")]
     public void InOutBrumeDebug()
     {
+        // berk
         MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
 
         foreach (MeshRenderer R in allObjects)
         {
-            if (shader.Contains(R.material.shader))
+            if (shader.Contains(R.sharedMaterial.shader))
             {
                 if (sw)
                 {
@@ -35,6 +38,8 @@ public class GA_Debugger : SerializedMonoBehaviour
 
         sw = !sw;
     }
+
+    [TabGroup("Material")] public List<Material> diffMat = new List<Material>();
 
     public void ActivateBrume()
     {
