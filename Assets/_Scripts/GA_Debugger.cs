@@ -40,6 +40,33 @@ public class GA_Debugger : SerializedMonoBehaviour
     }
 
     [TabGroup("Material")] public List<Material> diffMat = new List<Material>();
+    [Button("Mat debug")]
+    public void MatDebug()
+    {
+        // berk
+        MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
+
+        foreach (MeshRenderer R in allObjects)
+        {
+            if (R.sharedMaterial == null)
+            {
+                continue;
+            }
+
+            if (diffMat.Contains(R.sharedMaterial))
+            {
+                continue;
+            }
+
+            if (shader.Contains(R.sharedMaterial.shader))
+            {
+                diffMat.Add(R.sharedMaterial);
+            }
+        }
+
+    }
+
+
 
     public void ActivateBrume()
     {
