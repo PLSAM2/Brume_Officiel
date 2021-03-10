@@ -19,6 +19,7 @@
     public static readonly ushort ChangeTeam = 120;
     public static readonly ushort SetReady = 130;
     public static readonly ushort SetCharacter = 140;
+    public static readonly ushort SetTrainingCharacter = 141;
     public static readonly ushort AskForCharacterSwap = 145;
     public static readonly ushort CharacterSwap = 146;
     public static readonly ushort RefuseCharacterSwap = 147;
