@@ -96,6 +96,7 @@ public class WardModule : SpellModule
 		wardObj.SetActive(true);
 		startPos = (transform.position);
 		wardObj.transform.position = startPos;
+		wardObj.GetComponent<Ward>().InitWardLaunch();
 		isLaunched = true;
 	}
 
