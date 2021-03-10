@@ -94,6 +94,11 @@ public class GameManager : SerializedMonoBehaviour
 
     [HideInInspector] public bool menuOpen = false;
 
+    [Header("Shader")]
+    public List<Material> shaderDifMaterial = new List<Material>();
+    public string property = "_Out_or_InBrume";
+
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -138,6 +143,7 @@ public class GameManager : SerializedMonoBehaviour
         RoomManager.Instance.UpdatePointDisplay();
         UiManager.Instance.chat.DisplayMessage("Round : " + RoomManager.Instance.roundCount);
     }
+
     public void PlayerJoinedAndInitInScene()
     {
         RoomManager.Instance.SpawnDelayedPlayer();
@@ -152,6 +158,12 @@ public class GameManager : SerializedMonoBehaviour
         foreach (Material _mat in materialNeedingTheCamPos)
             _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z, 1));
     }
+
+
+
+
+
+
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
     {
         using (Message message = _e.GetMessage() as Message)

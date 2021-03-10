@@ -8,6 +8,7 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using static GameData;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -105,9 +106,18 @@ public class LobbyManager : MonoBehaviour
             {
                 SetReadyInServer(sender, e);
             }
+            if (message.Tag == Tags.StartTraining)
+            {
+                InitTrainingInServer(sender, e);
+            }
+            if (message.Tag == Tags.SetTrainingCharacter)
+            {
+                SetTrainingCharacterAndStartTraining(sender, e);
+            }
 
         }
     }
+
 
 
     public void ChangeName()
@@ -427,8 +437,53 @@ public class LobbyManager : MonoBehaviour
     }
     public void StartTraining()
     {
-        
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            using (Message message = Message.Create(Tags.StartTraining, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
     }
+
+    private void InitTrainingInServer(object sender, MessageReceivedEventArgs e)
+    {
+        PlayerData player = NetworkManager.Instance.GetLocalPlayer();
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                RoomData room = new RoomData(reader.ReadUInt16(), reader.ReadString(), true);
+                
+                NetworkManager.Instance.GetLocalPlayer().IsHost = true;
+
+                room.playerList.Add(player.ID, player); ;
+
+                RoomManager.Instance.actualRoom = room;
+
+                player.playerTeam = Team.red;
+
+                RoomManager.Instance.assignedSpawn[Team.red] = 1;
+                RoomManager.Instance.assignedSpawn[Team.blue] = 2;
+            }
+        }
+
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            using (Message message = Message.Create(Tags.SetTrainingCharacter, writer))
+                RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
+        }
+    }
+
+    private void SetTrainingCharacterAndStartTraining(object sender, MessageReceivedEventArgs e)
+    {
+        PlayerData player = NetworkManager.Instance.GetLocalPlayer();
+        Character _character = Character.WuXin;
+
+        player.playerCharacter = _character;
+
+        SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
+    }
+
 
     public void QuitGame()
     {
