@@ -7,6 +7,8 @@ public class SpellFeedback : MonoBehaviour
 
 	public PlayerModule myPlayerModule;
 	float shakingTime = .15f, heardDistance = 7;
+	public Material wuxinGhostMaterial, baseMaterial;
+	public SkinnedMeshRenderer meshToSet;
 
 	public void PlaySound(AudioClip _audioToPlay)
 	{
@@ -40,6 +42,15 @@ public class SpellFeedback : MonoBehaviour
 			_objectToShow.GetChild(0).gameObject.SetActive(false);
 		else
 			_objectToShow.GetChild(1).gameObject.SetActive(false);
+	}
+
+	public void IsGhost(bool _isGhosting)
+	{
+		if (_isGhosting)
+			meshToSet.material = wuxinGhostMaterial;
+		else
+			meshToSet.material = baseMaterial;
+
 	}
 }
 

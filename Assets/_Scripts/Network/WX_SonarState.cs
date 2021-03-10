@@ -39,7 +39,7 @@ public class WX_SonarState : MonoBehaviour
     {
         if (myLocalPlayer.isOwner)
         {
-            GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
+           // GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
             GameManager.Instance.OnPlayerDie += OnPlayerDie;
 
             foreach (KeyValuePair<ushort, PlayerData> player in RoomManager.Instance.actualRoom.playerList)
@@ -62,7 +62,7 @@ public class WX_SonarState : MonoBehaviour
 
         if (myLocalPlayer.isOwner)
         {
-            GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
+            //GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
             GameManager.Instance.OnPlayerDie -= OnPlayerDie;
         }
         else
@@ -103,6 +103,7 @@ public class WX_SonarState : MonoBehaviour
         }
     }
 
+    /*
     void OnPlayerViewChange(ushort id, bool value)
     {
         if (!myLocalPlayer.IsInMyTeam(RoomManager.Instance.GetPlayerData(id).playerTeam))
@@ -113,7 +114,7 @@ public class WX_SonarState : MonoBehaviour
                 UpdateState();
             }
         }
-    }
+    }*/
 
     void UpdateState()
     {
@@ -158,22 +159,26 @@ public class WX_SonarState : MonoBehaviour
             return;
         }
 
+        print("1");
         if (id == myLocalPlayer.myPlayerId)
         {
             viewPlaying = false;
 
+            print("test");
             if (!damagePlaying)
             {
                 if(yellowCoroutine != null)
                 {
-                    StopCoroutine(yellowCoroutine);
+                    //StopCoroutine(yellowCoroutine);
                 }
 
+                print("oui");
                 StartCoroutine(WxTakeDamage());
             }
         }
     }
 
+    /*
     private void Update()
     {
         if (myLocalPlayer.isOwner)
@@ -185,6 +190,8 @@ public class WX_SonarState : MonoBehaviour
 
         if (RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
         { return; }
+        
+        //ping jaune
 
         if (myState == wxSonarState.InView && !damagePlaying && !viewPlaying)
         {
@@ -212,7 +219,7 @@ public class WX_SonarState : MonoBehaviour
         yield return new WaitForSeconds(timeCD);
 
         viewPlaying = false;
-    }
+    }*/
 
     IEnumerator WxTakeDamage()
     {

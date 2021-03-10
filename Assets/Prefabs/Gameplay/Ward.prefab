@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6f12c4c5b711d3b45ac9773d4e74dd72, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bdf3eaccfbc956c458e22c75f862b99a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -192,8 +192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef66896cf81bbda4cb0eb4ccbea83c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 60
-  lifeTimeAcceleratorInBrume: 10
+  lifeTime: 30
+  lifeTimeInBrume: 7
+  wardLifeDurationOnSpot: 4
+  statusToApply: {fileID: 0}
   vision: {fileID: 9114413481869045987}
   brumeLayer:
     serializedVersion: 2
@@ -202,6 +204,7 @@ MonoBehaviour:
   brumeId: 0
   mesh: {fileID: 7803431669020177590}
   rangePreview: {fileID: 7007959671686254117}
+  prefabWaypoint: {fileID: 150680, guid: ee52903ff55943c4bbda0fb8b2357e99, type: 3}
 --- !u!1001 &5917641589361074118
 PrefabInstance:
   m_ObjectHideFlags: 0

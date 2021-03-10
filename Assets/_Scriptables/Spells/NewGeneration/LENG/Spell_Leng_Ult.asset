@@ -18,12 +18,12 @@ MonoBehaviour:
   forbiddenState: 48
   stacksUsed: 0
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 0
-  canalisationTime: 0.5
+  lockPosOnCanalisation: 1
+  canalisationTime: 0.35
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.5
+  anonciationTime: 0.35
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
@@ -36,7 +36,7 @@ MonoBehaviour:
     roots enemies touched by it.
   damagesToDeal:
     playerName: 
-    damageHealth: 0
+    damageHealth: 1
     statusToApply:
     - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
     - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}

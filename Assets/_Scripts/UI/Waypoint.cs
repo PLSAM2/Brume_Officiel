@@ -27,6 +27,8 @@ public class Waypoint : MonoBehaviour
     [HideInInspector] public Transform target;
     [HideInInspector] public Vector3 targetVector;
 
+    [SerializeField] private GameObject arrow;
+
     public bool displayIn = true;
     public bool displayOut = true;
 
@@ -54,6 +56,7 @@ public class Waypoint : MonoBehaviour
 
     public void ActiveAnnonciation(RectTransform _posCenter)
     {
+        arrow.SetActive(false);
         posCenter = _posCenter;
         StartCoroutine(StartAnonciation());
     }
@@ -75,6 +78,8 @@ public class Waypoint : MonoBehaviour
             iconOut.position = Vector3.Lerp(currentPos, posIconOut.position, t);
             yield return null;
         }
+
+        arrow.SetActive(true);
     }
 
     public void SetUnderText(string _value)
@@ -112,8 +117,6 @@ public class Waypoint : MonoBehaviour
             indicatorIn.SetActive(displayIn);
             indicatorOut.SetActive(false);
 
-            distanceTextOut.gameObject.SetActive(false);
-
             transform.rotation = Quaternion.identity;
         }
         else if (!isTargetVisible)
@@ -124,8 +127,6 @@ public class Waypoint : MonoBehaviour
 
             indicatorOut.SetActive(displayOut);
             indicatorIn.SetActive(false);
-
-            distanceTextIn.gameObject.SetActive(false);
         }
 
         transform.position = screenPosition; //Sets the position of the indicator on the screen.

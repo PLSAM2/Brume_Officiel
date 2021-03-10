@@ -286,10 +286,10 @@ public class PlayerModule : MonoBehaviour
 				slowParticle.gameObject.SetActive(false);
 
 
-			if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
+		/*	if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
 				rootParticle.gameObject.SetActive(true);
 			else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
-				rootParticle.gameObject.SetActive(false);
+				rootParticle.gameObject.SetActive(false);*/
 
 
 			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
@@ -507,7 +507,11 @@ public class PlayerModule : MonoBehaviour
 		if (ShouldBePinged())
 		{
 			//Debug.Log("I shouldBePinged");
-			LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+			if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+				LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+			else
+				LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
+
 		}
 		lastRecordedPos = transform.position;
 
