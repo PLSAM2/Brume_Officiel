@@ -19,6 +19,7 @@ public class RoomManager : MonoBehaviour
     public string champSelectScene;
     public string menuScene;
     public string trainingScene;
+    public string loadingTrainingScene;
 
     public RoomData actualRoom;
 
@@ -511,6 +512,7 @@ public class RoomManager : MonoBehaviour
             foreach (PlayerData p in actualRoom.playerList.Values)
             {
                 p.playerCharacter = Character.none;
+                p.ultStacks = 0;
             }
         }
 
