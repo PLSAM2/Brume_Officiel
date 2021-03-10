@@ -41,11 +41,11 @@ public class ModuleProjectileSpell : SpellModule
 			myLiveSalve = localTrad.salveInfos;
 
 			myPreviewArrow = new List<ArrowPreview>();
-			for (int i = 0; i < 2; i++)
-			{
+			/*for (int i = 0; i < 2; i++)
+			{*/
 				ArrowPreview _temp = PreviewManager.Instance.GetArrowPreview();
 				myPreviewArrow.Add(_temp);
-			}
+			//}
 
 			HidePreview(Vector3.zero);
 		}
@@ -180,7 +180,7 @@ public class ModuleProjectileSpell : SpellModule
 		else
 		{
 			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), .1f);
-			myPreviewArrow[1].gameObject.SetActive(true);
+			//myPreviewArrow[1].gameObject.SetActive(true);
 
 		}
 
