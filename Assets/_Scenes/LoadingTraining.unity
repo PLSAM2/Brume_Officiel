@@ -130,9 +130,39 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 974438823}
     m_Modifications:
+    - target: {fileID: 302628809, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_text
+      value: 'Training mode
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 772023048493186886, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 772023048493186886, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619621739067305045, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619621739067305045, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 3484649705775502699, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
       propertyPath: m_Name
       value: GameLoadingInServerPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599793047508497980, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599793047508497980, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6116279472833755961, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
       propertyPath: m_Pivot.x
@@ -350,8 +380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 368207561}
-  fakeLoadingTime: 3
-  scene: NewGame
+  fakeLoadingTime: 0.1
+  scene: Training
 --- !u!1 &1037481434
 GameObject:
   m_ObjectHideFlags: 0
