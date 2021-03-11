@@ -8,7 +8,7 @@ public class PingObject : MonoBehaviour
     public float lifeTime = 3;
     public List<SpriteRenderer> sprites = new List<SpriteRenderer>();
     public NetworkedObject networkedObject;
-    public AudioSource audioSource;
+    public AudioClip audioClip;
 
     [SerializeField] GameObject waypointPrefab;
     Waypoint waypointObj;
@@ -22,7 +22,8 @@ public class PingObject : MonoBehaviour
         if (team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             this.gameObject.SetActive(false);
-        } else
+        }
+        else
         {
 
             if (waypointObj)
@@ -33,10 +34,8 @@ public class PingObject : MonoBehaviour
             waypointObj = Instantiate(waypointPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
             waypointObj.target = transform;
 
-            if (audioSource != null)
-            {
-                audioSource.Play();
-            }
+            AudioManager.Instance.Play2DAudio(audioClip);
+
             StartCoroutine(AutoKillTime());
         }
     }
