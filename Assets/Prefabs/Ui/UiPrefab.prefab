@@ -942,6 +942,8 @@ MonoBehaviour:
   altarLockColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   altarUnlockColor: {r: 1, g: 0.5287268, b: 0, a: 1}
   altarEndColor: {r: 0, g: 0, b: 0, a: 0}
+  allyEliminated: {fileID: 8300000, guid: 69f5187af08b67e4fb85b146ce72d859, type: 3}
+  enemyElimated: {fileID: 8300000, guid: 6cdcc76309e73774cafe87f4d3da4d20, type: 3}
 --- !u!1 &110001110795167749
 GameObject:
   m_ObjectHideFlags: 0
@@ -8731,6 +8733,8 @@ MonoBehaviour:
   cooldownText: {fileID: 39402338933680525}
   descriptionText: {fileID: 8333541474137885194}
   myAnnoncement: {fileID: 2146607219}
+  VictoryAudio: {fileID: 8300000, guid: 3d6a81235fd6777479a95fb700cae687, type: 3}
+  DefeatAudio: {fileID: 8300000, guid: c7959c6aee73f774eaf6ad0d629812f1, type: 3}
 --- !u!1001 &55778495871692059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9472,7 +9476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3484649705775502699, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4108635888547544469, guid: 06ac8f47fef0a8c419e57939956c0e19, type: 3}
       propertyPath: m_margin.x

@@ -24,7 +24,7 @@ public class PlayerTeamElement : MonoBehaviour
 
         if (!characterPick)
         {
-            myIcon.color = GameFactory.GetColorTeam(myPlayerdata.playerTeam);
+            myIcon.color = GameFactory.GetRelativeColor(myPlayerdata.playerTeam);
         } else
         {
             if (NetworkManager.Instance.GetLocalPlayer().ID == myPlayerdata.ID)
