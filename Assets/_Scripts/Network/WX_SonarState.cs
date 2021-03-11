@@ -159,12 +159,10 @@ public class WX_SonarState : MonoBehaviour
             return;
         }
 
-        print("1");
         if (id == myLocalPlayer.myPlayerId)
         {
             viewPlaying = false;
 
-            print("test");
             if (!damagePlaying)
             {
                 if(yellowCoroutine != null)
@@ -172,7 +170,6 @@ public class WX_SonarState : MonoBehaviour
                     //StopCoroutine(yellowCoroutine);
                 }
 
-                print("oui");
                 StartCoroutine(WxTakeDamage());
             }
         }

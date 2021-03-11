@@ -11,6 +11,8 @@ public class EndZoneInteractible : Interactible
 
     private Altar parentAltar;
 
+    [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
+
     public void Init(Altar alt)
     {
         parentAltar = alt;
@@ -28,6 +30,21 @@ public class EndZoneInteractible : Interactible
     public override void Unlock()
     {
         UiManager.Instance.myAnnoncement.AltarEndAnnoncement((interactibleName + " of Altar " + parentAltar.interactibleName + " Started").ToUpper(), parentAltar);
+
+        switch (parentAltar.interactibleName)
+        {
+            case "Bottom":
+                AudioManager.Instance.Play2DAudio(altarBottomAscencion);
+                break;
+
+            case "Right":
+                AudioManager.Instance.Play2DAudio(altarRightAscencion);
+                break;
+
+            case "Left":
+                AudioManager.Instance.Play2DAudio(altarLeftAscencion);
+                break;
+        }
 
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
         waypointObj.target = transform;

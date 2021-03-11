@@ -18,6 +18,8 @@ public class Annoncement : MonoBehaviour
     [SerializeField] Color altarUnlockColor;
     [SerializeField] Color altarEndColor;
 
+    [SerializeField] AudioClip allyEliminated, enemyElimated;
+
     private void Start()
     {
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
@@ -62,14 +64,18 @@ public class Annoncement : MonoBehaviour
         if (RoomManager.Instance.GetPlayerData(_playerDie).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             result += GameFactory.GetColorTeamInHex(Team.red) + ">";
+            AudioManager.Instance.Play2DAudio(allyEliminated);
         }
         else
         {
             result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
+            AudioManager.Instance.Play2DAudio(enemyElimated);
         }
 
         result += RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter.ToString();
         UiManager.Instance.myAnnoncement.ShowAnnoncement(result + " HAS BEEN KILLED</color>");
+
+
     }
 
     public void SetUnlockAltar()

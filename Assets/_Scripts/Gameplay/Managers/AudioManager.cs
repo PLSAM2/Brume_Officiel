@@ -83,6 +83,35 @@ public class AudioManager : SerializedMonoBehaviour
         backGroundMusic.volume = _value / 2;
     }
 
+    public void SetBackgroundMusic(AudioClip _audio)
+    {
+        StartCoroutine(FadeNewSound(_audio));
+    }
+
+    IEnumerator FadeNewSound(AudioClip _audio)
+    {
+        var t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / 3f;
+
+            backGroundMusic.volume = (1 - t) * currentPlayerVolume;
+            yield return null;
+        }
+
+        backGroundMusic.clip = _audio;
+        backGroundMusic.Play();
+
+        t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / 3f;
+
+            backGroundMusic.volume = t * currentPlayerVolume;
+            yield return null;
+        }
+    }
+
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage() as Message)
