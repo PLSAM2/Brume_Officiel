@@ -289,11 +289,11 @@ public class Interactible : MonoBehaviour
             reloading = true;
         }
 
-        if (mapIcon != null)
+        if (mapIcon != null && showOnMap)
         {
-            if (lastTeamCaptured == Team.red && showOnMap)
+            if (lastTeamCaptured == GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam))
                 mapIcon.sprite = iconRed;
-            else if (showOnMap)
+            else 
                 mapIcon.sprite = iconBlue;
         }
     }
