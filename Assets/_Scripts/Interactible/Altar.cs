@@ -26,6 +26,11 @@ public class Altar : Interactible
     [HideInInspector] public float currentTime = 0;
 
     [SerializeField] Lava myLava;
+
+
+    [SerializeField] AudioClip altarBottomCleaned, altarBottomAwakens, altarBottomUnsealed;
+    [SerializeField] AudioClip altarRightCleaned, altarRightAwakens, altarRightUnsealed;
+    [SerializeField] AudioClip altarLeftCleaned, altarLeftAwakens, altarLeftUnsealed;
     void Start()
     {
         base.Init();
@@ -50,6 +55,21 @@ public class Altar : Interactible
         UiManager.Instance.myAnnoncement.DisableAltar();
 
         AudioManager.Instance.Play2DAudio(capturedAltarSfx);
+
+        switch (interactibleName)
+        {
+            case "Bottom":
+                AudioManager.Instance.Play2DAudio(altarBottomCleaned);
+                break;
+
+           case "Right":
+                AudioManager.Instance.Play2DAudio(altarRightCleaned);
+                break;
+
+            case "Left":
+                AudioManager.Instance.Play2DAudio(altarLeftCleaned);
+                break;
+        }
 
         //myLava.Spawn();
 
@@ -86,11 +106,27 @@ public class Altar : Interactible
         }
 
         UiManager.Instance.myAnnoncement.NewAltarAnnoncement((interactibleName + " ALTAR AWAKENS").ToUpper(), this);
+
+        switch (interactibleName)
+        {
+            case "Bottom":
+                AudioManager.Instance.Play2DAudio(altarBottomAwakens);
+                break;
+
+            case "Right":
+                AudioManager.Instance.Play2DAudio(altarRightAwakens);
+                break;
+
+            case "Left":
+                AudioManager.Instance.Play2DAudio(altarLeftAwakens);
+                break;
+        }
     }
 
     IEnumerator ActivateAltar()
     {
         AudioManager.Instance.Play2DAudio(annoncementAltarSfx);
+
         mapIcon.sprite = willUnlockSprite;
         currentTime = Time.fixedTime;
 
@@ -98,6 +134,21 @@ public class Altar : Interactible
 
         UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNSEALED");
         Unlock();
+
+        switch (interactibleName)
+        {
+            case "Bottom":
+                AudioManager.Instance.Play2DAudio(altarBottomUnsealed);
+                break;
+
+            case "Right":
+                AudioManager.Instance.Play2DAudio(altarRightUnsealed);
+                break;
+
+            case "Left":
+                AudioManager.Instance.Play2DAudio(altarLeftUnsealed);
+                break;
+        }
     }
 
 	public override void Unlock ()
