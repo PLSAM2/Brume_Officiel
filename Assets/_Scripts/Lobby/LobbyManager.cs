@@ -28,6 +28,8 @@ public class LobbyManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI pingtest;
 
+    [SerializeField] AudioClip _bgMusic;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -48,6 +50,8 @@ public class LobbyManager : MonoBehaviour
         client.MessageReceived += MessageReceived;
         NetworkManager.Instance.OnPlayerQuit += PlayerQuitActualRoom;
         nameInputField.text = NetworkManager.Instance.GetLocalPlayer().Name;
+
+        AudioManager.Instance.SetBackgroundMusic(_bgMusic);
     }
 
     private void OnDisable()

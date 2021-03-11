@@ -98,6 +98,7 @@ public class GameManager : SerializedMonoBehaviour
     public List<Material> shaderDifMaterial = new List<Material>();
     public string property = "_Out_or_InBrume";
 
+    public AudioClip bkMusic;
 
     private void Awake()
     {
@@ -142,6 +143,8 @@ public class GameManager : SerializedMonoBehaviour
 
         RoomManager.Instance.UpdatePointDisplay();
         UiManager.Instance.chat.DisplayMessage("Round : " + RoomManager.Instance.roundCount);
+
+        AudioManager.Instance.SetBackgroundMusic(bkMusic);
     }
 
     public void PlayerJoinedAndInitInScene()
