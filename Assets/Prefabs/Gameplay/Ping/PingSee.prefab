@@ -28,6 +28,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2433456061263305604, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433456061263305604, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
       propertyPath: waypointPrefab
       value: 
       objectReference: {fileID: 4726572435288536268, guid: bc7776fd7c8dd9a4b9c7832679bb0a37, type: 3}
@@ -139,6 +143,18 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2599181290803073509, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599181290803073509, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599181290803073509, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6842720365275293466, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -167,5 +183,7 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6859906904786562333, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
+    - {fileID: 2599181290803073509, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 45ba71fc0a603cb4387834dccfb3e147, type: 3}
