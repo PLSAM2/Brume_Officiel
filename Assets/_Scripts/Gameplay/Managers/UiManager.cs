@@ -89,6 +89,9 @@ public class UiManager : MonoBehaviour
     [Header("Annoncement")]
     [FoldoutGroup("Annoncement")] public Annoncement myAnnoncement;
 
+    [SerializeField] AudioClip VictoryAudio, DefeatAudio;
+
+
     private void Awake ()
 	{
 		if (_instance != null && _instance != this)
@@ -741,7 +744,16 @@ public class UiManager : MonoBehaviour
 	}
 	public void EndGamePanel ( bool victory = false, Team team = Team.none )
 	{
-		victoryPanel.SetActive(victory);
+        if (victory)
+        {
+            AudioManager.Instance.Play2DAudio(VictoryAudio);
+        }
+        else
+        {
+            AudioManager.Instance.Play2DAudio(DefeatAudio);
+        }
+
+        victoryPanel.SetActive(victory);
 		loosePanel.SetActive(!victory);
 		endGameScore.gameObject.SetActive(true);
 		endGameScore.EndGame(team);
