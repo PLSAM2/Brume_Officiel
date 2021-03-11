@@ -7,15 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BRUME_Props
+  m_Name: BrumeParticle
   m_Shader: {fileID: 4800000, guid: f758fd1cf6edc8c498cbd6de1071e373, type: 3}
   m_ShaderKeywords: _ANIMATED_ON _ANIMATIONPAUSE_ON _BETWEENFULLLOWANDHIGH05_ON _BRUMEANIMATED_ON
-    _COLOR_ON _DISPLACEMENT_ON _FULL05_ON _OPACITY05_ON _OPACITYBLACK_ON _ROTATIONPAUSE_ON
-    _ROTATORANIMATION_ON _TESSELATION_ON
+    _COLOR_ON _DISPLACEMENT_ON _DISPLACEMENT_TOP_MASK_ON _FULL05_ON _OPACITY05_ON
+    _OPACITYBLACK_ON _ROTATIONPAUSE_ON _ROTATORANIMATION_ON _TESSELATION_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -30,7 +30,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BrumeTexture:
-        m_Texture: {fileID: 2800000, guid: d59eab6cece9db54b90d982bd90cd50d, type: 3}
+        m_Texture: {fileID: 2800000, guid: c97651f5915628041b899b7999094323, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BrumeTexture1:
@@ -164,22 +164,22 @@ Material:
     m_Floats:
     - _1: 1.55
     - _2: 0
-    - _Alpha: 1
+    - _Alpha: 0.216
     - _AlphaCutoff: 0.5
     - _Animated: 1
     - _AnimationPause: 1
     - _BetweenFullLowAndHigh05: 1
     - _Black: 0
     - _BrumeAnimated: 1
-    - _BrumeAnimation_RotatorTime: 0.2
+    - _BrumeAnimation_RotatorTime: 8.94
     - _BrumeAnimation_WaveFrequency: 0.1
-    - _BrumeAnimation_WaveStrength: 0.08
+    - _BrumeAnimation_WaveStrength: 0.04
     - _BrumeApparition: 1
     - _BrumeColor_LightImpact: 0.5
     - _BrumeEdges_Smoothstep: 0.3
     - _BrumeFlipbook: 0
     - _BrumeTexture_Contrast: 0.3
-    - _BrumeTexture_Tiling: 1
+    - _BrumeTexture_Tiling: 1.47
     - _BrumeVolumeTransition_Blend: 0.4
     - _BrumeVolumeTransition_Offset: 1.3
     - _BrumeVolumeTransition_Scale: 2.6
@@ -189,17 +189,18 @@ Material:
     - _CurvFix: 1
     - _Cutoff: 0.5
     - _DepthFade: 0.5
-    - _DepthFade_Distance: 2.5
+    - _DepthFade_Distance: 0.71
     - _DepthFade_Multiply: 62.56
     - _DepthFade_Power: 1
-    - _DepthFade_SmoothstepMax: 0.85
-    - _DepthFade_SmoothstepMin: 0.18
+    - _DepthFade_SmoothstepMax: 0.65
+    - _DepthFade_SmoothstepMin: 0.05
     - _DetailNormalMapScale: 1
     - _Displacement: 1
     - _DisplacementTexture_Contrast: 1.9
     - _DisplacementTexture_Multiply: 42.55
     - _DisplacementTexture_Multiply1: 1
-    - _Displacement_Contrast: 0.005
+    - _Displacement_Contrast: 0.42
+    - _Displacement_Top_Mask: 1
     - _DstBlend: 0
     - _Flipbook_Animation: 0
     - _Flipbook_Columns: 10
@@ -208,8 +209,8 @@ Material:
     - _Flipbook_Tiling: -1.54
     - _Flipbook_Time: 1
     - _Float0: 3
-    - _Float1: 0.1205606
-    - _Float10: 1
+    - _Float1: 0.120560564
+    - _Float10: 2.15
     - _Float11: 2.75
     - _Float12: 0.05
     - _Float19: 0.2
@@ -218,7 +219,7 @@ Material:
     - _Float3: 1
     - _Float4: 1.3
     - _Float8: 0
-    - _Float9: -0.99
+    - _Float9: 0.39
     - _FlowMap_Multiply: 5.95
     - _Full05: 1
     - _GlossMapScale: 1
@@ -251,8 +252,8 @@ Material:
     - _ParallaxScale: 1.63
     - _Parralax_DistancePlane: 1
     - _Parralax_Scale: 0.02
-    - _PerlinNoise_RotatorSpeed: 0.02
-    - _PerlinNoise_Tiling: 0.5
+    - _PerlinNoise_RotatorSpeed: 0.04
+    - _PerlinNoise_Tiling: 0.24
     - _Power: 1.15
     - _RotationPause: 1
     - _RotatorAnimation: 1
@@ -278,12 +279,13 @@ Material:
     - _Test: -5.92
     - _Texture_Tiling: 2.13
     - _Tiling: 1
+    - _TopMaskDebug: 0
     - _UVSec: 0
     - _UV_Animation: 0
     - _WaveFrequency: 0.1
     - _WaveLength: 0.3
     - _WaveNoiseContrast: 2.75
-    - _WaveNoise_Contrast: 2.11
+    - _WaveNoise_Contrast: 5
     - _WaveSpeed: 2
     - _WaveStrength: 0.15
     - _ZWrite: 1
@@ -298,7 +300,9 @@ Material:
     - _BrumeColorHigh: {r: 0.8349056, g: 0.9806515, b: 1, a: 0}
     - _BrumeColorLow: {r: 0, g: 0.07408519, b: 0.3679245, a: 0}
     - _BrumeColor_ColorHigh: {r: 1, g: 1, b: 1, a: 0}
-    - _BrumeColor_ColorLow: {r: 0.18516368, g: 0.37614018, b: 0.5377357, a: 1}
+    - _BrumeColor_ColorLow: {r: 0.18516359, g: 0.37614006, b: 0.53773564, a: 1}
+    - _BrumeColor_ColorLow1: {r: 0.1851632, g: 0.3761396, b: 0.5377356, a: 1}
+    - _BrumeColor_ColorLow2: {r: 0.5367569, g: 0.6161124, b: 0.6981132, a: 1}
     - _BrumeFullColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.9245283, g: 0.87557554, b: 0.8155037, a: 0}
@@ -313,5 +317,6 @@ Material:
     - _PerlinNoise_PannerSpeed: {r: 0.2, g: 0, b: 0, a: 0}
     - _RotatorAnchor: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _ShadowColor: {r: 0.35849044, g: 0.35849044, b: 0.35849044, a: 0}
-    - _Vector0: {r: 0, g: 0, b: 0, a: 0}
+    - _Vector0: {r: 0, g: 2.58, b: 0, a: 0}
+    - _Vector1: {r: 0, g: 0.78, b: 0, a: 0}
   m_BuildTextureStacks: []
