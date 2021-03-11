@@ -11,11 +11,12 @@ public class BrumeDetection : MonoBehaviour
 
     Brume currentBrume;
 
-    /*
-    float viewAngle = 360;
     public float resolution = 0.1f;
     float distanceRay = 2f;
-    */
+
+    public AnimationCurve curveHeight;
+
+    public GameObject brumeFx;
 
     private void Start()
     {
@@ -58,29 +59,32 @@ public class BrumeDetection : MonoBehaviour
             }
         }
 
-        /*
         //border detection
-        if (myPlayerModule == currentFollowPlayer)
+        float distance = GetDistanceFromBrume();
+        if(distance == 2)
         {
-            UiManager.Instance.SetAlphaBrume(curveAlpha.Evaluate(GetDistanceFromBrume()));
+            brumeFx.gameObject.SetActive(false);
         }
-        */
+        else
+        {
+            brumeFx.gameObject.SetActive(true);
+            brumeFx.transform.position = new Vector3(brumeFx.transform.position.x, curveHeight.Evaluate(GetDistanceFromBrume()), brumeFx.transform.position.z);
+        }
     }
 
-    /* old
     float GetDistanceFromBrume()
     {
         RaycastHit hit;
 
-        int stepCount = Mathf.RoundToInt(viewAngle * resolution);
-        float stepAngleSize = viewAngle / stepCount;
+        int stepCount = Mathf.RoundToInt(360 * resolution);
+        float stepAngleSize = 360 / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
 
         List<float> allDistance = new List<float>();
 
         for (int i = 0; i <= stepCount; i++)
         {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.y - 360 / 2 + stepAngleSize * i;
 
             Vector3 dir = DirFromAngle(angle, true);
 
@@ -97,7 +101,6 @@ public class BrumeDetection : MonoBehaviour
         }
         return distanceRay;
     }
-    */
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
