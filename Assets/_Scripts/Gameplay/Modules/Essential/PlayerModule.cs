@@ -101,6 +101,16 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] [SerializeField] private Sc_Status wxMarkRef;
     [TabGroup("GameplayInfos")] [SerializeField] float shaderSpeedTransition = 10;
     [TabGroup("GameplayInfos")] float shaderTransitionValue = 1;
+    [Header("AutoHeal")]
+    public float timeWaitForHeal = 10;
+    public float timerWaitForHeal = 0;
+    private bool isWaitingForHeal = false;
+
+    public float timeHealTick = 2.5f;
+    public ushort healPerTick = 2;
+    private float healTimer = 0;
+    private bool isAutoHealing = false;
+
     //ALL ACTION 
     #region
     //[INPUTS ACTION]
@@ -427,16 +437,32 @@ public class PlayerModule : MonoBehaviour
             mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
         }
 
+        if (isAutoHealing)
+        {
+            CheckAutoHealProcess();
+        }
+
+        if (isWaitingForHeal)
+        {
+            WaitForHealProcess();
+        }
+
 
     }
+
 
     protected virtual void FixedUpdate()
     {
         TreatEffects();
         TreatTickEffects();
-
         if (mylocalPlayer.isOwner)
         {
+            CheckBrumeShader();
+        }
+    }
+
+    public void CheckBrumeShader()
+    {
             if (_isInBrume)
             {
                 if (shaderTransitionValue > 0.99f)
@@ -462,8 +488,41 @@ public class PlayerModule : MonoBehaviour
                     mat.SetFloat(GameManager.Instance.property, shaderTransitionValue);
                 }
             }
+    }
+    private void WaitForHealProcess()
+    {
+       timerWaitForHeal -= Time.deltaTime;
+
+        if (timerWaitForHeal <= 0)
+        {
+            isWaitingForHeal = false;
+
+            if (mylocalPlayer.liveHealth <= characterParameters.maxHealthForRegen)
+            {
+                SetAutoHealState(true);
+            }
         }
     }
+
+
+    private void CheckAutoHealProcess()
+    {
+        healTimer -= Time.deltaTime;
+
+        if (healTimer <= 0 )
+        {
+            mylocalPlayer.HealPlayer(healPerTick);
+
+            if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen)
+            {
+                SetAutoHealState(false);
+            } else
+            {
+                healTimer = timeHealTick;
+            }
+        }
+    }
+
 
     public virtual void SetInBrumeStatut(bool _value, int idBrume)
     {
@@ -928,6 +987,21 @@ public class PlayerModule : MonoBehaviour
         }
 
         return pingModule;
+    }
+
+
+    public void SetAutoHealState(bool state)
+    {
+        healTimer = timeHealTick;
+        isAutoHealing = state;
+    }
+
+    public void WaitForHeal()
+    {
+        SetAutoHealState(false);
+        timerWaitForHeal = timeWaitForHeal;
+
+        isWaitingForHeal = true;
     }
 }
 

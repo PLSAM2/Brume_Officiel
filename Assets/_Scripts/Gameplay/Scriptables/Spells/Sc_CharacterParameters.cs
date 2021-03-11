@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 public class Sc_CharacterParameters : ScriptableObject
 {
 	public ushort maxHealth;
+	public ushort maxHealthForRegen;
 
 	[Header("Movement Parameters")]
 	public St_MovementParameters movementParameters;
