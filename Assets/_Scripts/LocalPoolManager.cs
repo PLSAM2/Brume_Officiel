@@ -64,8 +64,8 @@ public class LocalPoolManager : SerializedMonoBehaviour
     {
         AOE_Fx currentFeedback = GetFree(allAOE, prefabAOEFeedback).GetComponent<AOE_Fx>();
 
-        currentFeedback.gameObject.SetActive(true);
         currentFeedback.Init(_pos, _scale *2, _time,  GameManager.Instance.networkPlayers[_idPlayer].myPlayerModule.teamIndex);
+        currentFeedback.gameObject.SetActive(true);
 
         currentFeedback.GetComponent<AutoDisable>().Init(_time + 0.2f);
     }
