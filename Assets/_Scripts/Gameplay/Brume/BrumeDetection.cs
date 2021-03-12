@@ -16,7 +16,7 @@ public class BrumeDetection : MonoBehaviour
 
     public AnimationCurve curveHeight;
 
-    public GameObject brumeFx;
+    public ParticleSystem brumeFx;
     public particleAttractorLinear script;
 
     private void Start()
@@ -82,7 +82,7 @@ public class BrumeDetection : MonoBehaviour
 
             Vector3 dir = DirFromAngle(angle, true);
 
-            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, out hit, distanceRay, maskBrumeMesh))
+            if (Physics.Raycast(transform.position + Vector3.up * 1f, dir, out hit, distanceRay, maskBrumeMesh))
             {
                 if(hit.distance < closestDistance)
                 {
@@ -93,16 +93,16 @@ public class BrumeDetection : MonoBehaviour
             //Debug.DrawRay(transform.position, dir, Color.red, 0.1f);
         }
 
-        if (closestDistance == Mathf.Infinity)
+        if (closestDistance != Mathf.Infinity)
         {
-            brumeFx.gameObject.SetActive(true);
+            brumeFx.Play();
             brumeFx.transform.position = posHit;
-            script.target = transform.parent.position;
+            script.target = transform.position;
 
             return;
         }
 
-        brumeFx.gameObject.SetActive(false);
+        brumeFx.Stop();
     }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
