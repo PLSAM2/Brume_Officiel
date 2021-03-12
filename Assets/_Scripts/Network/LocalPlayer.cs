@@ -174,7 +174,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void ForceLocalFowRaduis ( float _value )
+    public float GetFowRaduis()
+    {
+        return myFow.fowRaduis;
+    }
+
+    public void ForceLocalFowRaduis ( float _value )
 	{
 		myFow.ForceChangeFowRaduis(_value);
 	}

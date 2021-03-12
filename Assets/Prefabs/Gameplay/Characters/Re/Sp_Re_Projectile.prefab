@@ -43723,7 +43723,7 @@ GameObject:
   - component: {fileID: -4965501285618863948}
   - component: {fileID: 63471337967116498}
   m_Layer: 20
-  m_Name: Projectile AutoPrefab
+  m_Name: Sp_Re_Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43795,6 +43795,7 @@ MonoBehaviour:
   hasTouched: 0
   myRb: {fileID: 63471337967116498}
   hitSound: {fileID: 0}
+  collisionSize: {x: 0, y: 0, z: 0}
 --- !u!135 &1795821538017011573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -53516,6 +53517,10 @@ MonoBehaviour:
   isVisible: 0
   objToHide:
   - {fileID: 7378179431319376087}
+  enviro:
+    serializedVersion: 2
+    m_Bits: 0
+  myNetworkObj: {fileID: 1984787125783616747}
 --- !u!65 &5668272244984188031
 BoxCollider:
   m_ObjectHideFlags: 0
