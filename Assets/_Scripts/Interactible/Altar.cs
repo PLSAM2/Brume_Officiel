@@ -154,7 +154,7 @@ public class Altar : Interactible
 	public override void Unlock ()
 	{
         fillImg.gameObject.SetActive(true);
-        zoneImg.gameObject.SetActive(true);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.2f);
 
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
@@ -169,6 +169,6 @@ public class Altar : Interactible
         endZoneInteractible.gameObject.SetActive(true);
         endZoneInteractible.Unlock();
         fillImg.gameObject.SetActive(false);
-        zoneImg.gameObject.SetActive(false);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
     }
 }

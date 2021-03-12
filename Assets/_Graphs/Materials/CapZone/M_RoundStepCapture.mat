@@ -13,7 +13,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2999
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -86,7 +86,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
-    - _Apparition: 0
+    - _Apparition: 1
     - _Apparition1: 0.211
     - _Blend: 0
     - _BumpScale: 1
@@ -97,7 +97,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissivIntensity: 2
+    - _EmissivIntensity: 3
     - _EmissivIntensity1: 1
     - _EnvironmentReflections: 1
     - _FresnelIntensityAlbedo: 1
@@ -109,6 +109,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Opacity: 0
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -129,8 +130,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBase1: {r: 0.25098038, g: 0.79181755, b: 0.8509804, a: 1}
-    - _ColorBase2: {r: 0.25098038, g: 0.793011, b: 0.8509804, a: 1}
+    - _Color0: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
+    - _ColorBase1: {r: 1, g: 0, b: 0, a: 1}
+    - _ColorBase2: {r: 1, g: 0, b: 0, a: 1}
     - _ColorPincipale: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

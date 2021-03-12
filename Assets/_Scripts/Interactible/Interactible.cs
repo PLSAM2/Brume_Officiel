@@ -50,14 +50,16 @@ public class Interactible : MonoBehaviour
     [SerializeField] protected Color canBeCapturedColor;
     [TabGroup("InteractiblePart")]
     [SerializeField] protected Color noCaptureColor;
-
+    [TabGroup("InteractiblePart")]
+    [SerializeField] protected string progressShaderName = "_Apparition";
+    [TabGroup("InteractiblePart")] [SerializeField] protected string color1Shader = "_ColorBase1";
+    [TabGroup("InteractiblePart")] [SerializeField] protected string color2Shader = "_ColorBase2";
+    [TabGroup("InteractiblePart")] [SerializeField] protected string opacityZoneAlphaShader = "_Opacity";
     [Header("UI")]
     [TabGroup("InteractiblePart")]
-    [SerializeField] protected Image fillImg;
-    [TabGroup("InteractiblePart")]
-    [SerializeField] protected Image zoneImg;
+    [SerializeField] protected MeshRenderer fillImg;
 
-    protected UnityClient client;
+    [TabGroup("InteractiblePart")] protected UnityClient client;
 
     [Header("Map")]
     [TabGroup("InteractiblePart")]
@@ -79,7 +81,7 @@ public class Interactible : MonoBehaviour
     private bool isViewed = false;
     [HideInInspector] public bool CheckOnUnlock = false;
 
-    public Team lastTeamCaptured = Team.none;
+    [TabGroup("InteractiblePart")] public Team lastTeamCaptured = Team.none;
     private void Awake()
     {
         client = RoomManager.Instance.client;
@@ -114,25 +116,25 @@ public class Interactible : MonoBehaviour
     {
         Capture();
 
-        if (showReload)
-        {
-            if (reloading)
-            {
-                reloadTimer += Time.fixedDeltaTime;
-                reloadImage.fillAmount = reloadTimer / serverReloadTime;
+        //if (showReload)
+        //{
+        //    if (reloading)
+        //    {
+        //        reloadTimer += Time.fixedDeltaTime;
+        //        reloadImage.fillAmount = reloadTimer / serverReloadTime;
 
-                if (reloadTimer >= serverReloadTime)
-                {
-                    reloadTimer = 0;
-                    reloadImage.fillAmount = 0;
-                    reloading = false;
-                }
-            }
-        }
+        //        if (reloadTimer >= serverReloadTime)
+        //        {
+        //            reloadTimer = 0;
+        //            reloadImage.fillAmount = 0;
+        //            reloading = false;
+        //        }
+        //    }
+        //}
 
         if (isViewed && reloading == false)
         {
-            fillImg.fillAmount = (timer / interactTime) / 1;
+            fillImg.material.SetFloat(progressShaderName, 1 - ((timer / interactTime)));
         }
     }
 
@@ -276,7 +278,7 @@ public class Interactible : MonoBehaviour
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
-        fillImg.fillAmount = 0;
+        fillImg.material.SetFloat(progressShaderName, 0);
         isCapturing = false;
         state = State.Captured;
         timer = 0;
@@ -310,7 +312,8 @@ public class Interactible : MonoBehaviour
             SetColor(canBeCapturedColor);
         }
 
-        zoneImg.gameObject.SetActive(true);
+       // reloadImage.fillAmount = 0;
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.2f);
         state = State.Capturable;
 
         CheckOnUnlock = true;
@@ -339,8 +342,8 @@ public class Interactible : MonoBehaviour
 
     private void SetColor(Color color)
     {
-        fillImg.color = new Color(color.r, color.g, color.b, fillImg.color.a);
-        zoneImg.color = new Color(color.r, color.g, color.b, zoneImg.color.a);
+        fillImg.material.SetColor("_ColorBase2", new Color(color.r, color.g, color.b, 1));
+        fillImg.material.SetColor("_ColorBase1", new Color(color.r, color.g, color.b, 1));
     }
 
 
