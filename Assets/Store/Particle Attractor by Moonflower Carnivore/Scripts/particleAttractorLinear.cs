@@ -4,7 +4,7 @@ using UnityEngine;
 public class particleAttractorLinear : MonoBehaviour {
 	ParticleSystem ps;
 	ParticleSystem.Particle[] m_Particles;
-	public Transform target;
+	public Vector3 target;
 	public float speed = 5f;
 	int numParticlesAlive;
 	void Start () {
@@ -18,7 +18,7 @@ public class particleAttractorLinear : MonoBehaviour {
 		numParticlesAlive = ps.GetParticles(m_Particles);
 		float step = speed * Time.deltaTime;
 		for (int i = 0; i < numParticlesAlive; i++) {
-			m_Particles[i].position = Vector3.LerpUnclamped(m_Particles[i].position, target.position, step);
+			m_Particles[i].position = Vector3.LerpUnclamped(m_Particles[i].position, target, step);
 		}
 		ps.SetParticles(m_Particles, numParticlesAlive);
 	}

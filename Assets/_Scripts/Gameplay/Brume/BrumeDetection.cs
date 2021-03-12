@@ -17,6 +17,7 @@ public class BrumeDetection : MonoBehaviour
     public AnimationCurve curveHeight;
 
     public GameObject brumeFx;
+    public particleAttractorLinear script;
 
     private void Start()
     {
@@ -60,19 +61,10 @@ public class BrumeDetection : MonoBehaviour
         }
 
         //border detection
-        float distance = GetDistanceFromBrume();
-        if(distance == 2)
-        {
-            brumeFx.gameObject.SetActive(false);
-        }
-        else
-        {
-            brumeFx.gameObject.SetActive(true);
-            brumeFx.transform.position = new Vector3(brumeFx.transform.position.x, curveHeight.Evaluate(GetDistanceFromBrume()), brumeFx.transform.position.z);
-        }
+        GetDistanceFromBrume();
     }
 
-    float GetDistanceFromBrume()
+    void GetDistanceFromBrume()
     {
         RaycastHit hit;
 
@@ -80,7 +72,9 @@ public class BrumeDetection : MonoBehaviour
         float stepAngleSize = 360 / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
 
-        List<float> allDistance = new List<float>();
+        float closestDistance = Mathf.Infinity;
+
+        Vector3 posHit = Vector3.zero;
 
         for (int i = 0; i <= stepCount; i++)
         {
@@ -90,16 +84,25 @@ public class BrumeDetection : MonoBehaviour
 
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, out hit, distanceRay, maskBrumeMesh))
             {
-                allDistance.Add(hit.distance);
+                if(hit.distance < closestDistance)
+                {
+                    closestDistance = hit.distance;
+                    posHit = hit.point;
+                }
             }
-            Debug.DrawRay(transform.position, dir, Color.red, 0.1f);
+            //Debug.DrawRay(transform.position, dir, Color.red, 0.1f);
         }
 
-        if (allDistance.Count > 0)
+        if (closestDistance == Mathf.Infinity)
         {
-            return allDistance.Min();
+            brumeFx.gameObject.SetActive(true);
+            brumeFx.transform.position = posHit;
+            script.target = transform.parent.position;
+
+            return;
         }
-        return distanceRay;
+
+        brumeFx.gameObject.SetActive(false);
     }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
