@@ -239,7 +239,6 @@ MonoBehaviour:
   interactibleName: Altar
   showReload: 0
   serverReloadTime: 0
-  reloadImage: {fileID: 0}
   CheckOnUnlock: 0
   lastTeamCaptured: 0
   unlockedAltar: {fileID: 21300000, guid: a7d2df1244e3dca4a932e60fd203e055, type: 3}
@@ -616,6 +615,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CapZone
       objectReference: {fileID: 0}
+    - target: {fileID: 5455329317796503549, guid: 07ac693da4c67bf4aaa7f58431dad6e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.09
+      objectReference: {fileID: 0}
     - target: {fileID: 6628759619203703954, guid: 07ac693da4c67bf4aaa7f58431dad6e2, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -736,8 +739,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812203338465489556, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3928773265218869764, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
+      propertyPath: fillImg
+      value: 
+      objectReference: {fileID: 4864426142674035445}
     - target: {fileID: 5461372675387200605, guid: 426cb462d79ae654f8e39e55f0bc6601, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -796,6 +803,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ca1480676010846bdde33509862e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &4223750989903130609
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2178697954583431746}
+    m_Modifications:
+    - target: {fileID: 7069757067027508433, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_Name
+      value: BRUME_CapZoneShaderMesh EndZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590538123592545899, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+--- !u!23 &4864426142674035445 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8726901753294146820, guid: ddd4cdd320cf96c4b9d7638af7d97912, type: 3}
+  m_PrefabInstance: {fileID: 4223750989903130609}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6241042633125030965
 PrefabInstance:
   m_ObjectHideFlags: 0

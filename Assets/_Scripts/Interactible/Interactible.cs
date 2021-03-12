@@ -75,7 +75,6 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")] public string interactibleName = "";
     [TabGroup("InteractiblePart")] public bool showReload = false;
     [TabGroup("InteractiblePart")] [ShowIf("showReload")] public float serverReloadTime;
-    [TabGroup("InteractiblePart")] [ShowIf("showReload")] public Image reloadImage;
     private float reloadTimer = 0;
     private bool reloading = false;
     private bool isViewed = false;
@@ -92,7 +91,8 @@ public class Interactible : MonoBehaviour
 
     protected void Init()
     {
-
+        fillImg.material.SetFloat(progressShaderName, 1);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
     }
 
     private void OnEnable()
@@ -116,21 +116,21 @@ public class Interactible : MonoBehaviour
     {
         Capture();
 
-        //if (showReload)
-        //{
-        //    if (reloading)
-        //    {
-        //        reloadTimer += Time.fixedDeltaTime;
-        //        reloadImage.fillAmount = reloadTimer / serverReloadTime;
+        if (showReload)
+        {
+            if (reloading)
+            {
+                reloadTimer += Time.fixedDeltaTime;
+                fillImg.material.SetFloat(progressShaderName, reloadTimer / serverReloadTime);
 
-        //        if (reloadTimer >= serverReloadTime)
-        //        {
-        //            reloadTimer = 0;
-        //            reloadImage.fillAmount = 0;
-        //            reloading = false;
-        //        }
-        //    }
-        //}
+                if (reloadTimer >= serverReloadTime)
+                {
+                    reloadTimer = 0;
+                    fillImg.material.SetFloat(progressShaderName, 1);
+                    reloading = false;
+                }
+            }
+        }
 
         if (isViewed && reloading == false)
         {
@@ -278,8 +278,9 @@ public class Interactible : MonoBehaviour
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
-        fillImg.material.SetFloat(progressShaderName, 0);
         isCapturing = false;
+        fillImg.material.SetFloat(progressShaderName, 0);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 1);
         state = State.Captured;
         timer = 0;
 
@@ -289,6 +290,7 @@ public class Interactible : MonoBehaviour
         {
             reloadTimer = 0;
             reloading = true;
+            SetColor(Color.black);
         }
 
         if (mapIcon != null && showOnMap)
@@ -312,8 +314,8 @@ public class Interactible : MonoBehaviour
             SetColor(canBeCapturedColor);
         }
 
-       // reloadImage.fillAmount = 0;
-        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.2f);
+        fillImg.material.SetFloat(progressShaderName, 1);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
         state = State.Capturable;
 
         CheckOnUnlock = true;

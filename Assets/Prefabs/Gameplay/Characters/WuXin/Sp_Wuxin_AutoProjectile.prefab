@@ -29208,7 +29208,7 @@ GameObject:
   - component: {fileID: -1534728185079278919}
   - component: {fileID: 63471337967116498}
   m_Layer: 20
-  m_Name: Projectile AutoPrefab WuXinExplosion
+  m_Name: Sp_Wuxin_AutoProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29270,7 +29270,7 @@ MonoBehaviour:
   myteam: 0
   myNetworkObject: {fileID: 1984787125783616747}
   isOwner: 0
-  spawnSound: {fileID: 8300000, guid: 976135e908d38b544b849e79d67afe3d, type: 3}
+  spawnSound: {fileID: 0}
   feedBackTouch: {fileID: 1503021167625108, guid: 10a3cc9d489f0de44ac127c93e912b25, type: 3}
   _mySfxAudio: {fileID: 0}
   soundFollowObj: 1
@@ -34235,6 +34235,9 @@ MonoBehaviour:
   isVisible: 0
   objToHide:
   - {fileID: 7378179431319376087}
+  enviro:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!65 &5668272244984188031
 BoxCollider:
   m_ObjectHideFlags: 0

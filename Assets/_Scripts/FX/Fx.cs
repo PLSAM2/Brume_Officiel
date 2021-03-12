@@ -7,8 +7,12 @@ public class Fx : MonoBehaviour
     public bool isVisible = false;
     public List<GameObject> objToHide = new List<GameObject>();
 
+    public LayerMask enviro;
+
     private void OnEnable()
     {
+        enviro = LayerMask.GetMask("Environment");
+
         GameManager.Instance.allFx.Add(this);
 
         bool display = IsVisible();
@@ -23,22 +27,23 @@ public class Fx : MonoBehaviour
 
     bool IsVisible()
     {
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, 20);
-
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
         {
-            if(targetsInViewRadius[i].gameObject.layer != 7) { continue; }
+            if (player.Value == null) { continue; }
+            if (!player.Value.IsInMyTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)) { continue; }
 
-            Transform target = targetsInViewRadius[i].transform;
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            if (Vector3.Distance(transform.position, player.Value.transform.position) > player.Value.GetFowRaduis()) { continue; }
 
-            float dstToTarget = Vector3.Distance(transform.position, target.position);
-            if (Physics.Raycast(transform.position, dirToTarget, dstToTarget))
+            RaycastHit hit;
+            Vector3 dirToTarget = (transform.position - player.Value.transform.position).normalized;
+
+            float dstToTarget = Vector3.Distance(player.Value.transform.position, transform.position);
+            if (Physics.Raycast(player.Value.transform.position, dirToTarget, out hit, dstToTarget, enviro))
             {
-                return true;
+                return false;
             }
+            return true;
         }
-
         return false;
     }
 
