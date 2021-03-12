@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnDynamicWalls : MonoBehaviour
 {
     public List<Animator> doorAnimator = new List<Animator>();
-    public List<GameObject> noMozeZones = new List<GameObject>();
+    public List<Animator> brumeZone = new List<Animator>();
 
 
     public void SetDoorState(bool _state)
@@ -15,9 +15,9 @@ public class SpawnDynamicWalls : MonoBehaviour
             a.SetBool("state", _state);
         }
 
-        foreach (GameObject go in noMozeZones)
+        foreach (Animator a in brumeZone)
         {
-            go.SetActive(_state);
+            a.SetBool("state", _state);
         }
     }
 }
