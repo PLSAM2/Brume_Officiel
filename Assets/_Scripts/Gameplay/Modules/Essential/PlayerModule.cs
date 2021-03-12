@@ -102,14 +102,14 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] [SerializeField] float shaderSpeedTransition = 10;
     [TabGroup("GameplayInfos")] float shaderTransitionValue = 1;
     [Header("AutoHeal")]
-    public float timeWaitForHeal = 10;
-    public float timerWaitForHeal = 0;
-    private bool isWaitingForHeal = false;
+    [TabGroup("GameplayInfos")] public float timeWaitForHeal = 10;
+    [TabGroup("GameplayInfos")] private float timerWaitForHeal = 0;
+    [TabGroup("GameplayInfos")] private bool isWaitingForHeal = false;
 
-    public float timeHealTick = 2.5f;
-    public ushort healPerTick = 2;
-    private float healTimer = 0;
-    private bool isAutoHealing = false;
+    [TabGroup("GameplayInfos")] public float timeHealTick = 2.5f;
+    [TabGroup("GameplayInfos")] public ushort healPerTick = 1;
+    [TabGroup("GameplayInfos")] private float healTimer = 0;
+    [TabGroup("GameplayInfos")] private bool isAutoHealing = false;
 
     //ALL ACTION 
     #region
