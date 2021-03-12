@@ -40,6 +40,27 @@ public class Brume : MonoBehaviour
         {
             r.material.SetFloat("_Alpha", value);
         }
+
+        if(value < 0.1f)
+        {
+            foreach (Renderer r in myRenderer)
+            {
+                if (r.gameObject.activeSelf)
+                {
+                    r.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            foreach (Renderer r in myRenderer)
+            {
+                if (!r.gameObject.activeSelf)
+                {
+                    r.gameObject.SetActive(true);
+                }
+            }
+        }
     }
 
 
