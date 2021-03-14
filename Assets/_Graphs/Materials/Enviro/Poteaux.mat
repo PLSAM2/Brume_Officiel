@@ -121,6 +121,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _UV2_TextureArray_Textures:
+        m_Texture: {fileID: 18700000, guid: c531b95b4ac351b44869b18af95dbb5e, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -148,6 +152,7 @@ Material:
     - _AnimatedGrunge_Tiling: 4
     - _Blend: 0
     - _BoostNormals: 1
+    - _BoostNormalsUV2: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -178,7 +183,19 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _IBNormalDrippingNoise_Step: 0.461
+    - _IB_Edges_Modif1: 0
+    - _IB_Edges_Modif2: 0
     - _IB_Noise_Tiling: 1
+    - _IB_NormalDrippingNoise_Smoothstep: 0
+    - _IB_NormalDrippingNoise_Tiling: 1
+    - _IB_NormalInBrumeGrunge_Contrast: -6.1
+    - _IB_NormalInBrumeGrunge_Tiling: 4
+    - _IB_ShadowDrippingNoise_Smoothstep: 0.001
+    - _IB_ShadowDrippingNoise_SmoothstepAnimated: 0
+    - _IB_ShadowDrippingNoise_Step: 0.1
+    - _IB_ShadowInBrumeGrunge_Contrast: -30
+    - _IB_ShadowInBrumeGrunge_Tiling: 4
     - _IB_TerrainBlending_BlendThickness: 0
     - _IB_TerrainBlending_Falloff: 0
     - _IsGrungeAnimated: 1
@@ -191,6 +208,7 @@ Material:
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: -6.1
     - _NormalInBrumeGrunge_Tiling: 4
+    - _Normal_Level: 0.7
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _Out_or_InBrume: 0
@@ -231,6 +249,7 @@ Material:
     - _TopTex_NoiseTiling: 1
     - _TopTex_Smoothstep: 0.3
     - _TopTex_Step: 0.6
+    - _UV2_Normal_Level: -1.5
     - _UV_2_: 1
     - _Wave_Speed: 0
     - _WindVertexDisplacement: 0
@@ -249,8 +268,10 @@ Material:
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
+    - _IB_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _IB_ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _IB_Noise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
+    - _IB_NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _IB_TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _IB_TerrainBlending_Color: {r: 0.4245282, g: 0.4245282, b: 0.4245282, a: 0}
     - _InBrumeBackColor: {r: 1, g: 1, b: 1, a: 0}
@@ -267,6 +288,7 @@ Material:
     - _TerrainBlending_Color: {r: 1, g: 1, b: 1, a: 0}
     - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _TopTex_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _UV2_OutBrume_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _WindWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
     - _WindWave_Speed: {r: 0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
