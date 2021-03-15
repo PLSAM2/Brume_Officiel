@@ -7,7 +7,7 @@ public class Fx : MonoBehaviour
     public bool isVisible = false;
     public List<GameObject> objToHide = new List<GameObject>();
 
-    public LayerMask enviro;
+    LayerMask enviro;
 
     private void OnEnable()
     {

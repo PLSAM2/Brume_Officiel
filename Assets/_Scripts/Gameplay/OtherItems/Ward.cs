@@ -30,6 +30,11 @@ public class Ward : MonoBehaviour
     Coroutine currentPing;
     Dictionary<ushort, float> oldPing = new Dictionary<ushort, float>();
 
+
+    //Fx
+    [SerializeField] Fx fxScript;
+    [SerializeField] Collider fxCollider;
+
     private void Awake()
     {
         myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
@@ -64,6 +69,16 @@ public class Ward : MonoBehaviour
         }
         else
         {
+            GameManager.Instance.allFx.Remove(fxScript);
+
+            //fx
+            fxCollider.enabled = false;
+            foreach (GameObject obj in fxScript.objToHide)
+            {
+                obj.SetActive(true);
+            }
+
+
             vision.gameObject.SetActive(true);
             vision.Init();
 
@@ -176,6 +191,13 @@ public class Ward : MonoBehaviour
 
             vision.myFieldOfView.OnPlayerEnterInFow -= OnPlayerSpotted;
             myWaypoint.gameObject.SetActive(false);
+        }
+
+        //fx
+        fxCollider.enabled = true;
+        foreach (GameObject obj in fxScript.objToHide)
+        {
+            obj.SetActive(true);
         }
     }
 
