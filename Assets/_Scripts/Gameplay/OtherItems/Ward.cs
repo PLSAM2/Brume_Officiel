@@ -179,8 +179,10 @@ public class Ward : MonoBehaviour
         }
     }
 
-    void OnPlayerSpotted(LocalPlayer _playerSpot)
+    void OnPlayerSpotted(LocalPlayer _playerSpot, bool _value)
     {
+        if(_value == false) { return; }
+
         if (!_playerSpot.IsInMyTeam(myTeam) && myTeam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
         {
             if (statusToApply != null)

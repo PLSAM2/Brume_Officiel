@@ -101,6 +101,7 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] [SerializeField] private Sc_Status wxMarkRef;
     [TabGroup("GameplayInfos")] [SerializeField] float shaderSpeedTransition = 10;
     [TabGroup("GameplayInfos")] float shaderTransitionValue = 1;
+
     [Header("AutoHeal")]
     [TabGroup("GameplayInfos")] public float timeWaitForHeal = 10;
     [TabGroup("GameplayInfos")] private float timerWaitForHeal = 0;

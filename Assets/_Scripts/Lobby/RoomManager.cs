@@ -55,6 +55,7 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
+
         NetworkManager.Instance.OnPlayerQuit += OnPlayerQuitGame;
 
         assignedSpawn.Add(Team.red, 0);
