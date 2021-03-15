@@ -997,12 +997,12 @@ public class PlayerModule : MonoBehaviour
         isAutoHealing = state;
     }
 
-    public void WaitForHeal()
+    public void WaitForHeal(bool _activation)
     {
         SetAutoHealState(false);
         timerWaitForHeal = timeWaitForHeal;
 
-        isWaitingForHeal = true;
+        isWaitingForHeal = _activation;
     }
 }
 
