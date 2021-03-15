@@ -133,6 +133,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         timer = 0;
         baseEndZoneTimer = endZoneTimer;
         baseOvertime = overtime;

@@ -12,7 +12,6 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
     List<Transform> oldVisibleTargets = new List<Transform>();
 
@@ -35,7 +34,7 @@ public class FieldOfView : MonoBehaviour
 
     Coroutine refreshCoroutine;
 
-    public Action<LocalPlayer> OnPlayerEnterInFow;
+    public Action<LocalPlayer, bool> OnPlayerEnterInFow;
 
     private void OnEnable()
     {
@@ -144,7 +143,7 @@ public class FieldOfView : MonoBehaviour
             {
                 //print("add");
                 GameManager.Instance.visiblePlayer.Add(enemy, myType);
-                OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>());
+                OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>(), true);
             }
             else
             {
@@ -152,7 +151,7 @@ public class FieldOfView : MonoBehaviour
                 {
                     //print("update");
                     GameManager.Instance.visiblePlayer[enemy] = myType;
-                    OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>());
+                    OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>(), true);
                 }
             }
         }
@@ -163,6 +162,7 @@ public class FieldOfView : MonoBehaviour
             {
                 //print("remove");
                 GameManager.Instance.visiblePlayer.Remove(enemy);
+                OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>(), false);
             }
         }
 
