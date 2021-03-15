@@ -35,8 +35,8 @@ public class FieldOfView : MonoBehaviour
 	Coroutine refreshCoroutine;
 
 	public Action<LocalPlayer, bool> OnPlayerEnterInFow;
-	public Action<bool> OnSeen;
-
+	public Action<bool> EnemySeen;
+	
 	private void OnEnable ()
 	{
 		refreshCoroutine = StartCoroutine("FindTargetsWithDelay", .1f);
@@ -178,15 +178,16 @@ public class FieldOfView : MonoBehaviour
 
     void UpdateVisibleTarget()
     {
-        foreach (Transform _tran in visibleTargets) {
+        foreach (Transform _tran in visibleTargets)
+		{
             foreach (LocalPlayer _tranEnemy in GameManager.Instance.allEnemies) {
                 if (_tran == _tranEnemy.transform) {
-                    OnSeen?.Invoke(true);
-                    break;
+                    EnemySeen?.Invoke(true);
+                    return;
                 }
             }
         }
-        OnSeen?.Invoke(false);
+        EnemySeen?.Invoke(false);
     }
 
     void FindVisibleTargets ()
