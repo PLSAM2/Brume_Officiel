@@ -92,6 +92,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			CameraManager.Instance.SetParent(transform);
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
+
+			myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+
 		}
 		else
 		{
@@ -112,6 +115,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		OnInitFinish?.Invoke();
 	}
+
 
 	private void Update ()
 	{
@@ -223,6 +227,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
+		myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
+
 	}
 
 	void FixedUpdate ()
@@ -448,7 +454,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
         {
-			myPlayerModule.WaitForHeal(); // WaitForAutoHeal
+			//myPlayerModule.WaitForHeal(); // WaitForAutoHeal
 			myPlayerModule.KillEveryStun();
 		}
 

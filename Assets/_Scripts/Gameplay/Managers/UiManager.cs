@@ -370,7 +370,14 @@ public class UiManager : MonoBehaviour
 		{
             if (chat.isFocus)
             {
-                chat.Send();
+                if (chat.CheckMessage())
+                {
+                    chat.Send();
+                }
+                else
+                {
+                    chat.UnFocus();
+                }
             }
             else
             {

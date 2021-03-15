@@ -75,6 +75,7 @@ public class GameManager : SerializedMonoBehaviour
     public SpawnDynamicWalls dynamicWalls;
 
     [HideInInspector] public bool playerJoinedAndInit = false; //spawnpurpose
+    public List<LocalPlayer> allEnemies = new List<LocalPlayer>();
 
     //Event utile
     [HideInInspector] public Action<ushort, ushort> OnPlayerDie;
@@ -133,6 +134,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         timer = 0;
         baseEndZoneTimer = endZoneTimer;
         baseOvertime = overtime;
@@ -151,6 +153,7 @@ public class GameManager : SerializedMonoBehaviour
     {
         RoomManager.Instance.SpawnDelayedPlayer();
     }
+
     private void Update()
     {
         if (timeStart)
@@ -161,11 +164,6 @@ public class GameManager : SerializedMonoBehaviour
         foreach (Material _mat in materialNeedingTheCamPos)
             _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z, 1));
     }
-
-
-
-
-
 
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
     {
@@ -203,8 +201,15 @@ public class GameManager : SerializedMonoBehaviour
     {
         UiManager.Instance.AllPlayerJoinGameScene();
         OnAllCharacterSpawned?.Invoke();
-
         gameStarted = true;
+
+        foreach (LocalPlayer _player in networkPlayers.Values.ToList())
+		{
+            if(!_player.IsInMyTeam(currentLocalPlayer.myPlayerModule.teamIndex))
+			{
+                allEnemies.Add(_player);
+			}
+		}
     }
 
     public void ResetCam()

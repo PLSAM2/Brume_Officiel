@@ -45,6 +45,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
         client = NetworkManager.Instance.GetLocalClient();
 
         client.MessageReceived += MessageReceived;
