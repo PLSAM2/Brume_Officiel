@@ -12,17 +12,7 @@ public class FieldOfView : MonoBehaviour
 	public LayerMask targetMask;
 	public LayerMask obstacleMask;
 
-	List<Transform> _visibleTargets = new List<Transform>();
-	[HideInInspector]
-	public List<Transform> visibleTargets
-	{
-		get => _visibleTargets;
-		set {
-			print("_visibleTargets update");
-			_visibleTargets = value;
-			foreach (Transform _tran in visibleTargets) { foreach (LocalPlayer _tranEnemy in GameManager.Instance.allEnemies) { if (_tran == _tranEnemy.transform) { OnSeen?.Invoke(true); break; } } } OnSeen?.Invoke(false);
-		}	
-	}
+	List<Transform> visibleTargets = new List<Transform>();
 	List<Transform> oldVisibleTargets = new List<Transform>();
 
 	public List<Transform> visibleFx = new List<Transform>();
@@ -148,6 +138,11 @@ public class FieldOfView : MonoBehaviour
 
 	void SetListVisibleEnemy ()
 	{
+        if(visibleTargets != oldVisibleTargets)
+        {
+            UpdateVisibleTarget();
+        }
+
 		foreach (Transform enemy in visibleTargets)
 		{
 			if (!GameManager.Instance.visiblePlayer.ContainsKey(enemy))
@@ -181,7 +176,20 @@ public class FieldOfView : MonoBehaviour
 		oldVisibleTargets.AddRange(visibleTargets);
 	}
 
-	void FindVisibleTargets ()
+    void UpdateVisibleTarget()
+    {
+        foreach (Transform _tran in visibleTargets) {
+            foreach (LocalPlayer _tranEnemy in GameManager.Instance.allEnemies) {
+                if (_tran == _tranEnemy.transform) {
+                    OnSeen?.Invoke(true);
+                    break;
+                }
+            }
+        }
+        OnSeen?.Invoke(false);
+    }
+
+    void FindVisibleTargets ()
 	{
 		visibleTargets.Clear();
 		visibleFx.Clear();
