@@ -57,6 +57,11 @@ public class ChampSelectManager : SerializedMonoBehaviour
         RoomManager.Instance.client.MessageReceived += MessageReceived;
     }
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void InitChampSelect()
     {
         roundText.text = "Round : " + RoomManager.Instance.roundCount;

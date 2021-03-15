@@ -55,6 +55,7 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
+
         NetworkManager.Instance.OnPlayerQuit += OnPlayerQuitGame;
 
         assignedSpawn.Add(Team.red, 0);
@@ -424,11 +425,11 @@ public class RoomManager : MonoBehaviour
         {
             GameManager.Instance.OnPlayerRespawn?.Invoke(id);
 
-            if (myLocalPlayer.isOwner)
-            {
-                TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
-                _tp.TpOnRes();
-            }
+            //if (myLocalPlayer.isOwner)
+            //{
+            //    TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
+            //    _tp.TpOnRes();
+            //}
         }
 
     }
