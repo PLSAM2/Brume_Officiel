@@ -13,9 +13,6 @@ public class ModuleProjectileSpell : SpellModule
 	float timeBetweenShot = 0;
 	List<ArrowPreview> myPreviewArrow;
 
-	[SerializeField] GameObject fxCanalisation;
-	[SerializeField] GameObject fxRecalShoot;
-
 	protected override void FixedUpdate ()
 	{
 		base.FixedUpdate();
@@ -58,40 +55,6 @@ public class ModuleProjectileSpell : SpellModule
 		ShootSalve();
 	}
 
-	public override void StartCanalysingFeedBack ()
-	{
-		base.StartCanalysingFeedBack();
-
-		if (fxCanalisation)
-		{
-			fxCanalisation.SetActive(true);
-		}
-	}
-
-	public override void ResolutionFeedBack ()
-	{
-		base.ResolutionFeedBack();
-
-		if (fxCanalisation)
-		{
-			fxCanalisation.SetActive(false);
-		}
-
-		if (fxRecalShoot)
-		{
-			fxRecalShoot.SetActive(true);
-		}
-	}
-
-	public override void ThrowbackEndFeedBack ()
-	{
-		base.ThrowbackEndFeedBack();
-
-		if (fxRecalShoot)
-		{
-			fxRecalShoot.SetActive(false);
-		}
-	}
 
 	//shootingPart
 	#region 
