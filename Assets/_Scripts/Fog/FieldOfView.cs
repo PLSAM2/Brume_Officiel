@@ -36,11 +36,17 @@ public class FieldOfView : MonoBehaviour
 
 	public Action<LocalPlayer, bool> OnPlayerEnterInFow;
 	public Action<bool> EnemySeen;
-	
-	private void OnEnable ()
+
+    bool enemyIsSeen = false;
+    private void Start()
+    {
+        EnemySeen?.Invoke(false);
+    }
+
+    private void OnEnable ()
 	{
 		refreshCoroutine = StartCoroutine("FindTargetsWithDelay", .1f);
-	}
+    }
 
 	private void OnDisable ()
 	{
@@ -138,29 +144,36 @@ public class FieldOfView : MonoBehaviour
 
 	void SetListVisibleEnemy ()
 	{
-        if(visibleTargets != oldVisibleTargets)
-        {
-            UpdateVisibleTarget();
-        }
-
-		foreach (Transform enemy in visibleTargets)
+        bool isEnemyInView = false;
+		foreach (Transform player in visibleTargets)
 		{
-			if (!GameManager.Instance.visiblePlayer.ContainsKey(enemy))
+			if (!GameManager.Instance.visiblePlayer.ContainsKey(player))
 			{
 				//print("add");
-				GameManager.Instance.visiblePlayer.Add(enemy, myType);
-				OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>(), true);
+				GameManager.Instance.visiblePlayer.Add(player, myType);
+				OnPlayerEnterInFow?.Invoke(player.GetComponent<LocalPlayer>(), true);
 			}
 			else
 			{
-				if (GameManager.Instance.visiblePlayer[enemy] == fowType.player && myType == fowType.ward)
+				if (GameManager.Instance.visiblePlayer[player] == fowType.player && myType == fowType.ward)
 				{
 					//print("update");
-					GameManager.Instance.visiblePlayer[enemy] = myType;
-					OnPlayerEnterInFow?.Invoke(enemy.GetComponent<LocalPlayer>(), true);
+					GameManager.Instance.visiblePlayer[player] = myType;
+					OnPlayerEnterInFow?.Invoke(player.GetComponent<LocalPlayer>(), true);
 				}
 			}
+
+            if (!isEnemyInView && GameFactory.TransformIsEnemy(player))
+            {
+                isEnemyInView = true;
+            }
 		}
+
+        if(isEnemyInView != enemyIsSeen)
+        {
+            enemyIsSeen = isEnemyInView;
+            EnemySeen?.Invoke(enemyIsSeen);
+        }
 
 		foreach (Transform enemy in oldVisibleTargets)
 		{
@@ -175,20 +188,6 @@ public class FieldOfView : MonoBehaviour
 		oldVisibleTargets.Clear();
 		oldVisibleTargets.AddRange(visibleTargets);
 	}
-
-    void UpdateVisibleTarget()
-    {
-        foreach (Transform _tran in visibleTargets)
-		{
-            foreach (LocalPlayer _tranEnemy in GameManager.Instance.allEnemies) {
-                if (_tran == _tranEnemy.transform) {
-                    EnemySeen?.Invoke(true);
-                    return;
-                }
-            }
-        }
-        EnemySeen?.Invoke(false);
-    }
 
     void FindVisibleTargets ()
 	{
@@ -233,6 +232,8 @@ public class FieldOfView : MonoBehaviour
 				}
 			}
 		}
+
+
 	}
 
 	public void DrawFieldOfView ()

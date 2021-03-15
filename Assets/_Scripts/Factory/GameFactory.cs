@@ -173,6 +173,7 @@ public class GameFactory
             return Team.blue;
         }
     }
+
     public static bool IsOnMyTeam(ushort playerID)
     {
         if (NetworkManager.Instance.GetLocalPlayer() != null && RoomManager.Instance.actualRoom.playerList.ContainsKey(playerID))
@@ -182,10 +183,21 @@ public class GameFactory
                 return true;
             }
         }
-
         return false;
-
     }
+
+    public static bool TransformIsEnemy(Transform trans)
+    {
+        foreach (LocalPlayer p in GameManager.Instance.allEnemies)
+        {
+            if(p.transform == trans)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static bool PlayersAreOnSameBrume(PlayerModule p1, PlayerModule p2)
     {
         if(p1.isInBrume && p2.isInBrume
