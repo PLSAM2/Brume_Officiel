@@ -46,7 +46,6 @@ public class PlayerModule : MonoBehaviour
     }
 
     [HideInInspector] public En_CharacterState oldState = En_CharacterState.Clear;
-
     [ReadOnly]
     public bool isInBrume
     {
@@ -997,12 +996,12 @@ public class PlayerModule : MonoBehaviour
         isAutoHealing = state;
     }
 
-    public void WaitForHeal(bool _activation)
+    public void WaitForHeal(bool _isSeen)
     {
         SetAutoHealState(false);
         timerWaitForHeal = timeWaitForHeal;
 
-        isWaitingForHeal = _activation;
+        isWaitingForHeal = !_isSeen;
     }
 }
 

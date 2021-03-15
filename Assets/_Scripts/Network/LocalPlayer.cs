@@ -93,7 +93,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			myFow.myFieldOfView.OnSeen += myPlayerModule.WaitForHeal;
+			myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
 		}
 		else
@@ -227,7 +227,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
-		myFow.myFieldOfView.OnSeen -= myPlayerModule.WaitForHeal;
+		myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
 
 	}
 
