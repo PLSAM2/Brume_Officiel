@@ -425,11 +425,11 @@ public class RoomManager : MonoBehaviour
         {
             GameManager.Instance.OnPlayerRespawn?.Invoke(id);
 
-            if (myLocalPlayer.isOwner)
-            {
-                TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
-                _tp.TpOnRes();
-            }
+            //if (myLocalPlayer.isOwner)
+            //{
+            //    TeleportationModule _tp = (TeleportationModule)myLocalPlayer.myPlayerModule.tpModule;
+            //    _tp.TpOnRes();
+            //}
         }
 
     }
