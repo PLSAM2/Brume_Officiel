@@ -166,7 +166,8 @@ public class InGameNetworkReceiver : MonoBehaviour
 			else if (message.Tag == Tags.SpotPlayer)
 			{
 				SpotPlayer(sender, e);
-			}
+			}			
+
 		}
 	}
 
@@ -459,7 +460,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	void SupprPlayer ( ushort ID )
+	public void SupprPlayer ( ushort ID )
 	{
 		if (GameManager.Instance.networkPlayers.ContainsKey(ID))
 		{
