@@ -1147,7 +1147,7 @@ Transform:
   m_Children:
   - {fileID: 2741522844316675292}
   m_Father: {fileID: 3913771649430732890}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2870148286730842986
 MonoBehaviour:
@@ -1754,7 +1754,7 @@ Transform:
   - {fileID: 8412809130562295331}
   - {fileID: 4551058465322642009}
   m_Father: {fileID: 3913771649430732890}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5267453693808811359
 GameObject:
@@ -1961,7 +1961,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3913771649430732890}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2270672167655389548
 Rigidbody:
@@ -2484,8 +2484,6 @@ MonoBehaviour:
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &1004634171397155041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2544,6 +2542,9 @@ MonoBehaviour:
   wxMark: {fileID: 0}
   wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
   shaderSpeedTransition: 0.2
+  timeWaitForHeal: 10
+  timeHealTick: 2.5
+  healPerTick: 1
   spellInputedRecorded: 0
 --- !u!114 &3019470099886006621
 MonoBehaviour:
@@ -2790,8 +2791,6 @@ MonoBehaviour:
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &6547810544702672051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2939,8 +2938,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &8587129456808580366
 MonoBehaviour:
   m_ObjectHideFlags: 0

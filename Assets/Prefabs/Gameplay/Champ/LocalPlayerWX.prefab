@@ -175,7 +175,7 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: 20cbee49fcf34e847942844ec89429b8, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
@@ -223,6 +223,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 26609771420290937}
+        m_TargetAssemblyTypeName: SpellFeedback, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 024b06830a8583d408f2386c5ca67526, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -515,11 +527,23 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: 5eb9ae179aefbe2498ba436bf8a76d74, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  canalisationClip: {fileID: 8300000, guid: 4d9c8a2dafbc907408efd962b6a7589f, type: 3}
+  canalisationClip: {fileID: 0}
   anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 26609771420290937}
+        m_TargetAssemblyTypeName: SpellFeedback, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 1111970d546d1d749b3f787be3672029, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onAnnonciation:
     m_PersistentCalls:
       m_Calls: []
