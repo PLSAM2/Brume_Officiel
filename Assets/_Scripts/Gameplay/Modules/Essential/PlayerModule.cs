@@ -248,6 +248,12 @@ public class PlayerModule : MonoBehaviour
 
     public void ResetLayer()
     {
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            return;
+        }
+
         if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
         {
             gameObject.layer = 7;

@@ -327,6 +327,12 @@ public class Interactible : MonoBehaviour
 
     private void SetColorByState()
     {
+        if (showReload && reloading)
+        {
+            SetColor(Color.black);
+            return;
+        }
+
         switch (state)
         {
             case State.Locked:
