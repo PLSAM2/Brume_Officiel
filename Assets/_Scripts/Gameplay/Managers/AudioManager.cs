@@ -29,7 +29,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
-    public AudioClip spotSound, cantCastSound;
+    public AudioClip spotSound, cantCastSound, hitAudio;
 
     bool init = false;
     private void Awake()
@@ -164,6 +164,14 @@ public class AudioManager : SerializedMonoBehaviour
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
         _myAudioElement.Init(_clip, 0, _volume);
+
+        return _myAudioElement;
+    }
+
+    public AudioElement PlayHitAudio()
+    {
+        AudioElement _myAudioElement = GetFreeAudioElement();
+        _myAudioElement.Init(hitAudio, 0, 1);
 
         return _myAudioElement;
     }
