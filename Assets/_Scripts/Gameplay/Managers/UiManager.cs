@@ -173,7 +173,8 @@ public class UiManager : MonoBehaviour
         // <<
     }
 
-	void OnPlayerSpawn ( ushort id )
+
+    void OnPlayerSpawn ( ushort id )
 	{
 		if (GameFactory.IsOnMyTeam(id))
 		{
@@ -539,13 +540,17 @@ public class UiManager : MonoBehaviour
 				break;
 		}
 	}
+	internal void SpecJoinGameScene()
+	{
+		waitingForPlayersPanel.SetActive(false);
+	}
 
 	internal void AllPlayerJoinGameScene ()
 	{
 		waitingForPlayersPanel.SetActive(false);
 
-        //InitUlti
-        ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
+		//InitUlti
+		ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
         //print(RoomManager.Instance.GetPlayerData((ushort)wxId).ultStacks);
         parentUltiWX.Init(GameData.characterUltMax[Character.WuXin], wxId != null ? RoomManager.Instance.GetPlayerData((ushort) wxId).ultStacks : (ushort) 0);
 

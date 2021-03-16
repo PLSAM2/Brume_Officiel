@@ -209,12 +209,12 @@ public class GameManager : SerializedMonoBehaviour
     {
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator) // IF spectator
         {
+            UiManager.Instance.SpecJoinGameScene();
             OnSpecConnected?.Invoke(NetworkManager.Instance.GetLocalPlayer().ID);
             OnAllCharacterSpawned?.Invoke();
             gameStarted = true;
             return;
         }
-
 
         UiManager.Instance.AllPlayerJoinGameScene();
         OnAllCharacterSpawned?.Invoke();
