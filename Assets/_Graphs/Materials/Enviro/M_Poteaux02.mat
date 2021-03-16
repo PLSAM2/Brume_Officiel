@@ -20,15 +20,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Lotus
-  m_Shader: {fileID: 4800000, guid: ee2f43d03bf509245b370bc8d427f725, type: 3}
-  m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
-    _MOVINGGRAIN_ON _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON
-    _WINDVERTEXDISPLACEMENT_ON
+  m_Name: M_Poteaux02
+  m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
+  m_ShaderKeywords: _CUSTOMNORMAL_ON _FRESNELSTEP_ON _MOVINGGRAIN_ON _MOVINGPAPER_ON
+    _RIMLIGHT_CUSTOMNORMAL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -40,10 +39,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ColorNoise_Texture:
-        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DepthFade_Dither_Texture:
@@ -70,20 +65,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _IB_Edges_Textures:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Object_Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: 1c453a9502ae1da46aeb4d1979e04735, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Object_Alpha_Texture:
-        m_Texture: {fileID: 2800000, guid: 3be1898e359daaa4ab4ade0394d4c144, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -111,7 +102,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureArray_Textures:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 18700000, guid: d818f0eaf7274ce40abe8c761ad3e791, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureArray_Textures_UV2:
@@ -126,8 +117,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Wind_Noise_Texture:
-        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
+    - _UV2_TextureArray_Textures:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -159,17 +150,11 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorNoise_Contrast: 0.5
-    - _ColorNoise_Power: 1.5
-    - _ColorNoise_Tiling: 1
     - _Cull: 2
-    - _CustomAlphaMask: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
     - _CustomRimLight_Opacity: 1
     - _CustomRimLight_Texture: 0
-    - _CutOff: 0.02
-    - _CutOff_OutBrume: 0.02
     - _Cutoff: 0.5
     - _DebugGrayscale: 0
     - _DepthFade: 0
@@ -192,8 +177,25 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _IB_Contrast: 1
+    - _IBNormalDrippingNoise_Step: 0.45
+    - _IB_Edges_Modif1: 0
+    - _IB_Edges_Modif2: 0
     - _IB_Noise_Tiling: 1
+    - _IB_NormalDrippingNoise_Smoothstep: 0.01
+    - _IB_NormalDrippingNoise_Step: 0.45
+    - _IB_NormalDrippingNoise_Tiling: 1
+    - _IB_NormalInBrumeGrunge_Contrast: 2.4
+    - _IB_NormalInBrumeGrunge_Tiling: 0.2
+    - _IB_RGB_Contrast: 0
+    - _IB_RGB_Grayscale: 0
+    - _IB_ShadowDrippingNoise_Smoothstep: 0.2
+    - _IB_ShadowDrippingNoise_SmoothstepAnimated: 0
+    - _IB_ShadowDrippingNoise_Step: 0
+    - _IB_ShadowInBrumeGrunge_Contrast: -3.38
+    - _IB_ShadowInBrumeGrunge_Tiling: 0.2
+    - _IB_ShadowNoise_Tiling: 1
+    - _IB_TerrainBlending: 0
+    - _IB_TerrainBlendingNoise_Tiling: 0
     - _IB_TerrainBlending_BlendThickness: 0
     - _IB_TerrainBlending_Falloff: 0
     - _IsGrungeAnimated: 1
@@ -207,7 +209,8 @@ Material:
     - _NormalInBrumeGrunge_Contrast: -6.1
     - _NormalInBrumeGrunge_Tiling: 4
     - _OcclusionStrength: 1
-    - _Opacity: 0
+    - _Opacity: 1
+    - _OutBrume_Edges_Textures: 0
     - _Out_or_InBrume: 0
     - _PaintGrunge: 1
     - _PaintGrunge_Contrast: 1
@@ -248,13 +251,13 @@ Material:
     - _TopTex_Step: 0.6
     - _UV_2_: 0
     - _Wave_Speed: 0
-    - _WindVertexDisplacement: 1
-    - _WindWave_Frequency: 0.5
-    - _Wind_Density: 0.5
-    - _Wind_Direction: 9.05
-    - _Wind_Strength: 0.02
-    - _Wind_Texture_Contrast: 0.5
-    - _Wind_Texture_Tiling: 0
+    - _WindVertexDisplacement: 0
+    - _WindWave_Frequency: 0
+    - _Wind_Density: 0.2
+    - _Wind_Direction: 1
+    - _Wind_Strength: 2
+    - _Wind_Texture_Contrast: 1
+    - _Wind_Texture_Tiling: 0.5
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -264,16 +267,19 @@ Material:
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
+    - _IB_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _IB_ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _IB_Noise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
+    - _IB_NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _IB_ShadowNoise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
+    - _IB_ShadowNoise_Panner_AddSpeed: {r: 0.01, g: 0, b: 0, a: 0}
     - _IB_TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _IB_TerrainBlending_Color: {r: 0.4245281, g: 0.4245281, b: 0.4245281, a: 0}
+    - _IB_TerrainBlending_Color: {r: 0.4245282, g: 0.4245282, b: 0.4245282, a: 0}
     - _InBrumeBackColor: {r: 1, g: 1, b: 1, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _OutBrumeColorCorrection: {r: 1, g: 0.98512334, b: 0.8066038, a: 0}
-    - _OutBrume_ColorCorrection: {r: 0.4619082, g: 0.5660378, b: 0.47306496, a: 1}
+    - _OutBrumeColorCorrection: {r: 0.3301887, g: 0.27899456, b: 0.23206659, a: 0}
     - _OutBrume_UV2_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _ShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - _ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
@@ -283,6 +289,7 @@ Material:
     - _TerrainBlending_Color: {r: 1, g: 1, b: 1, a: 0}
     - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _TopTex_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _WindWave_Min_Speed: {r: 0.01, g: 0, b: 0, a: 0}
-    - _WindWave_Speed: {r: 0.15, g: 0, b: 0, a: 0}
+    - _UV2_OutBrume_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
+    - _WindWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
+    - _WindWave_Speed: {r: 0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
