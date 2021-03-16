@@ -87,6 +87,8 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
                     blueTeamCounter++;
                     break;
+                case Team.spectator:
+                    continue;
                 default: throw new Exception("NO TEAM");
             }
             _teamElement.SetStatut(PlayerTeamElement.ChampSelectStatut.pick);
@@ -128,7 +130,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public void PickCharacter(GameData.Character character)
     {
-        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter)
+        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
             return;
         }
@@ -307,6 +309,11 @@ public class ChampSelectManager : SerializedMonoBehaviour
     {
         foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
         {
+            if (p.Value.playerTeam == Team.spectator)
+            {
+                continue;
+            }
+
             if (!p.Value.IsReady)
             {
                 return false;

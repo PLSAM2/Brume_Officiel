@@ -248,14 +248,20 @@ Material:
     - _IB_Edges_Modif2: 0
     - _IB_Noise_Tiling: 10
     - _IB_NormalDrippingNoise_Smoothstep: 0.01
+    - _IB_NormalDrippingNoise_Step: 0.45
     - _IB_NormalDrippingNoise_Tiling: 1
     - _IB_NormalInBrumeGrunge_Contrast: 2.4
     - _IB_NormalInBrumeGrunge_Tiling: 0.2
+    - _IB_RGB_Contrast: 0
+    - _IB_RGB_Grayscale: 0
     - _IB_ShadowDrippingNoise_Smoothstep: 0.2
     - _IB_ShadowDrippingNoise_SmoothstepAnimated: 0
     - _IB_ShadowDrippingNoise_Step: 0
     - _IB_ShadowInBrumeGrunge_Contrast: -3.38
     - _IB_ShadowInBrumeGrunge_Tiling: 0.2
+    - _IB_ShadowNoise_Tiling: 1
+    - _IB_TerrainBlending: 0
+    - _IB_TerrainBlendingNoise_Tiling: 0
     - _IB_TerrainBlending_BlendThickness: 0
     - _IB_TerrainBlending_Falloff: 0
     - _InOutBrume: 0
@@ -283,6 +289,7 @@ Material:
     - _OcclusionStrength: 1
     - _Opacity: 0
     - _OpacityTexture: 0
+    - _OutBrume_Edges_Textures: 0
     - _Out_or_InBrume: 0
     - _PaintGrunge: 0
     - _PaintGrunge_Contrast: 0
@@ -325,9 +332,9 @@ Material:
     - _StepAttenuation: -0.44
     - _StepShadow: 0.43
     - _Step_Shadow: 0
-    - _TerrainBlending: 0.34
-    - _TerrainBlending_BlendThickness: 2
-    - _TerrainBlending_Falloff: 30
+    - _TerrainBlending: 1
+    - _TerrainBlending_BlendThickness: 0.2
+    - _TerrainBlending_Falloff: 0.3
     - _TerrainBlending_Opacity: 1
     - _TerrainBlending_TextureTiling: 0.55
     - _TopTex: 0
@@ -360,6 +367,8 @@ Material:
     - _IB_ColorShadow: {r: 0.4150942, g: 0.4150942, b: 0.4150942, a: 0}
     - _IB_Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _IB_NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _IB_ShadowNoise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
+    - _IB_ShadowNoise_Panner_AddSpeed: {r: 0.01, g: 0, b: 0, a: 0}
     - _IB_TerrainBlendingNoise_Tiling: {r: 0.3, g: 0.3, b: 0, a: 0}
     - _IB_TerrainBlending_Color: {r: 0.13207543, g: 0.13207543, b: 0.13207543, a: 0}
     - _InBrumeBackColor: {r: 0.8962264, g: 0.88905805, b: 0.88354397, a: 0}
