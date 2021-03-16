@@ -5,7 +5,7 @@ using UnityEngine;
 public class HurtingBox : MonoBehaviour
 {
 	List<GameObject> allHits;
-	 public HurtingDash myHurtingDash;
+	public HurtingDash myHurtingDash;
 
 	private void Start ()
 	{
@@ -25,18 +25,11 @@ public class HurtingBox : MonoBehaviour
 
 	private void OnTriggerEnter ( Collider other )
 	{
-		PlayerModule _temp = other.GetComponent<PlayerModule>();
-
-		if(!allHits.Contains(_temp.gameObject))
+		if (!allHits.Contains(other.gameObject))
 		{
-			if (_temp != null)
-				allHits.Add(_temp.gameObject);
-
-			if (_temp.teamIndex != myHurtingDash.myPlayerModule.teamIndex)
-			{
-				myHurtingDash.TouchedAnEnemy(_temp);
-			}
+			allHits.Add(other.gameObject);
+			myHurtingDash.TouchedAnEnemy(other.gameObject);
 		}
-		
+
 	}
 }

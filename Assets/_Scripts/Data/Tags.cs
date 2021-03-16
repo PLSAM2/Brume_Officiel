@@ -97,6 +97,7 @@
     public static readonly ushort SpawnObjPlayer = 1000;
     public static readonly ushort MovePlayerTag = 1010;
     public static readonly ushort SupprObjPlayer = 1020;
+    public static readonly ushort RotaPlayer = 1030;
 
     //CHARA STATE AND EFFECTS
     public static readonly ushort StateUpdate = 2570;

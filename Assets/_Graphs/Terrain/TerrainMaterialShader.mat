@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TerrainMaterialShader
   m_Shader: {fileID: 4800000, guid: 5840f803f40465843a003e972b4ebbea, type: 3}
-  m_ShaderKeywords: _IB_SHADOW_ON
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -415,7 +415,7 @@ Material:
     - _Grayscale: 0
     - _GrayscaleDebug: 0
     - _HeightTransition: 0
-    - _IB_Shadow: 1
+    - _IB_Shadow: 0
     - _IB_StepAttenuation: 0.01
     - _IB_StepShadow: 0
     - _InkGrunge_Contrast: 0
@@ -465,6 +465,7 @@ Material:
     - _ShadowGrungeIndex1: 2
     - _ShadowInBrumeGrunge_Contrast: -3.38
     - _ShadowInBrumeGrunge_Tiling: 0.2
+    - _ShadowLevel: 1
     - _Smoothness: 0.5
     - _Smoothness0: 0.5
     - _Smoothness1: 0.5
@@ -635,7 +636,7 @@ Material:
     - _ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _IB_ShadowColor: {r: 0.33018854, g: 0.33018854, b: 0.33018854, a: 0}
+    - _IB_ShadowColor: {r: 0.3301885, g: 0.3301885, b: 0.3301885, a: 0}
     - _InBrumeBackColor: {r: 1, g: 1, b: 1, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Noise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
@@ -663,7 +664,7 @@ Material:
     - _T2_IB_NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _T2_IB_ShadowColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _T2_IB_ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _T3_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
+    - _T3_ColorCorrection: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 0}
     - _T3_CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _T3_IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
     - _T3_IB_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}

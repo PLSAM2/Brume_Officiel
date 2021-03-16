@@ -364,6 +364,11 @@ public class GameFactory
 
 	public static bool DoSound ( Vector3 pos )
 	{
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+		{
+			return false;
+		}
+
 		PlayerModule currentPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
 		Brume currentBrume = null;
