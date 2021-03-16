@@ -25,16 +25,15 @@ public class HurtingBox : MonoBehaviour
 
 	private void OnTriggerEnter ( Collider other )
 	{
-		PlayerModule _temp = other.GetComponent<PlayerModule>();
-
-		if(!allHits.Contains(_temp.gameObject))
+		if(!allHits.Contains(other.gameObject))
 		{
-			if (_temp != null)
-				allHits.Add(_temp.gameObject);
+			Damageable _damageable = other.GetComponent<Damageable>();
+			if (_damageable != null)
+				allHits.Add(other.gameObject);
 
-			if (_temp.teamIndex != myHurtingDash.myPlayerModule.teamIndex)
+			if (_damageable.IsInMyTeam(myHurtingDash.myPlayerModule.teamIndex))
 			{
-				myHurtingDash.TouchedAnEnemy(_temp);
+				myHurtingDash.TouchedAnEnemy(other.gameObject);
 			}
 		}
 		

@@ -87,7 +87,7 @@ public class HurtingDash : SpellModule
 		base.Interrupt();
 	}
 
-	public void TouchedAnEnemy ( PlayerModule _hitHostile )
+	public void TouchedAnEnemy ( GameObject _hitHostile )
 	{
 		Damageable _hit = _hitHostile.GetComponent<Damageable>();
 
