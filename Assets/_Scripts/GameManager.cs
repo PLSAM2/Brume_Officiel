@@ -147,6 +147,13 @@ public class GameManager : SerializedMonoBehaviour
         UiManager.Instance.chat.DisplayMessage("Round : " + RoomManager.Instance.roundCount);
 
         AudioManager.Instance.SetBackgroundMusic(bgMusic);
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            GameManager.Instance.playerJoinedAndInit = true;
+            GameManager.Instance.PlayerJoinedAndInitInScene();
+        }
     }
 
     public void PlayerJoinedAndInitInScene()

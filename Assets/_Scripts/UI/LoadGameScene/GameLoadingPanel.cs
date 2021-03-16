@@ -14,6 +14,10 @@ public class GameLoadingPanel : MonoBehaviour
     }
     private void InitMimimap()
     {
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            return;
+        }
         spawnHelp.position = spawnPointList[RoomManager.Instance.assignedSpawn[NetworkManager.Instance.GetLocalPlayer().playerTeam] - 1].position;
         spawnHelp.gameObject.SetActive(true);
     }

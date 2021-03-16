@@ -8,6 +8,11 @@ public class UltPickup : Interactible
     [SerializeField] Animator myAnimator;
     public ushort ultimateStackGive = 1;
 
+    protected override void Init()
+    {
+        fillImg.material.SetFloat(progressShaderName, 1);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.2f);
+    }
 
     private void Start()
     {

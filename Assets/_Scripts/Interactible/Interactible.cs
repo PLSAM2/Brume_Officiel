@@ -89,7 +89,7 @@ public class Interactible : MonoBehaviour
         myAudioSource.enabled = false;
     }
 
-    protected void Init()
+    protected virtual void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
@@ -280,7 +280,7 @@ public class Interactible : MonoBehaviour
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         isCapturing = false;
         fillImg.material.SetFloat(progressShaderName, 0);
-        fillImg.material.SetFloat(opacityZoneAlphaShader, 1);
+
         state = State.Captured;
         timer = 0;
 
@@ -288,9 +288,13 @@ public class Interactible : MonoBehaviour
 
         if (showReload)
         {
+            fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
             reloadTimer = 0;
             reloading = true;
             SetColor(Color.black);
+        } else
+        {
+            fillImg.material.SetFloat(opacityZoneAlphaShader, 1);
         }
 
         if (mapIcon != null && showOnMap)
