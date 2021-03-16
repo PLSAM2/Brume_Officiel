@@ -53,9 +53,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 		{
 			if (message.Tag == Tags.MovePlayerTag)
 			{
-				SendPlayerMove(sender, e);
+				ReceivePlayerMove(sender, e);
 			}
-			else if (message.Tag == Tags.SupprObjPlayer)
+            if (message.Tag == Tags.RotaPlayer)
+            {
+                ReceivePlayerRota(sender, e);
+            }
+            else if (message.Tag == Tags.SupprObjPlayer)
 			{
 				SupprPlayerInServer(sender, e);
 			}
@@ -469,9 +473,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-
-
-	void SendPlayerMove ( object sender, MessageReceivedEventArgs e )
+	void ReceivePlayerMove ( object sender, MessageReceivedEventArgs e )
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -487,23 +489,37 @@ public class InGameNetworkReceiver : MonoBehaviour
 					}
 
 					GameManager.Instance.networkPlayers[id].myAnimController.SetMovePosition(
-
-						new Vector3( //Position
+						new Vector3(
 						reader.ReadSingle(),
-						GameManager.Instance.networkPlayers[id].transform.position.y,
-						reader.ReadSingle()),
-
-						new Vector3( //Rotation
 						0,
-						reader.ReadSingle(),
-						0)
+						reader.ReadSingle())
 				   );
 				}
 			}
 		}
 	}
 
-	public void ReceiveState ( object sender, MessageReceivedEventArgs e )
+    void ReceivePlayerRota(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                ushort id = reader.ReadUInt16();
+
+                if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+                {
+                    return;
+                }
+
+                GameManager.Instance.networkPlayers[id].myAnimController.SetRotation(
+                    reader.ReadSingle()
+                );
+            }
+        }
+    }
+
+    public void ReceiveState ( object sender, MessageReceivedEventArgs e )
 	{
 		using (Message message = e.GetMessage())
 		{
