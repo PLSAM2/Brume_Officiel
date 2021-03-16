@@ -10,6 +10,8 @@ public class UIPlayerManager : MonoBehaviour
 {
     [SerializeField] LocalPlayer myLocalPlayer;
 
+    public bool dummy = false;
+
     [Header("UI")]
     [TabGroup("Ui")] public GameObject canvas;
     [TabGroup("Ui")] public Quaternion canvasRot;
@@ -58,6 +60,16 @@ public class UIPlayerManager : MonoBehaviour
 
     private void Start()
     {
+        if (dummy)
+        {
+            nameText.text = "Dummy";
+            currentColorTeam = redMat;
+            nameText.material = currentColorTeam;
+            WxLife.material = currentColorTeam;
+            SpawnLifeBar();
+            return;
+            
+        }
         nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
         currentColorTeam = redMat;
@@ -84,6 +96,18 @@ public class UIPlayerManager : MonoBehaviour
 
     void SpawnLifeBar()
     {
+        if (dummy)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
+                img.Init(currentColorTeam);
+                allBarLife.Add(img);
+            }
+
+            return;
+        }
+
         for(int i=0; i < myLocalPlayer.liveHealth; i++)
         {
             UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
@@ -119,6 +143,10 @@ public class UIPlayerManager : MonoBehaviour
 
     private void Update()
     {
+        if (dummy)
+        {
+            return;
+        }
         //compase rota
         if (myLocalPlayer.allCharacterSpawned)
         {
