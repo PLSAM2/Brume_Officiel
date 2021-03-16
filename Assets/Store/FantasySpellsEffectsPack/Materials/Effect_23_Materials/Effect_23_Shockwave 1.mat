@@ -4,16 +4,15 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_43_DarkSphere
-  m_Shader: {fileID: 4800000, guid: 6bbe85065153d09418adeb64cbb18c72, type: 3}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Effect_23_Shockwave
+  m_Shader: {fileID: 4800000, guid: c08b0de36275f4039875d1aab188d0ca, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -40,24 +39,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 47fa01e72fc44924e80b62b5011ea1d6, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: aeabc6670bbe81d4ab1c68c3ada6ba2a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NoiseMap:
-        m_Texture: {fileID: 2800000, guid: 940df865e56719c41b66fc62d375dc5b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: af68296ad0fca564ca3ff1406b99ba43, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 8f45d89a0dd877246820f08ee31a857f, type: 3}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -67,42 +58,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TexNormal:
-        m_Texture: {fileID: 2800000, guid: 8f45d89a0dd877246820f08ee31a857f, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BlendDst: 10
+    - _AllColorFactor: 1.25
+    - _BlendDst: 1
     - _BlendSrc: 5
     - _BumpScale: 1
-    - _ColorStrength: 1
-    - _CutOut: 0
+    - _ColorBlueFactor: 1
+    - _ColorGreenFactor: 1
+    - _ColorRedFactor: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DistortFactor: 1
+    - _DistortFactor: 0.005
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InvFade: 3
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseScale: 0.025
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RimScale: 8
-    - _RimStrength: 5
-    - _RimStrenth: 30
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 3
     - _SrcBlend: 1
-    - _TexStrength: 2.5
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.022058845, b: 0.022058845, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _NoiseValue: {r: 1, g: 1, b: 0.5, a: 0.4}
-    - _RimColor: {r: 3, g: 0.07058823, b: 0.07058823, a: 0.4117647}
-    - _TintColor: {r: 3, g: 0.3103448, b: 0, a: 0.3137255}
-  m_BuildTextureStacks: []
+    - _TintColor: {r: 0.44117653, g: 1.517647, b: 3, a: 1}
