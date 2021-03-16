@@ -54,10 +54,14 @@ public class NetworkAnimationController : MonoBehaviour
         DoAnimation();
     }
 
-    public void SetMovePosition(Vector3 newPos, Vector3 newRotation)
+    public void SetMovePosition(Vector3 _newPos)
     {
-        newNetorkPos = newPos;
-        transform.localEulerAngles = newRotation;
+        newNetorkPos = _newPos;
+    }
+
+    public void SetRotation(float _rota)
+    {
+        transform.localEulerAngles = new Vector3(0, _rota, 0);
     }
 
     Vector3 oldPos;

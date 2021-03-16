@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Sirenix.OdinInspector;
 
 public class HurtingDash : SpellModule
 {
+	[TabGroup("HitPArt")]
 	[SerializeField] float hurtingBoxWidth = .8f;
+	[TabGroup("HitPArt")]
 	public DamagesInfos damages;
 	bool hasTouched = false;
+	[TabGroup("HitPArt")]
 	public float cooldownReduction;
+	[TabGroup("HitPArt")]
 	[SerializeField] HurtingBox hurtBox;
 	ArrowPreview _myPreview;
+	[TabGroup("HitPArt")]
 	public float dashDurationAddedIfNeeded = .05f;
-
-    [SerializeField] List<ParticleSystem> dashFx = new List<ParticleSystem>();
-    //[SerializeField] VisualEffect speedFx;
-
-    [SerializeField] AudioClip hitDashSound;
+	//[SerializeField] VisualEffect speedFx;
+	[TabGroup("HitPArt")]
+	[SerializeField] AudioClip hitDashSound;
 
     public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -72,29 +76,6 @@ public class HurtingDash : SpellModule
 		base.Resolution();
 	}
 
-    public override void ResolutionFeedBack()
-    {
-        base.ResolutionFeedBack();
-
-        foreach(ParticleSystem fx in dashFx)
-        {
-            fx.Play();
-        }
-
-        //speedFx.Play();
-    }
-
-    public override void ThrowbackEndFeedBack()
-    {
-        base.ThrowbackEndFeedBack();
-
-        foreach (ParticleSystem fx in dashFx)
-        {
-            fx.Stop();
-        }
-        //speedFx.Stop();
-    }
-
     public override void Interrupt ()
 	{
 		hurtBox.gameObject.SetActive(false);
@@ -106,7 +87,7 @@ public class HurtingDash : SpellModule
 		base.Interrupt();
 	}
 
-	public void TouchedAnEnemy ( PlayerModule _hitHostile )
+	public void TouchedAnEnemy ( GameObject _hitHostile )
 	{
 		Damageable _hit = _hitHostile.GetComponent<Damageable>();
 

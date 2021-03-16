@@ -14,6 +14,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
     public GameObject specPlayerList;
     public GameObject playerListObj;
     public GameObject startGameButton;
+    public GameObject readyButton;
     public Dictionary<ushort, PlayerListObj> PlayerObjDict = new Dictionary<ushort, PlayerListObj>();
 
     public void InitRoom(RoomData roomData)
@@ -123,6 +124,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
                 break;
             case Team.spectator:
                 LobbyManager.Instance.ChangeTeam(Team.red);
+                readyButton.SetActive(true);
                 break;
             default:
                 print("Error");
@@ -132,19 +134,47 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
     public void JoinSpectator()
     {
-        LobbyManager.Instance.ChangeTeam(Team.spectator);
-        LobbyManager.Instance.SetReady(true);
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            SwapTeam();
+        }
+        else
+        {
+            LobbyManager.Instance.ChangeTeam(Team.spectator);
+            readyButton.SetActive(false);
+            LobbyManager.Instance.SetReady(true);
+        }
+
+
     }
 
     public void SetReady(ushort playerID, bool value)
     {
         PlayerObjDict[playerID].readyImg.SetActive(value);
 
+
         if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
+            bool onlySpec = true;
+
             foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
             {
+                if (p.Value.playerTeam != Team.spectator)
+                {
+                    onlySpec = false;
+                    break;
+                }
+            }
 
+            if (onlySpec)
+            {
+                startGameButton.SetActive(false);
+                return;
+            }
+
+
+            foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
+            {
                 if (!p.Value.IsReady)
                 {
                     startGameButton.SetActive(false);

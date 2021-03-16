@@ -62,7 +62,7 @@ public class Ghost : MonoBehaviour
 	    canvas.SetActive(true);
         this.playerModule = playerModule;
         saveLifeTime = lifetime;
-        movementModule.ghostSpeed = ghostSpeed;
+        //movementModule.ghostSpeed = ghostSpeed;
         timer = saveLifeTime;
         playerModule.thirdSpellInputRealeased += Destruct;
 
