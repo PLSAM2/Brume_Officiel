@@ -41,8 +41,6 @@ public class MovementModule : MonoBehaviour
 		}
 	}
 
-
-
 	public void Init ()
 	{
 		if (isAGhost)
@@ -60,7 +58,6 @@ public class MovementModule : MonoBehaviour
 		{
 			myPlayerModule = GetComponent<PlayerModule>();
 		}
-
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
