@@ -11,6 +11,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
     public GameObject redPlayerList;
     public GameObject bluePlayerList;
+    public GameObject specPlayerList;
     public GameObject playerListObj;
     public GameObject startGameButton;
     public Dictionary<ushort, PlayerListObj> PlayerObjDict = new Dictionary<ushort, PlayerListObj>();
@@ -28,7 +29,10 @@ public class RoomPanelControl : SerializedMonoBehaviour
         {
             Destroy(item.gameObject);
         }
-
+        foreach (Transform item in specPlayerList.transform)
+        {
+            Destroy(item.gameObject);
+        }
         PlayerObjDict.Clear();
 
         foreach (KeyValuePair<ushort, PlayerData> p in roomData.playerList)
@@ -44,13 +48,21 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
         GameObject _PlayerListObj;
 
-        if (player.playerTeam == Team.red)
+        switch (player.playerTeam)
         {
-            _PlayerListObj = Instantiate(playerListObj, redPlayerList.transform);
-        }
-        else
-        {
-            _PlayerListObj = Instantiate(playerListObj, bluePlayerList.transform);
+            case Team.none:
+                return;
+            case Team.red:
+                _PlayerListObj = Instantiate(playerListObj, redPlayerList.transform);
+                break;
+            case Team.blue:
+                _PlayerListObj = Instantiate(playerListObj, bluePlayerList.transform);
+                break;
+            case Team.spectator:
+                _PlayerListObj = Instantiate(playerListObj, specPlayerList.transform);
+                break;
+            default:
+                return;
         }
 
         PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
@@ -88,6 +100,9 @@ public class RoomPanelControl : SerializedMonoBehaviour
             case Team.blue:
                 PlayerObjDict[playerID].gameObject.transform.SetParent(bluePlayerList.transform);
                 break;
+            case Team.spectator:
+                PlayerObjDict[playerID].gameObject.transform.SetParent(specPlayerList.transform);
+                break;
             default:
                 print("Error");
                 break;
@@ -106,10 +121,19 @@ public class RoomPanelControl : SerializedMonoBehaviour
             case Team.blue:
                 LobbyManager.Instance.ChangeTeam(Team.red);
                 break;
+            case Team.spectator:
+                LobbyManager.Instance.ChangeTeam(Team.red);
+                break;
             default:
                 print("Error");
                 break;
         }
+    }
+
+    public void JoinSpectator()
+    {
+        LobbyManager.Instance.ChangeTeam(Team.spectator);
+        LobbyManager.Instance.SetReady(true);
     }
 
     public void SetReady(ushort playerID, bool value)
@@ -120,6 +144,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
         {
             foreach (KeyValuePair<ushort, PlayerData> p in RoomManager.Instance.actualRoom.playerList)
             {
+
                 if (!p.Value.IsReady)
                 {
                     startGameButton.SetActive(false);

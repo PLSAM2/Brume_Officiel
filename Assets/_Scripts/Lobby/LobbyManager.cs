@@ -374,6 +374,7 @@ public class LobbyManager : MonoBehaviour
     {
         ushort playerID;
         Team team;
+
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -382,6 +383,8 @@ public class LobbyManager : MonoBehaviour
                 team = (Team)reader.ReadUInt16();
 
                 RoomManager.Instance.actualRoom.playerList[playerID].playerTeam = team;
+
+
                 roomPanelControl.ChangeTeam(playerID, team);
             }
         }

@@ -151,9 +151,10 @@ public class RoomManager : MonoBehaviour
         if (isRoundWin)
         {
             _wxID = GameFactory.GetPlayerCharacterInEnemyTeam(Character.WuXin);
-        } else
+        }
+        else
         {
-            _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam ,Character.WuXin);
+            _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
         }
 
         if (_wxID != null)
@@ -338,7 +339,7 @@ public class RoomManager : MonoBehaviour
 
                 if (GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
 
-                SpawnPlayerObj(id, isResurecting);      
+                SpawnPlayerObj(id, isResurecting);
             }
         }
     }
@@ -346,6 +347,11 @@ public class RoomManager : MonoBehaviour
     internal void SpawnPlayerObj(ushort id, bool isResurecting)
     {
         Vector3 spawnPos = Vector3.zero;
+
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == Team.spectator)
+        {
+            return;
+        }
 
         if (!isResurecting)
         {
@@ -435,7 +441,7 @@ public class RoomManager : MonoBehaviour
     }
     internal void SpawnDelayedPlayer()
     {
-        foreach (ushort id in delayedPlayerSpawn) 
+        foreach (ushort id in delayedPlayerSpawn)
         {
             SpawnPlayerObj(id, false);
         }
@@ -461,7 +467,15 @@ public class RoomManager : MonoBehaviour
     {
         if (UiManager.Instance != null)
         {
-            UiManager.Instance.allyScore.text = actualRoom.scores[NetworkManager.Instance.GetLocalPlayer().playerTeam].ToString();
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+            {
+                UiManager.Instance.allyScore.text = actualRoom.scores[Team.red].ToString();
+            }
+            else
+            {
+                UiManager.Instance.allyScore.text = actualRoom.scores[NetworkManager.Instance.GetLocalPlayer().playerTeam].ToString();
+            }
+
 
             switch (NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
@@ -470,6 +484,9 @@ public class RoomManager : MonoBehaviour
                     break;
                 case Team.blue:
                     UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
+                    break;
+                case Team.spectator:
+                    UiManager.Instance.ennemyScore.text = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
                     break;
                 default:
                     throw new System.Exception("ERREUR equipe non existante");
