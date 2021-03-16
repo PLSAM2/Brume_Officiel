@@ -406,7 +406,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            AudioManager.Instance.PlayHitAudio();
+
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
 				_writer.Write(myPlayerId);
 				_writer.Write(_damagesToDeal.damageHealth);

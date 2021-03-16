@@ -4,15 +4,16 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Effect_43_DarkSphere
   m_Shader: {fileID: 4800000, guid: 6bbe85065153d09418adeb64cbb18c72, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -85,12 +86,12 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseScale: 0.0275
+    - _NoiseScale: 0.025
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RimScale: 8
     - _RimStrength: 5
-    - _RimStrenth: 0.5
+    - _RimStrenth: 30
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 3
@@ -102,5 +103,6 @@ Material:
     - _Color: {r: 1, g: 0.022058845, b: 0.022058845, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseValue: {r: 1, g: 1, b: 0.5, a: 0.4}
-    - _RimColor: {r: 3, g: 0.07058823, b: 0.07058823, a: 1}
-    - _TintColor: {r: 3, g: 0.3103448, b: 0, a: 1}
+    - _RimColor: {r: 3, g: 0.07058823, b: 0.07058823, a: 0.4117647}
+    - _TintColor: {r: 3, g: 0.3103448, b: 0, a: 0.3137255}
+  m_BuildTextureStacks: []
