@@ -705,10 +705,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3367539163433085784}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onInterrupt:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5982798488497232216}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3367539163433085784}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -940,6 +964,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3858168915512816300}
     m_Modifications:
+    - target: {fileID: 1361122706619617968, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2336127416413372737, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -990,11 +1018,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2499002827571573841, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6442964681192723231, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6442964681192723231, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.022
       objectReference: {fileID: 0}
     - target: {fileID: 8805464972278755231, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8805464972278755231, guid: 3ef455ef4a66399488214173f43fb17a, type: 3}
       propertyPath: m_Materials.Array.data[0]
