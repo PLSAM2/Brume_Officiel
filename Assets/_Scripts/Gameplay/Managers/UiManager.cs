@@ -431,6 +431,13 @@ public class UiManager : MonoBehaviour
 
 	public void SetEchapMenuState ()
 	{
+        if (!echapMenu.activeInHierarchy)
+        {
+			Cursor.lockState = CursorLockMode.None;
+        } else
+        {
+			Cursor.lockState = CursorLockMode.Confined;
+		}
 		echapMenu.SetActive(!echapMenu.activeInHierarchy);
         GameManager.Instance.menuOpen = echapMenu.activeInHierarchy;
     }

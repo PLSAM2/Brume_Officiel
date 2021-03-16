@@ -79,6 +79,7 @@ public class GameManager : SerializedMonoBehaviour
 
     //Event utile
     [HideInInspector] public Action<ushort, ushort> OnPlayerDie;
+    [HideInInspector] public Action<ushort> OnSpecConnected;
     [HideInInspector] public Action<ushort, bool> OnPlayerAtViewChange;
     [HideInInspector] public Action<ushort, ushort> OnPlayerGetDamage;
     [HideInInspector] public Action<ushort> OnPlayerRespawn;
@@ -206,6 +207,15 @@ public class GameManager : SerializedMonoBehaviour
 
     private void AllPlayerJoinGameScene()
     {
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator) // IF spectator
+        {
+            OnSpecConnected?.Invoke(NetworkManager.Instance.GetLocalPlayer().ID);
+            OnAllCharacterSpawned?.Invoke();
+            gameStarted = true;
+            return;
+        }
+
+
         UiManager.Instance.AllPlayerJoinGameScene();
         OnAllCharacterSpawned?.Invoke();
         gameStarted = true;
