@@ -30,6 +30,30 @@ MonoBehaviour:
   texture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+--- !u!114 &-5758153603740562813
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  temperature:
+    m_OverrideState: 1
+    m_Value: 8
+    min: -100
+    max: 100
+  tint:
+    m_OverrideState: 0
+    m_Value: -4
+    min: -100
+    max: 100
 --- !u!114 &-2587298549198056258
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -46,7 +70,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.10137059, g: 0.13252908, b: 0.3207547, a: 1}
+    m_Value: {r: 0.070087224, g: 0.09376748, b: 0.23584908, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
@@ -55,7 +79,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.323
+    m_Value: 0.341
     min: 0
     max: 1
   smoothness:
@@ -87,6 +111,7 @@ MonoBehaviour:
   - {fileID: 8663910255838171729}
   - {fileID: 70547047667163941}
   - {fileID: 3829503508358397255}
+  - {fileID: -5758153603740562813}
 --- !u!114 &70547047667163941
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -103,13 +128,13 @@ MonoBehaviour:
   m_AdvancedMode: 0
   lift:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_Value: {x: 0.9881741, y: 0.94665146, z: 1, w: 0.024183804}
   gamma:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.96768224, z: 0.97761184, w: 0.07255138}
   gain:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_OverrideState: 1
+    m_Value: {x: 0.85181355, y: 0.8854092, z: 1, w: 0.19347034}
 --- !u!114 &2550293118670023639
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -333,20 +358,20 @@ MonoBehaviour:
   active: 1
   m_AdvancedMode: 0
   shadows:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.35408506, g: 0.3798231, b: 0.6886792, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
   highlights:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.9339623, g: 0.7939659, b: 0.3039783, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
   balance:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: -9
     min: -100
     max: 100
 --- !u!114 &5382884088714148816
@@ -424,7 +449,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 2.14
+    m_Value: 1.32
     min: 0
   scatter:
     m_OverrideState: 1
