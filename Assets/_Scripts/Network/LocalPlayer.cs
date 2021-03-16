@@ -219,6 +219,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				GameFactory.GetBrumeById(myPlayerModule.brumeId).ForceExit(myPlayerModule);
 			}
 		}
+
+		if (!IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
+			GameManager.Instance.allEnemies.Remove(this);
 	}
 
 	private void OnDisable ()
@@ -799,6 +802,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
 	}
+
+	
 }
 
 public interface Damageable
