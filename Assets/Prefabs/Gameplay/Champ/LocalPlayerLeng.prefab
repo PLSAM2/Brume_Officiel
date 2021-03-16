@@ -2484,8 +2484,6 @@ MonoBehaviour:
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &1004634171397155041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2544,6 +2542,9 @@ MonoBehaviour:
   wxMark: {fileID: 0}
   wxMarkRef: {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
   shaderSpeedTransition: 0.2
+  timeWaitForHeal: 10
+  timeHealTick: 2.5
+  healPerTick: 1
   spellInputedRecorded: 0
 --- !u!114 &3019470099886006621
 MonoBehaviour:
@@ -2790,8 +2791,6 @@ MonoBehaviour:
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &6547810544702672051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2939,8 +2938,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  fxCanalisation: {fileID: 0}
-  fxRecalShoot: {fileID: 0}
 --- !u!114 &8587129456808580366
 MonoBehaviour:
   m_ObjectHideFlags: 0
