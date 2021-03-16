@@ -46,7 +46,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private UnityClient currentClient;
 	private Vector3 lastPosition;
-	private Vector3 lastRotation;
+	private short lastRotation = 0;
 
 	[Header("Fog")]
 	[TabGroup("Vision")] public GameObject fowPrefab;
@@ -69,7 +69,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private void Awake ()
 	{
 		lastPosition = transform.position;
-		lastRotation = transform.localEulerAngles;
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )
@@ -115,7 +114,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		OnInitFinish?.Invoke();
 	}
-
 
 	private void Update ()
 	{
@@ -238,19 +236,15 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (!isOwner) { return; }
 
-		if (Vector3.Distance(lastPosition, transform.position) > 0.01f || Vector3.Distance(lastRotation, transform.localEulerAngles) > 1f)
+		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
 		{
-			lastPosition = transform.position;
-			lastRotation = transform.localEulerAngles;
+            print("send pos");
+            lastPosition = transform.position;
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
-				_writer.Write(RoomManager.Instance.actualRoom.ID);
-
 				_writer.Write(transform.position.x);
 				_writer.Write(transform.position.z);
-
-				_writer.Write(transform.localEulerAngles.y);
 
 				using (Message _message = Message.Create(Tags.MovePlayerTag, _writer))
 				{
@@ -258,6 +252,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
+
+        if(Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
+        {
+            lastRotation = (short) Mathf.RoundToInt(transform.eulerAngles.y);
+
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            {
+                _writer.Write(lastRotation);
+
+                using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
+                {
+                    currentClient.SendMessage(_message, SendMode.Unreliable);
+                }
+            }
+        }
 	}
 
 	public void SendState ( En_CharacterState _state )
@@ -406,7 +415,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            AudioManager.Instance.PlayHitAudio();
+
+            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
 				_writer.Write(myPlayerId);
 				_writer.Write(_damagesToDeal.damageHealth);

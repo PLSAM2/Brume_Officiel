@@ -17,7 +17,6 @@ public class TrailShoot : FxFollow
             {
                 if (!isPlayeing)
                 {
-                    print("oui");
                     ps.Play();
                     isPlayeing = true;
                 }
@@ -26,7 +25,6 @@ public class TrailShoot : FxFollow
             {
                 if (isPlayeing)
                 {
-                    print("non");
                     ps.Stop();
                     isPlayeing = false;
                 }
