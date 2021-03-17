@@ -556,7 +556,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void HealLocaly ( ushort value )
 	{
-		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealth);
+		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealthForRegen);
 		liveHealth = (ushort)_tempHp;
 	}
 

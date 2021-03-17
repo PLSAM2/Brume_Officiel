@@ -339,7 +339,17 @@ public class Interactible : MonoBehaviour
                 SetColor(noCaptureColor);
                 break;
             case State.Capturable:
-                SetColor(canBeCapturedColor);
+                if (capturingPlayerModule != null)
+                {
+                    SetColor(canBeCapturedColor);
+                } else
+                {
+                    if (capturingTeam != Team.none)
+                    {
+                        SetColor(GameFactory.GetRelativeColor(capturingTeam));
+                    }
+                }
+
                 break;
             case State.Captured:
                 if (capturingTeam != Team.none)
