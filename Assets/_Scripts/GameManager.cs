@@ -82,6 +82,7 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<ushort> OnSpecConnected;
     [HideInInspector] public Action<ushort, bool> OnPlayerAtViewChange;
     [HideInInspector] public Action<ushort, ushort> OnPlayerGetDamage;
+    [HideInInspector] public Action<ushort, ushort> OnPlayerGetHealed;
     [HideInInspector] public Action<ushort> OnPlayerRespawn;
     [HideInInspector] public Action<ushort> OnPlayerSpawn;
     [HideInInspector] public Action<ushort, ushort> OnPlayerUltiChange;

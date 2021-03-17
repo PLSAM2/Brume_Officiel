@@ -136,7 +136,8 @@ public class UiManager : MonoBehaviour
 		GameManager.Instance.OnPlayerDie += OnPlayerDie;
 		GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
 		GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
-		GameManager.Instance.OnPlayerSpawn += OnPlayerSpawn;
+        GameManager.Instance.OnPlayerGetHealed += OnPlayerGetHeal;
+        GameManager.Instance.OnPlayerSpawn += OnPlayerSpawn;
         GameManager.Instance.OnPlayerUltiChange += OnPlayerUltiChange;
 	}
 
@@ -147,6 +148,7 @@ public class UiManager : MonoBehaviour
 		GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerSpawn -= OnPlayerSpawn;
         GameManager.Instance.OnPlayerUltiChange -= OnPlayerUltiChange;
+        GameManager.Instance.OnPlayerGetHealed -= OnPlayerGetHeal;
     }
 
 	private void Start ()
@@ -204,6 +206,19 @@ public class UiManager : MonoBehaviour
 	}
 
 	void OnPlayerTakeDamage ( ushort id, ushort damage )
+	{
+        if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
+        {
+            return;
+        }
+
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		{
+            SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
+		}
+	}
+
+    void OnPlayerGetHeal(ushort id, ushort damage )
 	{
         if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
         {
