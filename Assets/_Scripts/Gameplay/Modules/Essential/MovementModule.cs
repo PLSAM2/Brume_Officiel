@@ -88,13 +88,17 @@ public class MovementModule : MonoBehaviour
         //forceMovement
         if (currentForcedMovement != null)
         {
-
             currentForcedMovement.duration -= Time.deltaTime;
 
             if (currentForcedMovement.duration <= 0)
             {
                 currentForcedMovement = null;
-                myPlayerModule.forcedMovementInterrupted?.Invoke();
+
+                if (!isADummy)
+                {
+                    myPlayerModule.forcedMovementInterrupted?.Invoke();
+                }
+
                 return;
             }
             if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
