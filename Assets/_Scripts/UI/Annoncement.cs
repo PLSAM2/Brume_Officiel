@@ -20,6 +20,10 @@ public class Annoncement : MonoBehaviour
 
     [SerializeField] AudioClip allyEliminated, enemyElimated;
 
+    bool IsAnnoncing = false;
+
+    List<bufferedInfo> currentBufferedAnnonce = new List<bufferedInfo>();
+
     private void Start()
     {
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
@@ -60,22 +64,21 @@ public class Annoncement : MonoBehaviour
 
         if(myId == _playerDie) { return; }
 
+        AudioClip sfx = allyEliminated;
+
         string result = "<color=";
         if (RoomManager.Instance.GetPlayerData(_playerDie).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             result += GameFactory.GetColorTeamInHex(Team.red) + ">";
-            AudioManager.Instance.Play2DAudio(allyEliminated);
         }
         else
         {
             result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
-            AudioManager.Instance.Play2DAudio(enemyElimated);
+            sfx = enemyElimated;
         }
 
         result += RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter.ToString();
-        UiManager.Instance.myAnnoncement.ShowAnnoncement(result + " HAS BEEN KILLED</color>");
-
-
+        ShowAnnoncement(result + " HAS BEEN KILLED</color>", sfx);
     }
 
     public void SetUnlockAltar()
@@ -89,37 +92,143 @@ public class Annoncement : MonoBehaviour
         waypointObj.gameObject.SetActive(false);
     }
 
-    public void AltarEndAnnoncement(string _value, Altar _altar)
+    public void AltarEndAnnoncement(string _value, Altar _altar, AudioClip sfx = null, AudioClip voice = null)
     {
-        text.text = _value;
-        myAnimator.SetTrigger("Show");
+        if (!IsAnnoncing)
+        {
+            IsAnnoncing = true;
 
-        waypointObj.SetImageColor(altarEndColor);
+            waypointObj.SetImageColor(altarEndColor);
 
-        waypointObj.target = _altar.transform;
+            text.text = _value;
+            myAnimator.SetTrigger("Show");
 
-        waypointObj.gameObject.SetActive(true);
-        waypointObj.ActiveAnnonciation(iconPos);
+            waypointObj.target = _altar.transform;
 
-        currentAltar = _altar;
+            waypointObj.gameObject.SetActive(true);
+            waypointObj.ActiveAnnonciation(iconPos);
+
+            currentAltar = _altar;
+
+            PlaySound(sfx, voice);
+        }
+        else
+        {
+            bufferedInfo newAnnonce = new bufferedInfo();
+            newAnnonce.textValue = _value;
+            newAnnonce.myAltar = _altar;
+            newAnnonce.isEnd = true;
+            newAnnonce.sfx = sfx;
+            newAnnonce.voice = voice;
+
+            currentBufferedAnnonce.Add(newAnnonce);
+        }
     }
 
-    public void NewAltarAnnoncement(string _value, Altar _altar) {
-        text.text = _value;
-        myAnimator.SetTrigger("Show");
+    public void NewAltarAnnoncement(string _value, Altar _altar, AudioClip sfx = null, AudioClip voice = null) {
+        if (!IsAnnoncing)
+        {
+            IsAnnoncing = true;
 
-        waypointObj.target = _altar.transform;
+            text.text = _value;
+            myAnimator.SetTrigger("Show");
 
-        waypointObj.gameObject.SetActive(true);
-        waypointObj.ActiveAnnonciation(iconPos);
+            waypointObj.target = _altar.transform;
 
+            waypointObj.gameObject.SetActive(true);
+            waypointObj.ActiveAnnonciation(iconPos);
 
-        currentAltar = _altar;
+            currentAltar = _altar;
+
+            PlaySound(sfx, voice);
+        }
+        else
+        {
+            bufferedInfo newAnnonce = new bufferedInfo();
+            newAnnonce.textValue = _value;
+            newAnnonce.myAltar = _altar;
+            newAnnonce.isEnd = false;
+            newAnnonce.sfx = sfx;
+            newAnnonce.voice = voice;
+
+            currentBufferedAnnonce.Add(newAnnonce);
+        }
     }
 
-    public void ShowAnnoncement(string _value)
+    public void ShowAnnoncement(string _value, AudioClip sfx = null, AudioClip voice = null)
     {
-        text.text = _value;
-        myAnimator.SetTrigger("Show");
+        if (!IsAnnoncing)
+        {
+            IsAnnoncing = true;
+
+            text.text = _value;
+            myAnimator.SetTrigger("Show");
+
+            PlaySound(sfx, voice);
+        }
+        else
+        {
+            bufferedInfo newAnnonce = new bufferedInfo();
+            newAnnonce.textValue = _value;
+            newAnnonce.sfx = sfx;
+            newAnnonce.voice = voice;
+
+            currentBufferedAnnonce.Add(newAnnonce);
+        }
+    }
+
+    void PlaySound(AudioClip sfx = null, AudioClip voice = null)
+    {
+        if (sfx != null)
+        {
+            AudioManager.Instance.Play2DAudio(sfx);
+        }
+
+        if (voice != null)
+        {
+            AudioManager.Instance.Play2DAudio(voice);
+        }
+    }
+
+    public void OnEndAnnoncement()
+    {
+        IsAnnoncing = false;
+
+        if(currentBufferedAnnonce.Count > 0)
+        {
+            DisplayBufferedAnnonce();
+        }
+    }
+
+    void DisplayBufferedAnnonce() {
+
+        bufferedInfo currentAnnonce = currentBufferedAnnonce[0];
+
+        if(currentAnnonce.myAltar == null)
+        {
+            ShowAnnoncement(currentAnnonce.textValue, currentAnnonce.sfx, currentAnnonce.voice);
+        }
+        else
+        {
+            if (currentAnnonce.isEnd == false)
+            {
+                NewAltarAnnoncement(currentAnnonce.textValue, currentAnnonce.myAltar, currentAnnonce.sfx, currentAnnonce.voice);
+            }
+            else
+            {
+                AltarEndAnnoncement(currentAnnonce.textValue, currentAnnonce.myAltar, currentAnnonce.sfx, currentAnnonce.voice);
+            }
+        }
+
+        currentBufferedAnnonce.RemoveAt(0);
+    }
+
+    public struct bufferedInfo
+    {
+        public string textValue;
+        public Altar myAltar;
+        public bool isEnd;
+        public AudioClip sfx;
+        public AudioClip voice;
     }
 }
