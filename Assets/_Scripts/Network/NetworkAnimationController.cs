@@ -82,8 +82,6 @@ public class NetworkAnimationController : MonoBehaviour
         else
         {
             currentPos = lerpPos;
-
-            print((currentPos.x - oldPos.x) / Time.deltaTime);
         }
 
         float velocityX = (currentPos.x - oldPos.x) / Time.deltaTime;

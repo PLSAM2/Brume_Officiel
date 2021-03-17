@@ -558,7 +558,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealthForRegen);
 		liveHealth = (ushort)_tempHp;
-	}
+
+        GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
+    }
 
 	public void SendChangeFowRaduis ( float size = 0 )
 	{
