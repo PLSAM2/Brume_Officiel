@@ -2,6 +2,7 @@ using DarkRift;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
 
 public class EndZoneInteractible : Interactible
 {
@@ -15,7 +16,19 @@ public class EndZoneInteractible : Interactible
 
     public void Init(Altar alt)
     {
-        parentAltar = alt;
+        parentAltar = alt; 
+        fillImg.material.SetFloat(progressShaderName, 1);
+        fillImg.material.SetFloat(opacityZoneAlphaShader, 0f);
+    }
+
+    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
+    {
+        if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return;
+        }
+
+        base.TryCapture(team, capturingPlayer);
     }
     protected override void Capture()
     {
@@ -27,6 +40,15 @@ public class EndZoneInteractible : Interactible
         base.Capture();
     }
 
+    protected override void OnVolumeChange(float _value)
+    {
+        if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            return;
+        }
+
+        base.OnVolumeChange(_value);
+    }
     public override void Unlock()
     {
         UiManager.Instance.myAnnoncement.AltarEndAnnoncement((interactibleName + " of Altar " + parentAltar.interactibleName + " Started").ToUpper(), parentAltar);
@@ -51,5 +73,21 @@ public class EndZoneInteractible : Interactible
         waypointObj.SetImageColor(Color.red);
 
         base.Unlock();
+    }
+
+    protected override void SetColorByState()
+    {
+        switch (state)
+        {
+            case State.Locked:
+                break;
+            case State.Capturable:
+                SetColor(GameFactory.GetRelativeColor(parentAltar.lastTeamCaptured));
+                break;
+            case State.Captured:
+                break;
+            default:
+                break;
+        }
     }
 }

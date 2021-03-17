@@ -76,7 +76,7 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")] public bool showReload = false;
     [TabGroup("InteractiblePart")] [ShowIf("showReload")] public float serverReloadTime;
     private float reloadTimer = 0;
-    private bool reloading = false;
+    protected bool reloading = false;
     private bool isViewed = false;
     [HideInInspector] public bool CheckOnUnlock = false;
 
@@ -107,8 +107,9 @@ public class Interactible : MonoBehaviour
         AudioManager.Instance.OnVolumeChange -= OnVolumeChange;
     }
 
-    void OnVolumeChange(float _value)
+    protected virtual void OnVolumeChange(float _value)
     {
+
         myAudioSource.volume = _value;
     }
 
@@ -200,7 +201,7 @@ public class Interactible : MonoBehaviour
             paused = false;
         }
 
-        myAudioSource.enabled = true;
+        StartAudio();
         capturingTeam = capturingPlayerModule.teamIndex;
 
 
@@ -210,6 +211,11 @@ public class Interactible : MonoBehaviour
             SetColor(GameFactory.GetRelativeColor(capturingTeam));
         }
 
+    }
+
+    public void StartAudio()
+    {
+        myAudioSource.enabled = true;
     }
 
     public void PauseCapture(bool v)
@@ -325,7 +331,7 @@ public class Interactible : MonoBehaviour
         CheckOnUnlock = true;
     }
 
-    private void SetColorByState()
+    protected virtual void SetColorByState()
     {
         if (showReload && reloading)
         {
@@ -339,7 +345,7 @@ public class Interactible : MonoBehaviour
                 SetColor(noCaptureColor);
                 break;
             case State.Capturable:
-                if (capturingPlayerModule != null)
+                if (capturingPlayerModule == null)
                 {
                     SetColor(canBeCapturedColor);
                 } else
@@ -362,7 +368,7 @@ public class Interactible : MonoBehaviour
         }
     }
 
-    private void SetColor(Color color)
+    protected void SetColor(Color color)
     {
         fillImg.material.SetColor("_ColorBase2", new Color(color.r, color.g, color.b, 1));
         fillImg.material.SetColor("_ColorBase1", new Color(color.r, color.g, color.b, 1));
