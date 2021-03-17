@@ -41,6 +41,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ColorVariationNoise_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -179,17 +183,20 @@ Material:
     - _BrumeEdges_Smoothstep: 0.3
     - _BrumeFlipbook: 0
     - _BrumeTexture_Contrast: 0.3
-    - _BrumeTexture_Tiling: 1
+    - _BrumeTexture_Tiling: 1.35
     - _BrumeVolumeTransition_Blend: 0.4
     - _BrumeVolumeTransition_Offset: 1.3
     - _BrumeVolumeTransition_Scale: 2.6
     - _BumpScale: 1
     - _Color: 1
     - _ColorLevel: 0
+    - _ColorVariationNoise_Contrast: 1.35
+    - _ColorVariationNoise_RotatorSpeed: 0.05
+    - _ColorVariationNoise_Tiling: 0.49
     - _CurvFix: 1
     - _Cutoff: 0.5
     - _DepthFade: 0.5
-    - _DepthFade_Distance: 2.5
+    - _DepthFade_Distance: 2
     - _DepthFade_Multiply: 62.56
     - _DepthFade_Power: 1
     - _DepthFade_SmoothstepMax: 0.85
@@ -199,7 +206,10 @@ Material:
     - _DisplacementTexture_Contrast: 1.9
     - _DisplacementTexture_Multiply: 42.55
     - _DisplacementTexture_Multiply1: 1
+    - _DisplacementTop_Smoothstep: 0
+    - _DisplacementTop_Step: 0
     - _Displacement_Contrast: 0.005
+    - _Displacement_Top_Mask: 0
     - _DstBlend: 0
     - _Flipbook_Animation: 0
     - _Flipbook_Columns: 10
@@ -283,7 +293,7 @@ Material:
     - _WaveFrequency: 0.1
     - _WaveLength: 0.3
     - _WaveNoiseContrast: 2.75
-    - _WaveNoise_Contrast: 2.11
+    - _WaveNoise_Contrast: 0.67
     - _WaveSpeed: 2
     - _WaveStrength: 0.15
     - _ZWrite: 1
@@ -299,6 +309,8 @@ Material:
     - _BrumeColorLow: {r: 0, g: 0.07408519, b: 0.3679245, a: 0}
     - _BrumeColor_ColorHigh: {r: 1, g: 1, b: 1, a: 0}
     - _BrumeColor_ColorLow: {r: 0.18516368, g: 0.37614018, b: 0.5377357, a: 1}
+    - _BrumeColor_ColorLow1: {r: 0.39999998, g: 0.44705886, b: 0.50980395, a: 1}
+    - _BrumeColor_ColorLow2: {r: 0.39999998, g: 0.44705886, b: 0.50980395, a: 1}
     - _BrumeFullColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.9245283, g: 0.87557554, b: 0.8155037, a: 0}

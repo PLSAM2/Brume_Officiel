@@ -17,7 +17,7 @@ public class NetworkAnimationController : MonoBehaviour
     short networkRota = 0;
     Vector3 lerpPos;
 
-    [SerializeField] float speed = 10;
+    [SerializeField] float speedAnim = 4;
 
     private void Awake()
     {
@@ -43,20 +43,20 @@ public class NetworkAnimationController : MonoBehaviour
     {
         if (!myLocalPlayer.isOwner)
         {
-            lerpPos = Vector3.MoveTowards(transform.position, netorkPos, 5 * Time.deltaTime);
+            if(!myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+            {
+                speedAnim = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed - 0.1f;
+            }
+            else
+            {
+                speedAnim = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.crouchingSpeed - 0.1f;
+            }
+
+            lerpPos = Vector3.MoveTowards(lerpPos, netorkPos, Time.deltaTime * speedAnim);
             transform.position = netorkPos;
 
             transform.eulerAngles = new Vector3(0, Mathf.Lerp(transform.eulerAngles.y, networkRota, Time.deltaTime * 10), 0);
         }
-    }
-
-    private void LateUpdate ()
-	{
-        if (myLocalPlayer.isOwner)
-        {
-            //DoAnimation();
-        }
-
         DoAnimation();
     }
 
@@ -82,6 +82,8 @@ public class NetworkAnimationController : MonoBehaviour
         else
         {
             currentPos = lerpPos;
+
+            print((currentPos.x - oldPos.x) / Time.deltaTime);
         }
 
         float velocityX = (currentPos.x - oldPos.x) / Time.deltaTime;
@@ -109,7 +111,7 @@ public class NetworkAnimationController : MonoBehaviour
 
         animator.SetFloat("Turn", turn);
 
-        oldPos = transform.position;
+        oldPos = currentPos;
     }
 
 
