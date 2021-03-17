@@ -264,14 +264,6 @@ public class PlayerModule : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        foreach (Material mat in GameManager.Instance.shaderDifMaterial)
-        {
-            mat.SetFloat(GameManager.Instance.property, 0);
-        }
-    }
-
     protected virtual void Update()
     {
 
