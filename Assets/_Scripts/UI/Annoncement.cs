@@ -20,7 +20,7 @@ public class Annoncement : MonoBehaviour
 
     [SerializeField] AudioClip allyEliminated, enemyElimated;
 
-    bool IsAnnoncing = false;
+    public bool IsAnnoncing = false;
 
     List<bufferedInfo> currentBufferedAnnonce = new List<bufferedInfo>();
 
@@ -193,7 +193,6 @@ public class Annoncement : MonoBehaviour
     public void OnEndAnnoncement()
     {
         IsAnnoncing = false;
-
         if(currentBufferedAnnonce.Count > 0)
         {
             DisplayBufferedAnnonce();
