@@ -57,17 +57,37 @@ public class FixedDistanceAoe : SpellModule
 			mySquarePreview.gameObject.SetActive(true);
 			mySquarePreview.Init(previewSquare.z, previewSquare.x, transform.eulerAngles.y, SquarePreview.squareCenter.center, transform.position + myPlayerModule.directionOfTheMouse() * previewSquare.z / 2);
 		}
+		else if(!spawnOnPos)
+			myCirclePreview.Init(radius, CirclePreview.circleCenter.center, transform.position +transform.forward * radius);
+		else
+			myCirclePreview.Init(radius, CirclePreview.circleCenter.center, transform.position);
 	}
 
 	protected override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
+
 		if (radius == 0)
 		{
 			mySquarePreview.gameObject.SetActive(false);
 		}
 		else
 			myCirclePreview.gameObject.SetActive(false);
+	}
+
+	protected override void ShowPreview ( Vector3 mousePos )
+	{
+		base.ShowPreview(mousePos);
+
+		if(canBeCast())
+		{
+			if (radius == 0)
+			{
+				mySquarePreview.gameObject.SetActive(true);
+			}
+			else
+				myCirclePreview.gameObject.SetActive(true);
+		}
 	}
 }
 

@@ -42,6 +42,9 @@ public class Waypoint : MonoBehaviour
 
     RectTransform posCenter;
 
+    [SerializeField] private CanvasGroup canvasIn;
+    [SerializeField] private CanvasGroup canvasOut;
+
     private void Start()
     {
         screenCentre = new Vector3(Screen.width, Screen.height, 0) / 2;
@@ -64,6 +67,9 @@ public class Waypoint : MonoBehaviour
     bool moveIcon = false;
     IEnumerator StartAnonciation()
     {
+        canvasIn.alpha = 0;
+        canvasOut.alpha = 0;
+
         moveIcon = true;
 
         yield return new WaitForSeconds(2f);
@@ -80,6 +86,8 @@ public class Waypoint : MonoBehaviour
         }
 
         arrow.SetActive(true);
+        canvasIn.alpha = 1;
+        canvasOut.alpha = 1;
     }
 
     public void SetUnderText(string _value)

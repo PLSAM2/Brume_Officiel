@@ -25,9 +25,6 @@ public class Altar : Interactible
 
     [HideInInspector] public float currentTime = 0;
 
-    [SerializeField] Lava myLava;
-
-
     [SerializeField] AudioClip altarBottomCleaned, altarBottomAwakens, altarBottomUnsealed;
     [SerializeField] AudioClip altarRightCleaned, altarRightAwakens, altarRightUnsealed;
     [SerializeField] AudioClip altarLeftCleaned, altarLeftAwakens, altarLeftUnsealed;
@@ -43,35 +40,28 @@ public class Altar : Interactible
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         base.UpdateCaptured(_capturingPlayerID);
 
-        if(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY "+ "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>");
-        }
-        else
-        {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>");
-        }
-
+        AudioClip voice = altarBottomCleaned;
         UiManager.Instance.myAnnoncement.DisableAltar();
-
-        AudioManager.Instance.Play2DAudio(capturedAltarSfx);
 
         switch (interactibleName)
         {
-            case "Bottom":
-                AudioManager.Instance.Play2DAudio(altarBottomCleaned);
-                break;
-
            case "Right":
-                AudioManager.Instance.Play2DAudio(altarRightCleaned);
+                voice = altarRightCleaned;
                 break;
 
             case "Left":
-                AudioManager.Instance.Play2DAudio(altarLeftCleaned);
+                voice = altarLeftCleaned;
                 break;
         }
 
-        //myLava.Spawn();
+        if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx, voice);
+        }
+        else
+        {
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx, voice);
+        }
 
         UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
@@ -105,50 +95,44 @@ public class Altar : Interactible
             StartCoroutine(ActivateAltar());
         }
 
-        UiManager.Instance.myAnnoncement.NewAltarAnnoncement((interactibleName + " ALTAR AWAKENS").ToUpper(), this);
+        AudioClip voice = altarBottomAwakens;
 
         switch (interactibleName)
         {
-            case "Bottom":
-                AudioManager.Instance.Play2DAudio(altarBottomAwakens);
-                break;
-
             case "Right":
-                AudioManager.Instance.Play2DAudio(altarRightAwakens);
+                voice = altarRightAwakens;
                 break;
 
             case "Left":
-                AudioManager.Instance.Play2DAudio(altarLeftAwakens);
+                voice = altarLeftAwakens;
                 break;
         }
+
+        UiManager.Instance.myAnnoncement.NewAltarAnnoncement((interactibleName + " ALTAR AWAKENS").ToUpper(), this, null, voice);
     }
 
     IEnumerator ActivateAltar()
     {
-        AudioManager.Instance.Play2DAudio(annoncementAltarSfx);
-
         mapIcon.sprite = willUnlockSprite;
         currentTime = Time.fixedTime;
 
         yield return new WaitForSeconds(unlockTime);
 
-        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNSEALED");
-        Unlock();
+        AudioClip voice = altarBottomUnsealed;
 
         switch (interactibleName)
         {
-            case "Bottom":
-                AudioManager.Instance.Play2DAudio(altarBottomUnsealed);
-                break;
-
             case "Right":
-                AudioManager.Instance.Play2DAudio(altarRightUnsealed);
+                voice = altarRightUnsealed;
                 break;
 
             case "Left":
-                AudioManager.Instance.Play2DAudio(altarLeftUnsealed);
+                voice = altarLeftUnsealed;
                 break;
         }
+
+        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNSEALED", annoncementAltarSfx, voice);
+        Unlock();
     }
 
 	public override void Unlock ()
