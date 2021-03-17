@@ -8,10 +8,10 @@ using static GameData;
 
 public class UIPlayerManager : MonoBehaviour
 {
-    [SerializeField] LocalPlayer myLocalPlayer;
+    [HideIf("dummy")] [SerializeField] LocalPlayer myLocalPlayer;
 
     public bool dummy = false;
-
+    [ShowIf("dummy")] [SerializeField] Dummy myDummy;
     [Header("UI")]
     [TabGroup("Ui")] public GameObject canvas;
     [TabGroup("Ui")] public Quaternion canvasRot;
@@ -68,12 +68,12 @@ public class UIPlayerManager : MonoBehaviour
             WxLife.material = currentColorTeam;
             SpawnLifeBar();
             return;
-            
+
         }
         nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
         currentColorTeam = redMat;
-        if(GameFactory.GetRelativeTeam( myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
+        if (GameFactory.GetRelativeTeam(myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
         {
             currentColorTeam = blueMat;
         }
@@ -98,22 +98,24 @@ public class UIPlayerManager : MonoBehaviour
     {
         if (dummy)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < myDummy.liveHealth; i++)
             {
                 UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
                 img.Init(currentColorTeam);
                 allBarLife.Add(img);
             }
-
-            return;
         }
-
-        for(int i=0; i < myLocalPlayer.liveHealth; i++)
+        else
         {
-            UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
-            img.Init(currentColorTeam);
-            allBarLife.Add(img);
+            for (int i = 0; i < myLocalPlayer.liveHealth; i++)
+            {
+                UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
+                img.Init(currentColorTeam);
+                allBarLife.Add(img);
+            }
         }
+
+
     }
 
     private void LateUpdate()
@@ -125,18 +127,36 @@ public class UIPlayerManager : MonoBehaviour
     public void UpdateLife()
     {
         int i = 0;
-        foreach(UIBarLifePerso img in allBarLife)
+        foreach (UIBarLifePerso img in allBarLife)
         {
-            if(i < myLocalPlayer.liveHealth)
+            if (dummy)
             {
-                img.SetColorLife(currentColorTeam, true);
+                if (i < myDummy.liveHealth)
+                {
+                    img.SetColorLife(currentColorTeam, true);
+                }
+                else
+                {
+                    img.CrackLife();
+                    img.SetColorLife(grayMat, false);
+                    img.HideLife();
+                }
             }
             else
             {
-                img.CrackLife();
-                img.SetColorLife(grayMat, false);
-                img.HideLife();
+                if (i < myLocalPlayer.liveHealth)
+                {
+                    img.SetColorLife(currentColorTeam, true);
+                }
+                else
+                {
+                    img.CrackLife();
+                    img.SetColorLife(grayMat, false);
+                    img.HideLife();
+                }
             }
+
+
             i++;
         }
     }
@@ -153,8 +173,9 @@ public class UIPlayerManager : MonoBehaviour
             if (wxRef != null)
             {
                 //voit la shili
-                if ( /* GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform) */ true){
-                    WxLife.fillAmount = (float) wxRef.liveHealth / (float) wxRef.myPlayerModule.characterParameters.maxHealth;
+                if ( /* GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform) */ true)
+                {
+                    WxLife.fillAmount = (float)wxRef.liveHealth / (float)wxRef.myPlayerModule.characterParameters.maxHealth;
 
                     Vector3 fromPos = WxCompass.transform.position;
                     Vector3 toPos = wxRef.transform.position;
@@ -165,7 +186,7 @@ public class UIPlayerManager : MonoBehaviour
                     float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
                     WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-                    if(WxLife.material == grayMat)
+                    if (WxLife.material == grayMat)
                     {
                         switch (GameFactory.GetRelativeTeam(myLocalPlayer.myPlayerModule.teamIndex))
                         {
@@ -207,7 +228,7 @@ public class UIPlayerManager : MonoBehaviour
         CounteringIcon.SetActive(false);
         stateText.text = "";
 
-        if(feedbackCounter != null)
+        if (feedbackCounter != null)
         {
             feedbackCounter.SetActive(false);
         }
