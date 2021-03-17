@@ -513,7 +513,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
 
                 GameManager.Instance.networkPlayers[id].myAnimController.SetRotation(
-                    reader.ReadSingle()
+                    reader.ReadInt16()
                 );
             }
         }

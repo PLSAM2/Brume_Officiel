@@ -238,7 +238,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
 		{
-            print("send pos");
             lastPosition = transform.position;
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())

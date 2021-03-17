@@ -13,7 +13,10 @@ public class NetworkAnimationController : MonoBehaviour
 
     [SerializeField] LocalPlayer myLocalPlayer;
 
-    Vector3 newNetorkPos;
+    Vector3 netorkPos;
+    short networkRota = 0;
+    Vector3 lerpPos;
+
     [SerializeField] float speed = 10;
 
     private void Awake()
@@ -28,7 +31,8 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived += Client_MessageReceived;
 
         oldPos = transform.position;
-        newNetorkPos = transform.position;
+        netorkPos = transform.position;
+        lerpPos = transform.position;
     }
     private void OnDisable()
     {
@@ -39,8 +43,10 @@ public class NetworkAnimationController : MonoBehaviour
     {
         if (!myLocalPlayer.isOwner)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos));
-            //transform.position = Vector3.Lerp(transform.position, newNetorkPos, Vector3.Distance(transform.position, newNetorkPos) * speed * Time.deltaTime);
+            lerpPos = Vector3.MoveTowards(transform.position, netorkPos, 5 * Time.deltaTime);
+            transform.position = netorkPos;
+
+            transform.eulerAngles = new Vector3(0, Mathf.Lerp(transform.eulerAngles.y, networkRota, Time.deltaTime * 10), 0);
         }
     }
 
@@ -56,20 +62,30 @@ public class NetworkAnimationController : MonoBehaviour
 
     public void SetMovePosition(Vector3 _newPos)
     {
-        newNetorkPos = _newPos;
+        netorkPos = _newPos;
     }
 
-    public void SetRotation(float _rota)
+    public void SetRotation(short _rota)
     {
-        transform.localEulerAngles = new Vector3(0, _rota, 0);
+        networkRota = _rota;
     }
 
     Vector3 oldPos;
     Vector3 direction;
     private void DoAnimation ()
     {
-        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+        Vector3 currentPos;
+        if (myLocalPlayer.isOwner)
+        {
+            currentPos = transform.position;
+        }
+        else
+        {
+            currentPos = lerpPos;
+        }
+
+        float velocityX = (currentPos.x - oldPos.x) / Time.deltaTime;
+        float velocityZ = (currentPos.z - oldPos.z) / Time.deltaTime;
 
         float speed = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed;
 
