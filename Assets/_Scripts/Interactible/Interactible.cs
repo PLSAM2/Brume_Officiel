@@ -58,7 +58,7 @@ public class Interactible : MonoBehaviour
     [Header("UI")]
     [TabGroup("InteractiblePart")]
     [SerializeField] protected MeshRenderer fillImg;
-
+    [TabGroup("InteractiblePart")] public AnimationCurve captureCurve;
     [TabGroup("InteractiblePart")] protected UnityClient client;
 
     [Header("Map")]
@@ -77,7 +77,7 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")] [ShowIf("showReload")] public float serverReloadTime;
     private float reloadTimer = 0;
     protected bool reloading = false;
-    private bool isViewed = false;
+    protected bool isViewed = false;
     [HideInInspector] public bool CheckOnUnlock = false;
 
     [TabGroup("InteractiblePart")] public Team lastTeamCaptured = Team.none;
@@ -133,9 +133,15 @@ public class Interactible : MonoBehaviour
             }
         }
 
+        VisualCaptureProgress();
+    }
+
+
+    protected virtual void VisualCaptureProgress()
+    {
         if (isViewed && reloading == false)
         {
-            fillImg.material.SetFloat(progressShaderName, 1 - ((timer / interactTime)));
+            fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
         }
     }
 
