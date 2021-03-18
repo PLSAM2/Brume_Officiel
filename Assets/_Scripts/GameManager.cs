@@ -132,6 +132,11 @@ public class GameManager : SerializedMonoBehaviour
 
         foreach (Material _mat in materialNeedingTheCamPos)
             _mat.SetVector("_Object_Position", new Vector4(0, 0, 0, 1));
+
+        foreach (Material mat in GameManager.Instance.shaderDifMaterial)
+        {
+            mat.SetFloat(GameManager.Instance.property, 0);
+        }
     }
 
     private void Start()
