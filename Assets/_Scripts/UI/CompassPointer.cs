@@ -10,6 +10,7 @@ public class CompassPointer : MonoBehaviour
     public string hFrequencyPropertyName = "HorizontalNoise_prop";
     public string opacityPropertyName = "Opacity_Prop";
 
+    public AnimationCurve noiseIntensity;
     public float maxDistance = 50;
     public float minDistance = 10;
     public float maxLifeTime = 4;
@@ -73,9 +74,9 @@ public class CompassPointer : MonoBehaviour
 
     public void SetByDistance(float distance)
     {
-        float value = Mathf.Clamp(maxDistance - distance, 0, maxDistance);
+        float value = noiseIntensity.Evaluate(distance / maxDistance);
         pointerMat.material.SetFloat(vFrequencyPropertyName , value * noiseMultiplier);
-        pointerMat.material.SetFloat(hFrequencyPropertyName, value * noiseMultiplier);
+        pointerMat.material.SetFloat(hFrequencyPropertyName, value * noiseMultiplier / 2);
     }
 
 }
