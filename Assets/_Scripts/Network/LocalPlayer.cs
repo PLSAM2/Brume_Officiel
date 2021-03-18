@@ -238,7 +238,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
 		{
-            print("send pos");
             lastPosition = transform.position;
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
@@ -497,7 +496,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 					}
 					else
 					{
-						KillPlayer();
+						KillPlayer(NetworkManager.Instance.GetLocalPlayer());
 					}
 				}
 			}
@@ -559,7 +558,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealthForRegen);
 		liveHealth = (ushort)_tempHp;
-	}
+
+        GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
+    }
 
 	public void SendChangeFowRaduis ( float size = 0 )
 	{
@@ -652,7 +653,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myUiPlayerManager.Eye_Spot.SetActive(false);
 	}
 
-	public void KillPlayer ( PlayerData killer = null )
+	public void KillPlayer (PlayerData killer)
 	{
 		if (isOwner)
 		{

@@ -448,7 +448,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 				LocalPlayer target = GameManager.Instance.networkPlayers[_id];
 				target.HealLocaly(_healValue);
-			}
+            }
 		}
 	}
 
@@ -513,7 +513,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 }
 
                 GameManager.Instance.networkPlayers[id].myAnimController.SetRotation(
-                    reader.ReadSingle()
+                    reader.ReadInt16()
                 );
             }
         }
