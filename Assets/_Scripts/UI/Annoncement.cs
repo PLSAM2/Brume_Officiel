@@ -62,9 +62,7 @@ public class Annoncement : MonoBehaviour
     {
         ushort myId = NetworkManager.Instance.GetLocalPlayer().ID;
 
-        if(myId == _playerDie) { return; }
-
-        AudioClip sfx = allyEliminated;
+        AudioClip voice = allyEliminated;
 
         string result = "<color=";
         if (RoomManager.Instance.GetPlayerData(_playerDie).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -74,11 +72,19 @@ public class Annoncement : MonoBehaviour
         else
         {
             result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
-            sfx = enemyElimated;
+            voice = enemyElimated;
         }
-
         result += RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter.ToString();
-        ShowAnnoncement(result + " HAS BEEN KILLED</color>", sfx);
+
+        if (_killer == myId)
+		{
+            //play son kill todo
+            ShowAnnoncement(("YOU SLAIN " + result).ToUpper(), null, enemyElimated);
+        }
+        else
+        {
+            ShowAnnoncement((result + " HAS BEEN KILLED</color>").ToUpper(), null, voice);
+        }
     }
 
     public void SetUnlockAltar()

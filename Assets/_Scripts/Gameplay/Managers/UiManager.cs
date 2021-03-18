@@ -233,14 +233,6 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerDie ( ushort idKilled, ushort idKiller )
 	{
-		//
-		if (idKilled == idKiller)
-		{
-            //play son kill todo
-            myAnnoncement.ShowAnnoncement("You slain an ennemy");
-		}
-
-
 		//UI Minimap info
 		if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
