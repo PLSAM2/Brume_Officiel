@@ -496,7 +496,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 					}
 					else
 					{
-						KillPlayer();
+						KillPlayer(NetworkManager.Instance.GetLocalPlayer());
 					}
 				}
 			}
@@ -653,7 +653,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myUiPlayerManager.Eye_Spot.SetActive(false);
 	}
 
-	public void KillPlayer ( PlayerData killer = null )
+	public void KillPlayer (PlayerData killer)
 	{
 		if (isOwner)
 		{

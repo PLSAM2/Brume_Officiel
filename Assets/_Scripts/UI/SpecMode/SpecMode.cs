@@ -91,6 +91,7 @@ public class SpecMode : MonoBehaviour
     {
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
+            print("respawn");
             GameManager.Instance.deadPostProcess.SetActive(false);
             isSpec = false;
             CameraManager.Instance.ResetPlayerFollow();

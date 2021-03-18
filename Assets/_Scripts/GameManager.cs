@@ -103,6 +103,9 @@ public class GameManager : SerializedMonoBehaviour
 
     public AudioClip bgMusic;
 
+    //debug
+    public GameObject UI;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -132,6 +135,11 @@ public class GameManager : SerializedMonoBehaviour
 
         foreach (Material _mat in materialNeedingTheCamPos)
             _mat.SetVector("_Object_Position", new Vector4(0, 0, 0, 1));
+
+        foreach (Material mat in GameManager.Instance.shaderDifMaterial)
+        {
+            mat.SetFloat(GameManager.Instance.property, 0);
+        }
     }
 
     private void Start()
@@ -172,6 +180,12 @@ public class GameManager : SerializedMonoBehaviour
 
         foreach (Material _mat in materialNeedingTheCamPos)
             _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z, 1));
+
+        //debug
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UI.SetActive(!UI.activeSelf);
+        }
     }
 
     void OnMessageReceive(object _sender, MessageReceivedEventArgs _e)
