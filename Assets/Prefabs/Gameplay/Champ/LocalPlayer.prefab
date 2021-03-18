@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1163919473078000102}
   myLocalPlayer: {fileID: 1217320960498770133}
-  speed: 10
+  speedAnim: 4
 --- !u!114 &1217320960498770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6112,7 +6112,7 @@ PrefabInstance:
     - target: {fileID: 2430436816242403458, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: pointerImage
       value: 
-      objectReference: {fileID: 2752594404645253997}
+      objectReference: {fileID: 0}
     - target: {fileID: 5525106044115904308, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
       propertyPath: m_Name
       value: Pointer
@@ -6207,17 +6207,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
---- !u!114 &2752594404645253997 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2984543851814988645, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}
-  m_PrefabInstance: {fileID: 1105656613506226184}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7581795758570841846 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7381373153998814974, guid: bb5732d2caa0c8a4fbef88a8fa046f7f, type: 3}

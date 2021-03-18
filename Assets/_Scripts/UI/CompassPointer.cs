@@ -5,19 +5,26 @@ using UnityEngine.UI;
 
 public class CompassPointer : MonoBehaviour
 {
-    [SerializeField] private Image pointerImage;
+    [SerializeField] private MeshRenderer pointerMat;
+    public string vFrequencyPropertyName = "VerticalNoise_prop";
+    public string hFrequencyPropertyName = "HorizontalNoise_prop";
+    public string opacityPropertyName = "Opacity_Prop";
 
-    public Gradient distanceGradient;
     public float maxDistance = 50;
     public float minDistance = 10;
     public float maxLifeTime = 4;
     public float minLifeTime = 1;
-
+    public float noiseMultiplier = 2;
     private Transform character;
     private Vector3 targetPos;
     private bool isOneTime = false;
     private float baseTimer = 0;
     private float timer = 0;
+
+    private void Start()
+    {
+        pointerMat.material.SetFloat(opacityPropertyName, 1);
+    }
 
     public void InitNewTargetOneTime(Transform character, Vector3 target)
     {
@@ -27,7 +34,7 @@ public class CompassPointer : MonoBehaviour
         float distance = AimToTarget();
         baseTimer = timer = Mathf.Clamp(Mathf.Abs((maxDistance - minDistance) / (distance - minDistance)) + minLifeTime, minLifeTime, maxLifeTime);
         isOneTime = true;
-        SetColorByDistance(distance);
+        SetByDistance(distance);
     }
 
 
@@ -39,7 +46,7 @@ public class CompassPointer : MonoBehaviour
             {
                 timer -= Time.deltaTime;
                 float opacity = (timer / baseTimer);
-                pointerImage.color = new Color(pointerImage.color.r, pointerImage.color.g, pointerImage.color.b, opacity);
+                pointerMat.material.SetFloat(opacityPropertyName, opacity);
             }
             else
             {
@@ -64,13 +71,11 @@ public class CompassPointer : MonoBehaviour
         return Vector3.Distance(fromPos, toPos);
     }
 
-    public void SetColorByDistance(float distance)
+    public void SetByDistance(float distance)
     {
-        pointerImage.color = distanceGradient.Evaluate(
-            Mathf.Clamp((distance - minDistance) / (maxDistance - minDistance)
-            , 0, 1
-            ));
-
+        float value = Mathf.Clamp(maxDistance - distance, 0, maxDistance);
+        pointerMat.material.SetFloat(vFrequencyPropertyName , value * noiseMultiplier);
+        pointerMat.material.SetFloat(hFrequencyPropertyName, value * noiseMultiplier);
     }
 
 }
