@@ -37,7 +37,6 @@ Transform:
   - {fileID: 5426778886394815909}
   - {fileID: 7853777080754013499}
   - {fileID: 6870150835912919914}
-  - {fileID: 5100113601684079516}
   - {fileID: 639526925569538375}
   - {fileID: 1020691658076367202}
   - {fileID: 7094439738140228470}
@@ -56,9 +55,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8598cbc373c19cc429a3cad5111916dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1163919473078000102}
+  animator: {fileID: 0}
   myLocalPlayer: {fileID: 1217320960498770133}
-  speed: 10
+  speedAnim: 4
 --- !u!114 &1217320960498770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,14 +82,14 @@ MonoBehaviour:
   fowPrefab: {fileID: 8593340304288630890, guid: 837d40d21bfecf34a9c4fe1b83409be4, type: 3}
   forceOutline: 0
   objToHide:
-  - {fileID: 5588103883704817958}
+  - {fileID: 0}
   - {fileID: 1724655755996733115}
   - {fileID: 8821014092771391470}
   isVisible: 1
   forceShow: 0
   isTp: 0
   waypointEnemyPrefab: {fileID: 150680, guid: 4c9b4c56b51a65c4f81dd3f681b53218, type: 3}
-  myOutline: {fileID: 724448695432556351}
+  myOutline: {fileID: 0}
   timeSpotDisplay: 2
 --- !u!114 &5951944403870468667
 MonoBehaviour:
@@ -310,7 +309,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2018274824535757923}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &3962372205171420851
 AudioSource:
@@ -591,7 +590,7 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 2018274824535757923}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8993753187041022327
 MeshFilter:
@@ -5691,75 +5690,6 @@ Transform:
   m_Father: {fileID: 1773940423339997675}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5588103883704817958
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5100113601684079516}
-  - component: {fileID: 1163919473078000102}
-  - component: {fileID: 724448695432556351}
-  m_Layer: 0
-  m_Name: AnimatorPerso
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5100113601684079516
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5588103883704817958}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2018274824535757923}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1163919473078000102
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5588103883704817958}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 786553774f3cb34439919ca260838dff, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &724448695432556351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5588103883704817958}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 4
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &8821014092771391470
 GameObject:
   m_ObjectHideFlags: 0
@@ -6578,7 +6508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8152880853533928318, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8152880853533928318, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_AnchorMax.x
