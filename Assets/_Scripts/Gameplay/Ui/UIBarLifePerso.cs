@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIBarLifePerso : MonoBehaviour
 {
-    [SerializeField] List<Image> allImgLife = new List<Image>();
+    public List<Image> allImgLife = new List<Image>();
 
     [SerializeField] GameObject crackObj;
 
@@ -25,12 +25,12 @@ public class UIBarLifePerso : MonoBehaviour
     {
         isFull = state;
         allImgLife[0].material = matColor;
-        allImgLife[0].enabled = true;
+        allImgLife[0].fillAmount = 1;
     }
 
     public void HideLife()
     {
-        allImgLife[0].enabled = false;
+        allImgLife[0].fillAmount = 0;
     }
 
     public void CrackLife()
@@ -41,7 +41,13 @@ public class UIBarLifePerso : MonoBehaviour
         StartCoroutine(WaitToDisable());
     }
 
-    IEnumerator WaitToDisable()
+    public void SetFillAmount ( float _fill )
+    {
+        allImgLife[0].fillAmount = _fill;
+    }
+
+
+    IEnumerator WaitToDisable ()
     {
         crackObj.SetActive(true);
         yield return new WaitForSeconds(0.4f);

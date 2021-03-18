@@ -484,6 +484,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule.cancelSpell += CancelSpell;
+		myPlayerModule.mylocalPlayer.OnPlayerDeath += HidePreview;
 
 		switch (_actionLinked)
 		{
@@ -531,6 +532,8 @@ public class SpellModule : MonoBehaviour
 	protected virtual void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
+		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
+
 
 		if (spell.stacksUsed > 0)
 		{
