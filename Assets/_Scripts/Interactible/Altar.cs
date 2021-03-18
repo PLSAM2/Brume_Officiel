@@ -17,6 +17,8 @@ public class Altar : Interactible
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
 
+
+
     public EndZoneInteractible endZoneInteractible;
     [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
