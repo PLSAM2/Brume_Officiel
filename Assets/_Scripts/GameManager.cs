@@ -104,7 +104,7 @@ public class GameManager : SerializedMonoBehaviour
     public AudioClip bgMusic;
 
     //debug
-    public GameObject UI;
+    public CanvasGroup UIGroup;
 
     private void Awake()
     {
@@ -184,7 +184,7 @@ public class GameManager : SerializedMonoBehaviour
         //debug
         if (Input.GetKeyDown(KeyCode.U))
         {
-            UI.SetActive(!UI.activeSelf);
+            UIGroup.alpha = (UIGroup.alpha == 0) ? 1 : 0;
         }
     }
 
