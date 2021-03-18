@@ -490,13 +490,22 @@ public class PlayerModule : MonoBehaviour
 	}
 	private void WaitForHealProcess ()
 	{
-		if(mylocalPlayer.liveHealth < characterParameters.maxHealthForRegen)
-		timerWaitForHeal -= Time.deltaTime;
+		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen)
+		{
+			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
-		if(!isAutoHealing)
-			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = (timeWaitForHeal -  timerWaitForHeal) / timeWaitForHeal;
+			return;
+		}
 		else
-			mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth-1,0,100)].SetFillAmount((timeHealTick - timerWaitForHeal) / timeHealTick);
+			timerWaitForHeal -= Time.deltaTime;
+
+
+		if (!isAutoHealing)
+			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = (timeWaitForHeal - timerWaitForHeal) / timeWaitForHeal;
+		else
+		{
+			print(isAutoHealing);
+		}
 
 		if (timerWaitForHeal <= 0)
 		{
@@ -514,9 +523,14 @@ public class PlayerModule : MonoBehaviour
 	{
 		healTimer -= Time.deltaTime;
 
+		mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth , 0, 100)].SetFillAmount((timeHealTick - healTimer) / timeHealTick);
+
 		if (healTimer <= 0)
 		{
 			mylocalPlayer.HealPlayer(healPerTick);
+
+			if(mylocalPlayer.liveHealth == characterParameters.maxHealthForRegen)
+				mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
 			if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen)
 			{
@@ -1007,8 +1021,8 @@ public class PlayerModule : MonoBehaviour
 		SetAutoHealState(false);
 		timerWaitForHeal = timeWaitForHeal;
 
-		if(_isSeen)
-			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = (timeWaitForHeal - timerWaitForHeal) / timeWaitForHeal;
+		if (_isSeen)
+			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
 		isWaitingForHeal = !_isSeen;
 	}
