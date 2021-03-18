@@ -11,6 +11,8 @@ public class CompassPointer : MonoBehaviour
     public string opacityPropertyName = "Opacity_Prop";
 
     public AnimationCurve noiseIntensity;
+    public AnimationCurve imageSizeMultiplierByDistance;
+    public Vector3 imageBaseSize;
     public float maxDistance = 50;
     public float minDistance = 10;
     public float maxLifeTime = 4;
@@ -29,7 +31,7 @@ public class CompassPointer : MonoBehaviour
 
     public void InitNewTargetOneTime(Transform character, Vector3 target)
     {
-
+        pointerMat.gameObject.transform.localScale = imageBaseSize;
         this.character = character;
         this.targetPos = target;
         float distance = AimToTarget();
@@ -75,8 +77,10 @@ public class CompassPointer : MonoBehaviour
     public void SetByDistance(float distance)
     {
         float value = noiseIntensity.Evaluate(distance / maxDistance);
+        pointerMat.gameObject.transform.localScale = imageBaseSize * imageSizeMultiplierByDistance.Evaluate(distance / maxDistance);
+
         pointerMat.material.SetFloat(vFrequencyPropertyName , value * noiseMultiplier);
-        pointerMat.material.SetFloat(hFrequencyPropertyName, value * noiseMultiplier / 2);
+        pointerMat.material.SetFloat(hFrequencyPropertyName, value);
     }
 
 }
