@@ -17,7 +17,7 @@ public class Altar : Interactible
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
 
-    public AnimationCurve captureCurve;
+
 
     public EndZoneInteractible endZoneInteractible;
     [SerializeField] AudioClip annoncementAltarSfx;
@@ -35,14 +35,6 @@ public class Altar : Interactible
         base.Init();
         endZoneInteractible.Init(this);
         isInteractable = false;
-    }
-
-    protected override void VisualCaptureProgress()
-    {
-        if (isViewed && reloading == false)
-        {
-            fillImg.material.SetFloat(progressShaderName, 1 - ((timer / interactTime)));
-        }
     }
 
     public override void UpdateCaptured(ushort _capturingPlayerID)

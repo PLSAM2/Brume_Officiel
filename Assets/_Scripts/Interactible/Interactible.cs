@@ -58,7 +58,7 @@ public class Interactible : MonoBehaviour
     [Header("UI")]
     [TabGroup("InteractiblePart")]
     [SerializeField] protected MeshRenderer fillImg;
-
+    [TabGroup("InteractiblePart")] public AnimationCurve captureCurve;
     [TabGroup("InteractiblePart")] protected UnityClient client;
 
     [Header("Map")]
@@ -141,7 +141,7 @@ public class Interactible : MonoBehaviour
     {
         if (isViewed && reloading == false)
         {
-            fillImg.material.SetFloat(progressShaderName, 1 - ((timer / interactTime)));
+            fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
         }
     }
 
