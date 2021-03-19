@@ -39,9 +39,7 @@ public class Settings : MonoBehaviour
 
     public void OnSliderMusicVolumeUpdate()
     {
-        AudioManager.Instance.currentPlayerVolume = mySliderMusicVolume.value;
         UpdateText(myTextMusicVolume, mySliderMusicVolume.value);
-
         AudioManager.Instance.ChangeVolumeMusic(mySliderMusicVolume.value);
     }
 
