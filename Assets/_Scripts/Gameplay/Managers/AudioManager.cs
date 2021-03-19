@@ -18,6 +18,7 @@ public class AudioManager : SerializedMonoBehaviour
     Dictionary<AudioElement, bool> allAudioElement = new Dictionary<AudioElement, bool>(); // true = utilisé // false = libre
 
     public float currentPlayerVolume = 0.2f;
+    public float currentMusicVolume = 0.2f;
 
     public Action<float> OnVolumeChange;
 
@@ -53,6 +54,15 @@ public class AudioManager : SerializedMonoBehaviour
             currentPlayerVolume = 0.2f;
         }
 
+        if (PlayerPrefs.HasKey("Music"))
+        {
+            currentMusicVolume = PlayerPrefs.GetFloat("Music");
+        }
+        else
+        {
+            currentMusicVolume = 0.2f;
+        }
+
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
 
@@ -80,7 +90,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     void OnMasterVolumeChange(float _value)
     {
-        backGroundMusic.volume = _value / 4;
+        currentPlayerVolume = _value;
+        backGroundMusic.volume = currentPlayerVolume * currentMusicVolume;
     }
 
     public void SetBackgroundMusic(AudioClip _audio)
@@ -95,7 +106,7 @@ public class AudioManager : SerializedMonoBehaviour
         {
             t += Time.deltaTime / 3f;
 
-            backGroundMusic.volume = (1 - t) * currentPlayerVolume;
+            backGroundMusic.volume = (1 - t) * (currentMusicVolume * currentPlayerVolume);
             yield return null;
         }
 
@@ -107,7 +118,7 @@ public class AudioManager : SerializedMonoBehaviour
         {
             t += Time.deltaTime / 3f;
 
-            backGroundMusic.volume = t * currentPlayerVolume;
+            backGroundMusic.volume = t * (currentMusicVolume * currentPlayerVolume);
             yield return null;
         }
     }
@@ -315,5 +326,13 @@ public class AudioManager : SerializedMonoBehaviour
 
         newAudioElement.gameObject.SetActive(true);
         return newAudioElement;
+    }
+
+    public void ChangeVolumeMusic(float _value)
+    {
+        PlayerPrefs.SetFloat("Music", _value);
+        currentMusicVolume = _value;
+
+        backGroundMusic.volume = currentPlayerVolume * currentMusicVolume;
     }
 }
