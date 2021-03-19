@@ -40,8 +40,8 @@ public class ModuleProjectileSpell : SpellModule
 			myPreviewArrow = new List<ArrowPreview>();
 			/*for (int i = 0; i < 2; i++)
 			{*/
-				ArrowPreview _temp = PreviewManager.Instance.GetArrowPreview();
-				myPreviewArrow.Add(_temp);
+			ArrowPreview _temp = PreviewManager.Instance.GetArrowPreview();
+			myPreviewArrow.Add(_temp);
 			//}
 
 			HidePreview(Vector3.zero);
@@ -119,30 +119,30 @@ public class ModuleProjectileSpell : SpellModule
 		RaycastHit _hit;
 		Vector3 _baseDirection = Quaternion.AngleAxis(_baseAngle, Vector3.up) * myPlayerModule.directionOfTheMouse();
 
-		
-		if (Physics.SphereCast(transform.position, 
+
+		if (Physics.SphereCast(transform.position,
 			localTrad.prefab.collisionSize.x,
 			transform.forward,
 			out _hit,
 			localTrad.fakeRange,
 			1 << 9))
 		{
-			myPreviewArrow[0].Init(transform.position, _hit.point, .1f);
+			myPreviewArrow[0].Init(transform.position, _hit.point,localTrad.fakeWidthStart, localTrad.fakeWidthEnd);
 			myPreviewArrow[0].gameObject.SetActive(true);
 
-		/*	if (localTrad.bouncingNumber > 0)
-			{
+			/*	if (localTrad.bouncingNumber > 0)
+				{
 
-				RaycastHit _newHit;
-				if (Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
-					myPreviewArrow[1].Init(_hit.point, _newHit.point, .1f);
-				else
-					myPreviewArrow[1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
-			}*/
+					RaycastHit _newHit;
+					if (Physics.Raycast(transform.position, Vector3.Reflect(_baseDirection, _hit.normal), out _newHit, localTrad.fakeRange, 1 << 9))
+						myPreviewArrow[1].Init(_hit.point, _newHit.point, .1f);
+					else
+						myPreviewArrow[1].Init(_hit.point, _hit.point + Vector3.Reflect(_baseDirection, _hit.normal).normalized * localTrad.fakeRange, .1f);
+				}*/
 		}
 		else
 		{
-			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), .1f);
+			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), localTrad.fakeWidthStart, localTrad.fakeWidthEnd);
 			//myPreviewArrow[1].gameObject.SetActive(true);
 
 		}

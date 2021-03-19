@@ -79,14 +79,16 @@ public class SpellModule : MonoBehaviour
 			//action 
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
 
-			if(spell.stacksUsed >0)
+			if(spell.stacksUsed > 0)
 				myPlayerModule.ultPointPickedUp += CheckForUse;
+
+			CheckForUse();
 		}
 	}
 
 	void CheckForUse ()
 	{
-		if (isOwner && _charges > 0 && NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
+		if (NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
 		{
 			SpellAvaible?.Invoke();
 		}
