@@ -53,9 +53,6 @@ public class SpellModule : MonoBehaviour
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
-	public AudioClip canalisationClip;
-	public AudioClip anonciationClip;
-
 	//public Action<int> ChargeUpdate;
 	public Action SpellAvaible, SpellNotAvaible;
 
@@ -288,11 +285,6 @@ public class SpellModule : MonoBehaviour
 				willResolve = false;
 				HidePreview(Vector3.zero);
 			}
-			else if (isUsed)
-			{
-				AddCharge();
-				KillSpell();
-			}
 		}
 	}
 	public virtual void Interrupt ()
@@ -405,12 +397,6 @@ public class SpellModule : MonoBehaviour
 	public virtual void StartCanalysingFeedBack ()
 	{
 		onCanalisation?.Invoke();
-		//PITIT BRUIT
-		if (canalisationClip != null)
-		{
-			AudioManager.Instance.Play3DAudioInNetwork(canalisationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
-		}
-
 		onCanalisation?.Invoke();
 
 		switch (actionLinked)
@@ -443,14 +429,6 @@ public class SpellModule : MonoBehaviour
 	public virtual void ResolutionFeedBack ()
 	{
 		onResolution?.Invoke();
-
-		//PITIT BRUIT
-		if (anonciationClip != null)
-		{
-			AudioManager.Instance.Play3DAudioInNetwork(anonciationClip, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
-		}
-
-
 		switch (actionLinked)
 		{
 			case En_SpellInput.Click:
