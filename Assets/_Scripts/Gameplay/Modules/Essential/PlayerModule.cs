@@ -1019,14 +1019,19 @@ public class PlayerModule : MonoBehaviour
 	public void WaitForHeal ( bool _isSeen )
 	{
 		SetAutoHealState(false);
+
 		timerWaitForHeal = timeWaitForHeal;
 
 		if (_isSeen)
 		{
+			healTimer = timeHealTick;
+
 			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
-			if(mylocalPlayer.liveHealth < characterParameters.maxHealth)
-				mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth +1, 0, 100)].SetFillAmount((timeHealTick - healTimer) / timeHealTick);
+			if (mylocalPlayer.liveHealth < characterParameters.maxHealthForRegen)
+			{
+				mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, characterParameters.maxHealthForRegen)].SetFillAmount(0);
+			}
 
 		}
 
