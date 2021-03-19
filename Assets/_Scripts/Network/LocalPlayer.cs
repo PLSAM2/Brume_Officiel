@@ -43,6 +43,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public Action<string> triggerAnim;
 	public Action OnInitFinish;
+	public Action<Vector3> OnPlayerDeath;
 
 	private UnityClient currentClient;
 	private Vector3 lastPosition;
@@ -66,6 +67,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -659,6 +661,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			//GameManager.Instance.hiddenEffect.enabled = false;
 			//GameManager.Instance.surchargeEffect.enabled = false;
+			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");

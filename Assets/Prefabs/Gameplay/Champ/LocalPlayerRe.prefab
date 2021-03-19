@@ -594,8 +594,8 @@ MonoBehaviour:
       m_Calls: []
   aoeInstantiated: {fileID: 7776885188641116624, guid: 3a87c5e02c7cc2a4f91bca91d8b48589, type: 3}
   spawnOnPos: 0
-  radius: 3.5
-  previewSquare: {x: 0, y: 0, z: 0}
+  radius: 0
+  previewSquare: {x: 2.5, y: 1, z: 3.5}
   preview: {fileID: 0}
 --- !u!114 &9035810358057001572
 MonoBehaviour:
@@ -1746,6 +1746,18 @@ PrefabInstance:
     - target: {fileID: 3855699450673422209, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049915523790376442, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049915523790376442, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049915523790376442, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4536313942450408600, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_IsActive

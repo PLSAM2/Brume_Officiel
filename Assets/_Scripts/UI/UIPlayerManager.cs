@@ -19,26 +19,27 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject feedbackCounter;
     [TabGroup("Ui")] public Transform parentListLife;
     [TabGroup("Ui")] public GameObject prefabLifeBar;
-    List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
+    [TabGroup("Ui")] public Image lifeBarWaitingForHeal;
+    [HideInInspector] public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
 
     [Header("WX Compass")]
-    [TabGroup("Ui")] public GameObject WxCompass;
-    [TabGroup("Ui")] public Image WxLife, arrow;
-    [TabGroup("Ui")] public GameObject sonar;
-    [TabGroup("Ui")] public List<Image> sonarImg;
-    [TabGroup("Ui")] public Color wxInViewColor, wxTakeDamageColor;
+    [TabGroup("WX Compass")] public GameObject WxCompass;
+    [TabGroup("WX Compass")] public Image WxLife, arrow;
+    [TabGroup("WX Compass")] public GameObject sonar;
+    [TabGroup("WX Compass")] public List<Image> sonarImg;
+    [TabGroup("WX Compass")] public Color wxInViewColor, wxTakeDamageColor;
 
     [Header("Buff")]
-    [TabGroup("Ui")] public TextMeshProUGUI nameOfTheBuff;
-    [TabGroup("Ui")] public Image fillAmountBuff;
-    [TabGroup("Ui")] public GameObject wholeBuffUi;
+    [TabGroup("Buff")] public TextMeshProUGUI nameOfTheBuff;
+    [TabGroup("Buff")] public Image fillAmountBuff;
+    [TabGroup("Buff")] public GameObject wholeBuffUi;
 
     [Header("Compass Canvas")]
-    [TabGroup("Ui")] public GameObject compassCanvas;
-    [TabGroup("Ui")] public GameObject pointerObj;
-    [TabGroup("Ui")] public Quaternion compassRot;
-    [TabGroup("Ui")] public LocalPlayer wxRef;
-    [TabGroup("Ui")] public Material blueMat, redMat, grayMat;
+    [TabGroup("WX Compass")] public GameObject compassCanvas;
+    [TabGroup("WX Compass")] public GameObject pointerObj;
+    [TabGroup("WX Compass")] public Quaternion compassRot;
+    [TabGroup("WX Compass")] public LocalPlayer wxRef;
+    [TabGroup("WX Compass")] public Material blueMat, redMat, grayMat;
 
     [Header("State")]
     [TabGroup("UiState")] public GameObject statePart;
