@@ -36,6 +36,8 @@ public class Sc_ProjectileSpell : Sc_Spell
 
 	[TabGroup("ProjectileSpecifications")] public ushort bouncingNumber;
 	[TabGroup("ProjectileSpecifications")] public float fakeRange;
+	[TabGroup("ProjectileSpecifications")] public float fakeWidthStart = .1f;
+	[TabGroup("ProjectileSpecifications")] public float fakeWidthEnd = .3f;
 	bool willBounce => bouncingNumber != 0;
 	[TabGroup("ProjectileSpecifications")] [ShowIf("willBounce")] [Range(0, 1)] public float velocityKeptOnBounce = 1;
 	[TabGroup("ProjectileSpecifications")] public bool diesOnPlayerTouch = true;
