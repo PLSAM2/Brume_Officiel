@@ -267,26 +267,12 @@ public class Interactible : MonoBehaviour
             return;
         }
 
-        //using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-        //{
-        //    _writer.Write(interactibleID);
-        //    _writer.Write((ushort)team);
-        //    _writer.Write((ushort)type);
-
-        //    using (Message _message = Message.Create(Tags.CaptureInteractible, _writer))
-        //    {
-        //        client.SendMessage(_message, SendMode.Reliable);
-        //    }
-        //}
-        // capturingPlayerModule.rotationLock(false);
-
-        // capturingPlayerModule.RemoveState(En_CharacterState.Stunned | En_CharacterState.Canalysing);
-
-        UpdateCaptured(_capturingPlayerID);
+        // SI ON EST LA PERSONNE QUI CAPTURE
     }
 
     public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
+
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
