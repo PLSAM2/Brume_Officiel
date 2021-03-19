@@ -78,8 +78,6 @@ public class LoginPanelControl : MonoBehaviour
         }
         catch (SocketException e)
         {
-            ConnectOnline();
-            ConnectOnline();
             Debug.LogError(e);
         }
     }
