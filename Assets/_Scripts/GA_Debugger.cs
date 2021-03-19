@@ -18,22 +18,16 @@ public class GA_Debugger : SerializedMonoBehaviour
     [Button("Shader debug")]
     public void InOutBrumeDebug()
     {
-        // berk
-        MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
-
-        foreach (MeshRenderer R in allObjects)
+        foreach (Material R in diffMat)
         {
-            if (shader.Contains(R.sharedMaterial.shader))
-            {
                 if (sw)
                 {
-                    R.material.SetFloat(property, 1);
+                    R.SetFloat(property, 1);
                 }
                 else
                 {
-                    R.material.SetFloat(property, 0);
+                    R.SetFloat(property, 0);
                 }
-            }
         }
 
         sw = !sw;
