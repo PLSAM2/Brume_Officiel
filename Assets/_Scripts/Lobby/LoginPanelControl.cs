@@ -47,11 +47,13 @@ public class LoginPanelControl : MonoBehaviour
 
     private void Start()
     {
+
         if (client.ConnectionState == ConnectionState.Connected)
         {
             this.gameObject.SetActive(false);
             LobbyManager.Instance.DisplayMainMenu();
         }
+        ConnectLocal();
     }
 
     public void ConnectOnline()
@@ -62,6 +64,8 @@ public class LoginPanelControl : MonoBehaviour
         }
         catch (SocketException e)
         {
+            ConnectLocalHost();
+            ConnectLocalHost();
             Debug.LogError(e);
         }  
     }
@@ -74,6 +78,8 @@ public class LoginPanelControl : MonoBehaviour
         }
         catch (SocketException e)
         {
+            ConnectOnline();
+            ConnectOnline();
             Debug.LogError(e);
         }
     }
@@ -86,6 +92,8 @@ public class LoginPanelControl : MonoBehaviour
         }
         catch (SocketException e)
         {
+            ConnectLocal();
+            ConnectLocal();
             Debug.LogError(e);
         }
     }
