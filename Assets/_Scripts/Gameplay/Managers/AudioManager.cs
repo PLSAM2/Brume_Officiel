@@ -289,9 +289,6 @@ public class AudioManager : SerializedMonoBehaviour
 
         audioDistance = Mathf.Clamp(audioDistance - 2 , 0, float.MaxValue);
 
-        print(audioDistance);
-        print(pos);
-
         if (GameFactory.GetLocalPlayerObj() != null)
         {
             if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
