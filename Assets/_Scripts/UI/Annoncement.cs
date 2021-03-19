@@ -79,7 +79,7 @@ public class Annoncement : MonoBehaviour
         if (_killer == myId)
 		{
             //play son kill todo
-            ShowAnnoncement(("YOU SLAIN " + result).ToUpper(), null, enemyElimated);
+            ShowAnnoncement(("YOU HAVE SLAIN " + result).ToUpper(), null, enemyElimated);
         }
         else
         {
@@ -163,6 +163,7 @@ public class Annoncement : MonoBehaviour
 
     public void ShowAnnoncement(string _value, AudioClip sfx = null, AudioClip voice = null)
     {
+        print("call");
         if (!IsAnnoncing)
         {
             IsAnnoncing = true;

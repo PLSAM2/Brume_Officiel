@@ -8,8 +8,6 @@ public class UIBarLifePerso : MonoBehaviour
 {
     public List<Image> allImgLife = new List<Image>();
 
-    [SerializeField] GameObject crackObj;
-
     bool isFull = true;
 
     public void Init(Material matColor)
@@ -39,24 +37,15 @@ public class UIBarLifePerso : MonoBehaviour
         if (!isFull) { return; }
 
         isFull = false;
-        StartCoroutine(WaitToDisable());
     }
 
     public void SetFillAmount ( float _fill )
     {
         allImgLife[0].fillAmount = _fill;
+
         if (_fill == 1)
         {
             allImgLife[0].rectTransform.DOScale(new Vector3 (1.2f,1.2f,1), .05f).OnComplete(()=> allImgLife[0].rectTransform.DOScale(new Vector3(1f, 1f, 1), .2f));
-
         }
-    }
-
-
-    IEnumerator WaitToDisable ()
-    {
-        crackObj.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
-        crackObj.SetActive(false);
     }
 }
