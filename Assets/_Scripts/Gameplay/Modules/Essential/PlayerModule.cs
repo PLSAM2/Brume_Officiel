@@ -270,9 +270,9 @@ public class PlayerModule : MonoBehaviour
 
 		if (oldState != state)
 		{
-			if ((state & En_CharacterState.Integenbility) != 0)
+			if ((state & En_CharacterState.Intengenbility) != 0)
 				gameObject.layer = 16;
-			else if ((oldState & En_CharacterState.Integenbility) != 0)
+			else if ((oldState & En_CharacterState.Intengenbility) != 0)
 				ResetLayer();
 
 			if (oldState.HasFlag(En_CharacterState.Crouched) != state.HasFlag(En_CharacterState.Crouched))
@@ -1055,7 +1055,7 @@ public enum En_CharacterState
 	Hidden = 1 << 10,
 	Countering = 1 << 11,
 	Invulnerability = 1 << 12,
-	Integenbility = 1 << 13,
+	Intengenbility = 1 << 13,
 
 	Stunned = Silenced | Root,
 }

@@ -477,7 +477,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 
 		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 &&
+			(myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
+			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
 			if (isOwner)
 				UiManager.Instance.FeedbackHit();

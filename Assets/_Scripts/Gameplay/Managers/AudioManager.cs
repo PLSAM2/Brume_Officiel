@@ -80,7 +80,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     void OnMasterVolumeChange(float _value)
     {
-        backGroundMusic.volume = _value / 2;
+        backGroundMusic.volume = _value / 4;
     }
 
     public void SetBackgroundMusic(AudioClip _audio)
