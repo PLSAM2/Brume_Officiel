@@ -163,7 +163,6 @@ public class Annoncement : MonoBehaviour
 
     public void ShowAnnoncement(string _value, AudioClip sfx = null, AudioClip voice = null)
     {
-        print("call");
         if (!IsAnnoncing)
         {
             IsAnnoncing = true;
