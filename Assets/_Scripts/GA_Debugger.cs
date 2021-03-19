@@ -12,31 +12,37 @@ public class GA_Debugger : SerializedMonoBehaviour
     [TabGroup("Shader")] public List<Shader> shader = new List<Shader>();
 
     [TabGroup("Shader")] public string property;
+    [TabGroup("Shader")] private float value = 0;
+    [TabGroup("Shader")] public float shaderDebugLerpSpeed;
     public GameObject Brume;
 
     [TabGroup("Shader")]
     [Button("Shader debug")]
     public void InOutBrumeDebug()
     {
-        // berk
-        MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
 
-        foreach (MeshRenderer R in allObjects)
+        foreach (Material R in diffMat)
         {
-            if (shader.Contains(R.sharedMaterial.shader))
+            if (sw)
             {
-                if (sw)
-                {
-                    R.material.SetFloat(property, 1);
-                }
-                else
-                {
-                    R.material.SetFloat(property, 0);
-                }
+                R.SetFloat(property, value);
+            }
+            else
+            {
+                R.SetFloat(property, value);
             }
         }
 
         sw = !sw;
+    }
+    [TabGroup("Shader")]
+    [Button("Shader debug")]
+    public void Reset()
+    {
+        foreach (Material R in diffMat)
+        {
+            R.SetFloat(property, 0);
+        }
     }
 
     [TabGroup("Material")] public List<Material> diffMat = new List<Material>();
