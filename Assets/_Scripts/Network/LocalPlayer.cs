@@ -43,6 +43,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public Action<string> triggerAnim;
 	public Action OnInitFinish;
+	public Action<Vector3> OnPlayerDeath;
 
 	private UnityClient currentClient;
 	private Vector3 lastPosition;
@@ -66,6 +67,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
+	public ParticleSystem deathAlly, deathEnemy;
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -73,6 +76,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
+
 		OnRespawn(respawned);
 
 		currentClient = newClient;
@@ -176,12 +180,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-    public float GetFowRaduis()
-    {
-        return myFow.fowRaduis;
-    }
+	public float GetFowRaduis ()
+	{
+		return myFow.fowRaduis;
+	}
 
-    public void ForceLocalFowRaduis ( float _value )
+	public void ForceLocalFowRaduis ( float _value )
 	{
 		myFow.ForceChangeFowRaduis(_value);
 	}
@@ -238,7 +242,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
 		{
-            lastPosition = transform.position;
+			lastPosition = transform.position;
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
@@ -252,20 +256,20 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-        if(Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
-        {
-            lastRotation = (short) Mathf.RoundToInt(transform.eulerAngles.y);
+		if (Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
+		{
+			lastRotation = (short)Mathf.RoundToInt(transform.eulerAngles.y);
 
-            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-            {
-                _writer.Write(lastRotation);
+			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+			{
+				_writer.Write(lastRotation);
 
-                using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
-                {
-                    currentClient.SendMessage(_message, SendMode.Unreliable);
-                }
-            }
-        }
+				using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
+				{
+					currentClient.SendMessage(_message, SendMode.Unreliable);
+				}
+			}
+		}
 	}
 
 	public void SendState ( En_CharacterState _state )
@@ -414,9 +418,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-            AudioManager.Instance.PlayHitAudio();
+			AudioManager.Instance.PlayHitAudio();
 
-            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
 				_writer.Write(myPlayerId);
 				_writer.Write(_damagesToDeal.damageHealth);
@@ -466,27 +470,29 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
 		if (isOwner)
-        {
+		{
 			//myPlayerModule.WaitForHeal(); // WaitForAutoHeal
 			myPlayerModule.KillEveryStun();
 		}
 
 
 		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Integenbility) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
+		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 &&
+			(myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
+			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
 			if (isOwner)
 				UiManager.Instance.FeedbackHit();
 
-            if(damages > 0)
-            {
-                LocalPoolManager.Instance.SpawnNewImpactDamageFX(
-                    transform.position + Vector3.up * 1,
-                    myPlayerModule.teamIndex
-                );
-            }
+			if (damages > 0)
+			{
+				LocalPoolManager.Instance.SpawnNewImpactDamageFX(
+					transform.position + Vector3.up * 1,
+					myPlayerModule.teamIndex
+				);
+			}
 
-            if ((int)liveHealth - (int)damages <= 0)
+			if ((int)liveHealth - (int)damages <= 0)
 			{
 				if (isOwner)
 				{
@@ -506,8 +512,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				liveHealth = (ushort)_tempHp;
 			}
 
-            GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages);
-        }
+			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages);
+		}
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
 	}
@@ -559,8 +565,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealthForRegen);
 		liveHealth = (ushort)_tempHp;
 
-        GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
-    }
+		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
+	}
 
 	public void SendChangeFowRaduis ( float size = 0 )
 	{
@@ -614,7 +620,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void SendSpawnAOEFx (Vector3 _pos, float _scale, float _time )
+	public void SendSpawnAOEFx ( Vector3 _pos, float _scale, float _time )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -653,12 +659,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myUiPlayerManager.Eye_Spot.SetActive(false);
 	}
 
-	public void KillPlayer (PlayerData killer)
+	public void KillPlayer ( PlayerData killer )
 	{
+
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
+		{
+			Instantiate(deathAlly, transform.position, transform.rotation);
+		}
+		else
+			Instantiate(deathEnemy, transform.position, transform.rotation);
+
 		if (isOwner)
 		{
 			//GameManager.Instance.hiddenEffect.enabled = false;
 			//GameManager.Instance.surchargeEffect.enabled = false;
+			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
@@ -815,7 +830,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	}
 
-	
+
 }
 
 public interface Damageable

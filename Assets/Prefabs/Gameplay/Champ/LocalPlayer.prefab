@@ -90,6 +90,8 @@ MonoBehaviour:
   isTp: 0
   waypointEnemyPrefab: {fileID: 150680, guid: 4c9b4c56b51a65c4f81dd3f681b53218, type: 3}
   myOutline: {fileID: 0}
+  deathAlly: {fileID: 19800004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 3}
+  deathEnemy: {fileID: 19800004, guid: 186aa23b9bddf0645beb83ab269a50bf, type: 3}
   timeSpotDisplay: 2
 --- !u!114 &5951944403870468667
 MonoBehaviour:
@@ -112,8 +114,6 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: e5d259702f1056640b345ff8341e02af, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
       m_Calls: []
@@ -217,8 +217,6 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
       m_Calls: []
@@ -5715,7 +5713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
   wuxinGhostMaterial: {fileID: 0}
-  baseMaterial: {fileID: 0}
   meshToSet: {fileID: 0}
 --- !u!1 &5377600346699915377
 GameObject:
@@ -6369,6 +6366,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 859625493348706462, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 39.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 859625493348706462, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 859625493348706462, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 128.9
+      objectReference: {fileID: 0}
     - target: {fileID: 933174577537764633, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
       value: 5
@@ -6421,6 +6430,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2324761601278402273, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324761601278402273, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324761601278402273, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324761601278402273, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2401461375706630979, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
       value: 5
@@ -6436,6 +6461,10 @@ PrefabInstance:
     - target: {fileID: 3037043676744702042, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3126740711931108850, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 135
       objectReference: {fileID: 0}
     - target: {fileID: 3458617557754958944, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
@@ -6462,6 +6491,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_fontSize
+      value: 23.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_margin.x
       value: -3.4758542
       objectReference: {fileID: 0}
@@ -6470,12 +6503,32 @@ PrefabInstance:
       value: 54.6749
       objectReference: {fileID: 0}
     - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
+    - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_fontStyle
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 23.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6769861065885768685, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
+    - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_characterSpacing
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_overrideHtmlColors
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4108575760604358645, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4353675623417456284, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
@@ -6517,6 +6570,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5704095326227544908, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
+    - target: {fileID: 5704095326227544908, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6769861065885768685, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
     - target: {fileID: 5845425565895866251, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
       value: 5

@@ -64,14 +64,13 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
-		grisage.gameObject.SetActive(true);
 		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .8f);
-		Color _color = new Vector4(0, 0, 0, 255);
-		feedbackCantCast.color = _color;
+		//Color _color = new Vector4(0, 0, 0, 255);
+		//feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
-		feedbackCantCast.rectTransform.localScale = new Vector3(1.5f, 1.5f, 1);
-		feedbackCantCast.rectTransform.DOScale(1f, 1.5f);
-		feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
+		myRectTransform.localScale = new Vector3(.7f, .7f, .7f);
+		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
+		//feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
 	}
 	public void CooldownReadyFeedback ()
 	{

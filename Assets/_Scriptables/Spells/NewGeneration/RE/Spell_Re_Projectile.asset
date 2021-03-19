@@ -32,9 +32,9 @@ MonoBehaviour:
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 902eaae87e8088949a61cb7ea9399096, type: 3}
   spellName: Bouncing Spark
-  spellDescription: Re shoots a projectile bouncing off walls dealing 1 damage to
-    the first enemy hit. Re gains a short burst of movement speed if he hits an enemy
-    with it.
+  spellDescription: Re shoots a projectile that bounces off walls, dealing 1 damage
+    to the first enemy hit. Re also gains a short burst of movement speed if said
+    projectile hits an enemy.
   damagesToDeal:
     playerName: 
     damageHealth: 1
@@ -97,6 +97,8 @@ MonoBehaviour:
   destroyProjectiles: 0
   bouncingNumber: 1
   fakeRange: 10
+  fakeWidthStart: 0.3
+  fakeWidthEnd: 0.4
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0

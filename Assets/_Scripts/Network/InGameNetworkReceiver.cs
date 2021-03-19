@@ -55,11 +55,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				ReceivePlayerMove(sender, e);
 			}
-            if (message.Tag == Tags.RotaPlayer)
-            {
-                ReceivePlayerRota(sender, e);
-            }
-            else if (message.Tag == Tags.SupprObjPlayer)
+			if (message.Tag == Tags.RotaPlayer)
+			{
+				ReceivePlayerRota(sender, e);
+			}
+			else if (message.Tag == Tags.SupprObjPlayer)
 			{
 				SupprPlayerInServer(sender, e);
 			}
@@ -170,7 +170,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 			else if (message.Tag == Tags.SpotPlayer)
 			{
 				SpotPlayer(sender, e);
-			}			
+			}
 
 		}
 	}
@@ -270,7 +270,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		{
 			using (DarkRiftReader reader = message.GetReader())
 			{
-                ushort _idPlayer = reader.ReadUInt16();
+				ushort _idPlayer = reader.ReadUInt16();
 
 				float _posX = reader.ReadSingle();
 				float _posZ = reader.ReadSingle();
@@ -448,7 +448,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 				LocalPlayer target = GameManager.Instance.networkPlayers[_id];
 				target.HealLocaly(_healValue);
-            }
+			}
 		}
 	}
 
@@ -499,27 +499,27 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-    void ReceivePlayerRota(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort id = reader.ReadUInt16();
+	void ReceivePlayerRota ( object sender, MessageReceivedEventArgs e )
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				ushort id = reader.ReadUInt16();
 
-                if (!GameManager.Instance.networkPlayers.ContainsKey(id))
-                {
-                    return;
-                }
+				if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+				{
+					return;
+				}
 
-                GameManager.Instance.networkPlayers[id].myAnimController.SetRotation(
-                    reader.ReadInt16()
-                );
-            }
-        }
-    }
+				GameManager.Instance.networkPlayers[id].myAnimController.SetRotation(
+					reader.ReadInt16()
+				);
+			}
+		}
+	}
 
-    public void ReceiveState ( object sender, MessageReceivedEventArgs e )
+	public void ReceiveState ( object sender, MessageReceivedEventArgs e )
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -562,8 +562,12 @@ public class InGameNetworkReceiver : MonoBehaviour
 				_newForcedMovement.duration = _duration;
 				_newForcedMovement.strength = _strength;
 
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.KillEveryStun();
-				GameManager.Instance.currentLocalPlayer.OnForcedMovementReceived(_newForcedMovement);
+				PlayerModule _character = GameManager.Instance.currentLocalPlayer.myPlayerModule;
+				if ((_character.state & En_CharacterState.Invulnerability) == 0 && (_character.state & En_CharacterState.Intengenbility) == 0)
+				{
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.KillEveryStun();
+					GameManager.Instance.currentLocalPlayer.OnForcedMovementReceived(_newForcedMovement);
+				}
 			}
 
 		}
@@ -581,10 +585,15 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 
-				if (NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_statusId].effect.isHardControl)
-					GameManager.Instance.networkPlayers[_playerId].myPlayerModule.KillEveryStun();
+				if ((GameManager.Instance.networkPlayers[_playerId].myPlayerModule.state & En_CharacterState.Invulnerability) == 0 &&
+					(GameManager.Instance.networkPlayers[_playerId].myPlayerModule.state & En_CharacterState.Intengenbility) == 0)
+				{
 
-				GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
+					if (NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_statusId].effect.isHardControl)
+						GameManager.Instance.networkPlayers[_playerId].myPlayerModule.KillEveryStun();
+
+					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
+				}
 			}
 		}
 	}

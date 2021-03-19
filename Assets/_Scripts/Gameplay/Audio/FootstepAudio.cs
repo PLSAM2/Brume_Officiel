@@ -34,7 +34,7 @@ public class FootstepAudio : MonoBehaviour
     {
         if(myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            myAudioSource.volume = _volume / 5;
+            myAudioSource.volume = _volume / 4;
         }
         else
         {
@@ -51,7 +51,7 @@ public class FootstepAudio : MonoBehaviour
 
         if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
         {
-            if (((velocityX + velocityZ) > 1 || (velocityX + velocityZ) < -1) && doSound)
+            if ((velocityX !=  0 || velocityZ != 0) && doSound)
             {
                 doSound = false;
                 StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));

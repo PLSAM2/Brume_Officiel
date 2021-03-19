@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIBarLifePerso : MonoBehaviour
 {
-    [SerializeField] List<Image> allImgLife = new List<Image>();
-
-    [SerializeField] GameObject crackObj;
+    public List<Image> allImgLife = new List<Image>();
 
     bool isFull = true;
 
@@ -25,12 +24,12 @@ public class UIBarLifePerso : MonoBehaviour
     {
         isFull = state;
         allImgLife[0].material = matColor;
-        allImgLife[0].enabled = true;
+        allImgLife[0].fillAmount = 1;
     }
 
     public void HideLife()
     {
-        allImgLife[0].enabled = false;
+        allImgLife[0].fillAmount = 0;
     }
 
     public void CrackLife()
@@ -38,13 +37,15 @@ public class UIBarLifePerso : MonoBehaviour
         if (!isFull) { return; }
 
         isFull = false;
-        StartCoroutine(WaitToDisable());
     }
 
-    IEnumerator WaitToDisable()
+    public void SetFillAmount ( float _fill )
     {
-        crackObj.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
-        crackObj.SetActive(false);
+        allImgLife[0].fillAmount = _fill;
+
+        if (_fill == 1)
+        {
+            allImgLife[0].rectTransform.DOScale(new Vector3 (1.2f,1.2f,1), .05f).OnComplete(()=> allImgLife[0].rectTransform.DOScale(new Vector3(1f, 1f, 1), .2f));
+        }
     }
 }

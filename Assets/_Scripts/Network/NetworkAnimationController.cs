@@ -81,6 +81,12 @@ public class NetworkAnimationController : MonoBehaviour
         }
         else
         {
+            //tp et dash
+            if(Vector3.Distance(lerpPos, transform.position) > 4)
+            {
+                lerpPos = transform.position;
+            }
+
             currentPos = lerpPos;
         }
 

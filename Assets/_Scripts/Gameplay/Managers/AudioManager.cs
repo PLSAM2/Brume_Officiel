@@ -18,6 +18,7 @@ public class AudioManager : SerializedMonoBehaviour
     Dictionary<AudioElement, bool> allAudioElement = new Dictionary<AudioElement, bool>(); // true = utilisé // false = libre
 
     public float currentPlayerVolume = 0.2f;
+    public float currentMusicVolume = 0.2f;
 
     public Action<float> OnVolumeChange;
 
@@ -53,6 +54,15 @@ public class AudioManager : SerializedMonoBehaviour
             currentPlayerVolume = 0.2f;
         }
 
+        if (PlayerPrefs.HasKey("Music"))
+        {
+            currentMusicVolume = PlayerPrefs.GetFloat("Music");
+        }
+        else
+        {
+            currentMusicVolume = 0.2f;
+        }
+
         OnMasterVolumeChange(currentPlayerVolume);
         client = NetworkManager.Instance.GetLocalClient();
 
@@ -80,7 +90,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     void OnMasterVolumeChange(float _value)
     {
-        backGroundMusic.volume = _value / 2;
+        backGroundMusic.volume = _value * currentMusicVolume;
     }
 
     public void SetBackgroundMusic(AudioClip _audio)
@@ -262,7 +272,6 @@ public class AudioManager : SerializedMonoBehaviour
 
     public void OnAudioPlayed(Vector3 pos, ushort id, bool isPlayer, float audioDistance)
     {
-
         if (isPlayer)
         {
             if (GameManager.Instance.networkPlayers.ContainsKey(id))
@@ -284,8 +293,8 @@ public class AudioManager : SerializedMonoBehaviour
                 {
                     return;
                 }
-            } else { return; }
-
+            }
+            else { return; }
         }
 
         audioDistance = Mathf.Clamp(audioDistance - 2 , 0, float.MaxValue);
@@ -316,5 +325,13 @@ public class AudioManager : SerializedMonoBehaviour
 
         newAudioElement.gameObject.SetActive(true);
         return newAudioElement;
+    }
+
+    public void ChangeVolumeMusic(float _value)
+    {
+        PlayerPrefs.SetFloat("Music", _value);
+        currentMusicVolume = _value;
+
+        backGroundMusic.volume = currentPlayerVolume * currentMusicVolume;
     }
 }
