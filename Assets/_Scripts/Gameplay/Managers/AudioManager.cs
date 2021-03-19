@@ -90,7 +90,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     void OnMasterVolumeChange(float _value)
     {
-        backGroundMusic.volume = _value * currentMusicVolume;
+        currentPlayerVolume = _value;
+        backGroundMusic.volume = currentPlayerVolume * currentMusicVolume;
     }
 
     public void SetBackgroundMusic(AudioClip _audio)
@@ -105,7 +106,7 @@ public class AudioManager : SerializedMonoBehaviour
         {
             t += Time.deltaTime / 3f;
 
-            backGroundMusic.volume = (1 - t) * currentPlayerVolume;
+            backGroundMusic.volume = (1 - t) * (currentMusicVolume * currentPlayerVolume);
             yield return null;
         }
 
@@ -117,7 +118,7 @@ public class AudioManager : SerializedMonoBehaviour
         {
             t += Time.deltaTime / 3f;
 
-            backGroundMusic.volume = t * currentPlayerVolume;
+            backGroundMusic.volume = t * (currentMusicVolume * currentPlayerVolume);
             yield return null;
         }
     }
