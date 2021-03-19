@@ -262,7 +262,6 @@ public class AudioManager : SerializedMonoBehaviour
 
     public void OnAudioPlayed(Vector3 pos, ushort id, bool isPlayer, float audioDistance)
     {
-
         if (isPlayer)
         {
             if (GameManager.Instance.networkPlayers.ContainsKey(id))
@@ -284,8 +283,8 @@ public class AudioManager : SerializedMonoBehaviour
                 {
                     return;
                 }
-            } else { return; }
-
+            }
+            else { return; }
         }
 
         audioDistance = Mathf.Clamp(audioDistance - 2 , 0, float.MaxValue);

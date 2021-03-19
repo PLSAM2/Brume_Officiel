@@ -90,6 +90,8 @@ MonoBehaviour:
   isTp: 0
   waypointEnemyPrefab: {fileID: 150680, guid: 4c9b4c56b51a65c4f81dd3f681b53218, type: 3}
   myOutline: {fileID: 0}
+  deathAlly: {fileID: 19800004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 3}
+  deathEnemy: {fileID: 19800004, guid: 186aa23b9bddf0645beb83ab269a50bf, type: 3}
   timeSpotDisplay: 2
 --- !u!114 &5951944403870468667
 MonoBehaviour:
@@ -112,8 +114,6 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: e5d259702f1056640b345ff8341e02af, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
       m_Calls: []
@@ -217,8 +217,6 @@ MonoBehaviour:
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
   isAComboPiece: 0
   hasPreviewed: 0
-  canalisationClip: {fileID: 0}
-  anonciationClip: {fileID: 0}
   onCanalisation:
     m_PersistentCalls:
       m_Calls: []
@@ -5715,7 +5713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
   wuxinGhostMaterial: {fileID: 0}
-  baseMaterial: {fileID: 0}
   meshToSet: {fileID: 0}
 --- !u!1 &5377600346699915377
 GameObject:

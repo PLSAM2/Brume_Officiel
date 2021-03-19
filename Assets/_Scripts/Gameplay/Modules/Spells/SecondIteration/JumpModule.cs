@@ -54,8 +54,8 @@ public class JumpModule : SpellModule
 
 	public override void Interrupt ()
 	{
-
 		base.Interrupt();
+		myPlayerModule.mylocalPlayer.myAnimController.animator.gameObject.transform.localPosition = Vector3.zero;
 	}
 
 	protected override void UpdatePreview ()
