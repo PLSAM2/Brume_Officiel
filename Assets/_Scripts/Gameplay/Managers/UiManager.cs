@@ -440,15 +440,15 @@ public class UiManager : MonoBehaviour
 
 	public void SetEchapMenuState ()
 	{
-        if (!echapMenu.activeInHierarchy)
+        if (!echapMenu.activeSelf)
         {
 			Cursor.lockState = CursorLockMode.None;
         } else
         {
 			Cursor.lockState = CursorLockMode.Confined;
 		}
-		echapMenu.SetActive(!echapMenu.activeInHierarchy);
-        GameManager.Instance.menuOpen = echapMenu.activeInHierarchy;
+		echapMenu.SetActive(!echapMenu.activeSelf);
+        GameManager.Instance.menuOpen = echapMenu.activeSelf;
     }
 
 	public void UpdateUiCooldownSpell ( En_SpellInput spell, float _timeRemaining, float _completeCd )
