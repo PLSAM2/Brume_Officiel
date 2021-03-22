@@ -67,6 +67,7 @@ public class UiManager : MonoBehaviour
     [FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
     [FoldoutGroup("Ulti")] public Material blueColor, grayColor;
     [FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
+    [FoldoutGroup("Ulti")] public TextMeshProUGUI curentUlti;
     List<Image> wxImgLife = new List<Image>();
     List<Image> reImgLife = new List<Image>();
     List<Image> lengImgLife = new List<Image>();
