@@ -7,6 +7,7 @@ using static GameData;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerModule : MonoBehaviour
 {
@@ -44,7 +45,6 @@ public class PlayerModule : MonoBehaviour
 
 		return _temp;
 	}
-
 	[HideInInspector] public En_CharacterState oldState = En_CharacterState.Clear;
 	[ReadOnly]
 	public bool isInBrume
@@ -65,19 +65,13 @@ public class PlayerModule : MonoBehaviour
 	}
 	[TabGroup("Debugging")] [ReadOnly] public int brumeId;
 	Vector3 lastRecordedPos;
-
-
 	[TabGroup("Debugging")] [SerializeField] Color myColor;
 	bool _isCrouched = false;
 	bool isCrouched
 	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
 	[TabGroup("Debugging")] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
-
-
 	private LayerMask brumeLayer;
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
-
-
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
 	[HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
@@ -86,27 +80,23 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("Debugging")] public List<EffectLifeTimed> allEffectLive;
 	[TabGroup("Debugging")] public List<EffectLifeTimed> allTickLive;
 	private ushort currentKeyIndex = 0;
-
 	[Header("Altar Buff/Debuff")]
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status enteringBrumeStatus;
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status leavingBrumeStatus;
 	private bool isAltarSpeedBuffActive = false;
 	[TabGroup("Modules")] public Sc_Status poisonousEffect;
 	[HideInInspector] public bool isPoisonousEffectActive = false;
-
 	[HideInInspector] public bool cursedByShili = false;
 	[Header("Cursed")]
 	[TabGroup("GameplayInfos")] [SerializeField] public GameObject wxMark;
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status wxMarkRef;
 	[TabGroup("GameplayInfos")] [SerializeField] float shaderSpeedTransition = 10;
 	[TabGroup("GameplayInfos")] float shaderTransitionValue = 1;
-
 	[Header("AutoHeal")]
 	[TabGroup("GameplayInfos")] public float timeWaitForHeal = 7.5f;
 	[TabGroup("GameplayInfos")] float currentTimeTowait = 10;
 	[TabGroup("GameplayInfos")] private float timerWaitForHeal = 0;
 	[TabGroup("GameplayInfos")] private bool isWaitingForHeal = false;
-
 	[TabGroup("GameplayInfos")] public float timeHealTick = 2.5f;
 	[TabGroup("GameplayInfos")] public ushort healPerTick = 1;
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
@@ -150,7 +140,6 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
 	public Action ultPointPickedUp;
 	#endregion
-
 	void Awake ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
@@ -159,7 +148,6 @@ public class PlayerModule : MonoBehaviour
 
 		//A VIRER QUAND C EST TROUVER.
 	}
-
 	void Start ()
 	{
 		if (GameManager.Instance.gameStarted)
@@ -172,7 +160,6 @@ public class PlayerModule : MonoBehaviour
 		}
 		//	oldPos = transform.position;
 	}
-
 	private void OnDestroy ()
 	{
 		GameManager.Instance.OnAllCharacterSpawned -= Setup;
@@ -186,7 +173,6 @@ public class PlayerModule : MonoBehaviour
 
 		}
 	}
-
 	public virtual void Setup ()
 	{
 		if (firstSpell != null)
@@ -246,7 +232,6 @@ public class PlayerModule : MonoBehaviour
 
 		ResetLayer();
 	}
-
 	public void ResetLayer ()
 	{
 
@@ -264,7 +249,6 @@ public class PlayerModule : MonoBehaviour
 			gameObject.layer = 8;
 		}
 	}
-
 	protected virtual void Update ()
 	{
 
@@ -448,8 +432,6 @@ public class PlayerModule : MonoBehaviour
 
 
 	}
-
-
 	protected virtual void FixedUpdate ()
 	{
 		TreatEffects();
@@ -459,7 +441,6 @@ public class PlayerModule : MonoBehaviour
 			CheckBrumeShader();
 		}
 	}
-
 	public void CheckBrumeShader ()
 	{
 		if (_isInBrume)
@@ -517,19 +498,17 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-
-
 	private void CheckAutoHealProcess ()
 	{
 		healTimer -= Time.deltaTime;
 
-		mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth , 0, 100)].SetFillAmount((timeHealTick - healTimer) / timeHealTick);
+		mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, 100)].SetFillAmount((timeHealTick - healTimer) / timeHealTick);
 
 		if (healTimer <= 0)
 		{
 			mylocalPlayer.HealPlayer(healPerTick);
 
-			if(mylocalPlayer.liveHealth == characterParameters.maxHealthForRegen)
+			if (mylocalPlayer.liveHealth == characterParameters.maxHealthForRegen)
 				mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
 			if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen)
@@ -542,14 +521,11 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-
-
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
 		isInBrume = _value;
 		brumeId = idBrume;
 	}
-
 	public void RetryInteractibleCapture ()
 	{
 		foreach (Interactible inter in interactiblesClose)
@@ -582,7 +558,6 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 	}
-
 	void ReduceAllCooldowns ( float _duration )
 	{
 		firstSpell.ReduceCooldown(_duration);
@@ -592,7 +567,6 @@ public class PlayerModule : MonoBehaviour
 		ward.ReduceCooldown(_duration);
 		tpModule.ReduceCooldown(_duration);
 	}
-
 	//vision
 	#region
 	void CheckForBrumeRevelation ()
@@ -646,7 +620,6 @@ public class PlayerModule : MonoBehaviour
 		StartCoroutine(WaitForVisionCheck());
 	}
 	#endregion
-
 	//Vars 
 	#region 
 	public Vector3 directionInputed ()
@@ -685,7 +658,6 @@ public class PlayerModule : MonoBehaviour
 			return transform.position + _direction * maxDistance;
 	}
 	#endregion
-
 	void LockingRotation ( bool _isLocked )
 	{
 		if (_isLocked)
@@ -916,7 +888,6 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
 	}
-
 	void PingMenace ()
 	{
 		menacedIcon.gameObject.SetActive(true);
@@ -925,6 +896,7 @@ public class PlayerModule : MonoBehaviour
 	{
 		menacedIcon.gameObject.SetActive(false);
 	}
+	#region
 	internal void ApplyWxMark ( ushort? dealerID = null )
 	{
 		/*if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
@@ -973,6 +945,7 @@ public class PlayerModule : MonoBehaviour
 
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
+	#endregion
 	public void KillEveryStun ()
 	{
 		foreach (EffectLifeTimed _effect in allEffectLive)
@@ -983,7 +956,6 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-
 	public SpellModule ModuleLinkedToInput ( En_SpellInput _inputOfTheSpell )
 	{
 		switch (_inputOfTheSpell)
@@ -1008,14 +980,11 @@ public class PlayerModule : MonoBehaviour
 
 		return pingModule;
 	}
-
-
 	public void SetAutoHealState ( bool state )
 	{
 		healTimer = timeHealTick;
 		isAutoHealing = state;
 	}
-
 	public void WaitForHeal ( bool _isSeen )
 	{
 		SetAutoHealState(false);
@@ -1063,7 +1032,6 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
-
 	public DamagesInfos () { }
 	public DamagesInfos ( ushort damageHealth )
 	{
