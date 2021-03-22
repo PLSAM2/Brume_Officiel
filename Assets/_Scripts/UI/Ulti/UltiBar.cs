@@ -53,7 +53,7 @@ public class UltiBar : MonoBehaviour
 
         if (isOwner)
         {
-            UiManager.Instance.curentUlti.text = numberUlti + "<size=15>/" + numberMax;
+            UiManager.Instance.curentUlti.text = Mathf.Clamp(numberUlti, 0, numberMax) + "<size=15>/" + numberMax;
         }
     }
 }
