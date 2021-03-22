@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class quickFix : MonoBehaviour
 {
-
 	Vector3 basepos;
 
 	private void Start ()
