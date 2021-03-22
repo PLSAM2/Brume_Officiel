@@ -182,7 +182,7 @@ public class GameManager : SerializedMonoBehaviour
             _mat.SetVector("_Object_Position", new Vector4(offSetCam.position.x, offSetCam.position.y, offSetCam.position.z, 1));
 
         //debug
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U) && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
         {
             UIGroup.alpha = (UIGroup.alpha == 0) ? 1 : 0;
         }
