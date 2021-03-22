@@ -595,6 +595,7 @@ public class RoomManager : MonoBehaviour
             else
             {
                 p.ultStacks += value;
+
             }
 
             GameManager.Instance.currentLocalPlayer.myPlayerModule.ultPointPickedUp?.Invoke();
