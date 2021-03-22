@@ -320,7 +320,7 @@ public class PlayerModule : MonoBehaviour
 		else
 			mylocalPlayer.myUiPlayerManager.HidePseudo(false);
 
-		if (mylocalPlayer.isOwner)
+		if (mylocalPlayer.isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 
 			{
