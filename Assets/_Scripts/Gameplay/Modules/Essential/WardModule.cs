@@ -91,7 +91,6 @@ public class WardModule : SpellModule
 
 	public void InitWardLaunch ( Vector3 destination )
 	{
-        print("init");
 		lastPos = this.transform.position;
 		this.destination = destination;
 		wardObj.SetActive(true);
