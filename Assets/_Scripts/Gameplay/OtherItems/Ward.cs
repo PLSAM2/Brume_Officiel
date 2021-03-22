@@ -27,9 +27,6 @@ public class Ward : MonoBehaviour
 
 	Waypoint myWaypoint;
 	[SerializeField] GameObject prefabWaypoint;
-	Coroutine currentPing;
-	Dictionary<ushort, float> oldPing = new Dictionary<ushort, float>();
-
 
 	//Fx
 	[SerializeField] Fx fxScript;
@@ -42,8 +39,6 @@ public class Ward : MonoBehaviour
 		myWaypoint.SetImageColor(GameFactory.GetColorTeam(Team.red));
 		myWaypoint.gameObject.SetActive(false);
 	}
-
-
 
 	private void FixedUpdate ()
 	{
@@ -69,7 +64,9 @@ public class Ward : MonoBehaviour
 		}
 		else
 		{
-			GameManager.Instance.allFx.Remove(fxScript);
+            vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
+
+            GameManager.Instance.allFx.Remove(fxScript);
 
 			//fx
 			fxCollider.enabled = false;
@@ -122,11 +119,7 @@ public class Ward : MonoBehaviour
 
 	internal void InitWardLaunch ()
 	{
-		if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-		{
-			rangePreview.localScale = Vector3.zero;
-			vision.gameObject.SetActive(false);
-		}
+        vision.gameObject.SetActive(false);
 	}
 
 
@@ -141,6 +134,8 @@ public class Ward : MonoBehaviour
 		lifeTime = wardLifeDurationOnSpot;
 		yield return new WaitForSeconds(wardLifeDurationOnSpot);
 		myWaypoint.gameObject.SetActive(false);
+
+        DestroyWard();
 	}
 
 	public Fow GetFow ()
@@ -165,12 +160,6 @@ public class Ward : MonoBehaviour
 
 	private void OnEnable ()
 	{
-		if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-		{
-			rangePreview.localScale = Vector3.zero;
-			vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
-		}
-
 		GetMesh().SetActive(false);
 	}
 
@@ -205,11 +194,11 @@ public class Ward : MonoBehaviour
 	{
 		if (_value == false) { return; }
 
-		if (!_playerSpot.IsInMyTeam(myTeam) && myTeam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+        if (!_playerSpot.IsInMyTeam(myTeam) && myTeam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
 		{
-			if (statusToApply != null)
+            if (statusToApply != null)
 			{
-				DamagesInfos _temp = new DamagesInfos();
+                DamagesInfos _temp = new DamagesInfos();
 				List<Sc_Status> _toApply = new List<Sc_Status>();
 				_toApply.Add(statusToApply);
 				_temp.statusToApply = _toApply.ToArray();
@@ -218,9 +207,9 @@ public class Ward : MonoBehaviour
 			//ping
 			if (!hasTriggered)
 			{
-				if (!hasTriggered)
+                if (!hasTriggered)
 				{
-					PingWard();
+                    PingWard();
 					hasTriggered = true;
 				}
 
