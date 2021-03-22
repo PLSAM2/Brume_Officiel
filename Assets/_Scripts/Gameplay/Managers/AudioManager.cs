@@ -179,12 +179,9 @@ public class AudioManager : SerializedMonoBehaviour
         return _myAudioElement;
     }
 
-    public AudioElement PlayHitAudio()
+    public void PlayHitAudio()
     {
-        AudioElement _myAudioElement = GetFreeAudioElement();
-        _myAudioElement.Init(hitAudio, 0, 1);
-
-        return _myAudioElement;
+        Play2DAudio(hitAudio);
     }
 
     public void Play3DAudioInNetwork(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer = false)

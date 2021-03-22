@@ -384,10 +384,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
+        AudioManager.Instance.PlayHitAudio();
 
-
-
-		if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
+        if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
 		{
 			if (_damagesToDeal.additionalStatusToApply != null)
 			{
@@ -418,7 +417,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-			AudioManager.Instance.PlayHitAudio();
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
