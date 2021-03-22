@@ -50,5 +50,10 @@ public class UltiBar : MonoBehaviour
             }
             i++;
         }
+
+        if (isOwner)
+        {
+            UiManager.Instance.curentUlti.text = numberUlti + "<size=15>/" + numberMax;
+        }
     }
 }

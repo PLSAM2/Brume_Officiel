@@ -55,7 +55,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool forceOutline = false;
 
 	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
-	[TabGroup("Vision")] public static Action disableModule;
+    [TabGroup("Vision")] public GameObject mesh;
+    [TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
 	En_CharacterState oldState = En_CharacterState.Clear;
 

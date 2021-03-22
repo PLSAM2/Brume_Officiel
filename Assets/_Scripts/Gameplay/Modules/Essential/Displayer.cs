@@ -227,7 +227,7 @@ public class Displayer : MonoBehaviour
     {
         p.isVisible = true;
 
-        p.objToHide[0].SetActive(true);
+        p.mesh.SetActive(true);
 
         p.myUiPlayerManager.canvas.SetActive(false);
 
