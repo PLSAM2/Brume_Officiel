@@ -31,6 +31,9 @@ public class RoomManager : MonoBehaviour
     public Dictionary<ushort, ushort> InGameUniqueIDList = new Dictionary<ushort, ushort>();
     [HideInInspector] public Dictionary<Team, ushort> assignedSpawn = new Dictionary<Team, ushort>();
 
+    [Header("EndGameInfo")]
+    public bool isNewRound = false;
+
     //SPAWN
     [SerializeField] GameObject prefabShili;
     [SerializeField] GameObject prefabRe;
@@ -55,7 +58,6 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
-
         NetworkManager.Instance.OnPlayerQuit += OnPlayerQuitGame;
 
         assignedSpawn.Add(Team.red, 0);
@@ -108,6 +110,10 @@ public class RoomManager : MonoBehaviour
             {
                 QuitGameInServer();
             }
+            if (message.Tag == Tags.StatsSkip)
+            {
+                SkipToNext();
+            }
         }
     }
 
@@ -141,7 +147,7 @@ public class RoomManager : MonoBehaviour
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
 
-        StartCoroutine(EndGame(true, gameScene));
+        StartCoroutine(EndGame());
     }
 
     private void EndObjectives(bool isRoundWin = false)
@@ -169,9 +175,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-
-
-    IEnumerator EndGame(bool isNewRound = false, string sceneName = "")
+    IEnumerator EndGame()
     {
         Time.timeScale = Time.timeScale / 4;
 
@@ -179,20 +183,25 @@ public class RoomManager : MonoBehaviour
 
         Time.timeScale = 1;
 
+        UiManager.Instance.InitEndGameStats();
+    }
+
+    public void SkipToNext()
+    {
         if (isNewRound)
         {
-            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
         }
         else
         {
             ResetActualGame();
             StartChampSelectInServer();
         }
-
     }
 
     private void StopGameInServer(object sender, MessageReceivedEventArgs e)
     {
+        isNewRound = false;
         Team winningTeam = Team.none;
 
         using (Message message = e.GetMessage())
@@ -223,7 +232,7 @@ public class RoomManager : MonoBehaviour
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
 
-        StartCoroutine(EndGame(false));
+        StartCoroutine(EndGame());
 
     }
 
@@ -263,6 +272,7 @@ public class RoomManager : MonoBehaviour
 
     private void StartNewRound()
     {
+        isNewRound = true;
         roundCount++;
     }
     public void AddPoints(Team targetTeam, ushort value)
@@ -521,7 +531,6 @@ public class RoomManager : MonoBehaviour
 
     public void ResetActualGame()
     {
-
         if (actualRoom != null && actualRoom.scores.ContainsKey(Team.red))
         {
             actualRoom.scores[Team.red] = 0;
@@ -533,7 +542,7 @@ public class RoomManager : MonoBehaviour
                 p.ultStacks = 0;
             }
         }
-
+        isNewRound = false;
         roundCount = 0;
     }
 

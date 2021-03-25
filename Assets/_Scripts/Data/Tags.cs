@@ -120,4 +120,10 @@
     public static readonly ushort SpawnGenericFx = 4000;
     public static readonly ushort SpawnAOEFx = 4001;
     // <<
+
+
+    //EndGameStats
+    public static readonly ushort AskSkipToNextRound = 4500;
+    public static readonly ushort StatsSkip = 4505;
+    // <<
 }
