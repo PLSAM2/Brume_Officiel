@@ -23,6 +23,7 @@ public class EndZoneInteractible : Interactible
 
     public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
     {
+
         if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;

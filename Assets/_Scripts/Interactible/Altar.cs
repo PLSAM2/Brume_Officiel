@@ -37,6 +37,10 @@ public class Altar : Interactible
         isInteractable = false;
     }
 
+    public override void TryCapture(Team team, PlayerModule capturingPlayer)
+    {
+        base.TryCapture(team, capturingPlayer);
+    }
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant

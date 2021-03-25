@@ -386,6 +386,7 @@ public class Interactible : MonoBehaviour
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
+                CheckOnUnlock = false;
                _pModule.interactiblesClose.Add(this);
                 TryCapture(_pModule.teamIndex, _pModule);
             }
@@ -449,7 +450,7 @@ public class Interactible : MonoBehaviour
                     return;
                 }
 
-                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
+                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) && isCapturing == false) // Si personnage autorisé
                 {
                     _pModule.interactiblesClose.Add(this);
                     TryCapture(_pModule.teamIndex, _pModule);
