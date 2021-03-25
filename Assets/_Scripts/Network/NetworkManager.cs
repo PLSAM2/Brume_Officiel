@@ -66,7 +66,7 @@ public class NetworkManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Ping();
+        // Ping();
     }
 
     private void Ping()

@@ -25,6 +25,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
 	[FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
+	[FoldoutGroup("GlobalUi")] public EndGameStats endGameStats;
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
 	[FoldoutGroup("Minimap")] public GameObject minimapObj;
@@ -811,5 +812,11 @@ public class UiManager : MonoBehaviour
 
 		hitFeedback.DOColor(new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 0), 1.2f);
 	}
+
+	public void InitEndGameStats()
+    {
+		endGameStats.gameObject.SetActive(true);
+		endGameStats.Init();
+    }
 
 }

@@ -171,11 +171,27 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				SpotPlayer(sender, e);
 			}
-
+			else if (message.Tag == Tags.AskSkipToNextRound)
+			{
+				NewPlayerWantToSkip(sender, e);
+			}
 		}
 	}
 
-	private void SpotPlayer ( object sender, MessageReceivedEventArgs e )
+    private void NewPlayerWantToSkip(object sender, MessageReceivedEventArgs e)
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				ushort _count = reader.ReadUInt16();
+
+				UiManager.Instance.endGameStats.NewPlayerWantToSkip(_count);
+			}
+		}
+    }
+
+    private void SpotPlayer ( object sender, MessageReceivedEventArgs e )
 	{
 		StartCoroutine(GameManager.Instance.currentLocalPlayer.SpotPlayer());
 	}
