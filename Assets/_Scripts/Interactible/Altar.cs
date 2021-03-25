@@ -67,7 +67,7 @@ public class Altar : Interactible
 
         UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
 
-        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName);
+        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
 
     public override void Captured(ushort _capturingPlayerID)
