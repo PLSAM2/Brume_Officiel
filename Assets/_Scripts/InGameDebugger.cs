@@ -24,7 +24,6 @@ public class InGameDebugger : MonoBehaviour
 
     private void Update()
     {
-        //fps.text = "FPS " +  (int)(1f / Time.unscaledDeltaTime);
         ms.text = (NetworkManager.Instance.GetLocalClient().Client.RoundTripTime.LatestRtt * 1000).ToString("#####") + " Ms";
     }
 

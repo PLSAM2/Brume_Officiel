@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class Settings : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI myTextMasterVolume;
@@ -47,5 +48,27 @@ public class Settings : MonoBehaviour
     {
         float percentVolume = 100 * _value;
         _text.text = Mathf.RoundToInt(percentVolume) + "%";
+    }
+
+    public void ChangeQuality(int quality)
+    {
+        switch (quality)
+        {
+            case 0:
+                QualitySettings.SetQualityLevel(0, true);
+                break;
+            case 1:
+                QualitySettings.SetQualityLevel(1, true);
+                break;
+            case 2:
+                QualitySettings.SetQualityLevel(2, true);
+                break;
+            case 3:
+                QualitySettings.SetQualityLevel(3, true);
+                break;
+            default:
+                Debug.LogError("Not a quality");
+                break;
+        }
     }
 }

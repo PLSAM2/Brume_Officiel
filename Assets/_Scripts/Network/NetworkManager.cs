@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
-   [SerializeField] UnityClient client;
+    [SerializeField] UnityClient client;
 
     private static NetworkManager _instance;
     public static NetworkManager Instance { get { return _instance; } }
@@ -33,6 +33,8 @@ public class NetworkManager : MonoBehaviour
 
 
         client.MessageReceived += OnMessageReceive;
+
+        StartCoroutine(IEPing());
     }
 
 
@@ -64,16 +66,22 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+
+    IEnumerator IEPing()
     {
-        // Ping();
+        yield return new WaitForSeconds(1);
+
+        if (Ping())
+        {
+            StartCoroutine(IEPing());
+        }
     }
 
-    private void Ping()
+    private bool Ping()
     {
         if (client.ConnectionState != ConnectionState.Connected)
         {
-            return;
+            return false;
         }
 
         using (DarkRiftWriter Writer = DarkRiftWriter.Create())
@@ -84,6 +92,8 @@ public class NetworkManager : MonoBehaviour
                 client.SendMessage(message, SendMode.Reliable);
             }
         }
+
+        return true;
     }
 
     public PlayerData GetLocalPlayer()
