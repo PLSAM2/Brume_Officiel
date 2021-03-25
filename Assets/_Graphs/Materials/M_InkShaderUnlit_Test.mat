@@ -55,6 +55,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: d69708e797d901040b8b9c15bd0b6ea7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _IB_Edges_Textures:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _InkGrunge_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -151,8 +155,24 @@ Material:
         m_Texture: {fileID: 2800000, guid: e0ccb9fc7a953df47b554d3b7e6776b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TerrainBlending_TextureTerrain:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture0:
         m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Grunges:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Noises:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureArray_Textures:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -176,6 +196,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample7:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV2_TextureArray_Textures:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -214,9 +238,18 @@ Material:
     - Vector1_DB7D2502: 0
     - Vector1_E91310D0: 0
     - _ASEOutlineWidth: 0
+    - _AlphaCutoff: 0.5
+    - _AnimatedGrunge: 0
+    - _AnimatedGrungeMultiply: 1.58
+    - _AnimatedGrunge_Flipbook_Columns: 1
+    - _AnimatedGrunge_Flipbook_Rows: 1
+    - _AnimatedGrunge_Flipbook_Speed: 1
+    - _AnimatedGrunge_Tiling: 1
     - _Columns: 2
+    - _CustomOpacityMask: 0
     - _CustomWorldSpaceNormal: 0
     - _Cutoff: 0.5
+    - _DebugGrayscale: 0
     - _DistortionStrength: 0.73
     - _EdgeRange: 0
     - _EmberSpread: 0.41
@@ -228,6 +261,7 @@ Material:
     - _Float1: 1.58
     - _Float2: 1
     - _Float3: 0
+    - _Float39: 1
     - _Float4: 0.58
     - _Float5: 7.14
     - _Float6: 3.36
@@ -243,9 +277,28 @@ Material:
     - _FresnelStepValue: 0
     - _FresnelStepValue1: 0
     - _FresnelStepValue2: 1
+    - _IB_Edges_Modif1: 0
+    - _IB_Edges_Modif2: 0
+    - _IB_NormalDrippingNoise_Smoothstep: 0.01
+    - _IB_NormalDrippingNoise_Step: 0.45
+    - _IB_NormalInBrumeGrunge_Contrast: 2.4
+    - _IB_NormalInBrumeGrunge_Tiling: 0.2
+    - _IB_RGB_Contrast: 0
+    - _IB_RGB_Grayscale: 0
+    - _IB_ShadowDrippingNoise_Smoothstep: 0.2
+    - _IB_ShadowDrippingNoise_SmoothstepAnimated: 0
+    - _IB_ShadowDrippingNoise_Step: 0
+    - _IB_ShadowInBrumeGrunge_Contrast: -3.38
+    - _IB_ShadowInBrumeGrunge_Tiling: 0.2
+    - _IB_ShadowNoise_Tiling: 1
+    - _IB_TerrainBlending: 0
+    - _IB_TerrainBlendingNoise_Tiling: 0
+    - _IB_TerrainBlending_BlendThickness: 0
+    - _IB_TerrainBlending_Falloff: 0
     - _InBrume_Contrast: 2
     - _Ink_Tiling: 1.2
     - _Int_Tiling: 1
+    - _IsGrungeAnimated: 0
     - _LengthCameraFade: 2
     - _LightDebug: 0
     - _LightStep: 1
@@ -257,7 +310,15 @@ Material:
     - _MovingPaperGrunge: 1
     - _NoiseTiling: 1
     - _Noise_Tiling: 1
+    - _NormalDebug: 0
     - _OffsetCameraFade: 15.4
+    - _Opacity: 1
+    - _OutBrume_Edges_Textures: 0
+    - _Out_or_InBrume: 0
+    - _PaintGrunge: 0
+    - _PaintGrunge_Contrast: 0
+    - _PaintGrunge_Multiply: 0
+    - _PaintGrunge_Tiling: 1
     - _PaperGrunge_Tiling: 3
     - _PaperGrunge_Tiling1: 1
     - _PaperMultiply: 5
@@ -294,8 +355,21 @@ Material:
     - _StepAttenuation: -0.1
     - _StepShadow: 0
     - _StepShadow1: -0.11
+    - _TerrainBlending: 0
+    - _TerrainBlending_BlendThickness: 0
+    - _TerrainBlending_Falloff: 0
+    - _TerrainBlending_Opacity: 0
+    - _TerrainBlending_TextureTiling: 1
     - _Test: 1
     - _Time_Flipbook: 1
+    - _UV_2_: 0
+    - _WindVertexDisplacement: 0
+    - _WindWave_Frequency: 0
+    - _Wind_Density: 0.2
+    - _Wind_Direction: 1
+    - _Wind_Strength: 2
+    - _Wind_Texture_Contrast: 1
+    - _Wind_Texture_Tiling: 0.5
     - __dirty: 0
     - _chinesePaper_Tiling: 1
     - _edgeNoise_Attenuation: -0.16
@@ -322,11 +396,20 @@ Material:
     - _Color0: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
     - _ColorCorrection_Multiply: {r: 1, g: 1, b: 1, a: 0}
     - _EdgeColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FlowDirection: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _FresnelColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
+    - _IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
+    - _IB_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
+    - _IB_ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
+    - _IB_ShadowNoise_Panner: {r: 0.2, g: -0.1, b: 0, a: 0}
+    - _IB_ShadowNoise_Panner_AddSpeed: {r: 0.01, g: 0, b: 0, a: 0}
+    - _IB_TerrainBlending_Color: {r: 0.42452827, g: 0.42452827, b: 0.42452827, a: 0}
     - _InBrume_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
     - _InkGrunge_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _Noise_Panner: {r: 0.2, g: 0, b: 0, a: 0}
+    - _OutBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
+    - _OutBrumeColorCorrection_Additionnal: {r: 0, g: 0, b: 0, a: 0}
     - _Panner: {r: 0.2, g: 0, b: 0, a: 0}
     - _PaperContrast: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 0}
@@ -335,8 +418,13 @@ Material:
     - _Rougness_Color1: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowColor: {r: 0.462264, g: 0.462264, b: 0.462264, a: 0}
     - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
+    - _TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TerrainBlending_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _UV2_OutBrume_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Vector0: {r: 28.7, g: 0, b: -15.72, a: 0}
     - _Vector1: {r: 1.5, g: 1.5, b: 0, a: 0}
+    - _WindWave_Min_Speed: {r: 0.05, g: 0, b: 0, a: 0}
+    - _WindWave_Speed: {r: 0.1, g: 0, b: 0, a: 0}
     - _edgeNoise_Speed: {r: 0.1, g: 0, b: 0, a: 0}
     - _shadow_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0}
     - _watercolor_Speed: {r: 0.01, g: 0, b: 0, a: 0}
