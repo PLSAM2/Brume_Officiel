@@ -511,7 +511,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				liveHealth = (ushort)_tempHp;
 			}
 
-			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages);
+			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, (ushort) dealerID);
 		}
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();

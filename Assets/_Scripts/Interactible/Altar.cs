@@ -66,6 +66,8 @@ public class Altar : Interactible
         }
 
         UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+
+        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName);
     }
 
     public override void Captured(ushort _capturingPlayerID)
@@ -111,6 +113,7 @@ public class Altar : Interactible
         }
 
         UiManager.Instance.myAnnoncement.NewAltarAnnoncement((interactibleName + " ALTAR AWAKENS").ToUpper(), this, null, voice);
+        StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, interactibleName);
     }
 
     IEnumerator ActivateAltar()
@@ -135,6 +138,8 @@ public class Altar : Interactible
 
         UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNSEALED", annoncementAltarSfx, voice);
         Unlock();
+
+        StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, interactibleName);
     }
 
 	public override void Unlock ()
