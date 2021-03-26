@@ -123,6 +123,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private void Update ()
 	{
 		Debug();
+		if (Input.GetKeyDown(KeyCode.M))
+			AddHitPoint(1);
 	}
 
 	void Debug ()
@@ -561,7 +563,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void HealLocaly ( ushort value )
 	{
-		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealthForRegen);
+		int _tempHp = (int)liveHealth + (int)value;
 		liveHealth = (ushort)_tempHp;
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
@@ -827,6 +829,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			forceOutline = _activate;
 		}
 
+	}
+
+	public void AddHitPoint(int _int)
+	{
+		myPlayerModule.bonusHp += _int;
+		liveHealth += (ushort)_int;
+		myUiPlayerManager.AddLifePoint(_int);
 	}
 
 
