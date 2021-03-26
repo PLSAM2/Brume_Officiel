@@ -9,7 +9,7 @@ public class StatManager : MonoBehaviour
     public Dictionary<ushort, ushort> damagePlayer = new Dictionary<ushort, ushort>();
     public Dictionary<ushort, ushort> killPlayer = new Dictionary<ushort, ushort>();
 
-    public Dictionary<float, statEvent> timeLineEvent = new Dictionary<float, statEvent>();
+    public Dictionary<statEvent, float> timeLineEvent = new Dictionary<statEvent, float>();
 
     public float endGameTime = 0;
 
@@ -49,7 +49,7 @@ public class StatManager : MonoBehaviour
         }
 
         killEvent newKill = new killEvent(_idPlayer, _killer);
-        timeLineEvent.Add(GameManager.Instance.timer, newKill);
+        timeLineEvent.Add(newKill, GameManager.Instance.timer);
 
         if (killPlayer.ContainsKey(_killer))
         {
@@ -87,7 +87,7 @@ public class StatManager : MonoBehaviour
             newAltarEvent.myTeam = myTeam;
         }
 
-        timeLineEvent.Add(GameManager.Instance.timer, newAltarEvent);
+        timeLineEvent.Add(newAltarEvent, GameManager.Instance.timer);
     }
 }
 

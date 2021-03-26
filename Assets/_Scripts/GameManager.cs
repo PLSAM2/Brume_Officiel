@@ -52,6 +52,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
+    public List<Altar> allAltar = new List<Altar>();
 
     public List<Brume> allBrume = new List<Brume>();
 

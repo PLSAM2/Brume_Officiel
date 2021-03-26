@@ -53,47 +53,47 @@ public class EndGameStats : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        foreach(KeyValuePair<float, statEvent> _event in StatManager.Instance.timeLineEvent){
+        foreach(KeyValuePair<statEvent, float> _event in StatManager.Instance.timeLineEvent){
 
-            float objectif = _event.Key / StatManager.Instance.endGameTime;
+            float objectif = _event.Value / StatManager.Instance.endGameTime;
 
             mySlider.DOValue(objectif, 0.6f);
 
             yield return new WaitForSeconds(1);
 
             GameObject objEvent = null;
-            switch (_event.Value.myTypeEvent)
+            switch (_event.Key.myTypeEvent)
             {
                 case statEvent.type.kill:
                     objEvent = Instantiate(killEventPrefab, transform);
 
                     KillEvent_Stat _killEvent = objEvent.GetComponent<KillEvent_Stat>();
-                    _killEvent.username.text = RoomManager.Instance.GetPlayerData(((killEvent) _event.Value).idPlayer).Name;
-                    _killEvent.username.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Value).idPlayer).playerTeam);
+                    _killEvent.username.text = RoomManager.Instance.GetPlayerData(((killEvent) _event.Key).idPlayer).Name;
+                    _killEvent.username.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerTeam);
 
-                    _killEvent.icon.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Value).idPlayer).playerTeam);
+                    _killEvent.icon.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerTeam);
 
-                    _killEvent.perso.text = "(" + RoomManager.Instance.GetPlayerData(((killEvent)_event.Value).idPlayer).playerCharacter + ")";
+                    _killEvent.perso.text = "(" + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerCharacter + ")";
 
-                    _killEvent.killer.text = "By " + RoomManager.Instance.GetPlayerData(((killEvent)_event.Value).idKiller).playerCharacter;
-                    _killEvent.killer.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Value).idKiller).playerTeam);
+                    _killEvent.killer.text = "By " + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).playerCharacter;
+                    _killEvent.killer.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).playerTeam);
                     break;
 
                 case statEvent.type.altar:
                     objEvent = Instantiate(altarEventPrefab, transform);
 
                     AltarEvent_Stat _altarEvent = objEvent.GetComponent<AltarEvent_Stat>();
-                    _altarEvent.text.text = "Altar " + ((altarEvent)_event.Value).altarPos + " " + ((altarEvent)_event.Value).myState.ToString();
+                    _altarEvent.text.text = "Altar " + ((altarEvent)_event.Key).altarPos + " " + ((altarEvent)_event.Key).myState.ToString();
 
                     Color colorAltar = altarAWAKEN;
-                    switch (((altarEvent)_event.Value).myState)
+                    switch (((altarEvent)_event.Key).myState)
                     {
                         case altarEvent.state.UNSEALED:
                             colorAltar = altarUNSEALED;
                             break;
 
                         case altarEvent.state.CLEANSED:
-                            colorAltar = GameFactory.GetRelativeColor(((altarEvent)_event.Value).myTeam);
+                            colorAltar = GameFactory.GetRelativeColor(((altarEvent)_event.Key).myTeam);
                             break;
                     }
                     _altarEvent.text.color = colorAltar;

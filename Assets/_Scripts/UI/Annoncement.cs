@@ -10,52 +10,34 @@ public class Annoncement : MonoBehaviour
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] RectTransform iconPos;
 
-    [SerializeField] GameObject waypointAltarPrefab;
-    Waypoint waypointObj;
-    Altar currentAltar;
-
-    [SerializeField] Color altarLockColor;
-    [SerializeField] Color altarUnlockColor;
-    [SerializeField] Color altarEndColor;
-
     [SerializeField] AudioClip allyEliminated, enemyElimated;
 
     public bool IsAnnoncing = false;
 
     List<bufferedInfo> currentBufferedAnnonce = new List<bufferedInfo>();
 
-    private void Start()
-    {
-        waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
-        waypointObj.SetImageColor(altarLockColor);
-        waypointObj.gameObject.SetActive(false);
-    }
-
     private void OnEnable()
     {
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
+        GameManager.Instance.OnAllCharacterSpawned += OnAllPlayerSpawn;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnPlayerDie -= OnPlayerDie;
+        GameManager.Instance.OnAllCharacterSpawned -= OnAllPlayerSpawn;
     }
 
-    private void Update()
+    void OnAllPlayerSpawn()
     {
-        //TODO afficher timer altar
-        if(currentAltar != null)
+        List<Waypoint> allWaypoint = new List<Waypoint>();
+        foreach (Altar a in GameManager.Instance.allAltar)
         {
-            float currentTimeLeft = currentAltar.unlockTime - (Time.fixedTime - currentAltar.currentTime);
-            if(currentTimeLeft > 0)
-            {
-                waypointObj.SetUnderText(Mathf.RoundToInt(currentTimeLeft) + "s");
-            }
-            else
-            {
-                waypointObj.SetUnderText("");
-            }
+            allWaypoint.Add(a.waypointObj);
         }
+
+        UiManager.Instance.myAnnoncement.NewAltarAnnoncement(("ALTARS AWAKENS").ToUpper(), allWaypoint, null, null);
+        StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, "ALTARS AWAKENS");
     }
 
     void OnPlayerDie(ushort _playerDie, ushort _killer)
@@ -87,51 +69,8 @@ public class Annoncement : MonoBehaviour
         }
     }
 
-    public void SetUnlockAltar()
-    {
-        waypointObj.SetImageColor(altarUnlockColor);
-    }
+    public void NewAltarAnnoncement(string _value, List<Waypoint> _waypoints, AudioClip sfx = null, AudioClip voice = null) {
 
-    public void DisableAltar()
-    {
-        waypointObj.SetImageColor(altarLockColor);
-        waypointObj.gameObject.SetActive(false);
-    }
-
-    public void AltarEndAnnoncement(string _value, Altar _altar, AudioClip sfx = null, AudioClip voice = null)
-    {
-        if (!IsAnnoncing)
-        {
-            IsAnnoncing = true;
-
-            waypointObj.SetImageColor(altarEndColor);
-
-            text.text = _value;
-            myAnimator.SetTrigger("Show");
-
-            waypointObj.target = _altar.transform;
-
-            waypointObj.gameObject.SetActive(true);
-            waypointObj.ActiveAnnonciation(iconPos);
-
-            currentAltar = _altar;
-
-            PlaySound(sfx, voice);
-        }
-        else
-        {
-            bufferedInfo newAnnonce = new bufferedInfo();
-            newAnnonce.textValue = _value;
-            newAnnonce.myAltar = _altar;
-            newAnnonce.isEnd = true;
-            newAnnonce.sfx = sfx;
-            newAnnonce.voice = voice;
-
-            currentBufferedAnnonce.Add(newAnnonce);
-        }
-    }
-
-    public void NewAltarAnnoncement(string _value, Altar _altar, AudioClip sfx = null, AudioClip voice = null) {
         if (!IsAnnoncing)
         {
             IsAnnoncing = true;
@@ -139,12 +78,11 @@ public class Annoncement : MonoBehaviour
             text.text = _value;
             myAnimator.SetTrigger("Show");
 
-            waypointObj.target = _altar.transform;
-
-            waypointObj.gameObject.SetActive(true);
-            waypointObj.ActiveAnnonciation(iconPos);
-
-            currentAltar = _altar;
+            foreach(Waypoint w in _waypoints)
+            {
+                w.gameObject.SetActive(true);
+                w.ActiveAnnonciation(iconPos);
+            }
 
             PlaySound(sfx, voice);
         }
@@ -152,8 +90,8 @@ public class Annoncement : MonoBehaviour
         {
             bufferedInfo newAnnonce = new bufferedInfo();
             newAnnonce.textValue = _value;
-            newAnnonce.myAltar = _altar;
-            newAnnonce.isEnd = false;
+            newAnnonce.isAlarAnnnonce = true;
+            newAnnonce.waypoints = _waypoints;
             newAnnonce.sfx = sfx;
             newAnnonce.voice = voice;
 
@@ -178,6 +116,7 @@ public class Annoncement : MonoBehaviour
             newAnnonce.textValue = _value;
             newAnnonce.sfx = sfx;
             newAnnonce.voice = voice;
+            newAnnonce.isAlarAnnnonce = false;
 
             currentBufferedAnnonce.Add(newAnnonce);
         }
@@ -209,20 +148,13 @@ public class Annoncement : MonoBehaviour
 
         bufferedInfo currentAnnonce = currentBufferedAnnonce[0];
 
-        if(currentAnnonce.myAltar == null)
+        if(!currentAnnonce.isAlarAnnnonce)
         {
             ShowAnnoncement(currentAnnonce.textValue, currentAnnonce.sfx, currentAnnonce.voice);
         }
         else
         {
-            if (currentAnnonce.isEnd == false)
-            {
-                NewAltarAnnoncement(currentAnnonce.textValue, currentAnnonce.myAltar, currentAnnonce.sfx, currentAnnonce.voice);
-            }
-            else
-            {
-                AltarEndAnnoncement(currentAnnonce.textValue, currentAnnonce.myAltar, currentAnnonce.sfx, currentAnnonce.voice);
-            }
+            NewAltarAnnoncement(currentAnnonce.textValue, currentAnnonce.waypoints, currentAnnonce.sfx, currentAnnonce.voice);
         }
 
         currentBufferedAnnonce.RemoveAt(0);
@@ -231,8 +163,8 @@ public class Annoncement : MonoBehaviour
     public struct bufferedInfo
     {
         public string textValue;
-        public Altar myAltar;
-        public bool isEnd;
+        public bool isAlarAnnnonce;
+        public List<Waypoint> waypoints;
         public AudioClip sfx;
         public AudioClip voice;
     }
