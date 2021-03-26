@@ -101,7 +101,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public ushort healPerTick = 1;
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
-
+	public int bonusHp;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -471,7 +471,7 @@ public class PlayerModule : MonoBehaviour
 	}
 	private void WaitForHealProcess ()
 	{
-		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen)
+		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
 		{
 			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
@@ -492,7 +492,7 @@ public class PlayerModule : MonoBehaviour
 		{
 			isWaitingForHeal = false;
 
-			if (mylocalPlayer.liveHealth <= characterParameters.maxHealthForRegen)
+			if (mylocalPlayer.liveHealth <= characterParameters.maxHealthForRegen + bonusHp)
 			{
 				SetAutoHealState(true);
 			}
@@ -508,10 +508,10 @@ public class PlayerModule : MonoBehaviour
 		{
 			mylocalPlayer.HealPlayer(healPerTick);
 
-			if (mylocalPlayer.liveHealth == characterParameters.maxHealthForRegen)
+			if (mylocalPlayer.liveHealth == characterParameters.maxHealthForRegen + bonusHp)
 				mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
-			if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen)
+			if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
 			{
 				SetAutoHealState(false);
 			}
@@ -997,9 +997,10 @@ public class PlayerModule : MonoBehaviour
 
 			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
 
-			if (mylocalPlayer.liveHealth < characterParameters.maxHealthForRegen)
+			//reset le point de vie qui etait en train de regen
+			if (mylocalPlayer.liveHealth < characterParameters.maxHealthForRegen + bonusHp)
 			{
-				mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, characterParameters.maxHealthForRegen)].SetFillAmount(0);
+				mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, characterParameters.maxHealthForRegen + bonusHp)].SetFillAmount(0);
 			}
 
 		}

@@ -7,6 +7,7 @@ public class UltPickup : Interactible
 {
     [SerializeField] Animator myAnimator;
     public ushort ultimateStackGive = 1;
+    public ushort hitPointGiven = 1;
 
     protected override void Init()
     {
@@ -50,6 +51,9 @@ public class UltPickup : Interactible
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         base.UpdateCaptured(_capturingPlayerID);
+
+        GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
+
         ActualiseMesh();
     }
 

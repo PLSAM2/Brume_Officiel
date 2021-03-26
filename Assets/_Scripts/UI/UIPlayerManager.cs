@@ -20,7 +20,8 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public Transform parentListLife;
     [TabGroup("Ui")] public GameObject prefabLifeBar;
     [TabGroup("Ui")] public Image lifeBarWaitingForHeal;
-    [HideInInspector] public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
+    [TabGroup("Ui")] public RectTransform indicationOfMaxRegen;
+public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
 
     [Header("WX Compass")]
     [TabGroup("WX Compass")] public GameObject WxCompass;
@@ -115,8 +116,21 @@ public class UIPlayerManager : MonoBehaviour
                 allBarLife.Add(img);
             }
         }
+    }
 
+    public void AddLifePoint(int _int)
+	{
+        for (int i = 0; i < _int; i++)
+        {
+            UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
+            img.transform.SetSiblingIndex(0);
+            img.Init(currentColorTeam);
+            allBarLife.Insert(0,img);
+        }
 
+      /*  RectTransform finalBar = allBarLife[myLocalPlayer.myPlayerModule.characterParameters.maxHealthForRegen + myLocalPlayer.myPlayerModule.bonusHp].GetComponent<RectTransform>();
+        indicationOfMaxRegen.rect.Set(finalBar.rect.position.x + finalBar.rect.width /2, 0, finalBar.rect.width /5, finalBar.rect.height);*/    
+      
     }
 
     private void LateUpdate()
