@@ -41,6 +41,13 @@ public class StatManager : MonoBehaviour
 
     void OnPlayerDie(ushort _idPlayer, ushort _killer)
     {
+        print("player die");
+
+        if (InGameNetworkReceiver.Instance.GetEndGame())
+        {
+            return;
+        }
+
         killEvent newKill = new killEvent(_idPlayer, _killer);
         timeLineEvent.Add(GameManager.Instance.timer, newKill);
 
@@ -68,6 +75,11 @@ public class StatManager : MonoBehaviour
 
     public void AddAltarEvent(state _altarState, string _altarPos, Team myTeam = Team.none)
     {
+        if (InGameNetworkReceiver.Instance.GetEndGame())
+        {
+            return;
+        }
+
         altarEvent newAltarEvent = new altarEvent(_altarState, _altarPos);
 
         if(myTeam != Team.none)

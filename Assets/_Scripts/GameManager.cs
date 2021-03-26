@@ -33,8 +33,6 @@ public class GameManager : SerializedMonoBehaviour
     public LocalPlayer currentLocalPlayer { get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
     [SerializeField] UnityClient client;
 
-    LocalPlayer _currentSpecPlayer;
-
     [Header("Timer")]
     private bool timeStart = false;
     private bool endZoneStarted = false;
@@ -62,7 +60,6 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<ushort> allVisibleInteractible = new List<ushort>();
 
-    private bool stopInit = false;
     public bool gameStarted = false;
 
     public Animator globalVolumeAnimator;
