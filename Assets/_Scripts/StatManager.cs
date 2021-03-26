@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static altarEvent;
+using static GameData;
 
 public class StatManager : MonoBehaviour
 {
-    Dictionary<ushort, ushort> damagePlayer = new Dictionary<ushort, ushort>();
+    public Dictionary<ushort, ushort> damagePlayer = new Dictionary<ushort, ushort>();
+    public Dictionary<ushort, ushort> killPlayer = new Dictionary<ushort, ushort>();
 
-    Dictionary<float, statEvent> timeLineEvent = new Dictionary<float, statEvent>();
+    public Dictionary<float, statEvent> timeLineEvent = new Dictionary<float, statEvent>();
+
+    public float endGameTime = 0;
 
     private static StatManager _instance;
     public static StatManager Instance { get { return _instance; } }
@@ -39,6 +43,15 @@ public class StatManager : MonoBehaviour
     {
         killEvent newKill = new killEvent(_idPlayer, _killer);
         timeLineEvent.Add(GameManager.Instance.timer, newKill);
+
+        if (killPlayer.ContainsKey(_killer))
+        {
+            killPlayer[_killer] += 1;
+        }
+        else
+        {
+            killPlayer.Add(_killer, 1);
+        }
     }
 
     void OnPlayerGetDamage(ushort _idPlayer, ushort _damage, ushort _dealer)
@@ -53,9 +66,15 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    public void AddAltarEvent(state _altarState, string _altarPos)
+    public void AddAltarEvent(state _altarState, string _altarPos, Team myTeam = Team.none)
     {
         altarEvent newAltarEvent = new altarEvent(_altarState, _altarPos);
+
+        if(myTeam != Team.none)
+        {
+            newAltarEvent.myTeam = myTeam;
+        }
+
         timeLineEvent.Add(GameManager.Instance.timer, newAltarEvent);
     }
 }
@@ -88,6 +107,7 @@ public class altarEvent : statEvent
 {
     public state myState;
     public string altarPos;
+    public Team myTeam;
 
     public altarEvent(state _myState, string _altarPos)
     {

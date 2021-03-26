@@ -37,6 +37,10 @@ public class Altar : Interactible
         isInteractable = false;
     }
 
+    public override void TryCapture(Team team, PlayerModule capturingPlayer)
+    {
+        base.TryCapture(team, capturingPlayer);
+    }
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
@@ -67,7 +71,7 @@ public class Altar : Interactible
 
         UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
 
-        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName);
+        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
 
     public override void Captured(ushort _capturingPlayerID)
