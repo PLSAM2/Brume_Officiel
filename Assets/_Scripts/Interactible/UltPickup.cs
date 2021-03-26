@@ -22,28 +22,28 @@ public class UltPickup : Interactible
 
     public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
     {
-        PlayerData _p = NetworkManager.Instance.GetLocalPlayer();
+        //PlayerData _p = NetworkManager.Instance.GetLocalPlayer();
 
-        if (_p.ultStacks >= GameData.characterUltMax[_p.playerCharacter])
-        {
-            print(_p.ultStacks + " - " + GameData.characterUltMax[_p.playerCharacter]);
-            return;
-        }
+        //if (_p.ultStacks >= GameData.characterUltMax[_p.playerCharacter])
+        //{
+        //    print(_p.ultStacks + " - " + GameData.characterUltMax[_p.playerCharacter]);
+        //    return;
+        //}
 
         base.TryCapture(team, capturingPlayer);
 
     }
     public override void Captured(ushort _capturingPlayerID)
     {
-        using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        {
-            writer.Write(ultimateStackGive);
+        //using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        //{
+        //    writer.Write(ultimateStackGive);
 
-            using (Message message = Message.Create(Tags.AddUltimatePoint, writer))
-            {
-                NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
-            }
-        }
+        //    using (Message message = Message.Create(Tags.AddUltimatePoint, writer))
+        //    {
+        //        NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
+        //    }
+        //}
 
         base.Captured(_capturingPlayerID);
 
