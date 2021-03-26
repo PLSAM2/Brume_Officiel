@@ -17,8 +17,6 @@ public class Altar : Interactible
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
 
-
-
     public EndZoneInteractible endZoneInteractible;
     [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
@@ -30,11 +28,45 @@ public class Altar : Interactible
     [SerializeField] AudioClip altarBottomCleaned, altarBottomAwakens, altarBottomUnsealed;
     [SerializeField] AudioClip altarRightCleaned, altarRightAwakens, altarRightUnsealed;
     [SerializeField] AudioClip altarLeftCleaned, altarLeftAwakens, altarLeftUnsealed;
+
+
+    //wayPoint
+    [SerializeField] GameObject waypointAltarPrefab;
+    public Waypoint waypointObj;
+
+    [SerializeField] Color altarLockColor;
+    [SerializeField] Color altarUnlockColor;
+    [SerializeField] Color altarEndColor;
+
     void Start()
     {
         base.Init();
         endZoneInteractible.Init(this);
         isInteractable = false;
+
+        waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.gameObject.SetActive(false);
+        waypointObj.target = transform;
+
+        GameManager.Instance.allAltar.Add(this);
+    }
+
+    private void Update()
+    {
+        //TODO afficher timer altar
+        if (waypointObj != null && waypointObj.gameObject.activeSelf)
+        {
+            float currentTimeLeft = unlockTime - (Time.fixedTime - currentTime);
+            if (currentTimeLeft > 0)
+            {
+                waypointObj.SetUnderText(Mathf.RoundToInt(currentTimeLeft) + "s");
+            }
+            else
+            {
+                waypointObj.SetUnderText("");
+            }
+        }
     }
 
     public override void TryCapture(Team team, PlayerModule capturingPlayer)
@@ -47,7 +79,10 @@ public class Altar : Interactible
         base.UpdateCaptured(_capturingPlayerID);
 
         AudioClip voice = altarBottomCleaned;
-        UiManager.Instance.myAnnoncement.DisableAltar();
+
+        //disable
+        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.gameObject.SetActive(false);
 
         switch (interactibleName)
         {
@@ -102,22 +137,6 @@ public class Altar : Interactible
         {
             StartCoroutine(ActivateAltar());
         }
-
-        AudioClip voice = altarBottomAwakens;
-
-        switch (interactibleName)
-        {
-            case "Right":
-                voice = altarRightAwakens;
-                break;
-
-            case "Left":
-                voice = altarLeftAwakens;
-                break;
-        }
-
-        UiManager.Instance.myAnnoncement.NewAltarAnnoncement((interactibleName + " ALTAR AWAKENS").ToUpper(), this, null, voice);
-        StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, interactibleName);
     }
 
     IEnumerator ActivateAltar()
@@ -156,7 +175,7 @@ public class Altar : Interactible
 
         AudioManager.Instance.Play2DAudio(unlockAltarSfx);
 
-        UiManager.Instance.myAnnoncement.SetUnlockAltar();
+        waypointObj.SetImageColor(altarUnlockColor);
     }
 
     internal void StarFinalPhase()

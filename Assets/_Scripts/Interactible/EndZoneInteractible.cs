@@ -65,7 +65,7 @@ public class EndZoneInteractible : Interactible
                 break;
         }
 
-        UiManager.Instance.myAnnoncement.AltarEndAnnoncement((interactibleName + " of Altar " + parentAltar.interactibleName + " Started").ToUpper(), parentAltar, null, voice);
+        UiManager.Instance.myAnnoncement.ShowAnnoncement((interactibleName + " of Altar " + parentAltar.interactibleName + " Started").ToUpper(), null, voice);
 
 
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
