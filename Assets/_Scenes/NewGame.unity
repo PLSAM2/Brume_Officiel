@@ -2825,8 +2825,6 @@ GameObject:
   m_Component:
   - component: {fileID: 574575909}
   - component: {fileID: 574575908}
-  - component: {fileID: 574575907}
-  - component: {fileID: 574575906}
   - component: {fileID: 574575905}
   m_Layer: 0
   m_Name: FogCamera
@@ -2867,32 +2865,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &574575906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 574575904}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34f80d51bb4b6034cbb4c6caa2fad899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aspect: 1
---- !u!114 &574575907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 574575904}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d034602e7f1f4f438fa1a7cc331fed4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flatShader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!20 &574575908
 Camera:
   m_ObjectHideFlags: 0
@@ -3004,6 +2976,42 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: inBrumeColor.b
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: inBrumeColor.g
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: inBrumeColor.r
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: outBrumeColor.b
+      value: 0.8490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: outBrumeColor.g
+      value: 0.8490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: outBrumeColor.r
+      value: 0.8490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: currentFogColor.b
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: currentFogColor.g
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: currentFogColor.r
+      value: 0.6037736
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
       propertyPath: unexploredColor.b

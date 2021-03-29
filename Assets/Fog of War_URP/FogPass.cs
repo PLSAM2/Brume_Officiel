@@ -118,7 +118,7 @@ namespace UnityEngine.Rendering.Universal
 
         public override void OnCameraCleanup(CommandBuffer cmd)
         {
-            mFog.unexploredColor = Color.black;
+            mFog.outBrumeColor = Color.black;
         }
 
         void SendShaderValue()
@@ -152,7 +152,7 @@ namespace UnityEngine.Rendering.Universal
 
             
             Vector4 p = new Vector4(-x * invScale, -y * invScale, invScale, mFog.blendFactor);
-            settings.blitMaterial.SetColor("_Unexplored", mFog.unexploredColor);
+            settings.blitMaterial.SetColor("_Unexplored", mFog.currentFogColor);
 
             settings.blitMaterial.SetTexture("_FogTex0", FOWSystem.Instance.myTexture);
 
