@@ -13,6 +13,8 @@ public class Brume : MonoBehaviour
     [SerializeField] float speedTransition = 10;
     float value = 1;
 
+    [SerializeField] Sprite mySprite;
+
     private void Start()
     {
         GameManager.Instance.allBrume.Add(this);
