@@ -104,6 +104,8 @@ public class GameManager : SerializedMonoBehaviour
     //debug
     public CanvasGroup UIGroup;
 
+    public Material _mistMat;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
