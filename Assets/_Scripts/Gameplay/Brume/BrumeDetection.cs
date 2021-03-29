@@ -43,6 +43,8 @@ public class BrumeDetection : MonoBehaviour
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, false);
                     currentBrume.PlayAudio();
+
+                    GameManager.Instance._mistMat.SetTexture("_MistMask", currentBrume.myTexture);
                 }
             }
         }

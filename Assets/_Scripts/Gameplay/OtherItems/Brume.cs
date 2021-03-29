@@ -13,7 +13,7 @@ public class Brume : MonoBehaviour
     [SerializeField] float speedTransition = 10;
     float value = 1;
 
-    [SerializeField] Sprite mySprite;
+    public Texture myTexture;
 
     private void Start()
     {
