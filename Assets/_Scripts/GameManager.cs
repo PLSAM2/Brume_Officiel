@@ -33,8 +33,6 @@ public class GameManager : SerializedMonoBehaviour
     public LocalPlayer currentLocalPlayer { get => _currentLocalPlayer; set { _currentLocalPlayer = value; } }
     [SerializeField] UnityClient client;
 
-    LocalPlayer _currentSpecPlayer;
-
     [Header("Timer")]
     private bool timeStart = false;
     private bool endZoneStarted = false;
@@ -54,6 +52,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<Ward> allWard = new List<Ward>();
     public List<VisionTower> allTower = new List<VisionTower>();
+    public List<Altar> allAltar = new List<Altar>();
 
     public List<Brume> allBrume = new List<Brume>();
 
@@ -62,7 +61,6 @@ public class GameManager : SerializedMonoBehaviour
 
     public List<ushort> allVisibleInteractible = new List<ushort>();
 
-    private bool stopInit = false;
     public bool gameStarted = false;
 
     public Animator globalVolumeAnimator;
@@ -81,7 +79,7 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<ushort, ushort> OnPlayerDie;
     [HideInInspector] public Action<ushort> OnSpecConnected;
     [HideInInspector] public Action<ushort, bool> OnPlayerAtViewChange;
-    [HideInInspector] public Action<ushort, ushort> OnPlayerGetDamage;
+    [HideInInspector] public Action<ushort, ushort, ushort> OnPlayerGetDamage;
     [HideInInspector] public Action<ushort, ushort> OnPlayerGetHealed;
     [HideInInspector] public Action<ushort> OnPlayerRespawn;
     [HideInInspector] public Action<ushort> OnPlayerSpawn;
@@ -313,7 +311,7 @@ public class GameManager : SerializedMonoBehaviour
         timeStart = true;
     }
 
-    void OnPlayerTakeDamage(ushort idPlayer, ushort _damage)
+    void OnPlayerTakeDamage(ushort idPlayer, ushort _damage, ushort dealer)
     {
         /*
         if (GameFactory.CheckIfPlayerIsInView(idPlayer))

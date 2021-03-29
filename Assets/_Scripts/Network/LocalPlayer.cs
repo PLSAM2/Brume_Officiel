@@ -123,6 +123,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private void Update ()
 	{
 		Debug();
+		if (Input.GetKeyDown(KeyCode.M))
+			AddHitPoint(1);
 	}
 
 	void Debug ()
@@ -381,7 +383,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-		DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
+        if(dealerID == null)
+        {
+            DealDamagesLocaly(_damagesToDeal.damageHealth, NetworkManager.Instance.GetLocalPlayer().ID);
+        }
+        else
+        {
+            DealDamagesLocaly(_damagesToDeal.damageHealth, (ushort) dealerID);
+        }
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
@@ -461,7 +470,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void DealDamagesLocaly ( ushort damages, ushort? dealerID = null )
+	public void DealDamagesLocaly ( ushort damages, ushort dealerID)
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
@@ -495,15 +504,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				if (isOwner)
 				{
-					if (dealerID != null)
-					{
-						KillPlayer(RoomManager.Instance.GetPlayerData((ushort)dealerID));
-					}
-					else
-					{
-						KillPlayer(NetworkManager.Instance.GetLocalPlayer());
-					}
-				}
+                    KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
+                }
 			}
 			else
 			{
@@ -511,8 +513,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				liveHealth = (ushort)_tempHp;
 			}
 
-			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages);
-		}
+            GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
+        }
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
 	}
@@ -561,7 +563,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void HealLocaly ( ushort value )
 	{
-		int _tempHp = (int)Mathf.Clamp((int)liveHealth + (int)value, 0, myPlayerModule.characterParameters.maxHealthForRegen);
+		int _tempHp = (int)liveHealth + (int)value;
 		liveHealth = (ushort)_tempHp;
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
@@ -827,6 +829,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			forceOutline = _activate;
 		}
 
+	}
+
+	public void AddHitPoint(int _int)
+	{
+		myPlayerModule.bonusHp += _int;
+		liveHealth += (ushort)_int;
+		myUiPlayerManager.AddLifePoint(_int);
 	}
 
 

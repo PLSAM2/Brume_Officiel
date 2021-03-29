@@ -280,7 +280,7 @@ public class InteractibleObjectsManager : MonoBehaviour
                             case InteractibleType.none:
                                 return;
                             case InteractibleType.Altar:
-                                ((Altar)_temp).Unlock();
+                                ((Altar)_temp).SetActiveState(true);
                                 break;
                             case InteractibleType.VisionTower:
                                 ((VisionTower)_temp).Unlock();

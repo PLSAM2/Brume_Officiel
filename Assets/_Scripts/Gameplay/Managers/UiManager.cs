@@ -207,7 +207,7 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	void OnPlayerTakeDamage ( ushort id, ushort damage )
+	void OnPlayerTakeDamage ( ushort id, ushort damage, ushort dealer)
 	{
         if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
         {
