@@ -608,8 +608,6 @@ public class RoomManager : MonoBehaviour
             }
 
             GameManager.Instance.currentLocalPlayer.myPlayerModule.ultPointPickedUp?.Invoke();
-
-            GameManager.Instance.OnPlayerUltiChange(playerId, p.ultStacks);
         }
     }
 
