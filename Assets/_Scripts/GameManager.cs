@@ -83,7 +83,6 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<ushort, ushort> OnPlayerGetHealed;
     [HideInInspector] public Action<ushort> OnPlayerRespawn;
     [HideInInspector] public Action<ushort> OnPlayerSpawn;
-    [HideInInspector] public Action<ushort, ushort> OnPlayerUltiChange;
     [HideInInspector] public Action OnAllCharacterSpawned;
     [HideInInspector] public Action<bool> OnLocalPlayerStateBrume;
 
@@ -232,7 +231,6 @@ public class GameManager : SerializedMonoBehaviour
             return;
         }
 
-        UiManager.Instance.AllPlayerJoinGameScene();
         OnAllCharacterSpawned?.Invoke();
         gameStarted = true;
 
