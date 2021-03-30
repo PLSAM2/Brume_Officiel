@@ -12,12 +12,12 @@ public class SpawnDynamicWalls : MonoBehaviour
     {
         foreach (Animator a in doorAnimator)
         {
-            a.SetBool("state", _state);
+           // a.SetBool("state", _state);
         }
 
         foreach (Animator a in brumeZone)
         {
-            a.SetBool("state", _state);
+           // a.SetBool("state", _state);
         }
     }
 }

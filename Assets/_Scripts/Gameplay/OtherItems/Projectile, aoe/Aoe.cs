@@ -86,6 +86,9 @@ public class Aoe : AutoKill
 					_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 				}
 			}
+
+			if (enemiesTouched().Length > 0 && localTrad.cooldownReductionOnHit > 0)
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceTargetCooldown(localTrad.cooldownReductionOnHit, localTrad.cooldownReducedOnHit);
 		}
 	}
 

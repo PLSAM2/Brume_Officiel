@@ -8,6 +8,8 @@ using Sirenix.OdinInspector;
 public class Sc_Aoe : ScriptableObject
 {
 	public AoeParameters rules;
+	public float  cooldownReductionOnHit;
+	public En_SpellInput  cooldownReducedOnHit;
 }
 
 [System.Serializable]

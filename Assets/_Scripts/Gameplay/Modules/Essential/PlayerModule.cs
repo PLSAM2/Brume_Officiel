@@ -104,6 +104,12 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] private bool isAutoHealing = false;
     public int bonusHp;
 
+    [TabGroup("GameplayInfos")] public float inBrumeValue = 1;
+    [TabGroup("GameplayInfos")] public float remapInBrumeValue = 1;
+    [TabGroup("GameplayInfos")] public float lowSanitySeverityOnEchoAppearance = 5;
+    [TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
+    [TabGroup("GameplayInfos")] public float startBrumeValue = 0.5f, maxFillValue = 0.5f, diveserSpeedFill = 15, diveserSpeedUnfill = 50;
+
     //ALL ACTION 
     #region
     //[INPUTS ACTION]
@@ -148,6 +154,7 @@ public class PlayerModule : MonoBehaviour
         GameManager.Instance.OnAllCharacterSpawned += Setup;
         GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 
+        inBrumeValue = startBrumeValue;
         //A VIRER QUAND C EST TROUVER.
     }
     void Start()
@@ -164,6 +171,7 @@ public class PlayerModule : MonoBehaviour
     }
     private void OnDestroy()
     {
+
         GameManager.Instance.OnAllCharacterSpawned -= Setup;
         GameManager.Instance.OnAllCharacterSpawned -= mylocalPlayer.AllCharacterSpawn;
         if (mylocalPlayer.isOwner)
@@ -173,6 +181,9 @@ public class PlayerModule : MonoBehaviour
             reduceTargetCooldown -= ReduceCooldown;
             spellResolved -= BuffInput;
 
+        } else
+        {
+            GameManager.Instance.OnLocalPlayerStateBrume -= OnLocalPlayerStateBrumeChange;
         }
     }
     public virtual void Setup()
@@ -228,6 +239,7 @@ public class PlayerModule : MonoBehaviour
         }
         else
         {
+            GameManager.Instance.OnLocalPlayerStateBrume += OnLocalPlayerStateBrumeChange;
             if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
             {
                 skinnedRenderer.material.SetFloat("_OutlinePower", 0);
@@ -237,13 +249,29 @@ public class PlayerModule : MonoBehaviour
             {
                 skinnedRenderer.material.SetFloat("_OutlinePower", 10);
             }
-
+            echoRenderer.material.SetFloat("_Frequency", 0);
+            echoRenderer.material.SetFloat("_FactorInvisible", 0);
+            echoRenderer.material.SetColor("_Color", GameFactory.GetRelativeColor(teamIndex));
             mapIcon.gameObject.SetActive(false);
             StartCoroutine(WaitForVisionCheck());
         }
 
         ResetLayer();
     }
+
+    private void OnLocalPlayerStateBrumeChange(bool obj)
+    {
+        echoRenderer.material.SetFloat("_Frequency", 0);
+        echoRenderer.material.SetFloat("_FactorInvisible", 0);
+        if (isInBrume)
+        {
+            echoRenderer.gameObject.SetActive(false);
+            return;
+        }
+
+        echoRenderer.gameObject.SetActive(obj);
+    }
+
     public void ResetLayer()
     {
 
@@ -442,15 +470,40 @@ public class PlayerModule : MonoBehaviour
             WaitForHealProcess();
         }
 
+        if (mylocalPlayer.isOwner)
+        {
+            if (isInBrume)
+            {
+                inBrumeValue -= Time.deltaTime / diveserSpeedFill;
+            }
+            else
+            {
+                if (inBrumeValue < maxFillValue)
+                {
+                    inBrumeValue += Time.deltaTime / diveserSpeedUnfill;
+                }
+            }
+            inBrumeValue = Mathf.Clamp(inBrumeValue, 0, 1);
 
+            remapInBrumeValue = Mathf.Clamp(GameFactory.ReMap(inBrumeValue, 0, 0.66f, 0, 1), 0, 1); 
+        }
     }
     protected virtual void FixedUpdate()
     {
         TreatEffects();
         TreatTickEffects();
+
         if (mylocalPlayer.isOwner)
         {
             CheckBrumeShader();
+        } else
+        {
+            if (echoRenderer.gameObject.activeInHierarchy)
+            {
+                echoRenderer.material.SetFloat("_Frequency", (1 - GameFactory.GetActualPlayerFollow().myPlayerModule.remapInBrumeValue));
+                echoRenderer.material.SetFloat("_FactorInvisible", -(1 - GameFactory.GetActualPlayerFollow().myPlayerModule.remapInBrumeValue) * GameFactory.GetActualPlayerFollow().myPlayerModule.lowSanitySeverityOnEchoAppearance);
+            }
+
         }
     }
     public void CheckBrumeShader()

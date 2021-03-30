@@ -21,14 +21,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public GameObject prefabLifeBar;
     [TabGroup("Ui")] public Image lifeBarWaitingForHeal;
     [TabGroup("Ui")] public RectTransform indicationOfMaxRegen;
-public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
-
-    [Header("WX Compass")]
-    [TabGroup("WX Compass")] public GameObject WxCompass;
-    [TabGroup("WX Compass")] public Image WxLife, arrow;
-    [TabGroup("WX Compass")] public GameObject sonar;
-    [TabGroup("WX Compass")] public List<Image> sonarImg;
-    [TabGroup("WX Compass")] public Color wxInViewColor, wxTakeDamageColor;
+    public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
 
     [Header("Buff")]
     [TabGroup("Buff")] public TextMeshProUGUI nameOfTheBuff;
@@ -51,6 +44,8 @@ public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
     [TabGroup("UiState")] public GameObject RootIcon;
     [TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon, Eye_Spot;
 
+    public LookTarget directionWx;
+    public Animator directionWxAnimator;
 
     Material currentColorTeam;
     private void Awake()
@@ -67,7 +62,6 @@ public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
             nameText.text = "Dummy";
             currentColorTeam = redMat;
             nameText.material = currentColorTeam;
-            WxLife.material = currentColorTeam;
             SpawnLifeBar();
             return;
 
@@ -81,7 +75,6 @@ public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
         }
 
         nameText.material = currentColorTeam;
-        WxLife.material = currentColorTeam;
 
         SpawnLifeBar();
 
@@ -173,56 +166,6 @@ public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
 
 
             i++;
-        }
-    }
-
-    private void Update()
-    {
-        if (dummy)
-        {
-            return;
-        }
-        //compase rota
-        if (myLocalPlayer.allCharacterSpawned)
-        {
-            if (wxRef != null)
-            {
-                //voit la shili
-                if ( /* GameManager.Instance.visiblePlayer.ContainsKey(wxRef.transform) */ true)
-                {
-                    WxLife.fillAmount = (float)wxRef.liveHealth / (float)wxRef.myPlayerModule.characterParameters.maxHealth;
-
-                    Vector3 fromPos = WxCompass.transform.position;
-                    Vector3 toPos = wxRef.transform.position;
-
-                    fromPos.y = 0;
-                    toPos.y = 0;
-                    Vector3 direction = (toPos - fromPos).normalized;
-                    float angle = Vector3.SignedAngle(direction, Vector3.right, Vector3.up);
-                    WxCompass.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
-
-                    if (WxLife.material == grayMat)
-                    {
-                        switch (GameFactory.GetRelativeTeam(myLocalPlayer.myPlayerModule.teamIndex))
-                        {
-                            case Team.red:
-                                WxLife.material = redMat;
-                                break;
-
-                            case Team.blue:
-                                WxLife.material = blueMat;
-                                break;
-                        }
-
-                        arrow.material = null;
-                    }
-                }
-                else
-                {
-                    WxLife.material = grayMat;
-                    arrow.material = grayMat;
-                }
-            }
         }
     }
 

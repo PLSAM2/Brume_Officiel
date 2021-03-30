@@ -224,23 +224,18 @@ public class WX_SonarState : MonoBehaviour
 
         if(RoomManager.Instance.GetPlayerData(p.myPlayerId).playerCharacter == GameData.Character.WuXin)
         {
-            p.myUiPlayerManager.sonar.SetActive(false);
             yield break;
         }
 
         damagePlaying = true;
 
-        foreach (Image img in p.myUiPlayerManager.sonarImg)
-        {
-            img.color = new Color(p.myUiPlayerManager.wxTakeDamageColor.r, p.myUiPlayerManager.wxTakeDamageColor.g, p.myUiPlayerManager.wxTakeDamageColor.b, img.color.a);
-        }
-        p.myUiPlayerManager.sonar.SetActive(true);
+        UiManager.Instance.hitWXPanel.SetTrigger("Hit");
+        p.myUiPlayerManager.directionWxAnimator.SetTrigger("Hit");
 
         AudioManager.Instance.Play2DAudio(hitSound);
 
         yield return new WaitForSeconds(timeDamageDisplay);
 
-        p.myUiPlayerManager.sonar.SetActive(false);
 
         yield return new WaitForSeconds(timeCD);
         damagePlaying = false;
