@@ -251,6 +251,7 @@ public class PlayerModule : MonoBehaviour
             }
             echoRenderer.material.SetFloat("_Frequency", 0);
             echoRenderer.material.SetFloat("_FactorInvisible", 0);
+            echoRenderer.material.SetColor("_Color", GameFactory.GetRelativeColor(teamIndex));
             mapIcon.gameObject.SetActive(false);
             StartCoroutine(WaitForVisionCheck());
         }
