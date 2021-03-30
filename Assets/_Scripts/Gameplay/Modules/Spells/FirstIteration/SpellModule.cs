@@ -11,6 +11,7 @@ public class SpellModule : MonoBehaviour
 	[HideInInspector] public PlayerModule myPlayerModule;
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
+	bool willResolveFast, isPreped = false;
 	[ReadOnly] public float timeToResolveSpell;
 	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
 	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
@@ -106,17 +107,24 @@ public class SpellModule : MonoBehaviour
 		if (isUsed)
 		{
 			currentTimeCanalised += Time.fixedDeltaTime;
+
+			if (willResolveFast)
+				TryToResolveInstant(Vector3.zero);
+
 			TreatNormalCanalisation();
 			TreatThrowBack();
 		}
 
 		if (CanDeacreaseCooldown())
 			DecreaseCooldown();
+	}
 
+	private void Update ()
+	{
 		if (showingPreview)
 			UpdatePreview();
-
 	}
+
 	protected virtual void TreatNormalCanalisation ()
 	{
 		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !startResolution)
@@ -150,40 +158,35 @@ public class SpellModule : MonoBehaviour
 		else
 			SpellNotAvaible?.Invoke();
 	}
+
+	public virtual void TryToResolveInstant(Vector3 _useless)
+	{
+		if (currentTimeCanalised >= spell.minTimeToResolve && willResolveFast && !isPreped)
+		{
+			currentTimeCanalised = spell.canalisationTime - spell.anonciationTime;
+			isPreped = true;
+		}
+		else 
+		{
+			willResolveFast = true;
+		}
+	}
+
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
 		if (isOwner)
 		{
 			timeToResolveSpell = FinalCanalisationTime();
 
-			resolved = anonciated = startResolution = false;
+			isPreped = willResolveFast = resolved = anonciated = startResolution = false;
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
 			isUsed = true;
 			FeedbackSpellStep(En_SpellStep.Canalisation);
 			mousePosInputed = _BaseMousePos;
+
 			ApplyCanalisationEffect();
-
 			DecreaseCharge();
-
-
-			if (spell.statusToApplyOnCanalisation.Count > 0)
-			{
-				for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
-				{
-					if (spell.statusToApplyOnCanalisation[i].effect.isConstant)
-						statusToStopAtTheEnd.Add(spell.statusToApplyOnCanalisation[i]);
-
-					spell.statusToApplyOnCanalisation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
-				}
-
-			}
-
-			if (spell.lockRotOnCanalisation)
-				myPlayerModule.rotationLock(true);
-
-			if (spell.lockPosOnCanalisation)
-				myPlayerModule.AddState(En_CharacterState.Root);
 
 		}
 	}
@@ -271,6 +274,24 @@ public class SpellModule : MonoBehaviour
 	protected virtual void ApplyCanalisationEffect ()
 	{
 		myPlayerModule.AddState(En_CharacterState.Canalysing);
+
+
+		if (spell.statusToApplyOnCanalisation.Count > 0)
+		{
+			for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
+			{
+				if (spell.statusToApplyOnCanalisation[i].effect.isConstant)
+					statusToStopAtTheEnd.Add(spell.statusToApplyOnCanalisation[i]);
+
+				spell.statusToApplyOnCanalisation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
+			}
+		}
+
+		if (spell.lockRotOnCanalisation)
+			myPlayerModule.rotationLock(true);
+
+		if (spell.lockPosOnCanalisation)
+			myPlayerModule.AddState(En_CharacterState.Root);
 	}
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
@@ -469,26 +490,62 @@ public class SpellModule : MonoBehaviour
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += ShowPreview;
-				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.firstSpellInput += ShowPreview;
+					myPlayerModule.firstSpellInput += StartCanalysing;
+					myPlayerModule.firstSpellInputRealeased += TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.firstSpellInput += ShowPreview;
+					myPlayerModule.firstSpellInputRealeased += StartCanalysing;
+				}
 				myPlayerModule.firstSpellInputRealeased += HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += ShowPreview;
-				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.secondSpellInput += ShowPreview;
+					myPlayerModule.secondSpellInput += StartCanalysing;
+					myPlayerModule.secondSpellInputRealeased += TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.secondSpellInput += ShowPreview;
+					myPlayerModule.secondSpellInputRealeased += StartCanalysing;
+				}
 				myPlayerModule.secondSpellInputRealeased += HidePreview;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += ShowPreview;
-				myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.thirdSpellInput += ShowPreview;
+					myPlayerModule.thirdSpellInput += StartCanalysing;
+					myPlayerModule.thirdSpellInputRealeased += TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.thirdSpellInput += ShowPreview;
+					myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+				}
 				myPlayerModule.thirdSpellInputRealeased += HidePreview;
 				break;
 
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += ShowPreview;
-				myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.leftClickInput += ShowPreview;
+					myPlayerModule.leftClickInput += StartCanalysing;
+					myPlayerModule.leftClickInputRealeased += TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.leftClickInput += ShowPreview;
+					myPlayerModule.leftClickInputRealeased += StartCanalysing;
+				}
 				myPlayerModule.leftClickInputRealeased += HidePreview;
 				break;
 
@@ -523,26 +580,62 @@ public class SpellModule : MonoBehaviour
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.firstSpellInput -= ShowPreview;
+					myPlayerModule.firstSpellInput -= StartCanalysing;
+					myPlayerModule.firstSpellInputRealeased -= TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.firstSpellInput -= ShowPreview;
+					myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
+				}
 				myPlayerModule.firstSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= ShowPreview;
-				myPlayerModule.secondSpellInputRealeased -= StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.secondSpellInput -= ShowPreview;
+					myPlayerModule.secondSpellInput -= StartCanalysing;
+					myPlayerModule.secondSpellInputRealeased -= TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.secondSpellInput -= ShowPreview;
+					myPlayerModule.secondSpellInputRealeased -= StartCanalysing;
+				}
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= ShowPreview;
-				myPlayerModule.thirdSpellInputRealeased -= StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.thirdSpellInput -= ShowPreview;
+					myPlayerModule.thirdSpellInput -= StartCanalysing;
+					myPlayerModule.thirdSpellInputRealeased -= TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.thirdSpellInput -= ShowPreview;
+					myPlayerModule.thirdSpellInputRealeased -= StartCanalysing;
+				}
 				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
 				break;
 
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= ShowPreview;
-				myPlayerModule.leftClickInputRealeased -= StartCanalysing;
+				if (spell.startCanalisationOnClick)
+				{
+					myPlayerModule.leftClickInput -= ShowPreview;
+					myPlayerModule.leftClickInput -= StartCanalysing;
+					myPlayerModule.leftClickInputRealeased -= TryToResolveInstant;
+				}
+				else
+				{
+					myPlayerModule.leftClickInput -= ShowPreview;
+					myPlayerModule.leftClickInputRealeased -= StartCanalysing;
+				}
 				myPlayerModule.leftClickInputRealeased -= HidePreview;
 				break;
 
