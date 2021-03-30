@@ -104,6 +104,8 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] private bool isAutoHealing = false;
     public int bonusHp;
 
+    public float inBrumeValue = 0;
+
     //ALL ACTION 
     #region
     //[INPUTS ACTION]
@@ -442,7 +444,18 @@ public class PlayerModule : MonoBehaviour
             WaitForHealProcess();
         }
 
-
+        if (mylocalPlayer.isOwner)
+        {
+            if (isInBrume)
+            {
+                inBrumeValue += Time.deltaTime / 15;
+            }
+            else
+            {
+                inBrumeValue -= Time.deltaTime / 15;
+            }
+            inBrumeValue = Mathf.Clamp(inBrumeValue, 0, 1);
+        }
     }
     protected virtual void FixedUpdate()
     {

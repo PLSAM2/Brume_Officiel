@@ -93,6 +93,10 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] AudioClip VictoryAudio, DefeatAudio;
 
+    public Animator hitWXPanel;
+
+    public GameObject inBrumePanel;
+    public Image inBrumeValue;
 
     private void Awake ()
 	{
@@ -411,6 +415,8 @@ public class UiManager : MonoBehaviour
         {
             minimapObj.SetActive(false);
         }
+
+
     }
 
 	private void FixedUpdate ()
