@@ -104,7 +104,9 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] private bool isAutoHealing = false;
     public int bonusHp;
 
-    public float inBrumeValue = 0;
+    [TabGroup("GameplayInfos")] public float inBrumeValue = 0;
+    [TabGroup("GameplayInfos")] public float remapInBrumeValue = 0;
+    [TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
 
     //ALL ACTION 
     #region
@@ -448,13 +450,16 @@ public class PlayerModule : MonoBehaviour
         {
             if (isInBrume)
             {
-                inBrumeValue += Time.deltaTime / 15;
+                inBrumeValue -= Time.deltaTime / 15;
             }
             else
             {
-                inBrumeValue -= Time.deltaTime / 15;
+                inBrumeValue += Time.deltaTime / 50;
             }
             inBrumeValue = Mathf.Clamp(inBrumeValue, 0, 1);
+
+
+            remapInBrumeValue = GameFactory.ReMap(inBrumeValue, 0, 0.66f, 0, 1);
         }
     }
     protected virtual void FixedUpdate()
@@ -463,6 +468,7 @@ public class PlayerModule : MonoBehaviour
         TreatTickEffects();
         if (mylocalPlayer.isOwner)
         {
+           // echoRenderer.material.SetFloat(-)
             CheckBrumeShader();
         }
     }
