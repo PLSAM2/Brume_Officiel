@@ -47,7 +47,7 @@ public class FOWSystem : MonoBehaviour
             if (localPlayer.myPlayerModule.isInBrume)
             {
                 currentFogColor = Color.Lerp(currentFogColor, inBrumeColor, Time.deltaTime * 5);
-                opacityValue = Mathf.Lerp(opacityValue, 1, Time.deltaTime * 5);
+                opacityValue = Mathf.Lerp(opacityValue, 0.9f, Time.deltaTime * 5);
             }
             else
             {

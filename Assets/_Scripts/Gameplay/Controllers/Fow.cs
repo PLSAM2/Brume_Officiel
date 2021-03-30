@@ -56,11 +56,11 @@ public class Fow : MonoBehaviour
 
         if (playerModule.isInBrume)
         {
-            myFieldOfView.viewRadius = playerModule.characterParameters.visionRange;
+            myFieldOfView.viewRadius = playerModule.characterParameters.minVisionRange;
         }
         else
         {
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, playerModule.characterParameters.curveOutBrume.Evaluate(tOut) * Time.deltaTime);
+            myFieldOfView.viewRadius = playerModule.characterParameters.visionRange;
         }
     }
 }
