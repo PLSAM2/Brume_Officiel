@@ -106,7 +106,7 @@ public class PlayerModule : MonoBehaviour
 
     [TabGroup("GameplayInfos")] public float inBrumeValue = 1;
     [TabGroup("GameplayInfos")] public float remapInBrumeValue = 1;
-    [TabGroup("GameplayInfos")] public float lowSanitySeverityOnEchoAppearance = 5;
+    [TabGroup("GameplayInfos")] public float lowSanityFrequence = 2.5f;
     [TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
     [TabGroup("GameplayInfos")] public float startBrumeValue = 0.5f, maxFillValue = 0.5f, diveserSpeedFill = 15, diveserSpeedUnfill = 50;
 
@@ -181,7 +181,8 @@ public class PlayerModule : MonoBehaviour
             reduceTargetCooldown -= ReduceCooldown;
             spellResolved -= BuffInput;
 
-        } else
+        }
+        else
         {
             GameManager.Instance.OnLocalPlayerStateBrume -= OnLocalPlayerStateBrumeChange;
         }
@@ -250,10 +251,10 @@ public class PlayerModule : MonoBehaviour
                 skinnedRenderer.material.SetFloat("_OutlinePower", 10);
             }
             echoRenderer.material.SetFloat("_Frequency", 0);
-            echoRenderer.material.SetFloat("_FactorInvisible", 0);
+            echoRenderer.material.SetFloat("_FactorInvisible", 5);
             echoRenderer.material.SetColor("_Color", GameFactory.GetRelativeColor(teamIndex));
             mapIcon.gameObject.SetActive(false);
-            StartCoroutine(WaitForVisionCheck());
+           // StartCoroutine(WaitForVisionCheck());
         }
 
         ResetLayer();
@@ -262,7 +263,8 @@ public class PlayerModule : MonoBehaviour
     private void OnLocalPlayerStateBrumeChange(bool obj)
     {
         echoRenderer.material.SetFloat("_Frequency", 0);
-        echoRenderer.material.SetFloat("_FactorInvisible", 0);
+        echoRenderer.material.SetFloat("_FactorInvisible", 5);
+
         if (isInBrume)
         {
             echoRenderer.gameObject.SetActive(false);
@@ -485,7 +487,7 @@ public class PlayerModule : MonoBehaviour
             }
             inBrumeValue = Mathf.Clamp(inBrumeValue, 0, 1);
 
-            remapInBrumeValue = Mathf.Clamp(GameFactory.ReMap(inBrumeValue, 0, 0.66f, 0, 1), 0, 1); 
+            remapInBrumeValue = Mathf.Clamp(GameFactory.ReMap(inBrumeValue, 0, 0.66f, 0, 1), 0, 1);
         }
     }
     protected virtual void FixedUpdate()
@@ -496,14 +498,40 @@ public class PlayerModule : MonoBehaviour
         if (mylocalPlayer.isOwner)
         {
             CheckBrumeShader();
-        } else
+        }
+        else
         {
-            if (echoRenderer.gameObject.activeInHierarchy)
-            {
-                echoRenderer.material.SetFloat("_Frequency", (1 - GameFactory.GetActualPlayerFollow().myPlayerModule.remapInBrumeValue));
-                echoRenderer.material.SetFloat("_FactorInvisible", -(1 - GameFactory.GetActualPlayerFollow().myPlayerModule.remapInBrumeValue) * GameFactory.GetActualPlayerFollow().myPlayerModule.lowSanitySeverityOnEchoAppearance);
-            }
 
+            if (ShouldBePinged())
+            {
+                if (echoRenderer.gameObject.activeInHierarchy)
+                {
+                    if (GameFactory.GetActualPlayerFollow().myPlayerModule.inBrumeValue < 0.33f)
+                    {
+                        echoRenderer.gameObject.SetActive(false);
+                    }
+
+                    if (GameFactory.GetActualPlayerFollow().myPlayerModule.inBrumeValue > 0.66f)
+                    {
+                        echoRenderer.material.SetFloat("_Frequency", 0);
+                    }
+                    else
+                    {
+                        echoRenderer.material.SetFloat("_Frequency", lowSanityFrequence);
+                    }
+
+                }
+                else
+                {
+                    if (GameFactory.GetActualPlayerFollow().myPlayerModule.inBrumeValue > 0.33f)
+                    {
+                        echoRenderer.gameObject.SetActive(true);
+                    }
+                }
+            } else
+            {
+                echoRenderer.gameObject.SetActive(false);
+            }
         }
     }
     public void CheckBrumeShader()
@@ -588,6 +616,11 @@ public class PlayerModule : MonoBehaviour
     }
     public virtual void SetInBrumeStatut(bool _value, int idBrume)
     {
+        if (_value)
+        {
+            echoRenderer.gameObject.SetActive(false);
+        }
+
         isInBrume = _value;
         brumeId = idBrume;
     }
@@ -634,26 +667,7 @@ public class PlayerModule : MonoBehaviour
     }
     //vision
     #region
-    void CheckForBrumeRevelation()
-    {
-
-        if (GameManager.Instance.currentLocalPlayer == null)
-        {
-            return;
-        }
-        if (ShouldBePinged())
-        {
-            //Debug.Log("I shouldBePinged");
-            if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
-                LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
-            else
-                LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
-
-        }
-        lastRecordedPos = transform.position;
-
-    }
-
+   
     bool ShouldBePinged()
     {
         //marké par la shili donc go ping
@@ -661,8 +675,8 @@ public class PlayerModule : MonoBehaviour
             return true;
 
         //le perso a pas bougé
-        if (lastRecordedPos == transform.position || isInBrume)
-            return false;
+        //if (lastRecordedPos == transform.position || isInBrume)
+        //    return false;
 
         //on choppe le player local
         PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
@@ -678,12 +692,6 @@ public class PlayerModule : MonoBehaviour
         return true;
     }
 
-    IEnumerator WaitForVisionCheck()
-    {
-        CheckForBrumeRevelation();
-        yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-        StartCoroutine(WaitForVisionCheck());
-    }
     #endregion
     //Vars 
     #region 
