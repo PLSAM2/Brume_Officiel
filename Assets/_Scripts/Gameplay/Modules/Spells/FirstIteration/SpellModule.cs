@@ -119,7 +119,7 @@ public class SpellModule : MonoBehaviour
 			DecreaseCooldown();
 	}
 
-	private void Update ()
+	protected virtual void Update ()
 	{
 		if (showingPreview)
 			UpdatePreview();
