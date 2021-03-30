@@ -7,7 +7,8 @@ Shader "Echo"
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[ASEBegin]_Frequency("Frequency", Float) = 1
-		[ASEEnd]_FactorInvisible("FactorInvisible", Float) = 0
+		_FactorInvisible("FactorInvisible", Float) = 0
+		[ASEEnd]_Color("Color", Color) = (1,1,1,0)
 
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
 		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
@@ -191,6 +192,7 @@ Shader "Echo"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color;
 			float _Frequency;
 			float _FactorInvisible;
 			#ifdef TESSELLATION_ON
@@ -346,7 +348,7 @@ Shader "Echo"
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = float3( 0.5, 0.5, 0.5 );
+				float3 Color = _Color.rgb;
 				float Alpha = clampResult14;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
@@ -420,6 +422,7 @@ Shader "Echo"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color;
 			float _Frequency;
 			float _FactorInvisible;
 			#ifdef TESSELLATION_ON
@@ -657,6 +660,7 @@ Shader "Echo"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color;
 			float _Frequency;
 			float _FactorInvisible;
 			#ifdef TESSELLATION_ON
@@ -832,13 +836,14 @@ Shader "Echo"
 }
 /*ASEBEGIN
 Version=18707
-1920;0;1920;1019;1031.76;523.7886;1;True;True
+1920;0;1920;1019;1032.76;523.7886;1;True;True
 Node;AmplifyShaderEditor.RangedFloatNode;12;-761.2951,-134.2691;Inherit;False;Property;_Frequency;Frequency;0;0;Create;True;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;10;-604.2952,-145.2692;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.CosOpNode;9;-402.2951,-150.2692;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;13;-545.7021,99.8285;Inherit;False;Property;_FactorInvisible;FactorInvisible;1;0;Create;True;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;7;-166,-189.5;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;14;116.2405,-134.7886;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;15;-98.75952,-382.7886;Inherit;False;Property;_Color;Color;2;0;Create;True;0;0;False;0;False;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;3;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;3;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;3;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;False;False;False;False;0;False;-1;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
@@ -849,6 +854,7 @@ WireConnection;9;0;10;0
 WireConnection;7;0;9;0
 WireConnection;7;3;13;0
 WireConnection;14;0;7;0
+WireConnection;1;2;15;0
 WireConnection;1;3;14;0
 ASEEND*/
-//CHKSM=CD29E806DC8AD5137D013EC10B932C4FD8B35092
+//CHKSM=E820847DCDA00C87AFE2F588DEB85E4776453905
