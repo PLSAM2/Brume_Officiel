@@ -43,6 +43,9 @@ public class BrumeDetection : MonoBehaviour
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, false);
                     currentBrume.PlayAudio();
+
+                    GameManager.Instance._mistMat.SetTexture("_MistMask", currentBrume.myTexture);
+                    GameManager.Instance.OnLocalPlayerStateBrume?.Invoke(true);
                 }
             }
         }
@@ -56,6 +59,7 @@ public class BrumeDetection : MonoBehaviour
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, true);
                     currentBrume.PlayAudio();
+                    GameManager.Instance.OnLocalPlayerStateBrume?.Invoke(false);
                 }
             }
         }

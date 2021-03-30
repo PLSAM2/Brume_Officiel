@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
   m_Name: Spell_WuXin_ZoneGrab
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 8
   cooldown: 7
   numberOfCharge: 1
@@ -19,11 +21,11 @@ MonoBehaviour:
   stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  canalisationTime: 0.1
+  canalisationTime: 0
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
-  anonciationTime: 0.01
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []

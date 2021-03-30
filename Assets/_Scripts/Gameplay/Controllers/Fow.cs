@@ -14,7 +14,8 @@ public class Fow : MonoBehaviour
     public float fowRaduis = 0;
 
     PlayerModule playerModule;
-    bool isInBrumeGhost = false;
+
+    public AnimationCurve curveInBrume;
 
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
@@ -35,26 +36,12 @@ public class Fow : MonoBehaviour
     public void InitPlayerModule(PlayerModule _pModule)
     {
         playerModule = _pModule;
-    }
 
-    public void SetInBrumeGhost(bool _value)
-    {
-        isInBrumeGhost = _value;
+        curveInBrume = new AnimationCurve();
+        curveInBrume.AddKey(new Keyframe(0, playerModule.characterParameters.minVisionRange));
+        curveInBrume.AddKey(new Keyframe(0.66f, playerModule.characterParameters.visionRange));
+        curveInBrume.AddKey(new Keyframe(1, playerModule.characterParameters.visionRange));
     }
-
-    public void ForceChangeFowRaduis(float _size)
-    {
-        fowRaduis = _size;
-        myFieldOfView.viewRadius = fowRaduis;
-    }
-
-    public void ChangeFowRaduis(float _size)
-    {
-        fowRaduis = _size;
-    }
-
-    float tIn = 0;
-    float tOut = 0;
 
     // Update is called once per frame
     void Update()
@@ -63,18 +50,22 @@ public class Fow : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, new Vector3(myTarget.position.x, 0, myTarget.position.z), Time.deltaTime * followSpeed);
 
-        tIn += Time.deltaTime;
-        tOut += Time.deltaTime;
-
-        if (playerModule.isInBrume || isInBrumeGhost)
+        float raduis = 0;
+        if (playerModule.isInBrume)
         {
-            tOut = 0;
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, playerModule.characterParameters.curveInBrume.Evaluate(tIn) * Time.deltaTime);
+            if(playerModule.inBrumeValue >= 0.66f) {
+                raduis = playerModule.characterParameters.visionRange;
+            }
+            else
+            {
+                raduis = curveInBrume.Evaluate(playerModule.inBrumeValue);
+            }
         }
         else
         {
-            tIn = 0;
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, playerModule.characterParameters.curveOutBrume.Evaluate(tOut) * Time.deltaTime);
+            raduis = playerModule.characterParameters.visionRange;
         }
+
+        myFieldOfView.viewRadius = raduis;
     }
 }

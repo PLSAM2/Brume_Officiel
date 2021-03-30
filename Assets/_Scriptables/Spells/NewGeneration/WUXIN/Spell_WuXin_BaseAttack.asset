@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_WuXin_BaseAttack
   m_EditorClassIdentifier: 
-  range: 6.75
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.6
+  range: 13
   cooldown: 2.5
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 0.5
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0.6
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.5
+  anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
@@ -49,30 +51,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1.008956
-      inSlope: 0
-      outSlope: 0
+      value: 0.79625064
+      inSlope: -0.0217287
+      outSlope: -0.0217287
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.73147357
-      value: 2.5444894
-      inSlope: 6.71498
-      outSlope: 6.71498
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.07626017
+      outWeight: 0.099331476
     - serializedVersion: 3
       time: 1
-      value: 4.9776225
-      inSlope: -0.4938387
-      outSlope: -0.4938387
+      value: 1.3005383
+      inSlope: 0.012420539
+      outSlope: 0.012420539
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.340273
+      inWeight: 0.17437202
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -88,7 +81,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.7
+    timeToReachMaxRange: 0.6
     timeToResolveTheSalve: 0.2
   angleToSplit: 0
   destroyProjectiles: 0

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Cameras;
 using static GameData;
 
 public class LocalPlayer : MonoBehaviour, Damageable
@@ -102,8 +103,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
-			myUiPlayerManager.WxCompass.transform.parent.gameObject.SetActive(false);
-
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				SpawnFow();
@@ -150,11 +149,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
 		{
 			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
-		}
-		else
-		{
-			myUiPlayerManager.WxCompass.transform.parent.gameObject.SetActive(false);
-		}
+            myUiPlayerManager.directionWx.target = myUiPlayerManager.wxRef.transform;
+        }
 
 		allCharacterSpawned = true;
 	}
@@ -186,28 +182,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public float GetFowRaduis ()
 	{
 		return myFow.fowRaduis;
-	}
-
-	public void ForceLocalFowRaduis ( float _value )
-	{
-		myFow.ForceChangeFowRaduis(_value);
-	}
-
-	public void SetFowRaduisLocal ( float _value )
-	{
-		myFow.ChangeFowRaduis(_value);
-	}
-	public void ResetFowRaduisLocal ()
-	{
-		myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
-	}
-	public void ResetFowRaduisOnline ()
-	{
-		SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
-	}
-	public void ForceResetFowRaduisOnline ()
-	{
-		SendForceFowRaduis(myPlayerModule.characterParameters.visionRange);
 	}
 
 	private void OnDestroy ()
@@ -273,6 +247,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
+
+        UiManager.Instance.inBrumeValue.fillAmount = 1 - myPlayerModule.inBrumeValue;
+        UiManager.Instance.inBrumePanel.SetActive(myPlayerModule.inBrumeValue < 0.99f);
 	}
 
 	public void SendState ( En_CharacterState _state )
@@ -346,17 +323,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (myFow == null || myPlayerModule.state.HasFlag(En_CharacterState.ThirdEye))
 		{
 			return;
-		}
-
-		switch (_value)
-		{
-			case true:
-				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRangeInBrume);
-				break;
-
-			case false:
-				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRange);
-				break;
 		}
 	}
 
@@ -567,36 +533,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		liveHealth = (ushort)_tempHp;
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
-	}
-
-	public void SendChangeFowRaduis ( float size = 0 )
-	{
-		SetFowRaduisLocal(size);
-
-		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-		{
-			_writer.Write((uint)size * 100);
-
-			using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
-			{
-				currentClient.SendMessage(_message, SendMode.Reliable);
-			}
-		}
-	}
-
-	public void SendForceFowRaduis ( float size )
-	{
-		ForceLocalFowRaduis(size);
-
-		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-		{
-			_writer.Write((uint)size * 100);
-
-			using (Message _message = Message.Create(Tags.ForceFowSize, _writer))
-			{
-				currentClient.SendMessage(_message, SendMode.Reliable);
-			}
-		}
 	}
 
 	public void SendSpawnGenericFx ( ushort _index, Vector3 _pos, float _rota, float _scale, float _time )

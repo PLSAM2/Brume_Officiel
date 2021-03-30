@@ -404,19 +404,8 @@ public class GameFactory
 		return layermask == (layermask | (1 << layer));
 	}
 
-	public static UltiBar GetMyUltiBar ()
+	public static float ReMap(float input, float inputMin, float inputMax, float min, float max)
 	{
-		switch (NetworkManager.Instance.GetLocalPlayer().playerCharacter)
-		{
-			case Character.WuXin:
-				return UiManager.Instance.parentUltiWX;
-
-			case Character.Re:
-				return UiManager.Instance.parentUltiRE;
-
-			case Character.Leng:
-				return UiManager.Instance.parentUltiLENG;
-		}
-		return null;
+		return min + (input - inputMin) * (max - min) / (inputMax - inputMin);
 	}
 }
