@@ -154,7 +154,7 @@ public class PlayerModule : MonoBehaviour
         GameManager.Instance.OnAllCharacterSpawned += Setup;
         GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 
-        inBrumeValue = 0.5f;
+        inBrumeValue = startBrumeValue;
         //A VIRER QUAND C EST TROUVER.
     }
     void Start()
@@ -473,13 +473,13 @@ public class PlayerModule : MonoBehaviour
         {
             if (isInBrume)
             {
-                inBrumeValue -= Time.deltaTime / 15;
+                inBrumeValue -= Time.deltaTime / diveserSpeedFill;
             }
             else
             {
-                if (inBrumeValue < 0.5f)
+                if (inBrumeValue < maxFillValue)
                 {
-                    inBrumeValue += Time.deltaTime / 50;
+                    inBrumeValue += Time.deltaTime / diveserSpeedUnfill;
                 }
             }
             inBrumeValue = Mathf.Clamp(inBrumeValue, 0, 1);
