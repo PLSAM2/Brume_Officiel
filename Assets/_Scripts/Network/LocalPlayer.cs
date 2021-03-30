@@ -184,28 +184,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		return myFow.fowRaduis;
 	}
 
-	public void ForceLocalFowRaduis ( float _value )
-	{
-		myFow.ForceChangeFowRaduis(_value);
-	}
-
-	public void SetFowRaduisLocal ( float _value )
-	{
-		myFow.ChangeFowRaduis(_value);
-	}
-	public void ResetFowRaduisLocal ()
-	{
-		myFow.ChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
-	}
-	public void ResetFowRaduisOnline ()
-	{
-		SendChangeFowRaduis(myPlayerModule.characterParameters.visionRange);
-	}
-	public void ForceResetFowRaduisOnline ()
-	{
-		SendForceFowRaduis(myPlayerModule.characterParameters.visionRange);
-	}
-
 	private void OnDestroy ()
 	{
 		if (myFow != null)
@@ -555,36 +533,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		liveHealth = (ushort)_tempHp;
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
-	}
-
-	public void SendChangeFowRaduis ( float size = 0 )
-	{
-		SetFowRaduisLocal(size);
-
-		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-		{
-			_writer.Write((uint)size * 100);
-
-			using (Message _message = Message.Create(Tags.ChangeFowSize, _writer))
-			{
-				currentClient.SendMessage(_message, SendMode.Reliable);
-			}
-		}
-	}
-
-	public void SendForceFowRaduis ( float size )
-	{
-		ForceLocalFowRaduis(size);
-
-		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-		{
-			_writer.Write((uint)size * 100);
-
-			using (Message _message = Message.Create(Tags.ForceFowSize, _writer))
-			{
-				currentClient.SendMessage(_message, SendMode.Reliable);
-			}
-		}
 	}
 
 	public void SendSpawnGenericFx ( ushort _index, Vector3 _pos, float _rota, float _scale, float _time )
