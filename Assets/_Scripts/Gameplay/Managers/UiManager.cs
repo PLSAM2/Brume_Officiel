@@ -64,7 +64,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
     [Header("Ulti")]
-    [FoldoutGroup("Ulti")] public UltiBar parentUltiWX, parentUltiRE, parentUltiLENG;
     [FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
     [FoldoutGroup("Ulti")] public Material blueColor, grayColor;
     [FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
@@ -121,10 +120,6 @@ public class UiManager : MonoBehaviour
         SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
         SpawnLifeBar(parentLifeRE, reImgLife, Character.Re);
         SpawnLifeBar(parentLifeLENG, lengImgLife, Character.Leng);
-
-        parentUltiWX.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin;
-        parentUltiRE.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.Re;
-        parentUltiLENG.isOwner = NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.Leng;
     }
 
     void SpawnLifeBar(Transform parent, List<Image> listImg, Character champ)
@@ -144,7 +139,6 @@ public class UiManager : MonoBehaviour
 		GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
         GameManager.Instance.OnPlayerGetHealed += OnPlayerGetHeal;
         GameManager.Instance.OnPlayerSpawn += OnPlayerSpawn;
-        GameManager.Instance.OnPlayerUltiChange += OnPlayerUltiChange;
 	}
 
 	private void OnDisable ()
@@ -153,7 +147,6 @@ public class UiManager : MonoBehaviour
 		GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
 		GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerSpawn -= OnPlayerSpawn;
-        GameManager.Instance.OnPlayerUltiChange -= OnPlayerUltiChange;
         GameManager.Instance.OnPlayerGetHealed -= OnPlayerGetHeal;
     }
 
@@ -559,40 +552,6 @@ public class UiManager : MonoBehaviour
 	{
 		waitingForPlayersPanel.SetActive(false);
 	}
-
-	internal void AllPlayerJoinGameScene ()
-	{
-		waitingForPlayersPanel.SetActive(false);
-
-		//InitUlti
-		ushort? wxId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
-        //print(RoomManager.Instance.GetPlayerData((ushort)wxId).ultStacks);
-        parentUltiWX.Init(GameData.characterUltMax[Character.WuXin], wxId != null ? RoomManager.Instance.GetPlayerData((ushort) wxId).ultStacks : (ushort) 0);
-
-        ushort? reId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Re);
-        parentUltiRE.Init(GameData.characterUltMax[Character.Re], reId != null ? RoomManager.Instance.GetPlayerData((ushort) reId).ultStacks : (ushort) 0);
-
-        ushort? lengId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.Leng);
-        parentUltiLENG.Init(GameData.characterUltMax[Character.Leng], lengId != null ? RoomManager.Instance.GetPlayerData((ushort)lengId).ultStacks : (ushort)0);
-    }
-
-    void OnPlayerUltiChange(ushort _player, ushort _number)
-    {
-        bool islocal = (NetworkManager.Instance.GetLocalPlayer().ID == _player);
-
-        switch (RoomManager.Instance.actualRoom.playerList[_player].playerCharacter)
-        {
-            case Character.WuXin:
-                parentUltiWX.SetValue(_number, islocal);
-                break;
-            case Character.Re:
-                parentUltiRE.SetValue(_number, islocal);
-                break;
-            case Character.Leng:
-                parentUltiLENG.SetValue(_number, islocal);
-                break;
-        }
-    }
 
     public void UpdateChargesUi ( int _charges, En_SpellInput _spellInput )
 	{
