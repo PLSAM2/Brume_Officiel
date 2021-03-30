@@ -93,6 +93,7 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] AudioClip VictoryAudio, DefeatAudio;
 
+    public Animator hitWXPanel;
 
     private void Awake ()
 	{

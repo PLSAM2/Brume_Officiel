@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Cameras;
 using static GameData;
 
 public class LocalPlayer : MonoBehaviour, Damageable
@@ -102,8 +103,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
-			myUiPlayerManager.WxCompass.transform.parent.gameObject.SetActive(false);
-
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				SpawnFow();
@@ -150,11 +149,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
 		{
 			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
-		}
-		else
-		{
-			myUiPlayerManager.WxCompass.transform.parent.gameObject.SetActive(false);
-		}
+            myUiPlayerManager.directionWx.target = myUiPlayerManager.wxRef.transform;
+        }
 
 		allCharacterSpawned = true;
 	}
