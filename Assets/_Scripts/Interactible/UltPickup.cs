@@ -8,7 +8,7 @@ public class UltPickup : Interactible
     [SerializeField] Animator myAnimator;
     public ushort ultimateStackGive = 1;
     public ushort hitPointGiven = 1;
-
+    public float brumeExplorationGain = .4f;
     protected override void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
@@ -44,7 +44,7 @@ public class UltPickup : Interactible
         //        NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
         //    }
         //}
-
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
         base.Captured(_capturingPlayerID);
 
     }
@@ -52,7 +52,7 @@ public class UltPickup : Interactible
     {
         base.UpdateCaptured(_capturingPlayerID);
 
-        GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
+      //  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
 
         ActualiseMesh();
     }
