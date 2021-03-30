@@ -132,6 +132,11 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    internal void AllPlayerJoinGameScene()
+    {
+        waitingForPlayersPanel.SetActive(false);
+    }
+
     private void OnEnable ()
 	{
 		GameManager.Instance.OnPlayerDie += OnPlayerDie;
