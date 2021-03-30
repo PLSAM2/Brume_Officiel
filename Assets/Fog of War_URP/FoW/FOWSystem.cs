@@ -14,6 +14,8 @@ public class FOWSystem : MonoBehaviour
     [HideInInspector]
     public Color currentFogColor = new Color(0.05f, 0.05f, 0.05f, 1f);
 
+    public Material mistMatPlane;
+
     public int worldSize = 256;
     public int textureSize = 128;
 
@@ -31,8 +33,11 @@ public class FOWSystem : MonoBehaviour
         {
             _instance = this;
         }
+
+        mistMatPlane.SetFloat("_Opacity", 0);
     }
 
+    float opacityValue = 0;
     private void Update()
     {
         LocalPlayer localPlayer = GameFactory.GetActualPlayerFollow();
@@ -41,12 +46,21 @@ public class FOWSystem : MonoBehaviour
         {
             if (localPlayer.myPlayerModule.isInBrume)
             {
-                currentFogColor = Color.Lerp(currentFogColor, inBrumeColor, Time.deltaTime * 10);
+                currentFogColor = Color.Lerp(currentFogColor, inBrumeColor, Time.deltaTime * 5);
+                opacityValue = Mathf.Lerp(opacityValue, 1, Time.deltaTime * 5);
             }
             else
             {
-                currentFogColor = Color.Lerp(currentFogColor, outBrumeColor, Time.deltaTime * 10);
+                currentFogColor = Color.Lerp(currentFogColor, outBrumeColor, Time.deltaTime * 5);
+                opacityValue = Mathf.Lerp(opacityValue, 0, Time.deltaTime * 5);
             }
+
+            mistMatPlane.SetFloat("_Opacity", opacityValue);
         }
+    }
+
+    private void OnDisable()
+    {
+        mistMatPlane.SetFloat("_Opacity", 0); 
     }
 }
