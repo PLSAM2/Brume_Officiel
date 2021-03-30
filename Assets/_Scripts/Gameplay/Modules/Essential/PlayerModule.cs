@@ -104,8 +104,8 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] private bool isAutoHealing = false;
     public int bonusHp;
 
-    [TabGroup("GameplayInfos")] public float inBrumeValue = 0;
-    [TabGroup("GameplayInfos")] public float remapInBrumeValue = 0;
+    [TabGroup("GameplayInfos")] public float inBrumeValue = 1;
+    [TabGroup("GameplayInfos")] [HideInInspector] public float remapInBrumeValue = 1;
     [TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
 
     //ALL ACTION 
@@ -151,6 +151,8 @@ public class PlayerModule : MonoBehaviour
         mylocalPlayer = GetComponent<LocalPlayer>();
         GameManager.Instance.OnAllCharacterSpawned += Setup;
         GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
+
+        inBrumeValue = 1;
 
         //A VIRER QUAND C EST TROUVER.
     }

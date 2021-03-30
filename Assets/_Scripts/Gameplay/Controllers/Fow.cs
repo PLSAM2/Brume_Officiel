@@ -14,7 +14,6 @@ public class Fow : MonoBehaviour
     public float fowRaduis = 0;
 
     PlayerModule playerModule;
-    bool isInBrumeGhost = false;
 
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
@@ -37,11 +36,6 @@ public class Fow : MonoBehaviour
         playerModule = _pModule;
     }
 
-    public void SetInBrumeGhost(bool _value)
-    {
-        isInBrumeGhost = _value;
-    }
-
     public void ForceChangeFowRaduis(float _size)
     {
         fowRaduis = _size;
@@ -53,9 +47,6 @@ public class Fow : MonoBehaviour
         fowRaduis = _size;
     }
 
-    float tIn = 0;
-    float tOut = 0;
-
     // Update is called once per frame
     void Update()
     {
@@ -63,18 +54,13 @@ public class Fow : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, new Vector3(myTarget.position.x, 0, myTarget.position.z), Time.deltaTime * followSpeed);
 
-        tIn += Time.deltaTime;
-        tOut += Time.deltaTime;
-
-        if (playerModule.isInBrume || isInBrumeGhost)
+        if (playerModule.isInBrume)
         {
-            tOut = 0;
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, playerModule.characterParameters.visionRangeInBrume, playerModule.characterParameters.curveInBrume.Evaluate(tIn) * Time.deltaTime);
+            myFieldOfView.viewRadius = playerModule.characterParameters.minVisionRange;
         }
         else
         {
-            tIn = 0;
-            myFieldOfView.viewRadius = Mathf.Lerp(myFieldOfView.viewRadius, fowRaduis, playerModule.characterParameters.curveOutBrume.Evaluate(tOut) * Time.deltaTime);
+            myFieldOfView.viewRadius = playerModule.characterParameters.visionRange;
         }
     }
 }

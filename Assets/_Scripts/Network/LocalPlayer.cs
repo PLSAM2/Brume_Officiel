@@ -270,8 +270,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-        UiManager.Instance.inBrumeValue.fillAmount = myPlayerModule.inBrumeValue;
-        UiManager.Instance.inBrumePanel.SetActive(myPlayerModule.inBrumeValue > 0.01f);
+        UiManager.Instance.inBrumeValue.fillAmount = 1 - myPlayerModule.inBrumeValue;
+        UiManager.Instance.inBrumePanel.SetActive(myPlayerModule.inBrumeValue < 0.99f);
 	}
 
 	public void SendState ( En_CharacterState _state )
@@ -345,17 +345,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (myFow == null || myPlayerModule.state.HasFlag(En_CharacterState.ThirdEye))
 		{
 			return;
-		}
-
-		switch (_value)
-		{
-			case true:
-				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRangeInBrume);
-				break;
-
-			case false:
-				SetFowRaduisLocal(myPlayerModule.characterParameters.visionRange);
-				break;
 		}
 	}
 

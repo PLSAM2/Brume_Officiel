@@ -9,29 +9,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e928c7f3c3488d4c85b5caff876dd93, type: 3}
-  m_Name: Spell_Re_HurtingDash
+  m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
+  m_Name: Spell_Re_Jump
   m_EditorClassIdentifier: 
-  range: 0
-  cooldown: 4
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
+  range: 2
+  cooldown: 7
   numberOfCharge: 1
   forbiddenState: 48
-  useUltStacks: 0
   stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
-  canalisationTime: 0.3
+  canalisationTime: 0.75
   statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
-  anonciationTime: 0.05
-  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: 4ce5197c2cc3fa04bb3786c49f81acbe, type: 2}
+  anonciationTime: 0.3
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 4e8604368a02b014db67af542b70351f, type: 3}
-  spellName: Assault
-  spellDescription: Re dashes in a direction dealing 1 damage to every enemy hit.
-    If he hits an enemy on the way the cooldown is refunded.
-  bonusDash: 0
+  spellIcon: {fileID: 21300000, guid: 1eb98b4e05673114d890283d7f57121b, type: 3}
+  spellName: Crushing Dive
+  spellDescription: Leng jumps in a chosen direction, becoming invulnerable. On impact,
+    she deals 1 damage and stuns any enemy nearby.
