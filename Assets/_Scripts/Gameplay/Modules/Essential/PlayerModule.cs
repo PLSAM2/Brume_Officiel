@@ -107,6 +107,7 @@ public class PlayerModule : MonoBehaviour
     [TabGroup("GameplayInfos")] public float inBrumeValue = 1;
     [TabGroup("GameplayInfos")] [HideInInspector] public float remapInBrumeValue = 1;
     [TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
+    [TabGroup("GameplayInfos")] public float startBrumeValue = 0.5f, maxFillValue = 0.5f, diveserSpeedFill = 15, diveserSpeedUnfill = 50;
 
     //ALL ACTION 
     #region
