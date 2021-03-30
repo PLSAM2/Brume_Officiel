@@ -419,4 +419,9 @@ public class GameFactory
 		}
 		return null;
 	}
+
+	public static float ReMap(float input, float inputMin, float inputMax, float min, float max)
+	{
+		return min + (input - inputMin) * (max - min) / (inputMax - inputMin);
+	}
 }
