@@ -832,7 +832,7 @@ Shader "Echo"
 }
 /*ASEBEGIN
 Version=18707
-1920;0;1920;1019;1000.76;522.7886;1;True;True
+1920;0;1920;1019;1031.76;523.7886;1;True;True
 Node;AmplifyShaderEditor.RangedFloatNode;12;-761.2951,-134.2691;Inherit;False;Property;_Frequency;Frequency;0;0;Create;True;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;10;-604.2952,-145.2692;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.CosOpNode;9;-402.2951,-150.2692;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
@@ -851,4 +851,4 @@ WireConnection;7;3;13;0
 WireConnection;14;0;7;0
 WireConnection;1;3;14;0
 ASEEND*/
-//CHKSM=C9970D696878828BB75EDE8F87D9DD99482C2862
+//CHKSM=CD29E806DC8AD5137D013EC10B932C4FD8B35092
