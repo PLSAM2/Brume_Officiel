@@ -84,8 +84,9 @@ public class JumpModule : SpellModule
 		base.HidePreview(_posToHide);
 	}
 
-	private void Update ()
+	protected override void Update ()
 	{
+		base.Update();
 		if(anonciated & !resolved)
 		{
 			Vector3 _posToSet = jumpPosStart + (jumpPosEnd - jumpPosStart) * progressionCurve.Evaluate((currentTimeCanalised - (spell.canalisationTime - spell.anonciationTime)) / spell.anonciationTime);

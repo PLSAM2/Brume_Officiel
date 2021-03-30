@@ -67,8 +67,9 @@ public class Module_Spit : SpellModule
 
 
 
-	protected void Update ()
+	protected override void Update ()
 	{
+		base.Update();
 		if (isLaunched)
 		{
 			if (simpleSpeed)
