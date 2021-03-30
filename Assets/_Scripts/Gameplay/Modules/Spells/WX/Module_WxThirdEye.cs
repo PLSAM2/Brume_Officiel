@@ -126,8 +126,6 @@ public class Module_WxThirdEye : SpellModule
 				Vector3 finalSize = new Vector3(spell.range, spell.range, spell.range);
 				shockWave.transform.DOScale(finalSize, localTrad.anonciationTime).OnComplete(() => UpdateShockWaveStatus(En_ShockWaveStatus.Opened));
 
-				myPlayerModule.mylocalPlayer.SendForceFowRaduis(localTrad.fowRaduis);
-
                 myPlayerModule.AddState(En_CharacterState.ThirdEye);
                 break;
 
@@ -169,7 +167,7 @@ public class Module_WxThirdEye : SpellModule
                 CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
 
                 HideAllAlliedVision(true);
-                GameFactory.GetLocalPlayerObj().ForceResetFowRaduisOnline();
+
             //	StopOutlineOnPlayers();
                 foreach (KeyValuePair<ushort, LocalPlayer> player in GameManager.Instance.networkPlayers)
 				{
@@ -297,18 +295,6 @@ public class Module_WxThirdEye : SpellModule
 		{
 			if (player.Value == myPlayerModule.mylocalPlayer)
 				continue;
-
-			if (player.Value.myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-			{
-				if (_ShowGlobalVision)
-				{
-					player.Value.ResetFowRaduisLocal();
-				}
-				else
-				{
-					player.Value.SetFowRaduisLocal(0);
-				}
-			}
 		}
 	}
 

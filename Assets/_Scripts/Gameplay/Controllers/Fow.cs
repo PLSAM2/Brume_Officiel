@@ -15,6 +15,8 @@ public class Fow : MonoBehaviour
 
     PlayerModule playerModule;
 
+    public AnimationCurve curveInBrume;
+
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
         if(_target != null)
@@ -34,17 +36,11 @@ public class Fow : MonoBehaviour
     public void InitPlayerModule(PlayerModule _pModule)
     {
         playerModule = _pModule;
-    }
 
-    public void ForceChangeFowRaduis(float _size)
-    {
-        fowRaduis = _size;
-        myFieldOfView.viewRadius = fowRaduis;
-    }
-
-    public void ChangeFowRaduis(float _size)
-    {
-        fowRaduis = _size;
+        curveInBrume = new AnimationCurve();
+        curveInBrume.AddKey(new Keyframe(0, playerModule.characterParameters.minVisionRange));
+        curveInBrume.AddKey(new Keyframe(0.66f, playerModule.characterParameters.visionRange));
+        curveInBrume.AddKey(new Keyframe(1, playerModule.characterParameters.visionRange));
     }
 
     // Update is called once per frame
@@ -54,13 +50,22 @@ public class Fow : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, new Vector3(myTarget.position.x, 0, myTarget.position.z), Time.deltaTime * followSpeed);
 
+        float raduis = 0;
         if (playerModule.isInBrume)
         {
-            myFieldOfView.viewRadius = playerModule.characterParameters.minVisionRange;
+            if(playerModule.inBrumeValue >= 0.66f) {
+                raduis = playerModule.characterParameters.visionRange;
+            }
+            else
+            {
+                raduis = curveInBrume.Evaluate(playerModule.inBrumeValue);
+            }
         }
         else
         {
-            myFieldOfView.viewRadius = playerModule.characterParameters.visionRange;
+            raduis = playerModule.characterParameters.visionRange;
         }
+
+        myFieldOfView.viewRadius = raduis;
     }
 }

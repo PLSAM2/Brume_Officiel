@@ -211,11 +211,9 @@ public class Ghost : MonoBehaviour
                         GameFactory.GetBrumeById(brumeId).ForceExit(playerModule);
                     }
                 }
-                playerModule.mylocalPlayer.ForceResetFowRaduisOnline();
             }
             else
             {
-                playerModule.mylocalPlayer.SendForceFowRaduis(myFow.fowRaduis);
 
                 playerModule.isInBrume = isInBrume;
                 playerModule.brumeId = brumeId;
