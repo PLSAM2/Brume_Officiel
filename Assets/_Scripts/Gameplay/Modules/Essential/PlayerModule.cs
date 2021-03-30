@@ -106,6 +106,7 @@ public class PlayerModule : MonoBehaviour
 
     [TabGroup("GameplayInfos")] public float inBrumeValue = 0;
     [TabGroup("GameplayInfos")] public float remapInBrumeValue = 0;
+    [TabGroup("GameplayInfos")] public float lowSanitySeverityOnEchoAppearance = 5;
     [TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
 
     //ALL ACTION 
@@ -241,7 +242,7 @@ public class PlayerModule : MonoBehaviour
             {
                 skinnedRenderer.material.SetFloat("_OutlinePower", 10);
             }
-
+            echoRenderer.material.SetFloat("_FactorInvisible", 0);
             mapIcon.gameObject.SetActive(false);
             StartCoroutine(WaitForVisionCheck());
         }
@@ -466,9 +467,10 @@ public class PlayerModule : MonoBehaviour
     {
         TreatEffects();
         TreatTickEffects();
+
         if (mylocalPlayer.isOwner)
         {
-           // echoRenderer.material.SetFloat(-)
+            echoRenderer.material.SetFloat("_FactorInvisible",- (1 - remapInBrumeValue) * lowSanitySeverityOnEchoAppearance);
             CheckBrumeShader();
         }
     }
