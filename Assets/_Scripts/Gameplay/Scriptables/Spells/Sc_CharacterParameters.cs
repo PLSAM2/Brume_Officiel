@@ -16,12 +16,9 @@ public class Sc_CharacterParameters : ScriptableObject
 
 	[Header("Vision Parameters")]
 	public ushort visionRange;
-	public ushort visionRangeInBrume;
-	public ushort detectionRange = 10; 
+    public ushort minVisionRange = 2;
+    public ushort detectionRange = 10; 
 	public float delayBetweenDetection = 2;
-
-    public AnimationCurve curveInBrume;
-    public AnimationCurve curveOutBrume;
 }
 
 [System.Serializable]

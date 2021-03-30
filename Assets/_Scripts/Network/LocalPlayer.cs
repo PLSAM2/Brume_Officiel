@@ -270,7 +270,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-        UiManager.Instance.inBrumeValue.fillAmount = myPlayerModule.inBrumeValue;
+        UiManager.Instance.inBrumeValue.fillAmount = 1 - myPlayerModule.inBrumeValue;
         UiManager.Instance.inBrumePanel.SetActive(myPlayerModule.inBrumeValue > 0.01f);
 	}
 
