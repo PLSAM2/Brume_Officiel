@@ -31,8 +31,6 @@ public class LobbyManager : MonoBehaviour
 
     [SerializeField] AudioClip _bgMusic;
 
-    public TextMeshProUGUI version;
-
     private void Awake()
     {
         if (_instance != null && _instance != this)

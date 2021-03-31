@@ -98,7 +98,7 @@ public class StatMenu : MonoBehaviour
         }
         else
         {
-            winLocal.text = Mathf.RoundToInt((float) StatFactory.GetTotalNbrWin() / (float) StatFactory.GetTotalNbrGame() ).ToString();
+            winLocal.text = (Mathf.RoundToInt((float) StatFactory.GetTotalNbrWin() / (float) StatFactory.GetTotalNbrGame() ) * 100) .ToString();
         }
 
         killLocal.text = StatFactory.GetTotalNbrKill().ToString();
@@ -121,7 +121,7 @@ public class StatMenu : MonoBehaviour
         }
         else
         {
-            _win.text = Mathf.RoundToInt((float)StatFactory.GetIntStat(_charac, statType.Win) / (float)StatFactory.GetIntStat(_charac, statType.Game)) + "<size=20>%</size>";
+            _win.text = (Mathf.RoundToInt((float)StatFactory.GetIntStat(_charac, statType.Win) / (float)StatFactory.GetIntStat(_charac, statType.Game)) * 100) + "<size=20>%</size>";
         }
 
         _kill.text = StatFactory.GetIntStat(_charac, statType.Kill).ToString();
