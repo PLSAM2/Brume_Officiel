@@ -55,10 +55,10 @@ public class PlayerModule : MonoBehaviour
 			_isInBrume = value;
 
 			if (mylocalPlayer.isOwner)
+			{
 				GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
-
-			SetAltarSpeedBuffState(_isInBrume);
-
+				SetAltarSpeedBuffState(_isInBrume);
+			}
 		}
 	}
 	[TabGroup("Debugging")] [ReadOnly] public int brumeId;
