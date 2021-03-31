@@ -178,8 +178,6 @@ public class RoomManager : MonoBehaviour
 
     IEnumerator EndGame()
     {
-        StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int) Math.Floor(GameManager.Instance.timer / 60));
-
         Time.timeScale = Time.timeScale / 4;
 
         yield return new WaitForSeconds(1);

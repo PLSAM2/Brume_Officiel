@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +60,12 @@ public class StatManager : MonoBehaviour
             killPlayer.Add(_killer, 1);
         }
 
-        if(_killer == NetworkManager.Instance.GetLocalPlayer().ID)
+        if(_idPlayer == NetworkManager.Instance.GetLocalPlayer().ID)
+        {
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
+        }
+
+        if (_killer == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Kill);
         }

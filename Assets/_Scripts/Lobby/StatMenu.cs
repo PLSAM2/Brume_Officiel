@@ -89,7 +89,7 @@ public class StatMenu : MonoBehaviour
     void InitStat()
     {
         timePlayedLocal.text = StatFactory.GetTotalTimePlayed() + "<size=60> MIN</size>";
-        gameLocal.text = StatFactory.GetTotalNbrGame() + "<size=60> MIN</size>";
+        gameLocal.text = StatFactory.GetTotalNbrGame().ToString();
 
 
         if (StatFactory.GetTotalNbrWin() == 0)
