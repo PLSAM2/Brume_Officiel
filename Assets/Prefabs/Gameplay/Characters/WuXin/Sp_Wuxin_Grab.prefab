@@ -152,8 +152,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.365915, y: 1, z: 4.4076414}
-  m_Center: {x: 0.013909578, y: 0, z: -0.0069537163}
+  m_Size: {x: 6, y: 1, z: 6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7776885188641116624
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,34 +237,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3679145131165341815}
     m_Modifications:
-    - target: {fileID: 848491756698758034, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 848491756698758034, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 848491756698758034, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1650581511202024480, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1650581511202024480, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1650581511202024480, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855503183512185683, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4348676143512159827, guid: 6a6261cf6e38e8f4d8b1030f89c857b4, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -327,6 +299,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 117108669595431678}
     m_Modifications:
+    - target: {fileID: 468314070644148847, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 712322244126242898, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
       propertyPath: m_Name
       value: GrabWuxinEffectBlue Variant
@@ -375,9 +351,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6946960051618086141, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946960051618086141, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946960051618086141, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 8245791632008395836, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 1.9
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8245791632008395836, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
@@ -395,6 +383,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b90040f2a9ce93e42a61534ef8c43009, type: 2}
+    - target: {fileID: 9027173799843347279, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7ad651d4d7f7de478ea45de7813fd49, type: 3}
 --- !u!4 &2092810560368663121 stripped
