@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GameData;
+using static StatFactory;
 
 public class RoomManager : MonoBehaviour
 {
@@ -219,8 +220,12 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
+        StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Game);
+
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Win);
+
             UiManager.Instance.EndGamePanel(true, winningTeam);
             EndObjectives(true);
         }
