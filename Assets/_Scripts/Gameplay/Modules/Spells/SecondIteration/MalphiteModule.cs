@@ -24,13 +24,6 @@ public class MalphiteModule : SpellModule
 		previewImpact.localScale = new Vector3(SizeOfImpact() *2 +.75f, SizeOfImpact()*2 + .75f, SizeOfImpact()*2);
 	}
 
-
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
-	{
-		base.StartCanalysing(_BaseMousePos);
-		timeCanalised = 0;
-	}
-
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
@@ -53,6 +46,7 @@ public class MalphiteModule : SpellModule
 	public override void StartCanalysingFeedBack ()
 	{
 		base.StartCanalysingFeedBack();
+		timeCanalised = 0;
 		counting = true;
 	}
 
