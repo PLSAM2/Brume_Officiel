@@ -40,7 +40,7 @@ public class FOWSystem : MonoBehaviour
         mistMatPlane.SetFloat("_Opacity", 0);
 
         curveOpacity = new AnimationCurve();
-        curveOpacity.AddKey(new Keyframe(0, 1));
+        curveOpacity.AddKey(new Keyframe(0.2f, 1));
         curveOpacity.AddKey(new Keyframe(0.33f, 0.5f));
     }
 

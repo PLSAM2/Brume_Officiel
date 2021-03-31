@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Cameras;
 using static GameData;
+using static StatFactory;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -404,7 +405,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 
-		}
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Damage, (int) _damagesToDeal.damageHealth);
+        }
 
 		if (!ignoreStatusAndEffect)
 		{

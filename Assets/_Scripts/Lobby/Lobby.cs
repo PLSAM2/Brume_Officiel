@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviour
 {
+    private void Awake()
+    {
+        StatFactory.InitStat();
+    }
+
     public void OpenSettings()
     {
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
