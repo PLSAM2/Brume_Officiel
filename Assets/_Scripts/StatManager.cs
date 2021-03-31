@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static altarEvent;
 using static GameData;
+using static StatFactory;
 
 public class StatManager : MonoBehaviour
 {
@@ -41,8 +42,6 @@ public class StatManager : MonoBehaviour
 
     void OnPlayerDie(ushort _idPlayer, ushort _killer)
     {
-        print("player die");
-
         if (InGameNetworkReceiver.Instance.GetEndGame())
         {
             return;
@@ -58,6 +57,11 @@ public class StatManager : MonoBehaviour
         else
         {
             killPlayer.Add(_killer, 1);
+        }
+
+        if(_killer == NetworkManager.Instance.GetLocalPlayer().ID)
+        {
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Kill);
         }
     }
 

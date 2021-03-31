@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GameData;
+using static StatFactory;
 
 public class RoomManager : MonoBehaviour
 {
@@ -177,6 +178,8 @@ public class RoomManager : MonoBehaviour
 
     IEnumerator EndGame()
     {
+        StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int) Math.Floor(GameManager.Instance.timer / 60));
+
         Time.timeScale = Time.timeScale / 4;
 
         yield return new WaitForSeconds(1);
@@ -219,8 +222,12 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
+        StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Game);
+
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Win);
+
             UiManager.Instance.EndGamePanel(true, winningTeam);
             EndObjectives(true);
         }
