@@ -44,7 +44,9 @@ public class UltPickup : Interactible
         //        NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
         //    }
         //}
-        GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
+        //GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
+        GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
         base.Captured(_capturingPlayerID);
 
     }
