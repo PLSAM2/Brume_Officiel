@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: RE_CanalisationProjectile
   m_Shader: {fileID: 4800000, guid: 3b10bed9bc4a5ab41a2bbdcf7f5331d5, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _AUTOMATICCOSOFFSET_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -100,6 +100,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample5:
+        m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -121,7 +129,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _Anisotropic_PannerSpeed: 1.5
     - _Anisotropic_Tiling: 1.4
-    - _AutomaticCosOffset: 0
+    - _AutomaticCosOffset: 1
     - _Blend: 0
     - _Brush_Smoothstep: 0.16
     - _Brush_Step: 0.08
@@ -134,13 +142,17 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float0: 0
-    - _Float1: 0.33
-    - _Float10: 0.51
-    - _Float11: 0.28
+    - _Float0: 2.62
+    - _Float1: 0.03
+    - _Float10: 0.44
+    - _Float11: 0.25
+    - _Float12: 0.01
+    - _Float15: 2.7
     - _Float2: 0
     - _Float3: 1
     - _Float5: 3.73
+    - _Float6: 0
+    - _Float7: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -167,7 +179,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TextureOffset: 0.431
+    - _TextureOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
