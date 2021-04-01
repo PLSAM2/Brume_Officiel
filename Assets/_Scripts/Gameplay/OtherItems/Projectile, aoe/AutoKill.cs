@@ -11,7 +11,6 @@ public class AutoKill : MonoBehaviour
 	[TabGroup("AutokillParameters")] public bool isUsingTeamMesh = true;
 	[TabGroup("AutokillParameters")] [ShowIf("isUsingTeamMesh")] public GameObject meshBlue;
 	[TabGroup("AutokillParameters")] [ShowIf("isUsingTeamMesh")] public GameObject meshRed;
-	[TabGroup("AutokillParameters")] [ShowIf("isUsingTeamMesh")] public bool hideMeshToEnemyTeam = false;
 	[HideInInspector] public Team myteam;
 	[HideInInspector] public NetworkedObject myNetworkObject;
 	[HideInInspector] public bool isOwner = false;

@@ -120,6 +120,7 @@ public class RoomManager : MonoBehaviour
 
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
+        GameManager.Instance.OnRoundFinish?.Invoke();
         StartNewRound();
         Team winningTeam = Team.none;
         using (Message message = e.GetMessage())
@@ -178,8 +179,6 @@ public class RoomManager : MonoBehaviour
 
     IEnumerator EndGame()
     {
-        StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int) Math.Floor(GameManager.Instance.timer / 60));
-
         Time.timeScale = Time.timeScale / 4;
 
         yield return new WaitForSeconds(1);
@@ -204,6 +203,8 @@ public class RoomManager : MonoBehaviour
 
     private void StopGameInServer(object sender, MessageReceivedEventArgs e)
     {
+        GameManager.Instance.OnGameFinish?.Invoke();
+
         isNewRound = false;
         Team winningTeam = Team.none;
 

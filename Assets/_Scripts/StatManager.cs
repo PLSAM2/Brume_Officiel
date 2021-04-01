@@ -1,5 +1,8 @@
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using static altarEvent;
 using static GameData;
@@ -32,12 +35,16 @@ public class StatManager : MonoBehaviour
     {
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
         GameManager.Instance.OnPlayerGetDamage += OnPlayerGetDamage;
+        GameManager.Instance.OnRoundFinish += OnRoundFinish;
+        GameManager.Instance.OnGameFinish += OnGameFinish;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnPlayerDie -= OnPlayerDie;
         GameManager.Instance.OnPlayerGetDamage -= OnPlayerGetDamage;
+        GameManager.Instance.OnRoundFinish -= OnRoundFinish;
+        GameManager.Instance.OnGameFinish -= OnGameFinish;
     }
 
     void OnPlayerDie(ushort _idPlayer, ushort _killer)
@@ -59,7 +66,13 @@ public class StatManager : MonoBehaviour
             killPlayer.Add(_killer, 1);
         }
 
-        if(_killer == NetworkManager.Instance.GetLocalPlayer().ID)
+        if(_idPlayer == NetworkManager.Instance.GetLocalPlayer().ID)
+        {
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
+            PlayerPrefs.SetInt("currentDeath", PlayerPrefs.GetInt("currentDeath") +1);
+        }
+
+        if (_killer == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Kill);
         }
@@ -92,6 +105,57 @@ public class StatManager : MonoBehaviour
         }
 
         timeLineEvent.Add(newAltarEvent, GameManager.Instance.timer);
+    }
+
+    void OnRoundFinish()
+    {
+        if(killPlayer.ContainsKey(NetworkManager.Instance.GetLocalPlayer().ID))
+        {
+            PlayerPrefs.SetInt("currentKill", PlayerPrefs.GetInt("currentKill") + killPlayer[NetworkManager.Instance.GetLocalPlayer().ID]);
+        }
+
+        if (damagePlayer.ContainsKey(NetworkManager.Instance.GetLocalPlayer().ID))
+        {
+            PlayerPrefs.SetInt("currentDamage", PlayerPrefs.GetInt("currentDamage") + damagePlayer[NetworkManager.Instance.GetLocalPlayer().ID]);
+        }
+    }
+
+    void OnGameFinish()
+    {
+        OnRoundFinish();
+
+        int yourScore = RoomManager.Instance.actualRoom.scores[NetworkManager.Instance.GetLocalPlayer().playerTeam];
+        int enemyScore = RoomManager.Instance.actualRoom.scores[GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)];
+
+        //create json
+        StatGame newStatGame = new StatGame(NetworkManager.Instance.GetLocalPlayer().playerCharacter, yourScore, enemyScore, PlayerPrefs.GetInt("currentKill"), PlayerPrefs.GetInt("currentDeath"), PlayerPrefs.GetInt("currentDamage"));
+
+        print(NetworkManager.Instance.GetLocalPlayer().playerCharacter);
+        print(yourScore);
+        print(enemyScore);
+        print(PlayerPrefs.GetInt("currentKill"));
+        print(PlayerPrefs.GetInt("currentDeath"));
+        print(PlayerPrefs.GetInt("currentDamage"));
+
+        List<StatGame> allGames = new List<StatGame>();
+        allGames.Add(newStatGame);
+
+        if (!Directory.Exists(Application.persistentDataPath + "/Games"))
+        {
+            print(Application.persistentDataPath);
+            Directory.CreateDirectory(Application.persistentDataPath + "/Games");
+            File.Create(Application.persistentDataPath + "/Games/allGames.json").Dispose();
+        }
+        else
+        {
+            string input = File.ReadAllText(Application.persistentDataPath + "/Games/allGames.json");
+            List<StatGame> temp = JsonConvert.DeserializeObject<List<StatGame>>(input);
+            allGames.AddRange(temp);
+        }
+
+        string output = JsonConvert.SerializeObject(allGames, Formatting.Indented);
+
+        File.WriteAllText(Application.persistentDataPath + "/Games/allGames.json", output);
     }
 }
 
@@ -137,5 +201,27 @@ public class altarEvent : statEvent
         AWAKENS,
         UNSEALED,
         CLEANSED
+    }
+}
+
+
+[System.Serializable]
+public class StatGame
+{
+    public Character champ;
+    public int yourScore;
+    public int enemyScore;
+    public int kill;
+    public int death;
+    public int damage;
+
+    public StatGame(Character _champ, int _yourScore, int _enemyScore, int _kill, int _death, int _damage)
+    {
+        champ = _champ;
+        yourScore = _yourScore;
+        enemyScore = _enemyScore;
+        kill = _kill;
+        death = _death;
+        damage = _damage;
     }
 }

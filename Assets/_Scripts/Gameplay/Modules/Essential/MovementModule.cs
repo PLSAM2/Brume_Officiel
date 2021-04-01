@@ -11,7 +11,7 @@ public class MovementModule : MonoBehaviour
     St_MovementParameters parameters;
     public LayerMask movementBlockingLayer, dashBlockingLayer;
     [SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
-    [SerializeField] CharacterController chara;
+    public CharacterController chara;
     [HideInInspector] public bool rotLocked = false;
 
     /*	[Header("Running Stamina")]

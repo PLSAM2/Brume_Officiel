@@ -1,5 +1,7 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using static GameData;
@@ -42,7 +44,15 @@ public class StatMenu : MonoBehaviour
     public TextMeshProUGUI killLENG;
     public TextMeshProUGUI damagesLENG;
 
-    // Start is called before the first frame update
+    //Games
+    public Color winColor;
+    public Color defeatColor;
+
+    public Transform parentList;
+
+    public GameObject gamePrefab;
+
+
     void Start()
     {
         champLabel.SetBool("IsOpen", true);
@@ -50,6 +60,7 @@ public class StatMenu : MonoBehaviour
         gamesLabel.SetBool("IsOpen", false);
 
         InitStat();
+        InitGames();
     }
 
     public void OpenChamp()
@@ -89,7 +100,7 @@ public class StatMenu : MonoBehaviour
     void InitStat()
     {
         timePlayedLocal.text = StatFactory.GetTotalTimePlayed() + "<size=60> MIN</size>";
-        gameLocal.text = StatFactory.GetTotalNbrGame() + "<size=60> MIN</size>";
+        gameLocal.text = StatFactory.GetTotalNbrGame().ToString();
 
 
         if (StatFactory.GetTotalNbrWin() == 0)
@@ -98,7 +109,7 @@ public class StatMenu : MonoBehaviour
         }
         else
         {
-            winLocal.text = Mathf.RoundToInt((float) StatFactory.GetTotalNbrWin() / (float) StatFactory.GetTotalNbrGame() ).ToString();
+            winLocal.text = (Mathf.RoundToInt((float) StatFactory.GetTotalNbrWin() / (float) StatFactory.GetTotalNbrGame() ) * 100) .ToString();
         }
 
         killLocal.text = StatFactory.GetTotalNbrKill().ToString();
@@ -121,10 +132,37 @@ public class StatMenu : MonoBehaviour
         }
         else
         {
-            _win.text = Mathf.RoundToInt((float)StatFactory.GetIntStat(_charac, statType.Win) / (float)StatFactory.GetIntStat(_charac, statType.Game)) + "<size=20>%</size>";
+            _win.text = (Mathf.RoundToInt((float)StatFactory.GetIntStat(_charac, statType.Win) / (float)StatFactory.GetIntStat(_charac, statType.Game)) * 100) + "<size=20>%</size>";
         }
 
         _kill.text = StatFactory.GetIntStat(_charac, statType.Kill).ToString();
         _damage.text = StatFactory.GetIntStat(_charac, statType.Damage).ToString();
+    }
+
+    void InitGames()
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/Games"))
+        {
+            return;
+        }
+
+        List<StatGame> allGames = new List<StatGame>();
+        try
+        {
+            string input = File.ReadAllText(Application.persistentDataPath + "/Games/allGames.json");
+            List<StatGame> temp = JsonConvert.DeserializeObject<List<StatGame>>(input);
+            allGames.AddRange(temp);
+        }
+        catch
+        {
+            return;
+        }
+
+
+        foreach(StatGame game in allGames)
+        {
+            GameElement newGame = Instantiate(gamePrefab, parentList).GetComponent<GameElement>();
+            newGame.Init(game, (game.yourScore > game.enemyScore ? winColor : defeatColor));
+        }
     }
 }
