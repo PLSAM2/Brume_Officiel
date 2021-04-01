@@ -25,6 +25,7 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject roomPanel;
     [SerializeField] private GameObject roomListPanel;
+    [SerializeField] private GameObject statMenu;
 
     [SerializeField] private TextMeshProUGUI pingtest;
 
@@ -434,6 +435,13 @@ public class LobbyManager : MonoBehaviour
         mainMenu.SetActive(true);
         roomPanel.SetActive(false);
         roomListPanel.SetActive(false);
+        statMenu.SetActive(false);
+    }
+
+    public void DisplayStat()
+    {
+        mainMenu.SetActive(false);
+        statMenu.SetActive(true);
     }
 
     public void DisplayRoomList()

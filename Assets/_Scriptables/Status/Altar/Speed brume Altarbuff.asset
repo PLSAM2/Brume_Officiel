@@ -17,14 +17,15 @@ MonoBehaviour:
     finalLifeTime: 1.25
     isConstant: 1
     canBeForcedStop: 1
-    forcedKey: 1000
+    forcedKey: 3569
     refreshOnApply: 0
+    doNotApplyIfExist: 1
     tickRate: 0.2
     isDamaging: 1
     isHealing: 0
     tickValue: 0
     stateApplied: 4
-    percentageOfTheMovementModifier: 0.4
+    percentageOfTheMovementModifier: 0.5
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
@@ -49,4 +50,13 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    optionalDamages: 0
+    optionalDamagesInfos:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+      stateNeeded: 128
+      additionalDamages: 0
+      additionalStatusToApply: []
+      additionalMovementToApply: {fileID: 0}
+    hitBeforeProcOptionnalDamages: 0

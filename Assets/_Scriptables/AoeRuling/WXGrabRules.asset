@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WXGrabRules
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 0.5
+    durationOfTheAoe: 1
     timeBeforeFinalDisparition: 0.05
     damagesToDealOnImpact:
       playerName: 
@@ -72,5 +72,7 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 0}
     useOwnerPos: 0
     isBox: 0
-    aoeRadius: 2.75
+    aoeRadius: 2.4
     boxDimension: {x: 0, y: 0, z: 0}
+  cooldownReductionOnHit: 0
+  cooldownReducedOnHit: 0

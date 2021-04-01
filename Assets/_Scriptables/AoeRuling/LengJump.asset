@@ -19,7 +19,6 @@ MonoBehaviour:
       playerName: 
       damageHealth: 1
       statusToApply:
-      - {fileID: 11400000, guid: 8de29e7c9464c1345a3644a829cdda40, type: 2}
       - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
       movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
       stateNeeded: 128
@@ -73,5 +72,7 @@ MonoBehaviour:
       additionalMovementToApply: {fileID: 0}
     useOwnerPos: 0
     isBox: 0
-    aoeRadius: 3
+    aoeRadius: 1.5
     boxDimension: {x: 0, y: 0, z: 0}
+  cooldownReductionOnHit: 4
+  cooldownReducedOnHit: 1
