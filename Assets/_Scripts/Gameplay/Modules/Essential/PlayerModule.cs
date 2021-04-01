@@ -1085,7 +1085,7 @@ public class PlayerModule : MonoBehaviour
 		{
 			if (_hit.collider.GetComponent<AutoKill>().myteam == teamIndex)
 				return true;
-		}
+		}s
 
 		return false;
 
