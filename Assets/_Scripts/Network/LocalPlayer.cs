@@ -99,7 +99,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+		//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
 		}
 		else
@@ -210,7 +210,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
-		myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
+	//	myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
 
 	}
 
@@ -350,7 +350,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-        if(dealerID == null)
+		if (myPlayerModule.IsInProtectiveZone())
+			return;
+
+		if (GameManager.Instance.currentLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.PoweredUp) && _damagesToDeal.damageHealth > 0)
+		{
+			_damagesToDeal.damageHealth += 1;
+			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+		}
+
+
+		if (dealerID == null)
         {
             DealDamagesLocaly(_damagesToDeal.damageHealth, NetworkManager.Instance.GetLocalPlayer().ID);
         }

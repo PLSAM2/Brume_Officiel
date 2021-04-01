@@ -57,7 +57,7 @@ public class PlayerModule : MonoBehaviour
 			if (mylocalPlayer.isOwner)
 			{
 				GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
-				SetAltarSpeedBuffState(_isInBrume);
+			//	SetAltarSpeedBuffState(_isInBrume);
 			}
 		}
 	}
@@ -100,7 +100,6 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
 	public int bonusHp;
-
 	[TabGroup("GameplayInfos")] public float inBrumeValue = 1;
 	[TabGroup("GameplayInfos")] public float remapInBrumeValue = 1;
 	[TabGroup("GameplayInfos")] public float lowSanityFrequence = 2.5f;
@@ -287,7 +286,8 @@ public class PlayerModule : MonoBehaviour
 	}
 	protected virtual void Update ()
 	{
-
+		if (Input.GetKeyDown(KeyCode.C))
+			print(IsInProtectiveZone());
 		if (oldState != state)
 		{
 			if ((state & En_CharacterState.Intengenbility) != 0)
@@ -1055,6 +1055,7 @@ public class PlayerModule : MonoBehaviour
 	}
 	public void WaitForHeal ( bool _isSeen )
 	{
+
 		SetAutoHealState(false);
 
 		timerWaitForHeal = timeWaitForHeal;
@@ -1075,6 +1076,20 @@ public class PlayerModule : MonoBehaviour
 
 		isWaitingForHeal = !_isSeen;
 	}
+
+	public bool IsInProtectiveZone()
+	{
+		RaycastHit[] _hits = Physics.RaycastAll(transform.position + Vector3.up * 20, Vector3.down,30, LayerMask.GetMask("ProtectingDome")) ;
+
+		foreach(RaycastHit _hit in _hits)
+		{
+			if (_hit.collider.GetComponent<AutoKill>().myteam == teamIndex)
+				return true;
+		}
+
+		return false;
+
+	}
 }
 
 [System.Flags]
@@ -1094,6 +1109,7 @@ public enum En_CharacterState
 	Countering = 1 << 11,
 	Invulnerability = 1 << 12,
 	Intengenbility = 1 << 13,
+	PoweredUp = 1 << 14,
 
 	Stunned = Silenced | Root,
 }
