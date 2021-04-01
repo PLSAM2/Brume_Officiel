@@ -120,6 +120,7 @@ public class RoomManager : MonoBehaviour
 
     private void NewRoundInServer(object sender, MessageReceivedEventArgs e)
     {
+        GameManager.Instance.OnRoundFinish?.Invoke();
         StartNewRound();
         Team winningTeam = Team.none;
         using (Message message = e.GetMessage())
@@ -202,6 +203,8 @@ public class RoomManager : MonoBehaviour
 
     private void StopGameInServer(object sender, MessageReceivedEventArgs e)
     {
+        GameManager.Instance.OnGameFinish?.Invoke();
+
         isNewRound = false;
         Team winningTeam = Team.none;
 

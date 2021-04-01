@@ -15,6 +15,7 @@ public class FOWSystem : MonoBehaviour
     public Color currentFogColor = new Color(0.05f, 0.05f, 0.05f, 1f);
 
     public Material mistMatPlane;
+    public Material fogMat;
 
     public int worldSize = 256;
     public int textureSize = 128;
@@ -68,6 +69,7 @@ public class FOWSystem : MonoBehaviour
 
     private void OnDisable()
     {
-        mistMatPlane.SetFloat("_Opacity", 0); 
+        mistMatPlane.SetFloat("_Opacity", 0);
+        fogMat.SetColor("_Unexplored", Color.black);
     }
 }
