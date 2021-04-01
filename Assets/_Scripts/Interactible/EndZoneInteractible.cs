@@ -10,19 +10,16 @@ public class EndZoneInteractible : Interactible
     [SerializeField] GameObject waypointEndZonePrefab;
     Waypoint waypointObj;
 
-    private Altar parentAltar;
-
     [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
 
-    public void Init(Altar alt)
+    protected override void Init()
     {
-        parentAltar = alt; 
         fillImg.material.SetFloat(progressShaderName, 1);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0f);
     }
     protected override void Capture()
     {
-        if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
@@ -32,7 +29,7 @@ public class EndZoneInteractible : Interactible
 
     protected override void OnVolumeChange(float _value)
     {
-        if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
@@ -41,21 +38,7 @@ public class EndZoneInteractible : Interactible
     }
     public override void Unlock()
     {
-        AudioClip voice = altarBottomAscencion;
-
-        switch (parentAltar.interactibleName)
-        {
-            case "Right":
-                voice = altarRightAscencion;
-                break;
-
-            case "Left":
-                voice = altarLeftAscencion;
-                break;
-        }
-
-        UiManager.Instance.myAnnoncement.ShowAnnoncement((interactibleName + " of Altar " + parentAltar.interactibleName + " Started").ToUpper(), null, voice);
-
+        UiManager.Instance.myAnnoncement.ShowAnnoncement((interactibleName + " Started").ToUpper());
 
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
         waypointObj.target = transform;
@@ -71,7 +54,7 @@ public class EndZoneInteractible : Interactible
             case State.Locked:
                 break;
             case State.Capturable:
-                SetColor(GameFactory.GetRelativeColor(parentAltar.lastTeamCaptured));
+                SetColor(GameFactory.GetRelativeColor(lastTeamCaptured));
                 break;
             case State.Captured:
                 break;

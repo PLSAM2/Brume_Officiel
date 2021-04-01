@@ -312,11 +312,12 @@ public class InteractibleObjectsManager : MonoBehaviour
                 ushort _ID = reader.ReadUInt16();
                 Team team = (Team)reader.ReadUInt16();
 
-                Interactible _interactible = interactibleList[_ID].interactible;
+                Interactible _lastAltarCaptured = interactibleList[_ID].interactible;
 
                 GameManager.Instance.StartEndZone(team);
+                ((EndZoneInteractible)interactibleList[3].interactible).lastTeamCaptured = team;
+                ((EndZoneInteractible)interactibleList[3].interactible).Unlock();
 
-                ((Altar)_interactible).StarFinalPhase();
             }
         }
     }
