@@ -85,11 +85,14 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<ushort> OnPlayerSpawn;
     [HideInInspector] public Action OnAllCharacterSpawned;
     [HideInInspector] public Action<bool> OnLocalPlayerStateBrume;
+    [HideInInspector] public Action OnRoundFinish;
+    [HideInInspector] public Action OnGameFinish;
 
     [HideInInspector] public Action<Ward> OnWardTeamSpawn;
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
+
 
     public GameObject deadPostProcess;
 
