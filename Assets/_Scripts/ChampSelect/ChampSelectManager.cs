@@ -55,6 +55,10 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
         NetworkManager.Instance.OnPlayerQuit += OnPlayerQuit;
         RoomManager.Instance.client.MessageReceived += MessageReceived;
+
+        PlayerPrefs.SetInt("currentKill", 0);
+        PlayerPrefs.SetInt("currentDamage", 0);
+        PlayerPrefs.SetInt("currentDeath", 0);
     }
 
     private void Start()

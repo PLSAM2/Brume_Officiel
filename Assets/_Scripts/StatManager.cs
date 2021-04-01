@@ -29,10 +29,6 @@ public class StatManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        PlayerPrefs.SetInt("currentKill", 0);
-        PlayerPrefs.SetInt("currentDamage", 0);
-        PlayerPrefs.SetInt("currentDeath", 0);
     }
 
     private void OnEnable()
