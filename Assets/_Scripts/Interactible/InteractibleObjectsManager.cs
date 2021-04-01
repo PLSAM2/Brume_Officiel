@@ -121,6 +121,7 @@ public class InteractibleObjectsManager : MonoBehaviour
                     ((Altar)_interactible).SetActiveState(true);
                 } else
                 {
+                    print("ar");
                     _interactible.Unlock();
                 }
             }

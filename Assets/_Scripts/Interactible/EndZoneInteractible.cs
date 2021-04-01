@@ -20,17 +20,6 @@ public class EndZoneInteractible : Interactible
         fillImg.material.SetFloat(progressShaderName, 1);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0f);
     }
-
-    public override void TryCapture(GameData.Team team, PlayerModule capturingPlayer)
-    {
-
-        if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            return;
-        }
-
-        base.TryCapture(team, capturingPlayer);
-    }
     protected override void Capture()
     {
         if (parentAltar.lastTeamCaptured == NetworkManager.Instance.GetLocalPlayer().playerTeam)

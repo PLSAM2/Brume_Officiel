@@ -43,6 +43,8 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     protected bool isCapturing = false;
     [TabGroup("InteractiblePart")]
+    protected bool Decapturing = false;
+    [TabGroup("InteractiblePart")]
     protected bool paused = false;
 
     [Header("Color")]
@@ -117,6 +119,18 @@ public class Interactible : MonoBehaviour
     {
         Capture();
 
+        if (Decapturing)
+        {
+            timer -= Time.fixedDeltaTime;
+
+            if (timer <= 0)
+            {
+                SetColorByState();
+                timer = 0;
+                Decapturing = false;
+            }
+        }
+
         if (showReload)
         {
             if (reloading)
@@ -154,7 +168,7 @@ public class Interactible : MonoBehaviour
             using (DarkRiftWriter _writer = DarkRiftWriter.Create())
             {
                 _writer.Write(interactibleID);
-                _writer.Write((float)Time.fixedDeltaTime / interactTime);
+                _writer.Write(timer / interactTime);
 
                 using (Message _message = Message.Create(Tags.CaptureProgressInteractible, _writer))
                 {
@@ -194,15 +208,16 @@ public class Interactible : MonoBehaviour
 
     public virtual void UpdateTryCapture(ushort _capturingPlayerID)
     {
+        Decapturing = false;
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         if (NetworkManager.Instance.GetLocalPlayer().ID == _capturingPlayerID)
         {
             isCapturing = true;
             paused = false;
-            timer = 0;
+            // timer = 0;
         } else
         {
-            timer = 0;
+            // timer = 0;
             isCapturing = false;
             paused = false;
         }
@@ -245,7 +260,12 @@ public class Interactible : MonoBehaviour
     /// <param name="team"> Equipe qui arrete de capturer</param>
     public void StopCapturing()
     {
-        timer = 0;
+        //  timer = 0;
+
+        if (timer > 0)
+        {
+            Decapturing = true;
+        }
         myAudioSource.enabled = false;
 
         capturingTeam = Team.none;
@@ -280,7 +300,7 @@ public class Interactible : MonoBehaviour
         fillImg.material.SetFloat(progressShaderName, 0);
 
         state = State.Captured;
-        timer = 0;
+       // timer = 0;
 
         myAudioSource.enabled = false;
 
@@ -339,7 +359,11 @@ public class Interactible : MonoBehaviour
             case State.Capturable:
                 if (capturingPlayerModule == null)
                 {
-                    SetColor(canBeCapturedColor);
+                    if (timer <= 0)
+                    {
+                        SetColor(canBeCapturedColor);
+                    }
+
                 } else
                 {
                     if (capturingTeam != Team.none)
