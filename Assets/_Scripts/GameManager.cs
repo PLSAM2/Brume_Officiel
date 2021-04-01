@@ -85,11 +85,14 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<ushort> OnPlayerSpawn;
     [HideInInspector] public Action OnAllCharacterSpawned;
     [HideInInspector] public Action<bool> OnLocalPlayerStateBrume;
+    [HideInInspector] public Action OnRoundFinish;
+    [HideInInspector] public Action OnGameFinish;
 
     [HideInInspector] public Action<Ward> OnWardTeamSpawn;
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
+
 
     public GameObject deadPostProcess;
 
@@ -151,7 +154,7 @@ public class GameManager : SerializedMonoBehaviour
 
         SetTimer(timer,UiManager.Instance.timer);
 
-        SetTimer(endZoneTimer,UiManager.Instance.endZoneTimer.timer);
+        // SetTimer(endZoneTimer,UiManager.Instance.endZoneTimer.timer);
 
         RoomManager.Instance.UpdatePointDisplay();
         UiManager.Instance.chat.DisplayMessage("Round : " + RoomManager.Instance.roundCount);
@@ -252,31 +255,31 @@ public class GameManager : SerializedMonoBehaviour
 
     void UpdateTime()
     {
-        if (inOvertime)
-        {
-            overtime -= Time.deltaTime;
-            UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
-        }
+        //if (inOvertime)
+        //{
+        //    overtime -= Time.deltaTime;
+        //    UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
+        //}
 
         timer += Time.deltaTime;
         SetTimer(timer,UiManager.Instance.timer);
 
-        if (endZoneStarted)
-        {
-            endZoneTimer -= Time.deltaTime;
+        //if (endZoneStarted)
+        //{
+        //    endZoneTimer -= Time.deltaTime;
 
-            int remainingSec = SetTimer(endZoneTimer, UiManager.Instance.endZoneTimer.timer);
-            UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
+        //    int remainingSec = SetTimer(endZoneTimer, UiManager.Instance.endZoneTimer.timer);
+        //    UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
 
-            if (remainingSec <= 0)
-            {
-                endZoneStarted = false;
-                UiManager.Instance.endZoneTimer.endZoneAnim.SetTrigger("Overtime");
+        //    if (remainingSec <= 0)
+        //    {
+        //        endZoneStarted = false;
+        //        UiManager.Instance.endZoneTimer.endZoneAnim.SetTrigger("Overtime");
 
-                SetTimer(0,UiManager.Instance.endZoneTimer.timer);
-            }
+        //        SetTimer(0,UiManager.Instance.endZoneTimer.timer);
+        //    }
 
-        }
+        //}
     }
 
     public void SetOvertimeTimerState(bool state)
@@ -304,7 +307,7 @@ public class GameManager : SerializedMonoBehaviour
     }
     public void StartEndZone(Team team)
     {
-        UiManager.Instance.endZoneTimer.Init(team);
+       UiManager.Instance.endZoneUIGroup.Init(team);
         endZoneStarted = true;
     }
 

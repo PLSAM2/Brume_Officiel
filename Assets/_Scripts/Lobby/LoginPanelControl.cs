@@ -1,5 +1,8 @@
 ﻿using DarkRift;
+using DarkRift.Client;
 using DarkRift.Client.Unity;
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -8,10 +11,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+public enum ConnectTarget : ushort
+{
+    Online = 0,
+    Local = 1,
+    LocalHost = 2
+}
+
 public class LoginPanelControl : MonoBehaviour
 {
-    public float timeFirstAttempt = 6;
-    public float timeBeforeReconnect = 4;
+    public bool autoConnect = true;
+    [ShowIf("autoConnect")] public ConnectTarget connectTarget;
 
     [SerializeField] private TMP_InputField nameLoginInputField;
     [SerializeField] private TextMeshProUGUI connectionStateLogin;
@@ -19,6 +30,8 @@ public class LoginPanelControl : MonoBehaviour
     [SerializeField] private UnityClient client;
     [SerializeField] private GameObject nameChangePanel;
     [SerializeField] private List<GameObject> connectButtons;
+    [SerializeField] private GameObject loadingImg;
+    [SerializeField] private TextMeshProUGUI loadingTxt;
 
     public IPAddress LocalIP
     {
@@ -47,31 +60,51 @@ public class LoginPanelControl : MonoBehaviour
 
     private void Start()
     {
-
         if (client.ConnectionState == ConnectionState.Connected)
         {
             this.gameObject.SetActive(false);
             LobbyManager.Instance.DisplayMainMenu();
         }
+        else
+        {
+            if (autoConnect)
+            {
+                switch (connectTarget)
+                {
+                    case ConnectTarget.Online:
+                        ConnectOnline();
+                        break;
+                    case ConnectTarget.Local:
+                        ConnectLocal();
+                        break;
+                    case ConnectTarget.LocalHost:
+                        ConnectLocalHost();
+                        break;
+                    default: throw new Exception("Connection target not existing");
+                }
+            }
+        }
     }
 
     public void ConnectOnline()
     {
+        TryConnect();
         try
         {
-            client.Connect(client.Address, client.Port, true);
+            client.ConnectInBackground(client.Address, client.Port, true, Connected);
         }
         catch (SocketException e)
         {
             Debug.LogError(e);
-        }  
+        }
     }
 
     public void ConnectLocal()
     {
+        TryConnect();
         try
         {
-            client.Connect(LocalIP, client.Port, true);
+            client.ConnectInBackground(LocalIP, client.Port, true, Connected);
         }
         catch (SocketException e)
         {
@@ -81,9 +114,10 @@ public class LoginPanelControl : MonoBehaviour
 
     public void ConnectLocalHost()
     {
+        TryConnect();
         try
         {
-            client.Connect(LocalHostIP, client.Port, true);
+            client.ConnectInBackground(LocalHostIP, client.Port, true, Connected);
         }
         catch (SocketException e)
         {
@@ -91,36 +125,77 @@ public class LoginPanelControl : MonoBehaviour
         }
     }
 
-    void Update()
+    private void TryConnect()
     {
-        connectionStateLogin.text = client.ConnectionState.ToString();
+        loadingTxt.text = "Connecting";
+        loadingTxt.color = Color.white;
+        loadingTxt.gameObject.SetActive(true);
+        loadingImg.gameObject.SetActive(true);
 
-        if (client.ConnectionState != ConnectionState.Connected)
+        foreach (GameObject go in connectButtons)
         {
-            loginBtn.interactable = false;
-            nameChangePanel.SetActive(false);
+            go.SetActive(false);
+        }
+    }
+
+    private void Connected(Exception e)
+    {
+        if (e != null)
+        {
+            loadingTxt.text = "Error connecting";
+            loadingTxt.color = Color.red;
+            loadingImg.gameObject.SetActive(false);
 
             foreach (GameObject go in connectButtons)
             {
                 go.SetActive(true);
             }
-            return;
+
+            client.Disconnect();
+            client.Close();
         }
         else
         {
-            nameChangePanel.SetActive(true);
-
-            foreach (GameObject go in connectButtons)
+            if (PlayerPrefs.GetString("PlayerName") != null && PlayerPrefs.GetString("PlayerName") != "")
             {
-                go.SetActive(false);
+                Login(PlayerPrefs.GetString("PlayerName"));
             }
-            loginBtn.interactable = true;
+            else
+            {
+                nameChangePanel.SetActive(true);
+                loginBtn.interactable = true;
+            }
         }
+    }
 
-        if (PlayerPrefs.GetString("PlayerName") != null && PlayerPrefs.GetString("PlayerName") != "")
+
+    void FixedUpdate()
+    {
+        connectionStateLogin.text = client.ConnectionState.ToString();
+
+        if (client.ConnectionState != ConnectionState.Connected)
         {
-            Login(PlayerPrefs.GetString("PlayerName"));
+            //loginBtn.interactable = false;
+            //nameChangePanel.SetActive(false);
+
+            //foreach (GameObject go in connectButtons)
+            //{
+            //    go.SetActive(true);
+            //}
+            return;
         }
+        //else
+        //{
+        //    nameChangePanel.SetActive(true);
+
+        //    foreach (GameObject go in connectButtons)
+        //    {
+        //        go.SetActive(false);
+        //    }
+        //    loginBtn.interactable = true;
+        //}
+
+
 
         if (Input.GetKeyDown(KeyCode.Return))
         {

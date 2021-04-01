@@ -17,7 +17,6 @@ public class Altar : Interactible
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
 
-    public EndZoneInteractible endZoneInteractible;
     [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
@@ -41,7 +40,6 @@ public class Altar : Interactible
     void Start()
     {
         base.Init();
-        endZoneInteractible.Init(this);
         isInteractable = false;
 
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
@@ -178,11 +176,11 @@ public class Altar : Interactible
         waypointObj.SetImageColor(altarUnlockColor);
     }
 
-    internal void StarFinalPhase()
-    {
-        endZoneInteractible.gameObject.SetActive(true);
-        endZoneInteractible.Unlock();
-        fillImg.gameObject.SetActive(false);
-        fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
-    }
+    //internal void StarFinalPhase()
+    //{
+    //    endZoneInteractible.gameObject.SetActive(true);
+    //    endZoneInteractible.Unlock();
+    //    fillImg.gameObject.SetActive(false);
+    //    fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
+    //}
 }

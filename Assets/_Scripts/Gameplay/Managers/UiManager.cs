@@ -15,7 +15,7 @@ public class UiManager : MonoBehaviour
 	public static UiManager Instance { get { return _instance; } }
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
-	[FoldoutGroup("GlobalUi")] public EndZoneTimerUIGroup endZoneTimer;
+	[FoldoutGroup("GlobalUi")] public EndZoneUIGroup endZoneUIGroup;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
