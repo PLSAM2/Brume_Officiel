@@ -66,6 +66,15 @@ public class BrumeDetection : MonoBehaviour
 
         //border detection
         GetDistanceFromBrume();
+
+        if (myPlayerModule.isInBrume)
+        {
+            myPlayerModule.timeInBrume += Time.deltaTime;
+        }
+        else
+        {
+            myPlayerModule.timeInBrume = 0;
+        }
     }
 
     void GetDistanceFromBrume()

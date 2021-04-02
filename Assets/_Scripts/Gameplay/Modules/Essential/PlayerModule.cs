@@ -102,12 +102,14 @@ public class PlayerModule : MonoBehaviour
 	public int bonusHp;
 	[TabGroup("GameplayInfos")] public float lowSanityFrequence = 2.5f;
 	[TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
+    [TabGroup("GameplayInfos")] public float timeInBrume;
 
-	//ALL ACTION 
-	#region
-	//[INPUTS ACTION]
-	#region
-	public Action<Vector3> DirectionInputedUpdate;
+
+    //ALL ACTION 
+    #region
+    //[INPUTS ACTION]
+    #region
+    public Action<Vector3> DirectionInputedUpdate;
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, tpInput, wardInput, pingInput;
 	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, tpInputReleased, wardInputReleased, pingInputReleased;

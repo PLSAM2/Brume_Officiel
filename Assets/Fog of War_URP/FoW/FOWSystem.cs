@@ -25,6 +25,8 @@ public class FOWSystem : MonoBehaviour
     public RenderTexture myTexture;
     public float opacity;
 
+    public AnimationCurve opacityCurve;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -49,7 +51,7 @@ public class FOWSystem : MonoBehaviour
             if (localPlayer.myPlayerModule.isInBrume)
             {
                 currentFogColor = Color.Lerp(currentFogColor, inBrumeColor, Time.deltaTime * 5);
-                opacityValue = Mathf.Lerp(opacityValue, 0.7f, Time.deltaTime * 5);
+                opacityValue = opacityCurve.Evaluate(localPlayer.myPlayerModule.timeInBrume);
             }
             else
             {
