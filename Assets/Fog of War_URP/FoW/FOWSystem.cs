@@ -23,7 +23,6 @@ public class FOWSystem : MonoBehaviour
     public float blendFactor = 0;
 
     public RenderTexture myTexture;
-    public float opacity;
 
     public AnimationCurve opacityCurve;
 
