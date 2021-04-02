@@ -16,15 +16,16 @@ public class EndZoneUIGroup : MonoBehaviour
 	public void Init(Team team)
 	{
 		EndZoneText.color = GameFactory.GetRelativeColor(team);
-		EndZoneText.text = "Defend The Center";
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == team)
+        {
+			EndZoneText.text = "Attack The Center";
+		} else
+        {
+			EndZoneText.text = "Defend The Center";
+		}
+
 		endZoneTimerObj.SetActive(true);
-
-		//timer.color = GameFactory.GetRelativeColor(team);
-
-		//endZoneBarTimer.color = GameFactory.GetRelativeColor(team);
-
-
-
 	}
 
 

@@ -109,6 +109,8 @@ public class Altar : Interactible
 
     public override void Captured(ushort _capturingPlayerID)
     {
+        print(interactibleName + " - Capturé");
+
         if (altarBuff != null)
         {
             altarBuff.InitBuff(capturingPlayerModule);
@@ -176,11 +178,11 @@ public class Altar : Interactible
         waypointObj.SetImageColor(altarUnlockColor);
     }
 
-    //internal void StarFinalPhase()
-    //{
-    //    endZoneInteractible.gameObject.SetActive(true);
-    //    endZoneInteractible.Unlock();
-    //    fillImg.gameObject.SetActive(false);
-    //    fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
-    //}
+    internal void StarFinalPhase()
+    {
+        isInteractable = false;
+        this.state = State.Locked;
+        this.timer = 0;
+        waypointObj.gameObject.SetActive(false);
+    }
 }

@@ -234,7 +234,12 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerDie ( ushort idKilled, ushort idKiller )
 	{
-		//UI Minimap info
+        //UI Minimap info
+        if (!RoomManager.Instance.actualRoom.playerList.ContainsKey(idKilled))
+        {
+			return;
+        }
+        
 		if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
             SetLife(0, GetLifeImageOfTeamChamp(idKilled));
