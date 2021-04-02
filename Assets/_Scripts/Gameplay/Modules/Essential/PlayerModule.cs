@@ -100,11 +100,8 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
 	public int bonusHp;
-	[TabGroup("GameplayInfos")] public float inBrumeValue = 1;
-	[TabGroup("GameplayInfos")] public float remapInBrumeValue = 1;
 	[TabGroup("GameplayInfos")] public float lowSanityFrequence = 2.5f;
 	[TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
-	[TabGroup("GameplayInfos")] public float startBrumeValue = 0.5f, maxFillValue = 0.5f, diveserSpeedFill = 15, diveserSpeedUnfill = 50;
 
 	//ALL ACTION 
 	#region
@@ -149,7 +146,6 @@ public class PlayerModule : MonoBehaviour
 		mylocalPlayer = GetComponent<LocalPlayer>();
 		GameManager.Instance.OnAllCharacterSpawned += Setup;
 		GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
-		inBrumeValue = startBrumeValue;
 	}
 	void Start ()
 	{
@@ -465,24 +461,6 @@ public class PlayerModule : MonoBehaviour
 		{
 			WaitForHealProcess();
 		}
-
-		if (mylocalPlayer.isOwner)
-		{
-			if (isInBrume)
-			{
-				inBrumeValue -= Time.deltaTime / diveserSpeedFill;
-			}
-			else
-			{
-				if (inBrumeValue < maxFillValue)
-				{
-					inBrumeValue += Time.deltaTime / diveserSpeedUnfill;
-				}
-			}
-			inBrumeValue = Mathf.Clamp(inBrumeValue, 0, 1);
-
-			remapInBrumeValue = Mathf.Clamp(GameFactory.ReMap(inBrumeValue, 0, 0.66f, 0, 1), 0, 1);
-		}
 	}
 	protected virtual void FixedUpdate ()
 	{
@@ -495,7 +473,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 		{
-
+            /*
 			if (ShouldBePinged())
 			{
 				if (echoRenderer.gameObject.activeInHierarchy)
@@ -526,7 +504,7 @@ public class PlayerModule : MonoBehaviour
 			else
 			{
 				echoRenderer.gameObject.SetActive(false);
-			}
+			}*/
 		}
 	}
 	public void CheckBrumeShader ()

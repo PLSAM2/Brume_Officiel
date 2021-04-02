@@ -94,9 +94,6 @@ public class UiManager : MonoBehaviour
 
     public Animator hitWXPanel;
 
-    public GameObject inBrumePanel;
-    public Image inBrumeValue;
-
     private void Awake ()
 	{
 		if (_instance != null && _instance != this)
