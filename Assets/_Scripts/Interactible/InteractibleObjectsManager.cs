@@ -313,6 +313,18 @@ public class InteractibleObjectsManager : MonoBehaviour
 
                 Interactible _lastAltarCaptured = interactibleList[_ID].interactible;
 
+
+                foreach (KeyInteractiblePair pair in interactibleList) // TODO: PAS OUF, a faire en serv
+                {
+                    if (pair.interactible.GetType() == typeof(Altar))
+                    {
+                        if (pair.interactible.state != State.Captured)
+                        {
+                            ((Altar)(pair.interactible)).StarFinalPhase();
+                        }
+                    }
+                }
+
                 GameManager.Instance.StartEndZone(team);
                 ((EndZoneInteractible)interactibleList[3].interactible).lastTeamCaptured = team;
                 ((EndZoneInteractible)interactibleList[3].interactible).Unlock();

@@ -234,13 +234,15 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerDie ( ushort idKilled, ushort idKiller )
 	{
-        if (RoomManager.Instance.actualRoom.playerList.ContainsKey(idKilled))
+        //UI Minimap info
+        if (!RoomManager.Instance.actualRoom.playerList.ContainsKey(idKilled))
         {
-            //UI Minimap info
-            if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                SetLife(0, GetLifeImageOfTeamChamp(idKilled));
-            }
+			return;
+        }
+        
+		if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		{
+            SetLife(0, GetLifeImageOfTeamChamp(idKilled));
         }
 
 		GetImageOfChamp(idKilled).color = killedColor;
@@ -332,12 +334,9 @@ public class UiManager : MonoBehaviour
 
 	Image GetImageOfChamp ( ushort id )
 	{
-        print(id);
-        print(RoomManager.Instance.GetPlayerData(id).playerCharacter);
-
-		if (RoomManager.Instance.GetPlayerData(id).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			switch (RoomManager.Instance.GetPlayerData(id).playerCharacter)
+			switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
 			{
 				case Character.WuXin:
 					return teamWx;
@@ -351,7 +350,7 @@ public class UiManager : MonoBehaviour
 		}
 		else
 		{
-			switch (RoomManager.Instance.GetPlayerData(id).playerCharacter)
+			switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
 			{
 				case Character.WuXin:
 					return enemyWx;
