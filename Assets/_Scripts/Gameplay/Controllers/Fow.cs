@@ -17,6 +17,8 @@ public class Fow : MonoBehaviour
 
     public AnimationCurve curveInBrume;
 
+    bool currentState = false;
+
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
         if(_target != null)
@@ -53,13 +55,7 @@ public class Fow : MonoBehaviour
         float raduis = 0;
         if (playerModule.isInBrume)
         {
-            if(playerModule.inBrumeValue >= 0.66f) {
-                raduis = playerModule.characterParameters.visionRange;
-            }
-            else
-            {
-                raduis = curveInBrume.Evaluate(playerModule.inBrumeValue);
-            }
+            raduis = playerModule.characterParameters.visionRange;
         }
         else
         {
