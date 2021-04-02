@@ -44,6 +44,7 @@ public class WardModule : SpellModule
 
 	protected void Update ()
 	{
+		base.Update();
 		if (isLaunched)
 		{
 			if (Vector3.Distance(wardObj.transform.position, destination) < distanceMaxBeforeEndTravel)
