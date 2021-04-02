@@ -9,6 +9,7 @@ public class UltPickup : Interactible
     public ushort ultimateStackGive = 1;
     public ushort hitPointGiven = 1;
     public float brumeExplorationGain = .4f;
+    public Sc_Status appliedBonus;
     protected override void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
@@ -47,6 +48,7 @@ public class UltPickup : Interactible
         //GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
         GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
         GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
         base.Captured(_capturingPlayerID);
 
     }

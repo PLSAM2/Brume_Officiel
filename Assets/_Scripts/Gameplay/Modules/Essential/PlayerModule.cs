@@ -22,7 +22,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public Sc_CharacterParameters characterParameters;
 	[TabGroup("GameplayInfos")] [ReadOnly] public Team teamIndex;
 	[TabGroup("GameplayInfos")] public float revelationRangeWhileHidden = 10;
-	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem rootParticle, slowParticle, spedUpParticle, silencedParticle, embourbedParticle;
+	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem powerUpParticle1, powerUpParticle2;
 	[TabGroup("FeedbacksState")] public SkinnedMeshRenderer skinnedRenderer;
 	Team otherTeam;
 	[HideInInspector] public bool _isInBrume;
@@ -197,11 +197,8 @@ public class PlayerModule : MonoBehaviour
 		if (tpModule != null)
 			tpModule.SetupComponent(En_SpellInput.TP);
 
-		spedUpParticle.gameObject.SetActive(false);
-		silencedParticle.gameObject.SetActive(false);
-		slowParticle.gameObject.SetActive(false);
-		rootParticle.gameObject.SetActive(false);
-		embourbedParticle.gameObject.SetActive(false);
+		powerUpParticle1.gameObject.SetActive(false);
+		powerUpParticle2.gameObject.SetActive(false);
 
 		_state = En_CharacterState.Clear;
 		oldState = state;
@@ -310,37 +307,18 @@ public class PlayerModule : MonoBehaviour
 			}
 
 			//PARTICLE FEEDBACK TOUSSA
-			#region
-			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
-				spedUpParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
-				spedUpParticle.gameObject.SetActive(false);
 
+			if ((oldState & En_CharacterState.PoweredUp) == 0 && (state & En_CharacterState.PoweredUp) != 0)
+			{
+				powerUpParticle1.gameObject.SetActive(true);
+				powerUpParticle2.gameObject.SetActive(true);
+			}
+			else if ((oldState & En_CharacterState.PoweredUp) != 0 && (state & En_CharacterState.PoweredUp) == 0)
+			{
+				powerUpParticle1.gameObject.SetActive(false);
+				powerUpParticle2.gameObject.SetActive(false);
+			}
 
-			if ((oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
-				slowParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
-				slowParticle.gameObject.SetActive(false);
-
-
-			/*	if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
-                    rootParticle.gameObject.SetActive(true);
-                else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
-                    rootParticle.gameObject.SetActive(false);*/
-
-
-			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
-				silencedParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
-				silencedParticle.gameObject.SetActive(false);
-
-
-			if ((oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
-				embourbedParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
-				embourbedParticle.gameObject.SetActive(false);
-
-			#endregion
 			if (mylocalPlayer.isOwner)
 			{
 				UiManager.Instance.StatusUpdate(state);
@@ -924,7 +902,7 @@ public class PlayerModule : MonoBehaviour
 
 	public void RemoveState ( En_CharacterState _stateToRemove )
 	{
-		_state = (_state & ~_stateToRemove);
+		_state &= ~_stateToRemove;
 	}
 
 	#endregion
