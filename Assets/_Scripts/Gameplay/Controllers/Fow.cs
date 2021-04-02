@@ -15,7 +15,7 @@ public class Fow : MonoBehaviour
 
     PlayerModule playerModule;
 
-    public AnimationCurve curveInBrume;
+    AnimationCurve curveInBrume;
 
     public void Init(Transform _target = null, float _fowRaduis = 0)
     {
@@ -38,9 +38,9 @@ public class Fow : MonoBehaviour
         playerModule = _pModule;
 
         curveInBrume = new AnimationCurve();
-        curveInBrume.AddKey(new Keyframe(0, playerModule.characterParameters.minVisionRange));
-        curveInBrume.AddKey(new Keyframe(0.66f, playerModule.characterParameters.visionRange));
-        curveInBrume.AddKey(new Keyframe(1, playerModule.characterParameters.visionRange));
+        curveInBrume.AddKey(new Keyframe(0, playerModule.characterParameters.minVisionRangeInBrume));
+        curveInBrume.AddKey(new Keyframe(1f, playerModule.characterParameters.minVisionRangeInBrume));
+        curveInBrume.AddKey(new Keyframe(2f, playerModule.characterParameters.visionRangeInBrume));
     }
 
     // Update is called once per frame
@@ -53,13 +53,7 @@ public class Fow : MonoBehaviour
         float raduis = 0;
         if (playerModule.isInBrume)
         {
-            if(playerModule.inBrumeValue >= 0.66f) {
-                raduis = playerModule.characterParameters.visionRange;
-            }
-            else
-            {
-                raduis = curveInBrume.Evaluate(playerModule.inBrumeValue);
-            }
+            raduis = curveInBrume.Evaluate(playerModule.timeInBrume);
         }
         else
         {

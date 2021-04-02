@@ -248,9 +248,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
-
-        UiManager.Instance.inBrumeValue.fillAmount = 1 - myPlayerModule.inBrumeValue;
-        UiManager.Instance.inBrumePanel.SetActive(myPlayerModule.inBrumeValue < 0.99f);
 	}
 
 	public void SendState ( En_CharacterState _state )
@@ -344,7 +341,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
 			return;
@@ -353,20 +349,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (myPlayerModule.IsInProtectiveZone())
 			return;
 
-		if (GameManager.Instance.currentLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.PoweredUp) && _damagesToDeal.damageHealth > 0)
+		ushort _finalDamage = _damagesToDeal.damageHealth;
+
+		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
 		{
-			_damagesToDeal.damageHealth += 1;
+			_finalDamage += 1;
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 		}
 
-
 		if (dealerID == null)
         {
-            DealDamagesLocaly(_damagesToDeal.damageHealth, NetworkManager.Instance.GetLocalPlayer().ID);
+            DealDamagesLocaly(_finalDamage, NetworkManager.Instance.GetLocalPlayer().ID);
         }
         else
         {
-            DealDamagesLocaly(_damagesToDeal.damageHealth, (ushort) dealerID);
+            DealDamagesLocaly(_finalDamage, (ushort) dealerID);
         }
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
@@ -404,11 +401,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
+		
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
 				_writer.Write(myPlayerId);
-				_writer.Write(_damagesToDeal.damageHealth);
+				_writer.Write(_finalDamage);
 				using (Message _message = Message.Create(Tags.Damages, _writer))
 				{
 					currentClient.SendMessage(_message, SendMode.Reliable);
@@ -444,7 +442,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 					SendStatus(_damagesToDeal.statusToApply[i]);
 				}
 			}
-
 		}
 	}
 
@@ -542,7 +539,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void HealLocaly ( ushort value )
 	{
 		int _tempHp = (int)liveHealth + (int)value;
-		liveHealth = (ushort)_tempHp;
+		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth);
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
 	}

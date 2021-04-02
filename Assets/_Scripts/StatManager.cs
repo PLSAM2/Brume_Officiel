@@ -68,6 +68,7 @@ public class StatManager : MonoBehaviour
 
         if(_idPlayer == NetworkManager.Instance.GetLocalPlayer().ID)
         {
+            print("time");
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
             PlayerPrefs.SetInt("currentDeath", PlayerPrefs.GetInt("currentDeath") +1);
         }
@@ -118,6 +119,12 @@ public class StatManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("currentDamage", PlayerPrefs.GetInt("currentDamage") + damagePlayer[NetworkManager.Instance.GetLocalPlayer().ID]);
         }
+
+        if(GameManager.Instance.currentLocalPlayer != null)
+        {
+            print(GameManager.Instance.currentLocalPlayer.liveHealth);
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
+        }
     }
 
     void OnGameFinish()
@@ -129,13 +136,6 @@ public class StatManager : MonoBehaviour
 
         //create json
         StatGame newStatGame = new StatGame(NetworkManager.Instance.GetLocalPlayer().playerCharacter, yourScore, enemyScore, PlayerPrefs.GetInt("currentKill"), PlayerPrefs.GetInt("currentDeath"), PlayerPrefs.GetInt("currentDamage"));
-
-        print(NetworkManager.Instance.GetLocalPlayer().playerCharacter);
-        print(yourScore);
-        print(enemyScore);
-        print(PlayerPrefs.GetInt("currentKill"));
-        print(PlayerPrefs.GetInt("currentDeath"));
-        print(PlayerPrefs.GetInt("currentDamage"));
 
         List<StatGame> allGames = new List<StatGame>();
         allGames.Add(newStatGame);

@@ -94,9 +94,6 @@ public class UiManager : MonoBehaviour
 
     public Animator hitWXPanel;
 
-    public GameObject inBrumePanel;
-    public Image inBrumeValue;
-
     private void Awake ()
 	{
 		if (_instance != null && _instance != this)
@@ -237,7 +234,12 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerDie ( ushort idKilled, ushort idKiller )
 	{
-		//UI Minimap info
+        //UI Minimap info
+        if (!RoomManager.Instance.actualRoom.playerList.ContainsKey(idKilled))
+        {
+			return;
+        }
+        
 		if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
             SetLife(0, GetLifeImageOfTeamChamp(idKilled));
