@@ -118,6 +118,12 @@ public class StatManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("currentDamage", PlayerPrefs.GetInt("currentDamage") + damagePlayer[NetworkManager.Instance.GetLocalPlayer().ID]);
         }
+
+        if(GameManager.Instance.currentLocalPlayer != null)
+        {
+            print("pas mort");
+            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
+        }
     }
 
     void OnGameFinish()

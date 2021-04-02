@@ -420,7 +420,6 @@ public class SpellModule : MonoBehaviour
 	public virtual void StartCanalysingFeedBack ()
 	{
 		onCanalisation?.Invoke();
-		onCanalisation?.Invoke();
 
 		switch (actionLinked)
 		{
