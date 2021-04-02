@@ -38,8 +38,8 @@ public class Fow : MonoBehaviour
         playerModule = _pModule;
 
         curveInBrume = new AnimationCurve();
-        curveInBrume.AddKey(new Keyframe(0, playerModule.characterParameters.minVisionRange));
-        curveInBrume.AddKey(new Keyframe(3f, playerModule.characterParameters.visionRange));
+        curveInBrume.AddKey(new Keyframe(0, playerModule.characterParameters.minVisionRangeInBrume));
+        curveInBrume.AddKey(new Keyframe(3f, playerModule.characterParameters.visionRangeInBrume));
     }
 
     // Update is called once per frame
