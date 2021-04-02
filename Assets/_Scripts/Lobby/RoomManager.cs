@@ -131,10 +131,13 @@ public class RoomManager : MonoBehaviour
                 ushort redTeamAssignement = reader.ReadUInt16();
                 ushort blueTeamAssignement = reader.ReadUInt16();
 
-                ushort killedPlayerID = reader.ReadUInt16();
-                ushort killerPlayerID = reader.ReadUInt16();
+                if (reader.ReadBoolean() == true)
+                {
+                    ushort killedPlayerID = reader.ReadUInt16();
+                    ushort killerPlayerID = reader.ReadUInt16();
 
-                GameManager.Instance.OnPlayerDie?.Invoke(killedPlayerID, killerPlayerID);
+                    GameManager.Instance.OnPlayerDie?.Invoke(killedPlayerID, killerPlayerID);
+                }
 
                 assignedSpawn[Team.red] = redTeamAssignement;
                 assignedSpawn[Team.blue] = blueTeamAssignement;
@@ -219,11 +222,13 @@ public class RoomManager : MonoBehaviour
             {
                 winningTeam = (Team)reader.ReadUInt16();
 
-                ushort killedPlayerID = reader.ReadUInt16();
-                ushort killerPlayerID = reader.ReadUInt16();
+                if (reader.ReadBoolean() == true)
+                {
+                    ushort killedPlayerID = reader.ReadUInt16();
+                    ushort killerPlayerID = reader.ReadUInt16();
 
-                GameManager.Instance.OnPlayerDie?.Invoke(killedPlayerID, killerPlayerID);
-
+                    GameManager.Instance.OnPlayerDie?.Invoke(killedPlayerID, killerPlayerID);
+                }
             }
         }
 

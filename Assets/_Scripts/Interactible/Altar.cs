@@ -176,11 +176,11 @@ public class Altar : Interactible
         waypointObj.SetImageColor(altarUnlockColor);
     }
 
-    //internal void StarFinalPhase()
-    //{
-    //    endZoneInteractible.gameObject.SetActive(true);
-    //    endZoneInteractible.Unlock();
-    //    fillImg.gameObject.SetActive(false);
-    //    fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
-    //}
+    internal void StarFinalPhase()
+    {
+        isInteractable = false;
+        this.state = State.Locked;
+        this.timer = 0;
+        waypointObj.gameObject.SetActive(false);
+    }
 }
