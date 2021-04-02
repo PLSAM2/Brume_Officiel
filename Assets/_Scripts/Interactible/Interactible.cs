@@ -292,6 +292,7 @@ public class Interactible : MonoBehaviour
 
     public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
+        print(interactibleName + " - Capturé par  " + _capturingPlayerID);
 
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
