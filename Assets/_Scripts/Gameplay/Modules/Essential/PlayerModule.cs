@@ -22,7 +22,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public Sc_CharacterParameters characterParameters;
 	[TabGroup("GameplayInfos")] [ReadOnly] public Team teamIndex;
 	[TabGroup("GameplayInfos")] public float revelationRangeWhileHidden = 10;
-	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem rootParticle, slowParticle, spedUpParticle, silencedParticle, embourbedParticle;
+	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem powerUpParticle1, powerUpParticle2;
 	[TabGroup("FeedbacksState")] public SkinnedMeshRenderer skinnedRenderer;
 	Team otherTeam;
 	[HideInInspector] public bool _isInBrume;
@@ -33,7 +33,7 @@ public class PlayerModule : MonoBehaviour
 		set { if (!mylocalPlayer.isOwner) { _state = value; } else return; }
 	}
 	[HideInInspector] public bool willListenInputs = true;
-	En_CharacterState LiveEffectCharacterState ()
+	En_CharacterState LiveEffectCharacterState()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
 
@@ -57,7 +57,7 @@ public class PlayerModule : MonoBehaviour
 			if (mylocalPlayer.isOwner)
 			{
 				GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", value);
-			//	SetAltarSpeedBuffState(_isInBrume);
+				//	SetAltarSpeedBuffState(_isInBrume);
 			}
 		}
 	}
@@ -100,16 +100,11 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
 	public int bonusHp;
-	[TabGroup("GameplayInfos")] public float lowSanityFrequence = 2.5f;
-	[TabGroup("GameplayInfos")] public MeshRenderer echoRenderer;
-    [TabGroup("GameplayInfos")] public float timeInBrume;
-
-
-    //ALL ACTION 
-    #region
-    //[INPUTS ACTION]
-    #region
-    public Action<Vector3> DirectionInputedUpdate;
+	//ALL ACTION 
+	#region
+	//[INPUTS ACTION]
+	#region
+	public Action<Vector3> DirectionInputedUpdate;
 	//spell
 	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, tpInput, wardInput, pingInput;
 	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, tpInputReleased, wardInputReleased, pingInputReleased;
@@ -143,13 +138,13 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
 	public Action ultPointPickedUp;
 	#endregion
-	void Awake ()
+	void Awake()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 		GameManager.Instance.OnAllCharacterSpawned += Setup;
 		GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 	}
-	void Start ()
+	void Start()
 	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
@@ -160,7 +155,7 @@ public class PlayerModule : MonoBehaviour
 			GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
 		}
 	}
-	private void OnDestroy ()
+	private void OnDestroy()
 	{
 
 		GameManager.Instance.OnAllCharacterSpawned -= Setup;
@@ -173,12 +168,8 @@ public class PlayerModule : MonoBehaviour
 			spellResolved -= BuffInput;
 
 		}
-		else
-		{
-			GameManager.Instance.OnLocalPlayerStateBrume -= OnLocalPlayerStateBrumeChange;
-		}
 	}
-	public virtual void Setup ()
+	public virtual void Setup()
 	{
 		if (firstSpell != null)
 			firstSpell.SetupComponent(En_SpellInput.FirstSpell);
@@ -195,11 +186,8 @@ public class PlayerModule : MonoBehaviour
 		if (tpModule != null)
 			tpModule.SetupComponent(En_SpellInput.TP);
 
-		spedUpParticle.gameObject.SetActive(false);
-		silencedParticle.gameObject.SetActive(false);
-		slowParticle.gameObject.SetActive(false);
-		rootParticle.gameObject.SetActive(false);
-		embourbedParticle.gameObject.SetActive(false);
+		powerUpParticle1.gameObject.SetActive(false);
+		powerUpParticle2.gameObject.SetActive(false);
 
 		_state = En_CharacterState.Clear;
 		oldState = state;
@@ -231,7 +219,6 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 		{
-			GameManager.Instance.OnLocalPlayerStateBrume += OnLocalPlayerStateBrumeChange;
 			if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
 			{
 				skinnedRenderer.material.SetFloat("_OutlinePower", 0);
@@ -241,31 +228,40 @@ public class PlayerModule : MonoBehaviour
 			{
 				skinnedRenderer.material.SetFloat("_OutlinePower", 10);
 			}
-			echoRenderer.material.SetFloat("_Frequency", 0);
-			echoRenderer.material.SetFloat("_FactorInvisible", 5);
-			echoRenderer.material.SetColor("_Color", GameFactory.GetRelativeColor(teamIndex));
 			mapIcon.gameObject.SetActive(false);
-			// StartCoroutine(WaitForVisionCheck());
+			StartCoroutine(WaitForVisionCheck());
 		}
 
 		ResetLayer();
 	}
 
-	private void OnLocalPlayerStateBrumeChange ( bool obj )
+	IEnumerator WaitForVisionCheck()
 	{
-		echoRenderer.material.SetFloat("_Frequency", 0);
-		echoRenderer.material.SetFloat("_FactorInvisible", 5);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
+		StartCoroutine(WaitForVisionCheck());
+	}
+	void CheckForBrumeRevelation()
+	{
 
-		if (isInBrume)
+		if (GameManager.Instance.currentLocalPlayer == null)
 		{
-			echoRenderer.gameObject.SetActive(false);
 			return;
 		}
+		if (ShouldBePinged())
+		{
+			//Debug.Log("I shouldBePinged");
+			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+				LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+			else
+				LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
 
-		echoRenderer.gameObject.SetActive(obj);
+		}
+		lastRecordedPos = transform.position;
+
 	}
 
-	public void ResetLayer ()
+	public void ResetLayer()
 	{
 
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
@@ -282,7 +278,7 @@ public class PlayerModule : MonoBehaviour
 			gameObject.layer = 8;
 		}
 	}
-	protected virtual void Update ()
+	protected virtual void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.C))
 			print(IsInProtectiveZone());
@@ -308,37 +304,18 @@ public class PlayerModule : MonoBehaviour
 			}
 
 			//PARTICLE FEEDBACK TOUSSA
-			#region
-			if ((oldState & En_CharacterState.SpedUp) == 0 && (state & En_CharacterState.SpedUp) != 0)
-				spedUpParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.SpedUp) != 0 && (state & En_CharacterState.SpedUp) == 0)
-				spedUpParticle.gameObject.SetActive(false);
 
+			if ((oldState & En_CharacterState.PoweredUp) == 0 && (state & En_CharacterState.PoweredUp) != 0)
+			{
+				powerUpParticle1.gameObject.SetActive(true);
+				powerUpParticle2.gameObject.SetActive(true);
+			}
+			else if ((oldState & En_CharacterState.PoweredUp) != 0 && (state & En_CharacterState.PoweredUp) == 0)
+			{
+				powerUpParticle1.gameObject.SetActive(false);
+				powerUpParticle2.gameObject.SetActive(false);
+			}
 
-			if ((oldState & En_CharacterState.Slowed) == 0 && (state & En_CharacterState.Slowed) != 0)
-				slowParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.Slowed) != 0 && (state & En_CharacterState.Slowed) == 0)
-				slowParticle.gameObject.SetActive(false);
-
-
-			/*	if ((oldState & En_CharacterState.Root) == 0 && (state & En_CharacterState.Root) != 0)
-                    rootParticle.gameObject.SetActive(true);
-                else if ((oldState & En_CharacterState.Root) != 0 && (state & En_CharacterState.Root) == 0)
-                    rootParticle.gameObject.SetActive(false);*/
-
-
-			if ((oldState & En_CharacterState.Silenced) == 0 && (state & En_CharacterState.Silenced) != 0)
-				silencedParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.Silenced) != 0 && (state & En_CharacterState.Silenced) == 0)
-				silencedParticle.gameObject.SetActive(false);
-
-
-			if ((oldState & En_CharacterState.Embourbed) == 0 && (state & En_CharacterState.Embourbed) != 0)
-				embourbedParticle.gameObject.SetActive(true);
-			else if ((oldState & En_CharacterState.Embourbed) != 0 && (state & En_CharacterState.Embourbed) == 0)
-				embourbedParticle.gameObject.SetActive(false);
-
-			#endregion
 			if (mylocalPlayer.isOwner)
 			{
 				UiManager.Instance.StatusUpdate(state);
@@ -463,8 +440,9 @@ public class PlayerModule : MonoBehaviour
 		{
 			WaitForHealProcess();
 		}
+
 	}
-	protected virtual void FixedUpdate ()
+	protected virtual void FixedUpdate()
 	{
 		TreatEffects();
 		TreatTickEffects();
@@ -473,43 +451,8 @@ public class PlayerModule : MonoBehaviour
 		{
 			CheckBrumeShader();
 		}
-		else
-		{
-            /*
-			if (ShouldBePinged())
-			{
-				if (echoRenderer.gameObject.activeInHierarchy)
-				{
-					if (GameFactory.GetActualPlayerFollow().myPlayerModule.inBrumeValue < 0.33f)
-					{
-						echoRenderer.gameObject.SetActive(false);
-					}
-
-					if (GameFactory.GetActualPlayerFollow().myPlayerModule.inBrumeValue > 0.66f)
-					{
-						echoRenderer.material.SetFloat("_Frequency", 0);
-					}
-					else
-					{
-						echoRenderer.material.SetFloat("_Frequency", lowSanityFrequence);
-					}
-
-				}
-				else
-				{
-					if (GameFactory.GetActualPlayerFollow().myPlayerModule.inBrumeValue > 0.33f)
-					{
-						echoRenderer.gameObject.SetActive(true);
-					}
-				}
-			}
-			else
-			{
-				echoRenderer.gameObject.SetActive(false);
-			}*/
-		}
 	}
-	public void CheckBrumeShader ()
+	public void CheckBrumeShader()
 	{
 		if (_isInBrume)
 		{
@@ -537,7 +480,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	private void WaitForHealProcess ()
+	private void WaitForHealProcess()
 	{
 		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
 		{
@@ -566,7 +509,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	private void CheckAutoHealProcess ()
+	private void CheckAutoHealProcess()
 	{
 		healTimer -= Time.deltaTime;
 
@@ -589,24 +532,19 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
+	public virtual void SetInBrumeStatut(bool _value, int idBrume)
 	{
-		if (_value)
-		{
-			echoRenderer.gameObject.SetActive(false);
-		}
-
 		isInBrume = _value;
 		brumeId = idBrume;
 	}
-	public void RetryInteractibleCapture ()
+	public void RetryInteractibleCapture()
 	{
 		foreach (Interactible inter in interactiblesClose)
 		{
 			inter.CheckOnUnlock = true;
 		}
 	}
-	void ReduceCooldown ( float _duration, En_SpellInput _spell )
+	void ReduceCooldown(float _duration, En_SpellInput _spell)
 	{
 		switch (_spell)
 		{
@@ -631,7 +569,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 	}
-	void ReduceAllCooldowns ( float _duration )
+	void ReduceAllCooldowns(float _duration)
 	{
 		firstSpell.ReduceCooldown(_duration);
 		secondSpell.ReduceCooldown(_duration);
@@ -643,15 +581,15 @@ public class PlayerModule : MonoBehaviour
 	//vision
 	#region
 
-	bool ShouldBePinged ()
+	bool ShouldBePinged()
 	{
 		//marké par la shili donc go ping
 		if (cursedByShili)
 			return true;
 
 		//le perso a pas bougé
-		//if (lastRecordedPos == transform.position || isInBrume)
-		//    return false;
+		if (lastRecordedPos == transform.position || isInBrume)
+			return false;
 
 		//on choppe le player local
 		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
@@ -670,17 +608,17 @@ public class PlayerModule : MonoBehaviour
 	#endregion
 	//Vars 
 	#region 
-	public Vector3 directionInputed ()
+	public Vector3 directionInputed()
 	{
 		return Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 	}
 
-	public Vector3 directionOfTheMouse ()
+	public Vector3 directionOfTheMouse()
 	{
 		return Vector3.Normalize(mousePos() - transform.position);
 	}
 
-	public Vector3 mousePos ()
+	public Vector3 mousePos()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -695,7 +633,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public Vector3 ClosestFreePos ( Vector3 _direction, float maxDistance )
+	public Vector3 ClosestFreePos(Vector3 _direction, float maxDistance)
 	{
 		RaycastHit _hit;
 		if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9 | 1 << 19))
@@ -706,7 +644,7 @@ public class PlayerModule : MonoBehaviour
 			return transform.position + _direction * maxDistance;
 	}
 	#endregion
-	void LockingRotation ( bool _isLocked )
+	void LockingRotation(bool _isLocked)
 	{
 		if (_isLocked)
 			movementPart.rotLocked = true;
@@ -715,7 +653,7 @@ public class PlayerModule : MonoBehaviour
 	}
 	//STATUS GESTION
 	#region
-	void TreatEffects ()
+	void TreatEffects()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
@@ -734,7 +672,7 @@ public class PlayerModule : MonoBehaviour
 			allEffectLive.Remove(_effect);
 	}
 
-	void TreatTickEffects ()
+	void TreatTickEffects()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
@@ -773,7 +711,7 @@ public class PlayerModule : MonoBehaviour
 		foreach (EffectLifeTimed _effect in _tempList)
 			allTickLive.Remove(_effect);
 	}
-	public void AddStatus ( Effect _statusToAdd )
+	public void AddStatus(Effect _statusToAdd)
 	{
 		Effect _tempTrad = new Effect();
 		_tempTrad = _statusToAdd;
@@ -852,7 +790,7 @@ public class PlayerModule : MonoBehaviour
 		}
 
 	}
-	private EffectLifeTimed GetTickEffectByKey ( ushort key )
+	private EffectLifeTimed GetTickEffectByKey(ushort key)
 	{
 		foreach (EffectLifeTimed effect in allTickLive)
 		{
@@ -864,7 +802,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
-	private EffectLifeTimed GetEffectByKey ( ushort key )
+	private EffectLifeTimed GetEffectByKey(ushort key)
 	{
 		foreach (EffectLifeTimed effect in allEffectLive)
 		{
@@ -876,7 +814,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
-	public bool StopStatus ( ushort key )
+	public bool StopStatus(ushort key)
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
 
@@ -888,7 +826,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return false;
 	}
-	public void StopTickStatus ( ushort key )
+	public void StopTickStatus(ushort key)
 	{
 		EffectLifeTimed _temp = allTickLive.Where(x => x.key == key).FirstOrDefault();
 
@@ -897,19 +835,19 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
-	public void AddState ( En_CharacterState _stateToadd )
+	public void AddState(En_CharacterState _stateToadd)
 	{
 		_state |= _stateToadd;
 	}
 
-	public void RemoveState ( En_CharacterState _stateToRemove )
+	public void RemoveState(En_CharacterState _stateToRemove)
 	{
-		_state = (_state & ~_stateToRemove);
+		_state &= ~_stateToRemove;
 	}
 
 	#endregion
 	// Altars buff
-	public void ApplySpeedBuffInServer ()
+	public void ApplySpeedBuffInServer()
 	{
 		isAltarSpeedBuffActive = true;
 		if (isInBrume)
@@ -917,11 +855,11 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
 		}
 	}
-	public void ApplyPoisonousBuffInServer ()
+	public void ApplyPoisonousBuffInServer()
 	{
 		isPoisonousEffectActive = true;
 	}
-	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
+	public void SetAltarSpeedBuffState(bool value) // Call when entering brume
 	{
 		if (value)
 		{
@@ -936,16 +874,16 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
 	}
-	void PingMenace ()
+	void PingMenace()
 	{
 		menacedIcon.gameObject.SetActive(true);
 	}
-	void HideMenace ()
+	void HideMenace()
 	{
 		menacedIcon.gameObject.SetActive(false);
 	}
 	#region
-	internal void ApplyWxMark ( ushort? dealerID = null )
+	internal void ApplyWxMark(ushort? dealerID = null)
 	{
 		/*if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
@@ -973,7 +911,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		mylocalPlayer.SendState(state);*/
 	}
-	void BuffInput ()
+	void BuffInput()
 	{
 		/*switch(spellInputedRecorded)
 		{
@@ -994,7 +932,7 @@ public class PlayerModule : MonoBehaviour
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 	#endregion
-	public void KillEveryStun ()
+	public void KillEveryStun()
 	{
 		foreach (EffectLifeTimed _effect in allEffectLive)
 		{
@@ -1004,7 +942,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	public SpellModule ModuleLinkedToInput ( En_SpellInput _inputOfTheSpell )
+	public SpellModule ModuleLinkedToInput(En_SpellInput _inputOfTheSpell)
 	{
 		switch (_inputOfTheSpell)
 		{
@@ -1028,12 +966,12 @@ public class PlayerModule : MonoBehaviour
 
 		return pingModule;
 	}
-	public void SetAutoHealState ( bool state )
+	public void SetAutoHealState(bool state)
 	{
 		healTimer = timeHealTick;
 		isAutoHealing = state;
 	}
-	public void WaitForHeal ( bool _isSeen )
+	public void WaitForHeal(bool _isSeen)
 	{
 
 		SetAutoHealState(false);
@@ -1059,9 +997,9 @@ public class PlayerModule : MonoBehaviour
 
 	public bool IsInProtectiveZone()
 	{
-		RaycastHit[] _hits = Physics.RaycastAll(transform.position + Vector3.up * 20, Vector3.down,30, LayerMask.GetMask("ProtectingDome")) ;
+		RaycastHit[] _hits = Physics.RaycastAll(transform.position + Vector3.up * 20, Vector3.down, 30, LayerMask.GetMask("ProtectingDome"));
 
-		foreach(RaycastHit _hit in _hits)
+		foreach (RaycastHit _hit in _hits)
 		{
 			if (_hit.collider.GetComponent<AutoKill>().myteam == teamIndex)
 				return true;
@@ -1097,8 +1035,8 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
-	public DamagesInfos () { }
-	public DamagesInfos ( ushort damageHealth )
+	public DamagesInfos() { }
+	public DamagesInfos(ushort damageHealth)
 	{
 		this.damageHealth = damageHealth;
 	}
@@ -1143,7 +1081,7 @@ public class Effect
 
 	public DamagesInfos optionalDamagesInfos;
 	public int hitBeforeProcOptionnalDamages = 0;
-	public Effect () { }
+	public Effect() { }
 }
 
 [System.Serializable]
@@ -1156,12 +1094,12 @@ public class EffectLifeTimed
 	public float baseLifeTime;
 
 	[HideInInspector] public float lastTick = 0;
-	public void Stop ()
+	public void Stop()
 	{
 		liveLifeTime = 0;
 	}
 
-	internal void Refresh ()
+	internal void Refresh()
 	{
 		liveLifeTime = effect.finalLifeTime;
 	}
