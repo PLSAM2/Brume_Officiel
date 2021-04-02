@@ -68,6 +68,7 @@ public class StatManager : MonoBehaviour
 
         if(_idPlayer == NetworkManager.Instance.GetLocalPlayer().ID)
         {
+            print("time");
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
             PlayerPrefs.SetInt("currentDeath", PlayerPrefs.GetInt("currentDeath") +1);
         }
@@ -121,7 +122,7 @@ public class StatManager : MonoBehaviour
 
         if(GameManager.Instance.currentLocalPlayer != null)
         {
-            print("pas mort");
+            print(GameManager.Instance.currentLocalPlayer.liveHealth);
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
         }
     }
