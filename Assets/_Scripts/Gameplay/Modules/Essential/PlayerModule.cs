@@ -99,7 +99,9 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public ushort healPerTick = 1;
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
-	public int bonusHp;
+    [TabGroup("GameplayInfos")] public float timeInBrume;
+
+    public int bonusHp;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
