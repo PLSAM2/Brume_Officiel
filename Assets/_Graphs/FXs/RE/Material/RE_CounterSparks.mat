@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InMistMask
-  m_Shader: {fileID: 4800000, guid: 2f56076987ca56e46876e70cbbf29ac2, type: 3}
+  m_Name: RE_CounterSparks
+  m_Shader: {fileID: 4800000, guid: 1d7b7bffeb75466429476e28e59171a7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 4000
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -24,6 +24,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DepthFadeNoise_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -39,6 +43,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DistortNoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortNoiseTexture1:
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,8 +63,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MistMask:
-        m_Texture: {fileID: 2800000, guid: 03ad5726d78b5604091cf58182bd08e9, type: 3}
+    - _Normal:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -67,8 +79,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture0:
-        m_Texture: {fileID: 2800000, guid: c97651f5915628041b899b7999094323, type: 3}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -90,27 +106,48 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _AnimatedGrunge_Tiling1: -3.2
     - _Blend: 0
-    - _BrumeTexture_Contrast: 1.8
-    - _BrumeTexture_Tiling: 8
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DepthFadeNoise_PannerSpeed: 0
+    - _DepthFadeNoise_Tiling: 1
+    - _DepthFade_Distance: 0.24
+    - _DepthFade_Smoothstep: 2
+    - _DepthFade_Step: -2
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DistortionMask_Smoothstep: 1.43
+    - _DistortionMask_Step: 0.76
+    - _DistortionNoise_NormalStrength: 0.2
+    - _DistortionNoise_RotatorTimeScale: 0.1
+    - _DistortionNoise_Tiling: 0.48
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _Float0: 0.32
+    - _Float1: 2
+    - _Float2: 2
+    - _Float3: 0.5
+    - _Float4: 0.35
+    - _Float5: 0.35
+    - _Float6: 0.5
+    - _FresnelPower: 5
+    - _FresnelPower1: 2.5
+    - _FresnelScale: 1
+    - _FresnelScale1: 1.5
+    - _Fresnel_Smoothstep: 1
+    - _Fresnel_Step: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _NormalStrength: 0.5
+    - _NormalStrength1: 0.12
     - _OcclusionStrength: 1
-    - _Opacity: 0
     - _Parallax: 0.005
-    - _Parralax_DistancePlane: 0.4
-    - _Parralax_Scale: 0.15
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -118,18 +155,35 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _TessEdgeLength: 16
+    - _TessMax: 25
+    - _TessMaxDisp: 25
+    - _TessMin: 10
+    - _TessPhongStrength: 0.5
+    - _TessValue: 16
+    - _TextureMask_Smoothstep: 0.15
+    - _TextureMask_Step: 0.66
+    - _Texture_PannerSpeed: 1
+    - _Texture_Tiling: 2
+    - _TimeScale: 0.2
+    - _TimeScale1: 0.2
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BrumeTexture_BottomColor: {r: 0.1712353, g: 0.1450694, b: 0.18867922, a: 0}
-    - _BrumeTexture_Panner: {r: 0.01, g: 0, b: 0, a: 0}
-    - _BrumeTexture_TopColor: {r: 0.48883057, g: 0.6132076, b: 0.6132076, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 0}
+    - _Color1: {r: 1, g: 1, b: 1, a: 0}
+    - _DepthFade_Color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
+    - _DistortColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0}
+    - _DistortColor1: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FresnelColor1: {r: 1, g: 0.8543285, b: 0.504717, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TextureColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7530271646020326226
+--- !u!114 &2465286552083766672
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
