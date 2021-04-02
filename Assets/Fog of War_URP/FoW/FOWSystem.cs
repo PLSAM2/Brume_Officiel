@@ -25,8 +25,6 @@ public class FOWSystem : MonoBehaviour
     public RenderTexture myTexture;
     public float opacity;
 
-    AnimationCurve curveOpacity;
-
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -39,10 +37,6 @@ public class FOWSystem : MonoBehaviour
         }
 
         mistMatPlane.SetFloat("_Opacity", 0);
-
-        curveOpacity = new AnimationCurve();
-        curveOpacity.AddKey(new Keyframe(0.2f, 1));
-        curveOpacity.AddKey(new Keyframe(0.33f, 0.5f));
     }
 
     float opacityValue = 0;
@@ -55,7 +49,7 @@ public class FOWSystem : MonoBehaviour
             if (localPlayer.myPlayerModule.isInBrume)
             {
                 currentFogColor = Color.Lerp(currentFogColor, inBrumeColor, Time.deltaTime * 5);
-                opacityValue = Mathf.Lerp(opacityValue, curveOpacity.Evaluate(localPlayer.myPlayerModule.inBrumeValue), Time.deltaTime * 5);
+                opacityValue = Mathf.Lerp(opacityValue, 0.7f, Time.deltaTime * 5);
             }
             else
             {
