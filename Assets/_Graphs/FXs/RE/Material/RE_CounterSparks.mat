@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AnisotropicNoise:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -79,12 +83,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TestReCounterFloodFill:
+        m_Texture: {fileID: 2800000, guid: 380ebc4251bc06a41a146821e8ee4668, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture:
         m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 11dc419ea96891741ba2231e7da6d4ee, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -107,6 +119,9 @@ Material:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AnimatedGrunge_Tiling1: -3.2
+    - _Anisotropic_Angle: -100
+    - _Anisotropic_PannerSpeed: 1.5
+    - _Anisotropic_Tiling: 2
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -127,10 +142,12 @@ Material:
     - _DistortionNoise_Tiling: 0.48
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float0: 0.32
-    - _Float1: 2
-    - _Float2: 2
-    - _Float3: 0.5
+    - _Float0: 0.21
+    - _Float1: 0.32
+    - _Float10: 0.52
+    - _Float11: 0.185
+    - _Float2: -100
+    - _Float3: 0.01
     - _Float4: 0.35
     - _Float5: 0.35
     - _Float6: 0.5
@@ -147,6 +164,8 @@ Material:
     - _NormalStrength: 0.5
     - _NormalStrength1: 0.12
     - _OcclusionStrength: 1
+    - _Opacity_Smoothstep: 0.1
+    - _Opacity_Step: 0.16
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -161,8 +180,11 @@ Material:
     - _TessMin: 10
     - _TessPhongStrength: 0.5
     - _TessValue: 16
-    - _TextureMask_Smoothstep: 0.15
+    - _TextureMask_Smoothstep: 0.24
+    - _TextureMask_Smoothstep1: 0.35
     - _TextureMask_Step: 0.66
+    - _TextureMask_Step1: 0.5
+    - _TextureTiling: 3
     - _Texture_PannerSpeed: 1
     - _Texture_Tiling: 2
     - _TimeScale: 0.2
@@ -171,8 +193,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 0}
+    - _Color: {r: 1, g: 0.7372549, b: 0.13725491, a: 1}
+    - _Color0: {r: 1, g: 0, b: 0, a: 0}
     - _Color1: {r: 1, g: 1, b: 1, a: 0}
     - _DepthFade_Color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
     - _DistortColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0}
@@ -180,8 +202,10 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
     - _FresnelColor1: {r: 1, g: 0.8543285, b: 0.504717, a: 0}
+    - _SecondaryColor: {r: 1, g: 0.9607843, b: 0.80784315, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TextureColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
+    - _TexturePanner: {r: 1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2465286552083766672
 MonoBehaviour:
