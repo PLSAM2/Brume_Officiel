@@ -33,7 +33,7 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("WX Compass")] public GameObject pointerObj;
     [TabGroup("WX Compass")] public Quaternion compassRot;
     [TabGroup("WX Compass")] public LocalPlayer wxRef;
-    [TabGroup("WX Compass")] public Material blueMat, redMat, grayMat;
+    [TabGroup("WX Compass")] public Material blueMat, redMat, grayMat, goldMat;
 
     [Header("State")]
     [TabGroup("UiState")] public GameObject statePart;
@@ -53,6 +53,36 @@ public class UIPlayerManager : MonoBehaviour
         canvasRot = canvas.transform.rotation;
         compassRot = compassCanvas.transform.rotation;
         compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
+    }
+
+    private void OnEnable()
+    {
+        myLocalPlayer.myPlayerModule.OnStateChange += OnStateChange;
+    }
+
+    private void OnDisable()
+    {
+        myLocalPlayer.myPlayerModule.OnStateChange -= OnStateChange;
+    }
+
+    void OnStateChange()
+    {
+        if (myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Intengenbility))
+        {
+            print("oui");
+            foreach (UIBarLifePerso img in allBarLife)
+            {
+                img.ChangeColor(goldMat);
+            }
+        }
+        else
+        {
+            print("non");
+            foreach (UIBarLifePerso img in allBarLife)
+            {
+                img.ChangeColor(currentColorTeam);
+            }
+        }
     }
 
     private void Start()

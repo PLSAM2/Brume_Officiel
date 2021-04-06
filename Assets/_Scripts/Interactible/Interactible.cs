@@ -292,8 +292,6 @@ public class Interactible : MonoBehaviour
 
     public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
-        print(interactibleName + " - Capturé par  " + _capturingPlayerID);
-
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant

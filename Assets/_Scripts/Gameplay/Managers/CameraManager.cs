@@ -211,6 +211,20 @@ public class CameraManager : MonoBehaviour
 
 	private void LateUpdate ()
 	{
+        LocalPlayer currentPlayer = GameFactory.GetActualPlayerFollow();
+
+        if (currentPlayer)
+        {
+            if (GameFactory.GetActualPlayerFollow().myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+            {
+                myCinemachine.m_Lens.FieldOfView = Mathf.Lerp(myCinemachine.m_Lens.FieldOfView, 56, Time.deltaTime * 5);
+            }
+            else
+            {
+                myCinemachine.m_Lens.FieldOfView = Mathf.Lerp(myCinemachine.m_Lens.FieldOfView, 60, Time.deltaTime * 5);
+            }
+        }
+
 		if (isSpectate) { return; }
 
 		if (isLocked && GameManager.Instance.gameStarted && playerToFollow != null)
@@ -238,6 +252,4 @@ public class CameraManager : MonoBehaviour
 		cameraShakeStarted = true;
 	}
 	// <<
-
-
 }

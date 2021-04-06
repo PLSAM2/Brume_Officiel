@@ -146,23 +146,25 @@ public class Altar : Interactible
 
         yield return new WaitForSeconds(unlockTime);
 
-        AudioClip voice = altarBottomUnsealed;
+        //AudioClip voice = altarBottomUnsealed;
 
-        switch (interactibleName)
+        //switch (interactibleName)
+        //{
+        //    case "Right":
+        //        voice = altarRightUnsealed;
+        //        break;
+
+        //    case "Left":
+        //        voice = altarLeftUnsealed;
+        //        break;
+        //}
+
+        if (interactibleName == "Right") // BERK MAIS OSEF
         {
-            case "Right":
-                voice = altarRightUnsealed;
-                break;
-
-            case "Left":
-                voice = altarLeftUnsealed;
-                break;
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", annoncementAltarSfx);
+            StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
         }
-
-        UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR UNSEALED", annoncementAltarSfx, voice);
         Unlock();
-
-        StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, interactibleName);
     }
 
 	public override void Unlock ()
@@ -173,6 +175,8 @@ public class Altar : Interactible
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
+
+
         AudioManager.Instance.Play2DAudio(unlockAltarSfx);
 
         waypointObj.SetImageColor(altarUnlockColor);
@@ -180,9 +184,6 @@ public class Altar : Interactible
 
     internal void StarFinalPhase()
     {
-        isInteractable = false;
-        this.state = State.Locked;
-        this.timer = 0;
         waypointObj.gameObject.SetActive(false);
     }
 }

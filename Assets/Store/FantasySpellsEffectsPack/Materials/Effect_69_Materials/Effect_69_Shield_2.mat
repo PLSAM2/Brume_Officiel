@@ -4,15 +4,16 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Effect_69_Shield_2
   m_Shader: {fileID: 4800000, guid: c232760b301aa58438c86908cadb81ab, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2900
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3050
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -84,19 +85,20 @@ Material:
     - _NoiseScale: 0.01
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RimScale: 1
-    - _RimStrength: 0.03
+    - _RimScale: 0.8
+    - _RimStrength: 0.15
     - _RimStrenth: 15
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 4
+    - _Speed: 10
     - _SrcBlend: 1
-    - _TexStrength: 2
+    - _TexStrength: 10
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 3, g: 2.6384318, b: 0.6169356, a: 1}
+    - _Color: {r: 0.7578583, g: 0.3003902, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseValue: {r: 0.5, g: 2, b: 0.5, a: 0.75}
     - _RimColor: {r: 2, g: 1.7065662, b: 0.058823705, a: 1}
     - _TintColor: {r: 0.99264705, g: 0.41638827, b: 0.20436853, a: 1}
+  m_BuildTextureStacks: []

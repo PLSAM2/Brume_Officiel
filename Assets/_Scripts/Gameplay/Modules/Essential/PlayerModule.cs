@@ -139,6 +139,10 @@ public class PlayerModule : MonoBehaviour
 	public Action spellResolved;
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
 	public Action ultPointPickedUp;
+
+    public Action OnStateChange;
+
+
 	#endregion
 	void Awake()
 	{
@@ -323,6 +327,8 @@ public class PlayerModule : MonoBehaviour
 				UiManager.Instance.StatusUpdate(state);
 				mylocalPlayer.SendState(state);
 			}
+
+            OnStateChange?.Invoke();
 		}
 		oldState = state;
 
