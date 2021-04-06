@@ -153,11 +153,11 @@ public class GameFactory
 		switch (champ)
 		{
 			case Character.WuXin:
-				return 5;
+				return GameManager.Instance.wxParameter.maxHealth;
 			case Character.Re:
-				return 4;
+				return GameManager.Instance.reParameter.maxHealth;
 			case Character.Leng:
-				return 6;
+				return GameManager.Instance.lengParameter.maxHealth;
 		}
 		return 0;
 	}
