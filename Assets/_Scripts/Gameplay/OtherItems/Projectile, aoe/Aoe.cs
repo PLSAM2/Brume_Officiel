@@ -10,6 +10,7 @@ public class Aoe : AutoKill
 	bool asDealtFinal = false;
 	LayerMask allyLayer, enemyLayer;
 	public bool adaptiveRange = true;
+	DamagesInfos damageOnEnable, damageOnDisable;
 
 	protected override void Awake ()
 	{
@@ -200,6 +201,18 @@ public class Aoe : AutoKill
 		asDealtFinal = false;
 		if (isOwner)
 			StartCoroutine(CustomUpdate());
+
+		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+		{
+			damageOnDisable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+			damageOnEnable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
+			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+		}
+		else
+		{
+			damageOnDisable.damageHealth = localTrad.rules.damagesToDealOnImpact.damageHealth;
+			damageOnEnable.damageHealth = localTrad.rules.finalDamages.damageHealth;
+		}
 	}
 
 	protected override void OnDisable ()

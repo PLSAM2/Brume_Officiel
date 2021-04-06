@@ -21,6 +21,7 @@ public class HurtingDash : SpellModule
 	//[SerializeField] VisualEffect speedFx;
 	[TabGroup("HitPArt")]
 	[SerializeField] AudioClip hitDashSound;
+	DamagesInfos _damageToDeal;
 
     public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -62,6 +63,16 @@ public class HurtingDash : SpellModule
 	{
 		hurtBox.ResetHitbox();
 		hasTouched = false;
+
+		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+		{
+			_damageToDeal.damageHealth = (ushort)(damages.damageHealth +1);
+		}
+		else
+		{
+			_damageToDeal.damageHealth = damages.damageHealth;
+		}
+
 		base.StartCanalysing(_BaseMousePos);
 	}
 
@@ -83,6 +94,9 @@ public class HurtingDash : SpellModule
 		gameObject.layer = 7;
 
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
+
+		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 
 		base.Interrupt();
 	}
