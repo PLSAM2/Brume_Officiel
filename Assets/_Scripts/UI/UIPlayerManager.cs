@@ -47,12 +47,36 @@ public class UIPlayerManager : MonoBehaviour
     public LookTarget directionWx;
     public Animator directionWxAnimator;
 
+    public CanvasGroup myCanvasGroup;
+
     Material currentColorTeam;
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
         compassRot = compassCanvas.transform.rotation;
         compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
+    }
+
+    private void OnEnable()
+    {
+        myLocalPlayer.myPlayerModule.OnStateChange += OnStateChange;
+    }
+
+    private void OnDisable()
+    {
+        myLocalPlayer.myPlayerModule.OnStateChange -= OnStateChange;
+    }
+
+    void OnStateChange()
+    {
+        if (myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Intengenbility))
+        {
+            myCanvasGroup.alpha = 0.3f;
+        }
+        else
+        {
+            myCanvasGroup.alpha = 1;
+        }
     }
 
     private void Start()

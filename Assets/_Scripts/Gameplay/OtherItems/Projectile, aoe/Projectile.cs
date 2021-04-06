@@ -27,6 +27,7 @@ public class Projectile : AutoKill
 	public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
 
+	DamagesInfos _tempDamage;
 
 	Vector3 direction = Vector3.zero;
 	ushort bouncingNumberLive;
@@ -67,6 +68,14 @@ public class Projectile : AutoKill
 		direction = transform.forward;
 		myRb.velocity = speed * direction;
 		transform.localScale = Vector3.one;
+
+		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+		{
+			_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
+			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp); 
+		}
+		else
+			_tempDamage.damageHealth = localTrad.damagesToDeal.damageHealth;
 	}
 
 	private void Start ()
@@ -111,7 +120,7 @@ public class Projectile : AutoKill
 
 					foreach (RaycastHit _hit in _collTouched)
 					{
-						_hit.collider.GetComponent<LocalPlayer>().DealDamages(localTrad.damagesToDeal, transform.position);
+						_hit.collider.GetComponent<LocalPlayer>().DealDamages(_tempDamage, transform.position);
 					}
 				}
 				else
@@ -120,13 +129,16 @@ public class Projectile : AutoKill
 
 					foreach (RaycastHit _hit in _collTouched)
 					{
-						_hit.collider.GetComponent<LocalPlayer>().DealDamages(localTrad.damagesToDeal, transform.position);
+						_hit.collider.GetComponent<LocalPlayer>().DealDamages(_tempDamage, transform.position);
 					}
 				}
 
 			}
 		}
 	}
+
+
+
 
 	private void Update ()
 	{
@@ -193,9 +205,9 @@ public class Projectile : AutoKill
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
-            GameFactory.DoScreenShack(0.05f, 0.05f, transform.position);
+			GameFactory.DoScreenShack(0.05f, 0.05f, transform.position);
 
-            if (hitSound)
+			if (hitSound)
 			{
 				AudioManager.Instance.Play3DAudio(hitSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
@@ -203,7 +215,7 @@ public class Projectile : AutoKill
 
 		if (isOwner && aoeToSpawn != null)
 		{
-			if (_spawnAoe || localTrad.forcePrefabApparition )
+			if (_spawnAoe || localTrad.forcePrefabApparition)
 			{
 				NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawn), transform.position, transform.eulerAngles);
 			}

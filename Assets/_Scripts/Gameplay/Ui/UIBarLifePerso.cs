@@ -20,6 +20,11 @@ public class UIBarLifePerso : MonoBehaviour
         }
     }
 
+    public void ChangeColor(Material matColor)
+    {
+        allImgLife[0].material = matColor;
+    }
+
     public void SetColorLife(Material matColor, bool state)
     {
         isFull = state;

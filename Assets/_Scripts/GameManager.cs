@@ -109,6 +109,10 @@ public class GameManager : SerializedMonoBehaviour
 
     public Material _mistMat;
 
+    public Sc_CharacterParameters wxParameter;
+    public Sc_CharacterParameters reParameter;
+    public Sc_CharacterParameters lengParameter;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

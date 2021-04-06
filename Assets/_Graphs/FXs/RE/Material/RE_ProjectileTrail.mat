@@ -1,0 +1,236 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RE_ProjectileTrail
+  m_Shader: {fileID: 4800000, guid: 515341300b1288f499885b9bfe4a7da7, type: 3}
+  m_ShaderKeywords: _ADDTRAIL_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AddTrail:
+        m_Texture: {fileID: 2800000, guid: 277940436a5b7c045a1bbc0755922f10, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AddTrail_Noise:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTrail:
+        m_Texture: {fileID: 2800000, guid: 3996d15993f387a45840304d50b7d55a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTrail_Noise:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 9f7caa7754691b3469be38d6647458f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample5:
+        m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TrailRe:
+        m_Texture: {fileID: 2800000, guid: 3996d15993f387a45840304d50b7d55a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TrailRe1:
+        m_Texture: {fileID: 2800000, guid: 3996d15993f387a45840304d50b7d55a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TrailRePlus:
+        m_Texture: {fileID: 2800000, guid: 277940436a5b7c045a1bbc0755922f10, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _blurclouds:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _blurclouds1:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Add: 0.33
+    - _Add1: 0.84
+    - _AddTrail: 1
+    - _AddTrail_Add: 0.92
+    - _AddTrail_Contrast: 1
+    - _AddTrail_Noise_Add: 0.85
+    - _AddTrail_Noise_Contrast: -24.68
+    - _AddTrail_Noise_Speed: 1
+    - _AddTrail_Noise_Tiling: 1
+    - _AddTrail_TilingUV: 1
+    - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
+    - _AnisotropicNoise_Tiling: 0.51
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Contrast: 0.16
+    - _Contrast1: 1
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _EnvironmentReflections: 1
+    - _Float11: 0.47
+    - _Float12: 0.11
+    - _Float13: 0.3
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _MainTrail_Add: 0.84
+    - _MainTrail_Contrast: 1
+    - _MainTrail_Noise_Add: 0.84
+    - _MainTrail_Noise_Contrast: 1
+    - _MainTrail_Noise_Speed: 0.5
+    - _MainTrail_Noise_Tiling: 1
+    - _MainTrail_TilingUV: 1
+    - _Metallic: 0
+    - _Noise_Tiling: 0.3
+    - _Noise_Tiling1: 1
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TextureMask_Smoothstep: 1.39
+    - _TextureMask_Smoothstep1: 0.46
+    - _TextureMask_Step: 0.14
+    - _TextureMask_Step1: 0.08
+    - _TextureTiling1: 1
+    - _TilingPlusUV: 1
+    - _TilingUV: 1
+    - _TilingUV1: 1
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    - _offset: 0.7
+    m_Colors:
+    - _AddTrail_Offset: {r: 0, g: -0.02, b: 0, a: 0}
+    - _AddTrail_TexturePanner: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainTrail_Offset: {r: 0, g: 0.05, b: 0, a: 0}
+    - _MainTrail_TexturePanner: {r: 1, g: 0, b: 0, a: 0}
+    - _Offset: {r: 0, g: 1.12, b: 0, a: 0}
+    - _Offset1: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TexturePanner: {r: 1, g: 0, b: 0, a: 0}
+    - _TexturePanner1: {r: 1, g: 0, b: 0, a: 0}
+    - _TexturePlusPanner: {r: 2, g: 0, b: 0, a: 0}
+    - _Vector2: {r: 0, g: 0.11, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &3776984342731185830
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
