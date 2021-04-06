@@ -184,9 +184,6 @@ public class Altar : Interactible
 
     internal void StarFinalPhase()
     {
-        isInteractable = false;
-        this.state = State.Locked;
-        this.timer = 0;
         waypointObj.gameObject.SetActive(false);
     }
 }
