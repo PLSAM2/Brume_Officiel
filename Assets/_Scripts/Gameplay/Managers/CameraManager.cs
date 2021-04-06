@@ -217,7 +217,7 @@ public class CameraManager : MonoBehaviour
         {
             if (GameFactory.GetActualPlayerFollow().myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
             {
-                myCinemachine.m_Lens.FieldOfView = Mathf.Lerp(myCinemachine.m_Lens.FieldOfView, 55, Time.deltaTime * 5);
+                myCinemachine.m_Lens.FieldOfView = Mathf.Lerp(myCinemachine.m_Lens.FieldOfView, 56, Time.deltaTime * 5);
             }
             else
             {

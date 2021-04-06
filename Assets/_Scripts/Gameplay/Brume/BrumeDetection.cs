@@ -16,9 +16,6 @@ public class BrumeDetection : MonoBehaviour
 
     public AnimationCurve curveHeight;
 
-    public GameObject objParticle;
-    public ParticleSystem brumeFx;
-
     private void Start()
     {
         myPlayerModule = GetComponent<PlayerModule>();
@@ -108,13 +105,12 @@ public class BrumeDetection : MonoBehaviour
 
         if (closestDistance != Mathf.Infinity)
         {
-            brumeFx.Play();
-            //brumeFx.transform.position = posHit;
-            brumeFx.startSize = curveHeight.Evaluate(closestDistance);
+            //brumeFx.Play();
+           // brumeFx.startSize = curveHeight.Evaluate(closestDistance);
         }
         else
         {
-            brumeFx.Stop();
+            //brumeFx.Stop();
         }
     }
 
