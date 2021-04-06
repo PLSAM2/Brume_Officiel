@@ -16,7 +16,6 @@ public class InteractibleObjectsManager : MonoBehaviour
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
 
     UnityClient client;
-
     private void Awake()
     {
         if (RoomManager.Instance == null)
