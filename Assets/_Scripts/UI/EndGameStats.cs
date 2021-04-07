@@ -75,7 +75,7 @@ public class EndGameStats : MonoBehaviour
 
                     _killEvent.perso.text = "(" + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerCharacter + ")";
 
-                    _killEvent.killer.text = "By " + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).playerCharacter;
+                    _killEvent.killer.text = "By " + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).Name;
                     _killEvent.killer.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).playerTeam);
                     break;
 
