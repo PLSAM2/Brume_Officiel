@@ -121,7 +121,6 @@ public class StatManager : MonoBehaviour
 
         if(GameManager.Instance.currentLocalPlayer != null)
         {
-            print(GameManager.Instance.currentLocalPlayer.liveHealth);
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
         }
     }
