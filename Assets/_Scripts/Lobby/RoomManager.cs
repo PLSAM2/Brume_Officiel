@@ -160,6 +160,11 @@ public class RoomManager : MonoBehaviour
         StartCoroutine(EndGame());
     }
 
+    internal bool PlayerExist(ushort playerID)
+    {
+        return actualRoom.playerList.ContainsKey(playerID);
+    }
+
     private void EndObjectives(bool isRoundWin = false)
     {
         ushort? _wxID = null;

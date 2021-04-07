@@ -41,7 +41,6 @@ public class LobbyManager : MonoBehaviour
         {
             _instance = this;
         }
-
     }
 
     private void Start()
@@ -59,7 +58,6 @@ public class LobbyManager : MonoBehaviour
         {
             AskForAllRooms();
         }
-
     }
 
     private void OnDisable()
@@ -193,7 +191,6 @@ public class LobbyManager : MonoBehaviour
             {
                 ushort roomID = reader.ReadUInt16();
                 rooms.Remove(roomID);
-
             }
         }
     }
@@ -210,8 +207,6 @@ public class LobbyManager : MonoBehaviour
                 for (int i = 0; i < roomNumber; i++)
                 {
                     RoomData room = reader.ReadSerializable<RoomData>();
-
-                    print("yo");
 
                     if (!room.IsStarted)
                     {

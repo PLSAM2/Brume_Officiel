@@ -177,8 +177,9 @@ public class InGameNetworkReceiver : MonoBehaviour
 			using (DarkRiftReader reader = message.GetReader())
 			{
 				ushort _count = reader.ReadUInt16();
+				ushort _playerID = reader.ReadUInt16();
 
-				UiManager.Instance.endGameStats.NewPlayerWantToSkip(_count);
+				UiManager.Instance.endGameStats.NewPlayerWantToSkip(_count, _playerID);
 			}
 		}
     }
