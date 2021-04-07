@@ -184,7 +184,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort _healthPoint = reader.ReadUInt16();
 				Team _team = (Team)reader.ReadUInt16();
 
-                foreach (LocalPlayer lp in GameManager.Instance.networkPlayers.Values.Where(x => x.myPlayerModule.teamIndex == _team))
+				foreach (LocalPlayer lp in GameManager.Instance.networkPlayers.Values.Where(x => x.myPlayerModule.teamIndex == _team))
                 {
 					lp.AddHitPoint(1);
 				}
