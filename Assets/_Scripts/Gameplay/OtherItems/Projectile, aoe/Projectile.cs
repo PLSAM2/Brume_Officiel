@@ -76,11 +76,12 @@ public class Projectile : AutoKill
 		{
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 			{
+				_tempDamage = localTrad.damagesToDeal;
 				_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
 				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 			}
 			else
-				_tempDamage.damageHealth = localTrad.damagesToDeal.damageHealth;
+				_tempDamage = localTrad.damagesToDeal;
 		}
 	}
 

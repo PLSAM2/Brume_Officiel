@@ -17,8 +17,8 @@ public class AoeParameters
 {
 	[Header("AoeParameters")]
 	public float durationOfTheAoe, timeBeforeFinalDisparition;
-	[TabGroup("Damages")] public DamagesInfos damagesToDealOnImpact, damagesToDealOnDuration, finalDamages;
-	[TabGroup("Buff")] public DamagesInfos impactAlly, durationAlly, finalAlly;
+	[TabGroup("Damages")] public DamagesInfos damagesToDealOnImpact, finalDamages;
+	[TabGroup("Buff")] public DamagesInfos impactAlly, finalAlly;
 	public bool useOwnerPos = false;
 	[Tooltip("De base c est une sphère")] public bool isBox;
 	[HideIf("isBox")] public float aoeRadius;
