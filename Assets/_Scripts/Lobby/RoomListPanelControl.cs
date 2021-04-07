@@ -10,7 +10,6 @@ public class RoomListPanelControl : MonoBehaviour
     public Dictionary<RoomData, GameObject> roomObjDict = new Dictionary<RoomData, GameObject>();
     public void Init()
     {
-
         foreach (KeyValuePair< RoomData, GameObject > item in roomObjDict)
         {
             Destroy(item.Value);
@@ -29,5 +28,10 @@ public class RoomListPanelControl : MonoBehaviour
             roomObjDict.Add(room.Value, _tempListObj);
             _roomListObj.Init(room.Value, room.Value.playerCount, room.Value.ID);
         }
+    }
+
+    public void Refresh()
+    {
+        LobbyManager.Instance.AskForAllRooms();
     }
 }
