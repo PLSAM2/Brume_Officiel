@@ -62,15 +62,6 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
-	}
-
-	protected void OnEnable ()
-	{
-		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
-		direction = transform.forward;
-		myRb.velocity = speed * direction;
-		transform.localScale = Vector3.one;
-
 
 		if (GameManager.Instance.gameStarted)
 		{
@@ -83,6 +74,16 @@ public class Projectile : AutoKill
 			else
 				_tempDamage = localTrad.damagesToDeal;
 		}
+	}
+
+	protected void OnEnable ()
+	{
+		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
+		direction = transform.forward;
+		myRb.velocity = speed * direction;
+		transform.localScale = Vector3.one;
+
+
 	}
 
 	private void Start ()
