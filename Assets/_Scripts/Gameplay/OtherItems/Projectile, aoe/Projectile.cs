@@ -27,7 +27,7 @@ public class Projectile : AutoKill
 	public Rigidbody myRb;
 	[SerializeField] AudioClip hitSound;
 
-	DamagesInfos _tempDamage;
+	DamagesInfos _tempDamage = new DamagesInfos();
 
 	Vector3 direction = Vector3.zero;
 	ushort bouncingNumberLive;
@@ -37,9 +37,19 @@ public class Projectile : AutoKill
 	public override void Init ( Team ownerTeam, float _lifePercentage )
 	{
 		base.Init(ownerTeam, _lifePercentage);
+		ResetDamages();
+		if (GameManager.Instance.gameStarted)
+		{
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				_tempDamage.damageHealth += 1;
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+		}
+
 		startPos = transform.position;
 		bouncingNumberLive = localTrad.bouncingNumber;
-
+		
 
 		if (!isOwner)
 		{
@@ -60,16 +70,6 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
-
-		ResetDamages();
-		if (GameManager.Instance.gameStarted)
-		{
-			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
-			{
-				_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
-			}
-		}
 	}
 
 	void ResetDamages()
@@ -85,13 +85,11 @@ public class Projectile : AutoKill
 		direction = transform.forward;
 		myRb.velocity = speed * direction;
 		transform.localScale = Vector3.one;
-		_tempDamage = new DamagesInfos();
 	}
 
 	private void Start ()
 	{
 		myRb = GetComponent<Rigidbody>();
-		_tempDamage = new DamagesInfos();
 
 		BoxCollider _collBox = GetComponent<BoxCollider>();
 		if (_collBox != null)
