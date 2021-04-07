@@ -365,7 +365,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
         AudioManager.Instance.PlayHitAudio();
 
-        if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
+       /* if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
 		{
 			if (_damagesToDeal.additionalStatusToApply != null)
 			{
@@ -392,7 +392,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 					}
 				}
 			}
-		}
+		}*/
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
