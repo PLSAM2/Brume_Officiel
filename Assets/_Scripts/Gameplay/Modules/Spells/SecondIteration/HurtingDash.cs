@@ -9,7 +9,6 @@ public class HurtingDash : SpellModule
 	[TabGroup("HitPArt")]
 	[SerializeField] float hurtingBoxWidth = .8f;
 	[TabGroup("HitPArt")]
-	public DamagesInfos damages;
 	bool hasTouched = false;
 	[TabGroup("HitPArt")]
 	public float cooldownReduction;
@@ -21,9 +20,16 @@ public class HurtingDash : SpellModule
 	//[SerializeField] VisualEffect speedFx;
 	[TabGroup("HitPArt")]
 	[SerializeField] AudioClip hitDashSound;
+
+	public DamagesInfos damages;
 	DamagesInfos _damageToDeal;
 
-    public override void SetupComponent ( En_SpellInput _actionLinked )
+	private void Start ()
+	{
+		_damageToDeal = damages;
+	}
+
+	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 		if (isOwner)
@@ -66,6 +72,7 @@ public class HurtingDash : SpellModule
 
 		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 		{
+			_damageToDeal.damageHealth = damages.damageHealth;
 			_damageToDeal.damageHealth = (ushort)(damages.damageHealth +1);
 		}
 		else

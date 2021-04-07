@@ -35,6 +35,8 @@ public class Aoe : AutoKill
 				DealBuffInRange(localTrad.rules.impactAlly);
 		}
 
+		damageOnEnable = new DamagesInfos();
+		damageOnDisable = new DamagesInfos();
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
