@@ -351,11 +351,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		ushort _finalDamage = _damagesToDeal.damageHealth;
 
-		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
-		{
-			_finalDamage += 1;
-			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
-		}
 
 		if (dealerID == null)
         {

@@ -10,6 +10,7 @@ public class Aoe : AutoKill
 	bool asDealtFinal = false;
 	LayerMask allyLayer, enemyLayer;
 	public bool adaptiveRange = true;
+	DamagesInfos damageOnEnable, damageOnDisable;
 
 	protected override void Awake ()
 	{
@@ -18,6 +19,9 @@ public class Aoe : AutoKill
 
 		mylifeTime = localTrad.rules.durationOfTheAoe;
 		myLivelifeTime = mylifeTime;
+
+		damageOnEnable = localTrad.rules.damagesToDealOnImpact;
+		damageOnDisable = localTrad.rules.finalDamages;
 	}
 	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
@@ -25,21 +29,12 @@ public class Aoe : AutoKill
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnImpact.isUsable)
-				DealDamagesInRange(localTrad.rules.damagesToDealOnImpact);
+				DealDamagesInRange(damageOnEnable);
 
 			if (localTrad.rules.impactAlly.isUsable)
 				DealBuffInRange(localTrad.rules.impactAlly);
 		}
-	}
 
-	IEnumerator CustomUpdate ()
-	{
-		yield return new WaitForSeconds(.2f);
-		if (localTrad.rules.damagesToDealOnDuration.isUsable)
-			DealDamagesInRange(localTrad.rules.damagesToDealOnDuration);
-
-		if (localTrad.rules.durationAlly.isUsable)
-			DealBuffInRange(localTrad.rules.durationAlly);
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
@@ -174,7 +169,7 @@ public class Aoe : AutoKill
 			StopAllCoroutines();
 			asDealtFinal = true;
 			if (localTrad.rules.finalDamages.isUsable)
-				DealDamagesInRange(localTrad.rules.finalDamages);
+				DealDamagesInRange(damageOnDisable);
 
 			if (localTrad.rules.finalAlly.isUsable)
 				DealBuffInRange(localTrad.rules.finalAlly);
@@ -198,8 +193,22 @@ public class Aoe : AutoKill
 	protected void OnEnable ()
 	{
 		asDealtFinal = false;
-		if (isOwner)
-			StartCoroutine(CustomUpdate());
+
+		if(GameManager.Instance.gameStarted)
+		{
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+				damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+			else
+			{
+				damageOnEnable = localTrad.rules.damagesToDealOnImpact;
+				damageOnDisable = localTrad.rules.finalDamages;
+			}
+		}
+	
 	}
 
 	protected override void OnDisable ()
