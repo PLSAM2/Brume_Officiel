@@ -41,6 +41,8 @@ public class Projectile : AutoKill
 		startPos = transform.position;
 		bouncingNumberLive = localTrad.bouncingNumber;
 
+		_tempDamage = new DamagesInfos();
+
 		if (!isOwner)
 		{
 			asDeal = true;
@@ -69,13 +71,17 @@ public class Projectile : AutoKill
 		myRb.velocity = speed * direction;
 		transform.localScale = Vector3.one;
 
-		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+
+		if (GameManager.Instance.gameStarted)
 		{
-			_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
-			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp); 
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+			else
+				_tempDamage.damageHealth = localTrad.damagesToDeal.damageHealth;
 		}
-		else
-			_tempDamage.damageHealth = localTrad.damagesToDeal.damageHealth;
 	}
 
 	private void Start ()
@@ -166,9 +172,7 @@ public class Projectile : AutoKill
 
 				if (!asDeal)
 				{
-					DamagesInfos _temp = new DamagesInfos();
-					_temp = localTrad.damagesToDeal;
-					_damageableHit.DealDamages(_temp, GameManager.Instance.currentLocalPlayer.transform.position);
+					_damageableHit.DealDamages(_tempDamage, GameManager.Instance.currentLocalPlayer.transform.position);
 					if (localTrad.statusToApplyOnHit != null)
 						GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(localTrad.statusToApplyOnHit.effect);
 

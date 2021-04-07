@@ -31,6 +31,10 @@ public class Aoe : AutoKill
 			if (localTrad.rules.impactAlly.isUsable)
 				DealBuffInRange(localTrad.rules.impactAlly);
 		}
+
+		damageOnEnable = new DamagesInfos();
+		damageOnDisable = new DamagesInfos();
+
 	}
 
 	IEnumerator CustomUpdate ()
@@ -201,18 +205,21 @@ public class Aoe : AutoKill
 		asDealtFinal = false;
 		if (isOwner)
 			StartCoroutine(CustomUpdate());
-
-		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+		if(GameManager.Instance.gameStarted)
 		{
-			damageOnDisable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
-			damageOnEnable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
-			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+				damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+			else
+			{
+				damageOnEnable.damageHealth = localTrad.rules.damagesToDealOnImpact.damageHealth;
+				damageOnDisable.damageHealth = localTrad.rules.finalDamages.damageHealth;
+			}
 		}
-		else
-		{
-			damageOnDisable.damageHealth = localTrad.rules.damagesToDealOnImpact.damageHealth;
-			damageOnEnable.damageHealth = localTrad.rules.finalDamages.damageHealth;
-		}
+	
 	}
 
 	protected override void OnDisable ()
