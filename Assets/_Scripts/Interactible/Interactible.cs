@@ -111,7 +111,6 @@ public class Interactible : MonoBehaviour
 
     protected virtual void OnVolumeChange(float _value)
     {
-
         myAudioSource.volume = _value;
     }
 

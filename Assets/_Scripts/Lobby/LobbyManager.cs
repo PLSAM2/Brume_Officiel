@@ -54,6 +54,12 @@ public class LobbyManager : MonoBehaviour
         nameInputField.text = NetworkManager.Instance.GetLocalPlayer().Name;
 
         AudioManager.Instance.SetBackgroundMusic(_bgMusic);
+
+        if (client.ConnectionState == ConnectionState.Connected)
+        {
+            AskForAllRooms();
+        }
+
     }
 
     private void OnDisable()
@@ -124,7 +130,14 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-
+    public void AskForAllRooms()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            using (Message message = Message.Create(Tags.SendAllRooms, writer))
+                client.SendMessage(message, SendMode.Reliable);
+        }
+    }
 
     public void ChangeName()
     {
@@ -191,11 +204,14 @@ public class LobbyManager : MonoBehaviour
         {
             using (DarkRiftReader reader = message.GetReader())
             {
+                rooms.Clear();
                 int roomNumber = reader.ReadInt32();
 
                 for (int i = 0; i < roomNumber; i++)
                 {
                     RoomData room = reader.ReadSerializable<RoomData>();
+
+                    print("yo");
 
                     if (!room.IsStarted)
                     {
@@ -205,6 +221,9 @@ public class LobbyManager : MonoBehaviour
                 }
             }
         }
+
+
+        roomListPanelControl.Init();
     }
 
     public void JoinRandomRoom()
