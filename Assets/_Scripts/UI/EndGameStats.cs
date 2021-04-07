@@ -114,11 +114,66 @@ public class EndGameStats : MonoBehaviour
 
     }
 
-    public void NewPlayerWantToSkip(ushort count)
+    public void NewPlayerWantToSkip(ushort count, ushort _playerID)
     {
 		countText.text = count + "/" + Math.Ceiling((float)(RoomManager.Instance.actualRoom.playerList.Count) / 2);
 
-	}
+        if (!RoomManager.Instance.PlayerExist(_playerID))
+        {
+            return;
+        }
+
+        switch (GameFactory.GetRelativeTeam(RoomManager.Instance.GetPlayerData(_playerID).playerTeam))
+        {
+            case Team.none:
+                return;
+            case Team.blue:
+                switch (RoomManager.Instance.GetPlayerData(_playerID).playerCharacter)
+                {
+                    case Character.none:
+                        return;
+                    case Character.WuXin:
+                        wxBlue.SetSkip();
+                        break;
+                    case Character.Re:
+                        reBlue.SetSkip();
+                        break;
+                    case Character.Leng:
+                        lengBlue.SetSkip();
+                        break;
+                    case Character.test:
+                        return;
+                    default: throw new Exception("Not existing");
+                }
+
+                break;
+            case Team.red:
+                switch (RoomManager.Instance.GetPlayerData(_playerID).playerCharacter)
+                {
+                    case Character.none:
+                        return;
+                    case Character.WuXin:
+                        wxRed.SetSkip();
+                        break;
+                    case Character.Re:
+                        reRed.SetSkip();
+                        break;
+                    case Character.Leng:
+                        lengRed.SetSkip();
+                        break;
+                    case Character.test:
+                        return;
+                    default: throw new Exception("Not existing");
+                }
+
+
+                break;
+            case Team.spectator:
+                return;
+            default: throw new Exception("Not existing");
+        }
+    }
+
 
     public void SkipToNextRound()
     {

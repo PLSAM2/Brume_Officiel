@@ -1055,10 +1055,10 @@ public class DamagesInfos
 	[TabGroup("NormalDamages")] public Sc_Status[] statusToApply;
 	[TabGroup("NormalDamages")] public Sc_ForcedMovement movementToApply = null;
 
-	[TabGroup("EffectIfConditionCompleted")] public En_CharacterState stateNeeded = En_CharacterState.Embourbed;
+	/*[TabGroup("EffectIfConditionCompleted")] public En_CharacterState stateNeeded = En_CharacterState.Embourbed;
 	[TabGroup("EffectIfConditionCompleted")] public ushort additionalDamages;
 	[TabGroup("EffectIfConditionCompleted")] public Sc_Status[] additionalStatusToApply;
-	[TabGroup("EffectIfConditionCompleted")] public Sc_ForcedMovement additionalMovementToApply = null;
+	[TabGroup("EffectIfConditionCompleted")] public Sc_ForcedMovement additionalMovementToApply = null;*/
 
 	[HideInInspector]
 	public bool isUsable => statusToApply.Length > 0 || damageHealth > 0 || movementToApply != null;

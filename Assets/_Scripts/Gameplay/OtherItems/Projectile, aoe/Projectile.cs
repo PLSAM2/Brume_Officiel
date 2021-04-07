@@ -34,14 +34,12 @@ public class Projectile : AutoKill
 
 	bool isBox = false;
 	[HideInInspector] public Vector3 collisionSize;
-
 	public override void Init ( Team ownerTeam, float _lifePercentage )
 	{
 		base.Init(ownerTeam, _lifePercentage);
 		startPos = transform.position;
 		bouncingNumberLive = localTrad.bouncingNumber;
 
-		_tempDamage = new DamagesInfos();
 
 		if (!isOwner)
 		{
@@ -62,6 +60,23 @@ public class Projectile : AutoKill
 				AudioManager.Instance.Play3DAudio(_mySfxAudio, transform.position, myNetworkObject.GetItemID(), false);
 			}
 		}
+
+		ResetDamages();
+		if (GameManager.Instance.gameStarted)
+		{
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+		}
+	}
+
+	void ResetDamages()
+	{
+		_tempDamage.damageHealth = localTrad.damagesToDeal.damageHealth;
+		_tempDamage.statusToApply = localTrad.damagesToDeal.statusToApply;
+		_tempDamage.movementToApply = localTrad.damagesToDeal.movementToApply;
 	}
 
 	protected void OnEnable ()
@@ -70,24 +85,13 @@ public class Projectile : AutoKill
 		direction = transform.forward;
 		myRb.velocity = speed * direction;
 		transform.localScale = Vector3.one;
-
-
-		if (GameManager.Instance.gameStarted)
-		{
-			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
-			{
-				_tempDamage = localTrad.damagesToDeal;
-				_tempDamage.damageHealth = (ushort)(localTrad.damagesToDeal.damageHealth + 1);
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
-			}
-			else
-				_tempDamage = localTrad.damagesToDeal;
-		}
+		_tempDamage = new DamagesInfos();
 	}
 
 	private void Start ()
 	{
 		myRb = GetComponent<Rigidbody>();
+		_tempDamage = new DamagesInfos();
 
 		BoxCollider _collBox = GetComponent<BoxCollider>();
 		if (_collBox != null)

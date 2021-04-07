@@ -109,8 +109,6 @@ public class Altar : Interactible
 
     public override void Captured(ushort _capturingPlayerID)
     {
-        print(interactibleName + " - Capturé");
-
         if (altarBuff != null)
         {
             altarBuff.InitBuff(capturingPlayerModule);

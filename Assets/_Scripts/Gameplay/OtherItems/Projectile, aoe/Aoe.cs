@@ -20,9 +20,25 @@ public class Aoe : AutoKill
 		mylifeTime = localTrad.rules.durationOfTheAoe;
 		myLivelifeTime = mylifeTime;
 
-		damageOnEnable = localTrad.rules.damagesToDealOnImpact;
-		damageOnDisable = localTrad.rules.finalDamages;
+
+		damageOnEnable = new DamagesInfos();
+		damageOnDisable = new DamagesInfos();
+
+		ResetDamage();
+
 	}
+
+	void ResetDamage()
+	{
+		damageOnEnable.damageHealth = localTrad.rules.damagesToDealOnImpact.damageHealth;
+		damageOnEnable.movementToApply = localTrad.rules.damagesToDealOnImpact.movementToApply;
+		damageOnEnable.statusToApply = localTrad.rules.damagesToDealOnImpact.statusToApply;
+
+		damageOnDisable.damageHealth = localTrad.rules.finalDamages.damageHealth;
+		damageOnDisable.movementToApply = localTrad.rules.finalDamages.movementToApply;
+		damageOnDisable.statusToApply = localTrad.rules.finalDamages.statusToApply;
+	}
+
 	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
 		base.Init(ownerTeam, _LifePercentage);
@@ -35,6 +51,20 @@ public class Aoe : AutoKill
 				DealBuffInRange(localTrad.rules.impactAlly);
 		}
 
+		ResetDamage();
+
+		if (GameManager.Instance.gameStarted)
+		{
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				if(damageOnEnable.damageHealth>0)
+					damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+				if (damageOnDisable.damageHealth > 0)
+					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+	
+		}
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
@@ -194,20 +224,7 @@ public class Aoe : AutoKill
 	{
 		asDealtFinal = false;
 
-		if(GameManager.Instance.gameStarted)
-		{
-			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
-			{
-				damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
-				damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
-			}
-			else
-			{
-				damageOnEnable = localTrad.rules.damagesToDealOnImpact;
-				damageOnDisable = localTrad.rules.finalDamages;
-			}
-		}
+		
 	
 	}
 
