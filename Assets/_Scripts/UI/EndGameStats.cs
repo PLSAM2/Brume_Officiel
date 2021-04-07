@@ -127,7 +127,7 @@ public class EndGameStats : MonoBehaviour
         {
             case Team.none:
                 return;
-            case Team.red:
+            case Team.blue:
                 switch (RoomManager.Instance.GetPlayerData(_playerID).playerCharacter)
                 {
                     case Character.none:
@@ -147,7 +147,7 @@ public class EndGameStats : MonoBehaviour
                 }
 
                 break;
-            case Team.blue:
+            case Team.red:
                 switch (RoomManager.Instance.GetPlayerData(_playerID).playerCharacter)
                 {
                     case Character.none:
