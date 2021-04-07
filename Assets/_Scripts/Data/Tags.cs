@@ -42,6 +42,7 @@
     public static readonly ushort DestroyObject = 515;
     public static readonly ushort Damages = 520;
     public static readonly ushort Heal = 522;
+    public static readonly ushort AddHealth = 523;
     public static readonly ushort AddPoints = 550;
     public static readonly ushort KillCharacter = 560;
     public static readonly ushort AddUltimatePoint = 600;

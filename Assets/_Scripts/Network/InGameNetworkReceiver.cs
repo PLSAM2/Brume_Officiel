@@ -4,6 +4,7 @@ using DarkRift.Client.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static GameData;
 
@@ -166,6 +167,28 @@ public class InGameNetworkReceiver : MonoBehaviour
 			else if (message.Tag == Tags.AskSkipToNextRound)
 			{
 				NewPlayerWantToSkip(sender, e);
+			}
+			else if (message.Tag == Tags.AddHealth)
+			{
+				AddHealth(sender, e);
+			}
+		}
+	}
+
+    private void AddHealth(object sender, MessageReceivedEventArgs e)
+    {
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				ushort _healthPoint = reader.ReadUInt16();
+				Team _team = (Team)reader.ReadUInt16();
+
+                foreach (LocalPlayer lp in GameManager.Instance.networkPlayers.Values.Where(x => x.myPlayerModule.teamIndex == _team))
+                {
+					lp.AddHitPoint(1);
+				}
+
 			}
 		}
 	}
