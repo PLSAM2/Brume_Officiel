@@ -91,6 +91,7 @@ public class Projectile : AutoKill
 	private void Start ()
 	{
 		myRb = GetComponent<Rigidbody>();
+		_tempDamage = new DamagesInfos();
 
 		BoxCollider _collBox = GetComponent<BoxCollider>();
 		if (_collBox != null)

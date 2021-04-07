@@ -20,10 +20,12 @@ public class Aoe : AutoKill
 		mylifeTime = localTrad.rules.durationOfTheAoe;
 		myLivelifeTime = mylifeTime;
 
-		ResetDamage();
 
 		damageOnEnable = new DamagesInfos();
 		damageOnDisable = new DamagesInfos();
+
+		ResetDamage();
+
 	}
 
 	void ResetDamage()
