@@ -35,6 +35,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ColorNoise:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTrail:
-        m_Texture: {fileID: 2800000, guid: 3996d15993f387a45840304d50b7d55a, type: 3}
+        m_Texture: {fileID: 2800000, guid: d7887c6a6661bf14db7b47559ae2d656, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTrail_Noise:
@@ -77,6 +81,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Opacity_Noise:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -161,6 +169,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorTexture_Tiling: 0.5
     - _Contrast: 0.16
     - _Contrast1: 1
     - _Cull: 2
@@ -175,6 +184,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HadAddTrail: 0
     - _MainTrail_Add: 0.84
     - _MainTrail_Contrast: 1
     - _MainTrail_Noise_Add: 0.84
@@ -186,6 +196,9 @@ Material:
     - _Noise_Tiling: 0.3
     - _Noise_Tiling1: 1
     - _OcclusionStrength: 1
+    - _OpacityEnd_Smoothstep: 0.81
+    - _OpacityEnd_Step: 0.09
+    - _Opacity_Noise_Tiling: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -207,10 +220,14 @@ Material:
     - _offset: 0.7
     m_Colors:
     - _AddTrail_Offset: {r: 0, g: -0.02, b: 0, a: 0}
-    - _AddTrail_TexturePanner: {r: 0, g: 0, b: 0, a: 0}
+    - _AddTrail_TexturePanner: {r: 1.5, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTexture_Panner: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainTrail_Color: {r: 0.6273585, g: 1, b: 0.8063929, a: 0}
+    - _MainTrail_Color1: {r: 0.4008989, g: 0.9339623, b: 0.6873447, a: 0}
+    - _MainTrail_Color2: {r: 0.095007114, g: 0.3301887, b: 0.22305039, a: 0}
     - _MainTrail_Offset: {r: 0, g: 0.05, b: 0, a: 0}
     - _MainTrail_TexturePanner: {r: 1, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 1.12, b: 0, a: 0}

@@ -42,6 +42,21 @@ public class Aoe : AutoKill
 	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
 		base.Init(ownerTeam, _LifePercentage);
+
+		ResetDamage();
+		if (GameManager.Instance.gameStarted)
+		{
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			{
+				if (damageOnEnable.damageHealth > 0)
+					damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+				if (damageOnDisable.damageHealth > 0)
+					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
+
+				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+			}
+		}
+
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnImpact.isUsable)
@@ -51,20 +66,9 @@ public class Aoe : AutoKill
 				DealBuffInRange(localTrad.rules.impactAlly);
 		}
 
-		ResetDamage();
+		//ResetDamage();
 
-		if (GameManager.Instance.gameStarted)
-		{
-			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
-			{
-				if(damageOnEnable.damageHealth>0)
-					damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
-				if (damageOnDisable.damageHealth > 0)
-					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
-			}
-	
-		}
+		
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
@@ -224,8 +228,6 @@ public class Aoe : AutoKill
 	{
 		asDealtFinal = false;
 
-		
-	
 	}
 
 	protected override void OnDisable ()
