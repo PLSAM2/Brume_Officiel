@@ -14,6 +14,7 @@ public class Champ_Stat : MonoBehaviour
 
     public GameObject deathPanel;
     public GameObject iconDeath;
+    public GameObject skip;
 
     public bool isSet = false;
 
@@ -25,6 +26,11 @@ public class Champ_Stat : MonoBehaviour
 
         kill.text = _numberOfKill.ToString();
         damage.text = _numberOfDamage.ToString();
+    }
+
+    public void SetSkip(bool state = true)
+    {
+        skip.SetActive(state);
     }
 
     public void Kill()
