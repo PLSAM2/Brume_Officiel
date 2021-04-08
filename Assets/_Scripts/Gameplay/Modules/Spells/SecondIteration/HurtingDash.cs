@@ -22,11 +22,17 @@ public class HurtingDash : SpellModule
 	[SerializeField] AudioClip hitDashSound;
 
 	public DamagesInfos damages;
-	DamagesInfos _damageToDeal;
-
+	DamagesInfos _damageToDeal = new DamagesInfos();
 	private void Start ()
 	{
-		_damageToDeal = damages;
+		ResetDamage();
+	}
+
+	void ResetDamage()
+	{
+		_damageToDeal.damageHealth = damages.damageHealth;
+		_damageToDeal.statusToApply = damages.statusToApply;
+		_damageToDeal.movementToApply = damages.movementToApply;
 	}
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -68,6 +74,7 @@ public class HurtingDash : SpellModule
 	public override void StartCanalysing ( Vector3 _BaseMousePos)
 	{
 		hurtBox.ResetHitbox();
+		ResetDamage();
 		hasTouched = false;
 
 		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
