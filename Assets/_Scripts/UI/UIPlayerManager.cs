@@ -61,6 +61,8 @@ public class UIPlayerManager : MonoBehaviour
     {
         myLocalPlayer.myPlayerModule.OnStateChange += OnStateChange;
         OnStateChange();
+
+        UpdateLife();
     }
 
     private void OnDisable()
