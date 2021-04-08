@@ -61,6 +61,8 @@ public class UIPlayerManager : MonoBehaviour
     {
         myLocalPlayer.myPlayerModule.OnStateChange += OnStateChange;
         OnStateChange();
+
+        UpdateLife();
     }
 
     private void OnDisable()
@@ -162,9 +164,10 @@ public class UIPlayerManager : MonoBehaviour
             allBarLife.Insert(0,img);
         }
 
-      /*  RectTransform finalBar = allBarLife[myLocalPlayer.myPlayerModule.characterParameters.maxHealthForRegen + myLocalPlayer.myPlayerModule.bonusHp].GetComponent<RectTransform>();
-        indicationOfMaxRegen.rect.Set(finalBar.rect.position.x + finalBar.rect.width /2, 0, finalBar.rect.width /5, finalBar.rect.height);*/    
-      
+        /*  RectTransform finalBar = allBarLife[myLocalPlayer.myPlayerModule.characterParameters.maxHealthForRegen + myLocalPlayer.myPlayerModule.bonusHp].GetComponent<RectTransform>();
+          indicationOfMaxRegen.rect.Set(finalBar.rect.position.x + finalBar.rect.width /2, 0, finalBar.rect.width /5, finalBar.rect.height);*/
+
+        UpdateLife();
     }
 
     private void LateUpdate()

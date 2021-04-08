@@ -188,7 +188,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 {
 					lp.AddHitPoint(1);
 				}
-
 			}
 		}
 	}

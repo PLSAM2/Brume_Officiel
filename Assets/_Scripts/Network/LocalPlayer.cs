@@ -89,7 +89,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-			GameManager.Instance.ResetCam();
+            GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
 			circleDirection.SetActive(true);

@@ -236,12 +236,15 @@ public class FieldOfView : MonoBehaviour
 
 	}
 
+    int rota = 0;
+
 	public void DrawFieldOfView ()
 	{
-		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
+		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution / 5);
 		float stepAngleSize = viewAngle / stepCount;
 		List<Vector3> viewPoints = new List<Vector3>();
 		ViewCastInfo oldViewCast = new ViewCastInfo();
+
 		for (int i = 0; i <= stepCount; i++)
 		{
 			float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
