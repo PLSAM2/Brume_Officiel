@@ -22,11 +22,17 @@ public class HurtingDash : SpellModule
 	[SerializeField] AudioClip hitDashSound;
 
 	public DamagesInfos damages;
-	DamagesInfos _damageToDeal;
-
+	DamagesInfos _damageToDeal = new DamagesInfos();
 	private void Start ()
 	{
-		_damageToDeal = damages;
+		ResetDamage();
+	}
+
+	void ResetDamage()
+	{
+		_damageToDeal.damageHealth = damages.damageHealth;
+		_damageToDeal.statusToApply = damages.statusToApply;
+		_damageToDeal.movementToApply = damages.movementToApply;
 	}
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -68,12 +74,14 @@ public class HurtingDash : SpellModule
 	public override void StartCanalysing ( Vector3 _BaseMousePos)
 	{
 		hurtBox.ResetHitbox();
+		ResetDamage();
 		hasTouched = false;
 
 		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 		{
 			_damageToDeal.damageHealth = damages.damageHealth;
 			_damageToDeal.damageHealth = (ushort)(damages.damageHealth +1);
+			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 		}
 		else
 		{
@@ -102,8 +110,6 @@ public class HurtingDash : SpellModule
 
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
 
-		if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
-			GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 
 		base.Interrupt();
 	}
@@ -114,7 +120,7 @@ public class HurtingDash : SpellModule
 
 		if (_hit != null && !_hit.IsInMyTeam(myPlayerModule.teamIndex))
 		{
-			_hit.DealDamages(damages, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+			_hit.DealDamages(_damageToDeal, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
 
             AudioManager.Instance.Play3DAudioInNetwork(hitDashSound, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 
