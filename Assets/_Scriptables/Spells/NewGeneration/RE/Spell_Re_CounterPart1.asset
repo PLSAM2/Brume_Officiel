@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
   m_Name: Spell_Re_CounterPart1
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 0
   cooldown: 8
   numberOfCharge: 1
@@ -22,7 +24,7 @@ MonoBehaviour:
   canalisationTime: 0
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 4a34fc82ac66c6f469854aef7dacf910, type: 2}
-  lockRotOnAnonciation: 1
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
