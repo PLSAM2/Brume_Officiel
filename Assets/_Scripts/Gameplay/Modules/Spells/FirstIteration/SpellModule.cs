@@ -518,7 +518,7 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.secondSpellInputRealeased += HidePreview;
 				break;
 
-			case En_SpellInput.ThirdSpell:
+		/*	case En_SpellInput.ThirdSpell:
 				if (spell.startCanalisationOnClick)
 				{
 					myPlayerModule.thirdSpellInput += ShowPreview;
@@ -531,7 +531,7 @@ public class SpellModule : MonoBehaviour
 					myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
 				}
 				myPlayerModule.thirdSpellInputRealeased += HidePreview;
-				break;
+				break;*/
 
 			case En_SpellInput.Click:
 				if (spell.startCanalisationOnClick)
@@ -608,7 +608,7 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 				break;
 
-			case En_SpellInput.ThirdSpell:
+		/*	case En_SpellInput.ThirdSpell:
 				if (spell.startCanalisationOnClick)
 				{
 					myPlayerModule.thirdSpellInput -= ShowPreview;
@@ -622,7 +622,7 @@ public class SpellModule : MonoBehaviour
 				}
 				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
 				break;
-
+		*/
 			case En_SpellInput.Click:
 				if (spell.startCanalisationOnClick)
 				{
