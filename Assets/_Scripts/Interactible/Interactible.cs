@@ -500,4 +500,16 @@ public class Interactible : MonoBehaviour
         }
     }
 
+    internal void ForceQuit()
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(interactibleID);
+
+            using (Message _message = Message.Create(Tags.QuitInteractibleZone, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
 }

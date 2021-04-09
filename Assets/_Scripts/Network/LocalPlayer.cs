@@ -614,6 +614,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			//GameManager.Instance.hiddenEffect.enabled = false;
 			//GameManager.Instance.surchargeEffect.enabled = false;
+			myPlayerModule.ForceQuitAllInteractible();
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);

@@ -552,6 +552,14 @@ public class PlayerModule : MonoBehaviour
 			inter.CheckOnUnlock = true;
 		}
 	}
+
+	public void ForceQuitAllInteractible()
+    {
+		foreach (Interactible inter in interactiblesClose)
+		{
+			inter.ForceQuit();
+		}
+	}
 	void ReduceCooldown(float _duration, En_SpellInput _spell)
 	{
 		switch (_spell)
