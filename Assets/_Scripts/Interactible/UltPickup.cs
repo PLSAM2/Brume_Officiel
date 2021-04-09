@@ -36,6 +36,7 @@ public class UltPickup : Interactible
     }
     public override void Captured(ushort _capturingPlayerID)
     {
+        Debug.Log("I M CAPTURED FRERO");
         //using (DarkRiftWriter writer = DarkRiftWriter.Create())
         //{
         //    writer.Write(ultimateStackGive);
@@ -49,7 +50,7 @@ public class UltPickup : Interactible
        // GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
    //     GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
         GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
-        GameManager.Instance.currentLocalPlayer.myPlayerModule.bonusHp += hitPointGiven;
+        GameManager.Instance.currentLocalPlayer.AddHitPoint(hitPointGiven);
         base.Captured(_capturingPlayerID);
 
     }

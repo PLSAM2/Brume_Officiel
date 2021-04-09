@@ -177,19 +177,19 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     private void AddHealth(object sender, MessageReceivedEventArgs e)
     {
-		using (Message message = e.GetMessage())
-		{
-			using (DarkRiftReader reader = message.GetReader())
-			{
-				ushort _healthPoint = reader.ReadUInt16();
-				Team _team = (Team)reader.ReadUInt16();
+		//using (Message message = e.GetMessage())
+		//{
+		//	using (DarkRiftReader reader = message.GetReader())
+		//	{
+		//		ushort _healthPoint = reader.ReadUInt16();
+		//		Team _team = (Team)reader.ReadUInt16();
 
-				foreach (LocalPlayer lp in GameManager.Instance.networkPlayers.Values.Where(x => x.myPlayerModule.teamIndex == _team))
-                {
-					lp.AddHitPoint(1);
-				}
-			}
-		}
+		//		foreach (LocalPlayer lp in GameManager.Instance.networkPlayers.Values.Where(x => x.myPlayerModule.teamIndex == _team))
+  //              {
+		//			lp.AddHitPoint(1);
+		//		}
+		//	}
+		//}
 	}
 
     private void NewPlayerWantToSkip(object sender, MessageReceivedEventArgs e)
