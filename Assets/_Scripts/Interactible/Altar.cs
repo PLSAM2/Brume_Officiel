@@ -69,12 +69,15 @@ public class Altar : Interactible
 
     public override void TryCapture(Team team, PlayerModule capturingPlayer)
     {
+        print(team + " --- " + capturingPlayer.teamIndex + " ---- " + capturingPlayer.gameObject.name);
         base.TryCapture(team, capturingPlayer);
     }
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         base.UpdateCaptured(_capturingPlayerID);
+
+        print(_capturingPlayerID + " --- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam + " ---- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).Name);
 
         AudioClip voice = altarBottomCleaned;
 
