@@ -58,8 +58,8 @@ public class UltPickup : Interactible
     {
         base.UpdateCaptured(_capturingPlayerID);
 
-      //  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
-
+        //  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
+        timer = 0;
         ActualiseMesh();
     }
 

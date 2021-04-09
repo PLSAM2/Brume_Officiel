@@ -303,7 +303,7 @@ public class Interactible : MonoBehaviour
         fillImg.material.SetFloat(progressShaderName, 0);
 
         state = State.Captured;
-       // timer = 0;
+
 
         myAudioSource.enabled = false;
 
