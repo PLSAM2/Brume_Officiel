@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4c03352caf05bb4abf42cd86b75a998, type: 3}
-  m_Name: LengJump
+  m_Name: Wx_Auto_KarthusQ
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 1
+    durationOfTheAoe: 0.6
     timeBeforeFinalDisparition: 0.05
     damagesToDealOnImpact:
       playerName: 
-      damageHealth: 1
-      statusToApply:
-      - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
-      movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
-    finalDamages:
-      playerName: 
       damageHealth: 0
       statusToApply: []
+      movementToApply: {fileID: 0}
+    finalDamages:
+      playerName: 
+      damageHealth: 1
+      statusToApply:
+      - {fileID: 11400000, guid: 46d906520ac82a949a21bc5c08338e74, type: 2}
       movementToApply: {fileID: 0}
     impactAlly:
       playerName: 
@@ -38,7 +38,7 @@ MonoBehaviour:
       movementToApply: {fileID: 0}
     useOwnerPos: 0
     isBox: 0
-    aoeRadius: 3
+    aoeRadius: 1.6
     boxDimension: {x: 0, y: 0, z: 0}
-  cooldownReductionOnHit: 4
-  cooldownReducedOnHit: 1
+  cooldownReductionOnHit: 0
+  cooldownReducedOnHit: 0

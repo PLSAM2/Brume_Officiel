@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e01fec6998476d4480274aa17830435, type: 3}
-  m_Name: Spell_WuXin_ZoneGrab
+  m_Name: Spell_Wuxin_KarthusQ
   m_EditorClassIdentifier: 
   startCanalisationOnClick: 0
   minTimeToResolve: 0.3
-  range: 8
-  cooldown: 7
+  range: 6
+  cooldown: 2.5
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
-  lockRotOnCanalisation: 1
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
   statusToApplyOnCanalisation: []
@@ -30,48 +30,40 @@ MonoBehaviour:
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0.01
-  spellIcon: {fileID: 21300000, guid: b5fffadc70703cc4db30ec42e18751b1, type: 3}
-  spellName: Soul Vortex
-  spellDescription: Wuxin casts a vortex, creating an area which drags enemies in
-    its range and roots them in its center.
-  onImpactInstantiate: {fileID: 7776885188641116624, guid: 0df850445d1fab54a93c8f962c63fa2d, type: 3}
-  radiusOfImpact: 3
+  throwBackDuration: 0.2
+  spellIcon: {fileID: 21300000, guid: 902eaae87e8088949a61cb7ea9399096, type: 3}
+  spellName: Piou
+  spellDescription: 'After a short canalisation bolt an area selectionned
+
+'
+  onImpactInstantiate: {fileID: 7776885188641116624, guid: 8500531322c06f94e90710315653c552, type: 3}
+  radiusOfImpact: 1.6
   launchCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 3.7336159
-      outSlope: 3.7336159
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.03682008
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: -0.11108757
-      outSlope: -0.11108757
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -3.5492141
-      outSlope: -0.06400521
-      tangentMode: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.030125737
-      outWeight: 0.17540777
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   spitSpeed: 0
-  timeToReachMaxRange: 0
-  minTimeToReach: 0
-  minHeight: 0
-  maxHeightAtMaxRange: 0
+  timeToReachMaxRange: 0.1
+  minTimeToReach: 0.1
+  minHeight: 3
+  maxHeightAtMaxRange: 6
