@@ -46,9 +46,10 @@ public class UltPickup : Interactible
         //    }
         //}
         //GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
-        GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
-        GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
+       // GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
+   //     GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
         GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.bonusHp += hitPointGiven;
         base.Captured(_capturingPlayerID);
 
     }

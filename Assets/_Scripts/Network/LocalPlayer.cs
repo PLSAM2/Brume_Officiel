@@ -534,7 +534,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void HealLocaly ( ushort value )
 	{
 		int _tempHp = (int)liveHealth + (int)value;
-		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth);
+		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
 	}
