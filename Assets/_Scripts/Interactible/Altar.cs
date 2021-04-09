@@ -69,7 +69,6 @@ public class Altar : Interactible
 
     public override void TryCapture(Team team, PlayerModule capturingPlayer)
     {
-        print(team + " --- " + capturingPlayer.teamIndex + " ---- " + capturingPlayer.gameObject.name);
         base.TryCapture(team, capturingPlayer);
     }
     public override void UpdateCaptured(ushort _capturingPlayerID)
