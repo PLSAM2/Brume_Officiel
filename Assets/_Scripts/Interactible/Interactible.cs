@@ -160,21 +160,27 @@ public class Interactible : MonoBehaviour
 
     protected virtual void Capture()
     {
-        if (isInteractable && isCapturing && paused == false) // Uniquement si on est le joueur qui capture et que l'on peut capturer
+        if (capturingPlayerModule != null)
         {
-            timer += Time.fixedDeltaTime;
-
-            using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+            if (isInteractable && isCapturing && paused == false && 
+                capturingPlayerModule.mylocalPlayer == GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID]) // Uniquement si on est le joueur qui capture et que l'on peut capturer
             {
-                _writer.Write(interactibleID);
-                _writer.Write(timer / interactTime);
+                timer += Time.fixedDeltaTime;
 
-                using (Message _message = Message.Create(Tags.CaptureProgressInteractible, _writer))
+                using (DarkRiftWriter _writer = DarkRiftWriter.Create())
                 {
-                    client.SendMessage(_message, SendMode.Unreliable);
+                    _writer.Write(interactibleID);
+                    _writer.Write(timer / interactTime);
+
+                    using (Message _message = Message.Create(Tags.CaptureProgressInteractible, _writer))
+                    {
+                        client.SendMessage(_message, SendMode.Unreliable);
+                    }
                 }
             }
         }
+
+
     }
 
     public void ProgressInServer(float progress)
@@ -209,6 +215,7 @@ public class Interactible : MonoBehaviour
     {
         Decapturing = false;
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
+
         if (NetworkManager.Instance.GetLocalPlayer().ID == _capturingPlayerID)
         {
             isCapturing = true;
@@ -223,8 +230,6 @@ public class Interactible : MonoBehaviour
 
         StartAudio();
         capturingTeam = capturingPlayerModule.teamIndex;
-
-
 
         if (isViewed)
         {
