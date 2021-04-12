@@ -13,63 +13,28 @@ MonoBehaviour:
   m_Name: WXGrabRules
   m_EditorClassIdentifier: 
   rules:
-    durationOfTheAoe: 1
-    timeBeforeFinalDisparition: 0.05
+    durationOfTheAoe: 0.6
+    timeBeforeFinalDisparition: 0.1
     damagesToDealOnImpact:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+    finalDamages:
       playerName: 
       damageHealth: 1
       statusToApply: []
       movementToApply: {fileID: 11400000, guid: 0963ca263bdbac542ae30565218833a2, type: 2}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    damagesToDealOnDuration:
-      playerName: 
-      damageHealth: 0
-      statusToApply: []
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    finalDamages:
-      playerName: 
-      damageHealth: 0
-      statusToApply:
-      - {fileID: 11400000, guid: 92f8f58d81a5fd6498eea40f4f4cb3b8, type: 2}
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
     impactAlly:
       playerName: 
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    durationAlly:
-      playerName: 
-      damageHealth: 0
-      statusToApply: []
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
     finalAlly:
       playerName: 
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
     useOwnerPos: 0
     isBox: 0
     aoeRadius: 2.4

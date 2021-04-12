@@ -534,7 +534,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void HealLocaly ( ushort value )
 	{
 		int _tempHp = (int)liveHealth + (int)value;
-		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth);
+		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
 		GameManager.Instance.OnPlayerGetHealed?.Invoke(myPlayerId, value);
 	}
@@ -614,6 +614,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			//GameManager.Instance.hiddenEffect.enabled = false;
 			//GameManager.Instance.surchargeEffect.enabled = false;
+			myPlayerModule.ForceQuitAllInteractible();
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
@@ -773,6 +774,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void AddHitPoint(int _int)
 	{
+		print("Tiens le hp trouduc"); 
 		myPlayerModule.bonusHp += _int;
 		liveHealth += (ushort)_int;
 		myUiPlayerManager.AddLifePoint(_int);

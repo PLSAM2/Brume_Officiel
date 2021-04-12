@@ -36,6 +36,7 @@ public class UltPickup : Interactible
     }
     public override void Captured(ushort _capturingPlayerID)
     {
+        Debug.Log("I M CAPTURED FRERO");
         //using (DarkRiftWriter writer = DarkRiftWriter.Create())
         //{
         //    writer.Write(ultimateStackGive);
@@ -46,9 +47,10 @@ public class UltPickup : Interactible
         //    }
         //}
         //GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
-        GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
-        GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
+       // GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
+   //     GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
         GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
+        GameManager.Instance.currentLocalPlayer.AddHitPoint(hitPointGiven);
         base.Captured(_capturingPlayerID);
 
     }
@@ -56,8 +58,8 @@ public class UltPickup : Interactible
     {
         base.UpdateCaptured(_capturingPlayerID);
 
-      //  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
-
+        //  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
+        timer = 0;
         ActualiseMesh();
     }
 

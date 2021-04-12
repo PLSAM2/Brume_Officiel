@@ -303,7 +303,7 @@ public class Interactible : MonoBehaviour
         fillImg.material.SetFloat(progressShaderName, 0);
 
         state = State.Captured;
-       // timer = 0;
+
 
         myAudioSource.enabled = false;
 
@@ -500,4 +500,16 @@ public class Interactible : MonoBehaviour
         }
     }
 
+    internal void ForceQuit()
+    {
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(interactibleID);
+
+            using (Message _message = Message.Create(Tags.QuitInteractibleZone, _writer))
+            {
+                client.SendMessage(_message, SendMode.Reliable);
+            }
+        }
+    }
 }

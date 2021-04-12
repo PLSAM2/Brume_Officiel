@@ -722,20 +722,16 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   hurtingBoxWidth: 0.8
+  cooldownReduction: 2
+  hurtBox: {fileID: 9120248746453462083}
+  dashDurationAddedIfNeeded: 0.06
+  hitDashSound: {fileID: 8300000, guid: 3da87995b888a9840b32b8ec023a6c30, type: 3}
   damages:
     playerName: 
     damageHealth: 1
     statusToApply:
     - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
-    stateNeeded: 128
-    additionalDamages: 0
-    additionalStatusToApply: []
-    additionalMovementToApply: {fileID: 0}
-  cooldownReduction: 5
-  hurtBox: {fileID: 9120248746453462083}
-  dashDurationAddedIfNeeded: 0.06
-  hitDashSound: {fileID: 8300000, guid: 3da87995b888a9840b32b8ec023a6c30, type: 3}
 --- !u!114 &9082095990713387351
 MonoBehaviour:
   m_ObjectHideFlags: 0
