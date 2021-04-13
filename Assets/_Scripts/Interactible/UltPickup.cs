@@ -41,6 +41,7 @@ public class UltPickup : Interactible
 
 		using (DarkRiftWriter writer = DarkRiftWriter.Create())
 		{
+			writer.Write(_capturingPlayerID);
 			writer.Write((ushort)1);
 
 			using (Message message = Message.Create(Tags.Heal, writer))
