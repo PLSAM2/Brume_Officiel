@@ -102,11 +102,14 @@ public class SpellModule : MonoBehaviour
 			DelinkInput();
 		}
 	}
-	protected virtual void FixedUpdate ()
+
+
+	protected virtual void Update ()
 	{
+
 		if (isUsed)
 		{
-			currentTimeCanalised += Time.fixedDeltaTime;
+			currentTimeCanalised += Time.deltaTime;
 
 			if (willResolveFast)
 				TryToResolveInstant(Vector3.zero);
@@ -117,10 +120,7 @@ public class SpellModule : MonoBehaviour
 
 		if (CanDeacreaseCooldown())
 			DecreaseCooldown();
-	}
 
-	protected virtual void Update ()
-	{
 		if (showingPreview)
 			UpdatePreview();
 	}
@@ -140,7 +140,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (resolved)
 		{
-			throwbackTime += Time.fixedDeltaTime;
+			throwbackTime += Time.deltaTime;
 
 			if (throwbackTime >= spell.throwBackDuration)
 			{
@@ -257,7 +257,7 @@ public class SpellModule : MonoBehaviour
 		if (charges < spell.numberOfCharge)
 		{
 			if (cooldown <= spell.cooldown)
-				cooldown += Time.fixedDeltaTime;
+				cooldown += Time.deltaTime;
 			else
 			{
 				cooldown = 0;

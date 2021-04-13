@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Spell_Re_Projectile
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 16
   cooldown: 6.5
   numberOfCharge: 1
@@ -19,9 +21,8 @@ MonoBehaviour:
   stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  canalisationTime: 0.2
-  statusToApplyOnCanalisation:
-  - {fileID: 11400000, guid: b656c0c466d257d4ea798a08b7b31af2, type: 2}
+  canalisationTime: 0
+  statusToApplyOnCanalisation: []
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
@@ -41,10 +42,6 @@ MonoBehaviour:
     statusToApply:
     - {fileID: 11400000, guid: 2d5af5ade0cd60b4cabc28760664e6b1, type: 2}
     movementToApply: {fileID: 0}
-    stateNeeded: 128
-    additionalDamages: 0
-    additionalStatusToApply: []
-    additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: e355e904b6ed7424498bace8010e3627, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
@@ -105,6 +102,3 @@ MonoBehaviour:
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 11400000, guid: a571a83a68b56be41884d54038808a44, type: 2}
   cooldownReduction: 0
-  bonusShot: 0
-  bonusSalve: 0
-  durationAdded: 0

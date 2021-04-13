@@ -381,12 +381,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 
 
-	void SendSpawnChamp ()
+	public void SendSpawnChamp (bool isres = false)
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			_writer.Write(RoomManager.Instance.actualRoom.ID);
-			_writer.Write(client.ID);
+			_writer.Write(isres);
 
 			using (Message _message = Message.Create(Tags.SpawnObjPlayer, _writer))
 			{
@@ -426,6 +425,16 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort killerId = reader.ReadUInt16();
 
 				SupprPlayer(id);
+				PlayerData p = NetworkManager.Instance.GetLocalPlayer();
+
+				if (id == p.ID)
+                {
+					if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
+					{
+						InGameNetworkReceiver.Instance.SendSpawnChamp(true);
+						RoomManager.Instance.SpawnPlayerObj(id, true);
+					}
+				}
 
 				GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 
