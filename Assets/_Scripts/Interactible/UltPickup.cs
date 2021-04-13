@@ -10,6 +10,8 @@ public class UltPickup : Interactible
     public ushort hitPointGiven = 1;
     public float brumeExplorationGain = .4f;
     public Sc_Status appliedBonus;
+    public Transform captureFx;
+    public float maxHeight = 8;
     protected override void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
@@ -87,5 +89,11 @@ public class UltPickup : Interactible
                 myAnimator.SetBool("IsActive", false);
                 break;
         }
+    }
+
+	protected override void Capture ()
+	{
+		base.Capture();
+        captureFx.transform.localPosition = Vector3.up * maxHeight * Mathf.Clamp(timer / (interactTime/2), 0, 1); 
     }
 }
