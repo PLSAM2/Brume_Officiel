@@ -13,10 +13,8 @@ public class ModuleProjectileSpell : SpellModule
 	float timeBetweenShot = 0;
 	List<ArrowPreview> myPreviewArrow;
 
-	protected override void FixedUpdate ()
+	protected  void FixedUpdate ()
 	{
-		base.FixedUpdate();
-
 		if (shooting == true)
 		{
 			timeBetweenShot -= Time.fixedDeltaTime;

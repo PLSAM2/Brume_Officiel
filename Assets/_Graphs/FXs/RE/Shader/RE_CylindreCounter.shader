@@ -872,7 +872,7 @@ Shader "RE_CylindreCounter"
 }
 /*ASEBEGIN
 Version=18707
-1920;0;1920;1019;3103.36;1236.845;2.291758;True;False
+1920;0;1920;1019;2287.839;594.5519;1.6;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;11;-1430.9,39.05093;Inherit;False;Property;_Float0;Float 0;1;0;Create;True;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;8;-1296.9,-158.9491;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.DynamicAppendNode;10;-1259.9,26.05093;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
@@ -898,4 +898,4 @@ WireConnection;15;1;14;4
 WireConnection;1;2;12;0
 WireConnection;1;3;15;0
 ASEEND*/
-//CHKSM=F4B3A248188C2A6F5E224C0D4603DBE1AA3024F7
+//CHKSM=BC8F80E963B44F7519E99A4434BDB8B2D07DAEC1

@@ -118,12 +118,8 @@ public class CacAttack : SpellModule
 	}
 	#endregion
 
-	protected override void FixedUpdate ()
+	protected void FixedUpdate ()
 	{
-		base.FixedUpdate();
-
-
-
 		if (isUsed && !anonciated)
 			timeCanalised += Time.fixedDeltaTime;
 	}
