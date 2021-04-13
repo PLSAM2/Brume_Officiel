@@ -42,7 +42,7 @@ public class UltPickup : Interactible
         {
             writer.Write((ushort)1);
 
-            using (Message message = Message.Create(Tags.AddHealth, writer))
+            using (Message message = Message.Create(Tags.Heal, writer))
             {
                 NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
             }
