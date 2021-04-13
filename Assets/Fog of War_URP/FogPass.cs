@@ -13,7 +13,6 @@ namespace UnityEngine.Rendering.Universal
 
         int sourceId;
         int destinationId;
-        bool isSourceAndDestinationSameTarget;
 
         string m_ProfilerTag;
 
@@ -33,9 +32,6 @@ namespace UnityEngine.Rendering.Universal
             RenderTextureDescriptor blitTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
             blitTargetDescriptor.depthBufferBits = 0;
 
-            isSourceAndDestinationSameTarget = settings.sourceType == settings.destinationType &&
-                (settings.sourceType == BufferType.CameraColor || settings.sourceTextureId == settings.destinationTextureId);
-
             var renderer = renderingData.cameraData.renderer;
 
             if (settings.sourceType == BufferType.CameraColor)
@@ -50,26 +46,12 @@ namespace UnityEngine.Rendering.Universal
                 source = new RenderTargetIdentifier(sourceId);
             }
 
-            if (isSourceAndDestinationSameTarget)
-            {
-                destinationId = temporaryRTId;
-                cmd.GetTemporaryRT(destinationId, blitTargetDescriptor, filterMode);
-                destination = new RenderTargetIdentifier(destinationId);
-            }
-            else if (settings.destinationType == BufferType.CameraColor)
-            {
-                destinationId = -1;
-                destination = renderer.cameraColorTarget;
-            }
-            else
-            {
-                destinationId = Shader.PropertyToID(settings.destinationTextureId);
-                cmd.GetTemporaryRT(destinationId, blitTargetDescriptor, filterMode);
-                destination = new RenderTargetIdentifier(destinationId);
-            }
+            destinationId = temporaryRTId;
+            cmd.GetTemporaryRT(destinationId, blitTargetDescriptor, filterMode);
+            destination = new RenderTargetIdentifier(destinationId);
 
             //setup
-            if(mFog == null)
+            if (mFog == null)
             {
                 mFog = FOWSystem.Instance;
             }
@@ -91,16 +73,8 @@ namespace UnityEngine.Rendering.Universal
 
             CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
 
-            // Can't read and write to same color target, create a temp render target to blit. 
-            if (isSourceAndDestinationSameTarget)
-            {
-                Blit(cmd, source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
-                Blit(cmd, destination, source);
-            }
-            else
-            {
-                Blit(cmd, source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
-            }
+            Blit(cmd, source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
+            Blit(cmd, destination, source);
 
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
