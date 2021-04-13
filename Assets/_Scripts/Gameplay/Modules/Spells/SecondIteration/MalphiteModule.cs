@@ -12,10 +12,8 @@ public class MalphiteModule : SpellModule
 	bool counting;
 	public Transform previewImpact;
 
-	protected override void FixedUpdate ()
+	protected  void FixedUpdate ()
 	{
-		base.FixedUpdate();
-
 		if (counting)
 		{
 			timeCanalised += Time.fixedDeltaTime;
