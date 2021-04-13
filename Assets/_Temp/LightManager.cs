@@ -11,11 +11,14 @@ public class LightManager : MonoBehaviour
     public string lightColorPropertyName;
     public Material[] toSet;
     public Color lightColor;
+    public float lightStep;
+    public float lightStepAttenuation;
+    public int lightArrayLength;
 
     void Update()
     {
         UpdateLightsPosArray();
-        UpdateLightsColor();
+        UpdateLightsProperties();
     }
 
     
@@ -33,18 +36,20 @@ public class LightManager : MonoBehaviour
 
         foreach (Material _mat in toSet)
         {
-            _mat.SetFloat("_LightArrayLength", lightsPos.Count);
+            _mat.SetFloat("_LightArrayLength", lightArrayLength);
         }
     }
 
     
 
     [Button]
-    void UpdateLightsColor()
+    void UpdateLightsProperties()
     {
         foreach (Material _mat in toSet)
         {
             _mat.SetColor(lightColorPropertyName, lightColor);
+            _mat.SetFloat("_LightStep", lightStep);
+            _mat.SetFloat("_LightStepAttenuation", lightStepAttenuation);
         }
     }
 }
