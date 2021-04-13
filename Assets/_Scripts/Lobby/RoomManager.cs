@@ -392,34 +392,32 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
-        if (!isResurecting)
+        foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
         {
-            foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+            if (spawn.CanSpawn())
             {
-                if (spawn.CanSpawn())
-                {
-                    spawnPos = spawn.transform.position;
-                }
+                spawnPos = spawn.transform.position;
             }
         }
-        else
-        {
-            bool emptySpace = false;
 
-            foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
-            {
-                if (spawn.CanSpawn())
-                {
-                    emptySpace = true;
-                    spawnPos = spawn.transform.position;
-                }
-            }
+        //else
+        //{
+        //    bool emptySpace = false;
 
-            if (!emptySpace)
-            {
-                spawnPos = GameManager.Instance.resSpawns[1].transform.position;
-            }
-        }
+        //    foreach (SpawnPoint spawn in GameManager.Instance.resSpawns)
+        //    {
+        //        if (spawn.CanSpawn())
+        //        {
+        //            emptySpace = true;
+        //            spawnPos = spawn.transform.position;
+        //        }
+        //    }
+
+        //    if (!emptySpace)
+        //    {
+        //        spawnPos = GameManager.Instance.resSpawns[1].transform.position;
+        //    }
+        //}
 
 
         GameObject obj = null;

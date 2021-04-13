@@ -26,10 +26,8 @@ public class UpgradeModule : SpellModule
 		//GameManager.Instance.surchargeEffect.enabled = true;
 	}
 
-	protected override void FixedUpdate ()
+	protected  void FixedUpdate ()
 	{
-		base.FixedUpdate();
-
 		if (inBonus)
 		{
 			if (bonusTimeRemaining > 0)

@@ -37,18 +37,20 @@ public class UltPickup : Interactible
     public override void Captured(ushort _capturingPlayerID)
     {
         Debug.Log("I M CAPTURED FRERO");
-        //using (DarkRiftWriter writer = DarkRiftWriter.Create())
-        //{
-        //    writer.Write(ultimateStackGive);
 
-        //    using (Message message = Message.Create(Tags.AddUltimatePoint, writer))
-        //    {
-        //        NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
-        //    }
-        //}
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write((ushort)1);
+
+            using (Message message = Message.Create(Tags.Heal, writer))
+            {
+                NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
+            }
+        }
+
         //GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
-       // GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
-   //     GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
+        // GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
+        //     GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
         GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
         GameManager.Instance.currentLocalPlayer.AddHitPoint(hitPointGiven);
         base.Captured(_capturingPlayerID);
