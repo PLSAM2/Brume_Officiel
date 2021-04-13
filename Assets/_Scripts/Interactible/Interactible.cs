@@ -162,7 +162,7 @@ public class Interactible : MonoBehaviour
     {
         if (capturingPlayerModule != null)
         {
-            if (isInteractable && isCapturing && paused == false && 
+            if (isInteractable && isCapturing && paused == false &&
                 capturingPlayerModule.mylocalPlayer == GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID]) // Uniquement si on est le joueur qui capture et que l'on peut capturer
             {
                 timer += Time.fixedDeltaTime;
@@ -179,6 +179,7 @@ public class Interactible : MonoBehaviour
                 }
             }
         }
+        else return;
 
 
     }
