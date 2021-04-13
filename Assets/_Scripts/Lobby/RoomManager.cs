@@ -123,6 +123,7 @@ public class RoomManager : MonoBehaviour
         GameManager.Instance.OnRoundFinish?.Invoke();
         StartNewRound();
         Team winningTeam = Team.none;
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())

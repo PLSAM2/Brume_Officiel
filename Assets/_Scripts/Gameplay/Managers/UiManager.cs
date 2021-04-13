@@ -22,6 +22,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public GameObject echapMenu;
 	[FoldoutGroup("GlobalUi")] public GameObject victoryPanel;
 	[FoldoutGroup("GlobalUi")] public GameObject loosePanel;
+	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI loosePanelText;
 	[FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
 	[FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
@@ -60,6 +61,8 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public Image hitFeedback;
 	[FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 	[FoldoutGroup("Other Gameplay")] public Image tpFillImage;
+	[FoldoutGroup("Other Gameplay")] public Image reviveFill;
+	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
 	[FoldoutGroup("Cast")] public GameObject barCasting;
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
@@ -297,6 +300,12 @@ public class UiManager : MonoBehaviour
                 SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
             }
         }
+    }
+
+    internal void Revive(bool state)
+    {
+		reviveUI.SetActive(state);
+		reviveFill.fillAmount = 1;
     }
 
     void SetLife(int numberLife, List<Image> imgs)
@@ -755,6 +764,12 @@ public class UiManager : MonoBehaviour
 
         victoryPanel.SetActive(victory);
 		loosePanel.SetActive(!victory);
+
+        if (victory == false)
+        {
+
+
+		}
 		endGameScore.gameObject.SetActive(true);
 		endGameScore.EndGame(team);
 

@@ -431,8 +431,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 {
 					if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
 					{
-						InGameNetworkReceiver.Instance.SendSpawnChamp(true);
-						RoomManager.Instance.SpawnPlayerObj(id, true);
+						GameManager.Instance.Revive(true);
 					}
 				}
 
@@ -441,6 +440,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 			}
 		}
 	}
+
 
 	private void TakeDamagesInServer ( object sender, MessageReceivedEventArgs e )
 	{

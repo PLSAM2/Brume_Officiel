@@ -774,7 +774,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void AddHitPoint(int _int)
 	{
-		print("Tiens le hp trouduc"); 
 		myPlayerModule.bonusHp += _int;
 		liveHealth += (ushort)_int;
 		myUiPlayerManager.AddLifePoint(_int);
