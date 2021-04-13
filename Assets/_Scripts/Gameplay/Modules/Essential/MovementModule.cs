@@ -14,6 +14,7 @@ public class MovementModule : MonoBehaviour
     public CharacterController chara;
     [HideInInspector] public bool rotLocked = false;
 
+
     /*	[Header("Running Stamina")]
 		[SerializeField] bool usingStamina;
 		float timeSpentRunning,  timeSpentNotRunning, _stamina;

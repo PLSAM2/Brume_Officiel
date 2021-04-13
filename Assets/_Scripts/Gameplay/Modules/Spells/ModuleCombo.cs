@@ -74,9 +74,8 @@ public class ModuleCombo : SpellModule
 		}
 	}
 
-	protected override void FixedUpdate ()
+	protected  void FixedUpdate ()
 	{
-		base.FixedUpdate();
 
 		if (!isUsed && delayBetweenSwing > 0)
 		{
