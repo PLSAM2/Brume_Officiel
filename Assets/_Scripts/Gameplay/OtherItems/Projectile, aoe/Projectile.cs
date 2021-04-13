@@ -119,6 +119,9 @@ public class Projectile : AutoKill
 			}
 			else
 			{
+				LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
+				GameFactory.DoScreenShack(0.05f, 0.05f, transform.position);
+
 				bouncingNumberLive--;
 				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
 				transform.LookAt(transform.position + Vector3.Reflect(transform.forward, _coll.GetContact(0).normal.normalized));
@@ -197,8 +200,6 @@ public class Projectile : AutoKill
 		}*/
 		else if (localTrad.diesOnWallTrigger && _coll.tag != "DestroyProj")
 		{
-			print(_coll.tag);
-
 			Destroy(true);
 		}
 	}

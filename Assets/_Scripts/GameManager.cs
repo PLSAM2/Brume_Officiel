@@ -37,9 +37,12 @@ public class GameManager : SerializedMonoBehaviour
     private bool timeStart = false;
     private bool endZoneStarted = false;
     private bool inOvertime = false;
+    private bool isReviving = false;
     public float timer = 0;
     public float endZoneTimer = 46;
     private float baseEndZoneTimer = 46;
+    public float baseReviveTime = 25;
+    private float reviveTimer = 0;
 
     private float overtime = 3;
     private float baseOvertime = 3;
@@ -156,7 +159,7 @@ public class GameManager : SerializedMonoBehaviour
         baseEndZoneTimer = endZoneTimer;
         baseOvertime = overtime;
 
-        SetTimer(timer,UiManager.Instance.timer);
+        SetTimer(timer, UiManager.Instance.timer);
 
         // SetTimer(endZoneTimer,UiManager.Instance.endZoneTimer.timer);
 
@@ -243,12 +246,12 @@ public class GameManager : SerializedMonoBehaviour
         gameStarted = true;
 
         foreach (LocalPlayer _player in networkPlayers.Values.ToList())
-		{
-            if(!_player.IsInMyTeam(currentLocalPlayer.myPlayerModule.teamIndex))
-			{
+        {
+            if (!_player.IsInMyTeam(currentLocalPlayer.myPlayerModule.teamIndex))
+            {
                 allEnemies.Add(_player);
-			}
-		}
+            }
+        }
     }
 
     public void ResetCam()
@@ -266,7 +269,21 @@ public class GameManager : SerializedMonoBehaviour
         //}
 
         timer += Time.deltaTime;
-        SetTimer(timer,UiManager.Instance.timer);
+        SetTimer(timer, UiManager.Instance.timer);
+
+
+        if (isReviving)
+        {
+            reviveTimer -= Time.deltaTime;
+            UiManager.Instance.reviveFill.fillAmount = reviveTimer / baseReviveTime;
+
+            if (reviveTimer <= 0)
+            {
+                Revive(false);
+                InGameNetworkReceiver.Instance.SendSpawnChamp(true);
+                RoomManager.Instance.SpawnPlayerObj(NetworkManager.Instance.GetLocalPlayer().ID, true);
+            }
+        }
 
         //if (endZoneStarted)
         //{
@@ -286,6 +303,13 @@ public class GameManager : SerializedMonoBehaviour
         //}
     }
 
+    public void Revive(bool state = false)
+    {
+        UiManager.Instance.Revive(state);  
+        reviveTimer = baseReviveTime;
+        isReviving = state;
+    }
+
     public void SetOvertimeTimerState(bool state)
     {
         if (state)
@@ -296,7 +320,7 @@ public class GameManager : SerializedMonoBehaviour
         inOvertime = state;
     }
 
-    public int SetTimer(float timer,TextMeshProUGUI text = null)
+    public int SetTimer(float timer, TextMeshProUGUI text = null)
     {
         int secondRemaining = (int)timer % 60;
         int minuteRemaining = (int)Math.Floor(timer / 60);
@@ -311,7 +335,7 @@ public class GameManager : SerializedMonoBehaviour
     }
     public void StartEndZone(Team team)
     {
-       UiManager.Instance.endZoneUIGroup.Init(team);
+        UiManager.Instance.endZoneUIGroup.Init(team);
         endZoneStarted = true;
     }
 

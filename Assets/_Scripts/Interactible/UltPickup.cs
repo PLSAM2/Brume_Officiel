@@ -38,10 +38,10 @@ public class UltPickup : Interactible
 	}
 	public override void Captured ( ushort _capturingPlayerID )
 	{
-		Debug.Log("I M CAPTURED FRERO");
 
 		using (DarkRiftWriter writer = DarkRiftWriter.Create())
 		{
+			writer.Write(_capturingPlayerID);
 			writer.Write((ushort)1);
 
 			using (Message message = Message.Create(Tags.Heal, writer))

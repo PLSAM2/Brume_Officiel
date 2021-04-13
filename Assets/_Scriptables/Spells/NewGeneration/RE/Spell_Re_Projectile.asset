@@ -21,7 +21,7 @@ MonoBehaviour:
   stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  canalisationTime: 0.2
+  canalisationTime: 0.3
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 39795c6d6a543014caa8dbe0c8af82f0, type: 2}
   lockRotOnAnonciation: 1
@@ -49,22 +49,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      time: -0.0028204955
+      value: 0.97152185
+      inSlope: 0.09753679
+      outSlope: 0.09753679
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.04221478
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      inSlope: 0.010608189
+      outSlope: 0.010608189
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.055295374
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -80,7 +80,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 0.7
+    timeToReachMaxRange: 1
     timeToResolveTheSalve: 0
   angleToSplit: 0
   destroyProjectiles: 0
