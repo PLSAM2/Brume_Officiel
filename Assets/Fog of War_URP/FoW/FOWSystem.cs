@@ -22,8 +22,6 @@ public class FOWSystem : MonoBehaviour
 
     public float blendFactor = 0;
 
-    public RenderTexture myTexture;
-
     public AnimationCurve opacityCurve;
 
     private void Awake()

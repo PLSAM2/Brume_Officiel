@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 11400000}
+  - component: {fileID: 627606980}
   m_Layer: 0
   m_Name: Fog of War
   m_TagString: Untagged
@@ -43,15 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff305e18ad52574498a55f1e786a069c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outBrumeColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
-  inBrumeColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
-  currentFogColor: {r: 0.05, g: 0.05, b: 0.05, a: 1}
+  outBrumeColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+  inBrumeColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
+  currentFogColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   mistMatPlane: {fileID: 2100000, guid: 26be7d56251d5bc4abe9f544517584a5, type: 2}
   fogMat: {fileID: 2100000, guid: 8dad68b6889ff2641aaaebef73ef69d1, type: 2}
   worldSize: 128
   textureSize: 256
   blendFactor: 0
-  myTexture: {fileID: 8400000, guid: bfcae5bf0a923544b8ff8aeecd2c2518, type: 2}
   opacityCurve:
     serializedVersion: 2
     m_Curve:
@@ -85,3 +85,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &627606980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d350bf1c412249b4dbc8319825768fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _iteration: 6
+  _material: {fileID: 2100000, guid: 11d0d6f6f3fd317448605867be4c344c, type: 2}
+  _material1: {fileID: 2100000, guid: 8dad68b6889ff2641aaaebef73ef69d1, type: 2}
+  myTexture: {fileID: 8400000, guid: bfcae5bf0a923544b8ff8aeecd2c2518, type: 2}

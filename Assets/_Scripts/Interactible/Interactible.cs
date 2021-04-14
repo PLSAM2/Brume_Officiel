@@ -37,8 +37,6 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     public Character[] authorizedCaptureCharacter = new Character[1];
     [TabGroup("InteractiblePart")]
-    public bool contestable = true;
-    [TabGroup("InteractiblePart")]
     protected float timer = 0;
     [TabGroup("InteractiblePart")]
     protected bool isCapturing = false;
@@ -335,6 +333,7 @@ public class Interactible : MonoBehaviour
 
     public virtual void Unlock()
     {
+
         if (isViewed)
         {
             SetColor(canBeCapturedColor);
@@ -412,7 +411,7 @@ public class Interactible : MonoBehaviour
                 return;
             }
 
-            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
+            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) || type == InteractibleType.EndZone) // Si personnage autorisé
             {
                 CheckOnUnlock = false;
                _pModule.interactiblesClose.Add(this);
@@ -437,9 +436,8 @@ public class Interactible : MonoBehaviour
                 return;
             }
 
-            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
+            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) || type == InteractibleType.EndZone) // Si personnage autorisé
             {
-
                 using (DarkRiftWriter _writer = DarkRiftWriter.Create())
                 {
                     _writer.Write(interactibleID);
@@ -478,7 +476,7 @@ public class Interactible : MonoBehaviour
                     return;
                 }
 
-                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) && isCapturing == false) // Si personnage autorisé
+                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) && isCapturing == false  || type == InteractibleType.EndZone && isCapturing == false) // Si personnage autorisé
                 {
                     _pModule.interactiblesClose.Add(this);
                     TryCapture(_pModule.teamIndex, _pModule);
