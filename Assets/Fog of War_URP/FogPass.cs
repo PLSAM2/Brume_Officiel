@@ -7,7 +7,7 @@ namespace UnityEngine.Rendering.Universal
         public FilterMode filterMode { get; set; }
         public FogFeature.Settings settings;
 
-        RenderTargetIdentifier source;
+        RenderTargetIdentifier _source;
         RenderTargetIdentifier destination;
         int temporaryRTId = Shader.PropertyToID("_TempRT");
 
@@ -34,17 +34,8 @@ namespace UnityEngine.Rendering.Universal
 
             var renderer = renderingData.cameraData.renderer;
 
-            if (settings.sourceType == BufferType.CameraColor)
-            {
-                sourceId = -1;
-                source = renderer.cameraColorTarget;
-            }
-            else
-            {
-                sourceId = Shader.PropertyToID(settings.sourceTextureId);
-                cmd.GetTemporaryRT(sourceId, blitTargetDescriptor, filterMode);
-                source = new RenderTargetIdentifier(sourceId);
-            }
+            sourceId = -1;
+            _source = renderer.cameraColorTarget;
 
             destinationId = temporaryRTId;
             cmd.GetTemporaryRT(destinationId, blitTargetDescriptor, filterMode);
@@ -57,7 +48,6 @@ namespace UnityEngine.Rendering.Universal
             }
 
             mCam = Camera.main;
-            //mCam.depthTextureMode = DepthTextureMode.Depth;
         }
 
         /// <inheritdoc/>
@@ -73,8 +63,8 @@ namespace UnityEngine.Rendering.Universal
 
             CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
 
-            Blit(cmd, source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
-            Blit(cmd, destination, source);
+            Blit(cmd, _source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
+            Blit(cmd, destination, _source);
 
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
@@ -86,7 +76,7 @@ namespace UnityEngine.Rendering.Universal
             if (destinationId != -1)
                 cmd.ReleaseTemporaryRT(destinationId);
 
-            if (source == destination && sourceId != -1)
+            if (_source == destination && sourceId != -1)
                 cmd.ReleaseTemporaryRT(sourceId);
         }
 
@@ -127,8 +117,6 @@ namespace UnityEngine.Rendering.Universal
             
             Vector4 p = new Vector4(-x * invScale, -y * invScale, invScale, mFog.blendFactor);
             settings.blitMaterial.SetColor("_Unexplored", mFog.currentFogColor);
-
-            settings.blitMaterial.SetTexture("_FogTex0", FOWSystem.Instance.myTexture);
 
             settings.blitMaterial.SetMatrix("_InverseMVP", mInverseMVP);
             settings.blitMaterial.SetVector("_CamPos", camPos);
