@@ -80,7 +80,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
 
-		OnRespawn(respawned);
 
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
@@ -116,6 +115,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
+
+		liveHealth =myPlayerModule.characterParameters.maxHealth ;
+
+		//OnRespawn(respawned);
 
 		OnInitFinish?.Invoke();
 	}
@@ -326,19 +329,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnRespawn ( bool respawned = false )
 	{
-		liveHealth = myPlayerModule.characterParameters.maxHealth;
-
-
-		foreach (Altar _alt in GameManager.Instance.allAltar)
+		if (respawned)
 		{
-			if (_alt.lastTeamCaptured == myPlayerModule.teamIndex)
-				AddHitPoint(1);
+			if (IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
+			{
+				print("is in my team");
+				liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControled);
+			}
+			else
+			{
+				liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControledByEnemy);
+			}
 		}
-		//if (respawned)
-		//      {
-		//	LocallyDivideHealth(2);
-		//}
-
 	}
 
 	/// <summary>

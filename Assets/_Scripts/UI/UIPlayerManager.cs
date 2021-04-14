@@ -60,6 +60,7 @@ public class UIPlayerManager : MonoBehaviour
     private void OnEnable()
     {
         myLocalPlayer.myPlayerModule.OnStateChange += OnStateChange;
+        myLocalPlayer.OnInitFinish += Init;
         OnStateChange();
 
         UpdateLife();
@@ -68,6 +69,7 @@ public class UIPlayerManager : MonoBehaviour
     private void OnDisable()
     {
         myLocalPlayer.myPlayerModule.OnStateChange -= OnStateChange;
+        myLocalPlayer.OnInitFinish -= Init;
     }
 
     void OnStateChange()
@@ -98,8 +100,8 @@ public class UIPlayerManager : MonoBehaviour
         }*/
     }
 
-    private void Start()
-    {
+	private void Init ()
+	{
         if (dummy)
         {
             nameText.text = "Dummy";
@@ -131,8 +133,7 @@ public class UIPlayerManager : MonoBehaviour
             feedbackCounter.SetActive(false);
         }
     }
-
-    void SpawnLifeBar()
+	void SpawnLifeBar()
     {
         if (dummy)
         {
