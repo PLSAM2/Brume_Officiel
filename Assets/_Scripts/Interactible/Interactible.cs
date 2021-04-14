@@ -44,6 +44,11 @@ public class Interactible : MonoBehaviour
     protected bool Decapturing = false;
     [TabGroup("InteractiblePart")]
     protected bool paused = false;
+    [TabGroup("InteractiblePart")]
+    public bool contestable = false;
+
+    [TabGroup("InteractiblePart")]
+    protected List<PlayerModule> playerInZone = new List<PlayerModule>();
 
     [Header("Color")]
     [TabGroup("InteractiblePart")]
@@ -405,13 +410,20 @@ public class Interactible : MonoBehaviour
             {
                 return;
             }
+            if (contestable)
+            {
+                if (!playerInZone.Contains(_pModule))
+                {
+                    playerInZone.Add(_pModule);
+                }
+            }
 
             if (!_pModule.mylocalPlayer.isOwner)
             {
                 return;
             }
 
-            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) || type == InteractibleType.EndZone) // Si personnage autorisé
+            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
                 CheckOnUnlock = false;
                _pModule.interactiblesClose.Add(this);
@@ -431,12 +443,20 @@ public class Interactible : MonoBehaviour
                 return;
             }
 
+            if (contestable)
+            {
+                if (playerInZone.Contains(_pModule))
+                {
+                    playerInZone.Remove(_pModule);
+                }
+            }
+
             if (!_pModule.mylocalPlayer.isOwner)
             {
                 return;
             }
 
-            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) || type == InteractibleType.EndZone) // Si personnage autorisé
+            if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
                 using (DarkRiftWriter _writer = DarkRiftWriter.Create())
                 {
@@ -470,13 +490,21 @@ public class Interactible : MonoBehaviour
                 {
                     return;
                 }
-
+                if (contestable)
+                {
+                    if (!playerInZone.Contains(_pModule))
+                    {
+                        playerInZone.Add(_pModule);
+                    }
+                }
                 if (!_pModule.mylocalPlayer.isOwner)
                 {
                     return;
                 }
 
-                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) && isCapturing == false  || type == InteractibleType.EndZone && isCapturing == false) // Si personnage autorisé
+
+
+                if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) && isCapturing == false) // Si personnage autorisé
                 {
                     _pModule.interactiblesClose.Add(this);
                     TryCapture(_pModule.teamIndex, _pModule);

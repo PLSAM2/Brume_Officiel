@@ -1,6 +1,7 @@
 using DarkRift;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static GameData;
 
@@ -24,6 +25,10 @@ public class EndZoneInteractible : Interactible
             return;
         }
 
+        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin && playerInZone.FirstOrDefault(x => x.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam) != null)
+        {
+            return;
+        }
         base.Capture();
     }
 
