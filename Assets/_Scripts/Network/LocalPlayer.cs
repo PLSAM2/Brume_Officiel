@@ -80,7 +80,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
 
-		OnRespawn(respawned);
 
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
@@ -118,6 +117,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
 		OnInitFinish?.Invoke();
+		OnRespawn(respawned);
 	}
 
 	private void Update ()
@@ -331,9 +331,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 
 		//	
-		if (!IsInMyTeam(RoomManager.Instance.GetPlayerData(myPlayerId).playerTeam))
+		if (IsInMyTeam(RoomManager.Instance.GetPlayerData(myPlayerId).playerTeam))
 		{
-			print(GameManager.Instance.numberOfAltarControled);
 			AddHitPoint(GameManager.Instance.numberOfAltarControled);
 		}
 		else
