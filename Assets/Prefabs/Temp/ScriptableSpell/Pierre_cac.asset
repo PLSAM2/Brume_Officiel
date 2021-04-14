@@ -12,36 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
   m_Name: Pierre_cac
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 0
-  cooldown: 0
+  cooldown: 6
   numberOfCharge: 1
   forbiddenState: 48
+  stacksUsed: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
-  canalisationTime: 0
-  statusToApplyOnCanalisation: []
+  canalisationTime: 0.25
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 7bed56c0cd4f8ac4e95b60580fcc33fe, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
-  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: b5aa671f41be190409750dfc06aa82ab, type: 2}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
-  spellIcon: {fileID: 0}
+  spellIcon: {fileID: 21300000, guid: 137404ee796fd964d88091858acd7a3c, type: 3}
+  spellName: MyNameIsStan
+  spellDescription: My Description
   timeToCanalyseToUpgrade: 0.5
   normalAttack:
     angleToAttackFrom: 90
     rangeOfTheAttack: 3
     damagesToDeal:
       playerName: 
-      damageHealth: 0
+      damageHealth: 1
       statusToApply: []
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
+      movementToApply: {fileID: 11400000, guid: fd8e8305c601de34cbbeb152c8148fef, type: 2}
   upgradedAttack:
     angleToAttackFrom: 90
     rangeOfTheAttack: 3
@@ -50,7 +52,3 @@ MonoBehaviour:
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
