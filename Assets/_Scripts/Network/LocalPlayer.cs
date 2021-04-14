@@ -115,6 +115,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
+
+		liveHealth =myPlayerModule.characterParameters.maxHealth ;
+
 		//OnRespawn(respawned);
 
 		OnInitFinish?.Invoke();
