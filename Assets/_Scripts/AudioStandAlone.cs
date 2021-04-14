@@ -24,5 +24,17 @@ public class AudioStandAlone : MonoBehaviour
         }
 
         myAudioSource.volume = AudioManager.Instance.currentPlayerVolume;
+
+        AudioManager.Instance.OnVolumeChange += OnVolumeChange;
+    }
+
+    private void OnDisable()
+    {
+        AudioManager.Instance.OnVolumeChange -= OnVolumeChange;
+    }
+
+    void OnVolumeChange(float _volume)
+    {
+        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume;
     }
 }
