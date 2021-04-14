@@ -333,6 +333,7 @@ public class Interactible : MonoBehaviour
 
     public virtual void Unlock()
     {
+
         if (isViewed)
         {
             SetColor(canBeCapturedColor);
