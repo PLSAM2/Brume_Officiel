@@ -57,8 +57,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public bool forceOutline = false;
 
 	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
-    [TabGroup("Vision")] public GameObject mesh;
-    [TabGroup("Vision")] public static Action disableModule;
+	[TabGroup("Vision")] public GameObject mesh;
+	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
 	En_CharacterState oldState = En_CharacterState.Clear;
 
@@ -80,7 +80,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
 
-		OnRespawn(respawned);
 
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
@@ -89,7 +88,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-            GameManager.Instance.ResetCam();
+			GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
 			circleDirection.SetActive(true);
@@ -99,7 +98,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-		//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
 		}
 		else
@@ -116,6 +115,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 		}
+
+		liveHealth =myPlayerModule.characterParameters.maxHealth ;
+
+		//OnRespawn(respawned);
 
 		OnInitFinish?.Invoke();
 	}
@@ -150,8 +153,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
 		{
 			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
-            myUiPlayerManager.directionWx.target = myUiPlayerManager.wxRef.transform;
-        }
+			myUiPlayerManager.directionWx.target = myUiPlayerManager.wxRef.transform;
+		}
 
 		allCharacterSpawned = true;
 	}
@@ -210,7 +213,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
-	//	myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
+		//	myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
 
 	}
 
@@ -326,13 +329,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnRespawn ( bool respawned = false )
 	{
-		liveHealth = myPlayerModule.characterParameters.maxHealth;
-
-		//if (respawned)
-		//      {
-		//	LocallyDivideHealth(2);
-		//}
-
+		if (respawned)
+		{
+			if (IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
+			{
+				print("is in my team");
+				liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControled);
+			}
+			else
+			{
+				liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControledByEnemy);
+			}
+		}
 	}
 
 	/// <summary>
@@ -353,50 +361,50 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 
 		if (dealerID == null)
-        {
-            DealDamagesLocaly(_finalDamage, NetworkManager.Instance.GetLocalPlayer().ID);
-        }
-        else
-        {
-            DealDamagesLocaly(_finalDamage, (ushort) dealerID);
-        }
+		{
+			DealDamagesLocaly(_finalDamage, NetworkManager.Instance.GetLocalPlayer().ID);
+		}
+		else
+		{
+			DealDamagesLocaly(_finalDamage, (ushort)dealerID);
+		}
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
-        AudioManager.Instance.PlayHitAudio();
+		AudioManager.Instance.PlayHitAudio();
 
-       /* if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
-		{
-			if (_damagesToDeal.additionalStatusToApply != null)
-			{
-				for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
-				{
-					SendStatus(_damagesToDeal.additionalStatusToApply[i]);
-				}
-			}
+		/* if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
+		 {
+			 if (_damagesToDeal.additionalStatusToApply != null)
+			 {
+				 for (int i = 0; i < _damagesToDeal.additionalStatusToApply.Length; i++)
+				 {
+					 SendStatus(_damagesToDeal.additionalStatusToApply[i]);
+				 }
+			 }
 
-			if (_damagesToDeal.additionalMovementToApply != null)
-			{
-				SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
-			}
+			 if (_damagesToDeal.additionalMovementToApply != null)
+			 {
+				 SendForcedMovement(_damagesToDeal.additionalMovementToApply.MovementToApply(transform.position, _positionOfTheDealer));
+			 }
 
-			if (_damagesToDeal.damageHealth > 0)
-			{
-				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-				{
-					_writer.Write(myPlayerId);
-					_writer.Write(_damagesToDeal.additionalDamages);
-					using (Message _message = Message.Create(Tags.Damages, _writer))
-					{
-						currentClient.SendMessage(_message, SendMode.Reliable);
-					}
-				}
-			}
-		}*/
+			 if (_damagesToDeal.damageHealth > 0)
+			 {
+				 using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+				 {
+					 _writer.Write(myPlayerId);
+					 _writer.Write(_damagesToDeal.additionalDamages);
+					 using (Message _message = Message.Create(Tags.Damages, _writer))
+					 {
+						 currentClient.SendMessage(_message, SendMode.Reliable);
+					 }
+				 }
+			 }
+		 }*/
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-		
+
 
 			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 			{
@@ -408,8 +416,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				}
 			}
 
-            StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Damage, (int) _damagesToDeal.damageHealth);
-        }
+			StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Damage, (int)_damagesToDeal.damageHealth);
+		}
 
 		if (!ignoreStatusAndEffect)
 		{
@@ -440,7 +448,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void DealDamagesLocaly ( ushort damages, ushort dealerID)
+	public void DealDamagesLocaly ( ushort damages, ushort dealerID )
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
@@ -474,8 +482,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			{
 				if (isOwner)
 				{
-                    KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
-                }
+					KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
+				}
 			}
 			else
 			{
@@ -483,8 +491,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				liveHealth = (ushort)_tempHp;
 			}
 
-            GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
-        }
+			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
+		}
 		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
 			myPlayerModule.hitCountered?.Invoke();
 	}
@@ -772,7 +780,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	}
 
-	public void AddHitPoint(int _int)
+	public void AddHitPoint ( int _int )
 	{
 		myPlayerModule.bonusHp += _int;
 		liveHealth += (ushort)_int;

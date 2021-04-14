@@ -115,7 +115,7 @@ public class Altar : Interactible
         {
             altarBuff.InitBuff(capturingPlayerModule);
         }
-
+/*
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write((ushort)capturingPlayerModule.teamIndex);
@@ -126,6 +126,14 @@ public class Altar : Interactible
                NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
             }
         }
+*/
+        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
+        {
+            GameManager.Instance.numberOfAltarControled++;
+        }
+        else
+            GameManager.Instance.numberOfAltarControledByEnemy++;
+
 
         base.Captured(_capturingPlayerID);
     }

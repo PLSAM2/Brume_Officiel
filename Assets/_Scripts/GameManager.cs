@@ -95,7 +95,7 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
-
+    public int numberOfAltarControled, numberOfAltarControledByEnemy = 0;
 
     public GameObject deadPostProcess;
 
@@ -126,6 +126,8 @@ public class GameManager : SerializedMonoBehaviour
         {
             _instance = this;
         }
+        numberOfAltarControled = 0;
+        numberOfAltarControledByEnemy = 0;
 
         client = RoomManager.Instance.client;
         client.MessageReceived += OnMessageReceive;
