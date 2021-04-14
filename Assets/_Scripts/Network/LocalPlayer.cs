@@ -116,8 +116,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
+		liveHealth =myPlayerModule.characterParameters.maxHealth ;
+
+		//OnRespawn(respawned);
+
 		OnInitFinish?.Invoke();
-		OnRespawn(respawned);
 	}
 
 	private void Update ()
@@ -326,20 +329,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnRespawn ( bool respawned = false )
 	{
-		liveHealth = myPlayerModule.characterParameters.maxHealth;
-
-
-
-		//	
-		if (IsInMyTeam(RoomManager.Instance.GetPlayerData(myPlayerId).playerTeam))
+		if (respawned)
 		{
-			AddHitPoint(GameManager.Instance.numberOfAltarControled);
+			if (IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
+			{
+				print("is in my team");
+				liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControled);
+			}
+			else
+			{
+				liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControledByEnemy);
+			}
 		}
-		else
-		{
-			AddHitPoint(GameManager.Instance.numberOfAltarControledByEnemy);
-		}
-
 	}
 
 	/// <summary>

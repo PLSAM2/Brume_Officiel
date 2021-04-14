@@ -20,15 +20,12 @@ public class EndZoneInteractible : Interactible
     }
     protected override void Capture()
     {
+        
         if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
             return;
         }
 
-        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin && playerInZone.FirstOrDefault(x => x.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam) != null)
-        {
-            return;
-        }
         base.Capture();
     }
 
