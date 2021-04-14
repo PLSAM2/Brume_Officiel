@@ -11,11 +11,17 @@ public class BlurFilter : MonoBehaviour
 
     public RenderTexture myTexture;
 
+    RenderTexture rt1;
+    RenderTexture rt2;
+
+    private void Start()
+    {
+        rt1 = RenderTexture.GetTemporary(myTexture.width / 2, myTexture.height / 2);
+        rt2 = RenderTexture.GetTemporary(myTexture.width / 2, myTexture.height / 2);
+    }
+
     void Update()
     {
-        RenderTexture rt1 = RenderTexture.GetTemporary(myTexture.width / 2, myTexture.height / 2);
-        RenderTexture rt2 = RenderTexture.GetTemporary(myTexture.width / 2, myTexture.height / 2);
-
         Graphics.Blit(myTexture, rt1, _material, 0);
 
         for (var i = 0; i < _iteration; i++)
@@ -26,8 +32,7 @@ public class BlurFilter : MonoBehaviour
 
         _material1.SetTexture("_FogTex0", rt1);
 
-        //RenderTexture.ReleaseTemporary(rt1);
+        RenderTexture.ReleaseTemporary(rt1);
         RenderTexture.ReleaseTemporary(rt2);
-
     }
 }
