@@ -127,6 +127,14 @@ public class Altar : Interactible
             }
         }
 
+        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
+        {
+            GameManager.Instance.numberOfAltarControled++;
+        }
+        else
+            GameManager.Instance.numberOfAltarControledByEnemy++;
+
+
         base.Captured(_capturingPlayerID);
     }
     public override void SetActiveState(bool value)

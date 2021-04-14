@@ -329,15 +329,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		liveHealth = myPlayerModule.characterParameters.maxHealth;
 
 
-		foreach (Altar _alt in GameManager.Instance.allAltar)
+
+		//	
+		if (!IsInMyTeam(RoomManager.Instance.GetPlayerData(myPlayerId).playerTeam))
 		{
-			if (_alt.lastTeamCaptured == myPlayerModule.teamIndex)
-				AddHitPoint(1);
+			print(GameManager.Instance.numberOfAltarControled);
+			AddHitPoint(GameManager.Instance.numberOfAltarControled);
 		}
-		//if (respawned)
-		//      {
-		//	LocallyDivideHealth(2);
-		//}
+		else
+		{
+			AddHitPoint(GameManager.Instance.numberOfAltarControledByEnemy);
+		}
 
 	}
 
