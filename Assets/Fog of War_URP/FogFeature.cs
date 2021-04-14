@@ -14,11 +14,12 @@ namespace UnityEngine.Rendering.Universal
             public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
 
             public Material blitMaterial;
+            public Material _material;
             public int blitMaterialPassIndex = -1;
-            public BufferType sourceType = BufferType.CameraColor;
-            public BufferType destinationType = BufferType.CameraColor;
             public string sourceTextureId = "_SourceTexture";
-            public string destinationTextureId = "_DestinationTexture";
+
+            [SerializeField, Range(0, 8)]
+            public int _iteration = 4;
         }
 
         public Settings settings = new Settings();
