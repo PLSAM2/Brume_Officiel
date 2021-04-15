@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: Stun 0.5s
+  m_Name: Stun 1s
   m_EditorClassIdentifier: 
   effect:
     tick: 0
-    finalLifeTime: 0.5
+    finalLifeTime: 1
     isConstant: 0
     canBeForcedStop: 0
     forcedKey: 0
     refreshOnApply: 0
+    doNotApplyIfExist: 0
     tickRate: 0.2
     isDamaging: 1
     isHealing: 0
@@ -40,4 +41,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    optionalDamages: 0
+    optionalDamagesInfos:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+    hitBeforeProcOptionnalDamages: 0
