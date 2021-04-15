@@ -60,7 +60,7 @@ public class SpellFeedback : MonoBehaviour
 
 	}
 
-	public void ()
+	//public void ()
 }
 
 
