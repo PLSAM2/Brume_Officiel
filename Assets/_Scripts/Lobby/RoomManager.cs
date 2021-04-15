@@ -493,6 +493,11 @@ public class RoomManager : MonoBehaviour
 
         delayedPlayerSpawn.Clear();
 
+        UiManager.Instance.DisplaySoulSpell();
+    }
+
+    public void ImReady()
+    {
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(RoomManager.Instance.actualRoom.ID);
@@ -503,10 +508,6 @@ public class RoomManager : MonoBehaviour
             }
         }
     }
-
-
-    //
-
 
     public void UpdatePointDisplay()
     {
