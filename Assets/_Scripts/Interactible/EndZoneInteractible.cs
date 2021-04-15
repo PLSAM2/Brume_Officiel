@@ -46,7 +46,7 @@ public class EndZoneInteractible : Interactible
     }
     protected override void OnVolumeChange(float _value)
     {
-        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam || NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
             return;
         }
