@@ -1547,6 +1547,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
+    - target: {fileID: 8260940336020749452, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
 --- !u!95 &387658375 stripped
@@ -1557,6 +1561,11 @@ Animator:
 --- !u!1 &387658376 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2987726341321339185, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
+  m_PrefabInstance: {fileID: 387658374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &387658377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8260940336020749452, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
   m_PrefabInstance: {fileID: 387658374}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &413572004
@@ -4158,6 +4167,10 @@ PrefabInstance:
       propertyPath: enemyLeng
       value: 
       objectReference: {fileID: 867103979}
+    - target: {fileID: 2375765307210363631, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: blurVolume
+      value: 
+      objectReference: {fileID: 387658377}
     - target: {fileID: 2375765307210363631, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: cameraMinimap
       value: 
@@ -8029,6 +8042,8 @@ MonoBehaviour:
   dynamicWalls: {fileID: 1207078072}
   playerJoinedAndInit: 0
   allEnemies: []
+  numberOfAltarControled: 0
+  numberOfAltarControledByEnemy: 0
   deadPostProcess: {fileID: 387658376}
   menuOpen: 0
   shaderDifMaterial:
