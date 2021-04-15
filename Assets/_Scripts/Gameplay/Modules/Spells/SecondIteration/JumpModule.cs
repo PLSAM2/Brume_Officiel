@@ -41,6 +41,7 @@ public class JumpModule : SpellModule
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		base.AnonceSpell(_toAnnounce);
+		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), jumpPosEnd, transform.eulerAngles, 1);
 		LocalPoolManager.Instance.SpawnNewAOEInNetwork(myPlayerModule.mylocalPlayer.myPlayerId, jumpPosEnd, impactRadius, spell.anonciationTime);
 	}
 
@@ -48,7 +49,6 @@ public class JumpModule : SpellModule
 	{
 		myPlayerModule.RemoveState(En_CharacterState.Intengenbility);
 		myPlayerModule.RemoveState(En_CharacterState.Root);
-		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), transform.position, transform.eulerAngles, 1);
 		base.ResolveSpell();
 	}
 

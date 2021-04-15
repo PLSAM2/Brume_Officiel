@@ -75,6 +75,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Opacity_Noise:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Opacity_Noise1:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -99,6 +107,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0fe9101c6b6e1124b90b120ceebd6cba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 2800000, guid: b7b6180d660771e4ca7b20e22b7a8c51, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample5:
+        m_Texture: {fileID: 2800000, guid: b7b6180d660771e4ca7b20e22b7a8c51, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -119,6 +135,14 @@ Material:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AnimatedGrunge_Tiling1: -3.2
+    - _AnisotropicNoise_Mask_Contrast: -0.49
+    - _AnisotropicNoise_Mask_Contrast1: -0.49
+    - _AnisotropicNoise_Smoothstep: 0
+    - _AnisotropicNoise_Smoothstep1: 0.01
+    - _AnisotropicNoise_Step: 0.46
+    - _AnisotropicNoise_Step1: 0.34
+    - _AnisotropicNoise_Tiling: 1
+    - _AnisotropicNoise_Tiling1: 0.8
     - _Anisotropic_Angle: -100
     - _Anisotropic_PannerSpeed: 1.5
     - _Anisotropic_Tiling: 2
@@ -130,9 +154,12 @@ Material:
     - _Cutoff: 0.5
     - _DepthFadeNoise_PannerSpeed: 0
     - _DepthFadeNoise_Tiling: 1
-    - _DepthFade_Distance: 0.24
-    - _DepthFade_Smoothstep: 2
-    - _DepthFade_Step: -2
+    - _DepthFade_Distance: 0.14
+    - _DepthFade_Distance1: 0.29
+    - _DepthFade_Smoothstep: 4.9
+    - _DepthFade_Smoothstep1: 0
+    - _DepthFade_Step: -1
+    - _DepthFade_Step1: 0.69
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DistortionMask_Smoothstep: 1.43
@@ -146,7 +173,7 @@ Material:
     - _Float1: 0.32
     - _Float10: 0.52
     - _Float11: 0.185
-    - _Float2: -100
+    - _Float2: 0.85
     - _Float3: 0.01
     - _Float4: 0.35
     - _Float5: 0.35
@@ -164,6 +191,8 @@ Material:
     - _NormalStrength: 0.5
     - _NormalStrength1: 0.12
     - _OcclusionStrength: 1
+    - _Opacity_Noise_Tiling: 0.5
+    - _Opacity_Noise_Tiling1: 1
     - _Opacity_Smoothstep: 0.1
     - _Opacity_Step: 0.16
     - _Parallax: 0.005
@@ -192,9 +221,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - _AnisotropicNoise_Panner: {r: 0.3, g: 0, b: 0, a: 0}
+    - _AnisotropicNoise_Panner1: {r: 1, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 0.7372549, b: 0.13725491, a: 1}
-    - _Color0: {r: 1, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 0.737255, b: 0.13725486, a: 1}
+    - _Color0: {r: 1, g: 0.8328031, b: 0.4198113, a: 0}
     - _Color1: {r: 1, g: 1, b: 1, a: 0}
     - _DepthFade_Color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
     - _DistortColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0}
@@ -202,7 +233,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
     - _FresnelColor1: {r: 1, g: 0.8543285, b: 0.504717, a: 0}
-    - _SecondaryColor: {r: 1, g: 0.9607843, b: 0.80784315, a: 0}
+    - _SecondaryColor: {r: 1, g: 0.96078426, b: 0.80784315, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TextureColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
     - _TexturePanner: {r: 1, g: 0.1, b: 0, a: 0}
