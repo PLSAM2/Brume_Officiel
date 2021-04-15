@@ -22,6 +22,11 @@ public class SoulSpellSelector : MonoBehaviour
 
     public SoulSpell currentSoulSpell = SoulSpell.none;
 
+    List<SoulSpellElement> activeSoulSpell = new List<SoulSpellElement>();
+
+    [HideInInspector]
+    public SoulSpellElement currentSpell;
+
     private void Start()
     {
         timerText.text = timer + "s";
@@ -38,6 +43,15 @@ public class SoulSpellSelector : MonoBehaviour
             timerText.text = Mathf.RoundToInt(timer) + "s";
             fillImgTimer.fillAmount = 1;
             fillImgTimer.color = colorTimer.Evaluate(1 - fillImgTimer.fillAmount);
+
+            if (currentTimer <= 0.0f)
+            {
+                OnTimerFinish();
+                startTimer = false;
+
+                timerText.text = "Waiting player ...";
+                fillImgTimer.fillAmount = 0;
+            }
         }
     }
 
@@ -52,17 +66,23 @@ public class SoulSpellSelector : MonoBehaviour
                 ward.gameObject.SetActive(true);
                 thirdEye.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
+
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(thirdEye); activeSoulSpell.Add(invisible);
                 break;
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
                 tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
+
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
                 break;
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
                 tp.gameObject.SetActive(true);
+
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
                 break;
         }
     }
@@ -71,7 +91,10 @@ public class SoulSpellSelector : MonoBehaviour
     {
         if(currentSoulSpell == SoulSpell.none)
         {
-
+            currentSoulSpell = activeSoulSpell[0].mySoulSpell;
+            activeSoulSpell[0].OnClickBtn();
         }
+
+        RoomManager.Instance.ImReady();
     }
 }
