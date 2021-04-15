@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rules:
     durationOfTheAoe: 1
-    timeBeforeFinalDisparition: 0.05
+    timeBeforeFinalDisparition: 0.25
     damagesToDealOnImpact:
-      playerName: 
-      damageHealth: 1
-      statusToApply:
-      - {fileID: 11400000, guid: ff881a4a8ed79dc4a9df260f25b1a51d, type: 2}
-      movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
-    finalDamages:
       playerName: 
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
+    finalDamages:
+      playerName: 
+      damageHealth: 0
+      statusToApply:
+      - {fileID: 11400000, guid: e25ea4fc120fa3f42b84a81dae3d978f, type: 2}
+      movementToApply: {fileID: 11400000, guid: 76aa0328733c5ea4f852f82a5aef9864, type: 2}
     impactAlly:
       playerName: 
       damageHealth: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
       movementToApply: {fileID: 0}
     useOwnerPos: 0
     isBox: 0
-    aoeRadius: 3
+    aoeRadius: 1.5
     boxDimension: {x: 0, y: 0, z: 0}
   cooldownReductionOnHit: 4
   cooldownReducedOnHit: 1
