@@ -10,6 +10,7 @@ public class SpellFeedback : MonoBehaviour
 	public Material wuxinGhostMaterial;
     Material baseMaterial;
     public SkinnedMeshRenderer meshToSet;
+	public LineRenderer[] allLinePreviewForCac;
 
     public void PlaySound(AudioClip _audioToPlay)
 	{
@@ -58,6 +59,8 @@ public class SpellFeedback : MonoBehaviour
 			meshToSet.material = baseMaterial;
 
 	}
+
+	public void ()
 }
 
 
