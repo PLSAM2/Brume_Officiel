@@ -410,6 +410,7 @@ public class Interactible : MonoBehaviour
             {
                 return;
             }
+
             if (contestable)
             {
                 if (!playerInZone.Contains(_pModule))
@@ -448,6 +449,7 @@ public class Interactible : MonoBehaviour
                 if (playerInZone.Contains(_pModule))
                 {
                     playerInZone.Remove(_pModule);
+                    PlayerInContestedZoneQuit(_pModule);
                 }
             }
 
@@ -513,6 +515,9 @@ public class Interactible : MonoBehaviour
             CheckOnUnlock = false;
         }
     }
+
+
+    protected virtual void PlayerInContestedZoneQuit(PlayerModule p) { }
 
     private void OnInteractibleViewChange(ushort ID, bool value)
     {
