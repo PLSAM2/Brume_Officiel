@@ -160,6 +160,9 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FakeLightArrayLength: 0
+    - _FakeLightStep: 0
+    - _FakeLightStepAttenuation: 5
     - _Float29: 2
     - _Float30: 3
     - _Float38: 0
@@ -198,7 +201,7 @@ Material:
     - _NormalDrippingNoise_Tiling: 1
     - _NormalInBrumeGrunge_Contrast: -4
     - _NormalInBrumeGrunge_Tiling: 2
-    - _Normal_Level: 1
+    - _Normal_Level: 0.7
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _OutBrume_Edges_Textures: 0
@@ -239,8 +242,11 @@ Material:
     - _TopTex_NoiseTiling: 1
     - _TopTex_Smoothstep: 0.3
     - _TopTex_Step: 0.6
-    - _UV2_Normal_Level: 1
+    - _UV2_Normal_Level: -1.5
     - _UV_2_: 0
+    - _WaveFakeLight_Max: 1.1
+    - _WaveFakeLight_Min: 1
+    - _WaveFakeLight_Time: 1
     - _Wave_Speed: 0
     - _WindVertexDisplacement: 0
     - _WindWave_Frequency: 0
@@ -257,6 +263,7 @@ Material:
     - _Color0: {r: 0, g: 0, b: 0, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FakeLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
     - _IB_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _IB_ColorShadow: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
@@ -265,7 +272,7 @@ Material:
     - _IB_ShadowNoise_Panner: {r: 0.05, g: 0, b: 0, a: 0}
     - _IB_ShadowNoise_Panner_AddSpeed: {r: 0.01, g: 0, b: 0, a: 0}
     - _IB_TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _IB_TerrainBlending_Color: {r: 0.4245282, g: 0.4245282, b: 0.4245282, a: 0}
+    - _IB_TerrainBlending_Color: {r: 0.42452818, g: 0.42452818, b: 0.42452818, a: 0}
     - _InBrumeColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _Noise_Panner: {r: 0.01, g: 0, b: 0, a: 0}
     - _NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
@@ -274,7 +281,7 @@ Material:
     - _OutBrume_UV2_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _ShadowColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SpecularColor: {r: 0.9433962, g: 0.8590411, b: 0.6274475, a: 0}
+    - _SpecularColor: {r: 0.8679245, g: 0.7711852, b: 0.5117478, a: 0}
     - _TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _TerrainBlending_Color: {r: 1, g: 1, b: 1, a: 0}
     - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
