@@ -1,6 +1,7 @@
 using DarkRift;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static GameData;
 
@@ -17,8 +18,11 @@ public class EndZoneInteractible : Interactible
         fillImg.material.SetFloat(progressShaderName, 1);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0f);
     }
+
+    
     protected override void Capture()
     {
+
         if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
             return;

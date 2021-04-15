@@ -123,6 +123,7 @@ public class RoomManager : MonoBehaviour
         GameManager.Instance.OnRoundFinish?.Invoke();
         StartNewRound();
         Team winningTeam = Team.none;
+        bool wuxinKilled = true;
 
         using (Message message = e.GetMessage())
         {
@@ -138,6 +139,9 @@ public class RoomManager : MonoBehaviour
                     ushort killerPlayerID = reader.ReadUInt16();
 
                     GameManager.Instance.OnPlayerDie?.Invoke(killedPlayerID, killerPlayerID);
+                } else
+                {
+                    wuxinKilled = false;
                 }
 
                 assignedSpawn[Team.red] = redTeamAssignement;
@@ -147,12 +151,12 @@ public class RoomManager : MonoBehaviour
 
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
-            UiManager.Instance.EndGamePanel(true, winningTeam);
+            UiManager.Instance.EndGamePanel(true, winningTeam, wuxinKilled);
             EndObjectives(true);
         }
         else
         {
-            UiManager.Instance.EndGamePanel(false, winningTeam);
+            UiManager.Instance.EndGamePanel(false, winningTeam, wuxinKilled);
             EndObjectives(false);
         }
 
@@ -221,7 +225,7 @@ public class RoomManager : MonoBehaviour
 
         isNewRound = false;
         Team winningTeam = Team.none;
-
+        bool wuxinKilled = true;
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -234,6 +238,9 @@ public class RoomManager : MonoBehaviour
                     ushort killerPlayerID = reader.ReadUInt16();
 
                     GameManager.Instance.OnPlayerDie?.Invoke(killedPlayerID, killerPlayerID);
+                } else
+                {
+                    wuxinKilled = false;
                 }
             }
         }
@@ -251,12 +258,12 @@ public class RoomManager : MonoBehaviour
         {
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Win);
 
-            UiManager.Instance.EndGamePanel(true, winningTeam);
+            UiManager.Instance.EndGamePanel(true, winningTeam, wuxinKilled);
             EndObjectives(true);
         }
         else
         {
-            UiManager.Instance.EndGamePanel(false, winningTeam);
+            UiManager.Instance.EndGamePanel(false, winningTeam, wuxinKilled);
             EndObjectives(false);
         }
 
