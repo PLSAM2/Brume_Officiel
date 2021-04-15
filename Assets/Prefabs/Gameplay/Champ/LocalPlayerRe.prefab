@@ -358,6 +358,77 @@ MonoBehaviour:
   radius: 0
   previewSquare: {x: 0, y: 0, z: 0}
   preview: {fileID: 0}
+--- !u!114 &564387800912371891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863682241088651334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096d813becdb02141b25d912bc8957d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 93c89a42555885b46bdef905b90a4cc8, type: 2}
+  isAComboPiece: 0
+  hasPreviewed: 0
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+  aoeToSpawnOnImpact: {fileID: 7776885188641116624, guid: 0b0fa799be069404dadf2b4eab8b0a83, type: 3}
+  impactRadius: 2
+  layerToRaycastOn:
+    serializedVersion: 2
+    m_Bits: 0
+  progressionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0023498535
+      inSlope: 81.23395
+      outSlope: 81.23395
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03167124
+    - serializedVersion: 3
+      time: 0.011370707
+      value: 0.9742437
+      inSlope: 0.09693726
+      outSlope: 0.09693726
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.049801704
+    - serializedVersion: 3
+      time: 1.0009766
+      value: 1
+      inSlope: 0.050031494
+      outSlope: 0.050031494
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.04877425
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &785181123967513983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,7 +551,7 @@ MonoBehaviour:
   wardKey: 118
   movementPart: {fileID: 1743416214871874484}
   firstSpell: {fileID: -8860574723703708623}
-  secondSpell: {fileID: 1286970584369722292}
+  secondSpell: {fileID: 564387800912371891}
   thirdSpell: {fileID: 8662341731980038855}
   leftClick: {fileID: 9035810358057001572}
   tpModule: {fileID: 59302847324730398}
@@ -777,50 +848,6 @@ MonoBehaviour:
   tpDistance: 5
   waitForTpTime: 0.5
   tpFxObj: {fileID: 1142267975264660, guid: d86042f698f5106479fcb319243aac46, type: 3}
---- !u!114 &564387800912371891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8863682241088651334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096d813becdb02141b25d912bc8957d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerModule: {fileID: 0}
-  timeToResolveSpell: 0
-  isUsed: 0
-  startResolution: 0
-  resolved: 0
-  anonciated: 0
-  spell: {fileID: 11400000, guid: 93c89a42555885b46bdef905b90a4cc8, type: 2}
-  isAComboPiece: 0
-  hasPreviewed: 0
-  onCanalisation:
-    m_PersistentCalls:
-      m_Calls: []
-  onAnnonciation:
-    m_PersistentCalls:
-      m_Calls: []
-  onResolution:
-    m_PersistentCalls:
-      m_Calls: []
-  onInterrupt:
-    m_PersistentCalls:
-      m_Calls: []
-  aoeToSpawnOnImpact: {fileID: 7776885188641116624, guid: 0b0fa799be069404dadf2b4eab8b0a83, type: 3}
-  impactRadius: 3.5
-  layerToRaycastOn:
-    serializedVersion: 2
-    m_Bits: 0
-  progressionCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &8018605287993449632
 GameObject:
   m_ObjectHideFlags: 0
