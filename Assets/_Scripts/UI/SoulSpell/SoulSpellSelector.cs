@@ -40,8 +40,8 @@ public class SoulSpellSelector : MonoBehaviour
         {
             currentTimer -= Time.deltaTime;
 
-            timerText.text = Mathf.RoundToInt(timer) + "s";
-            fillImgTimer.fillAmount = 1;
+            timerText.text = Mathf.RoundToInt(currentTimer) + "s";
+            fillImgTimer.fillAmount = currentTimer / timer;
             fillImgTimer.color = colorTimer.Evaluate(1 - fillImgTimer.fillAmount);
 
             if (currentTimer <= 0.0f)
