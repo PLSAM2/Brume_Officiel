@@ -8,12 +8,14 @@ public class LightManager : MonoBehaviour
 {
     public List<GameObject> lightsArray = new List<GameObject>();
     public List<Vector4> lightsPos = new List<Vector4>();
-    public string lightColorPropertyName;
     public Material[] toSet;
-    public Color lightColor;
-    public float lightStep;
-    public float lightStepAttenuation;
-    public int lightArrayLength;
+    public Color fakeLightColor = Color.white;
+    public float fakeLightStep = 0;
+    public float fakeLightStepAttenuation = 1;
+    public float waveFakeLight_Max = 1.1f;
+    public float waveFakeLight_Min = 1;
+    public float waveFakeLight_Time = 1;
+    public int fakeLightArrayLength = 1;
 
     void Update()
     {
@@ -32,11 +34,11 @@ public class LightManager : MonoBehaviour
             lightsPos.Add(lightsArray[i].transform.position);
         }
 
-        Shader.SetGlobalVectorArray("LightsPositionsArray", lightsPos);
+        Shader.SetGlobalVectorArray("FakeLightsPositionsArray", lightsPos);
 
         foreach (Material _mat in toSet)
         {
-            _mat.SetFloat("_LightArrayLength", lightArrayLength);
+            _mat.SetFloat("_FakeLightArrayLength", fakeLightArrayLength);
         }
     }
 
@@ -47,9 +49,12 @@ public class LightManager : MonoBehaviour
     {
         foreach (Material _mat in toSet)
         {
-            _mat.SetColor(lightColorPropertyName, lightColor);
-            _mat.SetFloat("_LightStep", lightStep);
-            _mat.SetFloat("_LightStepAttenuation", lightStepAttenuation);
+            _mat.SetColor("_FakeLight_Color", fakeLightColor);
+            _mat.SetFloat("_FakeLightStep", fakeLightStep);
+            _mat.SetFloat("_FakeLightStepAttenuation", fakeLightStepAttenuation);
+            _mat.SetFloat("_WaveFakeLight_Max", waveFakeLight_Max);
+            _mat.SetFloat("_WaveFakeLight_Min", waveFakeLight_Min);
+            _mat.SetFloat("_WaveFakeLight_Time", waveFakeLight_Time);
         }
     }
 }

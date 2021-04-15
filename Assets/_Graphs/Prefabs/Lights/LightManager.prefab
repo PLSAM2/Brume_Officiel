@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6339789724694322409}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -47,13 +47,13 @@ MonoBehaviour:
   lightsArray:
   - {fileID: 6339789725447625063}
   lightsPos:
-  - {x: 6.4, y: 1.12, z: 24.9, w: 0}
+  - {x: 7.91, y: 5, z: 27.18, w: 0}
   lightColorPropertyName: _Light_Color
   toSet:
   - {fileID: 2100000, guid: 68010791d8d32394d86ae50c5409a351, type: 2}
   lightColor: {r: 1, g: 1, b: 1, a: 0}
   lightStep: 10
-  lightStepAttenuation: 2
+  lightStepAttenuation: 2.2
   lightArrayLength: 1
 --- !u!1001 &52035256092407287
 PrefabInstance:
@@ -72,15 +72,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6288055186054524049, guid: a27edd2400026a74395a16d1467204a6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.4
+      value: 7.91
       objectReference: {fileID: 0}
     - target: {fileID: 6288055186054524049, guid: a27edd2400026a74395a16d1467204a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.12
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288055186054524049, guid: a27edd2400026a74395a16d1467204a6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.9
+      value: 27.18
       objectReference: {fileID: 0}
     - target: {fileID: 6288055186054524049, guid: a27edd2400026a74395a16d1467204a6, type: 3}
       propertyPath: m_LocalRotation.w
