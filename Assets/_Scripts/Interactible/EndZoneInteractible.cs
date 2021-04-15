@@ -18,12 +18,14 @@ public class EndZoneInteractible : Interactible
         fillImg.material.SetFloat(progressShaderName, 1);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0f);
     }
-
-    
     protected override void Capture()
     {
+        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam || NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        {
+            return;
+        }
 
-        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        if (playerInZone.FirstOrDefault(x => x.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam) != null)
         {
             return;
         }
@@ -31,6 +33,17 @@ public class EndZoneInteractible : Interactible
         base.Capture();
     }
 
+    protected override void PlayerInContestedZoneQuit(PlayerModule p)
+    {
+        PlayerData pd = RoomManager.Instance.GetPlayerData(p.mylocalPlayer.myPlayerId);
+
+        if (pd.playerCharacter == Character.WuXin && pd.playerTeam == lastTeamCaptured)
+        {
+            StopCapturing();
+        }
+
+        base.PlayerInContestedZoneQuit(p);
+    }
     protected override void OnVolumeChange(float _value)
     {
         if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
