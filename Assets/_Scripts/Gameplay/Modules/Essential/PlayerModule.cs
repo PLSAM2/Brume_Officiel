@@ -12,9 +12,8 @@ using UnityEngine.Events;
 public class PlayerModule : MonoBehaviour
 {
 	[TabGroup("InputsPart")] public KeyCode firstSpellKey = KeyCode.A;
-	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E, thirdSpellKey = KeyCode.R, freeCamera = KeyCode.Space, tpSpellKey = KeyCode.F, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl, pingKey = KeyCode.G;
-	[TabGroup("InputsPart")] public KeyCode interactKey = KeyCode.F;
-	[TabGroup("InputsPart")] public KeyCode wardKey = KeyCode.Alpha4;
+	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E,   crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl, pingKey = KeyCode.G;
+	[TabGroup("InputsPart")] public KeyCode soulSpellKey = KeyCode.F;
 	[TabGroup("Modules")] public MovementModule movementPart;
 	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, leftClick, pingModule;
 	bool boolWasClicked = false;
@@ -109,8 +108,8 @@ public class PlayerModule : MonoBehaviour
 	#region
 	public Action<Vector3> DirectionInputedUpdate;
 	//spell
-	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, tpInput, wardInput, pingInput;
-	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, tpInputReleased, wardInputReleased, pingInputReleased;
+	public Action<Vector3> firstSpellInput, secondSpellInput, thirdSpellInput, leftClickInput, soulSpellInput, pingInput;
+	public Action<Vector3> firstSpellInputRealeased, secondSpellInputRealeased, thirdSpellInputRealeased, leftClickInputRealeased, soulSpellInputReleased, pingInputReleased;
 	public Action startSneaking, stopSneaking;
 	public Action<bool> rotationLock, cancelSpell;
 	#endregion
@@ -205,10 +204,8 @@ public class PlayerModule : MonoBehaviour
 			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
 			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, "RC");
 			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
-			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
-			UiManager.Instance.LinkInputName(En_SpellInput.TP, tpSpellKey.ToString());
 
-			UiManager.Instance.LinkInputName(En_SpellInput.SoulSpell, wardKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.SoulSpell, soulSpellKey.ToString());
 			spellResolved += BuffInput;
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
@@ -350,14 +347,11 @@ public class PlayerModule : MonoBehaviour
 					firstSpellInput?.Invoke(mousePos());
 				else if (Input.GetKeyDown(secondSpellKey))
 					secondSpellInput?.Invoke(mousePos());
-				else if (Input.GetKeyDown(thirdSpellKey))
-					thirdSpellInput?.Invoke(mousePos());
-				else if (Input.GetKeyDown(wardKey))
-					wardInput?.Invoke(mousePos());
+
+				else if (Input.GetKeyDown(soulSpellKey))
+					soulSpellInput?.Invoke(mousePos());
 				else if (Input.GetKeyDown(cancelSpellKey))
 					cancelSpell?.Invoke(false);
-				else if (Input.GetKeyDown(tpSpellKey))
-					tpInput?.Invoke(mousePos());
 				else if (Input.GetKeyDown(pingKey))
 					pingInput?.Invoke(mousePos());
 
@@ -372,15 +366,9 @@ public class PlayerModule : MonoBehaviour
 					firstSpellInputRealeased?.Invoke(mousePos());
 				else if (Input.GetKeyUp(secondSpellKey))
 					secondSpellInputRealeased?.Invoke(mousePos());
-				else if (Input.GetKeyUp(thirdSpellKey))
-					thirdSpellInputRealeased?.Invoke(mousePos());
-				else if (Input.GetKeyUp(wardKey))
-				{
-					wardInputReleased?.Invoke(mousePos());
-					RetryInteractibleCapture();
-				}
-				else if (Input.GetKeyUp(tpSpellKey))
-					tpInputReleased?.Invoke(mousePos());
+
+				else if (Input.GetKeyUp(soulSpellKey))
+					soulSpellInputReleased?.Invoke(mousePos());
 				else if (Input.GetKeyUp(pingKey))
 					pingInputReleased?.Invoke(mousePos());
 				else if (Input.GetAxis("Fire1") <= 0 && boolWasClicked)
@@ -388,27 +376,6 @@ public class PlayerModule : MonoBehaviour
 					leftClickInputRealeased?.Invoke(mousePos());
 					boolWasClicked = false;
 				}
-
-				//if (Input.GetKeyDown(interactKey))
-				//{
-				//	foreach (Interactible interactible in interactiblesClose)
-				//	{
-				//		if (interactible == null)
-				//			return;
-				//		LockingRotation(true);
-				//		interactible.TryCapture(teamIndex, this);
-				//	}
-				//}
-				//else if (Input.GetKeyUp(interactKey))
-				//{
-				//	foreach (Interactible interactible in interactiblesClose)
-				//	{
-				//		if (interactible == null)
-				//			return;
-				//		LockingRotation(false);
-				//		interactible.StopCapturing(teamIndex);
-				//	}
-				//}
 
 				if (Input.GetKeyDown(crouching))
 				{
@@ -419,15 +386,7 @@ public class PlayerModule : MonoBehaviour
 					isCrouched = false;
 				}
 			}
-
 			#endregion
-
-			//camera
-			if (Input.GetKeyUp(freeCamera))
-				CameraManager.Instance.LockCamera?.Invoke();
-			else if (Input.GetKey(freeCamera))
-				CameraManager.Instance.UpdateCameraPos?.Invoke();
-
 			//MEGA TEMP
 			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
 

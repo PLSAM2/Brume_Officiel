@@ -34,11 +34,8 @@ public class SpellModule : MonoBehaviour
 		set
 		{
 			_charges = value;
-			/*if (_charges == spell.numberOfCharge)
-				cooldown = finalCooldownValue();*/
 			if (isOwner && _charges > 0 && NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
 			{
-
 				CheckForUse();
 			}
 		}
@@ -69,15 +66,14 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule = GetComponent<PlayerModule>();
 
-
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
+		print(_actionLinked);
 		if (isOwner)
 		{
 			LinkInputs(_actionLinked);
-			charges = spell.numberOfCharge;
-			//action 
+			charges = 1;
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
 
 			if(spell.stacksUsed > 0)
@@ -549,15 +545,9 @@ public class SpellModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.SoulSpell:
-				myPlayerModule.wardInput += ShowPreview;
-				myPlayerModule.wardInputReleased += StartCanalysing;
-				myPlayerModule.wardInputReleased += HidePreview;
-				break;
-
-			case En_SpellInput.TP:
-				myPlayerModule.tpInput += ShowPreview;
-				myPlayerModule.tpInputReleased += StartCanalysing;
-				myPlayerModule.tpInputReleased += HidePreview;
+				myPlayerModule.soulSpellInput += ShowPreview;
+				myPlayerModule.soulSpellInputReleased += StartCanalysing;
+				myPlayerModule.soulSpellInputReleased += HidePreview;
 				break;
 		}
 	}
@@ -639,15 +629,9 @@ public class SpellModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.SoulSpell:
-				myPlayerModule.wardInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
-				myPlayerModule.wardInputReleased -= HidePreview;
-				break;
-
-			case En_SpellInput.TP:
-				myPlayerModule.tpInput -= ShowPreview;
-				myPlayerModule.tpInputReleased -= StartCanalysing;
-				myPlayerModule.tpInputReleased -= HidePreview;
+				myPlayerModule.soulSpellInput -= ShowPreview;
+				myPlayerModule.soulSpellInputReleased -= StartCanalysing;
+				myPlayerModule.soulSpellInputReleased -= HidePreview;
 				break;
 		}
 	}

@@ -19,12 +19,13 @@ MonoBehaviour:
     canBeForcedStop: 1
     forcedKey: 1450
     refreshOnApply: 0
+    doNotApplyIfExist: 0
     tickRate: 0.2
     isDamaging: 1
     isHealing: 0
     tickValue: 0
-    stateApplied: 9220
-    percentageOfTheMovementModifier: 0.25
+    stateApplied: 1028
+    percentageOfTheMovementModifier: 0.2
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
@@ -54,7 +55,4 @@ MonoBehaviour:
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
+    hitBeforeProcOptionnalDamages: 0

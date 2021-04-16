@@ -69,7 +69,7 @@ public class Module_WxThirdEye : SpellModule
 		myPlayerModule.secondSpellInput -= ForceInterrupt;
 		myPlayerModule.thirdSpellInput -= ForceInterrupt;
 		myPlayerModule.leftClickInput -= ForceInterrupt;
-		myPlayerModule.wardInput -= ForceInterrupt;
+		myPlayerModule.soulSpellInput -= ForceInterrupt;
 
 
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
@@ -153,7 +153,7 @@ public class Module_WxThirdEye : SpellModule
 				myPlayerModule.secondSpellInput += ForceInterrupt;
 				myPlayerModule.thirdSpellInput += ForceInterrupt;
 				myPlayerModule.leftClickInput += ForceInterrupt;
-				myPlayerModule.wardInput += ForceInterrupt;
+				myPlayerModule.soulSpellInput += ForceInterrupt;
 				OutlineAllPlayersInRange();
 				break;
 
