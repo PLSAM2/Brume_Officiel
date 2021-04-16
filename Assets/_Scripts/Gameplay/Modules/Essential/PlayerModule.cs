@@ -16,8 +16,11 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("InputsPart")] public KeyCode interactKey = KeyCode.F;
 	[TabGroup("InputsPart")] public KeyCode wardKey = KeyCode.Alpha4;
 	[TabGroup("Modules")] public MovementModule movementPart;
-	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, thirdSpell, leftClick, tpModule, ward, pingModule;
+	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, leftClick, pingModule;
 	bool boolWasClicked = false;
+	
+	[TabGroup("SoulSpells")] public SpellModule tpModule, thirdEyeModule, invisibilityModule, wardModule;
+	En_SoulSpell currentSoulModule;
 
 	[TabGroup("GameplayInfos")] public Sc_CharacterParameters characterParameters;
 	[TabGroup("GameplayInfos")] [ReadOnly] public Team teamIndex;
@@ -82,8 +85,6 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status enteringBrumeStatus;
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status leavingBrumeStatus;
 	private bool isAltarSpeedBuffActive = false;
-	[TabGroup("Modules")] public Sc_Status poisonousEffect;
-	[HideInInspector] public bool isPoisonousEffectActive = false;
 	[HideInInspector] public bool cursedByShili = false;
 	[Header("Cursed")]
 	[TabGroup("GameplayInfos")] [SerializeField] public GameObject wxMark;
@@ -101,7 +102,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
     [TabGroup("GameplayInfos")] public float timeInBrume;
 
-    public int bonusHp;
+	[HideInInspector] public int bonusHp;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -181,16 +182,10 @@ public class PlayerModule : MonoBehaviour
 			firstSpell.SetupComponent(En_SpellInput.FirstSpell);
 		if (secondSpell != null)
 			secondSpell.SetupComponent(En_SpellInput.SecondSpell);
-		if (thirdSpell != null)
-			thirdSpell.SetupComponent(En_SpellInput.ThirdSpell);
 		if (leftClick != null)
 			leftClick.SetupComponent(En_SpellInput.Click);
 		if (pingModule != null)
 			pingModule.SetupComponent(En_SpellInput.Ping);
-		if (ward != null)
-			ward.SetupComponent(En_SpellInput.Ward);
-		if (tpModule != null)
-			tpModule.SetupComponent(En_SpellInput.TP);
 
 		powerUpParticle1.gameObject.SetActive(false);
 		powerUpParticle2.gameObject.SetActive(false);
@@ -213,7 +208,7 @@ public class PlayerModule : MonoBehaviour
 			UiManager.Instance.LinkInputName(En_SpellInput.ThirdSpell, thirdSpellKey.ToString());
 			UiManager.Instance.LinkInputName(En_SpellInput.TP, tpSpellKey.ToString());
 
-			UiManager.Instance.LinkInputName(En_SpellInput.Ward, wardKey.ToString());
+			UiManager.Instance.LinkInputName(En_SpellInput.SoulSpell, wardKey.ToString());
 			spellResolved += BuffInput;
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
@@ -241,6 +236,12 @@ public class PlayerModule : MonoBehaviour
 		ResetLayer();
 	}
 
+    public void InitSoulSpell(En_SoulSpell _mySoulSpell)
+    {
+		currentSoulModule = _mySoulSpell;
+		SelectionnedSoulSpellModule().SetupComponent(En_SpellInput.SoulSpell);
+	}
+
 	IEnumerator WaitForVisionCheck()
 	{
 		CheckForBrumeRevelation();
@@ -264,12 +265,10 @@ public class PlayerModule : MonoBehaviour
 
 		}
 		lastRecordedPos = transform.position;
-
 	}
 
 	public void ResetLayer()
 	{
-
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
 		{
 			return;
@@ -572,16 +571,14 @@ public class PlayerModule : MonoBehaviour
 				secondSpell.ReduceCooldown(_duration);
 				break;
 
-			case En_SpellInput.ThirdSpell:
-				thirdSpell.ReduceCooldown(_duration);
-				break;
+
 
 			case En_SpellInput.Click:
 				leftClick.ReduceCooldown(_duration);
 				break;
 
-			case En_SpellInput.Ward:
-				ward.ReduceCooldown(_duration);
+			case En_SpellInput.SoulSpell:
+				SelectionnedSoulSpellModule().ReduceCooldown(_duration);
 				break;
 		}
 	}
@@ -589,10 +586,8 @@ public class PlayerModule : MonoBehaviour
 	{
 		firstSpell.ReduceCooldown(_duration);
 		secondSpell.ReduceCooldown(_duration);
-		thirdSpell.ReduceCooldown(_duration);
 		leftClick.ReduceCooldown(_duration);
-		ward.ReduceCooldown(_duration);
-		tpModule.ReduceCooldown(_duration);
+		SelectionnedSoulSpellModule().ReduceCooldown(_duration);
 	}
 	//vision
 	#region
@@ -871,10 +866,7 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
 		}
 	}
-	public void ApplyPoisonousBuffInServer()
-	{
-		isPoisonousEffectActive = true;
-	}
+
 	public void SetAltarSpeedBuffState(bool value) // Call when entering brume
 	{
 		if (value)
@@ -968,16 +960,12 @@ public class PlayerModule : MonoBehaviour
 			case En_SpellInput.SecondSpell:
 				return secondSpell;
 
-			case En_SpellInput.ThirdSpell:
-				return thirdSpell;
-
 			case En_SpellInput.Click:
 				return leftClick;
 
-			case En_SpellInput.Ward:
-				return ward;
-			case En_SpellInput.TP:
-				return tpModule;
+			case En_SpellInput.SoulSpell:
+				return SelectionnedSoulSpellModule();
+
 		}
 
 		return pingModule;
@@ -1023,6 +1011,22 @@ public class PlayerModule : MonoBehaviour
 
 		return false;
 
+	}
+
+	SpellModule SelectionnedSoulSpellModule()
+	{
+		switch(currentSoulModule)
+		{
+			case En_SoulSpell.Tp:
+				return tpModule;
+			case En_SoulSpell.Invisible:
+				return invisibilityModule;
+			case En_SoulSpell.Ward:
+				return wardModule;
+			case En_SoulSpell.ThirdEye:
+				return thirdEyeModule;
+		}
+		return wardModule;
 	}
 }
 

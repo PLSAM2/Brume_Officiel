@@ -22,6 +22,15 @@ public class GameData
 
 	}
 
+    public enum En_SoulSpell : ushort
+    {
+        none = 0,
+        Ward = 10,
+        Tp = 20,
+        ThirdEye = 30,
+        Invisible = 40
+    }
+
     public enum InteractibleType : ushort
     {
         none = 0,

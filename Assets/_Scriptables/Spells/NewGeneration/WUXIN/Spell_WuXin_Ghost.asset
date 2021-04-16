@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
   m_Name: Spell_WuXin_Ghost
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 0
   cooldown: 7
   numberOfCharge: 1
@@ -29,7 +31,7 @@ MonoBehaviour:
   statusToApplyOnResolution:
   - {fileID: 11400000, guid: f09449f3cb41dd44ba31341ef3c295cf, type: 2}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 1.25
+  throwBackDuration: 2.5
   spellIcon: {fileID: 21300000, guid: 97cca71258c282c48a0a6c620913ea22, type: 3}
   spellName: Phasing
   spellDescription: Wuxin becomes intangible and immune to enemy attacks and gains
