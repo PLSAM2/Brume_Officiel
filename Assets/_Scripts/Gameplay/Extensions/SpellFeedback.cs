@@ -75,6 +75,7 @@ public class SpellFeedback : MonoBehaviour
 	private void Update ()
 	{
 		RaycastHit _hit;
+
 		if (showLaser)
 			if (Physics.Raycast(transform.position, transform.forward, out _hit, laserMaxLength, LayerMask.GetMask("Obstacle")))
 				foreach (LineRenderer _line in allLinePreviewForCac)
