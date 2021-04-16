@@ -238,6 +238,7 @@ public class PlayerModule : MonoBehaviour
 
     public void InitSoulSpell(En_SoulSpell _mySoulSpell)
     {
+        print("soul");
 		currentSoulModule = _mySoulSpell;
 		SelectionnedSoulSpellModule().SetupComponent(En_SpellInput.SoulSpell);
 	}
