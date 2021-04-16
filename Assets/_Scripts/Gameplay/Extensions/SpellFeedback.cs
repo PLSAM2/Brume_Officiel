@@ -62,16 +62,16 @@ public class SpellFeedback : MonoBehaviour
 
 	}
 
-    public void SpawnFXInvisible(bool _isInMyTeam, Vector3 _pos)
+    public void SpawnFXInvisible()
     {
-        switch (_isInMyTeam)
+        switch (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             case true:
-                LocalPoolManager.Instance.SpawnNewGenericInNetwork(4, _pos, 0, 1);
+                LocalPoolManager.Instance.SpawnNewGenericInNetwork(4, transform.position, 0, 1);
                 break;
 
             case false:
-                LocalPoolManager.Instance.SpawnNewGenericInNetwork(5, _pos, 0, 1);
+                LocalPoolManager.Instance.SpawnNewGenericInNetwork(5, transform.position, 0, 1);
                 break;
         }
     }
