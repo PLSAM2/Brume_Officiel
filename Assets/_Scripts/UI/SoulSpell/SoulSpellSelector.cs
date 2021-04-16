@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -102,6 +103,8 @@ public class SoulSpellSelector : MonoBehaviour
                 soulSpell.Hide();
             }
         }
+
+        PlayerPrefs.SetInt("SoulSpell", Convert.ToInt32(currentSoulSpell));
 
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
