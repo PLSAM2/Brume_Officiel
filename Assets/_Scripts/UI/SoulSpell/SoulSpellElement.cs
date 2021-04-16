@@ -10,7 +10,7 @@ public class SoulSpellElement : MonoBehaviour
     public CanvasGroup outlineSelect;
     public Animator myAnimator;
 
-    public SoulSpell mySoulSpell;
+    public En_SoulSpell mySoulSpell;
     public SoulSpellSelector mySelector;
 
     public AudioClip hoverSound;

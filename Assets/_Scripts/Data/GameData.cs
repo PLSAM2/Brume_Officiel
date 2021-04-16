@@ -22,7 +22,7 @@ public class GameData
 
 	}
 
-    public enum SoulSpell : ushort
+    public enum En_SoulSpell : ushort
     {
         none = 0,
         Ward = 10,

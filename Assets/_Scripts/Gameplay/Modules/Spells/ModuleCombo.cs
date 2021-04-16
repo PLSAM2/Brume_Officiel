@@ -151,10 +151,10 @@ public class ModuleCombo : SpellModule
 
 				break;
 
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput += StartCanalysing;
-				myPlayerModule.wardInput += StartCombo;
-				myPlayerModule.wardInputReleased += EndCombo;
+			case En_SpellInput.SoulSpell:
+				myPlayerModule.soulSpellInput += StartCanalysing;
+				myPlayerModule.soulSpellInput += StartCombo;
+				myPlayerModule.soulSpellInputReleased += EndCombo;
 				//	myPlayerModule.wardInputReleased += AnonceSpell;
 				//myPlayerModule.wardInputReleased += HidePreview;
 
@@ -200,10 +200,10 @@ public class ModuleCombo : SpellModule
 				//	myPlayerModule.leftClickInputRealeased += HidePreview;
 				break;
 
-			case En_SpellInput.Ward:
-				myPlayerModule.wardInput -= StartCanalysing;
-				myPlayerModule.wardInput -= StartCombo;
-				myPlayerModule.wardInputReleased -= EndCombo;
+			case En_SpellInput.SoulSpell:
+				myPlayerModule.soulSpellInput -= StartCanalysing;
+				myPlayerModule.soulSpellInput -= StartCombo;
+				myPlayerModule.soulSpellInputReleased -= EndCombo;
 				//	myPlayerModule.wardInputReleased += AnonceSpell;
 				//myPlayerModule.wardInputReleased += HidePreview;
 				break;

@@ -10,7 +10,6 @@ public class MovementModule : MonoBehaviour
     [Header("Basic elements")]
     St_MovementParameters parameters;
     public LayerMask movementBlockingLayer, dashBlockingLayer;
-    [SerializeField] En_CharacterState forbidenWalkingState = En_CharacterState.Stunned | En_CharacterState.Root;
     public CharacterController chara;
     [HideInInspector] public bool rotLocked = false;
 

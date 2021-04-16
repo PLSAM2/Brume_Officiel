@@ -54,14 +54,6 @@ public class Transformation : SpellModule
 			myPlayerModule.secondSpell = newSecond;
 			newSecond = _temp;
 		}
-		if (newThird != null)
-		{
-			myPlayerModule.thirdSpell.Disable();
-			SpellModule _temp = myPlayerModule.thirdSpell;
-			newSecond.SetupComponent(En_SpellInput.ThirdSpell);
-			myPlayerModule.thirdSpell = newThird;
-			newThird = _temp;
-		}
 	}
 
 	protected override void HidePreview ( Vector3 _posToHide )

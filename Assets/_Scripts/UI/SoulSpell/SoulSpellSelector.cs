@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,7 +21,7 @@ public class SoulSpellSelector : MonoBehaviour
     public SoulSpellElement thirdEye;
     public SoulSpellElement invisible;
 
-    public SoulSpell currentSoulSpell = SoulSpell.none;
+    public En_SoulSpell currentSoulSpell = En_SoulSpell.none;
 
     List<SoulSpellElement> activeSoulSpell = new List<SoulSpellElement>();
 
@@ -46,7 +47,7 @@ public class SoulSpellSelector : MonoBehaviour
 
             if (currentTimer <= 0.0f)
             {
-                OnTimerFinish();
+                StartCoroutine(OnTimerFinish());
                 startTimer = false;
 
                 timerText.text = "Waiting player ...";
@@ -72,7 +73,7 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
@@ -80,20 +81,35 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
+                invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
                 break;
         }
     }
 
-    void OnTimerFinish()
+    IEnumerator OnTimerFinish()
     {
-        if(currentSoulSpell == SoulSpell.none)
+        if(currentSoulSpell == En_SoulSpell.none)
         {
             currentSoulSpell = activeSoulSpell[0].mySoulSpell;
             activeSoulSpell[0].OnClickBtn();
         }
+
+        foreach(SoulSpellElement soulSpell in activeSoulSpell)
+        {
+            if(soulSpell.mySoulSpell != currentSoulSpell)
+            {
+                soulSpell.Hide();
+            }
+        }
+
+        PlayerPrefs.SetInt("SoulSpell", Convert.ToInt32(currentSoulSpell));
+
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
+
+        yield return new WaitForSeconds(2);
 
         RoomManager.Instance.ImReady();
     }

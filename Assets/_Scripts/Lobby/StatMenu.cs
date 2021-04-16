@@ -9,9 +9,7 @@ using static StatFactory;
 
 public class StatMenu : MonoBehaviour
 {
-    public Animator champLabel;
-    public Animator statLabel;
-    public Animator gamesLabel;
+    public LabelStatElement currentLabel;
 
     public GameObject champ;
     public GameObject stat;
@@ -55,45 +53,45 @@ public class StatMenu : MonoBehaviour
 
     void Start()
     {
-        champLabel.SetBool("IsOpen", true);
-        statLabel.SetBool("IsOpen", false);
-        gamesLabel.SetBool("IsOpen", false);
-
         InitStat();
         InitGames();
     }
 
-    public void OpenChamp()
+    public void OpenChamp(LabelStatElement _currentLabel)
     {
-        champLabel.SetBool("IsOpen", true);
-        statLabel.SetBool("IsOpen", false);
-        gamesLabel.SetBool("IsOpen", false);
+        RefreshLabel(_currentLabel);
 
         champ.SetActive(true);
         stat.SetActive(false);
         game.SetActive(false);
     }
 
-    public void OpenStat()
+    public void OpenStat(LabelStatElement _currentLabel)
     {
-        champLabel.SetBool("IsOpen", false);
-        statLabel.SetBool("IsOpen", true);
-        gamesLabel.SetBool("IsOpen", false);
+        RefreshLabel(_currentLabel);
 
         champ.SetActive(false);
         stat.SetActive(true);
         game.SetActive(false);
     }
 
-    public void OpenGame()
+    public void OpenGame(LabelStatElement _currentLabel)
     {
-        champLabel.SetBool("IsOpen", false);
-        statLabel.SetBool("IsOpen", false);
-        gamesLabel.SetBool("IsOpen", true);
+        RefreshLabel(_currentLabel);
 
         champ.SetActive(false);
         stat.SetActive(false);
         game.SetActive(true);
+    }
+
+    void RefreshLabel(LabelStatElement _currentLabel)
+    {
+        if (currentLabel)
+        {
+            currentLabel.Disable();
+        }
+
+        currentLabel = _currentLabel;
     }
 
 
@@ -105,7 +103,7 @@ public class StatMenu : MonoBehaviour
 
         if (StatFactory.GetTotalNbrWin() == 0)
         {
-            print("null");
+
             winLocal.text = "0";
         }
         else
