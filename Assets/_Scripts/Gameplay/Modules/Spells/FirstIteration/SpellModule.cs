@@ -74,6 +74,7 @@ public class SpellModule : MonoBehaviour
 		{
 			LinkInputs(_actionLinked);
 			charges = 1;
+			_cooldown = 0;
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
 
 			if(spell.stacksUsed > 0)
