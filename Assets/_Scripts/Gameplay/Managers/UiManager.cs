@@ -137,7 +137,6 @@ public class UiManager : MonoBehaviour
 
 	internal void AllPlayerJoinGameScene ()
 	{
-		waitingForPlayersPanel.SetActive(false);
 		soulSpellSelector.gameObject.SetActive(false);
 		blurVolume.SetActive(false);
 	}
@@ -186,9 +185,12 @@ public class UiManager : MonoBehaviour
 
 	public void DisplaySoulSpell ()
 	{
-		soulSpellSelector.gameObject.SetActive(true);
+        waitingForPlayersPanel.SetActive(false);
+
+        soulSpellSelector.gameObject.SetActive(true);
 		soulSpellSelector.StartTimer();
-	}
+        blurVolume.SetActive(true);
+    }
 
 
 	void OnPlayerSpawn ( ushort id )

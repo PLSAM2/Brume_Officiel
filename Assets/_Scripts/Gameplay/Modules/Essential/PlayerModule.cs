@@ -155,9 +155,11 @@ public class PlayerModule : MonoBehaviour
 		if (GameManager.Instance.gameStarted)
 			Setup();
 
-		if (mylocalPlayer.isOwner)
+		if (mylocalPlayer.isOwner && !GameManager.Instance.haveChoiceSoulSpell)
 		{
-			GameManager.Instance.playerJoinedAndInit = true;
+            GameManager.Instance.haveChoiceSoulSpell = true;
+
+            GameManager.Instance.playerJoinedAndInit = true;
 			GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
 		}
 	}
