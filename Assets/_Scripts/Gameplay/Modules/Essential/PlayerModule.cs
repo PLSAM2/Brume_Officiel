@@ -241,6 +241,11 @@ public class PlayerModule : MonoBehaviour
 		ResetLayer();
 	}
 
+    public void InitSoulSpell(SoulSpell _mySoulSpell)
+    {
+
+    }
+
 	IEnumerator WaitForVisionCheck()
 	{
 		CheckForBrumeRevelation();
