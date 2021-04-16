@@ -73,7 +73,7 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
@@ -81,7 +81,8 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
+                invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
                 break;
