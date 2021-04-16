@@ -62,6 +62,20 @@ public class SpellFeedback : MonoBehaviour
 
 	}
 
+    public void SpawnFXInvisible(bool _isInMyTeam, Vector3 _pos)
+    {
+        switch (_isInMyTeam)
+        {
+            case true:
+                LocalPoolManager.Instance.SpawnNewGenericInNetwork(4, _pos, 0, 1);
+                break;
+
+            case false:
+                LocalPoolManager.Instance.SpawnNewGenericInNetwork(5, _pos, 0, 1);
+                break;
+        }
+    }
+
 	public void ShowPreviewAttackLaser ( bool _isShown )
 	{
 		foreach (LineRenderer _line in allLinePreviewForCac)
