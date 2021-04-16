@@ -86,7 +86,7 @@ public class Ghost : MonoBehaviour
 
 				break;
 			case En_SpellInput.SoulSpell:
-				playerModule.wardInput += Destruct;
+				playerModule.soulSpellInput += Destruct;
 
 				break;
 		}
@@ -177,7 +177,7 @@ public class Ghost : MonoBehaviour
 
 					break;
 				case En_SpellInput.SoulSpell:
-					playerModule.wardInput -= Destruct;
+					playerModule.soulSpellInput -= Destruct;
 
 					break;
 			}

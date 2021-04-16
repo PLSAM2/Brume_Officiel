@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -72,7 +73,7 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
@@ -80,7 +81,8 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
+                invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
                 break;
@@ -102,6 +104,8 @@ public class SoulSpellSelector : MonoBehaviour
                 soulSpell.Hide();
             }
         }
+
+        PlayerPrefs.SetInt("SoulSpell", Convert.ToInt32(currentSoulSpell));
 
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 

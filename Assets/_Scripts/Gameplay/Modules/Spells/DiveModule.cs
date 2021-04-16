@@ -39,7 +39,7 @@ public class DiveModule : SpellModule
 		myPlayerModule.secondSpellInput += ForceInterrupt;
 		myPlayerModule.thirdSpellInput += ForceInterrupt;
 		myPlayerModule.leftClickInput += ForceInterrupt;
-		myPlayerModule.wardInput += ForceInterrupt;
+		myPlayerModule.soulSpellInput += ForceInterrupt;
 
 
 		base.ResolveSpell();
@@ -73,7 +73,7 @@ public class DiveModule : SpellModule
 		myPlayerModule.secondSpellInput -= ForceInterrupt;
 		myPlayerModule.thirdSpellInput -= ForceInterrupt;
 		myPlayerModule.leftClickInput -= ForceInterrupt;
-		myPlayerModule.wardInput -= ForceInterrupt;
+		myPlayerModule.soulSpellInput -= ForceInterrupt;
 
 		StartCoroutine(WaitDelay());
 	//	NetworkObjectsManager.Instance.NetworkInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.objectToSpawnAtThenEnd), transform.position, Vector3.zero);

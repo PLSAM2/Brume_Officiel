@@ -112,6 +112,9 @@ public class GameManager : SerializedMonoBehaviour
 
     public Material _mistMat;
 
+    [HideInInspector]
+    public bool haveChoiceSoulSpell = false;
+
     public Sc_CharacterParameters wxParameter;
     public Sc_CharacterParameters reParameter;
     public Sc_CharacterParameters lengParameter;
@@ -137,10 +140,13 @@ public class GameManager : SerializedMonoBehaviour
     private void OnEnable()
     {
         OnPlayerGetDamage += OnPlayerTakeDamage;
+        OnPlayerRespawn += OnPlayerRespawnId;
     }
 
     private void OnDisable()
     {
+        OnPlayerRespawn -= OnPlayerRespawnId;
+
         client.MessageReceived -= OnMessageReceive;
         OnPlayerGetDamage -= OnPlayerTakeDamage;
         NetworkManager.Instance.OnPlayerQuit -= PlayerQuitGame;
@@ -181,6 +187,15 @@ public class GameManager : SerializedMonoBehaviour
     public void PlayerJoinedAndInitInScene()
     {
         RoomManager.Instance.SpawnDelayedPlayer();
+    }
+
+    void OnPlayerRespawnId(ushort _id)
+    {
+        if (_id == NetworkManager.Instance.GetLocalClient().ID)
+        {
+            En_SoulSpell _mySoulSpell = (En_SoulSpell) PlayerPrefs.GetInt("SoulSpell");
+            _currentLocalPlayer.myPlayerModule.InitSoulSpell(_mySoulSpell);
+        }
     }
 
     private void Update()

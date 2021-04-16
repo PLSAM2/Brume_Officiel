@@ -141,7 +141,7 @@ public class LocalPoolManager : SerializedMonoBehaviour
     }
 
     //generic
-    public GameObject SpawnNewGenericInLocal(ushort _index, Transform _followObj, float _rota, float _scale, float _time = 0)
+    public GameObject SpawnNewGenericInLocal(ushort _index, Transform _followObj, float _rota, float _scale, float _time = 1)
     {
         GameObject newObj = GetFreeGeneric(_index);
 
@@ -162,7 +162,7 @@ public class LocalPoolManager : SerializedMonoBehaviour
         return newObj;
     }
 
-    public void SpawnNewGenericInNetwork(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 0)
+    public void SpawnNewGenericInNetwork(ushort _index, Vector3 _pos, float _rota, float _scale, float _time = 1)
     {
         LocalPlayer myLocalPlayer = GameFactory.GetLocalPlayerObj();
 

@@ -10,26 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
-  m_Name: Summoner_Trap
+  m_Name: Sc_SoulSpell_Invisibility
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 0
   cooldown: 30
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 1.5
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0.3
   statusToApplyOnCanalisation: []
-  lockRotOnAnonciation: 1
-  LockPosOnAnonciation: 1
+  lockRotOnAnonciation: 0
+  LockPosOnAnonciation: 0
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
-  statusToApplyOnResolution: []
+  statusToApplyOnResolution:
+  - {fileID: 11400000, guid: ae4032c87a172c440bc3a042684e017b, type: 2}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 38d03b424552d474eaae8548bc202766, type: 3}
-  spellName: Trap
-  spellDescription: Sets a trap lasting 60s. When an enemy is hit reveal him and
-    root him for a short duration.
+  throwBackDuration: 4
+  spellIcon: {fileID: 21300000, guid: a7fb2dcc992d38443acbffede94ec440, type: 3}
+  spellName: Invisibilty
+  spellDescription: 'You become invisible to enemies for the next 4s. '

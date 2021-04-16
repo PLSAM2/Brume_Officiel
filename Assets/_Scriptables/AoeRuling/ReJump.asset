@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c03352caf05bb4abf42cd86b75a998, type: 3}
+  m_Name: ReJump
+  m_EditorClassIdentifier: 
+  rules:
+    durationOfTheAoe: 1.25
+    timeBeforeFinalDisparition: 0.5
+    damagesToDealOnImpact:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+    finalDamages:
+      playerName: 
+      damageHealth: 0
+      statusToApply:
+      - {fileID: 11400000, guid: 8de29e7c9464c1345a3644a829cdda40, type: 2}
+      movementToApply: {fileID: 11400000, guid: 76aa0328733c5ea4f852f82a5aef9864, type: 2}
+    impactAlly:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+    finalAlly:
+      playerName: 
+      damageHealth: 0
+      statusToApply: []
+      movementToApply: {fileID: 0}
+    useOwnerPos: 0
+    isBox: 0
+    aoeRadius: 2.2
+    boxDimension: {x: 0, y: 0, z: 0}
+  cooldownReductionOnHit: 4
+  cooldownReducedOnHit: 1

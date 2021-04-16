@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
-  m_Name: Spell_WuXin_ThirdEye
+  m_Name: Sc_SoulSpell_ThirdEye
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 80
   cooldown: 12
   numberOfCharge: 1
@@ -29,7 +31,7 @@ MonoBehaviour:
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.01
-  spellIcon: {fileID: 21300000, guid: fdc3bf648557da0478b2a8daa6194a4e, type: 3}
+  spellIcon: {fileID: 21300000, guid: 162ed1a2ebe3dea40814c75c7a0853ba, type: 3}
   spellName: Third Eye
   spellDescription: Wuxin creates a wide wave with infinite range which reveals enemies
     touched.
@@ -39,10 +41,6 @@ MonoBehaviour:
     statusToApply:
     - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
     movementToApply: {fileID: 0}
-    stateNeeded: 128
-    additionalDamages: 0
-    additionalStatusToApply: []
-    additionalMovementToApply: {fileID: 0}
   prefab: {fileID: 1384060272247584325, guid: 4790e43e6852efc48afeaec6b8b88313, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
@@ -104,12 +102,11 @@ MonoBehaviour:
   destroyProjectiles: 0
   bouncingNumber: 0
   fakeRange: 30
+  fakeWidthStart: 0.1
+  fakeWidthEnd: 0.3
   velocityKeptOnBounce: 1
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
   statusToApplyOnHit: {fileID: 0}
   cooldownReduction: 0
-  bonusShot: 0
-  bonusSalve: 0
-  durationAdded: 0

@@ -65,10 +65,10 @@ public class CacAttack : SpellModule
 				break;
 
 			case En_SpellInput.SoulSpell:
-				myPlayerModule.wardInput += ShowPreview;
-				myPlayerModule.wardInput += StartCanalysing;
-				myPlayerModule.wardInputReleased += AnonceSpell;
-				myPlayerModule.wardInputReleased += HidePreview;
+				myPlayerModule.soulSpellInput += ShowPreview;
+				myPlayerModule.soulSpellInput += StartCanalysing;
+				myPlayerModule.soulSpellInputReleased += AnonceSpell;
+				myPlayerModule.soulSpellInputReleased += HidePreview;
 
 				break;
 		}
@@ -109,10 +109,10 @@ public class CacAttack : SpellModule
 				break;
 
 			case En_SpellInput.SoulSpell:
-				myPlayerModule.wardInput -= ShowPreview;
-				myPlayerModule.wardInput -= StartCanalysing;
-				myPlayerModule.wardInputReleased -= AnonceSpell;
-				myPlayerModule.wardInputReleased -= HidePreview;
+				myPlayerModule.soulSpellInput -= ShowPreview;
+				myPlayerModule.soulSpellInput -= StartCanalysing;
+				myPlayerModule.soulSpellInputReleased -= AnonceSpell;
+				myPlayerModule.soulSpellInputReleased -= HidePreview;
 				break;
 		}
 	}

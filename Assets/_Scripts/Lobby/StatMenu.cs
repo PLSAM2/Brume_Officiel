@@ -103,7 +103,7 @@ public class StatMenu : MonoBehaviour
 
         if (StatFactory.GetTotalNbrWin() == 0)
         {
-            print("null");
+
             winLocal.text = "0";
         }
         else
