@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class SpellFeedback : MonoBehaviour
 {
 
 	public PlayerModule myPlayerModule;
 	float shakingTime = .15f, heardDistance = 7;
 	public Material wuxinGhostMaterial;
-    Material baseMaterial;
-    public SkinnedMeshRenderer meshToSet;
+	Material baseMaterial;
+	public SkinnedMeshRenderer meshToSet;
 	public LineRenderer[] allLinePreviewForCac;
+	bool showLaser = false;
+	public float laserMaxLength = 8f;
 
-    public void PlaySound(AudioClip _audioToPlay)
+	public void PlaySound ( AudioClip _audioToPlay )
 	{
 		AudioManager.Instance.Play3DAudio(_audioToPlay, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 	}
 
-	public void SetShakingTime(float _setShakingTime)
+	public void SetShakingTime ( float _setShakingTime )
 	{
 		shakingTime = _setShakingTime;
 	}
@@ -25,12 +27,12 @@ public class SpellFeedback : MonoBehaviour
 	{
 		heardDistance = _setHeardDistance;
 	}
-	public void ShakeScreen(float _shakingStrength )
+	public void ShakeScreen ( float _shakingStrength )
 	{
-        GameFactory.DoScreenShack(shakingTime, _shakingStrength, transform.position, heardDistance);
-    }
+		GameFactory.DoScreenShack(shakingTime, _shakingStrength, transform.position, heardDistance);
+	}
 
-	public void ShowPreview(Transform _objectToShow)
+	public void ShowPreview ( Transform _objectToShow )
 	{
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
 			_objectToShow.GetChild(0).gameObject.SetActive(true);
@@ -46,13 +48,13 @@ public class SpellFeedback : MonoBehaviour
 			_objectToShow.GetChild(1).gameObject.SetActive(false);
 	}
 
-	public void IsGhost(bool _isGhosting)
+	public void IsGhost ( bool _isGhosting )
 	{
-        if(baseMaterial == null)
-        {
-            baseMaterial = meshToSet.material;
-        }
-
+		if (baseMaterial == null)
+		{
+			baseMaterial = meshToSet.material;
+		}
+		print(_isGhosting);
 		if (_isGhosting)
 			meshToSet.material = wuxinGhostMaterial;
 		else
@@ -60,7 +62,33 @@ public class SpellFeedback : MonoBehaviour
 
 	}
 
-	//public void ()
+	public void ShowPreviewAttackLaser ( bool _isShown )
+	{
+		foreach (LineRenderer _line in allLinePreviewForCac)
+		{
+			_line.gameObject.SetActive(_isShown);
+		}
+		showLaser = _isShown;
+
+	}
+
+	private void Update ()
+	{
+		RaycastHit _hit;
+		if (showLaser)
+			if (Physics.Raycast(transform.position, transform.forward, out _hit, laserMaxLength, LayerMask.GetMask("Obstacle")))
+				foreach (LineRenderer _line in allLinePreviewForCac)
+				{
+					_line.GetPosition(1).Set(0, 0, _hit.point.z);
+				}
+			else
+				foreach (LineRenderer _line in allLinePreviewForCac)
+				{
+					_line.GetPosition(1).Set(0, 0, 8);
+				}
+
+
+	}
 }
 
 
