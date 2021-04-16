@@ -64,14 +64,15 @@ public class SpellFeedback : MonoBehaviour
 
     public void SpawnFXInvisible()
     {
+        print("spawn");
         switch (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             case true:
-                LocalPoolManager.Instance.SpawnNewGenericInNetwork(4, transform.position, 0, 1);
+                LocalPoolManager.Instance.SpawnNewGenericInNetwork(4, transform.position, 0, 1, 2);
                 break;
 
             case false:
-                LocalPoolManager.Instance.SpawnNewGenericInNetwork(5, transform.position, 0, 1);
+                LocalPoolManager.Instance.SpawnNewGenericInNetwork(5, transform.position, 0, 1, 2);
                 break;
         }
     }
