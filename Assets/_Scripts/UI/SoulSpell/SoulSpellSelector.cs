@@ -95,6 +95,14 @@ public class SoulSpellSelector : MonoBehaviour
             activeSoulSpell[0].OnClickBtn();
         }
 
+        foreach(SoulSpellElement soulSpell in activeSoulSpell)
+        {
+            if(soulSpell.mySoulSpell != currentSoulSpell)
+            {
+                soulSpell.Hide();
+            }
+        }
+
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
         yield return new WaitForSeconds(2);
