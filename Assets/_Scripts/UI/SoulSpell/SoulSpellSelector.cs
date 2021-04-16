@@ -40,13 +40,13 @@ public class SoulSpellSelector : MonoBehaviour
         {
             currentTimer -= Time.deltaTime;
 
-            timerText.text = Mathf.RoundToInt(timer) + "s";
-            fillImgTimer.fillAmount = 1;
+            timerText.text = Mathf.RoundToInt(currentTimer) + "s";
+            fillImgTimer.fillAmount = currentTimer / timer;
             fillImgTimer.color = colorTimer.Evaluate(1 - fillImgTimer.fillAmount);
 
             if (currentTimer <= 0.0f)
             {
-                OnTimerFinish();
+                StartCoroutine(OnTimerFinish());
                 startTimer = false;
 
                 timerText.text = "Waiting player ...";
@@ -87,13 +87,17 @@ public class SoulSpellSelector : MonoBehaviour
         }
     }
 
-    void OnTimerFinish()
+    IEnumerator OnTimerFinish()
     {
         if(currentSoulSpell == SoulSpell.none)
         {
             currentSoulSpell = activeSoulSpell[0].mySoulSpell;
             activeSoulSpell[0].OnClickBtn();
         }
+
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
+
+        yield return new WaitForSeconds(2);
 
         RoomManager.Instance.ImReady();
     }
