@@ -64,7 +64,7 @@ public class CacAttack : SpellModule
 
 				break;
 
-			case En_SpellInput.Ward:
+			case En_SpellInput.SoulSpell:
 				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInput += StartCanalysing;
 				myPlayerModule.wardInputReleased += AnonceSpell;
@@ -108,7 +108,7 @@ public class CacAttack : SpellModule
 				myPlayerModule.leftClickInputRealeased -= HidePreview;
 				break;
 
-			case En_SpellInput.Ward:
+			case En_SpellInput.SoulSpell:
 				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.wardInput -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= AnonceSpell;

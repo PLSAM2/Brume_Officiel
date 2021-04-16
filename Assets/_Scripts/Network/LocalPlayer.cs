@@ -421,18 +421,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (!ignoreStatusAndEffect)
 		{
-			if (!ignoreTickStatus)
-			{
-				if (GameFactory.GetLocalPlayerObj() != null)
-				{
-					if (GameFactory.GetLocalPlayerObj().myPlayerModule.isPoisonousEffectActive)
-					{
-						SendStatus(myPlayerModule.poisonousEffect);
-					}
-				}
-
-			}
-
 			if (_damagesToDeal.movementToApply != null)
 			{
 				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
@@ -668,9 +656,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				break;
 			case 3:
 				myPlayerModule.secondSpell.FeedbackSpellStep(_spellStep);
-				break;
-			case 4:
-				myPlayerModule.thirdSpell.FeedbackSpellStep(_spellStep);
 				break;
 			case 5:
 				myPlayerModule.tpModule.FeedbackSpellStep(_spellStep);

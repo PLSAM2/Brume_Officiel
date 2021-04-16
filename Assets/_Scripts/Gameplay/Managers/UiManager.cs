@@ -503,7 +503,7 @@ public class UiManager : MonoBehaviour
             case En_SpellInput.Click:
                 autoAttackIcon.UpdateCooldown(_timeRemaining, _completeCd);
                 break;
-            case En_SpellInput.Ward:
+            case En_SpellInput.SoulSpell:
                 wardIcon.UpdateCooldown(_timeRemaining, _completeCd);
                 break;
             case En_SpellInput.TP:
@@ -536,7 +536,7 @@ public class UiManager : MonoBehaviour
                 autoAttackIcon.SetupIcon(_spell, _spellToTooltip);
                 break;
 
-            case En_SpellInput.Ward:
+            case En_SpellInput.SoulSpell:
                 wardIcon.SetupIcon(_spell, _spellToTooltip);
                 break;
 
@@ -568,7 +568,7 @@ public class UiManager : MonoBehaviour
             case En_SpellInput.Click:
                 autoAttackIcon.SetupInputName(_name);
                 break;
-            case En_SpellInput.Ward:
+            case En_SpellInput.SoulSpell:
                 wardIcon.SetupInputName(_name);
                 break;
             case En_SpellInput.TP:
@@ -614,7 +614,7 @@ public class UiManager : MonoBehaviour
                 else
                     autoAttackIcon.HideIcon(true);
                 break;
-            case En_SpellInput.Ward:
+            case En_SpellInput.SoulSpell:
                 wardIcon.UpdatesChargesAmont(_charges);
                 if (_charges > 0)
                     wardIcon.HideIcon(false);
