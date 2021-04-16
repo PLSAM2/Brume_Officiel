@@ -548,7 +548,7 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInputRealeased += HidePreview;
 				break;
 
-			case En_SpellInput.Ward:
+			case En_SpellInput.SoulSpell:
 				myPlayerModule.wardInput += ShowPreview;
 				myPlayerModule.wardInputReleased += StartCanalysing;
 				myPlayerModule.wardInputReleased += HidePreview;
@@ -638,7 +638,7 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.leftClickInputRealeased -= HidePreview;
 				break;
 
-			case En_SpellInput.Ward:
+			case En_SpellInput.SoulSpell:
 				myPlayerModule.wardInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
 				myPlayerModule.wardInputReleased -= HidePreview;
@@ -718,7 +718,7 @@ public enum En_SpellInput
 	ThirdSpell = 4,
 	TP = 5,
 	Maj,
-	Ward,
+	SoulSpell,
 	Special,
 	Ping
 }

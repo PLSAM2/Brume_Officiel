@@ -20,7 +20,7 @@ public class SoulSpellSelector : MonoBehaviour
     public SoulSpellElement thirdEye;
     public SoulSpellElement invisible;
 
-    public SoulSpell currentSoulSpell = SoulSpell.none;
+    public En_SoulSpell currentSoulSpell = En_SoulSpell.none;
 
     List<SoulSpellElement> activeSoulSpell = new List<SoulSpellElement>();
 
@@ -89,7 +89,7 @@ public class SoulSpellSelector : MonoBehaviour
 
     IEnumerator OnTimerFinish()
     {
-        if(currentSoulSpell == SoulSpell.none)
+        if(currentSoulSpell == En_SoulSpell.none)
         {
             currentSoulSpell = activeSoulSpell[0].mySoulSpell;
             activeSoulSpell[0].OnClickBtn();

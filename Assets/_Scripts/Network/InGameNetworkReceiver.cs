@@ -112,9 +112,10 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				AltarSpeedBuffInServer(sender, e);
 			}
+			//TO REMOVE
 			else if (message.Tag == Tags.AltarPoisonBuff)
 			{
-				AltarBuffPoison(sender, e);
+			//	AltarBuffPoison(sender, e);
 			}
 			else if (message.Tag == Tags.AltarOutlineBuff)
 			{
@@ -666,18 +667,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
 				_temp.ApplySpeedBuffInServer();
-			}
-		}
-	}
-
-	private void AltarBuffPoison ( object sender, MessageReceivedEventArgs e )
-	{
-		using (Message message = e.GetMessage())
-		{
-			using (DarkRiftReader reader = message.GetReader())
-			{
-				PlayerModule _temp = GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule;
-				_temp.ApplyPoisonousBuffInServer();
 			}
 		}
 	}
