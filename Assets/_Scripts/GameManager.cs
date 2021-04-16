@@ -112,6 +112,9 @@ public class GameManager : SerializedMonoBehaviour
 
     public Material _mistMat;
 
+    [HideInInspector]
+    public bool haveChoiceSoulSpell = false;
+
     public Sc_CharacterParameters wxParameter;
     public Sc_CharacterParameters reParameter;
     public Sc_CharacterParameters lengParameter;
