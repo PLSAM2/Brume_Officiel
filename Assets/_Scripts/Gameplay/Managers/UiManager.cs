@@ -97,6 +97,9 @@ public class UiManager : MonoBehaviour
 
     public Animator hitWXPanel;
 
+    public SoulSpellSelector soulSpellSelector;
+    public GameObject blurVolume;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -135,6 +138,8 @@ public class UiManager : MonoBehaviour
     internal void AllPlayerJoinGameScene()
     {
         waitingForPlayersPanel.SetActive(false);
+        soulSpellSelector.gameObject.SetActive(false);
+        blurVolume.SetActive(false);
     }
 
     private void OnEnable()
@@ -177,6 +182,12 @@ public class UiManager : MonoBehaviour
             endGameScore.Init(redTeamScore, blueTeamScore);
         }
         // <<
+    }
+
+    public void DisplaySoulSpell()
+    {
+        soulSpellSelector.gameObject.SetActive(true);
+        soulSpellSelector.StartTimer();
     }
 
 
