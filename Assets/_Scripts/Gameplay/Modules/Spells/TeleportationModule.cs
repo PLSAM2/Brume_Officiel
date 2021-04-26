@@ -27,16 +27,11 @@ public class TeleportationModule : SpellModule
     private WxController wxController;
     private GameObject tpFx;
 
-    public override void DecreaseCooldown()
-    {
-    }
-    private void Start()
-    {
-        base.AddCharge();
-    }
 
-    private void Update()
-    {
+
+    protected override void Update() {
+       base.Update();
+    
         if (isTping)
         {
             timer -= Time.deltaTime;
@@ -251,7 +246,7 @@ public class TeleportationModule : SpellModule
     {
         base.ResolutionFeedBack();
 
-        LocalPoolManager.Instance.SpawnNewTrailTpFX(transform.position, myPlayerModule.teamIndex);
+       // LocalPoolManager.Instance.SpawnNewTrailTpFX(transform.position, myPlayerModule.teamIndex);
     }
 
     public override void ThrowbackEndFeedBack()
@@ -291,7 +286,7 @@ public class TeleportationModule : SpellModule
         {
             finalPos = newPos;           
         }
-        tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, finalPos);
+      //  tpFx = NetworkObjectsManager.Instance.NetworkInstantiate(tpFxObj, finalPos);
 
         yield return new WaitForSeconds(waitForTpTime);
 

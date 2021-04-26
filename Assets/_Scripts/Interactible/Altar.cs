@@ -28,7 +28,9 @@ public class Altar : Interactible
     [SerializeField] AudioClip altarRightCleaned, altarRightAwakens, altarRightUnsealed;
     [SerializeField] AudioClip altarLeftCleaned, altarLeftAwakens, altarLeftUnsealed;
 
-
+    [SerializeField] protected MeshRenderer completeObj;
+    [SerializeField] protected Animator anim;
+    [SerializeField] protected string colorShader = "_Color";
     //wayPoint
     [SerializeField] GameObject waypointAltarPrefab;
     public Waypoint waypointObj;
@@ -47,6 +49,7 @@ public class Altar : Interactible
         waypointObj.gameObject.SetActive(false);
         waypointObj.target = transform;
 
+        completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
     }
 
@@ -74,6 +77,13 @@ public class Altar : Interactible
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
+
+        if (NetworkManager.Instance.GetLocalPlayer().ID != _capturingPlayerID)
+        {
+            anim.SetTrigger("Captured");
+            completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
+            completeObj.gameObject.SetActive(true);
+        }
         base.UpdateCaptured(_capturingPlayerID);
 
         print(_capturingPlayerID + " --- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam + " ---- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).Name);
@@ -115,7 +125,12 @@ public class Altar : Interactible
         {
             altarBuff.InitBuff(capturingPlayerModule);
         }
-/*
+
+        anim.SetTrigger("Captured");
+        completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
+        completeObj.gameObject.SetActive(true);
+
+        /*
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write((ushort)capturingPlayerModule.teamIndex);
@@ -127,7 +142,7 @@ public class Altar : Interactible
             }
         }
 */
-        if(GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
+        if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
         {
             GameManager.Instance.numberOfAltarControled++;
         }
@@ -137,6 +152,8 @@ public class Altar : Interactible
 
         base.Captured(_capturingPlayerID);
     }
+
+    
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
