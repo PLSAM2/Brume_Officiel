@@ -6,135 +6,58 @@ using DG.Tweening;
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
-	ShapePreview shapePreview, shapePreviewNetwork;
-	float timeCanalised;
-	float variationOfRange => localTrad.upgradedAttack.rangeOfTheAttack - localTrad.normalAttack.rangeOfTheAttack;
-	CacAttackParameters attackToResolve;
-	float finalTimeCanalised;
+	SquarePreview squarePreview;
+	DamagesInfos damageToDeal = new DamagesInfos();
 
-	//inputs
-	#region
+	bool isLaser = false;
+	public Transform firstFx, secondFx;
+	public LineRenderer lineLaser, linePreview;
+
+
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 		localTrad = (Sc_CacAttack)spell;
 
+		ResetDamage();
+		squarePreview = PreviewManager.Instance.GetSquarePreview();
+		squarePreview.gameObject.SetActive(false);
 
-		shapePreview = PreviewManager.Instance.GetShapePreview();
-		shapePreview.gameObject.SetActive(false);
-		shapePreviewNetwork = PreviewManager.Instance.GetShapePreview();
-		shapePreviewNetwork.gameObject.SetActive(false);
+		lineLaser.useWorldSpace = true;
+		linePreview.useWorldSpace = true;
 	}
-
-	protected override void LinkInputs ( En_SpellInput _actionLinked )
+	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
-		myPlayerModule.cancelSpell += CancelSpell;
+		base.StartCanalysing(_BaseMousePos);
 
-		switch (_actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += ShowPreview;
-				myPlayerModule.firstSpellInput += StartCanalysing;
-				myPlayerModule.firstSpellInputRealeased += AnonceSpell;
-				myPlayerModule.firstSpellInputRealeased += HidePreview;
+		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
+			damageToDeal.damageHealth += 1;
+		else
+			ResetDamage();
 
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += ShowPreview;
-				myPlayerModule.secondSpellInput += StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased += AnonceSpell;
-				myPlayerModule.secondSpellInputRealeased += HidePreview;
-
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += ShowPreview;
-				myPlayerModule.thirdSpellInput += StartCanalysing;
-				myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
-
-				myPlayerModule.thirdSpellInputRealeased += HidePreview;
-				break;
-
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += ShowPreview;
-				myPlayerModule.leftClickInput += StartCanalysing;
-				myPlayerModule.leftClickInputRealeased += AnonceSpell;
-				myPlayerModule.leftClickInputRealeased += HidePreview;
-
-				break;
-
-			case En_SpellInput.SoulSpell:
-				myPlayerModule.soulSpellInput += ShowPreview;
-				myPlayerModule.soulSpellInput += StartCanalysing;
-				myPlayerModule.soulSpellInputReleased += AnonceSpell;
-				myPlayerModule.soulSpellInputReleased += HidePreview;
-
-				break;
-		}
-	}
-
-	protected override void DelinkInput ()
-	{
-		myPlayerModule.cancelSpell -= CancelSpell;
-
-		switch (actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInput -= StartCanalysing;
-				myPlayerModule.firstSpellInputRealeased -= AnonceSpell;
-				myPlayerModule.firstSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= ShowPreview;
-				myPlayerModule.secondSpellInput -= StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased -= AnonceSpell;
-				myPlayerModule.secondSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= ShowPreview;
-				myPlayerModule.thirdSpellInput -= StartCanalysing;
-				myPlayerModule.thirdSpellInputRealeased -= AnonceSpell;
-				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= ShowPreview;
-				myPlayerModule.leftClickInput -= StartCanalysing;
-				myPlayerModule.leftClickInputRealeased -= AnonceSpell;
-				myPlayerModule.leftClickInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.SoulSpell:
-				myPlayerModule.soulSpellInput -= ShowPreview;
-				myPlayerModule.soulSpellInput -= StartCanalysing;
-				myPlayerModule.soulSpellInputReleased -= AnonceSpell;
-				myPlayerModule.soulSpellInputReleased -= HidePreview;
-				break;
-		}
-	}
-	#endregion
-
-	protected void FixedUpdate ()
-	{
-		if (isUsed && !anonciated)
-			timeCanalised += Time.fixedDeltaTime;
+		GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 	}
 
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		shapePreview.Init(FinalRange(currentTimeCanalised), AttackToResolve().angleToAttackFrom, transform.eulerAngles.y, transform.position);
+		squarePreview.Init(maxRangeOfTheSpell(), localTrad.attackParameters.widthToAttackFrom, transform.eulerAngles.y, SquarePreview.squareCenter.border, transform.position);
+	}
+
+	float maxRangeOfTheSpell ()
+	{
+		RaycastHit _hit;
+		if (Physics.Raycast(transform.position, transform.forward, out _hit, spell.range, LayerMask.GetMask("Environment")))
+			return Vector3.Distance(transform.position, _hit.point);
+		else
+			return spell.range;
 	}
 
 	protected override void ShowPreview ( Vector3 mousePos )
 	{
 		if (canBeCast())
 		{
-			shapePreview.gameObject.SetActive(true);
+			squarePreview.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
 	}
@@ -142,41 +65,13 @@ public class CacAttack : SpellModule
 	protected override void HidePreview ( Vector3 _temp )
 	{
 		base.HidePreview(_temp);
-		shapePreview.gameObject.SetActive(false);
-	}
-
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
-	{
-		if (canBeCast())
-		{
-			ShowPreview(myPlayerModule.mousePos());
-			timeCanalised = 0;
-		}
-		base.StartCanalysing(_BaseMousePos);
-
-	}
-
-
-	float FinalRange ( float _timeCanlised )
-	{
-		return AttackToResolve().rangeOfTheAttack; //localTrad.normalAttack.rangeOfTheAttack + (Mathf.Clamp(_timeCanlised / localTrad.timeToCanalyseToUpgrade, 0, 1)) * variationOfRange;
+		squarePreview.gameObject.SetActive(false);
 	}
 
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
 		ResolveSlash();
-
-	}
-
-	protected override void AnonceSpell ( Vector3 _toAnnounce )
-	{
-		if (!anonciated)
-		{
-			attackToResolve = AttackToResolve();
-			finalTimeCanalised = currentTimeCanalised;
-			base.AnonceSpell(_toAnnounce);
-		}
 	}
 
 	void ResolveSlash ()
@@ -192,52 +87,54 @@ public class CacAttack : SpellModule
 		{
 			List<GameObject> _listHit = new List<GameObject>();
 
-			float _angle = -attackToResolve.angleToAttackFrom / 2;
-
+			//float _angle = -attackToResolve.angleToAttackFrom / 2;
 			//RAYCAST POUR TOUCHER
-			for (int i = 0; i < attackToResolve.angleToAttackFrom; i++)
-			{
-				Vector3 _direction = Quaternion.Euler(0, _angle, 0) * transform.forward;
-				_angle++;
-
-				Ray _ray = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-				RaycastHit[] _allhits = Physics.RaycastAll(_ray, FinalRange(finalTimeCanalised), 1 << 8);
-
-				Ray _debugRay = new Ray(transform.position + Vector3.up * 1.2f, _direction);
-				Debug.DrawRay(_ray.origin, _debugRay.direction * FinalRange(finalTimeCanalised), Color.red, 5);
-
-				//verif que le gameobject est pas deja dansa la liste
-				for (int j = 0; j < _allhits.Length; j++)
-				{
-					if (!_listHit.Contains(_allhits[j].collider.gameObject))
-					{
-						_listHit.Add(_allhits[j].collider.gameObject);
-					}
-				}
-			}
+			_listHit.AddRange(LaserHit(_listHit, -localTrad.attackParameters.widthToAttackFrom / 4));
+			_listHit.AddRange(LaserHit(_listHit, -localTrad.attackParameters.widthToAttackFrom / 2));
+			_listHit.AddRange(LaserHit(_listHit, 0));
+			_listHit.AddRange(LaserHit(_listHit, localTrad.attackParameters.widthToAttackFrom / 2));
+			_listHit.AddRange(LaserHit(_listHit, localTrad.attackParameters.widthToAttackFrom / 4));
 
 			_listHit.Remove(gameObject);
 
+			print(_listHit.Count);
+
 			foreach (GameObject _go in _listHit)
 			{
-				LocalPlayer _playerTouched = _go.GetComponent<LocalPlayer>();
+				Damageable _playerTouched = _go.GetComponent<Damageable>();
 
-				if (_playerTouched.myPlayerModule.teamIndex != myPlayerModule.teamIndex)
-					_playerTouched.DealDamages(attackToResolve.damagesToDeal, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+				if (_playerTouched != null)
+					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
+						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform.position);
 			}
 		}
 	}
 
-	CacAttackParameters AttackToResolve ()
+	List<GameObject> LaserHit ( List<GameObject> _listHit, float offset )
 	{
-		if (timeCanalised >= localTrad.timeToCanalyseToUpgrade)
+
+		List<GameObject> _toAdd = new List<GameObject>();
+
+		Ray _ray = new Ray(transform.position + Vector3.up + Vector3.right * offset, transform.forward);
+
+		RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, 1 << 8);
+
+		float distance = 100;
+		RaycastHit _hit;
+		if (Physics.Raycast(transform.position, transform.forward, out _hit, spell.range, 1 << 9))
+			distance = Vector3.Distance(_hit.point, transform.position);
+
+
+		//verif que le gameobject est pas deja dansa la liste
+		for (int j = 0; j < _allhits.Length; j++)
 		{
-			return localTrad.upgradedAttack;
+			if (!_listHit.Contains(_allhits[j].collider.gameObject) && !_toAdd.Contains(_allhits[j].collider.gameObject) &&
+					distance > Vector3.Distance(_allhits[j].transform.position, transform.position))
+			{
+				_toAdd.Add(_allhits[j].collider.gameObject);
+			}
 		}
-		else
-		{
-			return localTrad.normalAttack;
-		}
+		return _toAdd;
 	}
 
 	protected override void CancelSpell ( bool _isForcedInterrupt )
@@ -252,58 +149,64 @@ public class CacAttack : SpellModule
 		HidePreview(Vector3.zero);
 	}
 
-	public void ShowAttackPreviewNetwork ( float _timeCounted )
+	void ResetDamage ()
 	{
-		ShapePreview _mypreview = PreviewManager.Instance.GetShapePreview();
-
-		if (_timeCounted >= localTrad.timeToCanalyseToUpgrade)
-		{
-			_mypreview.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-		}
-		else
-		{
-			_mypreview.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-		}
-
-		if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-			_mypreview.SetColor(Color.yellow, .2f);
-		else
-			_mypreview.SetColor(Color.red, .2f);
-
-		_mypreview.SetLifeTime(spell.throwBackDuration);
-
+		damageToDeal.damageHealth = localTrad.attackParameters.damagesToDeal.damageHealth;
+		damageToDeal.movementToApply = localTrad.attackParameters.damagesToDeal.movementToApply;
+		damageToDeal.statusToApply = localTrad.attackParameters.damagesToDeal.statusToApply;
 	}
 
-
-	public void EvaluatePreviewNetwork ( float timeCounted )
+	public override void StartCanalysingFeedBack ()
 	{
-		if (!myPlayerModule.mylocalPlayer.isOwner)
+		if (lineLaser != null)
 		{
+			linePreview.gameObject.SetActive(true);
 
+			linePreview.SetPosition(0, transform.position);
+			linePreview.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
+			isLaser = true;
 		}
-			if (timeCounted >= localTrad.timeToCanalyseToUpgrade)
-			{
-				shapePreviewNetwork.Init(localTrad.upgradedAttack.rangeOfTheAttack, localTrad.upgradedAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
 
-				if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-					shapePreviewNetwork.SetColor(Color.yellow, 155);
-				else
-					shapePreviewNetwork.SetColor(Color.red, 155);
-			}
-			else
-			{
-				shapePreviewNetwork.Init(localTrad.normalAttack.rangeOfTheAttack, localTrad.normalAttack.angleToAttackFrom, transform.eulerAngles.y, transform.position);
-
-				if (myPlayerModule.teamIndex == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
-					shapePreviewNetwork.SetColor(Color.yellow, 155);
-				else
-					shapePreviewNetwork.SetColor(Color.red, 155);
-			}
-
+		base.StartCanalysingFeedBack();
 	}
 
-	public void ShowPreviewNetwork ( bool isShowed )
+	public override void ResolutionFeedBack ()
 	{
-		shapePreviewNetwork.gameObject.SetActive(isShowed);
+		if (lineLaser != null)
+		{
+			linePreview.gameObject.SetActive(false);
+			lineLaser.gameObject.SetActive(true);
+
+			lineLaser.SetPosition(0, transform.position + Vector3.up);
+			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+		}
+
+		base.ResolutionFeedBack();
+	}
+
+	public override void ThrowbackEndFeedBack ()
+	{
+		if (lineLaser != null)
+		{
+			lineLaser.gameObject.SetActive(false);
+
+			lineLaser.SetPosition(0, transform.position + Vector3.up);
+			lineLaser.SetPosition(1, transform.position+ Vector3.up + transform.forward * maxRangeOfTheSpell());
+			isLaser = false;
+		}
+
+		base.ThrowbackEndFeedBack();
+	}
+
+	protected override void Update ()
+	{
+		base.Update();
+		if (isLaser)
+		{
+			linePreview.SetPosition(0, transform.position);
+			linePreview.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+			lineLaser.SetPosition(0, transform.position);
+			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+		}
 	}
 }

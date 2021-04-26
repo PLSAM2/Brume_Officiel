@@ -11,7 +11,6 @@ public class Aoe : AutoKill
 	LayerMask allyLayer, enemyLayer;
 	public bool adaptiveRange = true;
 	DamagesInfos damageOnEnable, damageOnDisable;
-
 	protected override void Awake ()
 	{
 		allyLayer = LayerMask.GetMask("CharacterIntengible") | LayerMask.GetMask("AlliedCharacter");
