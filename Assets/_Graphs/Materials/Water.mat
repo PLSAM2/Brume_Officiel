@@ -72,6 +72,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PaintGrunge:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -82,6 +86,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: dd7a2436d6b20604c8b301910e3cf12e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterFoamNoise_Texture:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterFoam_Texture:
+        m_Texture: {fileID: 2800000, guid: dd7a2436d6b20604c8b301910e3cf12e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -103,7 +123,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
-    - _Animated_DepthFade: 0
+    - _Animated_DepthFade: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -111,15 +131,21 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DepthFadeAnimated_DistanceMax: 0.5
-    - _DepthFadeAnimated_DistanceMin: 0.35
-    - _DepthFade_Distance: 1
+    - _DepthFadeAnimated_DistanceMin: 0.4
+    - _DepthFade_Distance: 0.4
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float0: 0
-    - _Float1: 1
-    - _Float2: 0.66
+    - _Float0: 0.5
+    - _Float1: 0.44
+    - _Float2: 0.62
+    - _Float3: -4
+    - _Float4: 1
+    - _Float7: 1.09
+    - _Float8: 0
+    - _Float9: 0.296
+    - _FondVisible: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -134,12 +160,26 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _TimeScale: 1
-    - _WaterOpacity: 1
+    - _TimeScale1: 1
+    - _WaterFoamNoise_PannerTime: 0.1
+    - _WaterFoamNoise_Tiling: 3
+    - _WaterFoam_PannerTime: 0.1
+    - _WaterFoam_Tiling: 1
+    - _WaterOpacity: 0.1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.1961107, g: 0.3679245, b: 0.34215242, a: 0}
+    - _Color1: {r: 0.019607844, g: 0.047058824, b: 0.043137256, a: 0}
+    - _Color2: {r: 0, g: 0.87460977, b: 0.9433962, a: 0}
+    - _Color4: {r: 0.50980395, g: 0.7529412, b: 0.7294118, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector2: {r: 0.01, g: 0.01, b: 0, a: 0}
+    - _WaterColor: {r: 0.4805981, g: 0.754717, b: 0.7279629, a: 0}
+    - _WaterColor1: {r: 0, g: 0.74509805, b: 0.7921569, a: 0}
+    - _WaterFoamNoise_Panner: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _WaterFoam_Panner: {r: 0.1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
