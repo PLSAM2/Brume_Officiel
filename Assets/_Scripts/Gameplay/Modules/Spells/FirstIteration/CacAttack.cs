@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using Sirenix.OdinInspector;
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
@@ -10,8 +10,10 @@ public class CacAttack : SpellModule
 	DamagesInfos damageToDeal = new DamagesInfos();
 
 	bool isLaser = false;
-	public Transform firstFx, secondFx;
-	public LineRenderer lineLaser, linePreview;
+
+	[SerializeField] bool useAnonciation = false;
+	[ShowIf("useAnonciation")] public Transform firstFx, secondFx;
+	[ShowIf("useAnonciation")] public LineRenderer lineLaser, linePreview;
 
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
@@ -22,9 +24,11 @@ public class CacAttack : SpellModule
 		ResetDamage();
 		squarePreview = PreviewManager.Instance.GetSquarePreview();
 		squarePreview.gameObject.SetActive(false);
-
-		lineLaser.useWorldSpace = true;
-		linePreview.useWorldSpace = true;
+		if (useAnonciation)
+		{
+			lineLaser.useWorldSpace = true;
+			linePreview.useWorldSpace = true;
+		}
 	}
 	public override void StartCanalysing ( Vector3 _BaseMousePos )
 	{
@@ -191,7 +195,7 @@ public class CacAttack : SpellModule
 			lineLaser.gameObject.SetActive(false);
 
 			lineLaser.SetPosition(0, transform.position + Vector3.up);
-			lineLaser.SetPosition(1, transform.position+ Vector3.up + transform.forward * maxRangeOfTheSpell());
+			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 			isLaser = false;
 		}
 

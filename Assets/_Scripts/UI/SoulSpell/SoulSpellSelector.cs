@@ -84,7 +84,7 @@ public class SoulSpellSelector : MonoBehaviour
                 tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
-                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
                 break;
         }
     }
@@ -100,19 +100,12 @@ public class SoulSpellSelector : MonoBehaviour
         {
             if(soulSpell.mySoulSpell != currentSoulSpell)
             {
+                print("hide = " + soulSpell.mySoulSpell);
                 soulSpell.Hide();
             }
         }
 
-        int i = 0;
-        foreach(SoulSpellElement spell in activeSoulSpell)
-        {
-            if(spell.mySoulSpell == currentSoulSpell)
-            {
-                PlayerPrefs.SetInt("SoulSpell", i);
-            }
-            i++;
-        }
+        PlayerPrefs.SetInt("SoulSpell", (int) currentSoulSpell);
 
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
@@ -127,21 +120,30 @@ public class SoulSpellSelector : MonoBehaviour
         {
             int oldSelected = PlayerPrefs.GetInt("SoulSpell");
 
-            if (oldSelected <= activeSoulSpell.Count)
-            {
-                currentSoulSpell = activeSoulSpell[oldSelected].mySoulSpell;
-                activeSoulSpell[oldSelected].OnClickBtn();
-            }
-            else
-            {
-                currentSoulSpell = activeSoulSpell[0].mySoulSpell;
-                activeSoulSpell[0].OnClickBtn();
-            }
+            int index = GetIndexSoulSpellWithInt((En_SoulSpell)oldSelected);
+
+            currentSoulSpell = activeSoulSpell[index].mySoulSpell;
+            activeSoulSpell[index].OnClickBtn();
         }
         else
         {
             currentSoulSpell = activeSoulSpell[0].mySoulSpell;
             activeSoulSpell[0].OnClickBtn();
         }
+    }
+
+    int GetIndexSoulSpellWithInt(En_SoulSpell _soulSpell)
+    {
+        int i = 0;
+        foreach(SoulSpellElement soul in activeSoulSpell)
+        {
+            if(soul.mySoulSpell == _soulSpell)
+            {
+                return i;
+            }
+            i++;
+        }
+
+        return 0;
     }
 }
