@@ -25,9 +25,6 @@ public class IconUi : MonoBehaviour
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible += CooldownReadyFeedback;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible += CantCastFeedback;
 
-		if (!_spellToToolTip.useUltStacks)
-			CooldownReadyFeedback();
-
 		spellLinked = _spellToToolTip;
 
 		icon.sprite = _spellToToolTip.spellIcon;
@@ -75,6 +72,7 @@ public class IconUi : MonoBehaviour
 	public void CooldownReadyFeedback ()
 	{
 		ResetIcon();
+		UpdateCooldown(0, 0);
 		grisage.gameObject.SetActive(false);
 		outlineIcon.color = new Color(248, 189, 67, 255);
 		myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
