@@ -73,7 +73,7 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
-                //tp.gameObject.SetActive(true);
+                tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
@@ -81,7 +81,7 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
-                //tp.gameObject.SetActive(true);
+                tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
                 activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
@@ -93,8 +93,7 @@ public class SoulSpellSelector : MonoBehaviour
     {
         if(currentSoulSpell == En_SoulSpell.none)
         {
-            currentSoulSpell = activeSoulSpell[0].mySoulSpell;
-            activeSoulSpell[0].OnClickBtn();
+            SetRandomSoulSpell();
         }
 
         foreach(SoulSpellElement soulSpell in activeSoulSpell)
@@ -105,12 +104,44 @@ public class SoulSpellSelector : MonoBehaviour
             }
         }
 
-        PlayerPrefs.SetInt("SoulSpell", Convert.ToInt32(currentSoulSpell));
+        int i = 0;
+        foreach(SoulSpellElement spell in activeSoulSpell)
+        {
+            if(spell.mySoulSpell == currentSoulSpell)
+            {
+                PlayerPrefs.SetInt("SoulSpell", i);
+            }
+            i++;
+        }
 
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
         yield return new WaitForSeconds(2);
 
         RoomManager.Instance.ImReady();
+    }
+
+    void SetRandomSoulSpell()
+    {
+        if (PlayerPrefs.HasKey("SoulSpell"))
+        {
+            int oldSelected = PlayerPrefs.GetInt("SoulSpell");
+
+            if (oldSelected <= activeSoulSpell.Count)
+            {
+                currentSoulSpell = activeSoulSpell[oldSelected].mySoulSpell;
+                activeSoulSpell[oldSelected].OnClickBtn();
+            }
+            else
+            {
+                currentSoulSpell = activeSoulSpell[0].mySoulSpell;
+                activeSoulSpell[0].OnClickBtn();
+            }
+        }
+        else
+        {
+            currentSoulSpell = activeSoulSpell[0].mySoulSpell;
+            activeSoulSpell[0].OnClickBtn();
+        }
     }
 }
