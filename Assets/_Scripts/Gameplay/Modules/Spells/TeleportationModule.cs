@@ -35,8 +35,9 @@ public class TeleportationModule : SpellModule
         base.AddCharge();
     }
 
-    private void Update()
-    {
+    protected override void Update() {
+       base.Update();
+    
         if (isTping)
         {
             timer -= Time.deltaTime;
