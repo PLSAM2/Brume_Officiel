@@ -7,11 +7,7 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "NewCacSpell", menuName = "CreateCuston/NewSpell/CacAttack")]
 public class Sc_CacAttack : Sc_Spell
 {
-	[Header("AutoParameters")]
-	[TabGroup("Cac Parameters")] public float timeToCanalyseToUpgrade = .5f;
-	[Header("DamagePart")]
-	[TabGroup("Cac Parameters")] public CacAttackParameters normalAttack;
-	[TabGroup("Cac Parameters")] public CacAttackParameters upgradedAttack;
+	[TabGroup("Cac Parameters")] public CacAttackParameters attackParameters;
 }
 
 
@@ -19,8 +15,7 @@ public class Sc_CacAttack : Sc_Spell
 public class CacAttackParameters
 {
 	[Header("Hit Part")]
-	public float angleToAttackFrom = 90;
-	public float rangeOfTheAttack = 3;
+	public float widthToAttackFrom = 90;
 
 	[Header("Damage Part")]
 	public DamagesInfos damagesToDeal;

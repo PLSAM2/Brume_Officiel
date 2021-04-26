@@ -102,7 +102,6 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void Update ()
 	{
-
 		if (isUsed)
 		{
 			currentTimeCanalised += Time.deltaTime;

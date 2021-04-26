@@ -10,34 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25bda6c1f6490ac4fa6d7d424f7d3c15, type: 3}
-  m_Name: Pierre_cac
+  m_Name: Spell_Wuxin_ClickAttack
   m_EditorClassIdentifier: 
   startCanalisationOnClick: 0
   minTimeToResolve: 0.3
-  range: 3
-  cooldown: 6
+  range: 8
+  cooldown: 2.5
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
   lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
+  lockPosOnCanalisation: 0
   canalisationTime: 0.4
-  statusToApplyOnCanalisation: []
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 6e71cda6218604141a64a7a14fb08e07, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
   anonciationTime: 0
-  forcedMovementAppliedBeforeResolution: {fileID: 11400000, guid: b5aa671f41be190409750dfc06aa82ab, type: 2}
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 137404ee796fd964d88091858acd7a3c, type: 3}
-  spellName: MyNameIsStan
-  spellDescription: My Description
+  throwBackDuration: 0.2
+  spellIcon: {fileID: 21300000, guid: 91ab9b76e6177a4419e03da24ffc71ca, type: 3}
+  spellName: PEWPEW
+  spellDescription: "Laser attack, \xE7a fait 1"
   attackParameters:
-    widthToAttackFrom: 2.5
+    widthToAttackFrom: 0.75
     damagesToDeal:
       playerName: 
       damageHealth: 1
-      statusToApply: []
-      movementToApply: {fileID: 11400000, guid: 23308c819fe15f3408c89770ff221ce2, type: 2}
+      statusToApply:
+      - {fileID: 11400000, guid: 2911c36520ff84f4ca1c445b39fa0ed2, type: 2}
+      movementToApply: {fileID: 0}
