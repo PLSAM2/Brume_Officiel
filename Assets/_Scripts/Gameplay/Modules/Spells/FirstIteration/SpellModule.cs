@@ -34,10 +34,7 @@ public class SpellModule : MonoBehaviour
 		set
 		{
 			_charges = value;
-			if (isOwner && _charges > 0 && NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
-			{
-				CheckForUse();
-			}
+		
 		}
 	}
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
@@ -75,21 +72,11 @@ public class SpellModule : MonoBehaviour
 			charges = 1;
 			_cooldown = 0;
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
-
-			if(spell.stacksUsed > 0)
-				myPlayerModule.ultPointPickedUp += CheckForUse;
-
-			CheckForUse();
-		}
-	}
-
-	void CheckForUse ()
-	{
-		if (NetworkManager.Instance.GetLocalPlayer().ultStacks >= spell.stacksUsed)
-		{
 			SpellAvaible?.Invoke();
 		}
 	}
+
+	
 
 	public virtual void Disable ()
 	{
@@ -558,12 +545,6 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
-
-
-		if (spell.stacksUsed > 0)
-		{
-			myPlayerModule.ultPointPickedUp -= CheckForUse;
-		}
 
 		switch (actionLinked)
 		{
