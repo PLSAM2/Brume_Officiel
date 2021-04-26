@@ -100,6 +100,8 @@ public class UiManager : MonoBehaviour
 	public SoulSpellSelector soulSpellSelector;
 	public GameObject blurVolume;
 
+    public CanvasGroup gameUI;
+
 	private void Awake ()
 	{
 		if (_instance != null && _instance != this)
@@ -139,7 +141,9 @@ public class UiManager : MonoBehaviour
 	{
 		soulSpellSelector.gameObject.SetActive(false);
 		blurVolume.SetActive(false);
-	}
+
+        gameUI.alpha = 1;
+    }
 
 	private void OnEnable ()
 	{
@@ -190,6 +194,8 @@ public class UiManager : MonoBehaviour
         soulSpellSelector.gameObject.SetActive(true);
 		soulSpellSelector.StartTimer();
         blurVolume.SetActive(true);
+
+        gameUI.alpha = 0;
     }
 
 

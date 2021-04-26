@@ -69,7 +69,6 @@ public class SpellModule : MonoBehaviour
 		actionLinked = _actionLinked;
 		isOwner = myPlayerModule.mylocalPlayer.isOwner;
 
-		print(_actionLinked);
 		if (isOwner)
 		{
 			LinkInputs(_actionLinked);
