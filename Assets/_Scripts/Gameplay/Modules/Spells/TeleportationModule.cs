@@ -27,13 +27,7 @@ public class TeleportationModule : SpellModule
     private WxController wxController;
     private GameObject tpFx;
 
-    public override void DecreaseCooldown()
-    {
-    }
-    private void Start()
-    {
-        base.AddCharge();
-    }
+
 
     protected override void Update() {
        base.Update();
