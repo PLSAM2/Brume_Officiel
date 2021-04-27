@@ -3,6 +3,7 @@ Shader "Custom/BlendTest"
 	Properties
 	{
 		_MyTexture1("Texture1", 2D) = "white" { }
+		_MyTexture2("Texture2", 2D) = "white" { }
 	}
 	
 	SubShader
@@ -23,14 +24,12 @@ Shader "Custom/BlendTest"
 					#include "UnityCG.cginc"
 
 					sampler2D _MyTexture1;
-
+					sampler2D _MyTexture2;
 
 					struct Input
 					{
 						float4 position : POSITION;
 						float2 uv : TEXCOORD0;
-						float2 uv_Tex1 : TEXCOORD0;
-						float2 uv_Tex2 : TEXCOORD0;
 					};
 
 					void vert(inout appdata_full v, out Input o)
@@ -43,7 +42,10 @@ Shader "Custom/BlendTest"
 					fixed4 frag(Input i) : COLOR
 					{
 						half4 original = tex2D(_MyTexture1, i.uv);
-						return original;
+						half4 blend = tex2D(_MyTexture2, i.uv);
+
+
+						return lerp(original, blend, 0.5);
 					}
 					ENDHLSL
 				}

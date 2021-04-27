@@ -54,7 +54,7 @@ public class SpellFeedback : MonoBehaviour
 		{
 			baseMaterial = meshToSet.material;
 		}
-		print(_isGhosting);
+
 		if (_isGhosting)
 			meshToSet.material = wuxinGhostMaterial;
 		else
@@ -64,7 +64,6 @@ public class SpellFeedback : MonoBehaviour
 
     public void SpawnFXInvisible()
     {
-        print("spawn");
         switch (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             case true:

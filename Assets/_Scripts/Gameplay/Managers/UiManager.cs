@@ -30,7 +30,7 @@ public class UiManager : MonoBehaviour
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
 	[FoldoutGroup("Minimap")] public GameObject minimapObj;
-
+	[FoldoutGroup("Minimap")] public Image minimapKeyHelpImg;
 
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private Text generalMessage;
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
@@ -434,7 +434,15 @@ public class UiManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Tab))
 		{
 			minimapObj.SetActive(true);
+			minimapKeyHelpImg.color = Color.green;
 		}
+
+		if (Input.GetKeyUp(KeyCode.Tab))
+		{
+			minimapKeyHelpImg.color = Color.white;
+		}
+
+
 		if (Input.GetKey(KeyCode.Tab))
 		{
 			cameraMinimap.Render();

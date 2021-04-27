@@ -58,6 +58,11 @@ public class SoulSpellSelector : MonoBehaviour
 
     public void StartTimer()
     {
+        if (RoomManager.Instance.roundCount > 1)
+        {
+            timer = 7;
+        }
+
         currentTimer = timer;
         startTimer = true;
 
@@ -84,7 +89,7 @@ public class SoulSpellSelector : MonoBehaviour
                 tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
-                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp);
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
                 break;
         }
     }
@@ -93,24 +98,57 @@ public class SoulSpellSelector : MonoBehaviour
     {
         if(currentSoulSpell == En_SoulSpell.none)
         {
-            currentSoulSpell = activeSoulSpell[0].mySoulSpell;
-            activeSoulSpell[0].OnClickBtn();
+            SetRandomSoulSpell();
         }
 
         foreach(SoulSpellElement soulSpell in activeSoulSpell)
         {
             if(soulSpell.mySoulSpell != currentSoulSpell)
             {
+                print("hide = " + soulSpell.mySoulSpell);
                 soulSpell.Hide();
             }
         }
 
-        PlayerPrefs.SetInt("SoulSpell", Convert.ToInt32(currentSoulSpell));
+        PlayerPrefs.SetInt("SoulSpell", (int) currentSoulSpell);
 
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
         yield return new WaitForSeconds(2);
 
         RoomManager.Instance.ImReady();
+    }
+
+    void SetRandomSoulSpell()
+    {
+        if (PlayerPrefs.HasKey("SoulSpell"))
+        {
+            int oldSelected = PlayerPrefs.GetInt("SoulSpell");
+
+            int index = GetIndexSoulSpellWithInt((En_SoulSpell)oldSelected);
+
+            currentSoulSpell = activeSoulSpell[index].mySoulSpell;
+            activeSoulSpell[index].OnClickBtn();
+        }
+        else
+        {
+            currentSoulSpell = activeSoulSpell[0].mySoulSpell;
+            activeSoulSpell[0].OnClickBtn();
+        }
+    }
+
+    int GetIndexSoulSpellWithInt(En_SoulSpell _soulSpell)
+    {
+        int i = 0;
+        foreach(SoulSpellElement soul in activeSoulSpell)
+        {
+            if(soul.mySoulSpell == _soulSpell)
+            {
+                return i;
+            }
+            i++;
+        }
+
+        return 0;
     }
 }
