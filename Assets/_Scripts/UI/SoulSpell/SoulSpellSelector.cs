@@ -105,7 +105,6 @@ public class SoulSpellSelector : MonoBehaviour
         {
             if(soulSpell.mySoulSpell != currentSoulSpell)
             {
-                print("hide = " + soulSpell.mySoulSpell);
                 soulSpell.Hide();
             }
         }
