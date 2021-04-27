@@ -130,6 +130,40 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		Debug();
 		if (Input.GetKeyDown(KeyCode.M))
 			AddHitPoint(1);
+
+		if (!isOwner) { return; }
+
+		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
+		{
+			lastPosition = transform.position;
+
+			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+			{
+				_writer.Write(transform.position.x);
+				_writer.Write(transform.position.z);
+
+				using (Message _message = Message.Create(Tags.MovePlayerTag, _writer))
+				{
+					currentClient.SendMessage(_message, SendMode.Unreliable);
+				}
+			}
+		}
+
+		if (Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
+		{
+			lastRotation = (short)Mathf.RoundToInt(transform.eulerAngles.y);
+
+			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+			{
+				_writer.Write(lastRotation);
+
+				using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
+				{
+					currentClient.SendMessage(_message, SendMode.Unreliable);
+				}
+			}
+		}
+
 	}
 
 	void Debug ()
@@ -223,43 +257,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		//	myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
 
 	}
-
-	void FixedUpdate ()
-	{
-		if (!isOwner) { return; }
-
-		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
-		{
-			lastPosition = transform.position;
-
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-			{
-				_writer.Write(transform.position.x);
-				_writer.Write(transform.position.z);
-
-				using (Message _message = Message.Create(Tags.MovePlayerTag, _writer))
-				{
-					currentClient.SendMessage(_message, SendMode.Unreliable);
-				}
-			}
-		}
-
-		if (Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
-		{
-			lastRotation = (short)Mathf.RoundToInt(transform.eulerAngles.y);
-
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-			{
-				_writer.Write(lastRotation);
-
-				using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
-				{
-					currentClient.SendMessage(_message, SendMode.Unreliable);
-				}
-			}
-		}
-	}
-
 	public void SendState ( En_CharacterState _state )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
