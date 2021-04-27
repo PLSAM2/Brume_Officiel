@@ -10,7 +10,7 @@ public class Annoncement : MonoBehaviour
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] RectTransform iconPos;
 
-    [SerializeField] AudioClip allyEliminated, enemyElimated;
+    [SerializeField] AudioClip allyEliminated, enemyElimated, altarsAnnonced;
 
     public bool IsAnnoncing = false;
 
@@ -36,7 +36,7 @@ public class Annoncement : MonoBehaviour
             allWaypoint.Add(a.waypointObj);
         }
 
-        UiManager.Instance.myAnnoncement.NewAltarAnnoncement(("ALTARS AWAKENS").ToUpper(), allWaypoint, null, null);
+        NewAltarAnnoncement(("ALTARS AWAKENS").ToUpper(), allWaypoint, altarsAnnonced, null);
         StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, "ALTARS AWAKENS");
     }
 
