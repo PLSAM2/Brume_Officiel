@@ -40,7 +40,7 @@ public class Projectile : AutoKill
 		ResetDamages();
 		if (GameManager.Instance.gameStarted)
 		{
-			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
+			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner && localTrad.damagesToDeal.damageHealth > 0)
 			{
 				_tempDamage.damageHealth += 1;
 				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);

@@ -31,6 +31,8 @@ public class SoulSpellElement : MonoBehaviour
             mySelector.currentSpell.UnSelect();
         }
         mySelector.currentSpell = this;
+
+        mySelector.OnClickSoulSpell();
     }
 
     public void UnSelect()
