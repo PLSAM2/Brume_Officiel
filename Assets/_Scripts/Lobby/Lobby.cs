@@ -14,7 +14,6 @@ public class Lobby : MonoBehaviour
     public void OpenSettings()
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        print(currentScene.name);
 
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
