@@ -493,7 +493,6 @@ public class RoomManager : MonoBehaviour
 
         delayedPlayerSpawn.Clear();
 
-        print("soul spawn");
         UiManager.Instance.DisplaySoulSpell();
     }
 

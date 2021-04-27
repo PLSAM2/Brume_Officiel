@@ -70,8 +70,10 @@ public class BrumeDetection : MonoBehaviour
         }
         else
         {
-            myPlayerModule.timeInBrume = 0;
+            myPlayerModule.timeInBrume -= Time.deltaTime;
         }
+
+        myPlayerModule.timeInBrume = Mathf.Clamp(myPlayerModule.timeInBrume, 0, 2);
     }
 
     void GetDistanceFromBrume()
