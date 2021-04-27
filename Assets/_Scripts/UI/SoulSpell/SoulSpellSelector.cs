@@ -56,6 +56,11 @@ public class SoulSpellSelector : MonoBehaviour
         }
     }
 
+    public void OnClickSoulSpell()
+    {
+        currentTimer = 0;
+    }
+
     public void StartTimer()
     {
         if (RoomManager.Instance.roundCount > 1)
