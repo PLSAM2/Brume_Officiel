@@ -206,7 +206,8 @@ public class Aoe : AutoKill
 			if (localTrad.rules.finalDamages.isUsable)
 			{
 				DealDamagesInRange(damageOnDisable);
-				AudioManager.Instance.Play3DAudio(procSound, transform.position, myNetworkObject.GetItemID(), false);
+				if(procSound != null)
+					AudioManager.Instance.Play3DAudio(procSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 
 			if (localTrad.rules.finalAlly.isUsable)
