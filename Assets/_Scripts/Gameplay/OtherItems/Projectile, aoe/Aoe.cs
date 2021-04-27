@@ -11,6 +11,8 @@ public class Aoe : AutoKill
 	LayerMask allyLayer, enemyLayer;
 	public bool adaptiveRange = true;
 	DamagesInfos damageOnEnable, damageOnDisable;
+	[SerializeField] AudioClip procSound;
+
 	protected override void Awake ()
 	{
 		allyLayer = LayerMask.GetMask("CharacterIntengible") | LayerMask.GetMask("AlliedCharacter");
@@ -202,7 +204,10 @@ public class Aoe : AutoKill
 			StopAllCoroutines();
 			asDealtFinal = true;
 			if (localTrad.rules.finalDamages.isUsable)
+			{
 				DealDamagesInRange(damageOnDisable);
+				AudioManager.Instance.Play3DAudio(procSound, transform.position, myNetworkObject.GetItemID(), false);
+			}
 
 			if (localTrad.rules.finalAlly.isUsable)
 				DealBuffInRange(localTrad.rules.finalAlly);

@@ -70,7 +70,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-	public ParticleSystem deathAlly, deathEnemy;
+	//public ParticleSystem deathAlly, deathEnemy;
+
+    public GameObject deathFx;
 
 	private void Awake ()
 	{
@@ -209,7 +211,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void OnDisable ()
 	{
-		if (!isOwner)
+        if (deathFx != null)
+        {
+            Instantiate(deathFx, transform.position, transform.rotation);
+        }
+
+        if (!isOwner)
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
@@ -598,13 +605,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void KillPlayer ( PlayerData killer )
 	{
-
+        /*
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
 		{
 			Instantiate(deathAlly, transform.position, transform.rotation);
 		}
 		else
 			Instantiate(deathEnemy, transform.position, transform.rotation);
+            */
 
 		if (isOwner)
 		{
