@@ -10,10 +10,10 @@ public class NetworkAnimationController : MonoBehaviour
     UnityClient client;
 
     public Animator animator;
-
+    public float movementLerpSpeed = 10;
     [SerializeField] LocalPlayer myLocalPlayer;
 
-    Vector3 netorkPos;
+    Vector3 networkPos;
     short networkRota = 0;
     Vector3 lerpPos;
 
@@ -31,7 +31,7 @@ public class NetworkAnimationController : MonoBehaviour
         client.MessageReceived += Client_MessageReceived;
 
         oldPos = transform.position;
-        netorkPos = transform.position;
+        networkPos = transform.position;
         lerpPos = transform.position;
     }
     private void OnDisable()
@@ -52,8 +52,8 @@ public class NetworkAnimationController : MonoBehaviour
                 speedAnim = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.crouchingSpeed - 0.1f;
             }
 
-            lerpPos = Vector3.MoveTowards(lerpPos, netorkPos, Time.deltaTime * speedAnim);
-            transform.position = netorkPos;
+            lerpPos = Vector3.MoveTowards(lerpPos, networkPos, Time.deltaTime * speedAnim * movementLerpSpeed);
+            transform.position = networkPos;
 
             transform.eulerAngles = new Vector3(0, Mathf.Lerp(transform.eulerAngles.y, networkRota, Time.deltaTime * 10), 0);
         }
@@ -62,7 +62,7 @@ public class NetworkAnimationController : MonoBehaviour
 
     public void SetMovePosition(Vector3 _newPos)
     {
-        netorkPos = _newPos;
+        networkPos = _newPos;
     }
 
     public void SetRotation(short _rota)

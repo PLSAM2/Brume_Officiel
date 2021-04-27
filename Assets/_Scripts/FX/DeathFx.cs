@@ -11,8 +11,6 @@ public class DeathFx : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        print("spawn");
-
         if(myFxSound != null)
         {
             AudioManager.Instance.Play3DAudio(myFxSound, transform.position, 0, false);
