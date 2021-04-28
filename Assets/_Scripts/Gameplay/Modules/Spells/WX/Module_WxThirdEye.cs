@@ -116,7 +116,7 @@ public class Module_WxThirdEye : SpellModule
 		{
 			case En_ShockWaveStatus.Deploy:
 				shockWave.gameObject.SetActive(true);
-                CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+                CameraManager.Instance.SetNewCameraShake(0.15f, 0.15f);
 
                 HideAllAlliedVision(false);
 				//network FX
@@ -164,7 +164,7 @@ public class Module_WxThirdEye : SpellModule
 
 			case En_ShockWaveStatus.Hidden:
 				shockWave.gameObject.SetActive(false);
-                CameraManager.Instance.SetNewCameraShake(0.05f, 0.05f);
+                CameraManager.Instance.SetNewCameraShake(0.15f, 0.15f);
 
                 HideAllAlliedVision(true);
 
