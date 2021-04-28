@@ -40,6 +40,7 @@ public class InGameDebugger : MonoBehaviour
     {
         foreach (PlayerData p in RoomManager.Instance.actualRoom.playerList.Values)
         {
+
             GameObject _temp = null;
             switch (p.playerTeam)
             {
