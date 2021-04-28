@@ -25,7 +25,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] [ReadOnly] public Team teamIndex;
 	[TabGroup("GameplayInfos")] public float revelationRangeWhileHidden = 10;
 	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem powerUpParticle1, powerUpParticle2;
-	[TabGroup("FeedbacksState")] public SkinnedMeshRenderer skinnedRenderer;
+	[TabGroup("FeedbacksState")] public List<SkinnedMeshRenderer> skinnedRenderer = new List<SkinnedMeshRenderer>();
 	Team otherTeam;
 	[HideInInspector] public bool _isInBrume;
 	En_CharacterState _state = En_CharacterState.Clear;
@@ -221,12 +221,17 @@ public class PlayerModule : MonoBehaviour
 		{
 			if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
 			{
-				skinnedRenderer.material.SetFloat("_OutlinePower", 0);
-
+                foreach(SkinnedMeshRenderer skin in skinnedRenderer)
+                {
+                    skin.material.SetFloat("_OutlinePower", 0);
+                }
 			}
 			else
 			{
-				skinnedRenderer.material.SetFloat("_OutlinePower", 10);
+                foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+                {
+                    skin.material.SetFloat("_OutlinePower", 10);
+                }
 			}
 			mapIcon.gameObject.SetActive(false);
 			StartCoroutine(WaitForVisionCheck());
