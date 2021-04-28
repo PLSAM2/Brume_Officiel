@@ -187,8 +187,16 @@ Material:
         m_Texture: {fileID: 18700000, guid: b33b36e28008b23459206c358b00d02a, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TA_1_Grunges_Sample:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TA_1_Textures:
         m_Texture: {fileID: 18700000, guid: 03400b2757c6d6d459169340ceb111c8, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TA_1_Textures_and_Grunges:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_2_Grunges:
@@ -196,6 +204,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_2_Textures:
+        m_Texture: {fileID: 18700000, guid: 2b6e729c66a58e64e9da60628e5652f1, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TA_2_Textures_and_Grunges:
         m_Texture: {fileID: 18700000, guid: 2b6e729c66a58e64e9da60628e5652f1, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -207,11 +219,19 @@ Material:
         m_Texture: {fileID: 18700000, guid: 0556bc6f8449b5645a36bdb589f4767d, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TA_3_Textures_and_Grunges:
+        m_Texture: {fileID: 18700000, guid: 0556bc6f8449b5645a36bdb589f4767d, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TA_4_Grunges:
         m_Texture: {fileID: 18700000, guid: 8f4c22a1083f0e64f8a4c34b3cc88618, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TA_4_Textures:
+        m_Texture: {fileID: 18700000, guid: 367e4a1a884fceb4495dc92c9be487dd, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TA_4_Textures_and_Grunges:
         m_Texture: {fileID: 18700000, guid: 367e4a1a884fceb4495dc92c9be487dd, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -221,6 +241,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TA_5_Textures:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TA_5_Textures_and_Grunges:
+        m_Texture: {fileID: 18700000, guid: 367e4a1a884fceb4495dc92c9be487dd, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TA_6_Textures_and_Grunges:
+        m_Texture: {fileID: 18700000, guid: 367e4a1a884fceb4495dc92c9be487dd, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TA_7_Textures_and_Grunges:
+        m_Texture: {fileID: 18700000, guid: 367e4a1a884fceb4495dc92c9be487dd, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainBlendingNoise_Texture:
@@ -237,6 +269,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TerrainMaskTexture:
         m_Texture: {fileID: 2800000, guid: 4a63dddb07f87d541b02f7ca4ed57c92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainMask_TextureSampler1:
+        m_Texture: {fileID: 2800000, guid: 4a63dddb07f87d541b02f7ca4ed57c92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainMask_TextureSampler2:
+        m_Texture: {fileID: 2800000, guid: af5bf5eb89fbc1149b3fcf70879315a6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture0:
@@ -344,6 +384,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AllAlbedo: 1
+    - _AllAlbedo_and_Normals: 1
+    - _AllNormals: 0
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AnimatedGrunge: 0
@@ -375,6 +418,7 @@ Material:
     - _FakeLightArrayLength: 1
     - _FakeLightStep: 3
     - _FakeLightStepAttenuation: 0
+    - _FakeLights: 0
     - _Float10: 2
     - _Float100: 1
     - _Float101: 0
@@ -454,7 +498,7 @@ Material:
     - _NormalInBrumeGrunge_Tiling: 0.2
     - _NumLayersCount: 1
     - _OcclusionStrength: 1
-    - _Out_or_InBrume: 0
+    - _Out_or_InBrume: 0.009041615
     - _PaperMultiply: 1.58
     - _Paper_Flipbook_Columns: 1
     - _Paper_Flipbook_Rows: 1
@@ -631,6 +675,28 @@ Material:
     - _T5_PaintGrunge_Contrast: 1
     - _T5_PaintGrunge_Multiply: 1
     - _T5_PaintGrunge_Tiling: 1
+    - _T6_Albedo_ProceduralTiling: 0
+    - _T6_Albedo_Tiling: 26.9
+    - _T6_AnimatedGrunge: 0
+    - _T6_AnimatedGrunge_Contrast: 0.46
+    - _T6_AnimatedGrunge_Flipbook_Columns: 4
+    - _T6_AnimatedGrunge_Flipbook_Rows: 4
+    - _T6_AnimatedGrunge_Flipbook_Speed: 3
+    - _T6_AnimatedGrunge_Multiply: 1.61
+    - _T6_AnimatedGrunge_ScreenBased: 1
+    - _T6_AnimatedGrunge_Tiling: 20
+    - _T6_IsGrungeAnimated: 1
+    - _T7_Albedo_ProceduralTiling: 0
+    - _T7_Albedo_Tiling: 26.9
+    - _T7_AnimatedGrunge: 0
+    - _T7_AnimatedGrunge_Contrast: 0.46
+    - _T7_AnimatedGrunge_Flipbook_Columns: 4
+    - _T7_AnimatedGrunge_Flipbook_Rows: 4
+    - _T7_AnimatedGrunge_Flipbook_Speed: 3
+    - _T7_AnimatedGrunge_Multiply: 1.61
+    - _T7_AnimatedGrunge_ScreenBased: 1
+    - _T7_AnimatedGrunge_Tiling: 20
+    - _T7_IsGrungeAnimated: 1
     - _TerrainBlending: 0
     - _TerrainBlending_BlendThickness: 0
     - _TerrainBlending_Falloff: 0
@@ -712,7 +778,9 @@ Material:
     - _T4_IB_NormalDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _T4_IB_ShadowColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _T4_IB_ShadowDrippingNoise_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _T5_ColorCorrection: {r: 1, g: 1, b: 1, a: 1}
+    - _T5_ColorCorrection: {r: 1, g: 0.9098039, b: 0.9098039, a: 1}
+    - _T6_ColorCorrection: {r: 1, g: 0.9098039, b: 0.9098039, a: 1}
+    - _T7_ColorCorrection: {r: 1, g: 0.9098039, b: 0.9098039, a: 1}
     - _TerrainBlendingNoise_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _TilingTexture: {r: 10, g: 10, b: 0, a: 0}
     - _TopTex_NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
