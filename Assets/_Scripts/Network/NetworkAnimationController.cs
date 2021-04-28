@@ -43,7 +43,7 @@ public class NetworkAnimationController : MonoBehaviour
     {
         if (!myLocalPlayer.isOwner)
         {
-            if(!myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+            if (!myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
             {
                 speedAnim = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.movementSpeed - 0.1f;
             }
@@ -51,12 +51,25 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 speedAnim = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.crouchingSpeed - 0.1f;
             }
+            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement);
+            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.duration);
+            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.baseDuration);
+            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.strength);
 
-            lerpPos = Vector3.MoveTowards(lerpPos, networkPos, Time.deltaTime * speedAnim * movementLerpSpeed);
-            transform.position = networkPos;
+            if (myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement != null || myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.duration >= 0)
+            {
+                transform.position = networkPos;
+            }
+            else
+            {
+
+                lerpPos = Vector3.MoveTowards(lerpPos, networkPos, Time.deltaTime * speedAnim * movementLerpSpeed);
+                transform.position = networkPos; // TODO LERP POS ET HANDLE DASH ET AUTRE
+            }
 
             transform.eulerAngles = new Vector3(0, Mathf.Lerp(transform.eulerAngles.y, networkRota, Time.deltaTime * 10), 0);
         }
+
         DoAnimation();
     }
 
@@ -72,7 +85,7 @@ public class NetworkAnimationController : MonoBehaviour
 
     Vector3 oldPos;
     Vector3 direction;
-    private void DoAnimation ()
+    private void DoAnimation()
     {
         Vector3 currentPos;
         if (myLocalPlayer.isOwner)
@@ -82,7 +95,7 @@ public class NetworkAnimationController : MonoBehaviour
         else
         {
             //tp et dash
-            if(Vector3.Distance(lerpPos, transform.position) > 4)
+            if (Vector3.Distance(lerpPos, transform.position) > 4)
             {
                 lerpPos = transform.position;
             }
@@ -131,13 +144,13 @@ public class NetworkAnimationController : MonoBehaviour
         animator.SetTrigger(triggerName);
     }
 
-    public void SetIntToAnim ( string triggerName , ushort index)
+    public void SetIntToAnim(string triggerName, ushort index)
     {
-        animator.SetInteger(triggerName,(int) index);
+        animator.SetInteger(triggerName, (int)index);
     }
 
 
-    public void SetBoolToAnim ( string _triggerName, bool _value )
+    public void SetBoolToAnim(string _triggerName, bool _value)
     {
         animator.SetBool(_triggerName, _value);
     }
@@ -153,7 +166,7 @@ public class NetworkAnimationController : MonoBehaviour
             if (message.Tag == Tags.SyncBoolean)
             {
                 SyncBooleanInserver(sender, e);
-            }            
+            }
             if (message.Tag == Tags.SyncFloat)
             {
                 SyncFloatInserver(sender, e);
