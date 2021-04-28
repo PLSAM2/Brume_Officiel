@@ -9,7 +9,7 @@ public class SpellFeedback : MonoBehaviour
 	float shakingTime = .1f, heardDistance = 7;
 	public Material wuxinGhostMaterial;
 	Material baseMaterial;
-	public SkinnedMeshRenderer meshToSet;
+
 	public LineRenderer[] allLinePreviewForCac;
 	bool showLaser = false;
 	public float laserMaxLength = 8f;
@@ -52,14 +52,22 @@ public class SpellFeedback : MonoBehaviour
 	{
 		if (baseMaterial == null)
 		{
-			baseMaterial = meshToSet.material;
+            foreach(SkinnedMeshRenderer skin in myPlayerModule.skinnedRenderer)
+            {
+                baseMaterial = skin.material;
+            }
 		}
 
 		if (_isGhosting)
-			meshToSet.material = wuxinGhostMaterial;
+            foreach (SkinnedMeshRenderer skin in myPlayerModule.skinnedRenderer)
+            {
+                skin.material = wuxinGhostMaterial;
+            }
 		else
-			meshToSet.material = baseMaterial;
-
+            foreach (SkinnedMeshRenderer skin in myPlayerModule.skinnedRenderer)
+            {
+                skin.material = baseMaterial;
+            }
 	}
 
     public void SpawnFXInvisible()
