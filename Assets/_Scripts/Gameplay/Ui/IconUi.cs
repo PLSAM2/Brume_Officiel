@@ -12,13 +12,13 @@ public class IconUi : MonoBehaviour
 	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount, input;
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
-	RectTransform myRectTransform;
+	[SerializeField] RectTransform myRectTransform;
 	Vector2 basePos;
 	En_SpellInput inputLinked;
 	Sc_Spell spellLinked;
+
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
 	{
-		myRectTransform = GetComponent<RectTransform>();
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
 
 		inputLinked = _inputLinked;
@@ -48,6 +48,7 @@ public class IconUi : MonoBehaviour
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
 			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
 			outlineIcon.color = Color.black;
+			print("I m  called quand tu veux ap");
 		}
 		else
 		{
@@ -72,9 +73,10 @@ public class IconUi : MonoBehaviour
 	public void CooldownReadyFeedback ()
 	{
 		ResetIcon();
-		UpdateCooldown(0, 0);
+		fillAmount.fillAmount = 0;
 		grisage.gameObject.SetActive(false);
-		outlineIcon.color = new Color(248, 189, 67, 255);
+		cooldownCount.text = "";
+		outlineIcon.color = Color.white;
 		myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
 	}
 	public void ResetIcon ()
