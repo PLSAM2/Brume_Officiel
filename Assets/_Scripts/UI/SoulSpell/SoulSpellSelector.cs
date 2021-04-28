@@ -83,18 +83,18 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
-                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(invisible); //activeSoulSpell.Add(tp);
                 break;
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
-                tp.gameObject.SetActive(true);
+                //tp.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
-                activeSoulSpell.Add(ward); activeSoulSpell.Add(tp); activeSoulSpell.Add(invisible);
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(invisible); //activeSoulSpell.Add(tp);
                 break;
         }
     }
@@ -118,7 +118,7 @@ public class SoulSpellSelector : MonoBehaviour
 
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         RoomManager.Instance.ImReady();
     }
