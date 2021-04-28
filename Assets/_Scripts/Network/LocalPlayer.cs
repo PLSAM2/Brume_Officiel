@@ -166,7 +166,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	}
 
-	void Debug ()
+    private void FixedUpdate()
+    {
+        //
+    }
+
+    void Debug ()
 	{
 		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
