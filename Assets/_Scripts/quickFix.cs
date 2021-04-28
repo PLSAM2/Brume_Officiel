@@ -10,6 +10,7 @@ public class quickFix : MonoBehaviour
 	{
 		basepos = transform.localPosition;
 	}
+
 	public void ResetAnimatorPos()
 	{
 		transform.localPosition = basepos;
