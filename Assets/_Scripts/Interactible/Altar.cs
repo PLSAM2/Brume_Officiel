@@ -17,16 +17,11 @@ public class Altar : Interactible
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
 
-    [SerializeField] AudioClip annoncementAltarSfx;
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
     [SerializeField] Sprite willUnlockSprite;
 
     [HideInInspector] public float currentTime = 0;
-
-    [SerializeField] AudioClip altarBottomCleaned, altarBottomAwakens, altarBottomUnsealed;
-    [SerializeField] AudioClip altarRightCleaned, altarRightAwakens, altarRightUnsealed;
-    [SerializeField] AudioClip altarLeftCleaned, altarLeftAwakens, altarLeftUnsealed;
 
     [SerializeField] protected MeshRenderer completeObj;
     [SerializeField] protected Animator anim;
@@ -88,30 +83,18 @@ public class Altar : Interactible
 
         print(_capturingPlayerID + " --- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam + " ---- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).Name);
 
-        AudioClip voice = altarBottomCleaned;
 
         //disable
         waypointObj.SetImageColor(altarLockColor);
         waypointObj.gameObject.SetActive(false);
 
-        switch (interactibleName)
-        {
-           case "Right":
-                voice = altarRightCleaned;
-                break;
-
-            case "Left":
-                voice = altarLeftCleaned;
-                break;
-        }
-
         if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx, voice);
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
         }
         else
         {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx, voice);
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
         UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
@@ -171,22 +154,9 @@ public class Altar : Interactible
 
         yield return new WaitForSeconds(unlockTime);
 
-        //AudioClip voice = altarBottomUnsealed;
-
-        //switch (interactibleName)
-        //{
-        //    case "Right":
-        //        voice = altarRightUnsealed;
-        //        break;
-
-        //    case "Left":
-        //        voice = altarLeftUnsealed;
-        //        break;
-        //}
-
         if (interactibleName == "Right") // BERK MAIS OSEF
         {
-            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", annoncementAltarSfx);
+            UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
             StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
         }
         Unlock();
@@ -199,10 +169,6 @@ public class Altar : Interactible
 
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
-
-
-
-        AudioManager.Instance.Play2DAudio(unlockAltarSfx);
 
         waypointObj.SetImageColor(altarUnlockColor);
     }
