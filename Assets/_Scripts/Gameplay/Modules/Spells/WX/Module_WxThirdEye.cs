@@ -73,7 +73,6 @@ public class Module_WxThirdEye : SpellModule
 
 
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
-        myPlayerModule.RemoveState(En_CharacterState.ThirdEye);
 
 		StopOutlineOnPlayers();
 
@@ -125,8 +124,6 @@ public class Module_WxThirdEye : SpellModule
 
 				Vector3 finalSize = new Vector3(spell.range, spell.range, spell.range);
 				shockWave.transform.DOScale(finalSize, localTrad.anonciationTime).OnComplete(() => UpdateShockWaveStatus(En_ShockWaveStatus.Opened));
-
-                myPlayerModule.AddState(En_CharacterState.ThirdEye);
                 break;
 
 			case En_ShockWaveStatus.Opened:

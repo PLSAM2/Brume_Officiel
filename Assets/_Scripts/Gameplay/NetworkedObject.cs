@@ -12,7 +12,7 @@ public class NetworkedObject : MonoBehaviour
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public bool synchronisePosition = true;
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public bool synchroniseRotation = false;
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public float interpolateSpeed = 30;
-    [InfoBox("Attention, mal géré ces valeurs peuvent entrainer de lourd problème de connexion", InfoMessageType.Warning)]
+    [InfoBox("Attention, mal géré, ces valeurs peuvent entrainer de lourd problème de connexion", InfoMessageType.Warning)]
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public float distanceRequiredBeforeSync = 0.1f;
     [ShowIf("isNetworked")] [BoxGroup("Networked")] public float rotationRequiredBeforeSync = 6;
 

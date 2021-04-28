@@ -6,7 +6,7 @@ public class SpellFeedback : MonoBehaviour
 {
 
 	public PlayerModule myPlayerModule;
-	float shakingTime = .15f, heardDistance = 7;
+	float shakingTime = .1f, heardDistance = 7;
 	public Material wuxinGhostMaterial;
 	Material baseMaterial;
 	public SkinnedMeshRenderer meshToSet;
