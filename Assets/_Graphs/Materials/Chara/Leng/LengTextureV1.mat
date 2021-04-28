@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: LengTextureV1
   m_Shader: {fileID: 4800000, guid: 0d1d82bf634dfc84caa3009fa90fa5ae, type: 3}
-  m_ShaderKeywords: _NORMALMAP _OCCLUSIONMAP
+  m_ShaderKeywords: _ALPHA_ON _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -129,6 +129,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _Blend: 0
@@ -143,7 +144,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _Dissolve_Smoothstep: 5.92
     - _Dissolve_Smoothstep1: 5.92
-    - _Dissolve_Step: 0.6
+    - _Dissolve_Step: 0.325
     - _Dissolve_Step1: 0
     - _Dissolve_StepEnd: -10
     - _Dissolve_StepEnd1: -10
