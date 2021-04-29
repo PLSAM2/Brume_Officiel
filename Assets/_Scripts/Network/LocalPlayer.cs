@@ -259,7 +259,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
             if (isOwner)
             {
                 fow.fowDeath.SetActive(true);
-                print("true");
             }
         }
 
