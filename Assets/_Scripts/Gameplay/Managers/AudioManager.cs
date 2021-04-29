@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static GameData;
 
 public class AudioManager : SerializedMonoBehaviour
 {
@@ -22,7 +23,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     public Action<float> OnVolumeChange;
 
-    public Action<Vector3> OnAudioPlay;
+    public Action<Vector3, Team> OnAudioPlay;
 
     [SerializeField] AudioSource backGroundMusic;
 
@@ -270,6 +271,8 @@ public class AudioManager : SerializedMonoBehaviour
 
     public void OnAudioPlayed(Vector3 pos, ushort id, bool isPlayer, float audioDistance)
     {
+
+        Team audioTeam = Team.none;
         if (isPlayer)
         {
             if (GameManager.Instance.networkPlayers.ContainsKey(id))
@@ -279,6 +282,9 @@ public class AudioManager : SerializedMonoBehaviour
                 {
                     return;
                 }
+
+                audioTeam = RoomManager.Instance.GetPlayerData(id).playerTeam;
+
             } else { return; }
 
         } else
@@ -291,6 +297,8 @@ public class AudioManager : SerializedMonoBehaviour
                 {
                     return;
                 }
+
+                audioTeam = _no.GetOwner().playerTeam;
             }
             else { return; }
         }
@@ -301,7 +309,7 @@ public class AudioManager : SerializedMonoBehaviour
         {
             if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
             {
-                OnAudioPlay?.Invoke(pos);
+                OnAudioPlay?.Invoke(pos, audioTeam);
             }
         }
     }

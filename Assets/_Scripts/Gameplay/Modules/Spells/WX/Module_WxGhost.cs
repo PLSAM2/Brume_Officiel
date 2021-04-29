@@ -26,7 +26,5 @@ public class Module_WxGhost : SpellModule
         ghostObj.GetComponent<Ghost>().Init(_tempPlayerModule, lifeTime, ghostSpeed, actionLinked);
 
         //_tempPlayerModule.isInGhost = true;
-
-        GameFactory.GetLocalPlayerObj().circleDirection.SetActive(false);
     }
 }

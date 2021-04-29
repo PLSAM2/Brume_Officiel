@@ -45,6 +45,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon, canalysingIcon, crouchedIcon, rootIcon, hiddenIcon;
 
 	[Header("Spell Icons")]
+	[FoldoutGroup("SpellIcon")] public GameObject spellBar;
 	[FoldoutGroup("SpellIcon")] public IconUi firstSpell;
 	[FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, tp, sprintIcon, autoAttackIcon, soulSpellIcon;
 
@@ -58,12 +59,13 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
 	[FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIconOnScreen;
 	[FoldoutGroup("Other Gameplay")] public float pointerDistance = 8f;
-	[FoldoutGroup("Other Gameplay")] public Image hitFeedback;
 	[FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 	[FoldoutGroup("Other Gameplay")] public Image tpFillImage;
 	[FoldoutGroup("Other Gameplay")] public Image reviveFill;
+	[FoldoutGroup("Other Gameplay")] public TextMeshProUGUI reviveText;
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
-	[FoldoutGroup("Cast")] public GameObject barCasting;
+    [FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
+    [FoldoutGroup("Cast")] public GameObject barCasting;
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
 	[Header("Ulti")]
@@ -324,6 +326,7 @@ public class UiManager : MonoBehaviour
 	internal void Revive ( bool state )
 	{
 		reviveUI.SetActive(state);
+		spellBar.SetActive(!state);
 		reviveFill.fillAmount = 1;
 	}
 
@@ -762,30 +765,6 @@ public class UiManager : MonoBehaviour
 		endGameScore.EndGame(team);
 
 		toDisableInEndGame.SetActive(false);
-	}
-	public void FeedbackHit ()
-	{
-		if (hitFeedback == null)
-		{
-			return;
-		}
-
-		hitFeedback.DOKill();
-		hitFeedback.color = new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 1);
-		int randomXSize = UnityEngine.Random.Range(-100, 100);
-		int randomYSize = UnityEngine.Random.Range(-100, 100);
-
-		if (randomXSize > 0)
-			hitFeedback.rectTransform.localScale = new Vector2(1, hitFeedback.rectTransform.localScale.y);
-		else
-			hitFeedback.rectTransform.localScale = new Vector2(-1, hitFeedback.rectTransform.localScale.y);
-
-		if (randomYSize > 0)
-			hitFeedback.rectTransform.localScale = new Vector2(hitFeedback.rectTransform.localScale.x, 1);
-		else
-			hitFeedback.rectTransform.localScale = new Vector2(hitFeedback.rectTransform.localScale.x, -1);
-
-		hitFeedback.DOColor(new Color(hitFeedback.color.r, hitFeedback.color.g, hitFeedback.color.b, 0), 1.2f);
 	}
 
 	public void InitEndGameStats ()

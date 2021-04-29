@@ -11,7 +11,7 @@ using static GameData;
 
 public class InteractibleObjectsManager : MonoBehaviour
 {
-    [InfoBox("Altar en premier \n EndZoneInteractible dans les altars à rajouter aussi")]
+    [InfoBox("Altar --> EndZone --> Autre")]
     [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
 
