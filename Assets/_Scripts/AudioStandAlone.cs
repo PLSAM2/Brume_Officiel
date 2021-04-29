@@ -6,6 +6,8 @@ public class AudioStandAlone : MonoBehaviour
 {
     [SerializeField] AudioSource myAudioSource;
 
+    [SerializeField] float volumeModifer = 1;
+
     private void Start()
     {
         if (myAudioSource == null)
@@ -23,7 +25,7 @@ public class AudioStandAlone : MonoBehaviour
             return;
         }
 
-        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume;
+        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume * volumeModifer;
 
         AudioManager.Instance.OnVolumeChange += OnVolumeChange;
     }
@@ -35,6 +37,6 @@ public class AudioStandAlone : MonoBehaviour
 
     void OnVolumeChange(float _volume)
     {
-        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume;
+        myAudioSource.volume = AudioManager.Instance.currentPlayerVolume * volumeModifer;
     }
 }

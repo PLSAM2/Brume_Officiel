@@ -243,16 +243,16 @@ public class UIPlayerManager : MonoBehaviour
             stateText.text = "Hidden";
             return;
         }
-        else if ((_currentState & En_CharacterState.Countering) != 0)
-        {
-            if (feedbackCounter != null)
-            {
-                feedbackCounter.SetActive(true);
-            }
-            CounteringIcon.SetActive(true);
-            stateText.text = "Countering";
-            return;
-        }
+        //else if ((_currentState & En_CharacterState.Countering) != 0)
+        //{
+        //    if (feedbackCounter != null)
+        //    {
+        //        feedbackCounter.SetActive(true);
+        //    }
+        //    CounteringIcon.SetActive(true);
+        //    stateText.text = "Countering";
+        //    return;
+        //}
         else if ((_currentState & En_CharacterState.Embourbed) != 0)
         {
             EmbourbedIcon.SetActive(true);
