@@ -20,7 +20,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[HideInInspector] public PlayerModule myPlayerModule;
 
 	[TabGroup("MultiGameplayParameters")] public NetworkAnimationController myAnimController;
-	[TabGroup("MultiGameplayParameters")] public GameObject circleDirection;
 
 	[Header("MultiGameplayParameters")]
 	[TabGroup("MultiGameplayParameters")] public float respawnTime = 15;
@@ -94,7 +93,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
-			circleDirection.SetActive(true);
 			SpawnFow();
 
 			CameraManager.Instance.SetParent(transform);
@@ -462,8 +460,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if ((myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
 			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
-			if (isOwner)
-				UiManager.Instance.FeedbackHit();
 
 			if (damages > 0)
 			{
