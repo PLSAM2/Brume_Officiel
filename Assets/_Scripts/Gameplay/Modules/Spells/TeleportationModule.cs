@@ -201,7 +201,6 @@ public class TeleportationModule : SpellModule
             obj.SetActive(value);
         }
         playerModule.mylocalPlayer.myUiPlayerManager.canvas.SetActive(value);
-        playerModule.mylocalPlayer.circleDirection.SetActive(value);
     }
 
     /// <summary>

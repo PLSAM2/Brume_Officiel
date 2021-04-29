@@ -20,7 +20,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[HideInInspector] public PlayerModule myPlayerModule;
 
 	[TabGroup("MultiGameplayParameters")] public NetworkAnimationController myAnimController;
-	[TabGroup("MultiGameplayParameters")] public GameObject circleDirection;
 
 	[Header("MultiGameplayParameters")]
 	[TabGroup("MultiGameplayParameters")] public float respawnTime = 15;
@@ -74,6 +73,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     public GameObject deathFx;
 
+    public GameObject waypointAlliePrefab;
+    AllieWaypoint myWaypoint;
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -81,8 +83,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
-
-
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
@@ -93,22 +93,26 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
-			circleDirection.SetActive(true);
 			SpawnFow();
 
 			CameraManager.Instance.SetParent(transform);
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+            //	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
-		}
+            UiManager.Instance.feedbackDeath.SetActive(false);
+        }
 		else
 		{
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				SpawnFow();
-			}
+
+                myWaypoint = Instantiate(waypointAlliePrefab, UiManager.Instance.parentWaypoint).GetComponent<AllieWaypoint>();
+                myWaypoint.target = transform;
+                myWaypoint.Init(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+            }
 			else
 			{
 				foreach (GameObject obj in objToHide)
@@ -457,8 +461,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if ((myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
 			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
-			if (isOwner)
-				UiManager.Instance.FeedbackHit();
 
 			if (damages > 0)
 			{
@@ -609,9 +611,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-			//GameManager.Instance.hiddenEffect.enabled = false;
-			//GameManager.Instance.surchargeEffect.enabled = false;
-			myPlayerModule.ForceQuitAllInteractible();
+            UiManager.Instance.feedbackDeath.SetActive(true);
+
+            //GameManager.Instance.hiddenEffect.enabled = false;
+            //GameManager.Instance.surchargeEffect.enabled = false;
+            myPlayerModule.ForceQuitAllInteractible();
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
