@@ -365,7 +365,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 				float zDestination = reader.ReadSingle();
 				Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
 
-				GameManager.Instance.networkPlayers[_id].GetComponent<Module_Spit>().InitLaunch(destination);
+			//	GameManager.Instance.networkPlayers[_id].GetComponent<Module_Spit>().InitLaunch(destination);
 			}
 		}
 	}
