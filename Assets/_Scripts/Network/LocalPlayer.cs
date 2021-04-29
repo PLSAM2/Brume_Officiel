@@ -99,9 +99,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+            //	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
-		}
+            UiManager.Instance.feedbackDeath.SetActive(false);
+        }
 		else
 		{
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -610,9 +611,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-			//GameManager.Instance.hiddenEffect.enabled = false;
-			//GameManager.Instance.surchargeEffect.enabled = false;
-			myPlayerModule.ForceQuitAllInteractible();
+            UiManager.Instance.feedbackDeath.SetActive(true);
+
+            //GameManager.Instance.hiddenEffect.enabled = false;
+            //GameManager.Instance.surchargeEffect.enabled = false;
+            myPlayerModule.ForceQuitAllInteractible();
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
