@@ -720,7 +720,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		StartCoroutine(TimerShowPlayer(_time));
 	}
-	private void OnAudioPlay ( Vector3 obj )
+	private void OnAudioPlay ( Vector3 obj, Team audioTeam )
 	{
 		if (this.transform.position == obj || isOwner == false)
 		{
@@ -728,7 +728,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
-		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj);
+		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);
 	}
 
 	IEnumerator TimerShowPlayer ( float _time )
