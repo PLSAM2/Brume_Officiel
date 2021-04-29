@@ -15,22 +15,14 @@ public class Module_Spit : SpellModule
 	public float distanceMaxBeforeEndTravel = 0.01f;
 
 
-	private bool isLaunched = false;
-	private float deceleration = 1;
-	private float baseDistance;
-	private float lastOffest = 0;
-	private Vector3 startPos;
+
 	private Vector3 destination;
-	private Vector3 noCurvePosition;
-	private float animationCurveMaxValue;
 
 	Sc_Spit localTrad;
 	[SerializeField] bool simpleSpeed = false;
 
 	CirclePreview myRangePreview, myAoePreview;
 
-	float initialDistance, percentageStrengthOfTheThrow;
-	Vector3 finalPos;
 
 
 
@@ -40,8 +32,6 @@ public class Module_Spit : SpellModule
 		base.SetupComponent(_actionLinked);
 
 		localTrad = spell as Sc_Spit;
-
-		animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{
@@ -62,16 +52,14 @@ public class Module_Spit : SpellModule
 	{
 		base.ResolveSpell();
 
-		Landed();
-
-		/*
 		float finalRange = 0;
 		finalRange = Mathf.Clamp(Vector3.Distance(transform.position, mousePosInputed), 0, spell.range);
 		Vector3 direction = new Vector3();
 		direction = Vector3.Normalize(mousePosInputed - transform.position);
-
 		destination = transform.position + direction * finalRange;
 
+		Landed();
+		/*
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.client.ID); // Player ID
@@ -121,7 +109,6 @@ public class Module_Spit : SpellModule
 	*/
 	public void Landed ()
 	{
-		isLaunched = false;
 		//spitObj.SetActive(false);
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
