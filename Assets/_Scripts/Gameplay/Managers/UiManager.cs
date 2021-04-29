@@ -45,6 +45,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("StatusIcon")] public Image spedUpIcon, silencedIcon, canalysingIcon, crouchedIcon, rootIcon, hiddenIcon;
 
 	[Header("Spell Icons")]
+	[FoldoutGroup("SpellIcon")] public GameObject spellBar;
 	[FoldoutGroup("SpellIcon")] public IconUi firstSpell;
 	[FoldoutGroup("SpellIcon")] public IconUi secondSpell, thirdSpell, tp, sprintIcon, autoAttackIcon, soulSpellIcon;
 
@@ -324,6 +325,7 @@ public class UiManager : MonoBehaviour
 	internal void Revive ( bool state )
 	{
 		reviveUI.SetActive(state);
+		spellBar.SetActive(!state);
 		reviveFill.fillAmount = 1;
 	}
 
