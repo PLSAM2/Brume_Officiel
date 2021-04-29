@@ -74,6 +74,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     public GameObject deathFx;
 
+    public GameObject waypointAlliePrefab;
+    AllieWaypoint myWaypoint;
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -81,8 +84,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
-
-
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
@@ -108,7 +109,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				SpawnFow();
-			}
+
+                myWaypoint = Instantiate(waypointAlliePrefab, UiManager.Instance.parentWaypoint).GetComponent<AllieWaypoint>();
+                myWaypoint.target = transform;
+                myWaypoint.Init(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+            }
 			else
 			{
 				foreach (GameObject obj in objToHide)
