@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ReTest_T Death
   m_Shader: {fileID: 4800000, guid: cb52793fe7025954e8aecd3b12ea14d3, type: 3}
-  m_ShaderKeywords: _NORMALMAP _OCCLUSIONMAP
+  m_ShaderKeywords: _ALPHA_ON _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -133,6 +133,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _Blend: 0
@@ -147,13 +148,21 @@ Material:
     - _DetailNormalMapScale: 1
     - _Dissolve_Smoothstep: 5.92
     - _Dissolve_Smoothstep1: 6.87
-    - _Dissolve_Step: -6.14
+    - _Dissolve_Step: 0
     - _Dissolve_Step1: -5.1
+    - _Dissolve_StepEnd: -10
+    - _Dissolve_StepStart: -6
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _HitFresnelPower1: 0
+    - _HitFresnelScale1: 0
+    - _HitRed: 0
+    - _HitRedOpacityMax: 0.5
+    - _HitWhite: 0
+    - _HitWhiteOpacityMax: 0.5
     - _Metallic: 0
     - _Mode: 0
     - _Noise_Contrast: -0.93
@@ -188,6 +197,7 @@ Material:
     - _Color0: {r: 1, g: 0, b: 0, a: 0}
     - _Color1: {r: 1, g: 0.8268974, b: 0.33490568, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HitColorRed1: {r: 1, g: 0, b: 0, a: 0}
     - _Noise_Speed: {r: 0, g: -0.5, b: 0, a: 0}
     - _Noise_Speed1: {r: 0, g: -0.5, b: 0, a: 0}
     - _Noise_Tiling: {r: 3, g: 3, b: 0, a: 0}

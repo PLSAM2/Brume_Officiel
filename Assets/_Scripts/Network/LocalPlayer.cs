@@ -256,7 +256,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
         if (deathFx != null)
         {
-            Instantiate(deathFx, transform.position, transform.rotation);
+            FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
+            if (isOwner)
+            {
+                fow.fowDeath.SetActive(true);
+                print("true");
+            }
         }
 
         if (!isOwner)

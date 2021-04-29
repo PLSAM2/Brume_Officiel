@@ -10,7 +10,6 @@ public class Module_Spit : SpellModule
 {
 
 	public GameObject spitTravelPrefab;
-	[ReadOnly] public GameObject spitObj;
 	//NEED CLEAN OLD SYSTEM
 	public float deceleratedRatio = 1; // Plus il est petit, plus la vitesse de l'objet lorsqu'il est haut est lent
 	public float distanceMaxBeforeEndTravel = 0.01f;
@@ -42,8 +41,6 @@ public class Module_Spit : SpellModule
 
 		localTrad = spell as Sc_Spit;
 
-		spitObj = Instantiate(spitTravelPrefab, Vector3.zero, Quaternion.identity);
-		spitObj.SetActive(false);
 		animationCurveMaxValue = localTrad.launchCurve.Evaluate(0.5f); // MaxValue généré sur le millieu de la curve
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
@@ -60,59 +57,14 @@ public class Module_Spit : SpellModule
 
 	}
 
-	private void OnDestroy ()
-	{
-		Destroy(spitObj);
-	}
-
-
-
-	protected override void Update ()
-	{
-		base.Update();
-		if (isLaunched)
-		{
-			if (simpleSpeed)
-			{
-				if (Vector3.Distance(spitObj.transform.position, destination) < distanceMaxBeforeEndTravel)
-				{
-					Landed();
-					return;
-				}
-
-				deceleration = 1;
-				deceleration = deceleration - (lastOffest / (animationCurveMaxValue + deceleratedRatio));
-				Vector3 newPosition = Vector3.MoveTowards(noCurvePosition, destination, (localTrad.spitSpeed * deceleration) * Time.deltaTime); // Progression de la position de la balle (sans courbe)
-				noCurvePosition = newPosition;
-
-				float distanceProgress = Vector3.Distance(newPosition, destination) / baseDistance;
-				float UpOffset;
-
-				UpOffset = localTrad.launchCurve.Evaluate(distanceProgress);
-				lastOffest = UpOffset;
-				spitObj.transform.position = (newPosition + new Vector3(0, UpOffset, 0));
-			}
-			else
-			{
-				Vector3 posToScale = new Vector3(spitObj.transform.position.x, 0, spitObj.transform.position.z);
-				float percentageOfTheTravel = (initialDistance - Vector3.Distance(posToScale, finalPos)) / initialDistance;
-
-				float maxHeight = Mathf.Clamp(percentageStrengthOfTheThrow * localTrad.maxHeightAtMaxRange, localTrad.minHeight, localTrad.maxHeightAtMaxRange);
-				spitObj.transform.position = new Vector3(spitObj.transform.position.x, localTrad.launchCurve.Evaluate(percentageOfTheTravel) * maxHeight, spitObj.transform.position.z);
-			}
-		}
-
-	}
 
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
 
-		if (isLaunched && spitObj != null)
-		{
-			return;
-		}
+		Landed();
 
+		/*
 		float finalRange = 0;
 		finalRange = Mathf.Clamp(Vector3.Distance(transform.position, mousePosInputed), 0, spell.range);
 		Vector3 direction = new Vector3();
@@ -134,16 +86,15 @@ public class Module_Spit : SpellModule
 			}
 		}
 
-		InitLaunch(destination);
+		InitLaunch(destination);*/
 	}
 
-	public void InitLaunch ( Vector3 destination )
+	/*public void InitLaunch ( Vector3 destination )
 	{
 		initialDistance = Vector3.Distance(transform.position, destination);
 		finalPos = destination;
 
 		percentageStrengthOfTheThrow = initialDistance / spell.range;
-		spitObj.SetActive(true);
 
 
 		if (!simpleSpeed)
@@ -167,11 +118,11 @@ public class Module_Spit : SpellModule
 			isLaunched = true;
 		}
 	}
-
+	*/
 	public void Landed ()
 	{
 		isLaunched = false;
-		spitObj.SetActive(false);
+		//spitObj.SetActive(false);
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
 		{

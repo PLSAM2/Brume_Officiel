@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ReTest_T 1
-  m_Shader: {fileID: 4800000, guid: cb52793fe7025954e8aecd3b12ea14d3, type: 3}
+  m_Name: LengTextureV1Death
+  m_Shader: {fileID: 4800000, guid: 0d1d82bf634dfc84caa3009fa90fa5ae, type: 3}
   m_ShaderKeywords: _ALPHA_ON _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2999
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -60,10 +60,6 @@ Material:
         m_Texture: {fileID: 2800000, guid: 956bf698904e57742a207c427424bb94, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Masque_lineNoire:
-        m_Texture: {fileID: 2800000, guid: 59674542ee940b94a90f700ccaa3e47f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -85,15 +81,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Re_Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: 39afe6fb610212b4db0a50df27506e27, type: 3}
+        m_Texture: {fileID: 2800000, guid: e238d77dc85601843b20881a3fa66fc7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Re_Mask_Texture:
-        m_Texture: {fileID: 2800000, guid: ec6ff471d11fe9b40af132f114b879e7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 33f424158318f604fa25072e875227fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Re_Normal_Texture:
-        m_Texture: {fileID: 2800000, guid: ac6ce669204879440af8e1ebaf48eeba, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4736bf940a131614cbc40bbbd5a84960, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -134,7 +130,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Alpha: 1
-    - _Alpha1: 0
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _Blend: 0
@@ -148,34 +143,33 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _Dissolve_Smoothstep: 5.92
-    - _Dissolve_Smoothstep1: 6.87
+    - _Dissolve_Smoothstep1: 5.92
     - _Dissolve_Step: 0
-    - _Dissolve_Step1: -5.1
+    - _Dissolve_Step1: 0
     - _Dissolve_StepEnd: -10
+    - _Dissolve_StepEnd1: -10
     - _Dissolve_StepStart: -6
+    - _Dissolve_StepStart1: -6
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float1: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Hit1: 0
-    - _HitFresnelPower1: 1
-    - _HitFresnelScale1: -1.5
+    - _Hit: 0
+    - _HitFresnelPower: 1
+    - _HitFresnelScale: -1.5
     - _HitRed: 0
     - _HitRed1: 0
     - _HitRedOpacityMax: 0.5
-    - _HitRedOpacityMax1: 0.5
     - _HitWhite: 0
     - _HitWhite1: 0
     - _HitWhiteOpacityMax: 0.5
-    - _HitWhiteOpacityMax2: 0.5
     - _Metallic: 0
     - _Mode: 0
     - _Noise_Contrast: -0.93
     - _Noise_Contrast1: -0.51
     - _Noise_Smoothstep: 3.37
-    - _Noise_Smoothstep1: 3.39
+    - _Noise_Smoothstep1: 3.37
     - _OcclusionStrength: 1
     - _OutlinePower: 0
     - _Parallax: 0.02
@@ -201,7 +195,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.7353569, g: 0.7353569, b: 0.7353569, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 1, g: 0, b: 0, a: 0}
+    - _Color0: {r: 1, g: 0.7466497, b: 0, a: 0}
     - _Color1: {r: 1, g: 0.8268974, b: 0.33490568, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HitColorRed: {r: 1, g: 0, b: 0, a: 0}
@@ -212,10 +206,8 @@ Material:
     - _Noise_Tiling1: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _OutlineColor: {r: 1, g: 0, b: 0, a: 0}
     - _ShadowColor: {r: 0.5686274, g: 0.5686274, b: 0.5686274, a: 0}
-    - _ShadowColor1: {r: 0.1792451, g: 0.1792451, b: 0.1792451, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 10, g: 10, b: 0, a: 0}
-    - _WarmColor01: {r: 1, g: 0.88235295, b: 0.38039145, a: 0}
+    - _WarmColor01: {r: 1, g: 0.88235295, b: 0.38039196, a: 0}
     - _WarmColor02: {r: 1, g: 0.69803923, b: 0, a: 0}
-    - _lineColor: {r: 0.33018836, g: 0.33018836, b: 0.33018836, a: 0}
   m_BuildTextureStacks: []

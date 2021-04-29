@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementToApply:
     myModule: {fileID: 0}
-    _duration: 0.35
+    _duration: 0.15
     baseDuration: 0.35
     speedEvolution:
       serializedVersion: 2
@@ -49,5 +49,6 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    strength: -30
-  isGrab: 0
+    strength: 10
+    fakeRange: 0
+  isGrab: 1
