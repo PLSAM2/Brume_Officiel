@@ -16,6 +16,7 @@ public class particleAttractorLinear : MonoBehaviour {
 
 		targetPosition = target.transform.position;
 	}
+
 	void Update () {
 		m_Particles = new ParticleSystem.Particle[ps.main.maxParticles];
 		numParticlesAlive = ps.GetParticles(m_Particles);

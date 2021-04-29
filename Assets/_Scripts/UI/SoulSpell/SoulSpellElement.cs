@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 using DG.Tweening;
+using TMPro;
 
 public class SoulSpellElement : MonoBehaviour
 {
@@ -17,6 +18,18 @@ public class SoulSpellElement : MonoBehaviour
     public AudioClip clickSound;
 
     public GameObject selected;
+
+    public Sc_Spell mySpell;
+    public TextMeshProUGUI nameSpell;
+    public TextMeshProUGUI description;
+    public Image img;
+
+    private void Start()
+    {
+        nameSpell.text = mySpell.spellName;
+        description.text = mySpell.spellDescription;
+        img.sprite = mySpell.spellIcon;
+    }
 
     public void OnClickBtn()
     {

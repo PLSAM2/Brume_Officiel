@@ -157,8 +157,6 @@ public class Ghost : MonoBehaviour
         {
 			//GameManager.Instance.ghostEffect.enabled = false;
 
-			GameFactory.GetLocalPlayerObj().circleDirection.SetActive(true);
-
             switch (inputLinked)
 			{
 				case En_SpellInput.Click:

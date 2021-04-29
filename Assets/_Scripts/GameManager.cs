@@ -289,7 +289,6 @@ public class GameManager : SerializedMonoBehaviour
         timer += Time.deltaTime;
         SetTimer(timer, UiManager.Instance.timer);
 
-
         if (isReviving)
         {
             reviveTimer -= Time.deltaTime;
