@@ -27,7 +27,6 @@ public class ModuleProjectileSpell : SpellModule
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
-
 		base.SetupComponent(_actionLinked);
 
 		if (myPlayerModule.mylocalPlayer.isOwner)

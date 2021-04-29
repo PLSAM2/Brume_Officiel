@@ -30,6 +30,7 @@ public class GameFactory
 	public static void DoScreenShack ( float _time, float _strength, Vector3 _pos, float distance = 7 )
 	{
 		Transform player = GameFactory.GetActualPlayerFollow().transform;
+
 		if (player != null && Vector3.Distance(player.position, _pos) < distance)
 		{
 			CameraManager.Instance.SetNewCameraShake(_time, _strength);

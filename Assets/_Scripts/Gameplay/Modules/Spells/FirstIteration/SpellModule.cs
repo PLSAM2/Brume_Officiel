@@ -34,7 +34,7 @@ public class SpellModule : MonoBehaviour
 		set
 		{
 			_charges = value;
-		
+
 		}
 	}
 	[ReadOnly] public bool isUsed = false, startResolution = false, resolved = false, anonciated = false;
@@ -76,7 +76,7 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-	
+
 
 	public virtual void Disable ()
 	{
@@ -141,14 +141,14 @@ public class SpellModule : MonoBehaviour
 			SpellNotAvaible?.Invoke();
 	}
 
-	public virtual void TryToResolveInstant(Vector3 _useless)
+	public virtual void TryToResolveInstant ( Vector3 _useless )
 	{
 		if (currentTimeCanalised >= spell.minTimeToResolve && willResolveFast && !isPreped)
 		{
 			currentTimeCanalised = spell.canalisationTime - spell.anonciationTime;
 			isPreped = true;
 		}
-		else 
+		else
 		{
 			willResolveFast = true;
 		}
@@ -337,6 +337,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		charges++;
+		UiManager.Instance.CooldownReady(actionLinked);
 	}
 	public void ReduceCooldown ( float _durationShorten )
 	{
@@ -500,20 +501,20 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.secondSpellInputRealeased += HidePreview;
 				break;
 
-		/*	case En_SpellInput.ThirdSpell:
-				if (spell.startCanalisationOnClick)
-				{
-					myPlayerModule.thirdSpellInput += ShowPreview;
-					myPlayerModule.thirdSpellInput += StartCanalysing;
-					myPlayerModule.thirdSpellInputRealeased += TryToResolveInstant;
-				}
-				else
-				{
-					myPlayerModule.thirdSpellInput += ShowPreview;
-					myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
-				}
-				myPlayerModule.thirdSpellInputRealeased += HidePreview;
-				break;*/
+			/*	case En_SpellInput.ThirdSpell:
+					if (spell.startCanalisationOnClick)
+					{
+						myPlayerModule.thirdSpellInput += ShowPreview;
+						myPlayerModule.thirdSpellInput += StartCanalysing;
+						myPlayerModule.thirdSpellInputRealeased += TryToResolveInstant;
+					}
+					else
+					{
+						myPlayerModule.thirdSpellInput += ShowPreview;
+						myPlayerModule.thirdSpellInputRealeased += StartCanalysing;
+					}
+					myPlayerModule.thirdSpellInputRealeased += HidePreview;
+					break;*/
 
 			case En_SpellInput.Click:
 				if (spell.startCanalisationOnClick)
@@ -578,21 +579,21 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
 				break;
 
-		/*	case En_SpellInput.ThirdSpell:
-				if (spell.startCanalisationOnClick)
-				{
-					myPlayerModule.thirdSpellInput -= ShowPreview;
-					myPlayerModule.thirdSpellInput -= StartCanalysing;
-					myPlayerModule.thirdSpellInputRealeased -= TryToResolveInstant;
-				}
-				else
-				{
-					myPlayerModule.thirdSpellInput -= ShowPreview;
-					myPlayerModule.thirdSpellInputRealeased -= StartCanalysing;
-				}
-				myPlayerModule.thirdSpellInputRealeased -= HidePreview;
-				break;
-		*/
+			/*	case En_SpellInput.ThirdSpell:
+					if (spell.startCanalisationOnClick)
+					{
+						myPlayerModule.thirdSpellInput -= ShowPreview;
+						myPlayerModule.thirdSpellInput -= StartCanalysing;
+						myPlayerModule.thirdSpellInputRealeased -= TryToResolveInstant;
+					}
+					else
+					{
+						myPlayerModule.thirdSpellInput -= ShowPreview;
+						myPlayerModule.thirdSpellInputRealeased -= StartCanalysing;
+					}
+					myPlayerModule.thirdSpellInputRealeased -= HidePreview;
+					break;
+			*/
 			case En_SpellInput.Click:
 				if (spell.startCanalisationOnClick)
 				{

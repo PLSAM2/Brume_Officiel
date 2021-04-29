@@ -570,16 +570,13 @@ public class InGameNetworkReceiver : MonoBehaviour
 		{
 			using (DarkRiftReader reader = message.GetReader())
 			{
-				if (message.Tag == Tags.StateUpdate)
-				{
 					ushort id = reader.ReadUInt16();
 
 					if (!GameManager.Instance.networkPlayers.ContainsKey(id))
 					{
 						return;
 					}
-					GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadUInt16());
-				}
+					GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadInt32());			
 			}
 		}
 	}
@@ -625,7 +622,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 			using (DarkRiftReader reader = message.GetReader())
 			{
 				ushort _roomId = reader.ReadUInt16();
-				ushort _statusId = reader.ReadUInt16();
+				int _statusId = reader.ReadUInt16();
 				ushort _playerId = reader.ReadUInt16();
 
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }

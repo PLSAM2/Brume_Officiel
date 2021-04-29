@@ -149,9 +149,24 @@ public class MovementModule : MonoBehaviour
             Move(Vector3.zero);
             return;
         }
-
+        
         if (myPlayerModule.mylocalPlayer.isOwner)
         {
+            if (currentForcedMovement != null)
+            {
+                if (myPlayerModule.HasState(En_CharacterState.ForcedMovement) == false)
+                {
+                    myPlayerModule.AddState(En_CharacterState.ForcedMovement);
+                } 
+            } else
+            {
+                if (myPlayerModule.HasState(En_CharacterState.ForcedMovement))
+                {
+                    myPlayerModule.RemoveState(En_CharacterState.ForcedMovement);
+                }
+            }
+
+
             //rot player
             LookAtMouse();
         }

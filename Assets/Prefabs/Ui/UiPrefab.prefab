@@ -3827,8 +3827,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -90.895996}
-  m_SizeDelta: {x: 942.4658, y: 93.829}
+  m_AnchoredPosition: {x: -0.0000019073, y: -101}
+  m_SizeDelta: {x: 544.8828, y: 93.829}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5222507991109943351
 CanvasRenderer:
@@ -3858,7 +3858,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SELECT YOUR SOULSPELl
+  m_text: 'SELECT YOUR SOULSPELL Use it by pressing<color=yellow> f </color> '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8187d90ed664cae489c99738503f9043, type: 2}
   m_sharedMaterial: {fileID: 2513269166220241945, guid: 8187d90ed664cae489c99738503f9043, type: 2}
@@ -3921,7 +3921,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.00006708977, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -12084,7 +12084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6888667233600825727
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13486,6 +13486,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FirstSpell
       objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: myRectTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
@@ -13609,7 +13613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1098700787597452083, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1914838803012187050, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_Name
@@ -17043,6 +17047,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulSpellIcon
       objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: myRectTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
@@ -17576,6 +17584,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecondSpell
       objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: myRectTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
@@ -18023,6 +18035,10 @@ PrefabInstance:
       propertyPath: grisage
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: myRectTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
@@ -18364,6 +18380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Auto
       objectReference: {fileID: 0}
+    - target: {fileID: 4359321996461706265, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: myRectTransform
+      value: 
+      objectReference: {fileID: 4323709664553036592}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -10,7 +10,8 @@ public class NetworkAnimationController : MonoBehaviour
     UnityClient client;
 
     public Animator animator;
-    public float movementLerpSpeed = 10;
+    public float movementLerpSpeed = 1;
+    public float maxDistanceBeforeTP = 3;
     [SerializeField] LocalPlayer myLocalPlayer;
 
     Vector3 networkPos;
@@ -51,20 +52,24 @@ public class NetworkAnimationController : MonoBehaviour
             {
                 speedAnim = myLocalPlayer.myPlayerModule.characterParameters.movementParameters.crouchingSpeed - 0.1f;
             }
-            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement);
-            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.duration);
-            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.baseDuration);
-            print(myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.strength);
 
-            if (myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement != null || myLocalPlayer.myPlayerModule.movementPart.currentForcedMovement.duration >= 0)
+            if (Vector3.Distance(transform.position, networkPos) > maxDistanceBeforeTP)
             {
                 transform.position = networkPos;
+                lerpPos = networkPos;
+            }
+
+
+            if (myLocalPlayer.myPlayerModule.HasState(En_CharacterState.StopInterpolate) || myLocalPlayer.myPlayerModule.HasState(En_CharacterState.ForcedMovement))
+            {
+                transform.position = networkPos;
+                lerpPos = networkPos;
             }
             else
             {
 
                 lerpPos = Vector3.MoveTowards(lerpPos, networkPos, Time.deltaTime * speedAnim * movementLerpSpeed);
-                transform.position = networkPos; // TODO LERP POS ET HANDLE DASH ET AUTRE
+                transform.position = lerpPos;
             }
 
             transform.eulerAngles = new Vector3(0, Mathf.Lerp(transform.eulerAngles.y, networkRota, Time.deltaTime * 10), 0);

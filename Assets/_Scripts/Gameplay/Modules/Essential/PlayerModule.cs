@@ -289,6 +289,11 @@ public class PlayerModule : MonoBehaviour
 	}
 	protected virtual void Update()
 	{
+
+		TreatEffects();
+		TreatTickEffects();
+
+
 		if (Input.GetKeyDown(KeyCode.C))
 			print(IsInProtectiveZone());
 		if (oldState != state)
@@ -417,8 +422,7 @@ public class PlayerModule : MonoBehaviour
 	}
 	protected virtual void FixedUpdate()
 	{
-		TreatEffects();
-		TreatTickEffects();
+
 
 		if (mylocalPlayer.isOwner)
 		{
@@ -637,7 +641,7 @@ public class PlayerModule : MonoBehaviour
 		for (int i = 0; i < allEffectLive.Count; i++)
 		{
 			if (!allEffectLive[i].effect.isConstant)
-				allEffectLive[i].liveLifeTime -= Time.fixedDeltaTime;
+				allEffectLive[i].liveLifeTime -= Time.deltaTime;
 
 			if (allEffectLive[i].liveLifeTime <= 0)
 			{
@@ -655,8 +659,8 @@ public class PlayerModule : MonoBehaviour
 
 		for (int i = 0; i < allTickLive.Count; i++)
 		{
-			allTickLive[i].liveLifeTime -= Time.fixedDeltaTime;
-			allTickLive[i].lastTick += Time.fixedDeltaTime;
+			allTickLive[i].liveLifeTime -= Time.deltaTime;
+			allTickLive[i].lastTick += Time.deltaTime;
 
 			if (allTickLive[i].liveLifeTime <= 0)
 			{
@@ -817,6 +821,16 @@ public class PlayerModule : MonoBehaviour
 		_state |= _stateToadd;
 	}
 
+	public bool HasState(En_CharacterState _stateToadd)
+    {
+        if (_state.HasFlag(_stateToadd))
+        {
+			return true;
+        } else
+        {
+			return false;
+        }
+    }
 	public void RemoveState(En_CharacterState _stateToRemove)
 	{
 		_state &= ~_stateToRemove;
@@ -1008,12 +1022,14 @@ public enum En_CharacterState
 	Crouched = 1 << 6,
 	Embourbed = 1 << 7,
 	WxMarked = 1 << 8,
-	ThirdEye = 1 << 9,
-	Hidden = 1 << 10,
-	Countering = 1 << 11,
-	Invulnerability = 1 << 12,
-	Intengenbility = 1 << 13,
-	PoweredUp = 1 << 14,
+	// ThirdEye = 1 << 9,
+	Hidden = 1 << 9,
+	// Countering = 1 << 11,
+	Invulnerability = 1 << 10,
+	Intengenbility = 1 << 11,
+	PoweredUp = 1 << 12, 
+	ForcedMovement = 1 << 13,
+	StopInterpolate = 1 << 14,
 
 	Stunned = Silenced | Root,
 }
