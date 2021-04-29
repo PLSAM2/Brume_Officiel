@@ -31,7 +31,7 @@ public class CounterBaseModule : SpellModule
 	{
 		base.ResolveSpell();
 		myPlayerModule.hitCountered += Counter;
-		myPlayerModule.AddState(En_CharacterState.Countering);
+		//myPlayerModule.AddState(En_CharacterState.Countering);
 
 	}
 
@@ -49,7 +49,7 @@ public class CounterBaseModule : SpellModule
 	{
 		base.Interrupt();
 		myPlayerModule.hitCountered -= Counter;
-		myPlayerModule.RemoveState(En_CharacterState.Countering);
+		// myPlayerModule.RemoveState(En_CharacterState.Countering);
 	}
 
 	protected override void ApplyEffectAtTheEnd ()

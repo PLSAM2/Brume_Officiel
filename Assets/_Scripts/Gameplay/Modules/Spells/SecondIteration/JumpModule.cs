@@ -29,6 +29,7 @@ public class JumpModule : SpellModule
 		{
 			myPlayerModule.AddState(En_CharacterState.Intengenbility);
 			myPlayerModule.AddState(En_CharacterState.Root);
+			myPlayerModule.AddState(En_CharacterState.StopInterpolate);
 			jumpPosStart = transform.position;
 			jumpPosEnd = transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(myPlayerModule.mousePos(), transform.position), 0, spell.range);
 			jumpPosEnd.y = 0;
@@ -54,6 +55,7 @@ public class JumpModule : SpellModule
 
 	public override void Interrupt ()
 	{
+		myPlayerModule.RemoveState(En_CharacterState.StopInterpolate);
 		base.Interrupt();
 	}
 

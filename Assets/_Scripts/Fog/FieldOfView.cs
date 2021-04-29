@@ -228,7 +228,6 @@ public class FieldOfView : MonoBehaviour
 						if (visibleInteractible.ContainsKey(target)) { continue; }
 						visibleInteractible.Add(target, target.GetComponent<Interactible>().interactibleID);
 						break;
-
 				}
 			}
 		}

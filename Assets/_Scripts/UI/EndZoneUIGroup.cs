@@ -19,7 +19,24 @@ public class EndZoneUIGroup : MonoBehaviour
 
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == team)
         {
-			EndZoneText.text = "Attack The Center";
+            switch (NetworkManager.Instance.GetLocalPlayer().playerCharacter)
+            {
+                case Character.none:
+                    return;
+                case Character.WuXin:
+                    EndZoneText.text = "Attack The Center";
+                    break;
+                case Character.Re:
+                    EndZoneText.text = "Defend WuXin";
+                    break;
+                case Character.Leng:
+                    EndZoneText.text = "Defend WuXin";
+                    break;
+                case Character.test:
+                    return;
+                default: throw new System.Exception();
+            }
+
 		} else
         {
 			EndZoneText.text = "Defend The Center";

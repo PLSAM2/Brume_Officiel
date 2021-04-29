@@ -10,7 +10,7 @@ public class EndZoneInteractible : Interactible
 
     [SerializeField] GameObject waypointEndZonePrefab;
     Waypoint waypointObj;
-
+    [SerializeField] Animator endZoneAnimator;
     [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
 
     protected override void Init()
@@ -46,15 +46,11 @@ public class EndZoneInteractible : Interactible
     }
     protected override void OnVolumeChange(float _value)
     {
-        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam || NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
-        {
-            return;
-        }
-
-        base.OnVolumeChange(_value);
+        // pas de son pour l'autel de fin
     }
     public override void Unlock()
     {
+        endZoneAnimator.SetTrigger("Unlock");
         UiManager.Instance.myAnnoncement.ShowAnnoncement((interactibleName + " Started").ToUpper());
 
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();

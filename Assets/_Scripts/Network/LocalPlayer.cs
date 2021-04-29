@@ -20,7 +20,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[HideInInspector] public PlayerModule myPlayerModule;
 
 	[TabGroup("MultiGameplayParameters")] public NetworkAnimationController myAnimController;
-	[TabGroup("MultiGameplayParameters")] public GameObject circleDirection;
 
 	[Header("MultiGameplayParameters")]
 	[TabGroup("MultiGameplayParameters")] public float respawnTime = 15;
@@ -74,6 +73,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     public GameObject deathFx;
 
+    public GameObject waypointAlliePrefab;
+    AllieWaypoint myWaypoint;
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -81,8 +83,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void Init ( UnityClient newClient, bool respawned = false )
 	{
-
-
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
@@ -93,22 +93,26 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
-			circleDirection.SetActive(true);
 			SpawnFow();
 
 			CameraManager.Instance.SetParent(transform);
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+            //	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
-		}
+            UiManager.Instance.feedbackDeath.SetActive(false);
+        }
 		else
 		{
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 			{
 				SpawnFow();
-			}
+
+                myWaypoint = Instantiate(waypointAlliePrefab, UiManager.Instance.parentWaypoint).GetComponent<AllieWaypoint>();
+                myWaypoint.target = transform;
+                myWaypoint.Init(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+            }
 			else
 			{
 				foreach (GameObject obj in objToHide)
@@ -268,7 +272,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
-			_writer.Write((ushort)_state);
+			_writer.Write((int)_state);
 
 			using (Message _message = Message.Create(Tags.StateUpdate, _writer))
 			{
@@ -279,11 +283,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void SendStatus ( Sc_Status _statusIncured )
 	{
-		ushort _indexOfTheStatus = 0;
+		int _indexOfTheStatus = 0;
 		List<Sc_Status> _tempList = new List<Sc_Status>();
 		_tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
 
-		for (ushort i = 0; i < _tempList.Count; i++)
+		for (int i = 0; i < _tempList.Count; i++)
 		{
 			if (_tempList[i] == _statusIncured)
 			{
@@ -296,6 +300,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
+			print(_indexOfTheStatus);
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
 			_writer.Write(_indexOfTheStatus);
@@ -328,13 +333,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void ChangeFowRaduis ( bool _value )
-	{
-		if (myFow == null || myPlayerModule.state.HasFlag(En_CharacterState.ThirdEye))
-		{
-			return;
-		}
-	}
 
 	public void OnRespawn ( bool respawned = false )
 	{
@@ -460,12 +458,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 
 		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 &&
-			(myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
+		if ((myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
 			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
-			if (isOwner)
-				UiManager.Instance.FeedbackHit();
 
 			if (damages > 0)
 			{
@@ -490,8 +485,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
 		}
-		else if ((myPlayerModule.state & En_CharacterState.Countering) != 0)
-			myPlayerModule.hitCountered?.Invoke();
 	}
 
 	/// <summary>
@@ -618,9 +611,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-			//GameManager.Instance.hiddenEffect.enabled = false;
-			//GameManager.Instance.surchargeEffect.enabled = false;
-			myPlayerModule.ForceQuitAllInteractible();
+            UiManager.Instance.feedbackDeath.SetActive(true);
+
+            //GameManager.Instance.hiddenEffect.enabled = false;
+            //GameManager.Instance.surchargeEffect.enabled = false;
+            myPlayerModule.ForceQuitAllInteractible();
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
@@ -673,28 +668,32 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void OnStateReceived ( ushort _state )
+	public void OnStateReceived ( int _state )
 	{
+
 		if (!isOwner)
+		{
 			myPlayerModule.state = (En_CharacterState)_state;
+
+		}
 	}
 
-	public void OnAddedStatus ( ushort _newStatus )
+	public void OnAddedStatus ( int _newStatus )
 	{
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
+		if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
 			if (isNegative(_newStatus))
 				myPlayerModule.KillEveryStun();
 
-			myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus].effect);
+			myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus].effect);
 		}
 		else if (isNegative(_newStatus))
 			myPlayerModule.hitCountered?.Invoke();
 	}
 
-	bool isNegative ( ushort _newStatus )
+	bool isNegative ( int _newStatus )
 	{
-		Sc_Status _statusTryingToAdd = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_newStatus];
+		Sc_Status _statusTryingToAdd = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus];
 		if ((_statusTryingToAdd.effect.stateApplied & En_CharacterState.Slowed & En_CharacterState.Silenced & En_CharacterState.Root) != 0)
 			return true;
 		else
@@ -704,7 +703,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void OnForcedMovementReceived ( ForcedMovement _movementSent )
 	{
 		myPlayerModule.KillEveryStun();
-		if ((myPlayerModule.state & En_CharacterState.Countering) == 0 && (myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
+		if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 			myPlayerModule.movementPart.AddDash(_movementSent);
 		else
 			myPlayerModule.hitCountered?.Invoke();
@@ -720,7 +719,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		StartCoroutine(TimerShowPlayer(_time));
 	}
-	private void OnAudioPlay ( Vector3 obj )
+	private void OnAudioPlay ( Vector3 obj, Team audioTeam )
 	{
 		if (this.transform.position == obj || isOwner == false)
 		{
@@ -728,7 +727,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
-		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj);
+		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);
 	}
 
 	IEnumerator TimerShowPlayer ( float _time )
