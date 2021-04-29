@@ -79,13 +79,13 @@ public class Ward : MonoBehaviour
 			vision.gameObject.SetActive(true);
 			vision.Init();
 
-			isInBrume = IsInBrume();
+			// isInBrume = IsInBrume();
 
 			hasTriggered = false;
 
-			if (isInBrume)
-				timer = lifeTimeInBrume;
-			else
+			//if (isInBrume)
+			//	timer = lifeTimeInBrume;
+			//else
 				timer = lifeTime;
 
 			GameManager.Instance.allWard.Add(this);

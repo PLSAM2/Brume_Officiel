@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameData;
 
 public class CompassPointer : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class CompassPointer : MonoBehaviour
     public string vFrequencyPropertyName = "VerticalNoise_prop";
     public string hFrequencyPropertyName = "HorizontalNoise_prop";
     public string opacityPropertyName = "Opacity_Prop";
+    public string colorPropertyName = "Color_";
 
     public AnimationCurve noiseIntensity;
     public AnimationCurve imageSizeMultiplierByDistance;
@@ -29,8 +32,12 @@ public class CompassPointer : MonoBehaviour
         pointerMat.material.SetFloat(opacityPropertyName, 1);
     }
 
-    public void InitNewTargetOneTime(Transform character, Vector3 target)
+    public void InitNewTargetOneTime(Transform character, Vector3 target, Team audioTeam)
     {
+
+            SetColor(audioTeam);
+        
+
         pointerMat.gameObject.transform.localScale = imageBaseSize;
         this.character = character;
         this.targetPos = target;
@@ -38,8 +45,19 @@ public class CompassPointer : MonoBehaviour
         baseTimer = timer = Mathf.Clamp(Mathf.Abs((maxDistance - minDistance) / (distance - minDistance)) + minLifeTime, minLifeTime, maxLifeTime);
         isOneTime = true;
         SetByDistance(distance);
+
     }
 
+    private void SetColor(Team audioTeam)
+    {
+        if (audioTeam != Team.none && audioTeam != Team.spectator)
+        {
+            pointerMat.material.SetColor(colorPropertyName, GameFactory.GetRelativeColor(audioTeam));
+        } else
+        {
+            pointerMat.material.SetColor(colorPropertyName, Color.white);
+        }
+    }
 
     private void Update()
     {
