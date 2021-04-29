@@ -289,11 +289,11 @@ public class GameManager : SerializedMonoBehaviour
         timer += Time.deltaTime;
         SetTimer(timer, UiManager.Instance.timer);
 
-
         if (isReviving)
         {
             reviveTimer -= Time.deltaTime;
             UiManager.Instance.reviveFill.fillAmount = reviveTimer / baseReviveTime;
+            UiManager.Instance.reviveText.text = "Reviving in <color=blue>" + Math.Round(reviveTimer) + "</color>";
 
             if (reviveTimer <= 0)
             {
