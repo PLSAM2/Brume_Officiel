@@ -62,6 +62,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public UIPingModule uIPingModule;
 	[FoldoutGroup("Other Gameplay")] public Image tpFillImage;
 	[FoldoutGroup("Other Gameplay")] public Image reviveFill;
+	[FoldoutGroup("Other Gameplay")] public TextMeshProUGUI reviveText;
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
     [FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
     [FoldoutGroup("Cast")] public GameObject barCasting;
