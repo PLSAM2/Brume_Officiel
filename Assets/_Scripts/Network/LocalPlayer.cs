@@ -198,7 +198,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
 		{
 			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
-			myUiPlayerManager.directionWx.target = myUiPlayerManager.wxRef.transform;
 		}
 
 		allCharacterSpawned = true;
