@@ -24,7 +24,7 @@ public class BrumeDetection : MonoBehaviour
 
     void Update()
     {
-        PlayerModule currentFollowPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+        LocalPlayer currentFollowPlayer = GameFactory.GetActualPlayerFollow();
 
         //sol detection
         RaycastHit hit;
@@ -36,7 +36,7 @@ public class BrumeDetection : MonoBehaviour
             {
                 myPlayerModule.SetInBrumeStatut(true, currentBrume.GetInstanceID());
 
-                if (myPlayerModule == currentFollowPlayer)
+                if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule == currentFollowPlayer)
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, false);
                     currentBrume.PlayAudio();
@@ -52,7 +52,7 @@ public class BrumeDetection : MonoBehaviour
             {
                 myPlayerModule.SetInBrumeStatut(false, 0);
 
-                if (myPlayerModule == currentFollowPlayer)
+                if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule == currentFollowPlayer)
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, true);
                     currentBrume.PlayAudio();
