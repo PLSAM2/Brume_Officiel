@@ -19,8 +19,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AnisotropicNoiseBlurRotate:
+        m_Texture: {fileID: 2800000, guid: b7b6180d660771e4ca7b20e22b7a8c51, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ErosionTexture:
         m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LengTrailMask:
+        m_Texture: {fileID: 2800000, guid: 5caa63b5714ede44bbe5fcf49beaaa0f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PerlinNoise:
+        m_Texture: {fileID: 2800000, guid: f6ff7a2b76d9a074eb1c734d22e9cb35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Trail_Texture:
@@ -50,15 +66,21 @@ Material:
     - _EmissivIntensityTrail: 1
     - _Float0: 1
     - _Float1: 0.243
+    - _Float10: 1.59
     - _Float2: 0.22
+    - _Float6: 0.6
+    - _Float9: -0.72
+    - _MainTrail_Noise_Add: 0.92
+    - _MainTrail_Noise_Contrast: -0.76
     - _OutlineEndSize: 0.25
     - _SpeedTrail: 0
     m_Colors:
     - _ColorOutline: {r: 0, g: 0, b: 0, a: 1}
-    - _ColorTrail1: {r: 1, g: 0.6935678, b: 0.33490556, a: 0}
-    - _ColorTrail2: {r: 1, g: 0.823033, b: 0.33333325, a: 0}
+    - _ColorTrail1: {r: 1, g: 0.6935678, b: 0.33490553, a: 0}
+    - _ColorTrail2: {r: 1, g: 0.823033, b: 0.33333322, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpeedTrail: {r: 0, g: 0, b: 0, a: 0}
     - _Vector0: {r: -0.5, g: 0, b: 0, a: 0}
+    - _Vector7: {r: 7.27, g: 0.62, b: 0, a: 0}
   m_BuildTextureStacks: []
