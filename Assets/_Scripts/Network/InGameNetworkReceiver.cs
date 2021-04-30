@@ -622,7 +622,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 			using (DarkRiftReader reader = message.GetReader())
 			{
 				ushort _roomId = reader.ReadUInt16();
-				int _statusId = reader.ReadUInt16();
+				int _statusId = reader.ReadInt32();
 				ushort _playerId = reader.ReadUInt16();
 
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
