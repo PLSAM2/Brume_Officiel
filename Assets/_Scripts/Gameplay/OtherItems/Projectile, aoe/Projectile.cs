@@ -34,10 +34,13 @@ public class Projectile : AutoKill
 
 	bool isBox = false;
 	[HideInInspector] public Vector3 collisionSize;
+
+
 	public override void Init ( Team ownerTeam, float _lifePercentage )
 	{
-		base.Init(ownerTeam, _lifePercentage);
 		ResetDamages();
+
+		base.Init(ownerTeam, _lifePercentage);
 		if (GameManager.Instance.gameStarted)
 		{
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner && localTrad.damagesToDeal.damageHealth > 0)
@@ -81,6 +84,7 @@ public class Projectile : AutoKill
 
 	protected void OnEnable ()
 	{
+		ResetDamages();
 		mylifeTime = localTrad.salveInfos.timeToReachMaxRange;
 		direction = transform.forward;
 		myRb.velocity = speed * direction;
@@ -179,6 +183,8 @@ public class Projectile : AutoKill
 				if (!asDeal)
 				{
 					_damageableHit.DealDamages(_tempDamage, GameManager.Instance.currentLocalPlayer.transform.position);
+
+
 					if (localTrad.statusToApplyOnHit != null)
 						GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(localTrad.statusToApplyOnHit.effect);
 

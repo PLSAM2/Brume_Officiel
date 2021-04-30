@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: WX_Auto_Mark
+  m_Name: WX_ThirdEye
   m_EditorClassIdentifier: 
   effect:
     tick: 0
     finalLifeTime: 3
     isConstant: 0
-    canBeForcedStop: 1
+    canBeForcedStop: 0
     forcedKey: 1050
     refreshOnApply: 0
-    doNotApplyIfExist: 1
+    doNotApplyIfExist: 0
     tickRate: 0.2
     isDamaging: 1
     isHealing: 0
@@ -46,8 +46,4 @@ MonoBehaviour:
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
     hitBeforeProcOptionnalDamages: 0
