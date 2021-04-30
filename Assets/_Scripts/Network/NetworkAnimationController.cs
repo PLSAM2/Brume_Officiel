@@ -72,7 +72,7 @@ public class NetworkAnimationController : MonoBehaviour
                 transform.position = lerpPos;
             }
 
-            transform.eulerAngles = new Vector3(0, Mathf.Lerp(transform.eulerAngles.y, networkRota, Time.deltaTime * 10), 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, networkRota, 0), Time.deltaTime * 10);
         }
 
         DoAnimation();

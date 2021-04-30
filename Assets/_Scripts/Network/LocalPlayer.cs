@@ -155,24 +155,23 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
 		{
-			lastRotation = (short)Mathf.RoundToInt(transform.eulerAngles.y);
-
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-			{
-				_writer.Write(lastRotation);
-
-				using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
-				{
-					currentClient.SendMessage(_message, SendMode.Unreliable);
-				}
-			}
-		}
-
+            SendRotation();
+        }
 	}
 
-    private void FixedUpdate()
+    public void SendRotation()
     {
-        //
+        lastRotation = (short)Mathf.RoundToInt(transform.eulerAngles.y);
+
+        using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+        {
+            _writer.Write(lastRotation);
+
+            using (Message _message = Message.Create(Tags.RotaPlayer, _writer))
+            {
+                currentClient.SendMessage(_message, SendMode.Unreliable);
+            }
+        }
     }
 
     void Debug ()
