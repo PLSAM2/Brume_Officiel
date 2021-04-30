@@ -198,7 +198,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
 		{
 			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
-			myUiPlayerManager.directionWx.target = myUiPlayerManager.wxRef.transform;
 		}
 
 		allCharacterSpawned = true;
@@ -256,7 +255,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
         if (deathFx != null)
         {
-            Instantiate(deathFx, transform.position, transform.rotation);
+            FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
+            if (isOwner)
+            {
+                fow.fowDeath.SetActive(true);
+            }
         }
 
         if (!isOwner)

@@ -90,10 +90,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5103172767365961193}
-  - component: {fileID: 3198480878554853157}
   - component: {fileID: 3306790019849509691}
   m_Layer: 0
-  m_Name: Fow
+  m_Name: FowDeath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,23 +113,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3198480878554853157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8593340304288630890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14c6dc2456227844388047856574dce8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTarget: {fileID: 0}
-  isStatic: 0
-  myFieldOfView: {fileID: 3306790019849509691}
-  followSpeed: 10
-  fowRaduis: 0
 --- !u!114 &3306790019849509691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +134,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8389120
   visibleFx: []
-  meshResolution: 1
+  meshResolution: 0.4
   edgeResolveIterations: 0
   edgeDstThreshold: 0
   maskCutawayDst: 0.1

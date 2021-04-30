@@ -48,7 +48,6 @@ public class IconUi : MonoBehaviour
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
 			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
 			outlineIcon.color = Color.black;
-			print("I m  called quand tu veux ap");
 		}
 		else
 		{

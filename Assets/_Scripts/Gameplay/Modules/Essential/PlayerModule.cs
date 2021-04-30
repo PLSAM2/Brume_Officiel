@@ -219,6 +219,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 		{
+			wardModule.SetupComponent(En_SpellInput.SoulSpell) ;
 			if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
 			{
                 foreach(SkinnedMeshRenderer skin in skinnedRenderer)

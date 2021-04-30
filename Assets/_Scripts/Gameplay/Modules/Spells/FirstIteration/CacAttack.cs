@@ -51,7 +51,12 @@ public class CacAttack : SpellModule
 	float maxRangeOfTheSpell ()
 	{
 		RaycastHit _hit;
-		if (Physics.Raycast(transform.position, transform.forward, out _hit, spell.range, LayerMask.GetMask("Environment")))
+		if (Physics.BoxCast(transform.position, new Vector3(localTrad.attackParameters.widthToAttackFrom, 1, .2f),
+			transform.forward,
+			out _hit,
+			transform.rotation,
+			spell.range,
+			LayerMask.GetMask("Environment")))
 			return Vector3.Distance(transform.position, _hit.point);
 		else
 			return spell.range;
@@ -93,11 +98,8 @@ public class CacAttack : SpellModule
 
 			//float _angle = -attackToResolve.angleToAttackFrom / 2;
 			//RAYCAST POUR TOUCHER
-			_listHit.AddRange(LaserHit(_listHit, -localTrad.attackParameters.widthToAttackFrom / 4));
-			_listHit.AddRange(LaserHit(_listHit, -localTrad.attackParameters.widthToAttackFrom / 2));
-			_listHit.AddRange(LaserHit(_listHit, 0));
-			_listHit.AddRange(LaserHit(_listHit, localTrad.attackParameters.widthToAttackFrom / 2));
-			_listHit.AddRange(LaserHit(_listHit, localTrad.attackParameters.widthToAttackFrom / 4));
+			_listHit.AddRange(LaserHit(_listHit));
+
 
 			_listHit.Remove(gameObject);
 
@@ -114,20 +116,16 @@ public class CacAttack : SpellModule
 		}
 	}
 
-	List<GameObject> LaserHit ( List<GameObject> _listHit, float offset )
+	List<GameObject> LaserHit ( List<GameObject> _listHit )
 	{
-
 		List<GameObject> _toAdd = new List<GameObject>();
 
-		Ray _ray = new Ray(transform.position + Vector3.up + Vector3.right * offset, transform.forward);
-
-		RaycastHit[] _allhits = Physics.RaycastAll(_ray, spell.range, 1 << 8);
+		RaycastHit[] _allhits = (Physics.BoxCastAll(transform.position, new Vector3(localTrad.attackParameters.widthToAttackFrom, 1, .1f), transform.forward, transform.rotation, spell.range, 1 << 8));
 
 		float distance = 100;
 		RaycastHit _hit;
-		if (Physics.Raycast(transform.position, transform.forward, out _hit, spell.range, 1 << 9))
+		if (Physics.BoxCast(transform.position, new Vector3(localTrad.attackParameters.widthToAttackFrom, 1, .1f), transform.forward, out _hit, transform.rotation, spell.range, 1 << 9))
 			distance = Vector3.Distance(_hit.point, transform.position);
-
 
 		//verif que le gameobject est pas deja dansa la liste
 		for (int j = 0; j < _allhits.Length; j++)
