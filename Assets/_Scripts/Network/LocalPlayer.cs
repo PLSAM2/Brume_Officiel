@@ -302,12 +302,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				break;
 			}
 			if (i == _tempList.Count - 1)
+				print("StatusNotFound");
 				return;
 		}
 
+		print(_indexOfTheStatus);
+
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			print(_indexOfTheStatus);
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
 			_writer.Write(_indexOfTheStatus);
@@ -455,7 +457,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-        myPlayerModule.GetDamageFx();
+		if(damages > 0)
+			myPlayerModule.GetDamageFx();
 
 		if (isOwner)
 		{
@@ -687,6 +690,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnAddedStatus ( int _newStatus )
 	{
+
 		if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
 			if (isNegative(_newStatus))
@@ -752,6 +756,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	Waypoint waypointThirdEye;
 	public void MarkThirdEye ( bool _activate )
 	{
+		print(_activate);
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
 		{
 			// LES YEUx
