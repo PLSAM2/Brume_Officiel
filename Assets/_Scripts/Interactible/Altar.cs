@@ -81,8 +81,6 @@ public class Altar : Interactible
         }
         base.UpdateCaptured(_capturingPlayerID);
 
-        print(_capturingPlayerID + " --- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam + " ---- " + RoomManager.Instance.GetPlayerData(_capturingPlayerID).Name);
-
 
         //disable
         waypointObj.SetImageColor(altarLockColor);
