@@ -156,7 +156,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (Mathf.Abs(transform.eulerAngles.y - lastRotation) > 15f)
 		{
             SendRotation();
-        }
+        } 
 	}
 
     public void SendRotation()
