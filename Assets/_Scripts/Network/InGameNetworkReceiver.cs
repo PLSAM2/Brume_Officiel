@@ -634,8 +634,6 @@ public class InGameNetworkReceiver : MonoBehaviour
 					if (NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_statusId].effect.isHardControl)
 						GameManager.Instance.networkPlayers[_playerId].myPlayerModule.KillEveryStun();
 
-					print(_statusId);
-
 					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
 				}
 			}
