@@ -195,6 +195,8 @@ public class CameraManager : MonoBehaviour
 
 	private void Update ()
 	{
+
+
 		if (cameraShakeTimer > 0 && cameraShakeStarted)
 		{
 			cameraShakeTimer -= Time.deltaTime;
@@ -251,5 +253,8 @@ public class CameraManager : MonoBehaviour
 		cameraShakeTimer = time;
 		cameraShakeStarted = true;
 	}
+
+
+
 	// <<
 }

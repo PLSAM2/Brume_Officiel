@@ -36,7 +36,7 @@ public class BrumeDetection : MonoBehaviour
             {
                 myPlayerModule.SetInBrumeStatut(true, currentBrume.GetInstanceID());
 
-                if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule == currentFollowPlayer)
+                if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule == myPlayerModule)
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, false);
                     currentBrume.PlayAudio();
@@ -52,7 +52,7 @@ public class BrumeDetection : MonoBehaviour
             {
                 myPlayerModule.SetInBrumeStatut(false, 0);
 
-                if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule == currentFollowPlayer)
+                if (currentFollowPlayer != null && currentFollowPlayer.myPlayerModule == myPlayerModule)
                 {
                     currentBrume.ShowHideMesh(myPlayerModule, true);
                     currentBrume.PlayAudio();

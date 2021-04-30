@@ -148,8 +148,11 @@ public class Interactible : MonoBehaviour
                 }
             }
         }
+        if (Decapturing)
+        {
+            VisualCaptureProgress();
+        }
 
-        VisualCaptureProgress();
     }
 
 
@@ -173,7 +176,7 @@ public class Interactible : MonoBehaviour
                 using (DarkRiftWriter _writer = DarkRiftWriter.Create())
                 {
                     _writer.Write(interactibleID);
-                    _writer.Write(timer / interactTime);
+                    _writer.Write(timer / interactTime);  // 0 --> 1 
 
                     using (Message _message = Message.Create(Tags.CaptureProgressInteractible, _writer))
                     {
@@ -189,7 +192,9 @@ public class Interactible : MonoBehaviour
 
     public void ProgressInServer(float progress)
     {
-        timer = progress * interactTime;
+        timer = progress * interactTime; // 0 --> interactTime 
+
+        fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
     }
 
     public virtual void TryCapture(Team team, PlayerModule capturingPlayer)

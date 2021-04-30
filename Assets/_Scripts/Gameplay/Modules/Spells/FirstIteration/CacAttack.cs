@@ -103,8 +103,6 @@ public class CacAttack : SpellModule
 
 			_listHit.Remove(gameObject);
 
-			print(_listHit.Count);
-
 			foreach (GameObject _go in _listHit)
 			{
 				Damageable _playerTouched = _go.GetComponent<Damageable>();
