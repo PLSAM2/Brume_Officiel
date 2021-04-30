@@ -148,7 +148,7 @@ public class Interactible : MonoBehaviour
                 }
             }
         }
-        if (Decapturing || reloading)
+        if (Decapturing)
         {
             VisualCaptureProgress();
         }

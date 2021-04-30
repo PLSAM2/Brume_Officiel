@@ -261,6 +261,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
             }
         }
 
+        if(myWaypoint != null)
+        {
+            Destroy(myWaypoint.gameObject);
+        }
+
         if (!isOwner)
 			return;
 

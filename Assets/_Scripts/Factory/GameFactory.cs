@@ -57,8 +57,7 @@ public class GameFactory
 				return new Color(0.94f, 0.18f, 0.2f, 1f);
 
 			case Team.blue:
-                //return new Color(0.12f, 0.45f, 0.8f, 1f);
-                return Color.white;
+                return new Color(0.12f, 0.45f, 0.8f, 1f);
 
             default:
 				return new Color(1, 1, 1f, 1f);
@@ -73,8 +72,7 @@ public class GameFactory
 				return "#F02E33";
 
 			case Team.blue:
-                //return "#1F73CC";
-                return "#FFFFFF";
+                return "#1F73CC";
 
             default:
 				return "#FFFFFF";
