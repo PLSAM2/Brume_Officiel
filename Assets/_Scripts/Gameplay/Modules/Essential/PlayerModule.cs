@@ -241,6 +241,49 @@ public class PlayerModule : MonoBehaviour
 		ResetLayer();
 	}
 
+    public void GetDamageFx()
+    {
+        print("damage");
+        StartCoroutine(DoEffectHit());
+    }
+
+    IEnumerator DoEffectHit()
+    {
+        foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+        {
+            LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
+
+            if (actualPlayer == null) { break; }
+
+            if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
+            {
+                skin.material.DOFloat(1, "_HitWhite", 0.4f);
+            }
+            else
+            {
+                skin.material.DOFloat(1, "_HitRed", 0.4f);
+            }
+        }
+
+        yield return new WaitForSeconds(0.4f);
+
+        foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+        {
+            LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
+
+            if (actualPlayer == null) { break; }
+
+            if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
+            {
+                skin.material.DOFloat(0, "_HitWhite", 0.4f);
+            }
+            else
+            {
+                skin.material.DOFloat(0, "_HitRed", 0.4f);
+            }
+        }
+    }
+
     public void InitSoulSpell(En_SoulSpell _mySoulSpell)
     {
 		currentSoulModule = _mySoulSpell;
