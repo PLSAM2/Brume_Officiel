@@ -76,6 +76,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
     public GameObject waypointAlliePrefab;
     AllieWaypoint myWaypoint;
 
+    public AudioClip deathLocalAudio, deathGlobalAudio;
+
 	private void Awake ()
 	{
 		lastPosition = transform.position;
@@ -252,15 +254,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void OnDisable ()
 	{
-        if (deathFx != null)
-        {
-            FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
-            if (isOwner)
-            {
-                fow.fowDeath.SetActive(true);
-            }
-        }
-
         if(myWaypoint != null)
         {
             Destroy(myWaypoint.gameObject);
@@ -270,7 +263,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 
 		AudioManager.Instance.OnAudioPlay -= OnAudioPlay;
-		//	myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
+		//myFow.myFieldOfView.EnemySeen -= myPlayerModule.WaitForHeal;
 
 	}
 	public void SendState ( En_CharacterState _state )
@@ -607,16 +600,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void KillPlayer ( PlayerData killer )
 	{
-        /*
-		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
-		{
-			Instantiate(deathAlly, transform.position, transform.rotation);
-		}
-		else
-			Instantiate(deathEnemy, transform.position, transform.rotation);
-            */
+        if (deathFx != null)
+        {
+            FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
+            if (isOwner)
+            {
+                fow.fowDeath.SetActive(true);
+            }
+        }
 
-		if (isOwner)
+        if (isOwner)
 		{
             UiManager.Instance.feedbackDeath.SetActive(true);
 
@@ -629,7 +622,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
 
 			GameManager.Instance.ResetCam();
-		}
+
+            AudioManager.Instance.Play2DAudio(deathLocalAudio);
+        }
+        else
+        {
+            AudioManager.Instance.Play2DAudio(deathGlobalAudio);
+        }
 	}
 
 	/// <summary>
