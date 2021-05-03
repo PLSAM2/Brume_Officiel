@@ -20,8 +20,8 @@ public class CacAttack : SpellModule
 	{
 		base.SetupComponent(_actionLinked);
 		localTrad = (Sc_CacAttack)spell;
-
 		ResetDamage();
+
 		squarePreview = PreviewManager.Instance.GetSquarePreview();
 		squarePreview.gameObject.SetActive(false);
 		if (useAnonciation)

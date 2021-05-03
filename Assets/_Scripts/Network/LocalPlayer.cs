@@ -307,7 +307,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
-			print(_indexOfTheStatus);
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
 
 			_writer.Write(_indexOfTheStatus);
@@ -438,7 +437,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
 			}
 
-			if (_damagesToDeal.statusToApply != null)
+			if (_damagesToDeal.statusToApply.Length > 0)
 			{
 				for (int i = 0; i < _damagesToDeal.statusToApply.Length; i++)
 				{
@@ -455,7 +454,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			return;
 		}
 
-        myPlayerModule.GetDamageFx();
+		if(damages > 0)
+			myPlayerModule.GetDamageFx();
 
 		if (isOwner)
 		{
@@ -687,6 +687,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void OnAddedStatus ( int _newStatus )
 	{
+
 		if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
 		{
 			if (isNegative(_newStatus))

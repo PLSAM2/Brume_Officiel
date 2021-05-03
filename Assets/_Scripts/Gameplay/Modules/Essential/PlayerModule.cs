@@ -243,7 +243,6 @@ public class PlayerModule : MonoBehaviour
 
     public void GetDamageFx()
     {
-        print("damage");
         StartCoroutine(DoEffectHit());
     }
 
@@ -337,9 +336,6 @@ public class PlayerModule : MonoBehaviour
 		TreatEffects();
 		TreatTickEffects();
 
-
-		if (Input.GetKeyDown(KeyCode.C))
-			print(IsInProtectiveZone());
 		if (oldState != state)
 		{
 			if ((state & En_CharacterState.Intengenbility) != 0)
@@ -358,6 +354,7 @@ public class PlayerModule : MonoBehaviour
 			}
 			else if ((state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
 			{
+				print("i m marked" + name);
 				mylocalPlayer.MarkThirdEye(true);
 			}
 
@@ -748,6 +745,9 @@ public class PlayerModule : MonoBehaviour
 
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
+
+		if ((_newElement.effect.stateApplied & En_CharacterState.WxMarked) != 0)
+			print("i m marked" ) ;
 
 
 		if (_statusToAdd.forcedKey != 0)
