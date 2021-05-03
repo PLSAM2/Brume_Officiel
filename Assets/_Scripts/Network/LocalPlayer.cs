@@ -479,7 +479,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
             if (serverLife != null)
             {
-                print(serverLife);
                 liveHealth = (ushort)serverLife;
 
                 if (isOwner && liveHealth <= 0)
