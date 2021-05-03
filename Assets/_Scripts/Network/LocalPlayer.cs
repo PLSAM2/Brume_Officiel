@@ -76,6 +76,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
     public GameObject waypointAlliePrefab;
     AllieWaypoint myWaypoint;
 
+    public AudioClip deathPerso, deathGlobal;
+
     private void Awake()
     {
         lastPosition = transform.position;
@@ -621,14 +623,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     public void KillPlayer(PlayerData killer)
     {
-        /*
-		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
-		{
-			Instantiate(deathAlly, transform.position, transform.rotation);
-		}
-		else
-			Instantiate(deathEnemy, transform.position, transform.rotation);
-            */
+        if (deathFx != null)
+        {
+            FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
+            if (isOwner)
+            {
+                fow.fowDeath.SetActive(true);
+            }
+        }
 
         if (isOwner)
         {
@@ -643,6 +645,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
             UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
 
             GameManager.Instance.ResetCam();
+
+            AudioManager.Instance.Play2DAudio(deathPerso);
+        }
+        else
+        {
+            AudioManager.Instance.Play2DAudio(deathGlobal);
         }
     }
 
