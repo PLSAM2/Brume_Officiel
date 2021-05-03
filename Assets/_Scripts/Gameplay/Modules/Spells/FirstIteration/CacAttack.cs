@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
+
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
@@ -15,7 +17,7 @@ public class CacAttack : SpellModule
 	[ShowIf("useAnonciation")] public Transform firstFx, secondFx;
 	[ShowIf("useAnonciation")] public LineRenderer lineLaser, linePreview;
 
-
+	public UnityEvent OnHitPlayer;
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
@@ -109,7 +111,11 @@ public class CacAttack : SpellModule
 
 				if (_playerTouched != null)
 					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
+					{
+						OnHitPlayer?.Invoke();
 						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform.position);
+					}
+						
 			}
 		}
 	}
