@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_FX_TrailDash
+  m_Name: RE_TrailDash
   m_Shader: {fileID: 4800000, guid: c6b8f63fc1c9e1b4b8ad4a9d1b6592a9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2
@@ -59,6 +59,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: baf7dc15007c8af4e9ce725cf78cf88c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _blurclouds:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
     - _DissolveSoftness: 0.25
@@ -75,12 +79,14 @@ Material:
     - _OutlineEndSize: 0.25
     - _SpeedTrail: 0
     m_Colors:
+    - _Color0: {r: 1, g: 0.7372549, b: 0.1372549, a: 1}
+    - _Color1: {r: 1, g: 0.9607843, b: 0.8078431, a: 0}
     - _ColorOutline: {r: 0, g: 0, b: 0, a: 1}
-    - _ColorTrail1: {r: 1, g: 0.6935678, b: 0.33490553, a: 0}
-    - _ColorTrail2: {r: 1, g: 0.823033, b: 0.33333322, a: 0}
+    - _ColorTrail1: {r: 1, g: 0.6935678, b: 0.3349055, a: 0}
+    - _ColorTrail2: {r: 1, g: 0.823033, b: 0.3333332, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpeedTrail: {r: 0, g: 0, b: 0, a: 0}
     - _Vector0: {r: -0.5, g: 0, b: 0, a: 0}
-    - _Vector7: {r: 7.27, g: 0.62, b: 0, a: 0}
+    - _Vector7: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
