@@ -343,10 +343,6 @@ public class GameManager : SerializedMonoBehaviour
         int secondRemaining = (int)timer % 60;
         int minuteRemaining = (int)Math.Floor(timer / 60);
 
-        if (true)
-        {
-
-        }
         text.text = minuteRemaining + " : " + secondRemaining.ToString("D2");
 
         return secondRemaining + (minuteRemaining * 60);

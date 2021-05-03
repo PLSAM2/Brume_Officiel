@@ -9,13 +9,19 @@ public class EndZoneUIGroup : MonoBehaviour
 {
 	public TextMeshProUGUI timer;
 	public TextMeshProUGUI EndZoneText;
-	public Image endZoneBarTimer;
+	public Image endZoneBar;
+	public Image endZoneBarBackground;
 	public Animator endZoneAnim;
 	public GameObject endZoneTimerObj;
 
 	public void Init(Team team)
 	{
-		EndZoneText.color = GameFactory.GetRelativeColor(team);
+
+        Color _temp = GameFactory.GetRelativeColor(team);
+
+        EndZoneText.color = _temp;
+        endZoneBar.color = _temp;
+        endZoneBarBackground.color = new Color(_temp.r, _temp.g, _temp.b, 0.2f);
 
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == team)
         {
