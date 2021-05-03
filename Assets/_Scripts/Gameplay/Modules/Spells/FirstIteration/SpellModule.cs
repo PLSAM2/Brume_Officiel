@@ -325,8 +325,7 @@ public class SpellModule : MonoBehaviour
 	}
 
 	public virtual void KillSpell ()
-	{
-		print("The spell as been killed");
+	{ 
 		ResolutionFeedBack();
 		willResolve = false;
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
