@@ -256,15 +256,15 @@ public class PlayerModule : MonoBehaviour
 
             if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
             {
-                skin.material.DOFloat(1, "_HitWhite", 0.4f);
+                skin.material.DOFloat(1, "_HitRed", 0.1f);
             }
             else
             {
-                skin.material.DOFloat(1, "_HitRed", 0.4f);
+                skin.material.DOFloat(1, "_HitWhite", 0.1f);
             }
         }
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.1f);
 
         foreach (SkinnedMeshRenderer skin in skinnedRenderer)
         {
@@ -274,11 +274,11 @@ public class PlayerModule : MonoBehaviour
 
             if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
             {
-                skin.material.DOFloat(0, "_HitWhite", 0.4f);
+                skin.material.DOFloat(0, "_HitRed", 0.4f);
             }
             else
             {
-                skin.material.DOFloat(0, "_HitRed", 0.4f);
+                skin.material.DOFloat(0, "_HitWhite", 0.4f);
             }
         }
     }
