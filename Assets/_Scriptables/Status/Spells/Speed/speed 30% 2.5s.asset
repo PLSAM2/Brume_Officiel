@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: speed 40% 1.5s
+  m_Name: speed 30% 2.5s
   m_EditorClassIdentifier: 
   effect:
     tick: 0
-    finalLifeTime: 1.5
+    finalLifeTime: 2.5
     isConstant: 0
     canBeForcedStop: 0
     forcedKey: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
     isHealing: 0
     tickValue: 0
     stateApplied: 4
-    percentageOfTheMovementModifier: 0.6
+    percentageOfTheMovementModifier: 0.3
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
@@ -55,8 +55,4 @@ MonoBehaviour:
       damageHealth: 0
       statusToApply: []
       movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
     hitBeforeProcOptionnalDamages: 0

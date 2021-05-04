@@ -17,6 +17,11 @@ public class IconUi : MonoBehaviour
 	En_SpellInput inputLinked;
 	Sc_Spell spellLinked;
 
+    public GameObject feedbackCanUse;
+
+    float cdDisplay = 0.3f;
+    float currentCdDisplay = 0;
+
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
 	{
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
@@ -40,15 +45,24 @@ public class IconUi : MonoBehaviour
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible -= CooldownReadyFeedback;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
 	}
+
+    private void Update()
+    {
+        currentCdDisplay += Time.deltaTime;
+    }
+
+    float lastCD = 0;
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
 	{
-		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
+        lastCD = (_cooldownRemaining < 0) ? 0 : Mathf.CeilToInt(_completeCd - _cooldownRemaining);
+
+        if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
 			grisage.gameObject.SetActive(true);
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
 			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
 			outlineIcon.color = Color.black;
-		}
+        }
 		else
 		{
 			cooldownCount.text = "";
@@ -61,14 +75,21 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
-		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .8f);
+
 		//Color _color = new Vector4(0, 0, 0, 255);
 		//feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
 		myRectTransform.localScale = new Vector3(.7f, .7f, .7f);
 		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
-		//feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
-	}
+        //feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
+
+        if(currentCdDisplay >= cdDisplay)
+        {
+            currentCdDisplay = 0;
+            UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
+        }
+    }
+
 	public void CooldownReadyFeedback ()
 	{
 		ResetIcon();
@@ -76,8 +97,11 @@ public class IconUi : MonoBehaviour
 		grisage.gameObject.SetActive(false);
 		cooldownCount.text = "";
 		outlineIcon.color = Color.white;
-		myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
-	}
+		//myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
+
+
+        feedbackCanUse.SetActive(true);
+    }
 	public void ResetIcon ()
 	{
 		myRectTransform.DOKill();
@@ -87,7 +111,9 @@ public class IconUi : MonoBehaviour
 		feedbackCantCast.DOKill();
 		feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
 		feedbackCantCast.color = _color;
-	}
+
+        feedbackCanUse.SetActive(false);
+    }
 	public void HideIcon ( bool _hiding )
 	{/*
 		myRectTransform.DOKill();

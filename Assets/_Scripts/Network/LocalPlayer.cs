@@ -692,7 +692,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
                 myPlayerModule.secondSpell.FeedbackSpellStep(_spellStep);
                 break;
             case 5:
-                myPlayerModule.tpModule.FeedbackSpellStep(_spellStep);
+                myPlayerModule.wardModule.FeedbackSpellStep(_spellStep);
                 break;
         }
     }
