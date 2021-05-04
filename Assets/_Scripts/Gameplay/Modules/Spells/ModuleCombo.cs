@@ -36,7 +36,6 @@ public class ModuleCombo : SpellModule
 
 		foreach (SpellModule _module in allSpellsOfTheCombo)
 		{
-			_module.isAComboPiece = true;
 			_module.SetupComponent(actionLinked);
 
 		}

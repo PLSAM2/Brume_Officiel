@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
+  m_Name: Sc_SoulSpell_Stasis
+  m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
+  range: 0
+  cooldown: 12
+  numberOfCharge: 1
+  forbiddenState: 48
+  stacksUsed: 0
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0
+  statusToApplyOnCanalisation: []
+  lockRotOnAnonciation: 0
+  LockPosOnAnonciation: 0
+  anonciationTime: 0
+  forcedMovementAppliedBeforeResolution: {fileID: 0}
+  forcedMovementAppliedAfterResolution: {fileID: 0}
+  statusToApplyOnResolution:
+  - {fileID: 11400000, guid: 9bd3555636d96784d96df0c00a05b876, type: 2}
+  statusToApplyAtTheEnd: []
+  throwBackDuration: 0
+  spellIcon: {fileID: 21300000, guid: 9b3049993a3dd1e4f8febdc7fabb23a7, type: 3}
+  spellName: Stasis
+  spellDescription: Leng becomes intengible for 2.5s
