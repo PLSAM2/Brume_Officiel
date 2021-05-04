@@ -18,7 +18,7 @@ public class LoadingGameScene : MonoBehaviour
 
     private IEnumerator FakeLoadingTime()
     {
-        yield return new WaitForSeconds(Random.Range(fakeLoadingTime, 5));
+        yield return new WaitForSeconds(Random.Range(0, fakeLoadingTime));
         StartCoroutine(LoadSceneAsyncOperation());
     }
 
