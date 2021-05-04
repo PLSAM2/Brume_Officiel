@@ -18,6 +18,9 @@ GameObject:
   - component: {fileID: 7642602275245690328}
   - component: {fileID: 2562427656820024886}
   - component: {fileID: 7925310797148938292}
+  - component: {fileID: 7864482081500776833}
+  - component: {fileID: 8239504596780511503}
+  - component: {fileID: 1946925813706158318}
   m_Layer: 8
   m_Name: LocalPlayer
   m_TagString: Hide
@@ -79,7 +82,6 @@ MonoBehaviour:
   distanceRequiredBeforeSync: 0.025
   myPlayerModule: {fileID: 0}
   myAnimController: {fileID: -3939077042609495558}
-  circleDirection: {fileID: 0}
   respawnTime: 2
   myUiPlayerManager: {fileID: 6883088895804968190}
   allCharacterSpawned: 0
@@ -96,6 +98,8 @@ MonoBehaviour:
   myOutline: {fileID: 0}
   deathFx: {fileID: 0}
   waypointAlliePrefab: {fileID: 150680, guid: ced906c2671bbaf4780a66625e07da07, type: 3}
+  deathPerso: {fileID: 8300000, guid: e6cb416b2e73ebe46b99f39d270f4185, type: 3}
+  deathGlobal: {fileID: 8300000, guid: b0c944a7c2caeef47988a4a97f0df18c, type: 3}
   timeSpotDisplay: 2
 --- !u!114 &5951944403870468667
 MonoBehaviour:
@@ -116,7 +120,6 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: e5d259702f1056640b345ff8341e02af, type: 2}
-  isAComboPiece: 0
   hasPreviewed: 0
   onCanalisation:
     m_PersistentCalls:
@@ -261,7 +264,6 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 48a55a5b4bf295f449857a8d8d8e5df9, type: 2}
-  isAComboPiece: 0
   hasPreviewed: 0
   onCanalisation:
     m_PersistentCalls:
@@ -297,7 +299,6 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: b4159b0d01f198b49b07daac2b16d21d, type: 2}
-  isAComboPiece: 0
   hasPreviewed: 0
   onCanalisation:
     m_PersistentCalls:
@@ -378,7 +379,102 @@ MonoBehaviour:
   resolved: 0
   anonciated: 0
   spell: {fileID: 11400000, guid: 30b0207a72778654794f951cc1b295ff, type: 2}
-  isAComboPiece: 0
+  hasPreviewed: 0
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7864482081500776833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b56435dced6f394089a1a8d153574f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 87fc1e6884d8e424aae1e92c4c785966, type: 2}
+  hasPreviewed: 0
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8239504596780511503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b56435dced6f394089a1a8d153574f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: e4d7bcc97c4fac44ca0fbecd0025c521, type: 2}
+  hasPreviewed: 0
+  onCanalisation:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnnonciation:
+    m_PersistentCalls:
+      m_Calls: []
+  onResolution:
+    m_PersistentCalls:
+      m_Calls: []
+  onInterrupt:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1946925813706158318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7935494346270426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b56435dced6f394089a1a8d153574f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerModule: {fileID: 0}
+  timeToResolveSpell: 0
+  isUsed: 0
+  startResolution: 0
+  resolved: 0
+  anonciated: 0
+  spell: {fileID: 11400000, guid: 8a53ca9e9b6612a41aeec51ec427c64a, type: 2}
   hasPreviewed: 0
   onCanalisation:
     m_PersistentCalls:

@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
   m_Name: Ping
   m_EditorClassIdentifier: 
+  startCanalisationOnClick: 0
+  minTimeToResolve: 0.3
   range: 500000
-  cooldown: 2
-  numberOfCharge: 10
+  cooldown: 0.1
+  numberOfCharge: 5
   forbiddenState: 0
+  stacksUsed: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
@@ -29,3 +32,5 @@ MonoBehaviour:
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 0}
+  spellName: MyNameIsStan
+  spellDescription: My Description

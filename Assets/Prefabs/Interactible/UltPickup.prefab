@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!95 &6577912601663304553
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818386164131816602}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 08b2e18aee1079540a13ebd51c8ccc66, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1101177110825806211
 GameObject:
   m_ObjectHideFlags: 0
@@ -18797,7 +18816,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5336698026972968302}
-  - component: {fileID: 1367090720589468057}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -18820,25 +18838,6 @@ Transform:
   m_Father: {fileID: 3677994218200260316}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1367090720589468057
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442594398179424001}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 08b2e18aee1079540a13ebd51c8ccc66, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2646616264896471182
 GameObject:
   m_ObjectHideFlags: 0
@@ -28523,12 +28522,12 @@ MonoBehaviour:
   iconRed: {fileID: 21300000, guid: 92ff4f99ed905994fb61a399c854707d, type: 3}
   iconBlue: {fileID: 21300000, guid: 92ff4f99ed905994fb61a399c854707d, type: 3}
   myAudioSource: {fileID: 597890861776585252}
-  interactibleName: Ultimate Pickup
+  interactibleName: HealPoint
   showReload: 1
   serverReloadTime: 45
   CheckOnUnlock: 0
   lastTeamCaptured: 0
-  myAnimator: {fileID: 1367090720589468057}
+  myAnimator: {fileID: 6577912601663304553}
   ultimateStackGive: 0
   hitPointGiven: 1
   brumeExplorationGain: 0.4
@@ -33503,13 +33502,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
---- !u!23 &7933769226175690723 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7809116728105899928, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
-  m_PrefabInstance: {fileID: 163791333665841275}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1330783150980185632 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1166998965356273243, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
+  m_PrefabInstance: {fileID: 163791333665841275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1818386164131816602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1979846387117802721, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
+  m_PrefabInstance: {fileID: 163791333665841275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7933769226175690723 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7809116728105899928, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
   m_PrefabInstance: {fileID: 163791333665841275}
   m_PrefabAsset: {fileID: 0}

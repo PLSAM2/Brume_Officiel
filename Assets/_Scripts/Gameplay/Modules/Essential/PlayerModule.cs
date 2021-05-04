@@ -18,7 +18,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, leftClick, pingModule;
 	bool boolWasClicked = false;
 	
-	[TabGroup("SoulSpells")] public SpellModule tpModule, thirdEyeModule, invisibilityModule, wardModule;
+	[TabGroup("SoulSpells")] public SpellModule decoyModule, thirdEyeModule, invisibilityModule, wardModule, speedUpModule, invulnerabilityModule;
 	En_SoulSpell currentSoulModule;
 
 	[TabGroup("GameplayInfos")] public Sc_CharacterParameters characterParameters;
@@ -256,15 +256,15 @@ public class PlayerModule : MonoBehaviour
 
             if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
             {
-                skin.material.DOFloat(1, "_HitWhite", 0.4f);
+                skin.material.DOFloat(1, "_HitRed", 0.1f);
             }
             else
             {
-                skin.material.DOFloat(1, "_HitRed", 0.4f);
+                skin.material.DOFloat(1, "_HitWhite", 0.1f);
             }
         }
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.1f);
 
         foreach (SkinnedMeshRenderer skin in skinnedRenderer)
         {
@@ -274,11 +274,11 @@ public class PlayerModule : MonoBehaviour
 
             if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
             {
-                skin.material.DOFloat(0, "_HitWhite", 0.4f);
+                skin.material.DOFloat(0, "_HitRed", 0.4f);
             }
             else
             {
-                skin.material.DOFloat(0, "_HitRed", 0.4f);
+                skin.material.DOFloat(0, "_HitWhite", 0.4f);
             }
         }
     }
@@ -1041,14 +1041,16 @@ public class PlayerModule : MonoBehaviour
 	{
 		switch(currentSoulModule)
 		{
-			case En_SoulSpell.Tp:
-				return tpModule;
-			case En_SoulSpell.Invisible:
-				return invisibilityModule;
 			case En_SoulSpell.Ward:
 				return wardModule;
+			case En_SoulSpell.Invisible:
+				return invisibilityModule;
 			case En_SoulSpell.ThirdEye:
 				return thirdEyeModule;
+			case En_SoulSpell.SpeedUp:
+				return speedUpModule;
+			case En_SoulSpell.Decoy:
+				return decoyModule;
 		}
 		return wardModule;
 	}
@@ -1066,9 +1068,7 @@ public enum En_CharacterState
 	Crouched = 1 << 6,
 	Embourbed = 1 << 7,
 	WxMarked = 1 << 8,
-	// ThirdEye = 1 << 9,
 	Hidden = 1 << 9,
-	// Countering = 1 << 11,
 	Invulnerability = 1 << 10,
 	Intengenbility = 1 << 11,
 	PoweredUp = 1 << 12, 

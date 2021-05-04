@@ -28,7 +28,9 @@ public class GameData
         Ward = 10,
         Tp = 20,
         ThirdEye = 30,
-        Invisible = 40
+        Invisible = 40,
+        Decoy = 50,
+        SpeedUp = 60,
     }
 
     public enum InteractibleType : ushort

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PingModule : SpellModule
 {
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (myPlayerModule == null || isOwner == false)
         {
             return;

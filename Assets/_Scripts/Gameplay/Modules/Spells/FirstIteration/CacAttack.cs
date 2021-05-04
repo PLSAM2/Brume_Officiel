@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
@@ -14,7 +15,10 @@ public class CacAttack : SpellModule
 	[SerializeField] bool useAnonciation = false;
 	[ShowIf("useAnonciation")] public Transform firstFx, secondFx;
 	[ShowIf("useAnonciation")] public LineRenderer lineLaser, linePreview;
-
+	bool hasHit = false;
+	public UnityEvent playerHit;
+		
+		
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -92,6 +96,7 @@ public class CacAttack : SpellModule
 			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 		}
 
+
 		if (willResolve)
 		{
 			List<GameObject> _listHit = new List<GameObject>();
@@ -102,14 +107,22 @@ public class CacAttack : SpellModule
 
 
 			_listHit.Remove(gameObject);
-
+			bool _ashitEnemy = false;
 			foreach (GameObject _go in _listHit)
 			{
 				Damageable _playerTouched = _go.GetComponent<Damageable>();
 
 				if (_playerTouched != null)
 					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
+					{
 						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform.position);
+						_ashitEnemy = true;
+					}
+			}
+
+			if (_ashitEnemy)
+			{
+				playerHit?.Invoke();
 			}
 		}
 	}
@@ -179,7 +192,9 @@ public class CacAttack : SpellModule
 
 			lineLaser.SetPosition(0, transform.position + Vector3.up);
 			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+
 		}
+
 
 		base.ResolutionFeedBack();
 	}
@@ -208,5 +223,11 @@ public class CacAttack : SpellModule
 			lineLaser.SetPosition(0, transform.position);
 			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 		}
+	}
+
+	void TriggerAnimHit()
+	{
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Slash");
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Slash");
 	}
 }

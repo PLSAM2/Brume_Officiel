@@ -43,7 +43,6 @@ public class SpellModule : MonoBehaviour
 	protected bool showingPreview = false;
 	protected bool willResolve = false;
 	protected bool isOwner = false;
-	public bool isAComboPiece = false;
 	[HideInInspector] public bool hasPreviewed;
 	protected Vector3 mousePosInputed;
 	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
@@ -325,8 +324,7 @@ public class SpellModule : MonoBehaviour
 	}
 
 	public virtual void KillSpell ()
-	{
-		print("The spell as been killed");
+	{ 
 		ResolutionFeedBack();
 		willResolve = false;
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
@@ -351,9 +349,6 @@ public class SpellModule : MonoBehaviour
 		{
 			return false;
 		}
-
-		if (isAComboPiece)
-			return true;
 
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges < 1 || isUsed)
@@ -643,7 +638,6 @@ public class SpellModule : MonoBehaviour
 	#region
 	protected virtual void UpdateUiCooldown ()
 	{
-		if (!isAComboPiece)
 			UiManager.Instance.UpdateUiCooldownSpell(actionLinked, _cooldown, spell.cooldown);
 	}
 	#endregion
