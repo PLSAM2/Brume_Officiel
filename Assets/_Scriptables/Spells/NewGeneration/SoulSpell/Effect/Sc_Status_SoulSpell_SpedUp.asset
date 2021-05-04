@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: Sc_SoulSpell_Effect_SpeedUp
+  m_Name: Sc_Status_SoulSpell_SpedUp
   m_EditorClassIdentifier: 
   effect:
     canBeForcedStop: 0
-    forcedKey: 0
-    finalLifeTime: 3
+    forcedKey: 1450
+    finalLifeTime: 2.5
     isConstant: 0
     refreshOnApply: 1
     doNotApplyIfExist: 0
@@ -27,20 +27,20 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        inSlope: -0.07000332
+        outSlope: -0.07000332
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.9922868
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        value: 0.5
+        inSlope: -0.9829808
+        outSlope: -0.9829808
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.054413617
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
