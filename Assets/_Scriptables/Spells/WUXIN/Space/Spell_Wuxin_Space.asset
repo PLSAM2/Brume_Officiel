@@ -10,24 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9745601dd9d2045bccd60265387d97, type: 3}
-  m_Name: Resurrect
+  m_Name: Spell_Wuxin_Space
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 0
+  cooldown: 7
   numberOfCharge: 1
-  forbiddenState: 0
-  useUltStacks: 0
+  forbiddenState: 48
   stacksUsed: 0
-  lockRotOnCanalisation: 1
-  lockPosOnCanalisation: 1
-  canalisationTime: 10
+  lockRotOnCanalisation: 0
+  lockPosOnCanalisation: 0
+  canalisationTime: 0
   statusToApplyOnCanalisation: []
-  lockRotOnAnonciation: 1
+  lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
-  statusToApplyOnResolution: []
+  statusToApplyOnResolution:
+  - {fileID: 11400000, guid: f09449f3cb41dd44ba31341ef3c295cf, type: 2}
   statusToApplyAtTheEnd: []
-  throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 75ab703d41e0cd842a545b13dd4fb0cd, type: 3}
+  throwBackDuration: 2.5
+  spellIcon: {fileID: 21300000, guid: 97cca71258c282c48a0a6c620913ea22, type: 3}
+  spellName: Phasing
+  spellDescription: Wuxin becomes intangible and immune to enemy attacks and gains
+    a burst of movement speed for a short amount of time.

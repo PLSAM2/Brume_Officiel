@@ -9,46 +9,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e239d9a6b2597104f8ef96348fdac0b6, type: 3}
-  m_Name: FM_Spell_Yang_SpellKnockBack_After
+  m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
+  m_Name: Sc_Status_Wuxin_Space
   m_EditorClassIdentifier: 
-  movementToApply:
-    myModule: {fileID: 0}
-    _duration: 0.15
-    baseDuration: 0.35
-    speedEvolution:
+  effect:
+    canBeForcedStop: 0
+    forcedKey: 3514
+    finalLifeTime: 2.5
+    isConstant: 0
+    refreshOnApply: 0
+    doNotApplyIfExist: 0
+    stateApplied: 18436
+    percentageOfTheMovementModifier: 0.8
+    decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: -10.970083
-        outSlope: -10.970083
+        value: 0
+        inSlope: -0.06123121
+        outSlope: -0.06123121
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.07289638
+        outWeight: 0.036707643
       - serializedVersion: 3
-        time: 0.1511464
-        value: 0.13998148
-        inSlope: -0.46554732
-        outSlope: -0.46554732
+        time: 0.46444702
+        value: 1.8833771
+        inSlope: 1.5596164
+        outSlope: 1.5596164
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.082001254
+        outWeight: 0.0960887
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: -0.015432233
-        outSlope: -0.015432233
+        inSlope: -11.115407
+        outSlope: -11.115407
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.08361173
+        inWeight: 0.061043233
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    strength: 10
-    fakeRange: 0
-  isGrab: 1
