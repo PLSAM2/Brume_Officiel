@@ -17,7 +17,8 @@ public class SoulSpellSelector : MonoBehaviour
     bool startTimer = false;
 
     public SoulSpellElement ward;
-    public SoulSpellElement tp;
+    public SoulSpellElement decoil;
+    public SoulSpellElement speed;
     public SoulSpellElement thirdEye;
     public SoulSpellElement invisible;
 
@@ -83,18 +84,18 @@ public class SoulSpellSelector : MonoBehaviour
 
             case Character.Re:
                 ward.gameObject.SetActive(true);
-                //tp.gameObject.SetActive(true);
+                decoil.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
-                activeSoulSpell.Add(ward); activeSoulSpell.Add(invisible); //activeSoulSpell.Add(tp);
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(invisible); activeSoulSpell.Add(decoil);
                 break;
 
             case Character.Leng:
                 ward.gameObject.SetActive(true);
-                //tp.gameObject.SetActive(true);
+                speed.gameObject.SetActive(true);
                 invisible.gameObject.SetActive(true);
 
-                activeSoulSpell.Add(ward); activeSoulSpell.Add(invisible); //activeSoulSpell.Add(tp);
+                activeSoulSpell.Add(ward); activeSoulSpell.Add(invisible); activeSoulSpell.Add(speed);
                 break;
         }
     }
