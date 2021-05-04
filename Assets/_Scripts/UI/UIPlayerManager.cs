@@ -50,6 +50,7 @@ public class UIPlayerManager : MonoBehaviour
     public CanvasGroup myCanvasGroup;
 
     Material currentColorTeam;
+
     private void Awake()
     {
         canvasRot = canvas.transform.rotation;
