@@ -12,12 +12,12 @@ using UnityEngine.Events;
 public class PlayerModule : MonoBehaviour
 {
 	[TabGroup("InputsPart")] public KeyCode firstSpellKey = KeyCode.A;
-	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E,   crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl, pingKey = KeyCode.G;
+	[TabGroup("InputsPart")] public KeyCode secondSpellKey = KeyCode.E, crouching = KeyCode.LeftShift, cancelSpellKey = KeyCode.LeftControl, pingKey = KeyCode.G;
 	[TabGroup("InputsPart")] public KeyCode soulSpellKey = KeyCode.F;
 	[TabGroup("Modules")] public MovementModule movementPart;
 	[TabGroup("Modules")] public SpellModule firstSpell, secondSpell, leftClick, pingModule;
 	bool boolWasClicked = false;
-	
+
 	[TabGroup("SoulSpells")] public SpellModule decoyModule, thirdEyeModule, invisibilityModule, wardModule, speedUpModule, invulnerabilityModule;
 	En_SoulSpell currentSoulModule;
 
@@ -35,7 +35,7 @@ public class PlayerModule : MonoBehaviour
 		set { if (!mylocalPlayer.isOwner) { _state = value; } else return; }
 	}
 	[HideInInspector] public bool willListenInputs = true;
-	En_CharacterState LiveEffectCharacterState()
+	En_CharacterState LiveEffectCharacterState ()
 	{
 		En_CharacterState _temp = En_CharacterState.Clear;
 
@@ -99,7 +99,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public ushort healPerTick = 1;
 	[TabGroup("GameplayInfos")] private float healTimer = 0;
 	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
-    [TabGroup("GameplayInfos")] public float timeInBrume;
+	[TabGroup("GameplayInfos")] public float timeInBrume;
 
 	[HideInInspector] public int bonusHp;
 	//ALL ACTION 
@@ -140,30 +140,30 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
 	public Action ultPointPickedUp;
 
-    public Action OnStateChange;
+	public Action OnStateChange;
 
 
 	#endregion
-	void Awake()
+	void Awake ()
 	{
 		mylocalPlayer = GetComponent<LocalPlayer>();
 		GameManager.Instance.OnAllCharacterSpawned += Setup;
 		GameManager.Instance.OnAllCharacterSpawned += mylocalPlayer.AllCharacterSpawn;
 	}
-	void Start()
+	void Start ()
 	{
 		if (GameManager.Instance.gameStarted)
 			Setup();
 
 		if (mylocalPlayer.isOwner && !GameManager.Instance.haveChoiceSoulSpell)
 		{
-            GameManager.Instance.haveChoiceSoulSpell = true;
+			GameManager.Instance.haveChoiceSoulSpell = true;
 
-            GameManager.Instance.playerJoinedAndInit = true;
+			GameManager.Instance.playerJoinedAndInit = true;
 			GameManager.Instance.PlayerJoinedAndInitInScene(); // DIT AU SERVEUR QUE CE JOUEUR EST PRET A JOUER
 		}
 	}
-	private void OnDestroy()
+	private void OnDestroy ()
 	{
 
 		GameManager.Instance.OnAllCharacterSpawned -= Setup;
@@ -177,7 +177,7 @@ public class PlayerModule : MonoBehaviour
 
 		}
 	}
-	public virtual void Setup()
+	public virtual void Setup ()
 	{
 		if (firstSpell != null)
 			firstSpell.SetupComponent(En_SpellInput.FirstSpell);
@@ -219,20 +219,20 @@ public class PlayerModule : MonoBehaviour
 		}
 		else
 		{
-			wardModule.SetupComponent(En_SpellInput.SoulSpell) ;
+			wardModule.SetupComponent(En_SpellInput.SoulSpell);
 			if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
 			{
-                foreach(SkinnedMeshRenderer skin in skinnedRenderer)
-                {
-                    skin.material.SetFloat("_OutlinePower", 0);
-                }
+				foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+				{
+					skin.material.SetFloat("_OutlinePower", 0);
+				}
 			}
 			else
 			{
-                foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-                {
-                    skin.material.SetFloat("_OutlinePower", 10);
-                }
+				foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+				{
+					skin.material.SetFloat("_OutlinePower", 10);
+				}
 			}
 			mapIcon.gameObject.SetActive(false);
 			StartCoroutine(WaitForVisionCheck());
@@ -241,61 +241,61 @@ public class PlayerModule : MonoBehaviour
 		ResetLayer();
 	}
 
-    public void GetDamageFx()
-    {
-        StartCoroutine(DoEffectHit());
-    }
+	public void GetDamageFx ()
+	{
+		StartCoroutine(DoEffectHit());
+	}
 
-    IEnumerator DoEffectHit()
-    {
-        foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-        {
-            LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
+	IEnumerator DoEffectHit ()
+	{
+		foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+		{
+			LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
 
-            if (actualPlayer == null) { break; }
+			if (actualPlayer == null) { break; }
 
-            if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
-            {
-                skin.material.DOFloat(1, "_HitRed", 0.1f);
-            }
-            else
-            {
-                skin.material.DOFloat(1, "_HitWhite", 0.1f);
-            }
-        }
+			if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
+			{
+				skin.material.DOFloat(1, "_HitRed", 0.1f);
+			}
+			else
+			{
+				skin.material.DOFloat(1, "_HitWhite", 0.1f);
+			}
+		}
 
-        yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.1f);
 
-        foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-        {
-            LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
+		foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+		{
+			LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
 
-            if (actualPlayer == null) { break; }
+			if (actualPlayer == null) { break; }
 
-            if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
-            {
-                skin.material.DOFloat(0, "_HitRed", 0.4f);
-            }
-            else
-            {
-                skin.material.DOFloat(0, "_HitWhite", 0.4f);
-            }
-        }
-    }
+			if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
+			{
+				skin.material.DOFloat(0, "_HitRed", 0.4f);
+			}
+			else
+			{
+				skin.material.DOFloat(0, "_HitWhite", 0.4f);
+			}
+		}
+	}
 
-    public void InitSoulSpell(En_SoulSpell _mySoulSpell)
-    {
+	public void InitSoulSpell ( En_SoulSpell _mySoulSpell )
+	{
 		currentSoulModule = _mySoulSpell;
 		SelectionnedSoulSpellModule().SetupComponent(En_SpellInput.SoulSpell);
 	}
 
-	IEnumerator WaitForVisionCheck()
+	IEnumerator WaitForVisionCheck ()
 	{
 		CheckForBrumeRevelation();
 		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
 		StartCoroutine(WaitForVisionCheck());
 	}
-	void CheckForBrumeRevelation()
+	void CheckForBrumeRevelation ()
 	{
 
 		if (GameManager.Instance.currentLocalPlayer == null)
@@ -314,7 +314,7 @@ public class PlayerModule : MonoBehaviour
 		lastRecordedPos = transform.position;
 	}
 
-	public void ResetLayer()
+	public void ResetLayer ()
 	{
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
 		{
@@ -330,7 +330,7 @@ public class PlayerModule : MonoBehaviour
 			gameObject.layer = 8;
 		}
 	}
-	protected virtual void Update()
+	protected virtual void Update ()
 	{
 
 		TreatEffects();
@@ -377,7 +377,7 @@ public class PlayerModule : MonoBehaviour
 				mylocalPlayer.SendState(state);
 			}
 
-            OnStateChange?.Invoke();
+			OnStateChange?.Invoke();
 		}
 		oldState = state;
 
@@ -461,7 +461,7 @@ public class PlayerModule : MonoBehaviour
 		}
 
 	}
-	protected virtual void FixedUpdate()
+	protected virtual void FixedUpdate ()
 	{
 
 
@@ -470,7 +470,7 @@ public class PlayerModule : MonoBehaviour
 			CheckBrumeShader();
 		}
 	}
-	public void CheckBrumeShader()
+	public void CheckBrumeShader ()
 	{
 		if (_isInBrume)
 		{
@@ -498,7 +498,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	private void WaitForHealProcess()
+	private void WaitForHealProcess ()
 	{
 		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
 		{
@@ -527,7 +527,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	private void CheckAutoHealProcess()
+	private void CheckAutoHealProcess ()
 	{
 		healTimer -= Time.deltaTime;
 
@@ -550,12 +550,12 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	public virtual void SetInBrumeStatut(bool _value, int idBrume)
+	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
 		isInBrume = _value;
 		brumeId = idBrume;
 	}
-	public void RetryInteractibleCapture()
+	public void RetryInteractibleCapture ()
 	{
 		foreach (Interactible inter in interactiblesClose)
 		{
@@ -563,14 +563,14 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public void ForceQuitAllInteractible()
-    {
+	public void ForceQuitAllInteractible ()
+	{
 		foreach (Interactible inter in interactiblesClose)
 		{
 			inter.ForceQuit();
 		}
 	}
-	void ReduceCooldown(float _duration, En_SpellInput _spell)
+	void ReduceCooldown ( float _duration, En_SpellInput _spell )
 	{
 		switch (_spell)
 		{
@@ -593,7 +593,7 @@ public class PlayerModule : MonoBehaviour
 				break;
 		}
 	}
-	void ReduceAllCooldowns(float _duration)
+	void ReduceAllCooldowns ( float _duration )
 	{
 		firstSpell.ReduceCooldown(_duration);
 		secondSpell.ReduceCooldown(_duration);
@@ -603,7 +603,7 @@ public class PlayerModule : MonoBehaviour
 	//vision
 	#region
 
-	bool ShouldBePinged()
+	bool ShouldBePinged ()
 	{
 		//marké par la shili donc go ping
 		if (cursedByShili)
@@ -630,17 +630,17 @@ public class PlayerModule : MonoBehaviour
 	#endregion
 	//Vars 
 	#region 
-	public Vector3 directionInputed()
+	public Vector3 directionInputed ()
 	{
 		return Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 	}
 
-	public Vector3 directionOfTheMouse()
+	public Vector3 directionOfTheMouse ()
 	{
 		return Vector3.Normalize(mousePos() - transform.position);
 	}
 
-	public Vector3 mousePos()
+	public Vector3 mousePos ()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -655,7 +655,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public Vector3 ClosestFreePos(Vector3 _direction, float maxDistance)
+	public Vector3 ClosestFreePos ( Vector3 _direction, float maxDistance )
 	{
 		RaycastHit _hit;
 		if (Physics.Raycast(transform.position, _direction, out _hit, maxDistance, 1 << 9 | 1 << 19))
@@ -666,7 +666,7 @@ public class PlayerModule : MonoBehaviour
 			return transform.position + _direction * maxDistance;
 	}
 	#endregion
-	void LockingRotation(bool _isLocked)
+	void LockingRotation ( bool _isLocked )
 	{
 		if (_isLocked)
 			movementPart.rotLocked = true;
@@ -675,7 +675,7 @@ public class PlayerModule : MonoBehaviour
 	}
 	//STATUS GESTION
 	#region
-	void TreatEffects()
+	void TreatEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
@@ -694,7 +694,7 @@ public class PlayerModule : MonoBehaviour
 			allEffectLive.Remove(_effect);
 	}
 
-	void TreatTickEffects()
+	void TreatTickEffects ()
 	{
 		List<EffectLifeTimed> _tempList = new List<EffectLifeTimed>();
 
@@ -707,33 +707,12 @@ public class PlayerModule : MonoBehaviour
 			{
 				_tempList.Add(allTickLive[i]);
 			}
-
-			if (allTickLive[i].lastTick >= allTickLive[i].effect.tickRate && allTickLive[i].liveLifeTime > 0)
-			{
-				allTickLive[i].lastTick = 0;
-
-				if (mylocalPlayer.isOwner)
-				{
-					if (allTickLive[i].effect.isDamaging)
-					{
-						DamagesInfos _temp = new DamagesInfos();
-						_temp.damageHealth = allTickLive[i].effect.tickValue;
-						//REMPLACER ICI LE DEALER PAR LE DEAL D EFFECT
-						this.mylocalPlayer.DealDamages(_temp, transform.position, null, false, true);
-					}
-					if (allTickLive[i].effect.isHealing)
-					{
-						this.mylocalPlayer.HealPlayer(allTickLive[i].effect.tickValue);
-					}
-				}
-
-			}
 		}
 
 		foreach (EffectLifeTimed _effect in _tempList)
 			allTickLive.Remove(_effect);
 	}
-	public void AddStatus(Effect _statusToAdd)
+	public void AddStatus ( Effect _statusToAdd )
 	{
 		Effect _tempTrad = new Effect();
 		_tempTrad = _statusToAdd;
@@ -747,7 +726,7 @@ public class PlayerModule : MonoBehaviour
 			cancelSpell?.Invoke(true);
 
 		if ((_newElement.effect.stateApplied & En_CharacterState.WxMarked) != 0)
-			print("i m marked" ) ;
+			print("i m marked");
 
 
 		if (_statusToAdd.forcedKey != 0)
@@ -760,62 +739,32 @@ public class PlayerModule : MonoBehaviour
 			currentKeyIndex++;
 		}
 
-		if (_tempTrad.tick)
+		if (_tempTrad.refreshOnApply)
 		{
-			if (_tempTrad.refreshOnApply)
+			EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
+
+			if (_temp != null)
 			{
-				EffectLifeTimed _temp = GetTickEffectByKey(_newElement.key);
-
-				if (_temp != null)
-				{
-					_temp.Refresh();
-					return;
-				}
-
+				_temp.Refresh();
+				return;
 			}
-			else
-			{
-				if (_tempTrad.doNotApplyIfExist)
-				{
-					EffectLifeTimed _temp = GetTickEffectByKey(_newElement.key);
-
-					if (_temp != null)
-					{
-						return;
-					}
-				}
-			}
-			allTickLive.Add(_newElement);
 		}
 		else
 		{
-			if (_tempTrad.refreshOnApply)
+			if (_tempTrad.doNotApplyIfExist)
 			{
 				EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
 
 				if (_temp != null)
 				{
-					_temp.Refresh();
 					return;
 				}
 			}
-			else
-			{
-				if (_tempTrad.doNotApplyIfExist)
-				{
-					EffectLifeTimed _temp = GetEffectByKey(_newElement.key);
-
-					if (_temp != null)
-					{
-						return;
-					}
-				}
-			}
-			allEffectLive.Add(_newElement);
 		}
+		allEffectLive.Add(_newElement);
 
 	}
-	private EffectLifeTimed GetTickEffectByKey(ushort key)
+	private EffectLifeTimed GetTickEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allTickLive)
 		{
@@ -827,7 +776,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
-	private EffectLifeTimed GetEffectByKey(ushort key)
+	private EffectLifeTimed GetEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allEffectLive)
 		{
@@ -839,7 +788,7 @@ public class PlayerModule : MonoBehaviour
 
 		return null;
 	}
-	public bool StopStatus(ushort key)
+	public bool StopStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allEffectLive.Where(x => x.key == key).FirstOrDefault();
 
@@ -851,7 +800,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		return false;
 	}
-	public void StopTickStatus(ushort key)
+	public void StopTickStatus ( ushort key )
 	{
 		EffectLifeTimed _temp = allTickLive.Where(x => x.key == key).FirstOrDefault();
 
@@ -860,29 +809,30 @@ public class PlayerModule : MonoBehaviour
 			_temp.Stop();
 		}
 	}
-	public void AddState(En_CharacterState _stateToadd)
+	public void AddState ( En_CharacterState _stateToadd )
 	{
 		_state |= _stateToadd;
 	}
 
-	public bool HasState(En_CharacterState _stateToadd)
-    {
-        if (_state.HasFlag(_stateToadd))
-        {
+	public bool HasState ( En_CharacterState _stateToadd )
+	{
+		if (_state.HasFlag(_stateToadd))
+		{
 			return true;
-        } else
-        {
+		}
+		else
+		{
 			return false;
-        }
-    }
-	public void RemoveState(En_CharacterState _stateToRemove)
+		}
+	}
+	public void RemoveState ( En_CharacterState _stateToRemove )
 	{
 		_state &= ~_stateToRemove;
 	}
 
 	#endregion
 	// Altars buff
-	public void ApplySpeedBuffInServer()
+	public void ApplySpeedBuffInServer ()
 	{
 		isAltarSpeedBuffActive = true;
 		if (isInBrume)
@@ -891,7 +841,7 @@ public class PlayerModule : MonoBehaviour
 		}
 	}
 
-	public void SetAltarSpeedBuffState(bool value) // Call when entering brume
+	public void SetAltarSpeedBuffState ( bool value ) // Call when entering brume
 	{
 		if (value)
 		{
@@ -906,16 +856,16 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.SendStatus(leavingBrumeStatus);
 		}
 	}
-	void PingMenace()
+	void PingMenace ()
 	{
 		menacedIcon.gameObject.SetActive(true);
 	}
-	void HideMenace()
+	void HideMenace ()
 	{
 		menacedIcon.gameObject.SetActive(false);
 	}
 	#region
-	internal void ApplyWxMark(ushort? dealerID = null)
+	internal void ApplyWxMark ( ushort? dealerID = null )
 	{
 		/*if (GetEffectByKey(wxMarkRef.effect.forcedKey) == null)
 			return;
@@ -943,7 +893,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		mylocalPlayer.SendState(state);*/
 	}
-	void BuffInput()
+	void BuffInput ()
 	{
 		/*switch(spellInputedRecorded)
 		{
@@ -964,7 +914,7 @@ public class PlayerModule : MonoBehaviour
 		spellInputedRecorded = En_SpellInput.Null;*/
 	}
 	#endregion
-	public void KillEveryStun()
+	public void KillEveryStun ()
 	{
 		foreach (EffectLifeTimed _effect in allEffectLive)
 		{
@@ -974,7 +924,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	public SpellModule ModuleLinkedToInput(En_SpellInput _inputOfTheSpell)
+	public SpellModule ModuleLinkedToInput ( En_SpellInput _inputOfTheSpell )
 	{
 		switch (_inputOfTheSpell)
 		{
@@ -994,12 +944,12 @@ public class PlayerModule : MonoBehaviour
 
 		return pingModule;
 	}
-	public void SetAutoHealState(bool state)
+	public void SetAutoHealState ( bool state )
 	{
 		healTimer = timeHealTick;
 		isAutoHealing = state;
 	}
-	public void WaitForHeal(bool _isSeen)
+	public void WaitForHeal ( bool _isSeen )
 	{
 
 		SetAutoHealState(false);
@@ -1023,7 +973,7 @@ public class PlayerModule : MonoBehaviour
 		isWaitingForHeal = !_isSeen;
 	}
 
-	public bool IsInProtectiveZone()
+	public bool IsInProtectiveZone ()
 	{
 		RaycastHit[] _hits = Physics.RaycastAll(transform.position + Vector3.up * 20, Vector3.down, 30, LayerMask.GetMask("ProtectingDome"));
 
@@ -1037,9 +987,9 @@ public class PlayerModule : MonoBehaviour
 
 	}
 
-	SpellModule SelectionnedSoulSpellModule()
+	SpellModule SelectionnedSoulSpellModule ()
 	{
-		switch(currentSoulModule)
+		switch (currentSoulModule)
 		{
 			case En_SoulSpell.Ward:
 				return wardModule;
@@ -1071,7 +1021,7 @@ public enum En_CharacterState
 	Hidden = 1 << 9,
 	Invulnerability = 1 << 10,
 	Intengenbility = 1 << 11,
-	PoweredUp = 1 << 12, 
+	PoweredUp = 1 << 12,
 	ForcedMovement = 1 << 13,
 	StopInterpolate = 1 << 14,
 
@@ -1081,8 +1031,8 @@ public enum En_CharacterState
 [System.Serializable]
 public class DamagesInfos
 {
-	public DamagesInfos() { }
-	public DamagesInfos(ushort damageHealth)
+	public DamagesInfos () { }
+	public DamagesInfos ( ushort damageHealth )
 	{
 		this.damageHealth = damageHealth;
 	}
@@ -1105,18 +1055,12 @@ public class DamagesInfos
 [System.Serializable]
 public class Effect
 {
-	public bool tick = false;
-
-	[HorizontalGroup("Group2")] [HideIf("isConstant")] public float finalLifeTime;
-	[HorizontalGroup("Group2")] public bool isConstant = false;
 	[HorizontalGroup("Group1")] public bool canBeForcedStop = false;
 	[HorizontalGroup("Group1")] [ShowIf("canBeForcedStop")] public ushort forcedKey = 0;
+	[HorizontalGroup("Group2")] [HideIf("isConstant")] public float finalLifeTime;
+	[HorizontalGroup("Group2")] public bool isConstant = false;
 	[HorizontalGroup("Group3")] public bool refreshOnApply = false;
 	[HorizontalGroup("Group3")] [HideIf("refreshOnApply")] public bool doNotApplyIfExist = false;
-	[ShowIf("tick")] [BoxGroup("Tick")] public float tickRate = 0.2f;
-	[ShowIf("tick")] [BoxGroup("Tick")] public bool isDamaging = true;
-	[ShowIf("tick")] [BoxGroup("Tick")] public bool isHealing = false;
-	[ShowIf("tick")] [BoxGroup("Tick")] public ushort tickValue = 0;
 
 	public En_CharacterState stateApplied;
 	public bool isHardControl => ((stateApplied & En_CharacterState.Root) != 0 || (stateApplied & En_CharacterState.Silenced) != 0);
@@ -1124,10 +1068,7 @@ public class Effect
 	bool isMovementOriented => ((stateApplied & En_CharacterState.Slowed) != 0 || (stateApplied & En_CharacterState.SpedUp) != 0);
 	[Range(0, 1)] [ShowIf("isMovementOriented")] public float percentageOfTheMovementModifier = 1;
 	[ShowIf("isMovementOriented")] public AnimationCurve decayOfTheModifier = AnimationCurve.Constant(1, 1, 1);
-
-	public DamagesInfos optionalDamagesInfos;
-	public int hitBeforeProcOptionnalDamages = 0;
-	public Effect() { }
+	public Effect () { }
 }
 
 [System.Serializable]
@@ -1140,12 +1081,12 @@ public class EffectLifeTimed
 	public float baseLifeTime;
 
 	[HideInInspector] public float lastTick = 0;
-	public void Stop()
+	public void Stop ()
 	{
 		liveLifeTime = 0;
 	}
 
-	internal void Refresh()
+	internal void Refresh ()
 	{
 		liveLifeTime = effect.finalLifeTime;
 	}
