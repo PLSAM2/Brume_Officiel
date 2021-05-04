@@ -31,7 +31,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     UnityClient client;
 
-    public AudioClip spotSound, cantCastSound, hitAudio;
+    public AudioClip spotSound, hitAudio;
 
     bool init = false;
     private void Awake()

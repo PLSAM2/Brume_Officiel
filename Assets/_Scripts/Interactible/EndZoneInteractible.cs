@@ -33,6 +33,15 @@ public class EndZoneInteractible : Interactible
         base.Capture();
     }
 
+    private void Update()
+    {
+        if (state == State.Capturable)
+        {
+            UiManager.Instance.endZoneUIGroup.endZoneBar.fillAmount = (timer / interactTime);
+        }
+
+    }
+
     protected override void PlayerInContestedZoneQuit(PlayerModule p)
     {
         PlayerData pd = RoomManager.Instance.GetPlayerData(p.mylocalPlayer.myPlayerId);
