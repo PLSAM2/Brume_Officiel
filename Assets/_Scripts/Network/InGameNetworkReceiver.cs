@@ -534,6 +534,11 @@ public class InGameNetworkReceiver : MonoBehaviour
 						return;
 					}
 
+                    if (reader.Length % 10 != 0)
+                    {
+						Debug.Log("PAQUET DE MERDE");
+                    }
+
 					GameManager.Instance.networkPlayers[id].myAnimController.SetMovePosition(
 						new Vector3(
 						reader.ReadSingle(),

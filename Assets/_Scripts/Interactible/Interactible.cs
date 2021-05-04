@@ -190,7 +190,7 @@ public class Interactible : MonoBehaviour
 
     }
 
-    public void ProgressInServer(float progress)
+    public virtual void ProgressInServer(float progress)
     {
         timer = progress * interactTime; // 0 --> interactTime 
 
