@@ -8,8 +8,6 @@ using Sirenix.OdinInspector;
 public class Sc_Spell : ScriptableObject
 {
 	[Header("General Properties")]
-	[TabGroup("Generic SpellParameters")] public bool startCanalisationOnClick = false;
-	[TabGroup("Generic SpellParameters")] [ShowIf("startCanalisationOnClick")] public float minTimeToResolve = .3f;
 	[TabGroup("Generic SpellParameters")] public float range;
 	[TabGroup("Generic SpellParameters")] public float cooldown;
 	[TabGroup("Generic SpellParameters")] public int numberOfCharge = 1;
