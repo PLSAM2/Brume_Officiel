@@ -192,7 +192,6 @@ public class Aoe : AutoKill
 		else
 			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, allyLayer);
 
-		print(_allhits.Length);
 		return _allhits;
 	}
 
