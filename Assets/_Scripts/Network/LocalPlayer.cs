@@ -292,6 +292,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void SendStatus ( Sc_Status _statusIncured )
 	{
+		print("Try to send");
 		int _indexOfTheStatus = 0;
 		List<Sc_Status> _tempList = new List<Sc_Status>();
 		_tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
@@ -306,6 +307,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			if (i == _tempList.Count - 1)
 				return;
 		}
+
+		print(_indexOfTheStatus);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
