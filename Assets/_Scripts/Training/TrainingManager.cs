@@ -31,7 +31,7 @@ public class TrainingManager : MonoBehaviour
     {
         using (Message message = e.GetMessage() as Message)
         {
-            if (message.Tag == Tags.SetTrainingCharacter)
+            if (message.Tag == Tags.SetPrivateRoomCharacter)
             {
                 ChangeCharInServ(sender, e);
             }
