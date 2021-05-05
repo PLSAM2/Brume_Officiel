@@ -533,16 +533,20 @@ public class LobbyManager : MonoBehaviour
         }
 
         PlayerData player = NetworkManager.Instance.GetLocalPlayer();
-        Character _character = Character.WuXin;
 
-        player.playerCharacter = _character;
 
         if (isTraining)
         {
+            Character _character = Character.WuXin;
+            player.playerCharacter = _character;
+
             SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
         }
         else
         {
+            Character _character = Character.Re;
+            player.playerCharacter = _character;
+
             SceneManager.LoadScene(RoomManager.Instance.loadingTutorialScene);
         }
 

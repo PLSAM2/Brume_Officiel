@@ -59,7 +59,6 @@ public class NetworkAnimationController : MonoBehaviour
                 lerpPos = networkPos;
             }
 
-
             if (myLocalPlayer.myPlayerModule.HasState(En_CharacterState.StopInterpolate) || myLocalPlayer.myPlayerModule.HasState(En_CharacterState.ForcedMovement) || myLocalPlayer.myPlayerModule.HasState(En_CharacterState.SpedUp))
             {
                 transform.position = networkPos;
@@ -67,7 +66,6 @@ public class NetworkAnimationController : MonoBehaviour
             }
             else
             {
-
                 lerpPos = Vector3.MoveTowards(lerpPos, networkPos, Time.deltaTime * speedAnim * movementLerpSpeed);
                 transform.position = lerpPos;
             }
