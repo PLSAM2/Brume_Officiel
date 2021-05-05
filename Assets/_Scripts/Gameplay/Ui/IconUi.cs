@@ -19,7 +19,7 @@ public class IconUi : MonoBehaviour
 
     public GameObject feedbackCanUse;
 
-    float cdDisplay = 0.3f;
+    float cdDisplay = 0.35f;
     float currentCdDisplay = 0;
 
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
