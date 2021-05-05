@@ -229,9 +229,6 @@ public class WX_SonarState : MonoBehaviour
 
         damagePlaying = true;
 
-        UiManager.Instance.hitWXPanel.SetTrigger("Hit");
-        p.myUiPlayerManager.directionWxAnimator.SetTrigger("Hit");
-
         AudioManager.Instance.Play2DAudio(hitSound);
 
         yield return new WaitForSeconds(timeDamageDisplay);

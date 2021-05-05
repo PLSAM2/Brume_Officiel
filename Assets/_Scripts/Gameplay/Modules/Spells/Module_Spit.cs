@@ -110,21 +110,20 @@ public class Module_Spit : SpellModule
 	public void Landed ()
 	{
 		//spitObj.SetActive(false);
-
-		if (myPlayerModule.mylocalPlayer.isOwner)
-		{
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+		if (myPlayerModule != null)
+			if (myPlayerModule.mylocalPlayer.isOwner)
 			{
-				_writer.Write(RoomManager.Instance.client.ID); // Player ID
-
-				using (Message _message = Message.Create(Tags.CurveSpellLanded, _writer))
+				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
-					RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
-				}
-			}
+					_writer.Write(RoomManager.Instance.client.ID); // Player ID
 
-			NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, transform.rotation.eulerAngles);
-		}
+					using (Message _message = Message.Create(Tags.CurveSpellLanded, _writer))
+					{
+						RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+					}
+				}
+				NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(localTrad.onImpactInstantiate.gameObject), destination, transform.rotation.eulerAngles);
+			}
 	}
 
 	protected override void HidePreview ( Vector3 _posToHide )
@@ -148,7 +147,7 @@ public class Module_Spit : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		myAoePreview.Init(localTrad.radiusOfImpact, CirclePreview.circleCenter.center, 
+		myAoePreview.Init(localTrad.radiusOfImpact, CirclePreview.circleCenter.center,
 			transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 
 		myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, transform.position);

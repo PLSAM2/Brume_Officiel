@@ -126,17 +126,15 @@ public class Aoe : AutoKill
 	{
 		if (isOwner)
 		{
-
 			foreach (Collider _coll in alliedTouched())
 			{
-				Damageable _damageable = _coll.GetComponent<Damageable>();
+				LocalPlayer _damageable = _coll.GetComponent<LocalPlayer>();
 
 				Vector3 _posOfDealing = transform.position;
 
 				if (_damageable != null && _damageable.IsInMyTeam(myteam))
 				{
 					float _percentageOfStrength = 1;
-
 					if (_buff.movementToApply != null)
 					{
 						if (adaptiveRange)
@@ -163,11 +161,14 @@ public class Aoe : AutoKill
 							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
 					}
 
-					_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+					//_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+					_damageable.SendStatus(_buff.statusToApply[0]);
+				}
+
+				if (_coll.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
+						_coll.GetComponent<PlayerModule>().AddStatus(_buff.statusToApply[0].effect);
 				}
 			}
-		}
-
 	}
 
 	protected Collider[] enemiesTouched ()
@@ -191,6 +192,7 @@ public class Aoe : AutoKill
 		else
 			_allhits = Physics.OverlapSphere(transform.position, localTrad.rules.aoeRadius, allyLayer);
 
+		print(_allhits.Length);
 		return _allhits;
 	}
 

@@ -10,28 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: Stun 1.5s
+  m_Name: Sc_Status_SoulSpell_SpeedUp
   m_EditorClassIdentifier: 
   effect:
     canBeForcedStop: 0
-    forcedKey: 1002
-    finalLifeTime: 1.5
+    forcedKey: 2003
+    finalLifeTime: 2.5
     isConstant: 0
-    refreshOnApply: 0
+    refreshOnApply: 1
     doNotApplyIfExist: 0
-    stateApplied: 40
-    percentageOfTheMovementModifier: 1
+    stateApplied: 4
+    percentageOfTheMovementModifier: 0.75
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 1
+        time: 0
         value: 1
-        inSlope: 0
-        outSlope: 0
+        inSlope: -0.022471152
+        outSlope: -0.022471152
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
+        outWeight: 0.06369439
+      - serializedVersion: 3
+        time: 1
+        value: 0.25
+        inSlope: -2.578412
+        outSlope: -2.578412
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.025715768
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

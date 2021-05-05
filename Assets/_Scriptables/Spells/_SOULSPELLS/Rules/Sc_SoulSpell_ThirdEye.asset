@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Sc_SoulSpell_ThirdEye
   m_EditorClassIdentifier: 
-  startCanalisationOnClick: 0
-  minTimeToResolve: 0.3
   range: 80
   cooldown: 20
   numberOfCharge: 1
@@ -41,53 +39,53 @@ MonoBehaviour:
     statusToApply:
     - {fileID: 11400000, guid: 09a983a6780f9c549a699f862673d817, type: 2}
     movementToApply: {fileID: 0}
-  prefab: {fileID: 1384060272247584325, guid: 4790e43e6852efc48afeaec6b8b88313, type: 3}
+  prefab: {fileID: 1384060272247584325, guid: 9837600cc1da8a84998e75bdc17ea595, type: 3}
   _reduceCooldowns: 0
   _curveSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      value: 0.7
+      inSlope: 0.98696864
+      outSlope: 0.98696864
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.04887217
     - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalSize: {x: 15, y: 1, z: 1}
+  finalSize: {x: 20, y: 1, z: 1}
   scaleCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0.75
+      inSlope: 0.25
+      outSlope: 0.25
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.25
+      outSlope: 0.25
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

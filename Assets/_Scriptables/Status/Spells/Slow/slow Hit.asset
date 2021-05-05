@@ -13,17 +13,12 @@ MonoBehaviour:
   m_Name: slow Hit
   m_EditorClassIdentifier: 
   effect:
-    tick: 0
+    canBeForcedStop: 0
+    forcedKey: 1003
     finalLifeTime: 0.3
     isConstant: 0
-    canBeForcedStop: 0
-    forcedKey: 0
     refreshOnApply: 0
     doNotApplyIfExist: 0
-    tickRate: 0.2
-    isDamaging: 1
-    isHealing: 0
-    tickValue: 0
     stateApplied: 2
     percentageOfTheMovementModifier: 0.85
     decayOfTheModifier:
@@ -50,13 +45,3 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    optionalDamagesInfos:
-      playerName: 
-      damageHealth: 0
-      statusToApply: []
-      movementToApply: {fileID: 0}
-      stateNeeded: 128
-      additionalDamages: 0
-      additionalStatusToApply: []
-      additionalMovementToApply: {fileID: 0}
-    hitBeforeProcOptionnalDamages: 0
