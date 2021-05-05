@@ -450,7 +450,7 @@ public class PlayerModule : MonoBehaviour
 			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
 		}
 
-		if (isAutoHealing)
+		/*if (isAutoHealing)
 		{
 			CheckAutoHealProcess();
 		}
@@ -458,7 +458,7 @@ public class PlayerModule : MonoBehaviour
 		if (isWaitingForHeal)
 		{
 			WaitForHealProcess();
-		}
+		}*/
 
 	}
 	protected virtual void FixedUpdate ()
@@ -498,7 +498,7 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	private void WaitForHealProcess ()
+	/*private void WaitForHealProcess ()
 	{
 		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
 		{
@@ -549,7 +549,8 @@ public class PlayerModule : MonoBehaviour
 				healTimer = timeHealTick;
 			}
 		}
-	}
+	}*/
+
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
 		isInBrume = _value;
@@ -581,8 +582,6 @@ public class PlayerModule : MonoBehaviour
 			case En_SpellInput.SecondSpell:
 				secondSpell.ReduceCooldown(_duration);
 				break;
-
-
 
 			case En_SpellInput.Click:
 				leftClick.ReduceCooldown(_duration);
@@ -617,7 +616,7 @@ public class PlayerModule : MonoBehaviour
 		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
 
 		//le perso est pas en train de crouched
-		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0)
+		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0 || (state & En_CharacterState.Hidden) != 0)
 			return false;
 
 		//DISTANCE > a la range
@@ -944,48 +943,33 @@ public class PlayerModule : MonoBehaviour
 
 		return pingModule;
 	}
-	public void SetAutoHealState ( bool state )
-	{
-		healTimer = timeHealTick;
-		isAutoHealing = state;
-	}
-	public void WaitForHeal ( bool _isSeen )
-	{
-
-		SetAutoHealState(false);
-
-		timerWaitForHeal = timeWaitForHeal;
-
-		if (_isSeen)
+	/*	public void SetAutoHealState ( bool state )
 		{
 			healTimer = timeHealTick;
-
-			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
-
-			//reset le point de vie qui etait en train de regen
-			if (mylocalPlayer.liveHealth < characterParameters.maxHealthForRegen + bonusHp)
-			{
-				mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, characterParameters.maxHealthForRegen + bonusHp)].SetFillAmount(0);
-			}
-
+			isAutoHealing = state;
 		}
-
-		isWaitingForHeal = !_isSeen;
-	}
-
-	public bool IsInProtectiveZone ()
-	{
-		RaycastHit[] _hits = Physics.RaycastAll(transform.position + Vector3.up * 20, Vector3.down, 30, LayerMask.GetMask("ProtectingDome"));
-
-		foreach (RaycastHit _hit in _hits)
+		public void WaitForHeal ( bool _isSeen )
 		{
-			if (_hit.collider.GetComponent<AutoKill>().myteam == teamIndex)
-				return true;
-		}
 
-		return false;
+			SetAutoHealState(false);
 
-	}
+			timerWaitForHeal = timeWaitForHeal;
+
+			if (_isSeen)
+			{
+				healTimer = timeHealTick;
+
+				mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
+
+				//reset le point de vie qui etait en train de regen
+				if (mylocalPlayer.liveHealth < characterParameters.maxHealthForRegen + bonusHp)
+				{
+					mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, characterParameters.maxHealthForRegen + bonusHp)].SetFillAmount(0);
+				}
+
+			}
+			isWaitingForHeal = !_isSeen;
+		}*/
 
 	SpellModule SelectionnedSoulSpellModule ()
 	{
