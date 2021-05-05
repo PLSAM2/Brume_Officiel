@@ -10,6 +10,8 @@ public class ArrowPreview : MonoBehaviour
     [SerializeField] Transform endArrow;
     [SerializeField] LineRenderer line;
 
+    [SerializeField] Transform previewSprite;
+
     Vector3 startPos, endPos;
 
     public void Init(Vector3 _newStartPos, Vector3 _newEndPos, float _startWidth = 0, float _endWidth = 0)
@@ -26,6 +28,11 @@ public class ArrowPreview : MonoBehaviour
 
         startPos = _newStartPos;
         endPos = _newEndPos;
+
+        Quaternion rotation = Quaternion.LookRotation((_newStartPos - _newEndPos).normalized, Vector3.up);
+        previewSprite.rotation = rotation;
+        previewSprite.localEulerAngles = new Vector3(previewSprite.localEulerAngles.x + 90, previewSprite.localEulerAngles.y + 90, previewSprite.localEulerAngles.z);
+        previewSprite.localScale = new Vector3( Vector3.Distance(_newStartPos, _newEndPos), 1, 1);
     }
 
     public void SetColor(Color _newColor)
@@ -33,7 +40,6 @@ public class ArrowPreview : MonoBehaviour
         arrowImg.color = _newColor;
     }
 
-    [SerializeField] Vector3 test;
     void Update()
     {
         transform.position = startPos + Vector3.up * 0.1f;
