@@ -161,8 +161,8 @@ public class Aoe : AutoKill
 							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
 					}
 
-					//_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
-					_damageable.SendStatus(_buff.statusToApply[0]);
+					_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+					//_damageable.SendStatus(_buff.statusToApply[0]);
 				}
 
 				if (_coll.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
