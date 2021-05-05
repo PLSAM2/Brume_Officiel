@@ -632,7 +632,9 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort _playerId = reader.ReadUInt16();
 
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
+				{
 					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
+				}
 			}
 		}
 	}

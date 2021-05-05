@@ -724,10 +724,6 @@ public class PlayerModule : MonoBehaviour
 		if ((_statusToAdd.stateApplied & En_CharacterState.Silenced) != 0)
 			cancelSpell?.Invoke(true);
 
-		if ((_newElement.effect.stateApplied & En_CharacterState.WxMarked) != 0)
-			print("i m marked");
-
-
 		if (_statusToAdd.forcedKey != 0)
 		{
 			_newElement.key = _statusToAdd.forcedKey;
@@ -763,18 +759,7 @@ public class PlayerModule : MonoBehaviour
 		allEffectLive.Add(_newElement);
 
 	}
-	private EffectLifeTimed GetTickEffectByKey ( ushort key )
-	{
-		foreach (EffectLifeTimed effect in allTickLive)
-		{
-			if (effect.key == key)
-			{
-				return effect;
-			}
-		}
 
-		return null;
-	}
 	private EffectLifeTimed GetEffectByKey ( ushort key )
 	{
 		foreach (EffectLifeTimed effect in allEffectLive)
