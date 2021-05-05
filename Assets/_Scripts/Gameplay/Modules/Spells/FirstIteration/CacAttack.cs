@@ -118,6 +118,15 @@ public class CacAttack : SpellModule
 			squarePreview.gameObject.SetActive(false);
 	}
 
+
+	protected override void Resolution ()
+	{
+		List<GameObject> _listHit = new List<GameObject>();
+		if (LaserHit(_listHit).Count > 0)
+			ResolveSpell();
+		else
+			base.Resolution();
+	}
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();
