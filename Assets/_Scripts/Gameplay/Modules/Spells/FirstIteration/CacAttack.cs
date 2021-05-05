@@ -8,6 +8,7 @@ public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
 	SquarePreview squarePreview;
+	ArrowPreview myPreviewArrow;
 	DamagesInfos damageToDeal = new DamagesInfos();
 
 	bool isLaser = false;
@@ -17,8 +18,8 @@ public class CacAttack : SpellModule
 	[ShowIf("useAnonciation")] public LineRenderer lineLaser, linePreview;
 	bool hasHit = false;
 	public UnityEvent playerHit;
-		
-		
+
+
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -28,6 +29,9 @@ public class CacAttack : SpellModule
 
 		squarePreview = PreviewManager.Instance.GetSquarePreview();
 		squarePreview.gameObject.SetActive(false);
+		myPreviewArrow = PreviewManager.Instance.GetArrowPreview();
+		myPreviewArrow.gameObject.SetActive(false);
+
 		if (useAnonciation)
 		{
 			lineLaser.useWorldSpace = true;
@@ -49,7 +53,30 @@ public class CacAttack : SpellModule
 	protected override void UpdatePreview ()
 	{
 		base.UpdatePreview();
-		squarePreview.Init(maxRangeOfTheSpell(), localTrad.attackParameters.widthToAttackFrom, transform.eulerAngles.y, SquarePreview.squareCenter.border, transform.position);
+		if (localTrad.forcedMovementAppliedBeforeResolution != null)
+
+		{
+			RaycastHit _hit;
+			if (Physics.SphereCast(transform.position,
+				.8f,
+				transform.forward,
+				out _hit,
+				localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange,
+				1 << 9))
+			{
+				myPreviewArrow.Init(transform.position, _hit.point, 1, 1);
+				myPreviewArrow.gameObject.SetActive(true);
+			}
+			else
+			{
+				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange)), 1, 1);
+				//myPreviewArrow[1].gameObject.SetActive(true);
+
+			}
+
+		}
+		else
+			squarePreview.Init(maxRangeOfTheSpell(), localTrad.attackParameters.widthToAttackFrom, transform.eulerAngles.y, SquarePreview.squareCenter.border, transform.position);
 	}
 
 	float maxRangeOfTheSpell ()
@@ -70,6 +97,10 @@ public class CacAttack : SpellModule
 	{
 		if (canBeCast())
 		{
+			if (localTrad.forcedMovementAppliedBeforeResolution != null)
+			{
+				myPreviewArrow.gameObject.SetActive(true);
+			}
 			squarePreview.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
@@ -78,6 +109,10 @@ public class CacAttack : SpellModule
 	protected override void HidePreview ( Vector3 _temp )
 	{
 		base.HidePreview(_temp);
+		if (localTrad.forcedMovementAppliedBeforeResolution != null)
+		{
+			myPreviewArrow.gameObject.SetActive(false);
+		}
 		squarePreview.gameObject.SetActive(false);
 	}
 
@@ -225,7 +260,7 @@ public class CacAttack : SpellModule
 		}
 	}
 
-	void TriggerAnimHit()
+	void TriggerAnimHit ()
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Slash");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Slash");
