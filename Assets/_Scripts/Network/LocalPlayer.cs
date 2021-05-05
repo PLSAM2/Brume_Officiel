@@ -348,7 +348,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
         {
             if (IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
             {
-                print("is in my team");
                 liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + GameManager.Instance.numberOfAltarControled);
             }
             else
@@ -369,9 +368,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
             return;
         }
 
-        if (myPlayerModule.IsInProtectiveZone())
-            return;
-
+    
         ushort _finalDamage = _damagesToDeal.damageHealth;
 
 
