@@ -104,7 +104,11 @@ public class UiManager : MonoBehaviour
 
     public CanvasGroup gameUI;
 
-	private void Awake ()
+    public RectTransform parentCDFeedback;
+    public GameObject prefabCDFeedback;
+
+
+    private void Awake ()
 	{
 		if (_instance != null && _instance != this)
 		{
@@ -467,6 +471,14 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
+    public void SpawnCDFeedback(Sprite _icon, float _time)
+    {
+        FeedbackSpellCDElement newCDFeedback = Instantiate(prefabCDFeedback, parentCDFeedback).GetComponent<FeedbackSpellCDElement>();
+
+        newCDFeedback.GetComponent<RectTransform>().position = Input.mousePosition;
+        newCDFeedback.Init(_icon, _time);
+    }
+
 	internal void UnlockNewAltar ( Altar altar )
 	{
 		actualUnlockedAltar = altar.gameObject;
@@ -610,8 +622,6 @@ public class UiManager : MonoBehaviour
 
 	public void CantCastFeedback ( En_SpellInput _spellInput )
 	{
-
-		AudioManager.Instance.Play2DAudio(AudioManager.Instance.cantCastSound, .3f);
 		switch (_spellInput)
 		{
 			case En_SpellInput.FirstSpell:
@@ -629,7 +639,6 @@ public class UiManager : MonoBehaviour
 			case En_SpellInput.SoulSpell:
 				soulSpellIcon.CantCastFeedback();
 				break;
-
 		}
 	}
 

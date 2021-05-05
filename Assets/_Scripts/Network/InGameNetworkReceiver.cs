@@ -632,16 +632,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort _playerId = reader.ReadUInt16();
 
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
-
-				if ((GameManager.Instance.networkPlayers[_playerId].myPlayerModule.state & En_CharacterState.Invulnerability) == 0 &&
-					(GameManager.Instance.networkPlayers[_playerId].myPlayerModule.state & En_CharacterState.Intengenbility) == 0)
-				{
-
-					if (NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[(int)_statusId].effect.isHardControl)
-						GameManager.Instance.networkPlayers[_playerId].myPlayerModule.KillEveryStun();
-
 					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
-				}
 			}
 		}
 	}
