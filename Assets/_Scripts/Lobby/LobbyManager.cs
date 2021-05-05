@@ -116,13 +116,13 @@ public class LobbyManager : MonoBehaviour
             {
                 SetReadyInServer(sender, e);
             }
-            if (message.Tag == Tags.StartTraining)
+            if (message.Tag == Tags.StartPrivateRoom)
             {
-                InitTrainingInServer(sender, e);
+                InitPrivateRoomInServer(sender, e);
             }
-            if (message.Tag == Tags.SetTrainingCharacter)
+            if (message.Tag == Tags.SetPrivateRoomCharacter)
             {
-                SetTrainingCharacterAndStartTraining(sender, e);
+                SetPrivateRoomCharacterAndStart(sender, e);
             }
 
         }
@@ -465,25 +465,32 @@ public class LobbyManager : MonoBehaviour
         roomPanel.SetActive(false);
         roomListPanelControl.Init();
     }
-    public void StartTraining()
+    public void StartPrivateRoom(bool isTraining)
     {
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            using (Message message = Message.Create(Tags.StartTraining, writer))
+            writer.Write(isTraining);
+            using (Message message = Message.Create(Tags.StartPrivateRoom, writer))
                 client.SendMessage(message, SendMode.Reliable);
         }
     }
 
-    private void InitTrainingInServer(object sender, MessageReceivedEventArgs e)
+
+    private void InitPrivateRoomInServer(object sender, MessageReceivedEventArgs e)
     {
         PlayerData player = NetworkManager.Instance.GetLocalPlayer();
+
+        RoomType _temp = RoomType.Training;
 
         using (Message message = e.GetMessage() as Message)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                RoomData room = new RoomData(reader.ReadUInt16(), reader.ReadString(), true);
-                
+
+                _temp = (RoomType)reader.ReadUInt16();
+
+                RoomData room = new RoomData(reader.ReadUInt16(), reader.ReadString(), true, _temp);
+
                 NetworkManager.Instance.GetLocalPlayer().IsHost = true;
 
                 room.playerList.Add(player.ID, player); ;
@@ -499,19 +506,51 @@ public class LobbyManager : MonoBehaviour
 
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            using (Message message = Message.Create(Tags.SetTrainingCharacter, writer))
+            if (_temp == RoomType.Training)
+            {
+                writer.Write((ushort)Character.WuXin);
+            } else
+            {
+                writer.Write((ushort)Character.Re);
+            }
+
+            using (Message message = Message.Create(Tags.SetPrivateRoomCharacter, writer))
                 RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
         }
     }
 
-    private void SetTrainingCharacterAndStartTraining(object sender, MessageReceivedEventArgs e)
+    private void SetPrivateRoomCharacterAndStart(object sender, MessageReceivedEventArgs e)
     {
+        bool isTraining = true;
+
+
+        using (Message message = e.GetMessage() as Message)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                isTraining = reader.ReadBoolean();
+            }
+        }
+
         PlayerData player = NetworkManager.Instance.GetLocalPlayer();
-        Character _character = Character.WuXin;
 
-        player.playerCharacter = _character;
 
-        SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
+        if (isTraining)
+        {
+            Character _character = Character.WuXin;
+            player.playerCharacter = _character;
+
+            SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
+        }
+        else
+        {
+            Character _character = Character.Re;
+            player.playerCharacter = _character;
+
+            SceneManager.LoadScene(RoomManager.Instance.loadingTutorialScene);
+        }
+
+
     }
 
 

@@ -21,6 +21,7 @@ public class RoomManager : MonoBehaviour
     public string menuScene;
     public string trainingScene;
     public string loadingTrainingScene;
+    public string loadingTutorialScene;
 
     public RoomData actualRoom;
 
@@ -493,7 +494,14 @@ public class RoomManager : MonoBehaviour
 
         delayedPlayerSpawn.Clear();
 
-        UiManager.Instance.DisplaySoulSpell();
+        if (actualRoom.roomType == RoomType.Classic || actualRoom.roomType == RoomType.Training)
+        {
+            UiManager.Instance.DisplaySoulSpell();
+        } else
+        {
+            TutorialManager.Instance.PlayerSpawned();
+        }
+
     }
 
     public void ImReady()

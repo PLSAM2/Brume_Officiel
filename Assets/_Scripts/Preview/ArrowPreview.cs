@@ -12,10 +12,17 @@ public class ArrowPreview : MonoBehaviour
 
     Vector3 startPos, endPos;
 
-    public void Init(Vector3 _newStartPos, Vector3 _newEndPos, float _startWidth = 0, float _endWidth = 0.3f)
+    public void Init(Vector3 _newStartPos, Vector3 _newEndPos, float _startWidth = 0, float _endWidth = 0)
     {
-        line.startWidth = _startWidth; 
-        line.endWidth = _endWidth;
+        if(_startWidth != 0)
+        {
+            line.startWidth = _startWidth;
+        }
+
+        if (_endWidth != 0)
+        {
+            line.endWidth = _endWidth;
+        }
 
         startPos = _newStartPos;
         endPos = _newEndPos;

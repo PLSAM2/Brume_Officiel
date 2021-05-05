@@ -105,6 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb11917e8fdbbc458086504a8a0950c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameText: {fileID: 0}
+  parentListLife: {fileID: 0}
+  prefabLifeBar: {fileID: 0}
+  blueMat: {fileID: 0}
+  redMat: {fileID: 0}
+  grayMat: {fileID: 0}
 --- !u!1 &4536414834188935672
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayerModule: {fileID: 0}
+  isDecoy: 0
+  myDecoy: {fileID: 0}
   allFootsteps:
   - {fileID: 8300000, guid: 2b14555734376cc44b20f611f4e3b22c, type: 3}
   - {fileID: 8300000, guid: 59ec7c8226e1a5b42be0aa3e485beb1d, type: 3}
@@ -417,6 +425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc315b89b895e4545a9f08d277c45a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myUI: {fileID: 1493669131634405062}
+  lifeTime: 6
+  myAnimator: {fileID: 0}
+  myTeam: 0
+  idPlayer: 0
+  reParameter: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
+  myFootStep: {fileID: 260425051186876600}
+  netObj: {fileID: 2862543550591188984}
 --- !u!114 &2862543550591188984
 MonoBehaviour:
   m_ObjectHideFlags: 0

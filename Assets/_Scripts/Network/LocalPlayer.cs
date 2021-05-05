@@ -710,20 +710,24 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public void OnAddedStatus ( int _newStatus )
 	{
 		if (isNegative(_newStatus))
+		{
 			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intengenbility) == 0)
 			{
 				myPlayerModule.KillEveryStun();
 				myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus].effect);
 			}
+		}
 		else
+		{
 			myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus].effect);
-
+		}
 	}
 
 	bool isNegative ( int _newStatus )
 	{
 		Sc_Status _statusTryingToAdd = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus];
-		if ((_statusTryingToAdd.effect.stateApplied & En_CharacterState.Slowed & En_CharacterState.Silenced & En_CharacterState.Root) != 0)
+
+		if ((_statusTryingToAdd.effect.stateApplied & En_CharacterState.Slowed) != 0 || (_statusTryingToAdd.effect.stateApplied & En_CharacterState.Stunned) != 0)
 			return true;
 		else
 			return false;

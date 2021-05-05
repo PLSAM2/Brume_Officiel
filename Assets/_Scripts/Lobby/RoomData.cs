@@ -6,6 +6,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 
+
+public enum RoomType
+{
+    Classic,
+    Training,
+    Tutorial
+}
+
+
 [Serializable]
 public class RoomData : IDarkRiftSerializable
 {
@@ -15,6 +24,8 @@ public class RoomData : IDarkRiftSerializable
 
     public ushort playerCount = 1; // LocalOnly
 
+    public RoomType roomType = RoomType.Classic;
+
     // Uniquement rempli si à l'intérieur de celle-ci >>
     public Dictionary<ushort, PlayerData> playerList = new Dictionary<ushort, PlayerData>();
 
@@ -23,7 +34,7 @@ public class RoomData : IDarkRiftSerializable
     // <<
     public bool IsStarted = false;
     public bool isATrainingRoom = false;
-    public RoomData(ushort iD, string name, bool isATrainingRoom = false)
+    public RoomData(ushort iD, string name, bool isATrainingRoom = false, RoomType roomType = RoomType.Classic)
     {
         this.ID = iD;
         this.Name = name;
@@ -31,6 +42,7 @@ public class RoomData : IDarkRiftSerializable
 
         scores.Add(Team.blue, 0);
         scores.Add(Team.red, 0);
+        this.roomType = roomType;
     }
 
     public RoomData()
