@@ -7,6 +7,12 @@ public class FootstepAudio : MonoBehaviour
     [SerializeField] PlayerModule myPlayerModule;
     Vector3 oldPos;
 
+    [HideInInspector]
+    public bool isDecoy = false;
+
+    [HideInInspector]
+    public Decoy myDecoy;
+
     [SerializeField] AudioClip[] allFootsteps;
 
     [SerializeField] AudioSource myAudioSource;
@@ -32,7 +38,7 @@ public class FootstepAudio : MonoBehaviour
 
     private void ChangeVolume(float _volume)
     {
-        if(myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if(myPlayerModule != null && myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             myAudioSource.volume = _volume / 4;
         }
@@ -49,9 +55,13 @@ public class FootstepAudio : MonoBehaviour
         float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
         oldPos = transform.position;
 
-        if (!myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+        if (myPlayerModule != null && myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
         {
-            if ((velocityX !=  0 || velocityZ != 0) && doSound)
+            return;
+        }
+        else
+        {
+            if ((velocityX != 0 || velocityZ != 0) && doSound)
             {
                 doSound = false;
                 StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));

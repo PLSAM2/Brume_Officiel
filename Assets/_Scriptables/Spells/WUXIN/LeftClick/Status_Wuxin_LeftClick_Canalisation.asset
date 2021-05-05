@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 301d6cfdea42d9a4195aa6fa758c00ad, type: 3}
-  m_Name: slow 30% Undefined
+  m_Name: Status_Wuxin_LeftClick_Canalisation
   m_EditorClassIdentifier: 
   effect:
-    tick: 0
-    finalLifeTime: 0.75
-    isConstant: 1
     canBeForcedStop: 1
     forcedKey: 2000
+    finalLifeTime: 0.75
+    isConstant: 1
     refreshOnApply: 0
     doNotApplyIfExist: 0
-    tickRate: 0.2
-    isDamaging: 1
-    isHealing: 0
-    tickValue: 0
     stateApplied: 2
     percentageOfTheMovementModifier: 0.3
     decayOfTheModifier:
@@ -50,9 +45,3 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    optionalDamagesInfos:
-      playerName: 
-      damageHealth: 0
-      statusToApply: []
-      movementToApply: {fileID: 0}
-    hitBeforeProcOptionnalDamages: 0
