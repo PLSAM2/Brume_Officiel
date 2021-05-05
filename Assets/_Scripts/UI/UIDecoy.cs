@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 
-public class UIDecoil : MonoBehaviour
+public class UIDecoy : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
 
@@ -15,7 +15,7 @@ public class UIDecoil : MonoBehaviour
     public Material blueMat, redMat, grayMat;
     Material currentColorTeam;
 
-    public void Init(string _name, int _liveHealth, int _maxLiveHealth, Team _team)
+    public void Init(Team _team, string _name, int _liveHealth, int _maxLiveHealth)
     {
         currentColorTeam = redMat;
         if (GameFactory.GetRelativeTeam(_team) == Team.blue)
