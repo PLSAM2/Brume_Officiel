@@ -377,6 +377,7 @@ public class PlayerModule : MonoBehaviour
 				mylocalPlayer.SendState(state);
 			}
 
+
             OnStateChange?.Invoke();
 		}
 		oldState = state;

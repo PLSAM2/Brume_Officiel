@@ -191,6 +191,7 @@ public class UiManager : MonoBehaviour
 
 	public void DisplaySoulSpell ()
 	{
+
         waitingForPlayersPanel.SetActive(false);
 
         soulSpellSelector.gameObject.SetActive(true);
@@ -772,5 +773,10 @@ public class UiManager : MonoBehaviour
 		endGameStats.gameObject.SetActive(true);
 		endGameStats.Init();
 	}
+
+	public void StartTutorial()
+    {
+		waitingForPlayersPanel.SetActive(false);
+    }
 
 }

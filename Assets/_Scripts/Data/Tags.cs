@@ -12,14 +12,14 @@
     public static readonly ushort PlayerQuitRoom = 45;
     public static readonly ushort QuitRoom = 50;
     public static readonly ushort StartGame = 80;
-    public static readonly ushort StartTraining = 85;
+    public static readonly ushort StartPrivateRoom = 85;
     public static readonly ushort LobbyStartGame = 90;
     public static readonly ushort QuitGame = 100;
     public static readonly ushort ChangeName = 110;
     public static readonly ushort ChangeTeam = 120;
     public static readonly ushort SetReady = 130;
     public static readonly ushort SetCharacter = 140;
-    public static readonly ushort SetTrainingCharacter = 141;
+    public static readonly ushort SetPrivateRoomCharacter = 141;
     public static readonly ushort AskForCharacterSwap = 145;
     public static readonly ushort CharacterSwap = 146;
     public static readonly ushort RefuseCharacterSwap = 147;

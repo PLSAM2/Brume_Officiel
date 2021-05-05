@@ -60,7 +60,7 @@ public class NetworkAnimationController : MonoBehaviour
             }
 
 
-            if (myLocalPlayer.myPlayerModule.HasState(En_CharacterState.StopInterpolate) || myLocalPlayer.myPlayerModule.HasState(En_CharacterState.ForcedMovement))
+            if (myLocalPlayer.myPlayerModule.HasState(En_CharacterState.StopInterpolate) || myLocalPlayer.myPlayerModule.HasState(En_CharacterState.ForcedMovement) || myLocalPlayer.myPlayerModule.HasState(En_CharacterState.SpedUp))
             {
                 transform.position = networkPos;
                 lerpPos = networkPos;
