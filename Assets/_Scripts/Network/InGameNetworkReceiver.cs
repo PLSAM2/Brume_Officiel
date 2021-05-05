@@ -634,7 +634,9 @@ public class InGameNetworkReceiver : MonoBehaviour
                 print(RoomManager.Instance.GetPlayerData(_playerId).Name + " : " + _statusId);
 
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
+				{
 					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
+				}
 			}
 		}
 	}
