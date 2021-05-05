@@ -631,6 +631,8 @@ public class InGameNetworkReceiver : MonoBehaviour
 				int _statusId = reader.ReadInt32();
 				ushort _playerId = reader.ReadUInt16();
 
+                print(RoomManager.Instance.GetPlayerData(_playerId).Name + " : " + _statusId);
+
 				if (!GameManager.Instance.networkPlayers.ContainsKey(_playerId)) { return; }
 					GameManager.Instance.networkPlayers[_playerId].OnAddedStatus(_statusId);
 			}

@@ -66,7 +66,7 @@ public class SoulSpellSelector : MonoBehaviour
     {
         if (RoomManager.Instance.roundCount > 1)
         {
-            timer = 7;
+            timer = 15;
         }
 
         currentTimer = timer;
