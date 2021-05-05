@@ -101,7 +101,8 @@ public class CacAttack : SpellModule
 			{
 				myPreviewArrow.gameObject.SetActive(true);
 			}
-			squarePreview.gameObject.SetActive(true);
+			else
+				squarePreview.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
 	}
@@ -113,7 +114,8 @@ public class CacAttack : SpellModule
 		{
 			myPreviewArrow.gameObject.SetActive(false);
 		}
-		squarePreview.gameObject.SetActive(false);
+		else
+			squarePreview.gameObject.SetActive(false);
 	}
 
 	protected override void ResolveSpell ()
