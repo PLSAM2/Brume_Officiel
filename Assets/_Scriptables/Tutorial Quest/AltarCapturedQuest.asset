@@ -10,24 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0907e2b5265b904c9e381fd63055810, type: 3}
-  m_Name: MovementKey
+  m_Name: AltarCapturedQuest
   m_EditorClassIdentifier: 
-  questTitle: 
+  questTitle: Capture an altar
   questSteps:
   - questEvent: 2
-    stepDescription: 
-    interactibleEvent: 0
+    stepDescription: Capture the first altar found
+    completed: 0
+    UI: {fileID: 0}
+    interactibleEvent: 2
     focusedInteractible: {fileID: 0}
     interactibleType: 1
-    dummyEvent: 0
-    focusedDummy: {fileID: 0}
-    mystEvent: 0
-    movementEvent: 0
-  - questEvent: 0
-    stepDescription: 
-    interactibleEvent: 0
-    focusedInteractible: {fileID: 0}
-    interactibleType: 0
     dummyEvent: 0
     focusedDummy: {fileID: 0}
     mystEvent: 0

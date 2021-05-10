@@ -10,7 +10,9 @@ public class QuestStep
 {
     public QuestEvent questEvent;
     public string stepDescription = "";
+
     public bool completed = false;
+    public QuestStepUI UI;
     // --------------------------------
 
     [ShowIf("questEvent", QuestEvent.InteractibleEvent)] public InteractibleEvent interactibleEvent;
