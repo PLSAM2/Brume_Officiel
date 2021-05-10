@@ -74,7 +74,7 @@ public class Lava : MonoBehaviour
         if (!firstHit)
         {
             //take damage
-            GameManager.Instance.currentLocalPlayer.DealDamages(_temp, transform.position);
+            GameManager.Instance.currentLocalPlayer.DealDamages(_temp, transform);
         }
         else
         {

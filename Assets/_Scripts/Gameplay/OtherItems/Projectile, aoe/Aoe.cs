@@ -81,14 +81,16 @@ public class Aoe : AutoKill
 			{
 				Damageable _damageable = _coll.GetComponent<Damageable>();
 
-				Vector3 _posOfDealing = transform.position;
 
 				if (_damageable != null)
 				{
 					float _percentageOfStrength = 1;
 
+					Transform _posOfDealing = transform;
+
 					if (_damages.movementToApply != null)
 					{
+
 						if (adaptiveRange)
 						{
 							if (localTrad.rules.isBox)
@@ -110,7 +112,7 @@ public class Aoe : AutoKill
 						}
 
 						if (localTrad.rules.useOwnerPos)
-							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
+							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform;
 					}
 
 					_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
@@ -130,7 +132,7 @@ public class Aoe : AutoKill
 			{
 				LocalPlayer _damageable = _coll.GetComponent<LocalPlayer>();
 
-				Vector3 _posOfDealing = transform.position;
+				Transform _posOfDealing = transform;
 
 				if (_damageable != null && _damageable.IsInMyTeam(myteam))
 				{
@@ -158,7 +160,7 @@ public class Aoe : AutoKill
 						}
 
 						if (localTrad.rules.useOwnerPos)
-							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform.position;
+							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform;
 					}
 
 					_damageable.DealDamages(_buff, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);

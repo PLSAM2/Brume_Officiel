@@ -42,7 +42,7 @@ public class WardModule : SpellModule
 
 
 
-	protected void Update ()
+	protected override void Update ()
 	{
 		base.Update();
 		if (isLaunched)

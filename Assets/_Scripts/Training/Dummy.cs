@@ -32,7 +32,7 @@ public class Dummy : MonoBehaviour, Damageable
     /// Deal damage to this character
     /// </summary>
     /// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
-    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1)
+    public void DealDamages(DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1)
     {
 
         if (InGameNetworkReceiver.Instance.GetEndGame())
@@ -67,7 +67,7 @@ public class Dummy : MonoBehaviour, Damageable
 
         if (_damagesToDeal.movementToApply != null)
         {
-            movementPart.AddDash(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
+            movementPart.AddDash(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer.position, _percentageOfTheMovement));
         }
     }
 
