@@ -31,7 +31,7 @@ public class MalphiteModule : SpellModule
 		{
 			foreach (Collider _coll in touchedEnemies)
 			{
-				_coll.GetComponent<Damageable>().DealDamages(damagesToDeal, transform.position);
+				_coll.GetComponent<Damageable>().DealDamages(damagesToDeal, transform);
 			}
 		}
 	}

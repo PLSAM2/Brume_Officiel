@@ -202,7 +202,7 @@ public class Ward : MonoBehaviour
 				List<Sc_Status> _toApply = new List<Sc_Status>();
 				_toApply.Add(statusToApply);
 				_temp.statusToApply = _toApply.ToArray();
-				_playerSpot.DealDamages(_temp, transform.position);
+				_playerSpot.DealDamages(_temp, transform);
 			}
 			//ping
 			if (!hasTriggered)

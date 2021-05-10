@@ -127,6 +127,7 @@ public class MovementModule : MonoBehaviour
     public void ForcedMovementTouchObstacle()
     {
         //juste pour caler le callback comme quoi le mouvement est bien fini;
+        myPlayerModule.forcedMovementInterrupted?.Invoke();
         currentForcedMovement.duration = 0;
     }
 

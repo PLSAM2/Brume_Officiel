@@ -69,7 +69,7 @@ public class Module_WXAuto : SpellModule
 
         if (_hitPlayer != null)
         {
-            _hitPlayer.DealDamages(localTrad.damagesToDeal, this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+            _hitPlayer.DealDamages(localTrad.damagesToDeal, transform, myPlayerModule.mylocalPlayer.myPlayerId);
         }
     }
 

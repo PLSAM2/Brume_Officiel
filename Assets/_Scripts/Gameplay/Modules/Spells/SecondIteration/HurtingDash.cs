@@ -120,7 +120,7 @@ public class HurtingDash : SpellModule
 
 		if (_hit != null && !_hit.IsInMyTeam(myPlayerModule.teamIndex))
 		{
-			_hit.DealDamages(_damageToDeal, transform.position, myPlayerModule.mylocalPlayer.myPlayerId);
+			_hit.DealDamages(_damageToDeal, transform, myPlayerModule.mylocalPlayer.myPlayerId);
 
             AudioManager.Instance.Play3DAudioInNetwork(hitDashSound, transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true);
 

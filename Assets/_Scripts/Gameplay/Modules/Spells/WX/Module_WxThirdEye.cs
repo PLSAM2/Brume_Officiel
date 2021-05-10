@@ -182,7 +182,7 @@ public class Module_WxThirdEye : SpellModule
 		}
 	}
 
-	private void Update ()
+	protected override void Update ()
 	{
 		if (!isUsed)
 			return;

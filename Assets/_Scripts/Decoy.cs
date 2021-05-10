@@ -39,7 +39,7 @@ public class Decoy : MonoBehaviour, Damageable
         myUI.Init(_team, myPlayerData.Name, GameManager.Instance.networkPlayers[idPlayer].liveHealth, reParameter.maxHealth);
     }
 
-    public void DealDamages(DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1)
+    public void DealDamages(DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1)
     {
         if(_damagesToDeal.damageHealth > 0)
         {

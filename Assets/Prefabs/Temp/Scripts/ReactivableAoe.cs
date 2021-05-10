@@ -25,7 +25,7 @@ public class ReactivableAoe : Aoe
 		}
 	}
 
-	private void OnDisable ()
+	protected override void OnDisable ()
 	{
 		if (!hasReactivated && isOwner)
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.firstSpellInput -= Reactivation;

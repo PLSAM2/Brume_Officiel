@@ -136,7 +136,7 @@ public class Projectile : AutoKill
 
 					foreach (RaycastHit _hit in _collTouched)
 					{
-						_hit.collider.GetComponent<LocalPlayer>().DealDamages(_tempDamage, transform.position);
+						_hit.collider.GetComponent<LocalPlayer>().DealDamages(_tempDamage, transform);
 					}
 				}
 				else
@@ -145,7 +145,7 @@ public class Projectile : AutoKill
 
 					foreach (RaycastHit _hit in _collTouched)
 					{
-						_hit.collider.GetComponent<LocalPlayer>().DealDamages(_tempDamage, transform.position);
+						_hit.collider.GetComponent<LocalPlayer>().DealDamages(_tempDamage, transform);
 					}
 				}
 
@@ -182,7 +182,7 @@ public class Projectile : AutoKill
 
 				if (!asDeal)
 				{
-					_damageableHit.DealDamages(_tempDamage, GameManager.Instance.currentLocalPlayer.transform.position);
+					_damageableHit.DealDamages(_tempDamage, GameManager.Instance.currentLocalPlayer.transform);
 
 
 					if (localTrad.statusToApplyOnHit != null)

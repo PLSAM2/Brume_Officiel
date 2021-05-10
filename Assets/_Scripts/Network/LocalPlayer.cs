@@ -59,7 +59,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public GameObject mesh;
 	[TabGroup("Vision")] public static Action disableModule;
 	[TabGroup("Vision")] public bool isVisible = false;
-	En_CharacterState oldState = En_CharacterState.Clear;
 
 	//TP
 	public bool forceShow = false;
@@ -182,7 +181,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 1;
-			DealDamages(_temp, transform.position, null, true, true);
+			DealDamages(_temp, transform, null, true, true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
@@ -292,7 +291,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void SendStatus ( Sc_Status _statusIncured )
 	{
-		print("Try to send");
 		int _indexOfTheStatus = 0;
 		List<Sc_Status> _tempList = new List<Sc_Status>();
 		_tempList = NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame;
@@ -325,7 +323,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void SendForcedMovement ( ForcedMovement _movement )
+	public void SendForcedMovement ( ForcedMovement _movement)
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -364,7 +362,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// Deal damage to this character
 	/// </summary>
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
-	public void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
+	public void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
@@ -436,7 +434,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			if (_damagesToDeal.movementToApply != null)
 			{
-				SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer, _percentageOfTheMovement));
+				if(_damagesToDeal.movementToApply.useForwardOfDealer)
+					SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer.position, _percentageOfTheMovement, _positionOfTheDealer.forward.x, _positionOfTheDealer.forward.z));
+				else
+					SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer.position, _percentageOfTheMovement));
 			}
 
 			if (_damagesToDeal.statusToApply.Length > 0)
@@ -819,7 +820,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 public interface Damageable
 {
-	void DealDamages ( DamagesInfos _damagesToDeal, Vector3 _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 );
+	void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 );
 
 	bool IsInMyTeam ( Team _indexTested );
 }
