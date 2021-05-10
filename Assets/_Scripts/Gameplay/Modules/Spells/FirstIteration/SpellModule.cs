@@ -147,7 +147,9 @@ public class SpellModule : MonoBehaviour
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
 			isUsed = true;
+
 			FeedbackSpellStep(En_SpellStep.Canalisation);
+
 			mousePosInputed = _BaseMousePos;
 
 			ApplyCanalisationEffect();
