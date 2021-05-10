@@ -10,7 +10,11 @@ public class GameData
         red = 10,
         blue = 20,
         spectator = 30,
+<<<<<<< HEAD
         zizi = 40
+=======
+            LaGigaTeam = 40
+>>>>>>> ee9a243b440c901fa2fba25560d7af5efd260b44
     }
 
     public enum Character : ushort

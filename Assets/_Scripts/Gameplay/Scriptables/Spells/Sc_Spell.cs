@@ -14,6 +14,7 @@ public class Sc_Spell : ScriptableObject
 	[TabGroup("Generic SpellParameters")] public En_CharacterState forbiddenState = En_CharacterState.Canalysing | En_CharacterState.Silenced;
 	[TabGroup("Generic SpellParameters")] public bool useUltStacks => stacksUsed>0;
 	[TabGroup("Generic SpellParameters")] public ushort stacksUsed = 0;
+	[TabGroup("Generic SpellParameters")] public bool isInterruptedOnOtherTentative = false;
 
 	[Header("StartCanalisation")]
 	[TabGroup("Generic SpellParameters")] public bool lockRotOnCanalisation = true;
