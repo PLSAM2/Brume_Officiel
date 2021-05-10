@@ -125,9 +125,10 @@ public class SpellModule : MonoBehaviour
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
 
+		myPlayerModule.OnSpellTryCanalisation?.Invoke(spell);
+
 		if (canStartCanalisation() && willResolve)
 		{
-			myPlayerModule.OnSpellTryCanalisation?.Invoke();
 			Canalyse(_BaseMousePos);
 		}
 		else
@@ -140,6 +141,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (isOwner)
 		{
+			myPlayerModule.currentSpellResolved = spell;
 			timeToResolveSpell = FinalCanalisationTime();
 
 			resolved = anonciated = startResolution = false;
@@ -179,7 +181,7 @@ public class SpellModule : MonoBehaviour
 
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
-			myPlayerModule.forcedMovementInterrupted += ResolveSpell;
+			myPlayerModule.forcedMovementInterrupted += ForceResolveSpell;
 			TreatForcedMovement(spell.forcedMovementAppliedBeforeResolution);
 		}
 		else
@@ -193,7 +195,7 @@ public class SpellModule : MonoBehaviour
 
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
-			myPlayerModule.forcedMovementInterrupted -= ResolveSpell;
+			myPlayerModule.forcedMovementInterrupted -= ForceResolveSpell;
 		}
 
 		if (ForcedMovementToApplyAfterRealisation() != null)
@@ -207,6 +209,10 @@ public class SpellModule : MonoBehaviour
 			}
 	}
 
+	void ForceResolveSpell(bool _isForced)
+	{
+		ResolveSpell();
+	}
 
 	protected virtual void DecreaseCharge ()
 	{
@@ -276,7 +282,7 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
-	public virtual void Interrupt ()
+	public virtual void Interrupt (bool _isInterrupte=false)
 	{
 		isUsed = false;
 		throwbackTime = 0;
@@ -298,6 +304,7 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 
 		myPlayerModule.spellResolved?.Invoke();
+		myPlayerModule.currentSpellResolved = null;
 	}
 
 	protected virtual void ApplyEffectAtTheEnd ()
@@ -337,6 +344,10 @@ public class SpellModule : MonoBehaviour
 
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
 			charges < 1 || isUsed)
+		{
+			return false;
+		}
+		else if (myPlayerModule.currentSpellResolved != null && !myPlayerModule.currentSpellResolved.isInterruptedOnOtherTentative)
 		{
 			return false;
 		}
@@ -442,10 +453,14 @@ public class SpellModule : MonoBehaviour
 		onInterrupt?.Invoke();
 	}
 
-	void TryToKillSpell()
+	void TryToKillSpell( Sc_Spell _spell)
 	{
-		if(spell.isInterruptedOnOtherTentative)
-			Interrupt();
+		if (spell.isInterruptedOnOtherTentative && myPlayerModule.currentSpellResolved == spell)
+		{
+			Interrupt(true);
+		}
+			
+
 	}
 
 	//inputs subscribing

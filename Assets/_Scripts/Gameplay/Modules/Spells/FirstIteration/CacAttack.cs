@@ -153,7 +153,7 @@ public class CacAttack : SpellModule
 		}
 	}*/
 
-	void ResolveSlash ()
+	void ResolveSlash (bool _useless=false)
 	{
 
 		HidePreview(Vector3.zero);

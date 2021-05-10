@@ -44,7 +44,7 @@ public class DiveModule : SpellModule
 
 		base.ResolveSpell();
 	}
-	public override void Interrupt ()
+	public override void Interrupt ( bool isInterrupted = false )
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("Diving", false);
 		myPlayerModule.mylocalPlayer.myUiPlayerManager.EnableBuff(false, "Diving");

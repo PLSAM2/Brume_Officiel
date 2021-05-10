@@ -119,7 +119,7 @@ public class PlayerModule : MonoBehaviour
 	//[DASH ET MODIFICATEUR DE MOUVEMENT]
 	#region
 	public Action<ForcedMovement> forcedMovementAdded;
-	public Action forcedMovementInterrupted;
+	public Action<bool> forcedMovementInterrupted;
 	#endregion
 
 	//pour l animator
@@ -142,7 +142,9 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
 	public Action ultPointPickedUp;
 
-	public Action OnStateChange, OnSpellTryCanalisation;
+	public Action OnStateChange;
+	public Action<Sc_Spell> OnSpellTryCanalisation;
+	[HideInInspector] public Sc_Spell currentSpellResolved;
 
 
 	#endregion

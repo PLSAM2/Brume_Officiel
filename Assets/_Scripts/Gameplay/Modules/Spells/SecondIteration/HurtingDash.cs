@@ -102,7 +102,7 @@ public class HurtingDash : SpellModule
 		base.Resolution();
 	}
 
-    public override void Interrupt ()
+    public override void Interrupt ( bool isInterrupted = false )
 	{
 		hurtBox.gameObject.SetActive(false);
 
@@ -111,7 +111,7 @@ public class HurtingDash : SpellModule
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
 
 
-		base.Interrupt();
+		base.Interrupt(isInterrupted);
 	}
 
 	public void TouchedAnEnemy ( GameObject _hitHostile )

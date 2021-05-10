@@ -53,7 +53,7 @@ public class JumpModule : SpellModule
 		base.ResolveSpell();
 	}
 
-	public override void Interrupt ()
+	public override void Interrupt ( bool isInterrupted = false )
 	{
 		myPlayerModule.RemoveState(En_CharacterState.StopInterpolate);
 		base.Interrupt();

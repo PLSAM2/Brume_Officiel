@@ -96,7 +96,7 @@ public class MovementModule : MonoBehaviour
 
                 if (!isADummy)
                 {
-                    myPlayerModule.forcedMovementInterrupted?.Invoke();
+                    myPlayerModule.forcedMovementInterrupted?.Invoke(false);
                 }
 
                 return;
@@ -127,7 +127,7 @@ public class MovementModule : MonoBehaviour
     public void ForcedMovementTouchObstacle()
     {
         //juste pour caler le callback comme quoi le mouvement est bien fini;
-        myPlayerModule.forcedMovementInterrupted?.Invoke();
+        myPlayerModule.forcedMovementInterrupted?.Invoke(true);
         currentForcedMovement.duration = 0;
     }
 

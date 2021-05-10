@@ -45,7 +45,7 @@ public class CounterBaseModule : SpellModule
 		Interrupt();
 	}
 
-	public override void Interrupt ()
+	public override void Interrupt ( bool isInterrupted = false )
 	{
 		base.Interrupt();
 		myPlayerModule.hitCountered -= Counter;
