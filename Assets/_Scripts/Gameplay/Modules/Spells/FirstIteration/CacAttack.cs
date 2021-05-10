@@ -101,7 +101,8 @@ public class CacAttack : SpellModule
 			{
 				myPreviewArrow.gameObject.SetActive(true);
 			}
-			squarePreview.gameObject.SetActive(true);
+			else
+				squarePreview.gameObject.SetActive(true);
 		}
 		base.ShowPreview(mousePos);
 	}
@@ -113,9 +114,19 @@ public class CacAttack : SpellModule
 		{
 			myPreviewArrow.gameObject.SetActive(false);
 		}
-		squarePreview.gameObject.SetActive(false);
+		else
+			squarePreview.gameObject.SetActive(false);
 	}
 
+
+	protected override void Resolution ()
+	{
+		List<GameObject> _listHit = new List<GameObject>();
+		if (LaserHit(_listHit).Count > 0)
+			ResolveSpell();
+		else
+			base.Resolution();
+	}
 	protected override void ResolveSpell ()
 	{
 		base.ResolveSpell();

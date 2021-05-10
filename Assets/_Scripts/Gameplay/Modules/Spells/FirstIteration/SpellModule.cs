@@ -11,7 +11,6 @@ public class SpellModule : MonoBehaviour
 	[HideInInspector] public PlayerModule myPlayerModule;
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
-	bool willResolveFast, isPreped = false;
 	[ReadOnly] public float timeToResolveSpell;
 	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
 	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
@@ -144,7 +143,7 @@ public class SpellModule : MonoBehaviour
 		{
 			timeToResolveSpell = FinalCanalisationTime();
 
-			isPreped = willResolveFast = resolved = anonciated = startResolution = false;
+			resolved = anonciated = startResolution = false;
 			currentTimeCanalised = 0;
 			throwbackTime = 0;
 			isUsed = true;
