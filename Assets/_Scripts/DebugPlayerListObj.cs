@@ -27,7 +27,7 @@ public class DebugPlayerListObj : MonoBehaviour
     {
         DamagesInfos _temp = new DamagesInfos();
         _temp.damageHealth = 1000;
-        pObj.DealDamages(_temp, Vector3.zero, null, true, true);
+        pObj.DealDamages(_temp, transform, null, true, true);
     }
 
     public void Heals()

@@ -8,22 +8,36 @@ using Sirenix.OdinInspector;
 public class Sc_ForcedMovement : ScriptableObject
 {
 	public ForcedMovement movementToApply;
-	public bool isGrab= false;
+	public bool isGrab, useForwardOfDealer = false;
 
-	public ForcedMovement MovementToApply(Vector3 _target, Vector3 _basePos, float percentageOfTheMovement = 1)
+	public ForcedMovement MovementToApply ( Vector3 _target, Vector3 _basePos, float percentageOfTheMovement = 1, float _forcedDirectionX = 0, float _forcedDirectionZ = 0 )
 	{
 		ForcedMovement _temp = new ForcedMovement();
 		_temp.duration = movementToApply.duration;
 		_temp.baseDuration = movementToApply.duration;
 		_temp.speedEvolution = movementToApply.speedEvolution;
+
+
+
 		_temp.direction = movementToApply.direction;
 		_temp.strength = movementToApply.strength * percentageOfTheMovement;
 
 
-		if (!isGrab)
-			_temp.direction = Vector3.Normalize(_target - _basePos);
+
+
+		Vector3 _tempForcedDirection = new Vector3(_forcedDirectionX,0, _forcedDirectionZ);
+		if (_tempForcedDirection != Vector3.zero)
+		{
+			_temp.direction = _tempForcedDirection; 
+		}
 		else
-			_temp.direction = Vector3.Normalize( _basePos - _target);
+		{
+			if (!isGrab)
+				_temp.direction = Vector3.Normalize(_target - _basePos);
+			else
+				_temp.direction = Vector3.Normalize(_basePos - _target);
+		}
+
 		_temp.baseDuration = _temp.duration;
 		return _temp;
 	}

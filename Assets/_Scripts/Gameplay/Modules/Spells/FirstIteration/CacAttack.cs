@@ -4,6 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
+using static GameData;
+
 public class CacAttack : SpellModule
 {
 	Sc_CacAttack localTrad;
@@ -123,18 +125,37 @@ public class CacAttack : SpellModule
 	{
 		List<GameObject> _listHit = new List<GameObject>();
 		if (LaserHit(_listHit).Count > 0)
+		{
+			startResolution = true;
+			FeedbackSpellStep(En_SpellStep.Resolution);
 			ResolveSpell();
+		}
 		else
+		{
+			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
 			base.Resolution();
+		}
 	}
 	protected override void ResolveSpell ()
 	{
-		base.ResolveSpell();
 		ResolveSlash();
+		base.ResolveSpell();
 	}
+
+	/*void SlashDetection()
+	{
+		if(startResolution)
+		{
+			List<GameObject> _listHit = new List<GameObject>();
+
+			if (LaserHit(_listHit).Count > 0)
+				myPlayerModule.movementPart.
+		}
+	}*/
 
 	void ResolveSlash ()
 	{
+
 		HidePreview(Vector3.zero);
 
 		if (spell.forcedMovementAppliedBeforeResolution != null)
@@ -161,13 +182,15 @@ public class CacAttack : SpellModule
 				if (_playerTouched != null)
 					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
 					{
-						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform.position);
+						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform);
 						_ashitEnemy = true;
 					}
 			}
 
 			if (_ashitEnemy)
 			{
+				TriggerAnimHit();
+
 				playerHit?.Invoke();
 			}
 		}
