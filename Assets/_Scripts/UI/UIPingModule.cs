@@ -160,7 +160,7 @@ public class UIPingModule : MonoBehaviour
 
             if (onCenter)
             {
-                chosedPingID = 2103;
+                chosedPingID = 1;
             }
             else
             {
@@ -169,13 +169,13 @@ public class UIPingModule : MonoBehaviour
                     case -1:
                         return;
                     case 0:
-                        chosedPingID = 2100;
+                        chosedPingID = 4;
                         break;
                     case 1:
-                        chosedPingID = 2101;
+                        chosedPingID = 2;
                         break;
                     case 2:
-                        chosedPingID = 2102;
+                        chosedPingID = 3;
                         break;
                     default: throw new System.Exception("NOT EXISTING EXCEPTION");
                 }

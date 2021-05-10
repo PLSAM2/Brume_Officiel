@@ -14,6 +14,8 @@ public class TutorialManager : MonoBehaviour
     
     public int step = 0;
 
+    List<QuestStepUI> questStepUIs = new List<QuestStepUI>();
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -76,9 +78,16 @@ public class TutorialManager : MonoBehaviour
 
         actualQuest = tutorialQuests[step];
 
-        // Update UI
+        InitQuestUi();
     }
 
+    public void InitQuestUi()
+    {
+        for (int i = 0; i < actualQuest.questSteps.Count; i++)
+        {
+            questStepUIs[i].Init(actualQuest.questSteps[i]);
+        }
+    }
 
 
     // EVENT --- 
