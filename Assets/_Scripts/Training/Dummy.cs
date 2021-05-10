@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class Dummy : MonoBehaviour, Damageable
     public UIPlayerManager myUiPlayerManager;
     public Sc_CharacterParameters characterParameters;
 
+
+    [HideInInspector] public Action<Dummy> OnHit;
+    [HideInInspector] public Action<Dummy> OnKilled;
     public ushort liveHealth
     {
         get => _liveHealth; set
@@ -76,7 +80,7 @@ public class Dummy : MonoBehaviour, Damageable
 
         //SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
 
-
+        OnHit?.Invoke(this);
         if (damages > 0)
         {
             LocalPoolManager.Instance.SpawnNewImpactDamageFX(
@@ -87,6 +91,7 @@ public class Dummy : MonoBehaviour, Damageable
 
         if ((int)liveHealth - (int)damages <= 0)
         {
+            OnKilled?.Invoke(this);
             liveHealth = characterParameters.maxHealth;
         }
         else
@@ -120,6 +125,22 @@ public class Dummy : MonoBehaviour, Damageable
     public bool IsInMyTeam(GameData.Team _indexTested)
     {
         return false;
+    }
+
+
+    public void EventTutorial(DummyEvent dummyEvent)
+    {
+        switch (dummyEvent)
+        {
+            case DummyEvent.Hit:
+                OnHit += TutorialManager.Instance.OnDummyHit;
+                break;
+            case DummyEvent.Kill:
+                OnKilled += TutorialManager.Instance.OnDummyKilled;
+                break;
+            default:
+                throw new Exception("not existing event");
+        }
     }
 
 }
