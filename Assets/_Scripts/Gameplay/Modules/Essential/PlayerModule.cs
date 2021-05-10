@@ -102,6 +102,8 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public float timeInBrume;
 
 	[HideInInspector] public int bonusHp;
+	[HideInInspector] public Action<PlayerModule> OnMystEnter;
+	[HideInInspector] public Action<PlayerModule> OnMystExit;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -498,63 +500,24 @@ public class PlayerModule : MonoBehaviour
 			}
 		}
 	}
-	/*private void WaitForHealProcess ()
-	{
-		if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
-		{
-			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
-
-			return;
-		}
-		else
-			timerWaitForHeal -= Time.deltaTime;
-
-
-		if (!isAutoHealing)
-			mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = (timeWaitForHeal - timerWaitForHeal) / timeWaitForHeal;
-		else
-		{
-			print(isAutoHealing);
-		}
-
-		if (timerWaitForHeal <= 0)
-		{
-			isWaitingForHeal = false;
-
-			if (mylocalPlayer.liveHealth <= characterParameters.maxHealthForRegen + bonusHp)
-			{
-				SetAutoHealState(true);
-			}
-		}
-	}
-	private void CheckAutoHealProcess ()
-	{
-		healTimer -= Time.deltaTime;
-
-		mylocalPlayer.myUiPlayerManager.allBarLife[Mathf.Clamp(mylocalPlayer.liveHealth, 0, 100)].SetFillAmount((timeHealTick - healTimer) / timeHealTick);
-
-		if (healTimer <= 0)
-		{
-			mylocalPlayer.HealPlayer(healPerTick);
-
-			if (mylocalPlayer.liveHealth == characterParameters.maxHealthForRegen + bonusHp)
-				mylocalPlayer.myUiPlayerManager.lifeBarWaitingForHeal.fillAmount = 0;
-
-			if (mylocalPlayer.liveHealth >= characterParameters.maxHealthForRegen + bonusHp)
-			{
-				SetAutoHealState(false);
-			}
-			else
-			{
-				healTimer = timeHealTick;
-			}
-		}
-	}*/
-
+	
 	public virtual void SetInBrumeStatut ( bool _value, int idBrume )
 	{
+
+		if (_value && !isInBrume)
+		{
+			OnMystEnter?.Invoke(this);
+
+		}
+		else if (!_value && isInBrume)
+		{
+			OnMystExit?.Invoke(this);
+
+		}
+
 		isInBrume = _value;
 		brumeId = idBrume;
+
 	}
 	public void RetryInteractibleCapture ()
 	{
@@ -973,6 +936,23 @@ public class PlayerModule : MonoBehaviour
 		}
 		return wardModule;
 	}
+
+
+	public void EventTutorial(MystEvent mystEvent)
+	{
+        switch (mystEvent)
+        {
+            case MystEvent.Entered:
+				OnMystEnter += TutorialManager.Instance.OnMystEnter;
+				break;
+            case MystEvent.Exit:
+				OnMystExit += TutorialManager.Instance.OnMystExit;
+				break;
+            default:
+				throw new Exception("not existing event");
+		}
+    }
+
 }
 
 [System.Flags]
