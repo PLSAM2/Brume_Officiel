@@ -74,8 +74,6 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
-
-
 	public virtual void Disable ()
 	{
 		if (isOwner)
@@ -83,7 +81,6 @@ public class SpellModule : MonoBehaviour
 			DelinkInput();
 		}
 	}
-
 
 	protected virtual void Update ()
 	{
@@ -127,8 +124,10 @@ public class SpellModule : MonoBehaviour
 
 	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
 	{
+
 		if (canStartCanalisation() && willResolve)
 		{
+			myPlayerModule.OnSpellTryCanalisation?.Invoke();
 			Canalyse(_BaseMousePos);
 		}
 		else
@@ -443,13 +442,19 @@ public class SpellModule : MonoBehaviour
 		onInterrupt?.Invoke();
 	}
 
+	void TryToKillSpell()
+	{
+		if(spell.isInterruptedOnOtherTentative)
+			Interrupt();
+	}
+
 	//inputs subscribing
 	#region
 	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule.cancelSpell += CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath += HidePreview;
-
+		myPlayerModule.OnSpellTryCanalisation += TryToKillSpell;
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
@@ -485,6 +490,8 @@ public class SpellModule : MonoBehaviour
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
+		myPlayerModule.OnSpellTryCanalisation -= TryToKillSpell;
+
 
 		switch (actionLinked)
 		{

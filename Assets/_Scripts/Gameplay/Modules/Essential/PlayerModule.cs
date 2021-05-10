@@ -142,7 +142,7 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public En_SpellInput spellInputedRecorded;
 	public Action ultPointPickedUp;
 
-	public Action OnStateChange;
+	public Action OnStateChange, OnSpellTryCanalisation;
 
 
 	#endregion
