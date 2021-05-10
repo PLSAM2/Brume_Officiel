@@ -12,8 +12,6 @@ public class Decoy : MonoBehaviour, Damageable
     public Animator myAnimator;
 
     public Team myTeam;
-    public ushort idPlayer;
-    PlayerData myPlayerData;
 
     public Sc_CharacterParameters reParameter;
 
@@ -21,22 +19,27 @@ public class Decoy : MonoBehaviour, Damageable
 
     public NetworkedObject netObj;
 
-    public void Start()
+	private void OnEnable ()
+	{
+        netObj.OnSpawnObj += Init;
+
+    }
+
+	public void Start()
     {
         myAnimator.SetBool("IsMoving", true); 
     }
 
-    public void Init(Team _team)
+    public void Init()
     {
-        Team myTeam = _team;
+        PlayerData _tempData = netObj.GetOwner();
+        myTeam = _tempData.playerTeam;
 
-        idPlayer = (ushort) GameFactory.GetPlayerCharacterInTeam(_team, Character.Re);
-        myPlayerData = RoomManager.Instance.GetPlayerData(idPlayer);
 
         myFootStep.isDecoy = true;
         myFootStep.myDecoy = this;
 
-        myUI.Init(_team, myPlayerData.Name, GameManager.Instance.networkPlayers[idPlayer].liveHealth, reParameter.maxHealth);
+        myUI.Init(myTeam, _tempData.Name, GameManager.Instance.networkPlayers[_tempData.ID].liveHealth, reParameter.maxHealth);
     }
 
     public void DealDamages(DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1)
