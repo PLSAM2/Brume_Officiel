@@ -144,8 +144,8 @@ public class Annoncement : MonoBehaviour
             newAnnonce.voice = voice;
             newAnnonce.isAlarAnnnonce = false;
 
-            newAnnonce.id1 = (ushort)id1;
-            newAnnonce.id2 = (ushort)id2;
+            newAnnonce.id1 = id1;
+            newAnnonce.id2 = id2;
 
             currentBufferedAnnonce.Add(newAnnonce);
         }
