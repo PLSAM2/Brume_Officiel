@@ -9,7 +9,8 @@ public class GameData
         none = 0,
         red = 10,
         blue = 20,
-        spectator = 30
+        spectator = 30,
+        zizi = 40
     }
 
     public enum Character : ushort
