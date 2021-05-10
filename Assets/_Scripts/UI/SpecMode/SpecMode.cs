@@ -65,10 +65,7 @@ public class SpecMode : MonoBehaviour
 
             CameraManager.Instance.isSpectate = true;
 
-            //UiManager.Instance.SetAlphaBrume(0);
-
-            RefreshList();
-            TryToSpec();
+            StartCoroutine(WaitToDisplaySpecMode());
             return;
         }
 
@@ -85,6 +82,14 @@ public class SpecMode : MonoBehaviour
                 ChangeSpecPlayer(playerSpected);
             }
         }
+    }
+
+    IEnumerator WaitToDisplaySpecMode()
+    {
+        yield return new WaitForSeconds(3);
+
+        RefreshList();
+        TryToSpec();
     }
 
     void OnPlayerRespawn(ushort playerId)

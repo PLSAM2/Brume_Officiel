@@ -86,6 +86,12 @@ public class Interactible : MonoBehaviour
     [HideInInspector] public bool CheckOnUnlock = false;
 
     [TabGroup("InteractiblePart")] public Team lastTeamCaptured = Team.none;
+
+    // Tutorial Purpose
+    [HideInInspector] public Action<Interactible> OnEnter;
+    [HideInInspector] public Action<Interactible> OnExit;
+    [HideInInspector] public Action<Interactible> OnCaptured;
+
     private void Awake()
     {
         client = RoomManager.Instance.client;
@@ -298,7 +304,9 @@ public class Interactible : MonoBehaviour
         if (InGameNetworkReceiver.Instance.GetEndGame())
         {
             return;
+        
         }
+        OnCaptured?.Invoke(this);
 
         // SI ON EST LA PERSONNE QUI CAPTURE
     }
@@ -431,6 +439,7 @@ public class Interactible : MonoBehaviour
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
+                OnEnter?.Invoke(this);
                 CheckOnUnlock = false;
                _pModule.interactiblesClose.Add(this);
                 TryCapture(_pModule.teamIndex, _pModule);
@@ -465,6 +474,8 @@ public class Interactible : MonoBehaviour
 
             if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter)) // Si personnage autorisé
             {
+                OnExit?.Invoke(this);
+
                 using (DarkRiftWriter _writer = DarkRiftWriter.Create())
                 {
                     _writer.Write(interactibleID);
@@ -513,6 +524,7 @@ public class Interactible : MonoBehaviour
 
                 if (authorizedCaptureCharacter.Contains(RoomManager.Instance.actualRoom.playerList[_pModule.mylocalPlayer.myPlayerId].playerCharacter) && isCapturing == false) // Si personnage autorisé
                 {
+                    OnEnter?.Invoke(this);
                     _pModule.interactiblesClose.Add(this);
                     TryCapture(_pModule.teamIndex, _pModule);
                 }
@@ -547,6 +559,25 @@ public class Interactible : MonoBehaviour
             {
                 client.SendMessage(_message, SendMode.Reliable);
             }
+        }
+    }
+
+
+    public void EventTutorial(InteractibleEvent interactibleEvent)
+    {
+        switch (interactibleEvent)
+        {
+            case InteractibleEvent.Entered:
+                OnEnter += TutorialManager.Instance.OnInteractibleEntered;
+                break;
+            case InteractibleEvent.Exit:
+                OnExit += TutorialManager.Instance.OnInteractibleExit;
+                break;
+            case InteractibleEvent.Captured:
+                OnCaptured += TutorialManager.Instance.OnInteractibleCaptured;
+                break;
+            default:
+                throw new Exception("not existing event");
         }
     }
 }
