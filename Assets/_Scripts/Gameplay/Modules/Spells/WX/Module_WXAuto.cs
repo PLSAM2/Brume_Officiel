@@ -35,10 +35,10 @@ public class Module_WXAuto : SpellModule
         }
     }
 
-    public override void StartCanalysing(Vector3 _BaseMousePos )
+    public override void TryCanalysing(Vector3 _BaseMousePos )
     {
         HidePreview(Vector3.zero);
-        base.StartCanalysing(_BaseMousePos);
+        base.TryCanalysing(_BaseMousePos);
     }
 
     protected override void HidePreview( Vector3 _posToHide )
