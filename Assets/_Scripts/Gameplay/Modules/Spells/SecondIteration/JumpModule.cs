@@ -23,7 +23,7 @@ public class JumpModule : SpellModule
 		HidePreview(Vector3.zero);
 	}
 
-	public override void StartCanalysing ( Vector3 _toAnnounce )
+	public override void TryCanalysing ( Vector3 _toAnnounce )
 	{
 		if(canStartCanalisation() && willResolve)
 		{
@@ -36,7 +36,7 @@ public class JumpModule : SpellModule
 			jumpPosEnd = myPlayerModule.movementPart.FreeLocation(jumpPosEnd,Vector3.Distance(jumpPosEnd, transform.position));
 		}
 	
-		base.StartCanalysing(_toAnnounce);
+		base.TryCanalysing(_toAnnounce);
 	}
 
 	protected override void AnonceSpell ( Vector3 _toAnnounce )
