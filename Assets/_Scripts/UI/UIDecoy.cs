@@ -11,6 +11,8 @@ public class UIDecoy : MonoBehaviour
 
     public Transform parentListLife;
     public GameObject prefabLifeBar;
+    List<GameObject> uiLifeElements = new List<GameObject>();
+
 
     public Material blueMat, redMat, grayMat;
     Material currentColorTeam;
@@ -31,6 +33,11 @@ public class UIDecoy : MonoBehaviour
 
     void SpawnLifeBar(int _liveHealth, int _maxLiveHealth, Team _team)
     {
+        foreach(GameObject obj in uiLifeElements)
+        {
+            Destroy(obj);
+        }
+
         for (int i = 0; i < _maxLiveHealth; i++)
         {
             UIBarLifePerso img = Instantiate(prefabLifeBar, parentListLife).GetComponent<UIBarLifePerso>();
@@ -45,6 +52,8 @@ public class UIDecoy : MonoBehaviour
                 img.SetColorLife(grayMat, false);
                 img.HideLife();
             }
+
+            uiLifeElements.Add(img.gameObject);
         }
     }
 }

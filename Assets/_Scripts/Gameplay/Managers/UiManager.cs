@@ -107,6 +107,9 @@ public class UiManager : MonoBehaviour
     public RectTransform parentCDFeedback;
     public GameObject prefabCDFeedback;
 
+    [HideInInspector]
+    public float currentCdDisplay = 0;
+
 
     private void Awake ()
 	{
@@ -461,7 +464,8 @@ public class UiManager : MonoBehaviour
 		}
 
 
-	}
+        currentCdDisplay += Time.deltaTime;
+    }
 
 	private void FixedUpdate ()
 	{

@@ -69,7 +69,7 @@ public class ModuleCombo : SpellModule
 
 		if (inCombo)
 		{
-			StartCanalysing(myPlayerModule.mousePos());
+			TryCanalysing(myPlayerModule.mousePos());
 		}
 	}
 
@@ -85,10 +85,10 @@ public class ModuleCombo : SpellModule
 			comboIndex = 0;
 
 	}
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void TryCanalysing ( Vector3 _BaseMousePos )
 	{
 		willResolve = true;
-		base.StartCanalysing(_BaseMousePos);
+		base.TryCanalysing(_BaseMousePos);
 	}
 
 	protected override void ResolveSpell ()
@@ -97,7 +97,7 @@ public class ModuleCombo : SpellModule
 
 		
 
-		allSpellsOfTheCombo[comboIndex].StartCanalysing(myPlayerModule.mousePos());
+		allSpellsOfTheCombo[comboIndex].TryCanalysing(myPlayerModule.mousePos());
 		myPlayerModule.spellResolved += TryToCombo;
 
 		base.ResolveSpell();
@@ -116,7 +116,7 @@ public class ModuleCombo : SpellModule
 		switch (_actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += StartCanalysing;
+				myPlayerModule.firstSpellInput += TryCanalysing;
 				myPlayerModule.leftClickInput += StartCombo;
 				myPlayerModule.leftClickInputRealeased += EndCombo;
 				//myPlayerModule.firstSpellInputRealeased += AnonceSpell;
@@ -125,7 +125,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += StartCanalysing;
+				myPlayerModule.secondSpellInput += TryCanalysing;
 				myPlayerModule.secondSpellInput += StartCombo;
 				myPlayerModule.secondSpellInputRealeased += EndCombo;
 				//myPlayerModule.secondSpellInputRealeased += AnonceSpell;
@@ -134,7 +134,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput += StartCanalysing;
+				myPlayerModule.thirdSpellInput += TryCanalysing;
 				myPlayerModule.thirdSpellInput += StartCombo;
 				myPlayerModule.thirdSpellInputRealeased += EndCombo;
 				//myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
@@ -142,7 +142,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += StartCanalysing;
+				myPlayerModule.leftClickInput += TryCanalysing;
 				myPlayerModule.leftClickInput += StartCombo;
 				myPlayerModule.leftClickInputRealeased += EndCombo;
 				//	myPlayerModule.leftClickInputRealeased += AnonceSpell;
@@ -151,7 +151,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.SoulSpell:
-				myPlayerModule.soulSpellInput += StartCanalysing;
+				myPlayerModule.soulSpellInput += TryCanalysing;
 				myPlayerModule.soulSpellInput += StartCombo;
 				myPlayerModule.soulSpellInputReleased += EndCombo;
 				//	myPlayerModule.wardInputReleased += AnonceSpell;
@@ -168,7 +168,7 @@ public class ModuleCombo : SpellModule
 		switch (actionLinked)
 		{
 			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= StartCanalysing;
+				myPlayerModule.firstSpellInput -= TryCanalysing;
 				myPlayerModule.leftClickInput -= StartCombo;
 				myPlayerModule.leftClickInputRealeased -= EndCombo;
 				//myPlayerModule.firstSpellInputRealeased += AnonceSpell;
@@ -176,7 +176,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput -= StartCanalysing;
+				myPlayerModule.secondSpellInput -= TryCanalysing;
 				myPlayerModule.secondSpellInput -= StartCombo;
 				myPlayerModule.secondSpellInputRealeased -= EndCombo;
 				//myPlayerModule.secondSpellInputRealeased += AnonceSpell;
@@ -184,7 +184,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.ThirdSpell:
-				myPlayerModule.thirdSpellInput -= StartCanalysing;
+				myPlayerModule.thirdSpellInput -= TryCanalysing;
 				myPlayerModule.thirdSpellInput -= StartCombo;
 				myPlayerModule.thirdSpellInputRealeased -= EndCombo;
 				//myPlayerModule.thirdSpellInputRealeased += AnonceSpell;
@@ -192,7 +192,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= StartCanalysing;
+				myPlayerModule.leftClickInput -= TryCanalysing;
 				myPlayerModule.leftClickInput -= StartCombo;
 				myPlayerModule.leftClickInputRealeased -= EndCombo;
 				//	myPlayerModule.leftClickInputRealeased += AnonceSpell;
@@ -200,7 +200,7 @@ public class ModuleCombo : SpellModule
 				break;
 
 			case En_SpellInput.SoulSpell:
-				myPlayerModule.soulSpellInput -= StartCanalysing;
+				myPlayerModule.soulSpellInput -= TryCanalysing;
 				myPlayerModule.soulSpellInput -= StartCombo;
 				myPlayerModule.soulSpellInputReleased -= EndCombo;
 				//	myPlayerModule.wardInputReleased += AnonceSpell;

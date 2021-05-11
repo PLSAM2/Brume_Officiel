@@ -121,7 +121,7 @@ public class PlayerModule : MonoBehaviour
 	//[DASH ET MODIFICATEUR DE MOUVEMENT]
 	#region
 	public Action<ForcedMovement> forcedMovementAdded;
-	public Action forcedMovementInterrupted;
+	public Action<bool> forcedMovementInterrupted;
 	#endregion
 
 	//pour l animator
@@ -145,6 +145,8 @@ public class PlayerModule : MonoBehaviour
 	public Action ultPointPickedUp;
 
 	public Action OnStateChange;
+	public Action<Sc_Spell> OnSpellTryCanalisation;
+	[HideInInspector] public Sc_Spell currentSpellResolved;
 
 
 	#endregion
@@ -317,31 +319,6 @@ public class PlayerModule : MonoBehaviour
 		SelectionnedSoulSpellModule().SetupComponent(En_SpellInput.SoulSpell);
 	}
 
-	IEnumerator WaitForVisionCheck ()
-	{
-		CheckForBrumeRevelation();
-		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-		StartCoroutine(WaitForVisionCheck());
-	}
-	void CheckForBrumeRevelation ()
-	{
-
-		if (GameManager.Instance.currentLocalPlayer == null)
-		{
-			return;
-		}
-		if (ShouldBePinged())
-		{
-			//Debug.Log("I shouldBePinged");
-			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
-				LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
-			else
-				LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
-
-		}
-		lastRecordedPos = transform.position;
-	}
-
 	public void ResetLayer ()
 	{
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
@@ -358,7 +335,35 @@ public class PlayerModule : MonoBehaviour
 			gameObject.layer = 8;
 		}
 	}
-	protected virtual void Update ()
+
+    public IEnumerator WaitForVisionCheck()
+    {
+        CheckForBrumeRevelation();
+        yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
+        StartCoroutine(WaitForVisionCheck());
+    }
+    void CheckForBrumeRevelation()
+    {
+
+        if (GameManager.Instance.currentLocalPlayer == null)
+        {
+            return;
+        }
+
+        if (ShouldBePinged())
+        {
+            //Debug.Log("I shouldBePinged");
+            if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+            else
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
+
+        }
+
+        lastRecordedPos = transform.position;
+    }
+
+    protected virtual void Update ()
 	{
 
 		TreatEffects();
@@ -603,7 +608,7 @@ public class PlayerModule : MonoBehaviour
 			return false;
 
 		//on choppe le player local
-		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
+		PlayerModule _localPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
 		//le perso est pas en train de crouched
 		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0 || (state & En_CharacterState.Hidden) != 0)

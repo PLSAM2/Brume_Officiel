@@ -20,7 +20,6 @@ public class IconUi : MonoBehaviour
     public GameObject feedbackCanUse;
 
     float cdDisplay = 0.35f;
-    float currentCdDisplay = 0;
 
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
 	{
@@ -45,11 +44,6 @@ public class IconUi : MonoBehaviour
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible -= CooldownReadyFeedback;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
 	}
-
-    private void Update()
-    {
-        currentCdDisplay += Time.deltaTime;
-    }
 
     float lastCD = 0;
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
@@ -83,9 +77,11 @@ public class IconUi : MonoBehaviour
 		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
         //feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
 
-        if(currentCdDisplay >= cdDisplay)
+        print("cant");
+
+        if(UiManager.Instance.currentCdDisplay >= cdDisplay)
         {
-            currentCdDisplay = 0;
+            UiManager.Instance.currentCdDisplay = 0;
             UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
         }
     }
