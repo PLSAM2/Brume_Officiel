@@ -19,15 +19,18 @@ public class Decoy : MonoBehaviour, Damageable
 
     public NetworkedObject netObj;
 
-	private void OnEnable ()
-	{
-        netObj.OnSpawnObj += Init;
+    public CharacterController charac;
 
+    Quaternion uiRotation;
+
+    private void Awake()
+    {
+        uiRotation = myUI.transform.rotation;
     }
 
-	public void Start()
-    {
-        myAnimator.SetBool("IsMoving", true); 
+    private void OnEnable ()
+	{
+        netObj.OnSpawnObj += Init;
     }
 
     public void Init()
@@ -44,12 +47,13 @@ public class Decoy : MonoBehaviour, Damageable
 
     void Update()
     {
-        transform.Translate(transform.forward * reParameter.movementParameters.movementSpeed); 
+        charac.Move(transform.forward * reParameter.movementParameters.movementSpeed * Time.deltaTime);
+        myAnimator.SetBool("IsMoving", true);
     }
 
     private void LateUpdate()
     {
-        transform.rotation = Quaternion.identity;
+        myUI.transform.rotation = uiRotation;
     }
 
     public void DealDamages(DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1)
@@ -57,7 +61,7 @@ public class Decoy : MonoBehaviour, Damageable
         if(_damagesToDeal.damageHealth > 0)
         {
             //destroy
-            //netObj
+            NetworkObjectsManager.Instance.DestroyNetworkedObject(netObj.GetItemID(), true);
         }
     }
 
