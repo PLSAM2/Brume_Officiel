@@ -72,7 +72,15 @@ public class FootstepAudio : MonoBehaviour
     IEnumerator WaitEndSound(AudioClip _clip)
     {
         if (GameFactory.DoSound(transform.position)) {
-            AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
+
+            if (!isDecoy)
+            {
+                AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
+            }
+            else
+            {
+                AudioManager.Instance.OnAudioPlayed(this.transform.position, myDecoy.netObj.GetOwnerID(), true, myAudioSource.maxDistance);
+            }
             myAudioSource.PlayOneShot(_clip);
         }
 

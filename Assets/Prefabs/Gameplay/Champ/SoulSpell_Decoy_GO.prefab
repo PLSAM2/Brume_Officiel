@@ -158,6 +158,7 @@ MonoBehaviour:
   isVisible: 0
   objToHide:
   - {fileID: 1825036493922342344}
+  - {fileID: 4380817345687289015}
 --- !u!65 &8634099290424161244
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -432,6 +433,7 @@ MonoBehaviour:
   reParameter: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
   myFootStep: {fileID: 260425051186876600}
   netObj: {fileID: 2862543550591188984}
+  charac: {fileID: 2253512288972510634}
 --- !u!114 &2862543550591188984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf52840442d9f3042bf7abbbd23353da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNetworked: 1
+  isNetworked: 0
   synchronisePosition: 0
   synchroniseRotation: 0
   interpolateSpeed: 30
@@ -460,6 +462,10 @@ PrefabInstance:
     - target: {fileID: 100004, guid: 1c20c7996d683754db1f0f62a361952c, type: 3}
       propertyPath: m_Name
       value: CFX4 Fire (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 1c20c7996d683754db1f0f62a361952c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 1c20c7996d683754db1f0f62a361952c, type: 3}
       propertyPath: m_RootOrder
@@ -818,7 +824,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -86.59177
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2102325941096883028, guid: 8f1b33850eede3843afde952b606e046, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8f1b33850eede3843afde952b606e046, type: 3}
 --- !u!4 &7533959931467507456 stripped
 Transform:
@@ -855,6 +862,10 @@ PrefabInstance:
     - target: {fileID: 100004, guid: 1c20c7996d683754db1f0f62a361952c, type: 3}
       propertyPath: m_Name
       value: CFX4 Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 1c20c7996d683754db1f0f62a361952c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 1c20c7996d683754db1f0f62a361952c, type: 3}
       propertyPath: m_RootOrder

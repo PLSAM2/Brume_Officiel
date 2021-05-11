@@ -15,9 +15,9 @@ public class CounterBaseModule : SpellModule
 		spellToLaunchOnCounter.SetupComponent(En_SpellInput.Special);
 	}
 
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void TryCanalysing ( Vector3 _BaseMousePos )
 	{
-		base.StartCanalysing(_BaseMousePos);
+		base.TryCanalysing(_BaseMousePos);
 		hasCounter = false;
 	}
 
@@ -45,7 +45,7 @@ public class CounterBaseModule : SpellModule
 		Interrupt();
 	}
 
-	public override void Interrupt ()
+	public override void Interrupt ( bool isInterrupted = false )
 	{
 		base.Interrupt();
 		myPlayerModule.hitCountered -= Counter;

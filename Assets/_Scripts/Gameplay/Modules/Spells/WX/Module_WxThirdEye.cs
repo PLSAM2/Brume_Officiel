@@ -45,7 +45,7 @@ public class Module_WxThirdEye : SpellModule
 		base.ResolveSpell();
 
 	}
-	public override void Interrupt ()
+	public override void Interrupt (bool _isInterrupted )
 	{
 		/*switch (actionLinked)
 		{
@@ -65,12 +65,7 @@ public class Module_WxThirdEye : SpellModule
 				myPlayerModule.wardInput -= ForceInterrupt;
 				break;
 		}*/
-		myPlayerModule.firstSpellInput -= ForceInterrupt;
-		myPlayerModule.secondSpellInput -= ForceInterrupt;
-		myPlayerModule.thirdSpellInput -= ForceInterrupt;
-		myPlayerModule.leftClickInput -= ForceInterrupt;
-		myPlayerModule.soulSpellInput -= ForceInterrupt;
-
+	
 
 		UpdateShockWaveStatus(En_ShockWaveStatus.Closing);
 
@@ -90,7 +85,7 @@ public class Module_WxThirdEye : SpellModule
 
 	void ForceInterrupt ( Vector3 _temp )
 	{
-		Interrupt();
+		Interrupt(true);
 	}
 
 	void OnTowerCaptured ( VisionTower _tower )
@@ -146,11 +141,7 @@ public class Module_WxThirdEye : SpellModule
 						myPlayerModule.wardInput += ForceInterrupt;
 						break;
 				}*/
-				myPlayerModule.firstSpellInput += ForceInterrupt;
-				myPlayerModule.secondSpellInput += ForceInterrupt;
-				myPlayerModule.thirdSpellInput += ForceInterrupt;
-				myPlayerModule.leftClickInput += ForceInterrupt;
-				myPlayerModule.soulSpellInput += ForceInterrupt;
+	
 				OutlineAllPlayersInRange();
 				break;
 

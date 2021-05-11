@@ -26,6 +26,8 @@ public class Sc_Spell : ScriptableObject
 	[TabGroup("Generic SpellParameters")] public bool lockRotOnAnonciation = true;
 	[TabGroup("Generic SpellParameters")] public bool LockPosOnAnonciation = false;
 	[TabGroup("Generic SpellParameters")] [Tooltip("TimeBeforeTheEndOfCanalisation DOIT ETRE Inferieur AU CANALISATION TIME")] public float anonciationTime;
+	[TabGroup("Generic SpellParameters")] public List<Sc_Status> statusOnAnnonciation = new List<Sc_Status>();
+
 
 	[Header("Resolution")]
 	[TabGroup("Generic SpellParameters")] public Sc_ForcedMovement forcedMovementAppliedBeforeResolution, forcedMovementAppliedAfterResolution;

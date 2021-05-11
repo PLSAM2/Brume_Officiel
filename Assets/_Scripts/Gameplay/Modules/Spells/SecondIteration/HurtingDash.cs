@@ -71,7 +71,7 @@ public class HurtingDash : SpellModule
 		_myPreview.gameObject.SetActive(false);
 	}
 
-	public override void StartCanalysing ( Vector3 _BaseMousePos)
+	public override void TryCanalysing ( Vector3 _BaseMousePos)
 	{
 		hurtBox.ResetHitbox();
 		ResetDamage();
@@ -88,7 +88,7 @@ public class HurtingDash : SpellModule
 			_damageToDeal.damageHealth = damages.damageHealth;
 		}
 
-		base.StartCanalysing(_BaseMousePos);
+		base.TryCanalysing(_BaseMousePos);
 	}
 
 	protected override void Resolution ()
@@ -102,7 +102,7 @@ public class HurtingDash : SpellModule
 		base.Resolution();
 	}
 
-    public override void Interrupt ()
+    public override void Interrupt ( bool isInterrupted = false )
 	{
 		hurtBox.gameObject.SetActive(false);
 
@@ -111,7 +111,7 @@ public class HurtingDash : SpellModule
 		myPlayerModule.forcedMovementInterrupted -= Interrupt;
 
 
-		base.Interrupt();
+		base.Interrupt(isInterrupted);
 	}
 
 	public void TouchedAnEnemy ( GameObject _hitHostile )

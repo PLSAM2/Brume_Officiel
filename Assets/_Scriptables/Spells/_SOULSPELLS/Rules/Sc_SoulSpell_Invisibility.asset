@@ -17,19 +17,20 @@ MonoBehaviour:
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
+  isInterruptedOnOtherTentative: 1
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
-  canalisationTime: 0.3
-  statusToApplyOnCanalisation: []
+  canalisationTime: 4
+  statusToApplyOnCanalisation:
+  - {fileID: 11400000, guid: 8dfdfa1ef6b337c4cab6e7c609274ca6, type: 2}
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
-  statusToApplyOnResolution:
-  - {fileID: 11400000, guid: 8dfdfa1ef6b337c4cab6e7c609274ca6, type: 2}
+  statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
-  throwBackDuration: 4
+  throwBackDuration: 0.5
   spellIcon: {fileID: 21300000, guid: a7fb2dcc992d38443acbffede94ec440, type: 3}
   spellName: Invisibilty
   spellDescription: 'You become invisible to enemies for the next 4s. '
