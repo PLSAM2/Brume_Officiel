@@ -40,9 +40,9 @@ public class CacAttack : SpellModule
 			linePreview.useWorldSpace = true;
 		}
 	}
-	public override void StartCanalysing ( Vector3 _BaseMousePos )
+	public override void TryCanalysing ( Vector3 _BaseMousePos )
 	{
-		base.StartCanalysing(_BaseMousePos);
+		base.TryCanalysing(_BaseMousePos);
 
 		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
 			damageToDeal.damageHealth += 1;

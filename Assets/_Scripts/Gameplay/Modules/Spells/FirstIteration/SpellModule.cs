@@ -44,7 +44,6 @@ public class SpellModule : MonoBehaviour
 	protected bool isOwner = false;
 	[HideInInspector] public bool hasPreviewed;
 	protected Vector3 mousePosInputed;
-	List<Sc_Status> statusToStopAtTheEnd = new List<Sc_Status>();
 
 	//public Action<int> ChargeUpdate;
 	public Action SpellAvaible, SpellNotAvaible;
@@ -53,6 +52,8 @@ public class SpellModule : MonoBehaviour
 	public UnityEvent onCanalisation;
 	public UnityEvent onAnnonciation, onResolution, onInterrupt;
 
+	//setup
+	#region
 	private void OnEnable ()
 	{
 		LocalPlayer.disableModule += Disable;
@@ -73,7 +74,6 @@ public class SpellModule : MonoBehaviour
 			SpellAvaible?.Invoke();
 		}
 	}
-
 	public virtual void Disable ()
 	{
 		if (isOwner)
@@ -82,6 +82,84 @@ public class SpellModule : MonoBehaviour
 		}
 	}
 
+	//inputs subscribing
+	#region
+	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
+	{
+		myPlayerModule.cancelSpell += CancelSpell;
+		myPlayerModule.mylocalPlayer.OnPlayerDeath += HidePreview;
+		myPlayerModule.OnSpellTryCanalisation += TryToKillSpell;
+		switch (_actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput += ShowPreview;
+				myPlayerModule.firstSpellInputRealeased += TryCanalysing;
+				myPlayerModule.firstSpellInputRealeased += HidePreview;
+				break;
+
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.secondSpellInput += ShowPreview;
+				myPlayerModule.secondSpellInputRealeased += TryCanalysing;
+				myPlayerModule.secondSpellInputRealeased += HidePreview;
+				break;
+
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput += ShowPreview;
+				myPlayerModule.leftClickInputRealeased += TryCanalysing;
+				myPlayerModule.leftClickInputRealeased += HidePreview;
+				break;
+
+			case En_SpellInput.SoulSpell:
+				myPlayerModule.soulSpellInput += ShowPreview;
+				myPlayerModule.soulSpellInputReleased += TryCanalysing;
+				myPlayerModule.soulSpellInputReleased += HidePreview;
+				break;
+		}
+	}
+	protected virtual void RelinkInputs ( Vector3 _useless )
+	{
+		LinkInputs(actionLinked);
+	}
+	protected virtual void DelinkInput ()
+	{
+		myPlayerModule.cancelSpell -= CancelSpell;
+		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
+		myPlayerModule.OnSpellTryCanalisation -= TryToKillSpell;
+
+
+		switch (actionLinked)
+		{
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.firstSpellInput -= ShowPreview;
+				myPlayerModule.firstSpellInputRealeased -= TryCanalysing;
+				myPlayerModule.firstSpellInputRealeased -= HidePreview;
+				break;
+
+			case En_SpellInput.SecondSpell:
+
+				myPlayerModule.secondSpellInput -= ShowPreview;
+				myPlayerModule.secondSpellInputRealeased -= TryCanalysing;
+				myPlayerModule.secondSpellInputRealeased -= HidePreview;
+				break;
+
+			case En_SpellInput.Click:
+				myPlayerModule.leftClickInput -= ShowPreview;
+				myPlayerModule.leftClickInputRealeased -= TryCanalysing;
+				myPlayerModule.leftClickInputRealeased -= HidePreview;
+				break;
+
+			case En_SpellInput.SoulSpell:
+				myPlayerModule.soulSpellInput -= ShowPreview;
+				myPlayerModule.soulSpellInputReleased -= TryCanalysing;
+				myPlayerModule.soulSpellInputReleased -= HidePreview;
+				break;
+		}
+	}
+	#endregion
+	#endregion
+
+	//updates
+	#region
 	protected virtual void Update ()
 	{
 		if (isUsed)
@@ -97,7 +175,6 @@ public class SpellModule : MonoBehaviour
 		if (showingPreview)
 			UpdatePreview();
 	}
-
 	protected virtual void TreatNormalCanalisation ()
 	{
 		if (currentTimeCanalised >= timeToResolveSpell && anonciated && !startResolution)
@@ -121,8 +198,50 @@ public class SpellModule : MonoBehaviour
 			}
 		}
 	}
+	public virtual void DecreaseCooldown ()
+	{
+		if (charges < spell.numberOfCharge)
+		{
+			if (cooldown <= spell.cooldown)
+				cooldown += Time.deltaTime;
+			else
+			{
+				cooldown = 0;
+				AddCharge();
+			}
+		}
+	}
+	#endregion
 
-	public virtual void StartCanalysing ( Vector3 _BaseMousePos )
+	//PREVIEW
+	#region
+
+	protected virtual void ShowPreview ( Vector3 mousePos )
+	{
+		if (canBeCast())
+		{
+			willResolve = true;
+			showingPreview = true;
+			UpdatePreview();
+			hasPreviewed = true;
+		}
+		else
+			return;
+	}
+	protected virtual void HidePreview ( Vector3 _posToHide )
+	{
+		showingPreview = false;
+		hasPreviewed = false;
+	}
+	protected virtual void UpdatePreview ()
+	{
+
+	}
+	#endregion
+	
+	//SPELL STEPS
+	#region 
+	public virtual void TryCanalysing ( Vector3 _BaseMousePos )
 	{
 
 		myPlayerModule.OnSpellTryCanalisation?.Invoke(spell);
@@ -134,9 +253,6 @@ public class SpellModule : MonoBehaviour
 		else
 			SpellNotAvaible?.Invoke();
 	}
-
-
-
 	void Canalyse ( Vector3 _BaseMousePos )
 	{
 		if (isOwner)
@@ -158,6 +274,56 @@ public class SpellModule : MonoBehaviour
 
 		}
 	}
+	public virtual void StartCanalysingFeedBack ()
+	{
+		onCanalisation?.Invoke();
+
+		switch (actionLinked)
+		{
+			case En_SpellInput.Click:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", true);
+				break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation1", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", true);
+
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation2", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", true);
+
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation3", true);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", true);
+
+				break;
+		}
+	}
+	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
+	{
+		Canalyse(_BaseMousePos);
+	}
+	protected virtual void ApplyCanalisationEffect ()
+	{
+		myPlayerModule.AddState(En_CharacterState.Canalysing);
+
+		if (spell.statusToApplyOnCanalisation.Count > 0)
+		{
+			for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
+			{
+				if (spell.statusToApplyOnCanalisation[i].effect.isConstant)
+					spell.statusToApplyOnCanalisation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
+			}
+		}
+
+		if (spell.lockRotOnCanalisation)
+			myPlayerModule.rotationLock(true);
+
+		if (spell.lockPosOnCanalisation)
+			myPlayerModule.AddState(En_CharacterState.Root);
+	}
 	protected virtual void AnonceSpell ( Vector3 _toAnnounce )
 	{
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
@@ -173,7 +339,27 @@ public class SpellModule : MonoBehaviour
 
 			if (spell.LockPosOnAnonciation)
 				myPlayerModule.AddState(En_CharacterState.Root);
+
+			if (spell.statusOnAnnonciation.Count > 0)
+			{
+				for (int i = 0; i < spell.statusOnAnnonciation.Count; i++)
+				{
+					if (spell.statusOnAnnonciation[i].effect.isConstant)
+						spell.statusOnAnnonciation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
+				}
+			}
+
+			if (spell.statusToApplyOnCanalisation.Count > 0)
+				foreach (Sc_Status _statusToAdd in spell.statusToApplyOnCanalisation)
+				{
+					myPlayerModule.StopStatus(_statusToAdd.effect.forcedKey);
+				}
+
 		}
+	}
+	public virtual void StartAnnonciationFeedBack ()
+	{
+		onAnnonciation?.Invoke();
 	}
 	protected virtual void Resolution ()
 	{
@@ -204,92 +390,65 @@ public class SpellModule : MonoBehaviour
 		if (spell.statusToApplyOnResolution.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyOnResolution)
 			{
-				statusToStopAtTheEnd.Add(_statusToAdd);
 				myPlayerModule.AddStatus(_statusToAdd.effect);
 			}
-	}
 
-	void ForceResolveSpell(bool _isForced)
+		if (spell.statusOnAnnonciation.Count > 0)
+			foreach (Sc_Status _statusToAdd in spell.statusOnAnnonciation)
+			{
+				myPlayerModule.StopStatus(_statusToAdd.effect.forcedKey);
+			}
+	}
+	void ForceResolveSpell ( bool _isForced )
 	{
 		ResolveSpell();
 	}
-
-	protected virtual void DecreaseCharge ()
+	public virtual void ResolutionFeedBack ()
 	{
-		charges -= 1;
-
-		if (spell.useUltStacks)
+		onResolution?.Invoke();
+		switch (actionLinked)
 		{
-			print(spell.stacksUsed);
-			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
+			case En_SpellInput.Click:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", false);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", false);
+
+				break;
+			case En_SpellInput.FirstSpell:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation1", false);
+				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", false);
+
+				break;
+			case En_SpellInput.SecondSpell:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation2", false);
+				//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", false);
+
+				break;
+			case En_SpellInput.ThirdSpell:
+				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation3", false);
+				//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", false);
+				break;
 		}
-	}
-	public virtual void DecreaseCooldown ()
-	{
-		if (charges < spell.numberOfCharge)
-		{
-			if (cooldown <= spell.cooldown)
-				cooldown += Time.deltaTime;
-			else
-			{
-				cooldown = 0;
-				AddCharge();
-			}
-		}
-	}
-
-
-	public virtual void ForceCanalyse ( Vector3 _BaseMousePos )
-	{
-		Canalyse(_BaseMousePos);
-	}
-	protected virtual void ApplyCanalisationEffect ()
-	{
-		myPlayerModule.AddState(En_CharacterState.Canalysing);
-
-
-		if (spell.statusToApplyOnCanalisation.Count > 0)
-		{
-			for (int i = 0; i < spell.statusToApplyOnCanalisation.Count; i++)
-			{
-				if (spell.statusToApplyOnCanalisation[i].effect.isConstant)
-					statusToStopAtTheEnd.Add(spell.statusToApplyOnCanalisation[i]);
-
-				spell.statusToApplyOnCanalisation[i].ApplyStatus(myPlayerModule.mylocalPlayer);
-			}
-		}
-
-		if (spell.lockRotOnCanalisation)
-			myPlayerModule.rotationLock(true);
-
-		if (spell.lockPosOnCanalisation)
-			myPlayerModule.AddState(En_CharacterState.Root);
 	}
 	protected virtual void TreatForcedMovement ( Sc_ForcedMovement movementToTreat )
 	{
 		myPlayerModule.movementPart.AddDash(movementToTreat.MovementToApply(transform.position + transform.forward, transform.position));
 	}
-	protected virtual void CancelSpell ( bool _isForcedInterrupt )
-	{
-		if (_isForcedInterrupt && isUsed)
-			KillSpell();
-		else
-		{
-			if (showingPreview)
-			{
-				willResolve = false;
-				HidePreview(Vector3.zero);
-			}
-		}
-	}
-	public virtual void Interrupt (bool _isInterrupte=false)
+	public virtual void Interrupt ( bool _isInterrupte = false )
 	{
 		isUsed = false;
 		throwbackTime = 0;
 		FeedbackSpellStep(En_SpellStep.Interrupt);
 
-		if (statusToStopAtTheEnd.Count > 0)
-			foreach (Sc_Status _statusToRemove in statusToStopAtTheEnd)
+		if (spell.statusToApplyOnCanalisation.Count > 0)
+			foreach (Sc_Status _statusToRemove in spell.statusToApplyOnCanalisation)
+				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
+
+		if (spell.statusOnAnnonciation.Count > 0)
+			foreach (Sc_Status _statusToRemove in spell.statusOnAnnonciation)
+				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
+
+		if (spell.statusToApplyOnResolution.Count > 0)
+			foreach (Sc_Status _statusToRemove in spell.statusToApplyOnResolution)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
 
 		if (spell.lockRotOnAnonciation || spell.lockRotOnCanalisation)
@@ -306,35 +465,82 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.spellResolved?.Invoke();
 		myPlayerModule.currentSpellResolved = null;
 	}
-
+	public virtual void ThrowbackEndFeedBack ()
+	{
+		onInterrupt?.Invoke();
+	}
 	protected virtual void ApplyEffectAtTheEnd ()
 	{
 		if (spell.statusToApplyAtTheEnd.Count > 0)
 			foreach (Sc_Status _statusToAdd in spell.statusToApplyAtTheEnd)
 				myPlayerModule.AddStatus(_statusToAdd.effect);
-
 	}
+	#endregion
 
+
+	protected virtual void CancelSpell ( bool _isForcedInterrupt )
+	{
+		if (_isForcedInterrupt && isUsed)
+			KillSpell();
+		else
+		{
+			if (showingPreview)
+			{
+				willResolve = false;
+				HidePreview(Vector3.zero);
+			}
+		}
+	}
 	public virtual void KillSpell ()
 	{
-		ResolutionFeedBack();
 		willResolve = false;
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
 		Interrupt();
 	}
-
-	protected virtual void AddCharge ()
+	void TryToKillSpell ( Sc_Spell _spell )
 	{
-		charges++;
-		UiManager.Instance.CooldownReady(actionLinked);
+		if (spell.isInterruptedOnOtherTentative && myPlayerModule.currentSpellResolved == spell)
+		{
+			resolved = true;
+		}
 	}
 	public void ReduceCooldown ( float _durationShorten )
 	{
 		if (charges < spell.numberOfCharge)
 			cooldown += _durationShorten;
-
 	}
+
+	//networkfeedbacks
+	public virtual void FeedbackSpellStep ( En_SpellStep _step )
+	{
+		switch (_step)
+		{
+			case En_SpellStep.Canalisation:
+				StartCanalysingFeedBack();
+				if (isOwner)
+					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Canalisation);
+				break;
+			case En_SpellStep.Annonciation:
+				StartAnnonciationFeedBack();
+				if (isOwner)
+					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Annonciation);
+				break;
+			case En_SpellStep.Resolution:
+				ResolutionFeedBack();
+				if (isOwner)
+					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Resolution);
+				break;
+			case En_SpellStep.Interrupt:
+				ThrowbackEndFeedBack();
+				if (isOwner)
+					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Interrupt);
+				break;
+		}
+	}
+
+	//usefullVariables
+	#region
 	protected virtual bool canBeCast ()
 	{
 		if (spell.useUltStacks && spell.stacksUsed > RoomManager.Instance.GetPlayerUltStacks(NetworkManager.Instance.GetLocalPlayer().ID))
@@ -365,186 +571,25 @@ public class SpellModule : MonoBehaviour
 		else
 			return false;
 	}
-	public virtual void FeedbackSpellStep ( En_SpellStep _step )
+	protected virtual void AddCharge ()
 	{
-		switch (_step)
+		charges++;
+		UiManager.Instance.CooldownReady(actionLinked);
+	}
+	protected virtual void DecreaseCharge ()
+	{
+		charges -= 1;
+
+		if (spell.useUltStacks)
 		{
-			case En_SpellStep.Canalisation:
-				StartCanalysingFeedBack();
-				if (isOwner)
-					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Canalisation);
-				break;
-			case En_SpellStep.Annonciation:
-				StartAnnonciationFeedBack();
-				if (isOwner)
-					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Annonciation);
-				break;
-			case En_SpellStep.Resolution:
-				ResolutionFeedBack();
-				if (isOwner)
-					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Resolution);
-				break;
-			case En_SpellStep.Interrupt:
-				ThrowbackEndFeedBack();
-				if (isOwner)
-					myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Interrupt);
-				break;
+			print(spell.stacksUsed);
+			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
 		}
 	}
-	public virtual void StartCanalysingFeedBack ()
-	{
-		onCanalisation?.Invoke();
-
-		switch (actionLinked)
-		{
-			case En_SpellInput.Click:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", true);
-				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", true);
-				break;
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation1", true);
-				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", true);
-
-				break;
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation2", true);
-				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", true);
-
-				break;
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation3", true);
-				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", true);
-
-				break;
-		}
-	}
-	public virtual void StartAnnonciationFeedBack ()
-	{
-		onAnnonciation?.Invoke();
-	}
-	public virtual void ResolutionFeedBack ()
-	{
-		onResolution?.Invoke();
-		switch (actionLinked)
-		{
-			case En_SpellInput.Click:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation0", false);
-				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation0", false);
-
-				break;
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation1", false);
-				//	myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation1", false);
-
-				break;
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation2", false);
-				//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation2", false);
-
-				break;
-			case En_SpellInput.ThirdSpell:
-				myPlayerModule.mylocalPlayer.myAnimController.SetBoolToAnim("SpellCanalisation3", false);
-				//		myPlayerModule.mylocalPlayer.myAnimController.SyncBoolean("SpellCanalisation3", false);
-				break;
-		}
-	}
-	public virtual void ThrowbackEndFeedBack ()
-	{
-		onInterrupt?.Invoke();
-	}
-
-	void TryToKillSpell( Sc_Spell _spell)
-	{
-		if (spell.isInterruptedOnOtherTentative && myPlayerModule.currentSpellResolved == spell)
-		{
-			Interrupt(true);
-		}
-			
-
-	}
-
-	//inputs subscribing
-	#region
-	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
-	{
-		myPlayerModule.cancelSpell += CancelSpell;
-		myPlayerModule.mylocalPlayer.OnPlayerDeath += HidePreview;
-		myPlayerModule.OnSpellTryCanalisation += TryToKillSpell;
-		switch (_actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput += ShowPreview;
-				myPlayerModule.firstSpellInputRealeased += StartCanalysing;
-				myPlayerModule.firstSpellInputRealeased += HidePreview;
-				break;
-
-			case En_SpellInput.SecondSpell:
-				myPlayerModule.secondSpellInput += ShowPreview;
-				myPlayerModule.secondSpellInputRealeased += StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased += HidePreview;
-				break;
-
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput += ShowPreview;
-				myPlayerModule.leftClickInputRealeased += StartCanalysing;
-				myPlayerModule.leftClickInputRealeased += HidePreview;
-				break;
-
-			case En_SpellInput.SoulSpell:
-				myPlayerModule.soulSpellInput += ShowPreview;
-				myPlayerModule.soulSpellInputReleased += StartCanalysing;
-				myPlayerModule.soulSpellInputReleased += HidePreview;
-				break;
-		}
-	}
-	protected virtual void RelinkInputs ( Vector3 _useless )
-	{
-		LinkInputs(actionLinked);
-	}
-	protected virtual void DelinkInput ()
-	{
-		myPlayerModule.cancelSpell -= CancelSpell;
-		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
-		myPlayerModule.OnSpellTryCanalisation -= TryToKillSpell;
-
-
-		switch (actionLinked)
-		{
-			case En_SpellInput.FirstSpell:
-				myPlayerModule.firstSpellInput -= ShowPreview;
-				myPlayerModule.firstSpellInputRealeased -= StartCanalysing;
-				myPlayerModule.firstSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.SecondSpell:
-
-				myPlayerModule.secondSpellInput -= ShowPreview;
-				myPlayerModule.secondSpellInputRealeased -= StartCanalysing;
-				myPlayerModule.secondSpellInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.Click:
-				myPlayerModule.leftClickInput -= ShowPreview;
-				myPlayerModule.leftClickInputRealeased -= StartCanalysing;
-				myPlayerModule.leftClickInputRealeased -= HidePreview;
-				break;
-
-			case En_SpellInput.SoulSpell:
-				myPlayerModule.soulSpellInput -= ShowPreview;
-				myPlayerModule.soulSpellInputReleased -= StartCanalysing;
-				myPlayerModule.soulSpellInputReleased -= HidePreview;
-				break;
-		}
-	}
-	#endregion
-
-	//canalisation Ressources
-	#region
 	public virtual bool CanDeacreaseCooldown ()
 	{
 		return charges < spell.numberOfCharge && !isUsed;
 	}
-
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
 	{ return spell.forcedMovementAppliedBeforeResolution; }
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyAfterRealisation ()
@@ -567,31 +612,7 @@ public class SpellModule : MonoBehaviour
 	}
 	#endregion
 
-	//PREVIEW
-	#region
 
-	protected virtual void ShowPreview ( Vector3 mousePos )
-	{
-		if (canBeCast())
-		{
-			willResolve = true;
-			showingPreview = true;
-			UpdatePreview();
-			hasPreviewed = true;
-		}
-		else
-			return;
-	}
-	protected virtual void HidePreview ( Vector3 _posToHide )
-	{
-		showingPreview = false;
-		hasPreviewed = false;
-	}
-	protected virtual void UpdatePreview ()
-	{
-
-	}
-	#endregion
 }
 public enum En_SpellInput
 {
