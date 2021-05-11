@@ -121,21 +121,21 @@ public class CacAttack : SpellModule
 	}
 
 
-	protected override void Resolution ()
+	/*protected override void Resolution ()
 	{
 		List<GameObject> _listHit = new List<GameObject>();
-		if (LaserHit(_listHit).Count > 0)
-		{
-			startResolution = true;
-			FeedbackSpellStep(En_SpellStep.Resolution);
-			ResolveSpell();
-		}
-		else
-		{
-			myPlayerModule.forcedMovementInterrupted -= ResolveSlash;
-			base.Resolution();
-		}
-	}
+		base.Resolution();
+		/*	if (LaserHit(_listHit).Count > 0)
+			{
+				startResolution = true;
+				FeedbackSpellStep(En_SpellStep.Resolution);
+				ResolveSpell();
+			}
+			else
+			{
+
+		//}
+	}*/
 	protected override void ResolveSpell ()
 	{
 		ResolveSlash();
@@ -153,7 +153,7 @@ public class CacAttack : SpellModule
 		}
 	}*/
 
-	void ResolveSlash (bool _useless=false)
+	void ResolveSlash ( bool _useless = false )
 	{
 
 		HidePreview(Vector3.zero);

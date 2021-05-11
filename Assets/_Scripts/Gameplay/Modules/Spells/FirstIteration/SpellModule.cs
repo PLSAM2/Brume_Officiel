@@ -502,7 +502,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (spell.isInterruptedOnOtherTentative && myPlayerModule.currentSpellResolved == spell)
 		{
-			resolved = true;
+			Interrupt();
 		}
 	}
 	public void ReduceCooldown ( float _durationShorten )
@@ -549,7 +549,9 @@ public class SpellModule : MonoBehaviour
 		}
 
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
-			charges < 1 || isUsed)
+			charges < 1 || 
+			isUsed || 
+			!GameManager.Instance.gameStarted)
 		{
 			return false;
 		}

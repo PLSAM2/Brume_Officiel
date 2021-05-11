@@ -29,7 +29,7 @@ public class Aoe : AutoKill
 
 	}
 
-	void ResetDamage()
+	void ResetDamage ()
 	{
 		damageOnEnable.damageHealth = localTrad.rules.damagesToDealOnImpact.damageHealth;
 		damageOnEnable.movementToApply = localTrad.rules.damagesToDealOnImpact.movementToApply;
@@ -50,11 +50,16 @@ public class Aoe : AutoKill
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 			{
 				if (damageOnEnable.damageHealth > 0)
+				{
 					damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
-				if (damageOnDisable.damageHealth > 0)
-					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+				}
+				if (damageOnDisable.damageHealth > 0)
+				{
+					damageOnDisable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+				}
 			}
 		}
 
@@ -69,7 +74,7 @@ public class Aoe : AutoKill
 
 		//ResetDamage();
 
-		
+
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
@@ -168,9 +173,9 @@ public class Aoe : AutoKill
 				}
 
 				if (_coll.gameObject == GameManager.Instance.currentLocalPlayer.gameObject)
-						_coll.GetComponent<PlayerModule>().AddStatus(_buff.statusToApply[0].effect);
-				}
+					_coll.GetComponent<PlayerModule>().AddStatus(_buff.statusToApply[0].effect);
 			}
+		}
 	}
 
 	protected Collider[] enemiesTouched ()
@@ -209,7 +214,7 @@ public class Aoe : AutoKill
 			if (localTrad.rules.finalDamages.isUsable)
 			{
 				DealDamagesInRange(damageOnDisable);
-				if(procSound != null)
+				if (procSound != null)
 					AudioManager.Instance.Play3DAudio(procSound, transform.position, myNetworkObject.GetItemID(), false);
 			}
 
