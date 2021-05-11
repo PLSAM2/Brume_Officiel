@@ -38,6 +38,11 @@ public class Decoy : MonoBehaviour, Damageable
 	{
         netObj.OnSpawnObj += Init;
         StartCoroutine(WaitForVisionCheck());
+
+        if (netObj.GetIsOwner())
+        {
+            StartCoroutine(WaitToDestroy());
+        }
     }
 
     private void OnDisable()
@@ -55,11 +60,6 @@ public class Decoy : MonoBehaviour, Damageable
         myFootStep.myDecoy = this;
 
         myUI.Init(myTeam, _tempData.Name, GameManager.Instance.networkPlayers[_tempData.ID].liveHealth, reParameter.maxHealth);
-
-        if (netObj.GetIsOwner())
-        {
-            StartCoroutine(WaitToDestroy());
-        }
     }
 
     public float timeAlive = 5;
@@ -67,6 +67,8 @@ public class Decoy : MonoBehaviour, Damageable
     {
         yield return new WaitForSeconds(timeAlive);
         NetworkObjectsManager.Instance.DestroyNetworkedObject(netObj.GetItemID());
+
+        print("destroy");
     }
 
     void Update()
