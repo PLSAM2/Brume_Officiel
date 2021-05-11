@@ -28,6 +28,15 @@ public class Dummy : MonoBehaviour, Damageable
     }
 
 
+
+    private void OnDisable()
+    {
+        if (OnHit != null)
+            OnHit -= TutorialManager.Instance.OnDummyHit;
+        if (OnKilled != null)
+            OnKilled -= TutorialManager.Instance.OnDummyKilled;
+    }
+
     /// <summary>
     /// Deal damage to this character
     /// </summary>
