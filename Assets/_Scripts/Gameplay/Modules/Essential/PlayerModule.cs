@@ -104,6 +104,8 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public int bonusHp;
 	[HideInInspector] public Action<PlayerModule> OnMystEnter;
 	[HideInInspector] public Action<PlayerModule> OnMystExit;
+	[HideInInspector] public Action<PlayerModule> OnWalk;
+	[HideInInspector] public bool tutorialListeningInput = false;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -174,6 +176,14 @@ public class PlayerModule : MonoBehaviour
 		GameManager.Instance.OnAllCharacterSpawned -= mylocalPlayer.AllCharacterSpawn;
 		if (mylocalPlayer.isOwner)
 		{
+
+			if (OnMystEnter != null)
+				OnMystEnter -= TutorialManager.Instance.OnMystEnter;
+			if (OnMystExit != null)
+				OnMystExit -= TutorialManager.Instance.OnMystExit;
+			if (OnWalk != null)
+				OnWalk -= TutorialManager.Instance.OnWalk;
+
 			rotationLock -= LockingRotation;
 			reduceAllCooldown -= ReduceAllCooldowns;
 			reduceTargetCooldown -= ReduceCooldown;
@@ -181,6 +191,22 @@ public class PlayerModule : MonoBehaviour
 
 		}
 	}
+
+
+	void OnGUI()
+	{
+        if (tutorialListeningInput == false)
+        {
+			return;
+        }
+
+		Event e = Event.current;
+		if (e.isKey)
+		{
+			TutorialManager.Instance.GetKeyPressed(e.keyCode);
+		}
+	}
+
 	public virtual void Setup ()
 	{
 		if (firstSpell != null)
@@ -293,31 +319,6 @@ public class PlayerModule : MonoBehaviour
 		SelectionnedSoulSpellModule().SetupComponent(En_SpellInput.SoulSpell);
 	}
 
-	IEnumerator WaitForVisionCheck ()
-	{
-		CheckForBrumeRevelation();
-		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-		StartCoroutine(WaitForVisionCheck());
-	}
-	void CheckForBrumeRevelation ()
-	{
-
-		if (GameManager.Instance.currentLocalPlayer == null)
-		{
-			return;
-		}
-		if (ShouldBePinged())
-		{
-			//Debug.Log("I shouldBePinged");
-			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
-				LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
-			else
-				LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
-
-		}
-		lastRecordedPos = transform.position;
-	}
-
 	public void ResetLayer ()
 	{
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
@@ -334,7 +335,35 @@ public class PlayerModule : MonoBehaviour
 			gameObject.layer = 8;
 		}
 	}
-	protected virtual void Update ()
+
+    public IEnumerator WaitForVisionCheck()
+    {
+        CheckForBrumeRevelation();
+        yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
+        StartCoroutine(WaitForVisionCheck());
+    }
+    void CheckForBrumeRevelation()
+    {
+
+        if (GameManager.Instance.currentLocalPlayer == null)
+        {
+            return;
+        }
+
+        if (ShouldBePinged())
+        {
+            //Debug.Log("I shouldBePinged");
+            if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(1, transform.position + Vector3.up * 0.1f, 90, 1);
+            else
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
+
+        }
+
+        lastRecordedPos = transform.position;
+    }
+
+    protected virtual void Update ()
 	{
 
 		TreatEffects();
@@ -437,6 +466,7 @@ public class PlayerModule : MonoBehaviour
 				if (Input.GetKeyDown(crouching))
 				{
 					isCrouched = true;
+					OnWalk?.Invoke(this);
 				}
 				else if (Input.GetKeyUp(crouching))
 				{
@@ -578,7 +608,7 @@ public class PlayerModule : MonoBehaviour
 			return false;
 
 		//on choppe le player local
-		PlayerModule _localPlayer = GameManager.Instance.currentLocalPlayer.myPlayerModule;
+		PlayerModule _localPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
 
 		//le perso est pas en train de crouched
 		if (!_localPlayer.isInBrume || (state & En_CharacterState.Crouched) != 0 || (state & En_CharacterState.Hidden) != 0)
@@ -954,6 +984,19 @@ public class PlayerModule : MonoBehaviour
 				throw new Exception("not existing event");
 		}
     }
+
+
+	public void EventTutorial(MovementEvent movementEvent)
+	{
+		switch (movementEvent)
+		{
+			case MovementEvent.Walk:
+				OnWalk += TutorialManager.Instance.OnWalk;
+				break;
+			default:
+				throw new Exception("not existing event");
+		}
+	}
 
 }
 

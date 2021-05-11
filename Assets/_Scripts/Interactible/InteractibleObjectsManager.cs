@@ -11,6 +11,11 @@ using static GameData;
 
 public class InteractibleObjectsManager : MonoBehaviour
 {
+
+    private static InteractibleObjectsManager _instance;
+    public static InteractibleObjectsManager Instance { get { return _instance; } }
+
+
     [InfoBox("Altar --> EndZone --> Autre")]
     [BoxGroup("L'ORDRE DES TYPES EST IMPORTANT !")]
     public List<KeyInteractiblePair> interactibleList = new List<KeyInteractiblePair>();
@@ -18,6 +23,18 @@ public class InteractibleObjectsManager : MonoBehaviour
     UnityClient client;
     private void Awake()
     {
+
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
+
+
         if (RoomManager.Instance == null)
         {
             Debug.LogError("NO ROOM MANAGER");
@@ -86,7 +103,7 @@ public class InteractibleObjectsManager : MonoBehaviour
             if (message.Tag == Tags.RoundFinalPhase)
             {
                 RoundFinalPhase(sender, e);
-            }           
+            }
             if (message.Tag == Tags.OvertimeState)
             {
                 OvertimeState(sender, e);
@@ -118,7 +135,8 @@ public class InteractibleObjectsManager : MonoBehaviour
                 if (_interactible.GetType() == typeof(Altar))
                 {
                     ((Altar)_interactible).SetActiveState(true);
-                } else
+                }
+                else
                 {
                     _interactible.Unlock();
                 }
@@ -344,6 +362,40 @@ public class InteractibleObjectsManager : MonoBehaviour
                 GameManager.Instance.SetOvertimeTimerState(_state);
             }
         }
+    }
+
+    public List<Interactible> GetAllOfType(InteractibleType type)
+    {
+        List<Interactible> inters = new List<Interactible>();
+
+
+        foreach (KeyInteractiblePair pair in interactibleList)
+        {
+            if (type == InteractibleType.Altar && pair.interactible.GetType() == typeof(Altar))
+            {
+                inters.Add(pair.interactible);
+            }
+            else if (type == InteractibleType.EndZone && pair.interactible.GetType() == typeof(EndZoneInteractible))
+            {
+                inters.Add(pair.interactible);
+            }
+            else if (type == InteractibleType.UltPickup && pair.interactible.GetType() == typeof(UltPickup))
+            {
+                inters.Add(pair.interactible);
+            }
+        }
+        return inters;
+    }
+
+    public List<Interactible> GetAllInteractible()
+    {
+        List<Interactible> inters = new List<Interactible>();
+
+        foreach (KeyInteractiblePair pair in interactibleList)
+        {
+            inters.Add(pair.interactible);
+        }
+        return inters;
     }
 
 }
