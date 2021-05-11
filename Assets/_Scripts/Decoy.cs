@@ -37,6 +37,12 @@ public class Decoy : MonoBehaviour, Damageable
     private void OnEnable ()
 	{
         netObj.OnSpawnObj += Init;
+        StartCoroutine(WaitForVisionCheck());
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     public void Init()
@@ -50,7 +56,17 @@ public class Decoy : MonoBehaviour, Damageable
 
         myUI.Init(myTeam, _tempData.Name, GameManager.Instance.networkPlayers[_tempData.ID].liveHealth, reParameter.maxHealth);
 
-        StartCoroutine(WaitForVisionCheck());
+        if (netObj.GetIsOwner())
+        {
+            StartCoroutine(WaitToDestroy());
+        }
+    }
+
+    public float timeAlive = 5;
+    IEnumerator WaitToDestroy()
+    {
+        yield return new WaitForSeconds(timeAlive);
+        NetworkObjectsManager.Instance.DestroyNetworkedObject(netObj.GetItemID());
     }
 
     void Update()
@@ -120,6 +136,9 @@ public class Decoy : MonoBehaviour, Damageable
 
         //on choppe le player local
         PlayerModule _localPlayer = GameFactory.GetActualPlayerFollow().myPlayerModule;
+
+        if (!_localPlayer.isInBrume)
+            return false;
 
         //DISTANCE > a la range
         if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
