@@ -101,7 +101,7 @@ public class MovementModule : MonoBehaviour
 
                 return;
             }
-            if (IsFree(currentForcedMovement.direction, dashBlockingLayer, currentForcedMovement.strength * Time.deltaTime))
+            if (IsFree(currentForcedMovement.direction, dashBlockingLayer,chara.radius))
             {
                 chara.Move(new Vector3(currentForcedMovement.direction.x, 0, currentForcedMovement.direction.z) *
                     (currentForcedMovement.strength * currentForcedMovement.speedEvolution.Evaluate(1 - (currentForcedMovement.duration / currentForcedMovement.baseDuration))) * Time.deltaTime);
@@ -351,7 +351,7 @@ public class MovementModule : MonoBehaviour
 
     public bool IsFree(Vector3 _direction, LayerMask _layerTocheck, float _maxRange)
     {
-        if (CastSphereAll(_direction, _layerTocheck, _maxRange, transform.position) != null)
+        if (CastSphereAll(_direction, _layerTocheck, _maxRange, transform.position).Count > 0)
             return false;
         else
             return true;
@@ -408,6 +408,7 @@ public class MovementModule : MonoBehaviour
             _checkingLayer).ToList<RaycastHit>();
 
         List<RaycastHit> _returnList = new List<RaycastHit>();
+
         if (_allHit.Count > 0)
         {
             for (int i = 0; i < _allHit.Count; i++)
@@ -416,6 +417,7 @@ public class MovementModule : MonoBehaviour
                 {
                     _returnList.Add(_allHit[i]);
                 }
+                print(_allHit[i].collider.gameObject.name);
             }
             return _returnList;
         }
