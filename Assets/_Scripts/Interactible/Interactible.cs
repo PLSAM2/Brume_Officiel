@@ -116,6 +116,14 @@ public class Interactible : MonoBehaviour
     {
         GameManager.Instance.OnInteractibleViewChange -= OnInteractibleViewChange;
         AudioManager.Instance.OnVolumeChange -= OnVolumeChange;
+
+        if (OnEnter != null)
+            OnEnter -= TutorialManager.Instance.OnInteractibleEntered;
+        if (OnExit != null)
+            OnExit -= TutorialManager.Instance.OnInteractibleExit;
+        if (OnCaptured != null)
+            OnCaptured -= TutorialManager.Instance.OnInteractibleCaptured;
+
     }
 
     protected virtual void OnVolumeChange(float _value)
