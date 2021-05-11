@@ -61,7 +61,7 @@ public class Decoy : MonoBehaviour, Damageable
         if(_damagesToDeal.damageHealth > 0)
         {
             //destroy
-            //netObj
+            NetworkObjectsManager.Instance.DestroyNetworkedObject(netObj.GetItemID(), true);
         }
     }
 
