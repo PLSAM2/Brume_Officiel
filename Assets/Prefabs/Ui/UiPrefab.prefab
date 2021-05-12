@@ -2328,7 +2328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 358.935, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4661702679108899297
@@ -13366,6 +13366,7 @@ MonoBehaviour:
   reviveText: {fileID: 6036795381874437051}
   reviveUI: {fileID: 9217017580204547210}
   feedbackDeath: {fileID: 6158613868843534239}
+  damageTakenFeedback: {fileID: 759570825342999770}
   barCasting: {fileID: 4968555179631605046}
   canalisationImage: {fileID: 1582161847741032326}
   prefabLifeBar: {fileID: 2471531374731842360, guid: 57d56db4f9759194483c41ab24b055c5, type: 3}
@@ -13391,6 +13392,7 @@ MonoBehaviour:
   gameUI: {fileID: 1998054148276715489}
   parentCDFeedback: {fileID: 3967603213164753802}
   prefabCDFeedback: {fileID: 5314322836654429468, guid: 3d985feb318179e4381c930457eaa05b, type: 3}
+  currentCdDisplay: 0
 --- !u!225 &7166247350102359525
 CanvasGroup:
   m_ObjectHideFlags: 0

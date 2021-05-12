@@ -419,7 +419,6 @@ public class MovementModule : MonoBehaviour
 				{
 					_returnList.Add(_allHit[i]);
 				}
-				print(_allHit[i].collider.gameObject.name);
 			}
 			return _returnList;
 		}

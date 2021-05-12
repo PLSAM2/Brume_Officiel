@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Sc_SoulSpellGroupSpeed
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 20
+  cooldown: 15
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
+  isInterruptedOnOtherTentative: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
@@ -24,6 +25,7 @@ MonoBehaviour:
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
+  statusOnAnnonciation: []
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []

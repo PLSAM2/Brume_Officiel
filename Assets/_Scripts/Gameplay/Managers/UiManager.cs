@@ -65,7 +65,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public TextMeshProUGUI reviveText;
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
 	[FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
-	[FoldoutGroup("Other Gameplay")] RectTransform damageTakenFeedback;
+	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
 	[FoldoutGroup("Cast")] public GameObject barCasting;
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
@@ -790,6 +790,7 @@ public class UiManager : MonoBehaviour
 
 	public void OnDamageTaken ()
 	{
+		print("I m called");
 		Image _temp = damageTakenFeedback.GetComponent<Image>();
 		_temp.color = new Vector4(255, 255, 255, 255);
 		_temp.DOColor(new Vector4(255, 255, 255, 0), 1f);
