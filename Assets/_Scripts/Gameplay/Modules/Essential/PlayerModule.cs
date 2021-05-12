@@ -104,6 +104,8 @@ public class PlayerModule : MonoBehaviour
 	[HideInInspector] public int bonusHp;
 	[HideInInspector] public Action<PlayerModule> OnMystEnter;
 	[HideInInspector] public Action<PlayerModule> OnMystExit;
+	[HideInInspector] public Action<PlayerModule> OnWalk;
+	[HideInInspector] public bool tutorialListeningInput = false;
 	//ALL ACTION 
 	#region
 	//[INPUTS ACTION]
@@ -174,6 +176,14 @@ public class PlayerModule : MonoBehaviour
 		GameManager.Instance.OnAllCharacterSpawned -= mylocalPlayer.AllCharacterSpawn;
 		if (mylocalPlayer.isOwner)
 		{
+
+			if (OnMystEnter != null)
+				OnMystEnter -= TutorialManager.Instance.OnMystEnter;
+			if (OnMystExit != null)
+				OnMystExit -= TutorialManager.Instance.OnMystExit;
+			if (OnWalk != null)
+				OnWalk -= TutorialManager.Instance.OnWalk;
+
 			rotationLock -= LockingRotation;
 			reduceAllCooldown -= ReduceAllCooldowns;
 			reduceTargetCooldown -= ReduceCooldown;
@@ -181,6 +191,22 @@ public class PlayerModule : MonoBehaviour
 
 		}
 	}
+
+
+	void OnGUI()
+	{
+        if (tutorialListeningInput == false)
+        {
+			return;
+        }
+
+		Event e = Event.current;
+		if (e.isKey)
+		{
+			TutorialManager.Instance.GetKeyPressed(e.keyCode);
+		}
+	}
+
 	public virtual void Setup ()
 	{
 		if (firstSpell != null)
@@ -440,6 +466,7 @@ public class PlayerModule : MonoBehaviour
 				if (Input.GetKeyDown(crouching))
 				{
 					isCrouched = true;
+					OnWalk?.Invoke(this);
 				}
 				else if (Input.GetKeyUp(crouching))
 				{
@@ -957,6 +984,19 @@ public class PlayerModule : MonoBehaviour
 				throw new Exception("not existing event");
 		}
     }
+
+
+	public void EventTutorial(MovementEvent movementEvent)
+	{
+		switch (movementEvent)
+		{
+			case MovementEvent.Walk:
+				OnWalk += TutorialManager.Instance.OnWalk;
+				break;
+			default:
+				throw new Exception("not existing event");
+		}
+	}
 
 }
 

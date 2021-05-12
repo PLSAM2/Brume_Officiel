@@ -77,7 +77,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public AudioClip deathPerso, deathGlobal;
 
-	private void Awake ()
+    private void Awake ()
 	{
 		lastPosition = transform.position;
 	}
@@ -132,7 +132,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void Update ()
 	{
-		Debug();
+        Debug();
 		if (Input.GetKeyDown(KeyCode.M))
 			AddHitPoint(1);
 
@@ -305,8 +305,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			if (i == _tempList.Count - 1)
 				return;
 		}
-
-		print(_indexOfTheStatus);
 
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{

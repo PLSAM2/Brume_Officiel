@@ -12,9 +12,6 @@ public class TutorialQuest : ScriptableObject
 
     public List<QuestStep> questSteps = new List<QuestStep>();
 
-    public int step = 0;
-    
-
 }
 
 

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static GameData;
 
 public class TutorialManager : MonoBehaviour
@@ -10,11 +12,19 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager Instance { get { return _instance; } }
 
     public List<TutorialQuest> tutorialQuests = new List<TutorialQuest>();
-    public TutorialQuest actualQuest;
-    
-    public int step = 0;
 
-    List<QuestStepUI> questStepUIs = new List<QuestStepUI>();
+    private TutorialQuest actualQuest;
+
+    private int step = 0;
+    [Header("REF")]
+    public List<TutorialTriggerZone> tutorialTriggerZones = new List<TutorialTriggerZone>();
+    public List<Dummy> dummies = new List<Dummy>();
+
+    [Header("UI")]
+    public List<QuestStepUI> questStepUIs = new List<QuestStepUI>();
+    public TextMeshProUGUI questTileUiText;
+    public GameObject tutorialQuestUiPanel;
+    public GameObject EndTutorialPanel;
 
     private void Awake()
     {
@@ -28,6 +38,18 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        foreach (TutorialQuest tq in tutorialQuests)
+        {
+            foreach (QuestStep qs in tq.questSteps)
+            {
+                qs.Reset();
+            }
+        }
+    }
+
+
     public void PlayerSpawned()
     {
         PlayerPrefs.SetInt("SoulSpell", (int)En_SoulSpell.Invisible);
@@ -35,7 +57,11 @@ public class TutorialManager : MonoBehaviour
 
         RoomManager.Instance.ImReady();
         UiManager.Instance.StartTutorial();
+
+
         actualQuest = tutorialQuests[step];
+        InitAllNewQuestEvents();
+        InitQuestUi();
     }
 
     public List<QuestStep> HaveAQuestStepOfThisType(QuestEvent qe)
@@ -44,7 +70,7 @@ public class TutorialManager : MonoBehaviour
 
         foreach (QuestStep qs in actualQuest.questSteps)
         {
-            if (qs.questEvent == qe)
+            if (qs.questEvent == qe && qs.completed != true)
             {
                 _temp.Add(qs);
             }
@@ -68,6 +94,11 @@ public class TutorialManager : MonoBehaviour
 
         if (ended)
         {
+            foreach (QuestStep steps in actualQuest.questSteps)
+            {
+                steps.Reset();
+            }
+
             StartNextQuest();
         }
     }
@@ -76,33 +107,229 @@ public class TutorialManager : MonoBehaviour
     {
         step++;
 
-        actualQuest = tutorialQuests[step];
-
-        InitQuestUi();
-    }
-
-    public void InitQuestUi()
-    {
-        for (int i = 0; i < actualQuest.questSteps.Count; i++)
+        if (tutorialQuests.Count == step)
         {
-            questStepUIs[i].Init(actualQuest.questSteps[i]);
+            EndTutorial();
+            return;
+        } else
+        {
+            actualQuest = tutorialQuests[step];
+            InitAllNewQuestEvents();
+            InitQuestUi();
         }
     }
 
 
+    public void EndTutorial()
+    {
+        tutorialQuestUiPanel.SetActive(false);
+        EndTutorialPanel.SetActive(true);
+
+        foreach (TutorialQuest tq in tutorialQuests)
+        {
+            foreach (QuestStep qs in tq.questSteps)
+            {
+                qs.Reset();
+            }
+        }
+
+        step = 0;
+    }
+
+    public void StartTraining()
+    {
+        SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(RoomManager.Instance.menuScene);
+    }
+
+    public void InitAllNewQuestEvents()
+    {
+        foreach (QuestStep qs in actualQuest.questSteps)
+        {
+            switch (qs.questEvent)
+            {
+                case QuestEvent.KeyPressed:
+                    GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.tutorialListeningInput = true;
+                    break;
+                case QuestEvent.ZoneToTrigger:
+                    tutorialTriggerZones[qs.zoneToTrigger].EventTutorial(qs.zoneEvent);
+                    break;
+                case QuestEvent.InteractibleEvent:
+
+                    List<Interactible> _temp = new List<Interactible>();
+
+                    if (qs.focusedInteractible != null) // Get all interactible targeted
+                    {
+                        _temp.Add(qs.focusedInteractible.GetComponent<Interactible>());
+                    }
+                    else
+                    {
+                        if (qs.interactibleType != InteractibleType.none)
+                        {
+                            _temp = InteractibleObjectsManager.Instance.GetAllOfType(qs.interactibleType);
+                        }
+                        else
+                        {
+                            _temp = InteractibleObjectsManager.Instance.GetAllInteractible();
+                        }
+                    }
+
+                    foreach (Interactible inter in _temp) // Subscribe all interactible
+                    {
+                        inter.EventTutorial(qs.interactibleEvent);
+                    }
+
+                    break;
+                case QuestEvent.DummyEvent:
+
+                    List<Dummy> _tempDummys = new List<Dummy>();
+
+                    if (qs.focusedDummy != null) // Get all
+                    {
+                        _tempDummys.Add(qs.focusedDummy);
+                    }
+                    else
+                    {
+                        _tempDummys = dummies;
+                    }
+
+                    foreach (Dummy dum in _tempDummys) // Subscribe 
+                    {
+                        dum.EventTutorial(qs.dummyEvent);
+                    }
+                    break;
+                case QuestEvent.MystEvent:
+                    GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.EventTutorial(qs.mystEvent);
+                    break;
+                case QuestEvent.MovementEvent:
+                    GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.EventTutorial(qs.movementEvent);
+                    break;
+                default:
+                    throw new Exception("not existing event");
+            }
+        }
+    }
+
+
+
+    public void InitQuestUi()
+    {
+        questTileUiText.text = actualQuest.questTitle;
+        for (int i = 0; i < actualQuest.questSteps.Count; i++)
+        {
+            questStepUIs[i].Init(actualQuest.questSteps[i]);
+            actualQuest.questSteps[i].UI = questStepUIs[i];
+        }
+    }
+
+
+    public void CompleteQuest(QuestStep qs)
+    {
+        qs.completed = true;
+
+        qs.UI.End();
+    }
+    public void ProgressKeyQuest(QuestStep qs)
+    {
+        qs.UI.ProgressKeyQuest(qs);
+    }
+
     // EVENT --- 
+
+
+    internal void GetKeyPressed(KeyCode keyCode)
+    {
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.KeyPressed);
+
+        foreach (QuestStep questS in qs)
+        {
+            for (int i = 0; i < questS.keyToPress.Count; i++)
+            {
+                if (questS.keyToPress[i].key == keyCode && questS.keyToPress[i].pressed == false)
+                {
+                    questS.keyToPress[i].pressed = true;
+                    ProgressKeyQuest(questS);
+                    if (CheckKeyQuestCompleteState(questS))
+                    {
+                        CompleteQuest(questS);
+
+                        if (HaveAQuestStepOfThisType(QuestEvent.KeyPressed).Count == 0)
+                        {
+                            GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.tutorialListeningInput = false;
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        CheckQuestEnd();
+    }
+
+    private bool CheckKeyQuestCompleteState(QuestStep questS)
+    {
+        for (int i = 0; i < questS.keyToPress.Count; i++)
+        {
+            if (questS.keyToPress[i].pressed == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void OnZoneEnter(TutorialTriggerZone ttz)
+    {
+        ttz.OnEnter -= OnZoneEnter;
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.ZoneToTrigger);
+
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.zoneEvent == ZoneEvent.Entered)
+            {
+                CompleteQuest(questS);
+
+            }
+        }
+
+        CheckQuestEnd();
+    }
+
+    public void OnZoneExit(TutorialTriggerZone ttz)
+    {
+        ttz.OnExit -= OnZoneExit;
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.ZoneToTrigger);
+
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.zoneEvent == ZoneEvent.Exit)
+            {
+                CompleteQuest(questS);
+            }
+        }
+
+        CheckQuestEnd();
+    }
+
     public void OnInteractibleEntered(Interactible inter)
     {
         inter.OnEnter -= OnInteractibleEntered;
 
-       List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.InteractibleEvent);
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.InteractibleEvent);
 
         foreach (QuestStep questS in qs)
         {
             if (questS.interactibleEvent == InteractibleEvent.Entered)
             {
-                questS.completed = true;
-            } 
+                CompleteQuest(questS);
+            }
         }
 
         CheckQuestEnd();
@@ -120,7 +347,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (questS.interactibleEvent == InteractibleEvent.Exit)
             {
-                questS.completed = true;
+                CompleteQuest(questS);
             }
         }
 
@@ -132,36 +359,92 @@ public class TutorialManager : MonoBehaviour
         inter.OnCaptured -= OnInteractibleCaptured;
 
         List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.InteractibleEvent);
-
         foreach (QuestStep questS in qs)
         {
             if (questS.interactibleEvent == InteractibleEvent.Captured)
             {
-                questS.completed = true;
+                CompleteQuest(questS);
             }
         }
-
         CheckQuestEnd();
     }
+
 
     public void OnDummyHit(Dummy dummy)
     {
         dummy.OnHit -= OnDummyHit;
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.DummyEvent);
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.dummyEvent == DummyEvent.Hit)
+            {
+                CompleteQuest(questS);
+            }
+        }
+        CheckQuestEnd();
     }
 
     public void OnDummyKilled(Dummy dummy)
     {
         dummy.OnKilled -= OnDummyKilled;
+
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.DummyEvent);
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.dummyEvent == DummyEvent.Kill)
+            {
+                CompleteQuest(questS);
+            }
+        }
+        CheckQuestEnd();
     }
 
     public void OnMystEnter(PlayerModule pm)
     {
         pm.OnMystEnter -= OnMystEnter;
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.MystEvent);
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.mystEvent == MystEvent.Entered)
+            {
+                CompleteQuest(questS);
+            }
+        }
+        CheckQuestEnd();
     }
 
     public void OnMystExit(PlayerModule pm)
     {
         pm.OnMystExit -= OnMystExit;
+
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.MystEvent);
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.mystEvent == MystEvent.Exit)
+            {
+                CompleteQuest(questS);
+            }
+        }
+        CheckQuestEnd();
+    }
+
+    public void OnWalk(PlayerModule pm)
+    {
+        pm.OnWalk -= OnWalk;
+
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.MovementEvent);
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.movementEvent == MovementEvent.Walk)
+            {
+                CompleteQuest(questS);
+            }
+        }
+        CheckQuestEnd();
     }
 
 
