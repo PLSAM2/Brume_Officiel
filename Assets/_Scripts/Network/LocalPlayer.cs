@@ -123,7 +123,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-		liveHealth = myPlayerModule.characterParameters.maxHealth;
+		ushort _temp = 0;
+
+        foreach (Altar alt in GameManager.Instance.allAltar)
+        {
+            if (alt.state == State.Captured && IsInMyTeam(alt.capturingTeam) )
+            {
+				_temp++;
+
+			}
+        }
+
+		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + _temp);
 
 		//OnRespawn(respawned);
 
@@ -133,8 +144,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private void Update ()
 	{
         Debug();
-		if (Input.GetKeyDown(KeyCode.M))
-			AddHitPoint(1);
 
 		if (!isOwner) { return; }
 
@@ -553,6 +562,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void HealLocaly ( ushort value )
 	{
+		print("yo");
 		int _tempHp = (int)liveHealth + (int)value;
 		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 

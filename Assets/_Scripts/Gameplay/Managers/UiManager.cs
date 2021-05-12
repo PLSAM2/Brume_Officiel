@@ -64,8 +64,9 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public Image reviveFill;
 	[FoldoutGroup("Other Gameplay")] public TextMeshProUGUI reviveText;
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
-    [FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
-    [FoldoutGroup("Cast")] public GameObject barCasting;
+	[FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
+	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
+	[FoldoutGroup("Cast")] public GameObject barCasting;
 	[FoldoutGroup("Cast")] public Image canalisationImage;
 
 	[Header("Ulti")]
@@ -102,16 +103,16 @@ public class UiManager : MonoBehaviour
 	public SoulSpellSelector soulSpellSelector;
 	public GameObject blurVolume;
 
-    public CanvasGroup gameUI;
+	public CanvasGroup gameUI;
 
-    public RectTransform parentCDFeedback;
-    public GameObject prefabCDFeedback;
+	public RectTransform parentCDFeedback;
+	public GameObject prefabCDFeedback;
 
-    [HideInInspector]
-    public float currentCdDisplay = 0;
+	[HideInInspector]
+	public float currentCdDisplay = 0;
 
 
-    private void Awake ()
+	private void Awake ()
 	{
 		if (_instance != null && _instance != this)
 		{
@@ -151,8 +152,8 @@ public class UiManager : MonoBehaviour
 		soulSpellSelector.gameObject.SetActive(false);
 		blurVolume.SetActive(false);
 
-        gameUI.alpha = 1;
-    }
+		gameUI.alpha = 1;
+	}
 
 	private void OnEnable ()
 	{
@@ -199,14 +200,14 @@ public class UiManager : MonoBehaviour
 	public void DisplaySoulSpell ()
 	{
 
-        waitingForPlayersPanel.SetActive(false);
+		waitingForPlayersPanel.SetActive(false);
 
-        soulSpellSelector.gameObject.SetActive(true);
+		soulSpellSelector.gameObject.SetActive(true);
 		soulSpellSelector.StartTimer();
-        blurVolume.SetActive(true);
+		blurVolume.SetActive(true);
 
-        gameUI.alpha = 0;
-    }
+		gameUI.alpha = 0;
+	}
 
 
 	void OnPlayerSpawn ( ushort id )
@@ -451,8 +452,8 @@ public class UiManager : MonoBehaviour
 		}
 
 
-        currentCdDisplay += Time.deltaTime;
-    }
+		currentCdDisplay += Time.deltaTime;
+	}
 
 	private void FixedUpdate ()
 	{
@@ -462,13 +463,13 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-    public void SpawnCDFeedback(Sprite _icon, float _time)
-    {
-        FeedbackSpellCDElement newCDFeedback = Instantiate(prefabCDFeedback, parentCDFeedback).GetComponent<FeedbackSpellCDElement>();
+	public void SpawnCDFeedback ( Sprite _icon, float _time )
+	{
+		FeedbackSpellCDElement newCDFeedback = Instantiate(prefabCDFeedback, parentCDFeedback).GetComponent<FeedbackSpellCDElement>();
 
-        newCDFeedback.GetComponent<RectTransform>().position = Input.mousePosition;
-        newCDFeedback.Init(_icon, _time);
-    }
+		newCDFeedback.GetComponent<RectTransform>().position = Input.mousePosition;
+		newCDFeedback.Init(_icon, _time);
+	}
 
 	internal void UnlockNewAltar ( Altar altar )
 	{
@@ -592,7 +593,7 @@ public class UiManager : MonoBehaviour
 				else
 					secondSpell.HideIcon(true);
 				break;
-	
+
 			case En_SpellInput.Click:
 				autoAttackIcon.UpdatesChargesAmont(_charges);
 				if (_charges > 0)
@@ -774,9 +775,30 @@ public class UiManager : MonoBehaviour
 		endGameStats.Init();
 	}
 
-	public void StartTutorial()
-    {
+	public void OnDamageTaken ()
+	{
+		print("I m called");
+		Image _temp = damageTakenFeedback.GetComponent<Image>();
+		_temp.color = new Vector4(255, 255, 255, 255);
+		_temp.DOColor(new Vector4(255, 255, 255, 0), 1f);
+
+		int _xSize = UnityEngine.Random.Range(0, 1);
+		int _ySize = UnityEngine.Random.Range(0, 1);
+
+		if (_xSize > 0 && _ySize > 0)
+			damageTakenFeedback.localScale = new Vector2(1, 1);
+		else if (_xSize < 0 && _ySize < 0)
+			damageTakenFeedback.localScale = new Vector2(-1, -1);
+		else if (_xSize < 0 && _ySize > 0)
+			damageTakenFeedback.localScale = new Vector2(1, -1);
+		else if (_xSize < 0 && _ySize > 0)
+			damageTakenFeedback.localScale = new Vector2(-1, 1);
+
+	}
+
+	public void StartTutorial ()
+	{
 		waitingForPlayersPanel.SetActive(false);
-    }
+	}
 
 }

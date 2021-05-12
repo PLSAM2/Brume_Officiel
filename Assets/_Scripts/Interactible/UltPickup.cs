@@ -38,18 +38,6 @@ public class UltPickup : Interactible
 	}
 	public override void Captured ( ushort _capturingPlayerID )
 	{
-
-		using (DarkRiftWriter writer = DarkRiftWriter.Create())
-		{
-			writer.Write(_capturingPlayerID);
-			writer.Write((ushort)1);
-
-			using (Message message = Message.Create(Tags.Heal, writer))
-			{
-				NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
-			}
-		}
-
 		//GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
 		 GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
 		GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
