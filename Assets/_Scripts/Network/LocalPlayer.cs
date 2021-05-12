@@ -315,8 +315,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				return;
 		}
 
-		print(_indexOfTheStatus);
-
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
 			_writer.Write(RoomManager.Instance.actualRoom.ID);
