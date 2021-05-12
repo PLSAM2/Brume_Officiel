@@ -241,11 +241,6 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerTakeDamage ( ushort id, ushort damage, ushort dealer )
 	{
-		if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
-		{
-			return;
-		}
-
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
 			SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
@@ -254,11 +249,6 @@ public class UiManager : MonoBehaviour
 
 	void OnPlayerGetHeal ( ushort id, ushort damage )
 	{
-		if (!GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform))
-		{
-			return;
-		}
-
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
 			SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
@@ -322,15 +312,12 @@ public class UiManager : MonoBehaviour
 		}
 
 
-		//actualse life team
-		if (isVisible)
-		{
-			if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-			{
-				SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
-			}
-		}
-	}
+        //actualse life team
+        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
+        }
+    }
 
 	internal void Revive ( bool state )
 	{
