@@ -194,7 +194,8 @@ public class UiManager : MonoBehaviour
 		{
 			endGameScore.Init(redTeamScore, blueTeamScore);
 		}
-		// <<
+
+		StartCoroutine("tempCoroutine");
 	}
 
 	public void DisplaySoulSpell ()
@@ -442,19 +443,28 @@ public class UiManager : MonoBehaviour
 		}
 
 
-		if (Input.GetKey(KeyCode.Tab))
+
+		/*if (Input.GetKey(KeyCode.Tab))
 		{
 			cameraMinimap.Render();
 		}
 		if (Input.GetKeyUp(KeyCode.Tab))
 		{
 			minimapObj.SetActive(false);
-		}
+		}*/
 
 
 		currentCdDisplay += Time.deltaTime;
 	}
 
+
+	IEnumerator tempCoroutine()
+	{
+		yield return new WaitForSeconds(.5f);
+		cameraMinimap.Render();
+		StartCoroutine("tempCoroutine");
+
+	}
 	private void FixedUpdate ()
 	{
 		if (actualChar == null && GameFactory.GetLocalPlayerObj() != null)
