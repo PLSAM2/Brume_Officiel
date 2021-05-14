@@ -238,7 +238,7 @@ public class SpellModule : MonoBehaviour
 
 	}
 	#endregion
-	
+
 	//SPELL STEPS
 	#region 
 	public virtual void TryCanalysing ( Vector3 _BaseMousePos )
@@ -277,6 +277,7 @@ public class SpellModule : MonoBehaviour
 	public virtual void StartCanalysingFeedBack ()
 	{
 		onCanalisation?.Invoke();
+		myPlayerModule.mylocalPlayer.SendRotation();
 
 		switch (actionLinked)
 		{
@@ -329,6 +330,7 @@ public class SpellModule : MonoBehaviour
 		//certain sort essaye de annonce alors que le sort a deja resolve  => les attaques chargées
 		if (isUsed)
 		{
+			myPlayerModule.mylocalPlayer.SendRotation();
 			anonciated = true;
 			currentTimeCanalised = FinalAnonciationTime();
 			FeedbackSpellStep(En_SpellStep.Annonciation);
@@ -364,6 +366,7 @@ public class SpellModule : MonoBehaviour
 	protected virtual void Resolution ()
 	{
 		FeedbackSpellStep(En_SpellStep.Resolution);
+		myPlayerModule.mylocalPlayer.SendRotation();
 
 		if (ForcedMovementToApplyOnRealisation() != null)
 		{
@@ -435,6 +438,7 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void Interrupt ( bool _isInterrupte = false )
 	{
+		myPlayerModule.mylocalPlayer.SendRotation();
 		isUsed = false;
 		throwbackTime = 0;
 		FeedbackSpellStep(En_SpellStep.Interrupt);
@@ -500,7 +504,7 @@ public class SpellModule : MonoBehaviour
 	}
 	void TryToKillSpell ( Sc_Spell _spell )
 	{
-		if (spell.isInterruptedOnOtherTentative && myPlayerModule.currentSpellResolved == spell)
+		if (spell.isInterruptedOnOtherTentative && myPlayerModule.currentSpellResolved == spell && _spell != myPlayerModule.currentSpellResolved)
 		{
 			Interrupt();
 		}
@@ -549,8 +553,8 @@ public class SpellModule : MonoBehaviour
 		}
 
 		if ((myPlayerModule.state & spell.forbiddenState) != 0 ||
-			charges < 1 || 
-			isUsed || 
+			charges < 1 ||
+			isUsed ||
 			!GameManager.Instance.gameStarted)
 		{
 			return false;
