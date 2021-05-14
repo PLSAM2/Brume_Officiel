@@ -17,6 +17,7 @@ MonoBehaviour:
   numberOfCharge: 1
   forbiddenState: 8224
   stacksUsed: 0
+  isInterruptedOnOtherTentative: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 0
   canalisationTime: 0
@@ -24,6 +25,7 @@ MonoBehaviour:
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
+  statusOnAnnonciation: []
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
@@ -31,7 +33,7 @@ MonoBehaviour:
   throwBackDuration: 0.01
   spellIcon: {fileID: 21300000, guid: b5fffadc70703cc4db30ec42e18751b1, type: 3}
   spellName: Soul Vortex
-  spellDescription: Wuxin casts a vortex, creating an area which drags enemies in
-    its range and roots them in its center.
+  spellDescription: Wuxin casts a vortex that drags enemies and roots them in its
+    center.
   onImpactInstantiate: {fileID: 7776885188641116624, guid: 0df850445d1fab54a93c8f962c63fa2d, type: 3}
   radiusOfImpact: 3
