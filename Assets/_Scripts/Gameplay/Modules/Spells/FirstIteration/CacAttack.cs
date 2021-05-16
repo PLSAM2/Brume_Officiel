@@ -63,7 +63,7 @@ public class CacAttack : SpellModule
 				.8f,
 				transform.forward,
 				out _hit,
-				localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange,
+				localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange - .4f,
 				1 << 9))
 			{
 				myPreviewArrow.Init(transform.position, _hit.point, 1, 1);
