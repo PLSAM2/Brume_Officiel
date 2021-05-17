@@ -68,7 +68,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-	//public ParticleSystem deathAlly, deathEnemy;
 
 	public GameObject deathFx;
 
@@ -76,6 +75,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	AllieWaypoint myWaypoint;
 
 	public AudioClip deathPerso, deathGlobal;
+
+    public GameObject addLife_blue_fx, addLife_red_fx;
 
     private void Awake ()
 	{
@@ -818,9 +819,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myPlayerModule.bonusHp += _int;
 		liveHealth += (ushort)_int;
 		myUiPlayerManager.AddLifePoint(_int);
+
+        print("call");
+
+        if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+        {
+            addLife_blue_fx.SetActive(true);
+        }
+        else
+        {
+            addLife_red_fx.SetActive(true);
+        }
 	}
-
-
 }
 
 public interface Damageable
