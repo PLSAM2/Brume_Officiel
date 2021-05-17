@@ -6,6 +6,7 @@ using DG.Tweening;
 using TMPro;
 using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
+
 public class IconUi : MonoBehaviour
 {
 	[TabGroup("IconSpell")] [SerializeField] Image icon, outline, fillAmount, feedbackCantCast, outlineIcon, grisage;
@@ -16,10 +17,10 @@ public class IconUi : MonoBehaviour
 	Vector2 basePos;
 	En_SpellInput inputLinked;
 	Sc_Spell spellLinked;
+	float lastCD = 0;
+	public GameObject feedbackCanUse;
 
-    public GameObject feedbackCanUse;
-
-    float cdDisplay = 0.35f;
+	float cdDisplay = 0.35f;
 
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
 	{
@@ -32,12 +33,6 @@ public class IconUi : MonoBehaviour
 		spellLinked = _spellToToolTip;
 
 		icon.sprite = _spellToToolTip.spellIcon;
-
-		if (NetworkManager.Instance.GetLocalPlayer().ultStacks < _spellToToolTip.stacksUsed)
-		{
-			CantCastFeedback();
-		}
-
 	}
 	private void OnDisable ()
 	{
@@ -45,23 +40,23 @@ public class IconUi : MonoBehaviour
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
 	}
 
-    float lastCD = 0;
+
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
 	{
-        lastCD = (_cooldownRemaining < 0) ? 0 : Mathf.CeilToInt(_completeCd - _cooldownRemaining);
+	lastCD = (_cooldownRemaining < 0) ? 0 : Mathf.CeilToInt(_completeCd - _cooldownRemaining);
 
-        if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
+		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
 			grisage.gameObject.SetActive(true);
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
 			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
 			outlineIcon.color = Color.black;
-        }
+		}
 		else
 		{
 			cooldownCount.text = "";
 		}
-	}
+	} 
 	public void UpdatesChargesAmont ( int _numberOfCharges )
 	{
 		//chargesSpot.text = _numberOfCharges.ToString();
@@ -77,14 +72,13 @@ public class IconUi : MonoBehaviour
 		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
         //feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
 
-        print("cant");
 
         if(UiManager.Instance.currentCdDisplay >= cdDisplay)
         {
             UiManager.Instance.currentCdDisplay = 0;
             UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
         }
-    }
+	}
 
 	public void CooldownReadyFeedback ()
 	{
@@ -97,21 +91,22 @@ public class IconUi : MonoBehaviour
 
 
         feedbackCanUse.SetActive(true);
-    }
+	}
 	public void ResetIcon ()
 	{
-		myRectTransform.DOKill();
-		myRectTransform.localPosition = basePos;
-		myRectTransform.localScale = Vector3.one;
-		Color _color = new Vector4(255, 16, 16, 0);
-		feedbackCantCast.DOKill();
-		feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
-		feedbackCantCast.color = _color;
+			myRectTransform.DOKill();
+			myRectTransform.localPosition = basePos;
+			myRectTransform.localScale = Vector3.one;
+			Color _color = new Vector4(255, 16, 16, 0);
+			feedbackCantCast.DOKill();
+			feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
+			feedbackCantCast.color = _color;
 
-        feedbackCanUse.SetActive(false);
-    }
+			feedbackCanUse.SetActive(false);
+	}
+
 	public void HideIcon ( bool _hiding )
-	{/*
+	{
 		myRectTransform.DOKill();
 
 
@@ -122,12 +117,14 @@ public class IconUi : MonoBehaviour
 		else
 		{
 			myRectTransform.DOAnchorPos(basePos, .4f);
-		}*/
+		}
 	}
+
 	public void SetupInputName ( string _name )
 	{
 		input.text = _name;
 	}
+
 	public void ShowTooltip ()
 	{
 		UiManager.Instance.wholeTooltip.SetActive(true);
@@ -135,6 +132,7 @@ public class IconUi : MonoBehaviour
 		UiManager.Instance.cooldownText.text = spellLinked.cooldown + "s";
 		UiManager.Instance.descriptionText.text = spellLinked.spellDescription;
 	}
+
 	public void HideToolTip ()
 	{
 		UiManager.Instance.wholeTooltip.SetActive(false);
