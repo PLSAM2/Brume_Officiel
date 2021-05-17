@@ -10,7 +10,7 @@ public class Brume : MonoBehaviour
     [SerializeField] AudioClip sfxTransiBrume;
 
     bool isShow = true;
-    [SerializeField] float speedTransition = 10;
+    [SerializeField] float speedTransition = 8;
     float value = 1;
 
     public Texture myTexture;
