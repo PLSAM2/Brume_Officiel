@@ -21,7 +21,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 	private bool isEndGame = false;
 
-	private void Awake ()
+	private void Awake()
 	{
 		if (_instance != null && _instance != this)
 		{
@@ -37,17 +37,17 @@ public class InGameNetworkReceiver : MonoBehaviour
 	}
 
 
-	private void OnDisable ()
+	private void OnDisable()
 	{
 		client.MessageReceived -= OnMessageReceive;
 	}
-	private void Start ()
+	private void Start()
 	{
 		SendSpawnChamp();
 
 		//  numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
 	}
-	private void OnMessageReceive ( object sender, MessageReceivedEventArgs e )
+	private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
 	{
 
 		using (Message message = e.GetMessage() as Message)
@@ -115,7 +115,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 			//TO REMOVE
 			else if (message.Tag == Tags.AltarPoisonBuff)
 			{
-			//	AltarBuffPoison(sender, e);
+				//	AltarBuffPoison(sender, e);
 			}
 			else if (message.Tag == Tags.AltarOutlineBuff)
 			{
@@ -173,31 +173,37 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				AddHealth(sender, e);
 			}
+			else if (message.Tag == Tags.ConvertPrivateRoomType)
+			{
+				ConvertPrivateRoomType(sender, e);
+			}
 		}
 	}
 
     private void AddHealth(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort _healthPoint = reader.ReadUInt16();
-                Team _team = (Team)reader.ReadUInt16();
+	{
+		using (Message message = e.GetMessage())
+		{
+			using (DarkRiftReader reader = message.GetReader())
+			{
+				ushort _healthPoint = reader.ReadUInt16();
+				Team _team = (Team)reader.ReadUInt16();
 
                 foreach (KeyValuePair<ushort, LocalPlayer> lp in GameManager.Instance.networkPlayers)
                 {
                     if (lp.Value.myPlayerModule.teamIndex == _team)
                     {
-						lp.Value.AddHitPoint((int)_healthPoint);
-					}
+                        lp.Value.AddHitPoint((int)_healthPoint);
+                    }
 
                 }
             }
-        }
-    }
+		}
+	}
 
-    private void NewPlayerWantToSkip(object sender, MessageReceivedEventArgs e)
+
+
+	private void NewPlayerWantToSkip(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -209,19 +215,19 @@ public class InGameNetworkReceiver : MonoBehaviour
 				UiManager.Instance.endGameStats.NewPlayerWantToSkip(_count, _playerID);
 			}
 		}
-    }
+	}
 
-    private void SpotPlayer ( object sender, MessageReceivedEventArgs e )
+	private void SpotPlayer(object sender, MessageReceivedEventArgs e)
 	{
 		StartCoroutine(GameManager.Instance.currentLocalPlayer.SpotPlayer());
 	}
 
-	private void DynamicWallState ( object sender, MessageReceivedEventArgs e )
+	private void DynamicWallState(object sender, MessageReceivedEventArgs e)
 	{
 		GameManager.Instance.dynamicWalls.SetDoorState(false);
 	}
 
-	private void TpInServer ( object sender, MessageReceivedEventArgs e )
+	private void TpInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -245,7 +251,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void SpellStep ( object sender, MessageReceivedEventArgs e )
+	private void SpellStep(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -263,7 +269,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void NewChatMessage ( object sender, MessageReceivedEventArgs e )
+	private void NewChatMessage(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -279,7 +285,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 	}
 
-	private void OnSpawnGenericFx ( object sender, MessageReceivedEventArgs e )
+	private void OnSpawnGenericFx(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -300,7 +306,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void OnSpawnAOEFx ( object sender, MessageReceivedEventArgs e )
+	private void OnSpawnAOEFx(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -320,7 +326,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void LaunchWardInServer ( object sender, MessageReceivedEventArgs e )
+	private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -338,7 +344,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void StartWardLifeTimeInServer ( object sender, MessageReceivedEventArgs e )
+	private void StartWardLifeTimeInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -352,7 +358,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 	}
 
 
-	private void CurveSpellLaunchInServer ( object sender, MessageReceivedEventArgs e )
+	private void CurveSpellLaunchInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -365,12 +371,12 @@ public class InGameNetworkReceiver : MonoBehaviour
 				float zDestination = reader.ReadSingle();
 				Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
 
-			//	GameManager.Instance.networkPlayers[_id].GetComponent<Module_Spit>().InitLaunch(destination);
+				//	GameManager.Instance.networkPlayers[_id].GetComponent<Module_Spit>().InitLaunch(destination);
 			}
 		}
 	}
 
-	private void CurveSpellLandedInServer ( object sender, MessageReceivedEventArgs e )
+	private void CurveSpellLandedInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -386,7 +392,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
 
 
-	public void SendSpawnChamp (bool isres = false)
+	public void SendSpawnChamp(bool isres = false)
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -399,7 +405,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	public void KillCharacter ( PlayerData killer = null )
+	public void KillCharacter(PlayerData killer = null)
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -420,7 +426,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void KillCharacterInServer ( object sender, MessageReceivedEventArgs e )
+	private void KillCharacterInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -433,7 +439,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 				PlayerData p = NetworkManager.Instance.GetLocalPlayer();
 
 				if (id == p.ID)
-                {
+				{
 					if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
 					{
 						GameManager.Instance.Revive(true);
@@ -447,7 +453,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 	}
 
 
-	private void TakeDamagesInServer ( object sender, MessageReceivedEventArgs e )
+	private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
 	{
 		if (isEndGame)
 		{
@@ -473,7 +479,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void HealInServer ( object sender, MessageReceivedEventArgs e )
+	private void HealInServer(object sender, MessageReceivedEventArgs e)
 	{
 		if (isEndGame)
 		{
@@ -499,7 +505,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	void SupprPlayerInServer ( object _sender, MessageReceivedEventArgs _e )
+	void SupprPlayerInServer(object _sender, MessageReceivedEventArgs _e)
 	{
 		using (Message message = _e.GetMessage())
 		{
@@ -511,7 +517,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	public void SupprPlayer ( ushort ID )
+	public void SupprPlayer(ushort ID)
 	{
 		if (GameManager.Instance.networkPlayers.ContainsKey(ID))
 		{
@@ -520,7 +526,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	void ReceivePlayerMove ( object sender, MessageReceivedEventArgs e )
+	void ReceivePlayerMove(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -535,10 +541,10 @@ public class InGameNetworkReceiver : MonoBehaviour
 						return;
 					}
 
-                    if (reader.Length % 10 != 0)
-                    {
+					if (reader.Length % 10 != 0)
+					{
 						Debug.Log("PAQUET DE MERDE");
-                    }
+					}
 
 					GameManager.Instance.networkPlayers[id].myAnimController.SetMovePosition(
 						new Vector3(
@@ -551,7 +557,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	void ReceivePlayerRota ( object sender, MessageReceivedEventArgs e )
+	void ReceivePlayerRota(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -571,24 +577,24 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	public void ReceiveState ( object sender, MessageReceivedEventArgs e )
+	public void ReceiveState(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
 			using (DarkRiftReader reader = message.GetReader())
 			{
-					ushort id = reader.ReadUInt16();
+				ushort id = reader.ReadUInt16();
 
-					if (!GameManager.Instance.networkPlayers.ContainsKey(id))
-					{
-						return;
-					}
-					GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadInt32());			
+				if (!GameManager.Instance.networkPlayers.ContainsKey(id))
+				{
+					return;
+				}
+				GameManager.Instance.networkPlayers[id].OnStateReceived(reader.ReadInt32());
 			}
 		}
 	}
 
-	private void ForcedMovementReceived ( object sender, MessageReceivedEventArgs e )
+	private void ForcedMovementReceived(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage() as Message)
 		{
@@ -622,7 +628,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	public void ReceiveStatusToAdd ( object sender, MessageReceivedEventArgs e )
+	public void ReceiveStatusToAdd(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -640,7 +646,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void AltarTrailDebuffInServer ( object sender, MessageReceivedEventArgs e )
+	private void AltarTrailDebuffInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -656,7 +662,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 	}
 
 
-	private void AltarSpeedBuffInServer ( object sender, MessageReceivedEventArgs e )
+	private void AltarSpeedBuffInServer(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -668,7 +674,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void AltarOutlineBuff ( object sender, MessageReceivedEventArgs e )
+	private void AltarOutlineBuff(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -682,7 +688,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void AddUltimatePoint ( object sender, MessageReceivedEventArgs e )
+	private void AddUltimatePoint(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -696,7 +702,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	private void AddUltimatePointToAllTeam ( object sender, MessageReceivedEventArgs e )
+	private void AddUltimatePointToAllTeam(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -713,15 +719,35 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
-	public void SetEndGame ( bool value = true )
+	public void SetEndGame(bool value = true)
 	{
 		isEndGame = value;
 	}
-	public bool GetEndGame ()
+	public bool GetEndGame()
 	{
 		return isEndGame;
 	}
 
+	#region Tutorial
+
+	private void ConvertPrivateRoomType(object sender, MessageReceivedEventArgs e)
+	{
+		RoomType _roomType;
+
+		using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                _roomType = (RoomType)reader.ReadUInt16();
+            }
+        }
+
+
+		RoomManager.Instance.actualRoom.roomType = _roomType;
+		TutorialManager.Instance.StartTrainingInServer();
+	}
+
+	#endregion
 
 	#region DEPRECATED
 
