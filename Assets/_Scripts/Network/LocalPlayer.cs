@@ -123,18 +123,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-		ushort _temp = 0;
-
         foreach (Altar alt in GameManager.Instance.allAltar)
         {
             if (alt.state == State.Captured && IsInMyTeam(alt.capturingTeam) )
             {
-				_temp++;
+				myPlayerModule.bonusHp++;
 
 			}
         }
 
-		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + _temp);
+		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
 		//OnRespawn(respawned);
 
