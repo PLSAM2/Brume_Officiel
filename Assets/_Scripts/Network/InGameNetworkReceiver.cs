@@ -173,10 +173,14 @@ public class InGameNetworkReceiver : MonoBehaviour
 			{
 				AddHealth(sender, e);
 			}
+			else if (message.Tag == Tags.ConvertPrivateRoomType)
+			{
+				ConvertPrivateRoomType(sender, e);
+			}
 		}
 	}
 
-	private void AddHealth(object sender, MessageReceivedEventArgs e)
+    private void AddHealth(object sender, MessageReceivedEventArgs e)
 	{
 		using (Message message = e.GetMessage())
 		{
@@ -731,6 +735,26 @@ public class InGameNetworkReceiver : MonoBehaviour
 		return isEndGame;
 	}
 
+	#region Tutorial
+
+	private void ConvertPrivateRoomType(object sender, MessageReceivedEventArgs e)
+	{
+		RoomType _roomType;
+
+		using (Message message = e.GetMessage())
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                _roomType = (RoomType)reader.ReadUInt16();
+            }
+        }
+
+
+		RoomManager.Instance.actualRoom.roomType = _roomType;
+		TutorialManager.Instance.StartTrainingInServer();
+	}
+
+	#endregion
 
 	#region DEPRECATED
 
