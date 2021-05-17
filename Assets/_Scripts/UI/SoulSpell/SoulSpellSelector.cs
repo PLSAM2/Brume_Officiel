@@ -120,7 +120,6 @@ public class SoulSpellSelector : MonoBehaviour
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
         yield return new WaitForSeconds(1);
-
         RoomManager.Instance.ImReady();
     }
 

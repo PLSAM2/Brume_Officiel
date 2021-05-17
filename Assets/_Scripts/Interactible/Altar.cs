@@ -28,7 +28,7 @@ public class Altar : Interactible
     [SerializeField] protected string colorShader = "_Color";
     //wayPoint
     [SerializeField] GameObject waypointAltarPrefab;
-    public Waypoint waypointObj;
+    public AltarWaypoint waypointObj;
 
     [SerializeField] Color altarLockColor;
     [SerializeField] Color altarUnlockColor;
@@ -39,13 +39,15 @@ public class Altar : Interactible
         base.Init();
         isInteractable = false;
 
-        waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+        waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<AltarWaypoint>();
         waypointObj.SetImageColor(altarLockColor);
         waypointObj.gameObject.SetActive(false);
         waypointObj.target = transform;
 
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
+
+        waypointObj.SetLockStatut(true);
     }
 
     private void Update()
@@ -56,7 +58,7 @@ public class Altar : Interactible
             float currentTimeLeft = unlockTime - (Time.fixedTime - currentTime);
             if (currentTimeLeft > 0)
             {
-                waypointObj.SetUnderText(Mathf.RoundToInt(currentTimeLeft) + "s");
+                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTimeLeft) + "s");
             }
             else
             {
@@ -169,6 +171,8 @@ public class Altar : Interactible
         base.Unlock();
 
         waypointObj.SetImageColor(altarUnlockColor);
+
+        waypointObj.SetLockStatut(false);
     }
 
     internal void StarFinalPhase()

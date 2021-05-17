@@ -68,7 +68,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[SerializeField] GameObject waypointEnemyPrefab;
 
 	[TabGroup("Vision")] public QuickOutline myOutline;
-	//public ParticleSystem deathAlly, deathEnemy;
 
 	public GameObject deathFx;
 
@@ -76,6 +75,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	AllieWaypoint myWaypoint;
 
 	public AudioClip deathPerso, deathGlobal;
+
+    public GameObject addLife_blue_fx, addLife_red_fx;
 
     private void Awake ()
 	{
@@ -123,18 +124,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-		ushort _temp = 0;
-
         foreach (Altar alt in GameManager.Instance.allAltar)
         {
             if (alt.state == State.Captured && IsInMyTeam(alt.capturingTeam) )
             {
-				_temp++;
+				myPlayerModule.bonusHp++;
 
 			}
         }
 
-		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + _temp);
+		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
 		//OnRespawn(respawned);
 
@@ -562,7 +561,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void HealLocaly ( ushort value )
 	{
-		print("yo");
 		int _tempHp = (int)liveHealth + (int)value;
 		liveHealth = (ushort)Mathf.Clamp(_tempHp, 1, myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
@@ -821,9 +819,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myPlayerModule.bonusHp += _int;
 		liveHealth += (ushort)_int;
 		myUiPlayerManager.AddLifePoint(_int);
+
+        print("call");
+
+        if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+        {
+            addLife_blue_fx.SetActive(true);
+        }
+        else
+        {
+            addLife_red_fx.SetActive(true);
+        }
 	}
-
-
 }
 
 public interface Damageable
