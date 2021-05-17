@@ -185,26 +185,19 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort _healthPoint = reader.ReadUInt16();
 				Team _team = (Team)reader.ReadUInt16();
 
+                foreach (KeyValuePair<ushort, LocalPlayer> lp in GameManager.Instance.networkPlayers)
+                {
+                    if (lp.Value.myPlayerModule.teamIndex == _team)
+                    {
+                        lp.Value.AddHitPoint((int)_healthPoint);
+                    }
 
-				StartCoroutine(WaitToAddHealth(_team, _healthPoint));
-
-			}
+                }
+            }
 		}
 	}
 
-	IEnumerator WaitToAddHealth(Team team, ushort _healthToAdd)
-	{
-		yield return new WaitForSeconds(2);
 
-		foreach (KeyValuePair<ushort, LocalPlayer> lp in GameManager.Instance.networkPlayers)
-		{
-			if (lp.Value.myPlayerModule.teamIndex == team)
-			{
-				lp.Value.AddHitPoint((int)_healthToAdd);
-			}
-
-		}
-	}
 
 	private void NewPlayerWantToSkip(object sender, MessageReceivedEventArgs e)
 	{

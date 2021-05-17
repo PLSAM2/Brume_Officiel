@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class AutoDisable : MonoBehaviour
 {
+    public bool setAtStart = false;
+    public float time = 0;
+
+    private void Start()
+    {
+        if (setAtStart)
+        {
+            Init(time);
+        }
+    }
+
     public void Init(float _time)
     {
         StartCoroutine(WaitToDisable(_time));
