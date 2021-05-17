@@ -515,6 +515,7 @@ public class RoomManager : MonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
+
     }
 
     public void UpdatePointDisplay()

@@ -1,3 +1,4 @@
+using DarkRift;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -54,7 +55,6 @@ public class TutorialManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("SoulSpell", (int)En_SoulSpell.Invisible);
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(En_SoulSpell.Invisible);
-
         RoomManager.Instance.ImReady();
         UiManager.Instance.StartTutorial();
 
@@ -137,6 +137,18 @@ public class TutorialManager : MonoBehaviour
     }
 
     public void StartTraining()
+    {
+        using (DarkRiftWriter writer = DarkRiftWriter.Create())
+        {
+            writer.Write((ushort)RoomType.Training);
+
+            using (Message message = Message.Create(Tags.ConvertPrivateRoomType, writer))
+                RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
+        }
+
+    }
+
+    public void StartTrainingInServer()
     {
         SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
     }
