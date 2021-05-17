@@ -13,6 +13,7 @@
     public static readonly ushort QuitRoom = 50;
     public static readonly ushort StartGame = 80;
     public static readonly ushort StartPrivateRoom = 85;
+    public static readonly ushort ConvertPrivateRoomType = 87;
     public static readonly ushort LobbyStartGame = 90;
     public static readonly ushort QuitGame = 100;
     public static readonly ushort ChangeName = 110;
