@@ -17,6 +17,7 @@ MonoBehaviour:
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
+  isInterruptedOnOtherTentative: 0
   lockRotOnCanalisation: 1
   lockPosOnCanalisation: 1
   canalisationTime: 0.75
@@ -24,6 +25,7 @@ MonoBehaviour:
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 1
   anonciationTime: 0.6
+  statusOnAnnonciation: []
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution:
@@ -31,6 +33,5 @@ MonoBehaviour:
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.25
   spellIcon: {fileID: 21300000, guid: 1eb98b4e05673114d890283d7f57121b, type: 3}
-  spellName: Crushing Dive
-  spellDescription: Leng jumps in a chosen direction, becoming invulnerable. On impact,
-    she deals 1 damage and stuns any enemy nearby.
+  spellName: Short teleportation
+  spellDescription: Re teleports quickly. Enemies around his new location are stunned.

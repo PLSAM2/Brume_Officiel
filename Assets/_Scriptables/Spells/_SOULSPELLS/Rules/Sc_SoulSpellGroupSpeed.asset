@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Sc_SoulSpellGroupSpeed
   m_EditorClassIdentifier: 
   range: 0
-  cooldown: 20
+  cooldown: 15
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
+  isInterruptedOnOtherTentative: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
@@ -24,16 +25,15 @@ MonoBehaviour:
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
+  statusOnAnnonciation: []
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 4e8604368a02b014db67af542b70351f, type: 3}
-  spellName: Savage Shout
-  spellDescription: 'Leng shout increasing the move speed of nearby allies for 2.5
-    seconds
-
-'
+  spellName: Run together
+  spellDescription: Leng gives a burst of movement speed to herself and every ally
+    around her.
   onImpactInstantiate: {fileID: 7776885188641116624, guid: 54ee7752cbabc3f43bde627d9a4f30b0, type: 3}
   radiusOfImpact: 3.5

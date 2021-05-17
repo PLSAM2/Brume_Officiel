@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 5624599934099963903}
   - component: {fileID: 9188923623546187145}
   m_Layer: 20
-  m_Name: Sp_Leng_JumpImpact
+  m_Name: AOE_Leng_Space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   spawnSound: {fileID: 8300000, guid: 33e95493f71deb94f98e59855531cb2f, type: 3}
   localTrad: {fileID: 11400000, guid: 16da40bbd1b20764fb53600d0bedff29, type: 2}
   adaptiveRange: 0
+  procSound: {fileID: 0}
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +390,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2810553763118681612, guid: c67f54146e639014d91c329e64e2bfdb, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.8
+      propertyPath: InitialModule.size3D
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2810553763118681612, guid: c67f54146e639014d91c329e64e2bfdb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.a
@@ -407,6 +408,10 @@ PrefabInstance:
     - target: {fileID: 2810553763118681612, guid: c67f54146e639014d91c329e64e2bfdb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810553763138033192, guid: c67f54146e639014d91c329e64e2bfdb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4979670669612140414, guid: c67f54146e639014d91c329e64e2bfdb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.a

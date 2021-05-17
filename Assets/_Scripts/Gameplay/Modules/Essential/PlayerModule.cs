@@ -264,9 +264,13 @@ public class PlayerModule : MonoBehaviour
 					skin.material.SetFloat("_OutlinePower", 10);
 				}
 			}
-			mapIcon.gameObject.SetActive(false);
 			StartCoroutine(WaitForVisionCheck());
 		}
+
+		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+			mapIcon.gameObject.SetActive(true);
+		else
+			mapIcon.gameObject.SetActive(false);
 
 		ResetLayer();
 	}

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Sc_SoulSpellDecoy
   m_EditorClassIdentifier: 
   range: 2
-  cooldown: 20
+  cooldown: 15
   numberOfCharge: 1
   forbiddenState: 48
   stacksUsed: 0
+  isInterruptedOnOtherTentative: 0
   lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0
@@ -24,14 +25,15 @@ MonoBehaviour:
   lockRotOnAnonciation: 0
   LockPosOnAnonciation: 0
   anonciationTime: 0
+  statusOnAnnonciation: []
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 0}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
   spellIcon: {fileID: 21300000, guid: 97cca71258c282c48a0a6c620913ea22, type: 3}
-  spellName: Decoil
-  spellDescription: Re Create a fake running forward for a short period of time,
-    pinging enemies killing him.
+  spellName: Clone
+  spellDescription: Re creates a clone that runs in target direction. The clone is
+    destroyed when it hits a wall or takes damage.
   onImpactInstantiate: {fileID: 8863682241088651334, guid: cd27ecf918f6c5d498a59ee9e79a15c3, type: 3}
   radiusOfImpact: 0

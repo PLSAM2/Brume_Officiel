@@ -18,22 +18,24 @@ MonoBehaviour:
   forbiddenState: 32
   stacksUsed: 0
   isInterruptedOnOtherTentative: 0
-  lockRotOnCanalisation: 1
+  lockRotOnCanalisation: 0
   lockPosOnCanalisation: 0
   canalisationTime: 0.4
   statusToApplyOnCanalisation:
   - {fileID: 11400000, guid: 6e71cda6218604141a64a7a14fb08e07, type: 2}
   lockRotOnAnonciation: 1
   LockPosOnAnonciation: 0
-  anonciationTime: 0
+  anonciationTime: 0.2
+  statusOnAnnonciation: []
   forcedMovementAppliedBeforeResolution: {fileID: 0}
   forcedMovementAppliedAfterResolution: {fileID: 11400000, guid: 1e4a1e9c43c56ee47af9235fd570dd1b, type: 2}
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0.2
   spellIcon: {fileID: 21300000, guid: 91ab9b76e6177a4419e03da24ffc71ca, type: 3}
-  spellName: PEWPEW
-  spellDescription: "Laser attack, \xE7a fait 1"
+  spellName: Laser Beam
+  spellDescription: Wu Xin fires a laser in target direction, dealing 1dmg to each
+    enemy.
   attackParameters:
     widthToAttackFrom: 0.45
     damagesToDeal:
