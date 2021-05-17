@@ -21,9 +21,21 @@ public class FootstepAudio : MonoBehaviour
 
     bool doSound = true;
 
+
+    //icon footstep
+    public bool doFootStepIcon = false;
+    bool isLeftFoot = false;
+
+    public Transform posFootLeft, posFootRight;
+
     private void Start()
     {
         ChangeVolume(AudioManager.Instance.currentPlayerVolume);
+
+        if(transform.parent == GameFactory.GetActualPlayerFollow().transform)
+        {
+            doFootStepIcon = true;
+        }
     }
 
     private void OnEnable()
@@ -65,6 +77,20 @@ public class FootstepAudio : MonoBehaviour
             {
                 doSound = false;
                 StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
+
+                if (doFootStepIcon)
+                {
+                    if (isLeftFoot)
+                    {
+                        LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootLeft.position, Random.Range(0, 90), 1, 0.7f);
+                    }
+                    else
+                    {
+                        LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootRight.position, Random.Range(0, 90), 1, 0.7f);
+                    }
+
+                    isLeftFoot = !isLeftFoot;
+                }
             }
         }
     }
