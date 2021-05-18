@@ -20,7 +20,6 @@ public class UIPlayerManager : MonoBehaviour
     [TabGroup("Ui")] public Transform parentListLife;
     [TabGroup("Ui")] public GameObject prefabLifeBar;
     [TabGroup("Ui")] public Image lifeBarWaitingForHeal;
-    [TabGroup("Ui")] public RectTransform indicationOfMaxRegen;
     public  List<UIBarLifePerso> allBarLife = new List<UIBarLifePerso>();
 
     [Header("Buff")]
@@ -65,7 +64,8 @@ public class UIPlayerManager : MonoBehaviour
             myLocalPlayer.myPlayerModule.OnStateChange += OnStateChange;
             myLocalPlayer.OnInitFinish += Init;
             OnStateChange();
-        }
+        } 
+
 
 
         UpdateLife();
@@ -110,8 +110,8 @@ public class UIPlayerManager : MonoBehaviour
         }*/
     }
 
-	private void Init ()
-	{
+	public void Init ()
+    {
         if (dummy)
         {
             nameText.text = "Dummy";
