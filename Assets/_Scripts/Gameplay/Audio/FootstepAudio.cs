@@ -67,7 +67,7 @@ public class FootstepAudio : MonoBehaviour
         float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
         oldPos = transform.position;
 
-        if (myPlayerModule != null && myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
+        if (myPlayerModule != null && (myPlayerModule.state.HasFlag(En_CharacterState.Crouched) || myPlayerModule.state.HasFlag(En_CharacterState.Hidden)))
         {
             return;
         }
