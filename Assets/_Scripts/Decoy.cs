@@ -75,6 +75,8 @@ public class Decoy : MonoBehaviour, Damageable
 		{
 			enemyMesh.gameObject.SetActive(false);
 			alliedMesh.gameObject.SetActive(true);
+
+            myFootStep.doFootStepIcon = true;
 		}
 	}
 
