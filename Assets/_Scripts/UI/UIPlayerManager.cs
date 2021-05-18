@@ -340,7 +340,7 @@ public class UIPlayerManager : MonoBehaviour
 		canalisationImage.fillAmount = _percentageOfTheCanalisation;
 	}
 
-	public void HideCanalisationBar(bool _isHiding)
+	public void HideCanalisationBar ( bool _isHiding )
 	{
 		barCasting.SetActive(_isHiding);
 	}

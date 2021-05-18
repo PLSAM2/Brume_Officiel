@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Tissus01
+  m_Name: M_Feuillage
   m_Shader: {fileID: 4800000, guid: 6f910072bd8d8264490160b5ead51b88, type: 3}
   m_ShaderKeywords: _CUSTOMNORMAL_ON _FRESNELSTEP_ON _MOVINGGRAIN_ON _MOVINGPAPER_ON
     _RIMLIGHT_CUSTOMNORMAL_ON
@@ -182,6 +182,9 @@ Material:
     - _DrippingNoise_Tiling: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FakeLightArrayLength: 0
+    - _FakeLightStep: 0
+    - _FakeLightStepAttenuation: 5
     - _Float29: 2
     - _Float30: 3
     - _Float38: 0
@@ -263,9 +266,12 @@ Material:
     - _TopTex_Smoothstep: 0.3
     - _TopTex_Step: 0.6
     - _UV_2_: 0
+    - _WaveFakeLight_Max: 1.1
+    - _WaveFakeLight_Min: 1
+    - _WaveFakeLight_Time: 1
     - _Wave_Speed: 0
-    - _WindVertexDisplacement: 0.111
-    - _WindWave_Frequency: 0
+    - _WindVertexDisplacement: 0.62
+    - _WindWave_Frequency: 2.52
     - _Wind_Density: 1
     - _Wind_Direction: 1
     - _Wind_Strength: 2
@@ -280,6 +286,7 @@ Material:
     - _ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FakeLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _IB_BackColor: {r: 1, g: 1, b: 1, a: 0}
     - _IB_ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
     - _IB_ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
