@@ -13393,8 +13393,6 @@ MonoBehaviour:
   reviveUI: {fileID: 9217017580204547210}
   feedbackDeath: {fileID: 6158613868843534239}
   damageTakenFeedback: {fileID: 759570825342999770}
-  barCasting: {fileID: 4968555179631605046}
-  canalisationImage: {fileID: 1582161847741032326}
   prefabLifeBar: {fileID: 2471531374731842360, guid: 57d56db4f9759194483c41ab24b055c5, type: 3}
   blueColor: {fileID: 2100000, guid: 3f30be88ac172374fa4e7d97f2fded2b, type: 2}
   grayColor: {fileID: 2100000, guid: d21914c7b29d03149bd6067ecd445cbc, type: 2}
@@ -13922,7 +13920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1098700787597452083, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1137132379057678743, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -14839,6 +14837,14 @@ PrefabInstance:
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_AnchorMin.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalPosition.x
