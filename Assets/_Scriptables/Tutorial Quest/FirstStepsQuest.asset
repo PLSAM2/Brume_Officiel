@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0907e2b5265b904c9e381fd63055810, type: 3}
-  m_Name: AltarCapturedQuest
+  m_Name: FirstStepsQuest
   m_EditorClassIdentifier: 
-  questTitle: 'LE DEBUT '
+  questTitle: First steps
   questSteps:
   - questEvent: 0
-    stepDescription: 'Basic movements :'
+    stepDescription: Try moving around
     completed: 0
     UI: {fileID: 0}
     keyToPress:
@@ -36,8 +36,8 @@ MonoBehaviour:
     focusedDummyIndex: 0
     mystEvent: 0
     movementEvent: 0
-  - questEvent: 3
-    stepDescription: hit this dummy
+  - questEvent: 1
+    stepDescription: Reach this spot
     completed: 0
     UI: {fileID: 0}
     keyToPress: []
@@ -48,19 +48,5 @@ MonoBehaviour:
     interactibleType: 0
     dummyEvent: 0
     focusedDummyIndex: 1
-    mystEvent: 0
-    movementEvent: 0
-  - questEvent: 3
-    stepDescription: and kill him
-    completed: 0
-    UI: {fileID: 0}
-    keyToPress: []
-    zoneEvent: 0
-    zoneToTrigger: 0
-    interactibleEvent: 0
-    focusedInteractible: {fileID: 0}
-    interactibleType: 0
-    dummyEvent: 1
-    focusedDummyIndex: 0
     mystEvent: 0
     movementEvent: 0
