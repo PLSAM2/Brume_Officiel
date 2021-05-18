@@ -145,7 +145,6 @@ public class LocalPoolManager : SerializedMonoBehaviour
     {
         GameObject newObj = GetFreeGeneric(_index);
 
-
         newObj.transform.position = _followObj.position;
         newObj.transform.eulerAngles = new Vector3(0, _rota, 0);
         newObj.transform.localScale = new Vector3(1, 1, _scale);
@@ -201,6 +200,8 @@ public class LocalPoolManager : SerializedMonoBehaviour
                 }
             }
         }
+
+        print("pos de truc");
 
         GameObject newObjElement = Instantiate(prefabGeneric[_index], transform);
 

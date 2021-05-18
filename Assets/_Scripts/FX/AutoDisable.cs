@@ -7,10 +7,11 @@ public class AutoDisable : MonoBehaviour
     public bool setAtStart = false;
     public float time = 0;
 
-    private void Start()
+    private void OnEnable()
     {
         if (setAtStart)
         {
+            print("test");
             Init(time);
         }
     }
