@@ -2,11 +2,13 @@
 
 public class samTest : MonoBehaviour
 {
-    public RectTransform img;
+    public Transform child;
+    Quaternion oldRotation;
 
     private void Update()
     {
-        img.position = Input.mousePosition;
-    }
+        child.rotation = Quaternion.Lerp(oldRotation, transform.rotation, Time.time * 1);
 
+        oldRotation = child.rotation;
+    }
 }
