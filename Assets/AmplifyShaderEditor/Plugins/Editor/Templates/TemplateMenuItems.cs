@@ -21,11 +21,6 @@ namespace AmplifyShaderEditor
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "2992e84f91cbeb14eab234972e07ea9d" );
 		}
-		[MenuItem( "Assets/Create/Amplify Shader/HD/Lit", false, 85 )]
-		public static void ApplyTemplateHDLit()
-		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "53b46d85872c5b24c8f4f0a1c3fe4c87" );
-		}
 		[MenuItem( "Assets/Create/Amplify Shader/Legacy/Post Process", false, 85 )]
 		public static void ApplyTemplateLegacyPostProcess()
 		{
@@ -65,26 +60,6 @@ namespace AmplifyShaderEditor
 		public static void ApplyTemplateLegacySamplesDoublePassUnlit()
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "003dfa9c16768d048b74f75c088119d8" );
-		}
-		[MenuItem( "Assets/Create/Amplify Shader/HD/Decal", false, 85 )]
-		public static void ApplyTemplateHDDecal()
-		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "d345501910c196f4a81c9eff8a0a5ad7" );
-		}
-		[MenuItem( "Assets/Create/Amplify Shader/HD/Fabric", false, 85 )]
-		public static void ApplyTemplateHDFabric()
-		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "41e04be03f2c20941bc749271be1c937" );
-		}
-		[MenuItem( "Assets/Create/Amplify Shader/HD/Hair", false, 85 )]
-		public static void ApplyTemplateHDHair()
-		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "e4fe21624ace6de4b9fbaabdda0c51de" );
-		}
-		[MenuItem( "Assets/Create/Amplify Shader/HD/Unlit", false, 85 )]
-		public static void ApplyTemplateHDUnlit()
-		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "7f5cb9c3ea6481f469fdd856555439ef" );
 		}
 		[MenuItem( "Assets/Create/Amplify Shader/Legacy/Lit", false, 85 )]
 		public static void ApplyTemplateLegacyLit()
