@@ -71,8 +71,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
 	[FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
 	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
-	[FoldoutGroup("Cast")] public GameObject barCasting;
-	[FoldoutGroup("Cast")] public Image canalisationImage;
 
 	[Header("Ulti")]
 	[FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
@@ -742,20 +740,6 @@ public class UiManager : MonoBehaviour
 			hiddenIcon.gameObject.SetActive(false);
 	}
 
-	public void UpdateCanalisation ( float _percentageOfTheCanalisation, bool _isCasting = true )
-	{
-		if (_isCasting)
-			canalisationImage.color = Color.red;
-		else
-			canalisationImage.color = Color.cyan;
-
-		canalisationImage.fillAmount = _percentageOfTheCanalisation;
-		if (_percentageOfTheCanalisation == 1)
-			barCasting.SetActive(false);
-		else
-			barCasting.SetActive(true);
-	}
-
 	public void DisplayGeneralPoints ( Team team, int value )
 	{
 		generalPoints.text = "+" + value;
@@ -823,7 +807,6 @@ public class UiManager : MonoBehaviour
 
 	public void OnDamageTaken ()
 	{
-		print("I m called");
 		Image _temp = damageTakenFeedback.GetComponent<Image>();
 		_temp.color = new Vector4(255, 255, 255, 255);
 		_temp.DOColor(new Vector4(255, 255, 255, 0), 1f);
