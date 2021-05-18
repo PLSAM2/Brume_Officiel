@@ -53,6 +53,11 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
 	[FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
 
+	[Header("Altars")]
+	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureSpeedUI;
+	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureContestUI;
+	[FoldoutGroup("Altars")] [SerializeField] private List<GameObject> captureSpeedArrows = new List<GameObject>();
+
 	[Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
 	[FoldoutGroup("Other Gameplay")] public RectTransform radarRange;
@@ -497,6 +502,37 @@ public class UiManager : MonoBehaviour
 		uiAltarList.GainTeam(_capturingTeam);
 	}
 
+	public void SetAltarCaptureUIState(bool state, bool contest = false, int playercount = 1)
+    {
+        if (!state)
+        {
+			captureSpeedUI.SetActive(false);
+			captureContestUI.SetActive(false);
+			return;
+		}
+
+        if (contest )
+		{
+			captureSpeedUI.SetActive(false);
+			captureContestUI.SetActive(true);
+
+        } else
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (i < playercount)
+                {
+					captureSpeedArrows[i].SetActive(true);
+				} else
+                {
+					captureSpeedArrows[i].SetActive(false);
+				}
+
+            }
+			captureSpeedUI.SetActive(true);
+			captureContestUI.SetActive(false);
+		}
+    }
 	public void SetEchapMenuState ()
 	{
 		if (!echapMenu.activeSelf)

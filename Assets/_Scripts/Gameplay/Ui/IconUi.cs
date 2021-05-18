@@ -6,6 +6,7 @@ using DG.Tweening;
 using TMPro;
 using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
+using System;
 
 public class IconUi : MonoBehaviour
 {
@@ -43,20 +44,32 @@ public class IconUi : MonoBehaviour
 
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
 	{
-	lastCD = (_cooldownRemaining < 0) ? 0 : Mathf.CeilToInt(_completeCd - _cooldownRemaining);
+		if (_completeCd - _cooldownRemaining > 1)
+			lastCD = Mathf.Round(_completeCd - _cooldownRemaining);
+		else
+		{
+			lastCD = Mathf.Round(_completeCd * 10 - _cooldownRemaining * 10);
+			lastCD /= 10;
+			print(lastCD);
+		}
+
 
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
 			grisage.gameObject.SetActive(true);
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
-			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
+			if (_completeCd - _cooldownRemaining > 1)
+				cooldownCount.text = lastCD.ToString();
+			else
+				cooldownCount.text = lastCD.ToString();
+
 			outlineIcon.color = Color.black;
 		}
 		else
 		{
 			cooldownCount.text = "";
 		}
-	} 
+	}
 	public void UpdatesChargesAmont ( int _numberOfCharges )
 	{
 		//chargesSpot.text = _numberOfCharges.ToString();
@@ -70,14 +83,15 @@ public class IconUi : MonoBehaviour
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
 		myRectTransform.localScale = new Vector3(.7f, .7f, .7f);
 		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
-        //feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
+		//feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
 
 
-        if(UiManager.Instance.currentCdDisplay >= cdDisplay)
-        {
-            UiManager.Instance.currentCdDisplay = 0;
-            UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
-        }
+		if (UiManager.Instance.currentCdDisplay >= cdDisplay)
+		{
+			UiManager.Instance.currentCdDisplay = 0;
+
+			UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
+		}
 	}
 
 	public void CooldownReadyFeedback ()
@@ -90,19 +104,19 @@ public class IconUi : MonoBehaviour
 		//myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
 
 
-        feedbackCanUse.SetActive(true);
+		feedbackCanUse.SetActive(true);
 	}
 	public void ResetIcon ()
 	{
-			myRectTransform.DOKill();
-			myRectTransform.localPosition = basePos;
-			myRectTransform.localScale = Vector3.one;
-			Color _color = new Vector4(255, 16, 16, 0);
-			feedbackCantCast.DOKill();
-			feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
-			feedbackCantCast.color = _color;
+		myRectTransform.DOKill();
+		myRectTransform.localPosition = basePos;
+		myRectTransform.localScale = Vector3.one;
+		Color _color = new Vector4(255, 16, 16, 0);
+		feedbackCantCast.DOKill();
+		feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
+		feedbackCantCast.color = _color;
 
-			feedbackCanUse.SetActive(false);
+		feedbackCanUse.SetActive(false);
 	}
 
 	public void HideIcon ( bool _hiding )
