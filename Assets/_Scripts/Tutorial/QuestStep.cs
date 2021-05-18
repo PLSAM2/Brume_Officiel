@@ -29,7 +29,7 @@ public class QuestStep
     // --------------------------------
 
     [ShowIf("questEvent", QuestEvent.DummyEvent)] public DummyEvent dummyEvent;
-    [ShowIf("questEvent", QuestEvent.DummyEvent)] [InfoBox("Optionnal target --> NULL == any Dummy")] public Dummy focusedDummy;
+    [ShowIf("questEvent", QuestEvent.DummyEvent)] [InfoBox("0 == any Dummy")] public int focusedDummyIndex;
 
     // --------------------------------
 
