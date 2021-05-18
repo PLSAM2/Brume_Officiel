@@ -12,8 +12,8 @@ public class SpellModule : MonoBehaviour
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
 	[ReadOnly] public float timeToResolveSpell;
-	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
-	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
+	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
+	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime);} } }
 	float _cooldown = 0;
 	public float cooldown
 	{
@@ -257,6 +257,8 @@ public class SpellModule : MonoBehaviour
 	{
 		if (isOwner)
 		{
+			myPlayerModule.mylocalPlayer.myUiPlayerManager.HideCanalisationBar(true);
+
 			myPlayerModule.currentSpellResolved = spell;
 			timeToResolveSpell = FinalCanalisationTime();
 
@@ -438,11 +440,15 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void Interrupt ( bool _isInterrupte = false )
 	{
-		myPlayerModule.mylocalPlayer.SendRotation();
 		isUsed = false;
-		throwbackTime = 0;
-		FeedbackSpellStep(En_SpellStep.Interrupt);
 
+		myPlayerModule.spellResolved?.Invoke();
+		myPlayerModule.currentSpellResolved = null;
+		currentTimeCanalised = 0;
+		throwbackTime = 0;
+		myPlayerModule.mylocalPlayer.myUiPlayerManager.HideCanalisationBar(false);
+
+		//status applied
 		if (spell.statusToApplyOnCanalisation.Count > 0)
 			foreach (Sc_Status _statusToRemove in spell.statusToApplyOnCanalisation)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
@@ -459,15 +465,17 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.rotationLock(false);
 		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
 			myPlayerModule.RemoveState(En_CharacterState.Root);
+
 		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 
 		ApplyEffectAtTheEnd();
 
+		//feedbacks
+		FeedbackSpellStep(En_SpellStep.Interrupt);
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		myPlayerModule.mylocalPlayer.SendRotation();
 
-		myPlayerModule.spellResolved?.Invoke();
-		myPlayerModule.currentSpellResolved = null;
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{

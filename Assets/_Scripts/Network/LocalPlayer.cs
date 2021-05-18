@@ -261,19 +261,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void OnDisable ()
 	{
-		if (deathFx != null)
-		{
-			FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
-			if (isOwner)
-			{
-				fow.fowDeath.SetActive(true);
-			}
-		}
-
 		if (myWaypoint != null)
 		{
 			Destroy(myWaypoint.gameObject);
 		}
+		
 
 		if (!isOwner)
 			return;
@@ -456,7 +448,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void DealDamagesLocaly ( ushort damages, ushort dealerID, ushort? serverLife = null )
+
+    public void DealDamagesLocaly ( ushort damages, ushort dealerID, ushort? serverLife = null )
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
@@ -628,7 +621,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		myUiPlayerManager.Eye_Spot.SetActive(false);
 	}
 
-	public void KillPlayer ( PlayerData killer )
+	internal void KillPlayerLocaly()
 	{
 		if (deathFx != null)
 		{
@@ -638,9 +631,22 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				fow.fowDeath.SetActive(true);
 			}
 		}
+	}
 
+
+	public void KillPlayer ( PlayerData killer )
+	{
 		if (isOwner)
 		{
+			if (deathFx != null)
+			{
+				FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
+				if (isOwner)
+				{
+					fow.fowDeath.SetActive(true);
+				}
+			}
+
 			UiManager.Instance.feedbackDeath.SetActive(true);
 
 			//GameManager.Instance.hiddenEffect.enabled = false;
@@ -816,12 +822,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void AddHitPoint ( int _int )
 	{
-		myPlayerModule.bonusHp += _int;
-		liveHealth += (ushort)_int;
-		myUiPlayerManager.AddLifePoint(_int);
-
-        print("call");
-
+	
         if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
             addLife_blue_fx.SetActive(true);
@@ -830,6 +831,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
         {
             addLife_red_fx.SetActive(true);
         }
+
+		WaitForHpWin(_int);
+	}
+
+	IEnumerator WaitForHpWin( int _int )
+	{
+		yield return new WaitForSeconds(1.5f);
+		myPlayerModule.bonusHp += _int;
+		liveHealth += (ushort)_int;
+		myUiPlayerManager.AddLifePoint(_int);
 	}
 }
 
