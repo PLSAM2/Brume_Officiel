@@ -200,13 +200,13 @@ public class TutorialManager : MonoBehaviour
 
                     List<Dummy> _tempDummys = new List<Dummy>();
 
-                    if (qs.focusedDummy != null) // Get all
+                    if (qs.focusedDummyIndex != 0) 
                     {
-                        _tempDummys.Add(qs.focusedDummy);
+                        _tempDummys.Add(dummies[qs.focusedDummyIndex - 1]);
                     }
                     else
                     {
-                        _tempDummys = dummies;
+                        _tempDummys = dummies; // Get all
                     }
 
                     foreach (Dummy dum in _tempDummys) // Subscribe 
