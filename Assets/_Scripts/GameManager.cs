@@ -259,7 +259,6 @@ public class GameManager : SerializedMonoBehaviour
             return;
         }
 
-        print("eheh");
         UiManager.Instance.AllPlayerJoinGameScene();
         OnAllCharacterSpawned?.Invoke();
         gameStarted = true;

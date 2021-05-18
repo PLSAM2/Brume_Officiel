@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,8 +8,14 @@ public class TutorialTriggerZone : MonoBehaviour
 {
     public LayerMask characterLayer;
 
+    public bool giveDamageToPlayer = false;
+    [ShowIf("giveDamageToPlayer")] public bool oneTime = false;
+    [ShowIf("giveDamageToPlayer")] public ushort damages = 1;
+
+    private bool damageGiven = false;
     [HideInInspector] public Action<TutorialTriggerZone> OnEnter;
     [HideInInspector] public Action<TutorialTriggerZone> OnExit;
+
 
 
     private void OnDisable()
@@ -34,6 +41,17 @@ public class TutorialTriggerZone : MonoBehaviour
             {
                 return;
             }
+
+            if (giveDamageToPlayer)
+            {
+                if ((oneTime && damageGiven == false) || !oneTime)
+                {
+                    DamagesInfos dm = new DamagesInfos(damages);
+                    _pModule.mylocalPlayer.DealDamages(dm, this.transform, null, true);
+                    damageGiven = true;
+                }
+            }
+
 
             OnEnter?.Invoke(this);
         }
