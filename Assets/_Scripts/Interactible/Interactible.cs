@@ -44,8 +44,6 @@ public class Interactible : MonoBehaviour
     protected bool Decapturing = false;
     [TabGroup("InteractiblePart")]
     protected bool paused = false;
-    [TabGroup("InteractiblePart")]
-    public bool contestable = false;
 
     [TabGroup("InteractiblePart")]
     protected List<PlayerModule> playerInZone = new List<PlayerModule>();
@@ -244,7 +242,8 @@ public class Interactible : MonoBehaviour
             isCapturing = true;
             paused = false;
             // timer = 0;
-        } else
+        }
+        else
         {
             // timer = 0;
             isCapturing = false;
@@ -312,7 +311,7 @@ public class Interactible : MonoBehaviour
         if (InGameNetworkReceiver.Instance.GetEndGame())
         {
             return;
-        
+
         }
         OnCaptured?.Invoke(this);
 
@@ -338,7 +337,8 @@ public class Interactible : MonoBehaviour
             reloadTimer = 0;
             reloading = true;
             SetColor(Color.black);
-        } else
+        }
+        else
         {
             fillImg.material.SetFloat(opacityZoneAlphaShader, 1);
         }
@@ -347,7 +347,7 @@ public class Interactible : MonoBehaviour
         {
             if (lastTeamCaptured == GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam))
                 mapIcon.sprite = iconRed;
-            else 
+            else
                 mapIcon.sprite = iconBlue;
         }
     }
@@ -393,7 +393,8 @@ public class Interactible : MonoBehaviour
                         SetColor(canBeCapturedColor);
                     }
 
-                } else
+                }
+                else
                 {
                     if (capturingTeam != Team.none)
                     {
@@ -432,13 +433,12 @@ public class Interactible : MonoBehaviour
                 return;
             }
 
-            if (contestable)
+
+            if (!playerInZone.Contains(_pModule))
             {
-                if (!playerInZone.Contains(_pModule))
-                {
-                    playerInZone.Add(_pModule);
-                }
+                playerInZone.Add(_pModule);
             }
+
 
             if (!_pModule.mylocalPlayer.isOwner)
             {
@@ -449,7 +449,7 @@ public class Interactible : MonoBehaviour
             {
                 OnEnter?.Invoke(this);
                 CheckOnUnlock = false;
-               _pModule.interactiblesClose.Add(this);
+                _pModule.interactiblesClose.Add(this);
                 TryCapture(_pModule.teamIndex, _pModule);
             }
         }
@@ -466,13 +466,10 @@ public class Interactible : MonoBehaviour
                 return;
             }
 
-            if (contestable)
+            if (playerInZone.Contains(_pModule))
             {
-                if (playerInZone.Contains(_pModule))
-                {
-                    playerInZone.Remove(_pModule);
-                    PlayerInContestedZoneQuit(_pModule);
-                }
+                playerInZone.Remove(_pModule);
+                PlayerInContestedZoneQuit(_pModule);
             }
 
             if (!_pModule.mylocalPlayer.isOwner)
@@ -516,13 +513,12 @@ public class Interactible : MonoBehaviour
                 {
                     return;
                 }
-                if (contestable)
+
+                if (!playerInZone.Contains(_pModule))
                 {
-                    if (!playerInZone.Contains(_pModule))
-                    {
-                        playerInZone.Add(_pModule);
-                    }
+                    playerInZone.Add(_pModule);
                 }
+
                 if (!_pModule.mylocalPlayer.isOwner)
                 {
                     return;
@@ -543,6 +539,41 @@ public class Interactible : MonoBehaviour
 
 
     protected virtual void PlayerInContestedZoneQuit(PlayerModule p) { }
+
+    public virtual bool IsLocallyContested()
+    {
+        bool containRed = false;
+        bool containblue = false;
+
+        foreach (PlayerModule pm in playerInZone)
+        {
+            if (pm.teamIndex == Team.red)
+            {
+                containRed = true;
+            } else
+            {
+                containblue = true;
+            }
+
+            if (containRed && containblue)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public virtual int GetLocalPlayerCountInZone()
+    {
+        return playerInZone.Count;
+    }
+
+    public virtual bool IsLocalPlayerInZoneContainLocalPlayer()
+    {
+        return playerInZone.Contains(GameFactory.GetActualPlayerFollow().myPlayerModule);
+    }
+
 
     private void OnInteractibleViewChange(ushort ID, bool value)
     {

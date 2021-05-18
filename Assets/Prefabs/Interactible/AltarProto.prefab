@@ -36,6 +36,7 @@ Transform:
   - {fileID: 2011928767061565596}
   - {fileID: 2178697954583431746}
   - {fileID: 5541085013841343968}
+  - {fileID: 1508178347223025641}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,7 +76,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 74112
   authorizedCaptureCharacter: 0a0014001e00
-  contestable: 1
   canBeCapturedColor: {r: 0.21382403, g: 1, b: 0, a: 0}
   noCaptureColor: {r: 1, g: 1, b: 1, a: 0}
   progressShaderName: _Apparition
@@ -379,6 +379,64 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8670917181800191422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1508178347223025641}
+  - component: {fileID: 460696444773595246}
+  - component: {fileID: 2380600184093067718}
+  m_Layer: 21
+  m_Name: UIProgressCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1508178347223025641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670917181800191422}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 33.083557, y: 33.083557, z: 33.083557}
+  m_Children: []
+  m_Father: {fileID: 5461372675387200605}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &460696444773595246
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670917181800191422}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2380600184093067718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670917181800191422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fcf613d5f5e21d4da34999956d9f644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentAltar: {fileID: 2880747784361844932}
 --- !u!1001 &838978752585455560
 PrefabInstance:
   m_ObjectHideFlags: 0
