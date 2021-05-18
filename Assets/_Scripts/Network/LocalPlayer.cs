@@ -628,8 +628,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
 			if (isOwner)
 			{
-				fow.fowDeath.SetActive(true);
-			}
+				fow.fowDeath.gameObject.SetActive(true);
+                fow.fowDeath.GenerateFowStatic();
+            }
 		}
 	}
 
@@ -643,8 +644,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
 				if (isOwner)
 				{
-					fow.fowDeath.SetActive(true);
-				}
+                    fow.fowDeath.gameObject.SetActive(true);
+                    fow.fowDeath.GenerateFowStatic();
+                }
 			}
 
 			UiManager.Instance.feedbackDeath.SetActive(true);
@@ -822,12 +824,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void AddHitPoint ( int _int )
 	{
-		myPlayerModule.bonusHp += _int;
-		liveHealth += (ushort)_int;
-		myUiPlayerManager.AddLifePoint(_int);
-
-        print("call");
-
+	
         if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
             addLife_blue_fx.SetActive(true);
@@ -836,6 +833,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
         {
             addLife_red_fx.SetActive(true);
         }
+
+		StartCoroutine("WaitForHpWin");
+	}
+
+	IEnumerator WaitForHpWin()
+	{
+		yield return new WaitForSeconds(1.5f);
+		myPlayerModule.bonusHp += 1;
+		liveHealth += 1;
+		myUiPlayerManager.AddLifePoint(1);
 	}
 }
 

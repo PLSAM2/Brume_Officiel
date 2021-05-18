@@ -16,6 +16,7 @@ public class Altar : Interactible
     public float unlockTime;
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
+    public AltarUiProgressCollider altarUiProgressCol;
 
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
@@ -178,5 +179,43 @@ public class Altar : Interactible
     internal void StarFinalPhase()
     {
         waypointObj.gameObject.SetActive(false);
+    }
+
+
+    public override void UpdateUI()
+    {
+        base.UpdateUI();
+
+        if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
+        {
+            return; 
+        }
+
+        if (state != State.Capturable)
+        {
+            return;
+        }
+
+        if (GetLocalPlayerCountInZone() <= 0)
+        {
+            UiManager.Instance.SetAltarCaptureUIState(false);
+            return;
+        }
+
+        if (IsLocallyContested())
+        {
+            UiManager.Instance.SetAltarCaptureUIState(true, true);
+        }
+        else
+        {
+            if (playerInZone[0].teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
+            } else
+            {
+
+                UiManager.Instance.SetAltarCaptureUIState(false);
+            }
+        }
     }
 }

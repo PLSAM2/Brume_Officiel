@@ -53,6 +53,11 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
 	[FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
 
+	[Header("Altars")]
+	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureSpeedUI;
+	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureContestUI;
+	[FoldoutGroup("Altars")] [SerializeField] private List<GameObject> captureSpeedArrows = new List<GameObject>();
+
 	[Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
 	[FoldoutGroup("Other Gameplay")] public RectTransform radarRange;
@@ -66,8 +71,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
 	[FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
 	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
-	[FoldoutGroup("Cast")] public GameObject barCasting;
-	[FoldoutGroup("Cast")] public Image canalisationImage;
 
 	[Header("Ulti")]
 	[FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
@@ -499,6 +502,37 @@ public class UiManager : MonoBehaviour
 		uiAltarList.GainTeam(_capturingTeam);
 	}
 
+	public void SetAltarCaptureUIState(bool state, bool contest = false, int playercount = 1)
+    {
+        if (!state)
+        {
+			captureSpeedUI.SetActive(false);
+			captureContestUI.SetActive(false);
+			return;
+		}
+
+        if (contest )
+		{
+			captureSpeedUI.SetActive(false);
+			captureContestUI.SetActive(true);
+
+        } else
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (i < playercount)
+                {
+					captureSpeedArrows[i].SetActive(true);
+				} else
+                {
+					captureSpeedArrows[i].SetActive(false);
+				}
+
+            }
+			captureSpeedUI.SetActive(true);
+			captureContestUI.SetActive(false);
+		}
+    }
 	public void SetEchapMenuState ()
 	{
 		if (!echapMenu.activeSelf)
@@ -706,20 +740,6 @@ public class UiManager : MonoBehaviour
 			hiddenIcon.gameObject.SetActive(false);
 	}
 
-	public void UpdateCanalisation ( float _percentageOfTheCanalisation, bool _isCasting = true )
-	{
-		if (_isCasting)
-			canalisationImage.color = Color.red;
-		else
-			canalisationImage.color = Color.cyan;
-
-		canalisationImage.fillAmount = _percentageOfTheCanalisation;
-		if (_percentageOfTheCanalisation == 1)
-			barCasting.SetActive(false);
-		else
-			barCasting.SetActive(true);
-	}
-
 	public void DisplayGeneralPoints ( Team team, int value )
 	{
 		generalPoints.text = "+" + value;
@@ -787,7 +807,6 @@ public class UiManager : MonoBehaviour
 
 	public void OnDamageTaken ()
 	{
-		print("I m called");
 		Image _temp = damageTakenFeedback.GetComponent<Image>();
 		_temp.color = new Vector4(255, 255, 255, 255);
 		_temp.DOColor(new Vector4(255, 255, 255, 0), 1f);
