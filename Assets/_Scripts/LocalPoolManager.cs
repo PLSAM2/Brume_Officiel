@@ -201,8 +201,6 @@ public class LocalPoolManager : SerializedMonoBehaviour
             }
         }
 
-        print("pos de truc");
-
         GameObject newObjElement = Instantiate(prefabGeneric[_index], transform);
 
         if(!allGeneric.ContainsKey(_index)){

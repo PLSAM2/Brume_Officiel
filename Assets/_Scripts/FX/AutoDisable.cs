@@ -11,7 +11,6 @@ public class AutoDisable : MonoBehaviour
     {
         if (setAtStart)
         {
-            print("test");
             Init(time);
         }
     }
