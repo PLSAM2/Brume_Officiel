@@ -5,6 +5,7 @@ using UnityEngine;
 public class AltarUiProgressCollider : MonoBehaviour
 {
     public Altar parentAltar;
+    public List<PlayerModule> playerInUIZone = new List<PlayerModule>();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,17 +17,20 @@ public class AltarUiProgressCollider : MonoBehaviour
             {
                 return;
             }
-
+            if (!playerInUIZone.Contains(_pModule))
+            {
+               playerInUIZone.Add(_pModule);
+            }
 
             if (!_pModule.mylocalPlayer.isOwner)
             {
-                if (!parentAltar.IsLocalPlayerInZoneContainLocalPlayer())
+                if (!IsplayerInUIZoneContainLocalPlayer())
                 {
                     return;
                 }
             }
 
-            UpdateUI();
+            parentAltar.UpdateUI();
 
         }
     }
@@ -42,6 +46,12 @@ public class AltarUiProgressCollider : MonoBehaviour
                 return;
             }
 
+            if (playerInUIZone.Contains(_pModule))
+            {
+                playerInUIZone.Remove(_pModule);
+            }
+
+
             if (_pModule.mylocalPlayer.isOwner)
             {
                 UiManager.Instance.SetAltarCaptureUIState(false);
@@ -49,29 +59,17 @@ public class AltarUiProgressCollider : MonoBehaviour
             }
 
 
-            UpdateUI();
+            parentAltar.UpdateUI();
 
         }
     }
 
-    private void UpdateUI()
+
+    public virtual bool IsplayerInUIZoneContainLocalPlayer()
     {
-        if (parentAltar.GetLocalPlayerCountInZone() <= 0)
-        {
-            UiManager.Instance.SetAltarCaptureUIState(false);
-            return;
-        }
-
-        if (parentAltar.IsLocallyContested())
-        {
-            UiManager.Instance.SetAltarCaptureUIState(true, true) ;
-        } else
-        {
-            if (parentAltar.capturingTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-            {
-                UiManager.Instance.SetAltarCaptureUIState(true, false, parentAltar.GetLocalPlayerCountInZone());
-            }
-        }
+        return playerInUIZone.Contains(GameFactory.GetActualPlayerFollow().myPlayerModule);
     }
+
+
 
 }

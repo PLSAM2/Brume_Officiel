@@ -437,6 +437,10 @@ public class Interactible : MonoBehaviour
             if (!playerInZone.Contains(_pModule))
             {
                 playerInZone.Add(_pModule);
+
+                    UpdateUI();
+                
+
             }
 
 
@@ -517,6 +521,7 @@ public class Interactible : MonoBehaviour
                 if (!playerInZone.Contains(_pModule))
                 {
                     playerInZone.Add(_pModule);
+                    UpdateUI();
                 }
 
                 if (!_pModule.mylocalPlayer.isOwner)
@@ -538,7 +543,7 @@ public class Interactible : MonoBehaviour
     }
 
 
-    protected virtual void PlayerInContestedZoneQuit(PlayerModule p) { }
+    protected virtual void PlayerInContestedZoneQuit(PlayerModule p) { UpdateUI(); }
 
     public virtual bool IsLocallyContested()
     {
@@ -550,7 +555,8 @@ public class Interactible : MonoBehaviour
             if (pm.teamIndex == Team.red)
             {
                 containRed = true;
-            } else
+            }
+            else
             {
                 containblue = true;
             }
@@ -569,10 +575,12 @@ public class Interactible : MonoBehaviour
         return playerInZone.Count;
     }
 
-    public virtual bool IsLocalPlayerInZoneContainLocalPlayer()
+
+    public virtual void UpdateUI()
     {
-        return playerInZone.Contains(GameFactory.GetActualPlayerFollow().myPlayerModule);
+
     }
+
 
 
     private void OnInteractibleViewChange(ushort ID, bool value)

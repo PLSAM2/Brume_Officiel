@@ -520,7 +520,7 @@ public class UiManager : MonoBehaviour
         {
             for (int i = 0; i < 3; i++)
             {
-                if (i <= playercount)
+                if (i < playercount)
                 {
 					captureSpeedArrows[i].SetActive(true);
 				} else

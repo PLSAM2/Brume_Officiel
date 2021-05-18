@@ -112,7 +112,7 @@ public class UIPlayerManager : MonoBehaviour
         }*/
 	}
 
-	private void Init ()
+	public void Init ()
 	{
 		if (dummy)
 		{
