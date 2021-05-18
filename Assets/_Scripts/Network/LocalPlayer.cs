@@ -822,12 +822,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void AddHitPoint ( int _int )
 	{
-		myPlayerModule.bonusHp += _int;
-		liveHealth += (ushort)_int;
-		myUiPlayerManager.AddLifePoint(_int);
-
-        print("call");
-
+	
         if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
             addLife_blue_fx.SetActive(true);
@@ -836,6 +831,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
         {
             addLife_red_fx.SetActive(true);
         }
+
+		WaitForHpWin(_int);
+	}
+
+	IEnumerator WaitForHpWin( int _int )
+	{
+		yield return new WaitForSeconds(1.5f);
+		myPlayerModule.bonusHp += _int;
+		liveHealth += (ushort)_int;
+		myUiPlayerManager.AddLifePoint(_int);
 	}
 }
 

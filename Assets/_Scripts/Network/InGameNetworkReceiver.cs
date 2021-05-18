@@ -189,18 +189,16 @@ public class InGameNetworkReceiver : MonoBehaviour
 				ushort _healthPoint = reader.ReadUInt16();
 				Team _team = (Team)reader.ReadUInt16();
 
-                foreach (KeyValuePair<ushort, LocalPlayer> lp in GameManager.Instance.networkPlayers)
-                {
-                    if (lp.Value.myPlayerModule.teamIndex == _team)
-                    {
-                        lp.Value.AddHitPoint((int)_healthPoint);
-                    }
-
-                }
-            }
+				foreach (KeyValuePair<ushort, LocalPlayer> lp in GameManager.Instance.networkPlayers)
+				{
+					if (lp.Value.myPlayerModule.teamIndex == _team)
+					{
+						lp.Value.AddHitPoint((int)_healthPoint);
+					}
+				}
+			}
 		}
 	}
-
 
 
 	private void NewPlayerWantToSkip(object sender, MessageReceivedEventArgs e)
