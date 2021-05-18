@@ -153,12 +153,12 @@ public class RoomManager : MonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
             UiManager.Instance.EndGamePanel(true, winningTeam, wuxinKilled);
-            EndObjectives(true);
+            EndObjectives(true, wuxinKilled);
         }
         else
         {
             UiManager.Instance.EndGamePanel(false, winningTeam, wuxinKilled);
-            EndObjectives(false);
+            EndObjectives(false, wuxinKilled);
         }
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
@@ -171,29 +171,39 @@ public class RoomManager : MonoBehaviour
         return actualRoom.playerList.ContainsKey(playerID);
     }
 
-    private void EndObjectives(bool isRoundWin = false)
+    private void EndObjectives(bool isRoundWin = false, bool wuxinKilled = false)
     {
         ushort? _wxID = null;
 
-        if (isRoundWin)
+        if (wuxinKilled)
         {
-            _wxID = GameFactory.GetPlayerCharacterInEnemyTeam(Character.WuXin);
-        }
-        else
-        {
-            _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
-        }
-
-        if (_wxID != null)
-        {
-            if (GameManager.Instance.networkPlayers.ContainsKey((ushort)_wxID))
+            if (isRoundWin)
             {
-                LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
-                _wx.myPlayerModule.willListenInputs = false;
-                _wx.ForceDealDamages(_wx.liveHealth);
+                _wxID = GameFactory.GetPlayerCharacterInEnemyTeam(Character.WuXin);
+            }
+            else
+            {
+                _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
             }
 
+            if (_wxID != null)
+            {
+                if (GameManager.Instance.networkPlayers.ContainsKey((ushort)_wxID))
+                {
+
+                    LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
+                    CameraManager.Instance.SetFollowObj(_wx.transform);
+                    _wx.myPlayerModule.willListenInputs = false;
+                    _wx.ForceDealDamages(_wx.liveHealth);
+                }
+            }
+          
+        } else
+        {
+            CameraManager.Instance.SetFollowObj(InteractibleObjectsManager.Instance.interactibleList[3].interactible.transform);
         }
+         
+        
     }
 
     IEnumerator EndGame()
@@ -357,7 +367,6 @@ public class RoomManager : MonoBehaviour
 
                 if (NetworkManager.Instance.GetLocalPlayer().ID == player.ID)
                 {
-                    NetworkManager.Instance.GetLocalPlayer().IsHost = true;
                     NetworkManager.Instance.GetLocalPlayer().IsHost = true;
                 }
             }
