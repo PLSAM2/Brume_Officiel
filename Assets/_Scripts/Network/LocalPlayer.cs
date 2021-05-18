@@ -628,8 +628,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
 			if (isOwner)
 			{
-				fow.fowDeath.SetActive(true);
-			}
+				fow.fowDeath.gameObject.SetActive(true);
+                fow.fowDeath.GenerateFowStatic();
+            }
 		}
 	}
 
@@ -643,8 +644,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
 				if (isOwner)
 				{
-					fow.fowDeath.SetActive(true);
-				}
+                    fow.fowDeath.gameObject.SetActive(true);
+                    fow.fowDeath.GenerateFowStatic();
+                }
 			}
 
 			UiManager.Instance.feedbackDeath.SetActive(true);

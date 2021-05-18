@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class FowDeath : MonoBehaviour
 {
-    public GameObject fowDeath;
+    public FieldOfView fowDeath;
 }
