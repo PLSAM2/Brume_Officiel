@@ -497,8 +497,11 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
+
 		if (_isForcedInterrupt && isUsed)
+		{
 			KillSpell();
+		}
 		else
 		{
 			if (showingPreview)
@@ -511,8 +514,7 @@ public class SpellModule : MonoBehaviour
 	public virtual void KillSpell ()
 	{
 		willResolve = false;
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Interrupt);
 		Interrupt();
 	}
 	void TryToKillSpell ( Sc_Spell _spell )
