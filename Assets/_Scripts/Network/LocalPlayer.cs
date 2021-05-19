@@ -833,13 +833,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
         {
             addLife_red_fx.SetActive(true);
         }
-
-		StartCoroutine("WaitForHpWin");
-	}
-
-	IEnumerator WaitForHpWin()
-	{
-		yield return new WaitForSeconds(1.5f);
 		myPlayerModule.bonusHp += 1;
 		liveHealth += 1;
 		myUiPlayerManager.AddLifePoint(1);
