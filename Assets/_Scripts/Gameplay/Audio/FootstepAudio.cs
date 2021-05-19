@@ -4,123 +4,130 @@ using UnityEngine;
 
 public class FootstepAudio : MonoBehaviour
 {
-    [SerializeField] PlayerModule myPlayerModule;
-    Vector3 oldPos;
+	[SerializeField] PlayerModule myPlayerModule;
+	Vector3 oldPos;
 
-    [HideInInspector]
-    public bool isDecoy = false;
+	[HideInInspector]
+	public bool isDecoy = false;
 
-    [HideInInspector]
-    public Decoy myDecoy;
+	[HideInInspector]
+	public Decoy myDecoy;
 
-    [SerializeField] AudioClip[] allFootsteps;
+	[SerializeField] AudioClip[] allFootsteps;
 
-    [SerializeField] AudioSource myAudioSource;
+	[SerializeField] AudioSource myAudioSource;
 
-    [SerializeField] float delayAfterSound = 0.2f;
+	[SerializeField] float delayAfterSound = 0.2f;
 
-    bool doSound = true;
+	bool doSound = true;
 
 
-    //icon footstep
-    public bool doFootStepIcon = false;
-    bool isLeftFoot = false;
+	//icon footstep
+	public bool doFootStepIcon = false;
+	bool isLeftFoot = false;
 
-    public Transform posFootLeft, posFootRight;
+	public Transform posFootLeft, posFootRight;
 
-    private void Start()
-    {
-        ChangeVolume(AudioManager.Instance.currentPlayerVolume);
+	private void Start ()
+	{
+		ChangeVolume(AudioManager.Instance.currentPlayerVolume);
 
-        if(myPlayerModule != null && myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
-        {
-            doFootStepIcon = true;
-        }
-    }
+		if (myPlayerModule != null && myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+		{
+			doFootStepIcon = true;
+		}
+	}
 
-    private void OnEnable()
-    {
-        AudioManager.Instance.OnVolumeChange += ChangeVolume;
-    }
+	private void OnEnable ()
+	{
+		AudioManager.Instance.OnVolumeChange += ChangeVolume;
+	}
 
-    private void OnDisable()
-    {
-        AudioManager.Instance.OnVolumeChange -= ChangeVolume;
-    }
+	private void OnDisable ()
+	{
+		AudioManager.Instance.OnVolumeChange -= ChangeVolume;
+	}
 
-    private void ChangeVolume(float _volume)
-    {
-        if(myPlayerModule != null && myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            myAudioSource.volume = _volume / 4;
-        }
-        else
-        {
-            myAudioSource.volume = _volume;
-        }
-    }
+	private void ChangeVolume ( float _volume )
+	{
+		if (myPlayerModule != null && myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		{
+			myAudioSource.volume = _volume / 4;
+		}
+		else
+		{
+			myAudioSource.volume = _volume;
+		}
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
-        oldPos = transform.position;
+	// Update is called once per frame
+	void Update ()
+	{
+		float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+		float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+		oldPos = transform.position;
 
-        if (isDecoy && myDecoy.isInBrume)
-        {
-            return;
-        }
+		if (isDecoy && myDecoy.isInBrume)
+		{
+			return;
+		}
 
-        if (myPlayerModule != null && (myPlayerModule.state.HasFlag(En_CharacterState.Crouched) 
-            || myPlayerModule.state.HasFlag(En_CharacterState.Hidden) 
-            || myPlayerModule.isInBrume))
-        {
-            return;
-        }
-        else
-        {
-            if ((velocityX != 0 || velocityZ != 0) && doSound)
-            {
-                doSound = false;
-                StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
+		if (myPlayerModule != null && (myPlayerModule.state.HasFlag(En_CharacterState.Crouched)
+			|| myPlayerModule.state.HasFlag(En_CharacterState.Hidden)
+			|| myPlayerModule.isInBrume))
+		{
+			return;
+		}
+		else
+		{
+			if ((velocityX != 0 || velocityZ != 0) && doSound)
+			{
+				doSound = false;
+				StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
 
-                if (doFootStepIcon)
-                {
-                    if (isLeftFoot)
-                    {
-                        LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootLeft.position, Random.Range(0, 90), 1, 0.7f);
-                    }
-                    else
-                    {
-                        LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootRight.position, Random.Range(0, 90), 1, 0.7f);
-                    }
+				if (isDecoy && myDecoy.isInBrume)
+				{
+					return;
+				}
+				else if (doFootStepIcon)
+				{
+					if (isLeftFoot)
+					{
+						LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootLeft.position, Random.Range(0, 90), 1, 0.7f);
+					}
+					else
+					{
+						LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootRight.position, Random.Range(0, 90), 1, 0.7f);
+					}
 
-                    isLeftFoot = !isLeftFoot;
-                }
-            }
-        }
-    }
+					isLeftFoot = !isLeftFoot;
 
-    IEnumerator WaitEndSound(AudioClip _clip)
-    {
-        if (GameFactory.DoSound(transform.position)) {
+				}
+			}
+		}
 
-            if (!isDecoy)
-            {
-                AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
-            }
-            else
-            {
-                AudioManager.Instance.OnAudioPlayed(this.transform.position, myDecoy.netObj.GetOwnerID(), true, myAudioSource.maxDistance);
-            }
-            myAudioSource.PlayOneShot(_clip);
-        }
+		IEnumerator WaitEndSound ( AudioClip _clip )
+		{
+			if (GameFactory.DoSound(transform.position))
+			{
 
-        yield return new WaitForSeconds(_clip.length);
+				if (!isDecoy)
+				{
+					AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
+				}
+				else
+				{
+					AudioManager.Instance.OnAudioPlayed(this.transform.position, myDecoy.netObj.GetOwnerID(), true, myAudioSource.maxDistance);
+				} 
+				myAudioSource.PlayOneShot(_clip);
+			}
 
-        yield return new WaitForSeconds(delayAfterSound);
+			yield return new WaitForSeconds(_clip.length);
 
-        doSound = true;
-    }
+			yield return new WaitForSeconds(delayAfterSound);
+
+			doSound = true;
+		}
+	}
+
 }

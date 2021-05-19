@@ -61,6 +61,10 @@ public class UltPickup : Interactible
 		base.Unlock();
 		ActualiseMesh();
 	}
+	protected override void UpdateMapIcon ()
+	{
+		return;
+	}
 
 	void ActualiseMesh ()
 	{

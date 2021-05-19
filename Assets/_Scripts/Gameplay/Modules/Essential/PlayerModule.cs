@@ -230,9 +230,11 @@ public class PlayerModule : MonoBehaviour
 		else
 			otherTeam = Team.blue;
 
+		lastRecordedPos = transform.position;
+		StartCoroutine(WaitForVisionCheck());
+
 		if (mylocalPlayer.isOwner)
 		{
-
 			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
 			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, "RC");
 			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
@@ -264,7 +266,6 @@ public class PlayerModule : MonoBehaviour
 					skin.material.SetFloat("_OutlinePower", 10);
 				}
 			}
-			StartCoroutine(WaitForVisionCheck());
 		}
 
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
@@ -343,9 +344,14 @@ public class PlayerModule : MonoBehaviour
     public IEnumerator WaitForVisionCheck()
     {
         CheckForBrumeRevelation();
-        yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-        StartCoroutine(WaitForVisionCheck());
+        yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
+		StartCoroutine(WaitForVisionCheck());
     }
+
     void CheckForBrumeRevelation()
     {
 
@@ -363,7 +369,6 @@ public class PlayerModule : MonoBehaviour
                 LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
 
         }
-
         lastRecordedPos = transform.position;
     }
 
@@ -603,12 +608,8 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
-		//marké par la shili donc go ping
-		if (cursedByShili)
-			return true;
-
 		//le perso a pas bougé
-		if (lastRecordedPos == transform.position || isInBrume)
+		if ( Vector3.Distance(transform.position, lastRecordedPos) <= .2f || isInBrume)
 			return false;
 
 		//on choppe le player local
@@ -619,8 +620,8 @@ public class PlayerModule : MonoBehaviour
 			return false;
 
 		//DISTANCE > a la range
-		if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
-			return false;
+		/*if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
+			return false;*/
 
 		return true;
 	}
