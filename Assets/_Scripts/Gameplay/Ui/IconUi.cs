@@ -65,7 +65,6 @@ public class IconUi : MonoBehaviour
 		{
 			lastCD = Mathf.Round(_completeCd * 10 - _cooldownRemaining * 10);
 			lastCD /= 10;
-			print(lastCD);
 		}
 
 
@@ -92,8 +91,6 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
-		//Color _color = new Vector4(0, 0, 0, 255);
-		//feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
 		myRectTransform.localScale = new Vector3(.7f, .7f, .7f);
 		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
