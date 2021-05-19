@@ -824,8 +824,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void AddHitPoint ( int _int )
 	{
-	
-        if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+		myPlayerModule.bonusHp += 1;
+		liveHealth += 1;
+		myUiPlayerManager.AddLifePoint(1);
+
+        if (myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
             addLife_blue_fx.SetActive(true);
             UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
@@ -834,11 +837,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
         {
             addLife_red_fx.SetActive(true);
         }
-
-		myPlayerModule.bonusHp += 1;
-		liveHealth += 1;
-		myUiPlayerManager.AddLifePoint(1);
-	}
+    }
 }
 
 public interface Damageable

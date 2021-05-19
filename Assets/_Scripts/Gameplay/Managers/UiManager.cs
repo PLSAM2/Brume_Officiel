@@ -215,8 +215,6 @@ public class UiManager : MonoBehaviour
 
     public void ActualiseLife(Character _champ)
     {
-        print("actualise");
-
         int bonusLife = 0;
 
         ushort? id = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, _champ);
@@ -228,10 +226,6 @@ public class UiManager : MonoBehaviour
                 bonusLife = GameManager.Instance.networkPlayers[(ushort)id].myPlayerModule.bonusHp;
             }
         }
-
-        print(bonusLife);
-        print(GameFactory.GetMaxLifeOfPlayer(_champ));
-        print(GameFactory.GetMaxLifeOfPlayer(_champ) + bonusLife);
 
         switch (_champ)
         {
@@ -368,7 +362,6 @@ public class UiManager : MonoBehaviour
 
         for (int i = 1; i <= numberLifeMax; i++)
         {
-            print("passage");
             Image img = Instantiate(prefabLifeBar, _parent).GetComponent<Image>();
 
             if (i <= numberLife)
