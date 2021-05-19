@@ -657,6 +657,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
+			UiManager.Instance.SetAltarCaptureUIState(false);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
 
 			GameManager.Instance.ResetCam();

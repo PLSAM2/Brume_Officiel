@@ -24,6 +24,13 @@ public class SoulSpellElement : MonoBehaviour
     public TextMeshProUGUI description;
     public Image img;
 
+    public Button myButton;
+
+    public void DisableInteractible()
+    {
+        myButton.interactable = false;
+    }
+
     private void Start()
     {
         nameSpell.text = mySpell.spellName;
