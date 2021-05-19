@@ -828,13 +828,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
         if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
             addLife_blue_fx.SetActive(true);
+            UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
         }
         else
         {
             addLife_red_fx.SetActive(true);
         }
 
-		StartCoroutine("WaitForHpWin");
+		StartCoroutine(WaitForHpWin());
 	}
 
 	IEnumerator WaitForHpWin()

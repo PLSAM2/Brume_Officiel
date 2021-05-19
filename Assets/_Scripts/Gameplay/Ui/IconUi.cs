@@ -50,7 +50,6 @@ public class IconUi : MonoBehaviour
 		{
 			lastCD = Mathf.Round(_completeCd * 10 - _cooldownRemaining * 10);
 			lastCD /= 10;
-			print(lastCD);
 		}
 
 
