@@ -601,8 +601,6 @@ public class Interactible : MonoBehaviour
     internal void ForceQuit()
     {
 
-        UpdateUI();
-
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(interactibleID);

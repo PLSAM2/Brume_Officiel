@@ -76,7 +76,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public AudioClip deathPerso, deathGlobal;
 
-    public GameObject addLife_blue_fx, addLife_red_fx;
+    public ParticleSystem addLife_blue_fx, addLife_red_fx;
 
     private void Awake ()
 	{
@@ -657,6 +657,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
+			UiManager.Instance.SetAltarCaptureUIState(false);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
 
 			GameManager.Instance.ResetCam();
@@ -830,12 +831,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
         if (myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
-            addLife_blue_fx.SetActive(true);
-            UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+			addLife_blue_fx.Stop();
+			addLife_blue_fx.Play();
+			UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
         }
         else
         {
-            addLife_red_fx.SetActive(true);
+			addLife_red_fx.Stop();
+			addLife_red_fx.Play();
         }
     }
 }
