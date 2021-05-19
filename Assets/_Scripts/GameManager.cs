@@ -106,7 +106,7 @@ public class GameManager : SerializedMonoBehaviour
     public string property = "_Out_or_InBrume";
 
     public AudioClip bgMusic;
-
+    private bool reviveFeedbackSet = false;
     //debug
     public CanvasGroup UIGroup;
 
@@ -295,6 +295,15 @@ public class GameManager : SerializedMonoBehaviour
             UiManager.Instance.reviveFill.fillAmount = reviveTimer / baseReviveTime;
             UiManager.Instance.reviveText.text = "Reviving in <color=blue>" + Math.Round(reviveTimer) + "</color>";
 
+            if (reviveTimer <= 3 && !reviveFeedbackSet)
+            {
+                reviveFeedbackSet = true;
+
+                Transform t = GetSpawnsOfTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)[0].transform;
+
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(7, t.position, 0 , 1, 3);
+                CameraManager.Instance.SetFollowObj(t);
+            }            
             if (reviveTimer <= 0)
             {
                 Revive(false);
@@ -323,6 +332,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public void Revive(bool state = false)
     {
+        reviveFeedbackSet = false;
         UiManager.Instance.Revive(state);  
         reviveTimer = baseReviveTime;
         isReviving = state;

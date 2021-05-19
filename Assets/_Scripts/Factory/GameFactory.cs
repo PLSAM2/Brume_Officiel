@@ -64,7 +64,22 @@ public class GameFactory
 		}
 	}
 
-	public static string GetColorTeamInHex ( Team myTeam )
+    public static ushort GetLifePlayer(Character _champ)
+    {
+        ushort? id = GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam ,_champ);
+
+        if(id != null)
+        {
+            if(GameManager.Instance.networkPlayers.ContainsKey((ushort)id))
+            {
+                return GameManager.Instance.networkPlayers[(ushort)id].liveHealth;
+            }
+        }
+
+        return 0;
+    }
+
+    public static string GetColorTeamInHex ( Team myTeam )
 	{
 		switch (myTeam)
 		{

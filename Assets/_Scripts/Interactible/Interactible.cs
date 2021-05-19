@@ -320,7 +320,7 @@ public class Interactible : MonoBehaviour
 
     public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
-        UpdateUI();
+
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
@@ -351,6 +351,8 @@ public class Interactible : MonoBehaviour
             else
                 mapIcon.sprite = iconBlue;
         }
+
+        UpdateUI();
     }
 
     public virtual void SetActiveState(bool value)
@@ -360,8 +362,6 @@ public class Interactible : MonoBehaviour
 
     public virtual void Unlock()
     {
-        UpdateUI();
-
         if (isViewed)
         {
             SetColor(canBeCapturedColor);
@@ -372,6 +372,8 @@ public class Interactible : MonoBehaviour
         state = State.Capturable;
 
         CheckOnUnlock = true;
+
+        UpdateUI();
     }
 
     protected virtual void SetColorByState()
@@ -519,13 +521,12 @@ public class Interactible : MonoBehaviour
                 {
                     return;
                 }
-
                 if (!playerInZone.Contains(_pModule))
                 {
                     playerInZone.Add(_pModule);
-                    UpdateUI();
                 }
 
+                UpdateUI();
                 if (!_pModule.mylocalPlayer.isOwner)
                 {
                     return;
@@ -580,7 +581,6 @@ public class Interactible : MonoBehaviour
 
     public virtual void UpdateUI()
     {
-
     }
 
 
