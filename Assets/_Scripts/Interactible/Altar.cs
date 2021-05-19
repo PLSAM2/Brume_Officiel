@@ -186,6 +186,7 @@ public class Altar : Interactible
     {
         base.UpdateUI();
 
+
         if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
         {
             return; 
@@ -193,6 +194,7 @@ public class Altar : Interactible
 
         if (state != State.Capturable)
         {
+            UiManager.Instance.SetAltarCaptureUIState(false);
             return;
         }
 

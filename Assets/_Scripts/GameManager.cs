@@ -298,7 +298,11 @@ public class GameManager : SerializedMonoBehaviour
             if (reviveTimer <= 3 && !reviveFeedbackSet)
             {
                 reviveFeedbackSet = true;
-                CameraManager.Instance.SetFollowObj(GetSpawnsOfTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)[0].transform);
+
+                Transform t = GetSpawnsOfTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)[0].transform;
+
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(7, t.position, 0 , 1, 3);
+                CameraManager.Instance.SetFollowObj(t);
             }            
             if (reviveTimer <= 0)
             {
