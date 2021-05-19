@@ -220,6 +220,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
 			willResolve = true;
 			showingPreview = true;
 			UpdatePreview();
@@ -232,6 +233,10 @@ public class SpellModule : MonoBehaviour
 	{
 		showingPreview = false;
 		hasPreviewed = false;
+		if(canBeCast())
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+		else
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 	}
 	protected virtual void UpdatePreview ()
 	{
@@ -588,11 +593,13 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		charges++;
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 		UiManager.Instance.CooldownReady(actionLinked);
 	}
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
 		{
