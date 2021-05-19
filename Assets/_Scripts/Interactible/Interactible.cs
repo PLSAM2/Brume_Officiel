@@ -320,6 +320,7 @@ public class Interactible : MonoBehaviour
 
     public virtual void UpdateCaptured(ushort _capturingPlayerID)
     {
+        UpdateUI();
         capturingPlayerModule = GameManager.Instance.networkPlayers[_capturingPlayerID].myPlayerModule;
         lastTeamCaptured = (capturingPlayerModule.teamIndex);
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
@@ -359,6 +360,7 @@ public class Interactible : MonoBehaviour
 
     public virtual void Unlock()
     {
+        UpdateUI();
 
         if (isViewed)
         {
@@ -598,6 +600,9 @@ public class Interactible : MonoBehaviour
 
     internal void ForceQuit()
     {
+
+        UpdateUI();
+
         using (DarkRiftWriter _writer = DarkRiftWriter.Create())
         {
             _writer.Write(interactibleID);
