@@ -19,6 +19,7 @@ public class EndZoneUIGroup : MonoBehaviour
 
         Color _temp = GameFactory.GetRelativeColor(team);
 
+        UiManager.Instance.objectivesAnim.SetTrigger("EndZone");
         EndZoneText.color = _temp;
         endZoneBar.color = _temp;
         endZoneBarBackground.color = new Color(_temp.r, _temp.g, _temp.b, 0.2f);
