@@ -437,18 +437,22 @@ public class InGameNetworkReceiver : MonoBehaviour
                 SupprPlayer(id);
                 PlayerData p = NetworkManager.Instance.GetLocalPlayer();
 
+                PlayerData killed = RoomManager.Instance.GetPlayerData(id);
+
+
                 if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
                 {
-                    StartCoroutine(SlowMoKill());
-
                     if (id == p.ID)
                     {
                         GameManager.Instance.Revive(true);
                     }
 
                 }
+                if (killed.playerCharacter == Character.Re || killed.playerCharacter == Character.Leng)
+                {
+                    StartCoroutine(SlowMoKill());
 
-
+                }
 
                 GameManager.Instance.OnPlayerDie?.Invoke(id, killerId);
 

@@ -33,6 +33,8 @@ public class Decoy : MonoBehaviour, Damageable
 
 	public float timeAlive = 5;
 
+    public List<GameObject> fires = new List<GameObject>();
+
 	private void Awake ()
 	{
 		uiRotation = myUI.transform.rotation;
@@ -77,6 +79,17 @@ public class Decoy : MonoBehaviour, Damageable
 			alliedMesh.gameObject.SetActive(true);
 
             myFootStep.doFootStepIcon = true;
+
+            if (GameManager.Instance.networkPlayers.ContainsKey(netObj.GetOwnerID()))
+            {
+                if (GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule.state.HasFlag(En_CharacterState.PoweredUp))
+                {
+                    foreach(GameObject fire in fires)
+                    {
+                        fire.SetActive(true);
+                    }
+                }
+            }
 		}
 	}
 
