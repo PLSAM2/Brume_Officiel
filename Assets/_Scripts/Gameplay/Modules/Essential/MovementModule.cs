@@ -176,16 +176,12 @@ public class MovementModule : MonoBehaviour
 			return;
 	}
 
-    Vector3 mousePosLerp;
 	void LookAtMouse ()
 	{
 		if (!rotLocked)
 		{
 			Vector3 _currentMousePos = myPlayerModule.mousePos();
-            mousePosLerp = Vector3.Lerp(mousePosLerp, _currentMousePos, Time.deltaTime * 2);
-
-
-            transform.LookAt(new Vector3(mousePosLerp.x, transform.position.y, mousePosLerp.z));
+            transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
         }
 	}
 
