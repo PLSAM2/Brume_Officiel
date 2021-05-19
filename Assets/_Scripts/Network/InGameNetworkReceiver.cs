@@ -441,6 +441,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 				{
 					if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
 					{
+						StartCoroutine(SlowMoKill());
 						GameManager.Instance.Revive(true);
 					}
 				}
@@ -451,6 +452,15 @@ public class InGameNetworkReceiver : MonoBehaviour
 		}
 	}
 
+
+	IEnumerator SlowMoKill()
+	{
+		Time.timeScale = Time.timeScale / 4;
+
+		yield return new WaitForSeconds(0.33f);
+
+		Time.timeScale = 1;
+	}
 
 	private void TakeDamagesInServer(object sender, MessageReceivedEventArgs e)
 	{
