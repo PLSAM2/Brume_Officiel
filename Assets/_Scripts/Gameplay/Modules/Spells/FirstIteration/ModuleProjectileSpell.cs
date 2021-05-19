@@ -112,16 +112,12 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected override void UpdatePreview ()
 	{
-		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
-
 		RaycastHit _hit;
-		Vector3 _baseDirection = Quaternion.AngleAxis(_baseAngle, Vector3.up) * myPlayerModule.directionOfTheMouse();
-
 
 		if (!passWalls)
 		{
 			if (Physics.SphereCast(transform.position,
-			localTrad.prefab.collisionSize.x,
+			.5f,
 			transform.forward,
 			out _hit,
 			localTrad.fakeRange,
