@@ -7,9 +7,7 @@ using Sirenix.OdinInspector;
 public class Ward : MonoBehaviour
 {
 	[TabGroup("Tweakable")]
-	[SerializeField] private float lifeTime = 30;
-	[TabGroup("Tweakable")] [SerializeField] private float lifeTimeInBrume = 7;
-	[TabGroup("Tweakable")] public float wardLifeDurationOnSpot;
+	[SerializeField] private float lifeTime = 32;
 	public Sc_Status statusToApply;
 
 	public Fow vision;
@@ -52,6 +50,11 @@ public class Ward : MonoBehaviour
 			}
 
 		}
+	}
+
+	private void OnEnable ()
+	{
+		GetMesh().SetActive(false);
 	}
 
 	public void Landed ( Team _team )
@@ -125,19 +128,10 @@ public class Ward : MonoBehaviour
 
 	public void PingWard ()
 	{
-		StartCoroutine(PingPlayer());
-	}
-
-	IEnumerator PingPlayer ()
-	{
 		myWaypoint.gameObject.SetActive(true);
-		lifeTime = wardLifeDurationOnSpot;
-		yield return new WaitForSeconds(wardLifeDurationOnSpot);
-		myWaypoint.gameObject.SetActive(false);
 
-        DestroyWard();
 	}
-
+	
 	public Fow GetFow ()
 	{
 		return vision;
@@ -148,26 +142,12 @@ public class Ward : MonoBehaviour
 		return mesh;
 	}
 
-	bool IsInBrume ()
-	{
-		if (Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, 100, brumeLayer))
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	private void OnEnable ()
-	{
-		GetMesh().SetActive(false);
-	}
 
 	public void DestroyWard ()
 	{
 		landed = false;
 		vision.gameObject.SetActive(false);
-		this.gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 
 	private void OnDisable ()
