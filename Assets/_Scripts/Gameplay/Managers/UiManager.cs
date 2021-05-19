@@ -27,6 +27,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 	[FoldoutGroup("GlobalUi")] public EndGameStats endGameStats;
+	[FoldoutGroup("GlobalUi")] public Animator objectivesAnim;
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
 	[FoldoutGroup("Minimap")] public GameObject minimapObj;
@@ -54,11 +55,11 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
 
 	[Header("Altars")]
-	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureSpeedUI;
-	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureContestUI;
-	[FoldoutGroup("Altars")] [SerializeField] private List<GameObject> captureSpeedArrows = new List<GameObject>();
+	[FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
+	[FoldoutGroup("Altars")] [SerializeField] private Animator altarContestUI;
+    [FoldoutGroup("Altars")] [SerializeField] private GameObject altarUIPanel;
 
-	[Header("Other Gameplay")]
+    [Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
 	[FoldoutGroup("Other Gameplay")] public RectTransform radarRange;
 	[FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
@@ -535,32 +536,31 @@ public class UiManager : MonoBehaviour
     {
         if (!state)
         {
-			captureSpeedUI.SetActive(false);
-			captureContestUI.SetActive(false);
+            altarUIPanel.SetActive(false);
 			return;
-		}
+        }
+        else
+        {
+            altarUIPanel.SetActive(true);
+        }
 
-        if (contest )
+        if (contest)
 		{
-			captureSpeedUI.SetActive(false);
-			captureContestUI.SetActive(true);
+            teamImgAltar[0].SetBool("IsIn", true);
+
+            teamImgAltar[1].SetBool("IsIn", false); teamImgAltar[1].gameObject.SetActive(false);
+            teamImgAltar[2].SetBool("IsIn", false); teamImgAltar[2].gameObject.SetActive(false);
+
+            altarContestUI.gameObject.SetActive(true); altarContestUI.SetBool("IsIn", true);
 
         } else
         {
-            for (int i = 0; i < 3; i++)
-            {
-                if (i < playercount)
-                {
-					captureSpeedArrows[i].SetActive(true);
-				} else
-                {
-					captureSpeedArrows[i].SetActive(false);
-				}
+            altarContestUI.gameObject.SetActive(false);
 
-            }
-			captureSpeedUI.SetActive(true);
-			captureContestUI.SetActive(false);
-		}
+            teamImgAltar[0].SetBool("IsIn", playercount >= 1);
+            teamImgAltar[1].gameObject.SetActive(true); teamImgAltar[1].SetBool("IsIn", playercount >= 2);
+            teamImgAltar[2].gameObject.SetActive(true); teamImgAltar[2].SetBool("IsIn", playercount >= 3);
+        }
     }
 	public void SetEchapMenuState ()
 	{

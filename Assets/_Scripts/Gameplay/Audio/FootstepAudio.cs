@@ -32,7 +32,7 @@ public class FootstepAudio : MonoBehaviour
     {
         ChangeVolume(AudioManager.Instance.currentPlayerVolume);
 
-        if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+        if(myPlayerModule != null && myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
             doFootStepIcon = true;
         }
@@ -67,7 +67,14 @@ public class FootstepAudio : MonoBehaviour
         float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
         oldPos = transform.position;
 
-        if (myPlayerModule != null && (myPlayerModule.state.HasFlag(En_CharacterState.Crouched) || myPlayerModule.state.HasFlag(En_CharacterState.Hidden)))
+        if (isDecoy && myDecoy.isInBrume)
+        {
+            return;
+        }
+
+        if (myPlayerModule != null && (myPlayerModule.state.HasFlag(En_CharacterState.Crouched) 
+            || myPlayerModule.state.HasFlag(En_CharacterState.Hidden) 
+            || myPlayerModule.isInBrume))
         {
             return;
         }

@@ -23,7 +23,7 @@ public class Decoy : MonoBehaviour, Damageable
 
 	Quaternion uiRotation;
 
-	bool isInBrume = false;
+	public bool isInBrume = false;
 
 	public LayerMask maskBrume;
 
@@ -95,8 +95,6 @@ public class Decoy : MonoBehaviour, Damageable
 		//test in brume
 		RaycastHit hit;
 		isInBrume = (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, maskBrume));
-
-
 	}
 
 	private void LateUpdate ()

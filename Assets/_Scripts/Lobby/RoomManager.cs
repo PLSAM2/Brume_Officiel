@@ -174,7 +174,7 @@ public class RoomManager : MonoBehaviour
     private void EndObjectives(bool isRoundWin = false, bool wuxinKilled = false)
     {
         ushort? _wxID = null;
-
+        CameraManager.Instance.endGame = true;
         if (wuxinKilled)
         {
             if (isRoundWin)
@@ -193,16 +193,17 @@ public class RoomManager : MonoBehaviour
 
                     LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
                     CameraManager.Instance.SetFollowObj(_wx.transform);
+                    LocalPoolManager.Instance.SpawnNewGenericInLocal(7, _wx.transform.position, 0, 1);
                     _wx.myPlayerModule.willListenInputs = false;
                     _wx.ForceDealDamages(_wx.liveHealth);
                 }
             }
           
-        } else
-        {
+        } else { 
+
             CameraManager.Instance.SetFollowObj(InteractibleObjectsManager.Instance.interactibleList[3].interactible.transform);
-        }
-         
+            LocalPoolManager.Instance.SpawnNewGenericInLocal(7, InteractibleObjectsManager.Instance.interactibleList[3].interactible.transform.position, 0, 1);
+        }     
         
     }
 

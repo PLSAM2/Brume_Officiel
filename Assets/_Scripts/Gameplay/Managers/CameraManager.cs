@@ -27,7 +27,7 @@ public class CameraManager : MonoBehaviour
 	float screenEdgeBorderHeight, screenEdgeBorderWidth;
 	Camera cam;
 	public bool isSpectate = false;
-
+	public bool endGame = false;
 	private float cameraShakeTimer = 0;
 	private bool cameraShakeStarted = false;
 
@@ -213,6 +213,14 @@ public class CameraManager : MonoBehaviour
 
 	private void LateUpdate ()
 	{
+
+        if (endGame)
+        {
+			myCinemachine.m_Lens.FieldOfView = Mathf.Lerp(myCinemachine.m_Lens.FieldOfView, 50, Time.deltaTime * 5);
+			return;
+        }
+
+
         LocalPlayer currentPlayer = GameFactory.GetActualPlayerFollow();
 
         if (currentPlayer)
