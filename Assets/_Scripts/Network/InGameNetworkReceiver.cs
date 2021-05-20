@@ -78,11 +78,11 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
             else if (message.Tag == Tags.LaunchWard)
             {
-                LaunchWardInServer(sender, e);
+                //LaunchWardInServer(sender, e);
             }
             else if (message.Tag == Tags.StartWardLifeTime)
             {
-                StartWardLifeTimeInServer(sender, e);
+                //StartWardLifeTimeInServer(sender, e);
             }
             else if (message.Tag == Tags.CurveSpellLaunch)
             {
@@ -323,38 +323,6 @@ public class InGameNetworkReceiver : MonoBehaviour
             }
         }
     }
-
-    private void LaunchWardInServer(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort _id = reader.ReadUInt16();
-
-                float xDestination = reader.ReadSingle();
-                float yDestination = reader.ReadSingle();
-                float zDestination = reader.ReadSingle();
-                Vector3 destination = new Vector3(xDestination, yDestination, zDestination);
-
-                GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().InitWardLaunch(destination);
-            }
-        }
-    }
-
-    private void StartWardLifeTimeInServer(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                ushort _id = reader.ReadUInt16();
-
-                GameManager.Instance.networkPlayers[_id].GetComponent<WardModule>().WardLanded();
-            }
-        }
-    }
-
 
     private void CurveSpellLaunchInServer(object sender, MessageReceivedEventArgs e)
     {

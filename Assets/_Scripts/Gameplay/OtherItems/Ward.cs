@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameData;
 using Sirenix.OdinInspector;
+using DarkRift;
+
 public class Ward : MonoBehaviour
 {
+
+	public NetworkedObject networkedObject;
+
 	[TabGroup("Tweakable")]
 	[SerializeField] private float lifeTime = 32;
 	public Sc_Status statusToApply;
@@ -17,8 +22,6 @@ public class Ward : MonoBehaviour
 
 	public bool isInBrume = false;
 	public int brumeId;
-	private bool landed = false;
-	private float timer = 0;
 
 	[SerializeField] GameObject mesh;
 	[SerializeField] Transform rangePreview;
@@ -26,9 +29,6 @@ public class Ward : MonoBehaviour
 	Waypoint myWaypoint;
 	[SerializeField] GameObject prefabWaypoint;
 
-	//Fx
-	[SerializeField] Fx fxScript;
-	[SerializeField] Collider fxCollider;
 
 	private void Awake ()
 	{
@@ -38,23 +38,10 @@ public class Ward : MonoBehaviour
 		myWaypoint.gameObject.SetActive(false);
 	}
 
-	private void FixedUpdate ()
-	{
-		if (landed)
-		{
-			timer -= Time.fixedDeltaTime;
-
-			if (timer <= 0)
-			{
-				DestroyWard();
-			}
-
-		}
-	}
-
-	private void OnEnable ()
+    private void OnEnable ()
 	{
 		GetMesh().SetActive(false);
+		Landed(networkedObject.GetOwner().playerTeam);
 	}
 
 	public void Landed ( Team _team )
@@ -63,20 +50,12 @@ public class Ward : MonoBehaviour
 
 		if (_team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			this.DestroyWard();
+			this.gameObject.SetActive(false);
 		}
 		else
 		{
             vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
 
-            GameManager.Instance.allFx.Remove(fxScript);
-
-			//fx
-			fxCollider.enabled = false;
-			foreach (GameObject obj in fxScript.objToHide)
-			{
-				obj.SetActive(true);
-			}
 
 
 			vision.gameObject.SetActive(true);
@@ -86,10 +65,6 @@ public class Ward : MonoBehaviour
 
 			hasTriggered = false;
 
-			//if (isInBrume)
-			//	timer = lifeTimeInBrume;
-			//else
-				timer = lifeTime;
 
 			GameManager.Instance.allWard.Add(this);
 			GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
@@ -111,20 +86,11 @@ public class Ward : MonoBehaviour
 			GetMesh().SetActive(isView);
 			//vision.gameObject.SetActive(isView);
 
-
-			landed = true;
-
 			rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
 
 			//myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
 		}
 	}
-
-	internal void InitWardLaunch ()
-	{
-        vision.gameObject.SetActive(false);
-	}
-
 
 	public void PingWard ()
 	{
@@ -142,14 +108,6 @@ public class Ward : MonoBehaviour
 		return mesh;
 	}
 
-
-	public void DestroyWard ()
-	{
-		landed = false;
-		vision.gameObject.SetActive(false);
-		gameObject.SetActive(false);
-	}
-
 	private void OnDisable ()
 	{
 		if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -162,12 +120,6 @@ public class Ward : MonoBehaviour
 			myWaypoint.gameObject.SetActive(false);
 		}
 
-		//fx
-		fxCollider.enabled = true;
-		foreach (GameObject obj in fxScript.objToHide)
-		{
-			obj.SetActive(true);
-		}
 	}
 
 	void OnPlayerSpotted ( LocalPlayer _playerSpot, bool _value )
