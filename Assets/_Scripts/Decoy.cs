@@ -131,9 +131,14 @@ public class Decoy : MonoBehaviour, Damageable
 	public IEnumerator WaitForVisionCheck ()
 	{
 		CheckForBrumeRevelation();
-		yield return new WaitForSeconds(reParameter.delayBetweenDetection);
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.8f);
 		StartCoroutine(WaitForVisionCheck());
 	}
+
 	void CheckForBrumeRevelation ()
 	{
 
