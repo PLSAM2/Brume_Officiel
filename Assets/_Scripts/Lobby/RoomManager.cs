@@ -173,6 +173,12 @@ public class RoomManager : MonoBehaviour
 
     private void EndObjectives(bool isRoundWin = false, bool wuxinKilled = false)
     {
+
+        foreach (KeyInteractiblePair kip in InteractibleObjectsManager.Instance.interactibleList)
+        {
+            kip.interactible.StopCapturing();
+        }
+
         ushort? _wxID = null;
         CameraManager.Instance.endGame = true;
         if (wuxinKilled)
