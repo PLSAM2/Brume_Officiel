@@ -48,7 +48,6 @@ public class UIDecoy : MonoBehaviour
             }
             else
             {
-                img.CrackLife();
                 img.SetColorLife(grayMat, false);
             }
 

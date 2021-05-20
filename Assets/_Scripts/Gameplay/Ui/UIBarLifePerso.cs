@@ -8,7 +8,7 @@ public class UIBarLifePerso : MonoBehaviour
 {
     public Image imgLife;
 
-    bool isFull = true;
+    public bool isFull = true;
 
     public void Init(Material matColor)
     {
@@ -30,16 +30,10 @@ public class UIBarLifePerso : MonoBehaviour
         if (isFull)
         {
             imgLife.DOFillAmount(1, 0.4f);
-            print("fill");
         }
-    }
-
-    public void CrackLife()
-    {
-        if (!isFull) { return; }
-
-        isFull = false;
-
-        imgLife.DOFillAmount(0, 0.3f);
+        else
+        {
+            imgLife.DOFillAmount(0, 0.4f);
+        }
     }
 }
