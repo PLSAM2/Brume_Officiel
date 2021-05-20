@@ -27,6 +27,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 	[FoldoutGroup("GlobalUi")] public EndGameStats endGameStats;
+	[FoldoutGroup("GlobalUi")] public Animator objectivesAnim;
 
 	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
 	[FoldoutGroup("Minimap")] public GameObject minimapObj;
@@ -54,11 +55,11 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
 
 	[Header("Altars")]
-	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureSpeedUI;
-	[FoldoutGroup("Altars")] [SerializeField] private GameObject captureContestUI;
-	[FoldoutGroup("Altars")] [SerializeField] private List<GameObject> captureSpeedArrows = new List<GameObject>();
+	[FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
+	[FoldoutGroup("Altars")] [SerializeField] private Animator altarContestUI;
+    [FoldoutGroup("Altars")] [SerializeField] private GameObject altarUIPanel;
 
-	[Header("Other Gameplay")]
+    [Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
 	[FoldoutGroup("Other Gameplay")] public RectTransform radarRange;
 	[FoldoutGroup("Other Gameplay")] public RectTransform nextAltarRadarIcon;
@@ -142,7 +143,7 @@ public class UiManager : MonoBehaviour
 
 	void SpawnLifeBar ( Transform parent, List<Image> listImg, Character champ )
 	{
-		for (int i = 0; i < GameFactory.GetMaxLifeOfPlayer(champ); i++)
+        for (int i = 0; i < GameFactory.GetMaxLifeOfPlayer(champ); i++)
 		{
 			Image img = Instantiate(prefabLifeBar, parent).GetComponent<Image>();
 			img.material = grayColor;
@@ -213,8 +214,37 @@ public class UiManager : MonoBehaviour
 		gameUI.alpha = 0;
 	}
 
+    public void ActualiseLife(Character _champ)
+    {
+        int bonusLife = 0;
 
-	void OnPlayerSpawn ( ushort id )
+        ushort? id = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, _champ);
+
+        if (id != null)
+        {
+            if (GameManager.Instance.networkPlayers.ContainsKey((ushort)id))
+            {
+                bonusLife = GameManager.Instance.networkPlayers[(ushort)id].myPlayerModule.bonusHp;
+            }
+        }
+
+        switch (_champ)
+        {
+            case Character.WuXin:
+                SetLife(GameFactory.GetLifePlayer(_champ), GameFactory.GetMaxLifeOfPlayer(_champ) + bonusLife, wxImgLife, parentLifeWX);
+                break;
+
+            case Character.Re:
+                SetLife(GameFactory.GetLifePlayer(_champ), GameFactory.GetMaxLifeOfPlayer(_champ) + bonusLife, reImgLife, parentLifeRE);
+                break;
+
+            case Character.Leng:
+                SetLife(GameFactory.GetLifePlayer(_champ), GameFactory.GetMaxLifeOfPlayer(_champ) + bonusLife, lengImgLife, parentLifeLENG);
+                break;
+        }
+    }
+
+    void OnPlayerSpawn ( ushort id )
 	{
 		if (GameFactory.IsOnMyTeam(id))
 		{
@@ -227,9 +257,9 @@ public class UiManager : MonoBehaviour
 
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
+            ActualiseLife(RoomManager.Instance.actualRoom.playerList[id].playerCharacter);
 
-			if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
+            if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
 			{
 				if (GameFactory.IsOnMyTeam(id))
 				{
@@ -247,16 +277,16 @@ public class UiManager : MonoBehaviour
 	{
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
-		}
+            ActualiseLife(RoomManager.Instance.GetPlayerData(id).playerCharacter);
+        }
 	}
 
 	void OnPlayerGetHeal ( ushort id, ushort damage )
 	{
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
-		}
+            ActualiseLife(RoomManager.Instance.GetPlayerData(id).playerCharacter);
+        }
 	}
 
 	void OnPlayerDie ( ushort idKilled, ushort idKiller )
@@ -269,8 +299,8 @@ public class UiManager : MonoBehaviour
 
 		if (RoomManager.Instance.actualRoom.playerList[idKilled].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-			SetLife(0, GetLifeImageOfTeamChamp(idKilled));
-		}
+            ActualiseLife(RoomManager.Instance.GetPlayerData(idKilled).playerCharacter);
+        }
 
 		GetImageOfChamp(idKilled).color = killedColor;
 	}
@@ -314,13 +344,6 @@ public class UiManager : MonoBehaviour
 			//joueur est mort
 			GetImageOfChamp(id).color = killedColor;
 		}
-
-
-        //actualse life team
-        if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            SetLife(GameManager.Instance.networkPlayers[id].liveHealth, GetLifeImageOfTeamChamp(id));
-        }
     }
 
 	internal void Revive ( bool state )
@@ -330,24 +353,31 @@ public class UiManager : MonoBehaviour
 		reviveFill.fillAmount = 1;
 	}
 
-	void SetLife ( int numberLife, List<Image> imgs )
+	void SetLife ( int numberLife, int numberLifeMax, List<Image> imgs, Transform _parent)
 	{
-		int i = 1;
-		foreach (Image img in imgs)
-		{
-			if (i <= numberLife)
-			{
-				img.material = blueColor;
-			}
-			else
-			{
-				img.material = grayColor;
-			}
-			i++;
-		}
+        foreach (Image img in imgs)
+        {
+            Destroy(img.gameObject);
+        }
+        imgs.Clear();
+
+        for (int i = 1; i <= numberLifeMax; i++)
+        {
+            Image img = Instantiate(prefabLifeBar, _parent).GetComponent<Image>();
+
+            if (i <= numberLife)
+            {
+                img.material = blueColor;
+            }
+            else
+            {
+                img.material = grayColor;
+            }
+            imgs.Add(img);
+        }
 	}
 
-	List<Image> GetLifeImageOfTeamChamp ( ushort id )
+	List<Image> GetListImageOfTeamChamp ( ushort id )
 	{
 		switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
 		{
@@ -506,32 +536,31 @@ public class UiManager : MonoBehaviour
     {
         if (!state)
         {
-			captureSpeedUI.SetActive(false);
-			captureContestUI.SetActive(false);
+            altarUIPanel.SetActive(false);
 			return;
-		}
+        }
+        else
+        {
+            altarUIPanel.SetActive(true);
+        }
 
-        if (contest )
+        if (contest)
 		{
-			captureSpeedUI.SetActive(false);
-			captureContestUI.SetActive(true);
+            teamImgAltar[0].SetBool("IsIn", true);
+
+            teamImgAltar[1].SetBool("IsIn", false); teamImgAltar[1].gameObject.SetActive(false);
+            teamImgAltar[2].SetBool("IsIn", false); teamImgAltar[2].gameObject.SetActive(false);
+
+            altarContestUI.gameObject.SetActive(true); altarContestUI.SetBool("IsIn", true);
 
         } else
         {
-            for (int i = 0; i < 3; i++)
-            {
-                if (i < playercount)
-                {
-					captureSpeedArrows[i].SetActive(true);
-				} else
-                {
-					captureSpeedArrows[i].SetActive(false);
-				}
+            altarContestUI.gameObject.SetActive(false);
 
-            }
-			captureSpeedUI.SetActive(true);
-			captureContestUI.SetActive(false);
-		}
+            teamImgAltar[0].SetBool("IsIn", playercount >= 1);
+            teamImgAltar[1].gameObject.SetActive(true); teamImgAltar[1].SetBool("IsIn", playercount >= 2);
+            teamImgAltar[2].gameObject.SetActive(true); teamImgAltar[2].SetBool("IsIn", playercount >= 3);
+        }
     }
 	public void SetEchapMenuState ()
 	{
@@ -674,6 +703,28 @@ public class UiManager : MonoBehaviour
 
 			case En_SpellInput.SoulSpell:
 				soulSpellIcon.CantCastFeedback();
+				break;
+		}
+	}
+
+	public void UpdateSpellIconState ( En_SpellInput _spellInput, En_IconStep _step )
+	{
+		switch (_spellInput)
+		{
+			case En_SpellInput.FirstSpell:
+				firstSpell.UpdateSpellStep(_step);
+				break;
+
+			case En_SpellInput.SecondSpell:
+				secondSpell.UpdateSpellStep(_step);
+				break;
+
+			case En_SpellInput.Click:
+				autoAttackIcon.UpdateSpellStep(_step);
+				break;
+
+			case En_SpellInput.SoulSpell:
+				soulSpellIcon.UpdateSpellStep(_step);
 				break;
 		}
 	}

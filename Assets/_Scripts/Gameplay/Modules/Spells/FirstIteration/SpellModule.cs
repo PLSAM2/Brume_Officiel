@@ -220,6 +220,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
 			willResolve = true;
 			showingPreview = true;
 			UpdatePreview();
@@ -232,6 +233,10 @@ public class SpellModule : MonoBehaviour
 	{
 		showingPreview = false;
 		hasPreviewed = false;
+		if(canBeCast())
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+		else
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 	}
 	protected virtual void UpdatePreview ()
 	{
@@ -492,8 +497,11 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
+
 		if (_isForcedInterrupt && isUsed)
+		{
 			KillSpell();
+		}
 		else
 		{
 			if (showingPreview)
@@ -506,8 +514,7 @@ public class SpellModule : MonoBehaviour
 	public virtual void KillSpell ()
 	{
 		willResolve = false;
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Interrupt);
 		Interrupt();
 	}
 	void TryToKillSpell ( Sc_Spell _spell )
@@ -588,11 +595,13 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		charges++;
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 		UiManager.Instance.CooldownReady(actionLinked);
 	}
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
 		{

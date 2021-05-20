@@ -23,7 +23,7 @@ public class Decoy : MonoBehaviour, Damageable
 
 	Quaternion uiRotation;
 
-	bool isInBrume = false;
+	public bool isInBrume = false;
 
 	public LayerMask maskBrume;
 
@@ -32,6 +32,8 @@ public class Decoy : MonoBehaviour, Damageable
 	public Sc_Status stateAppliedWhenWKilled;
 
 	public float timeAlive = 5;
+
+    public List<GameObject> fires = new List<GameObject>();
 
 	private void Awake ()
 	{
@@ -77,6 +79,17 @@ public class Decoy : MonoBehaviour, Damageable
 			alliedMesh.gameObject.SetActive(true);
 
             myFootStep.doFootStepIcon = true;
+
+            if (GameManager.Instance.networkPlayers.ContainsKey(netObj.GetOwnerID()))
+            {
+                if (GameManager.Instance.networkPlayers[netObj.GetOwnerID()].myPlayerModule.state.HasFlag(En_CharacterState.PoweredUp))
+                {
+                    foreach(GameObject fire in fires)
+                    {
+                        fire.SetActive(true);
+                    }
+                }
+            }
 		}
 	}
 
@@ -95,8 +108,6 @@ public class Decoy : MonoBehaviour, Damageable
 		//test in brume
 		RaycastHit hit;
 		isInBrume = (Physics.Raycast(transform.position + Vector3.up * 1, -Vector3.up, out hit, 10, maskBrume));
-
-
 	}
 
 	private void LateUpdate ()
@@ -120,9 +131,14 @@ public class Decoy : MonoBehaviour, Damageable
 	public IEnumerator WaitForVisionCheck ()
 	{
 		CheckForBrumeRevelation();
-		yield return new WaitForSeconds(reParameter.delayBetweenDetection);
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.8f);
 		StartCoroutine(WaitForVisionCheck());
 	}
+
 	void CheckForBrumeRevelation ()
 	{
 

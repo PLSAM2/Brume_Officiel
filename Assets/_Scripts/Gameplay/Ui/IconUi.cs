@@ -41,6 +41,21 @@ public class IconUi : MonoBehaviour
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
 	}
 
+	public void UpdateSpellStep ( En_IconStep _spellStep )
+	{
+		switch (_spellStep)
+		{
+			case En_IconStep.inCd:
+				outlineIcon.color = Color.black;
+				break;
+			case En_IconStep.selectionned:
+				outlineIcon.color = Color.blue;
+				break;
+			case En_IconStep.ready:
+				outlineIcon.color = Color.white;
+				break;
+		}
+	}
 
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
 	{
@@ -50,7 +65,6 @@ public class IconUi : MonoBehaviour
 		{
 			lastCD = Mathf.Round(_completeCd * 10 - _cooldownRemaining * 10);
 			lastCD /= 10;
-			print(lastCD);
 		}
 
 
@@ -58,12 +72,12 @@ public class IconUi : MonoBehaviour
 		{
 			grisage.gameObject.SetActive(true);
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
+
 			if (_completeCd - _cooldownRemaining > 1)
 				cooldownCount.text = lastCD.ToString();
 			else
 				cooldownCount.text = lastCD.ToString();
 
-			outlineIcon.color = Color.black;
 		}
 		else
 		{
@@ -77,9 +91,6 @@ public class IconUi : MonoBehaviour
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
-
-		//Color _color = new Vector4(0, 0, 0, 255);
-		//feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
 		myRectTransform.localScale = new Vector3(.7f, .7f, .7f);
 		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
@@ -151,4 +162,9 @@ public class IconUi : MonoBehaviour
 	{
 		UiManager.Instance.wholeTooltip.SetActive(false);
 	}
+}
+
+public enum En_IconStep
+{
+	inCd, ready, selectionned
 }
