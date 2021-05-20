@@ -416,6 +416,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                     }
 
                 }
+
                 if (killed.playerCharacter == Character.Re || killed.playerCharacter == Character.Leng)
                 {
                     StartCoroutine(SlowMoKill());
@@ -431,9 +432,9 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     IEnumerator SlowMoKill()
     {
-        Time.timeScale = Time.timeScale / 4;
+        Time.timeScale = 0.33f;
 
-        yield return new WaitForSeconds(0.33f);
+        yield return new WaitForSeconds(0.40f);
 
         Time.timeScale = 1;
     }

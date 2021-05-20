@@ -215,7 +215,7 @@ public class RoomManager : MonoBehaviour
 
     IEnumerator EndGame()
     {
-        Time.timeScale = Time.timeScale / 4;
+        Time.timeScale = 0.25f;
 
         yield return new WaitForSeconds(1);
 
