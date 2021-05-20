@@ -191,38 +191,20 @@ public class UIPlayerManager : MonoBehaviour
 
 	public void UpdateLife ()
 	{
-		int i = 0;
+        ushort _lifeHealth = (dummy ? myDummy.liveHealth : myLocalPlayer.liveHealth);
+
+        int i = 1;
 		foreach (UIBarLifePerso img in allBarLife)
 		{
-			if (dummy)
-			{
-				if (i < myDummy.liveHealth)
-				{
-					img.SetColorLife(currentColorTeam, true);
-				}
-				else
-				{
-					img.CrackLife();
-					img.SetColorLife(grayMat, false);
-					img.HideLife();
-				}
-			}
-			else
-			{
-				if (i < myLocalPlayer.liveHealth)
-				{
-					img.SetColorLife(currentColorTeam, true);
-				}
-				else
-				{
-					img.CrackLife();
-					img.SetColorLife(grayMat, false);
-					img.HideLife();
-				}
-			}
-
-
-			i++;
+            if (i <= _lifeHealth)
+            {
+                img.SetColorLife(currentColorTeam, true);
+            }
+            else
+            {
+                img.SetColorLife(grayMat, false);
+            }
+            i++;
 		}
 	}
 

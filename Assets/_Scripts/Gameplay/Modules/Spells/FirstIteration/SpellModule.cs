@@ -71,7 +71,6 @@ public class SpellModule : MonoBehaviour
 			charges = 1;
 			_cooldown = 0;
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
-			SpellAvaible?.Invoke();
 		}
 	}
 	public virtual void Disable ()
@@ -233,8 +232,11 @@ public class SpellModule : MonoBehaviour
 	{
 		showingPreview = false;
 		hasPreviewed = false;
+
 		if(canBeCast())
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+		else if(isUsed)
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
 		else
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 	}
@@ -447,6 +449,8 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
+
 		myPlayerModule.spellResolved?.Invoke();
 		myPlayerModule.currentSpellResolved = null;
 		currentTimeCanalised = 0;
@@ -595,13 +599,13 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		charges++;
+		SpellAvaible?.Invoke();
 		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 		UiManager.Instance.CooldownReady(actionLinked);
 	}
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
-		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
 		{
