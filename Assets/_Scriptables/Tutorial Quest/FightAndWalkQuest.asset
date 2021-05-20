@@ -10,31 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0907e2b5265b904c9e381fd63055810, type: 3}
-  m_Name: FirstStepsQuest
+  m_Name: FightAndWalkQuest
   m_EditorClassIdentifier: 
-  questTitle: First steps
+  questTitle: Prepare then fight
   questSteps:
-  - questEvent: 0
-    stepDescription: Try moving around with
+  - questEvent: 5
+    stepDescription: Walk (shift while moving)
     completed: 0
     UI: {fileID: 0}
-    keyToPress:
-    - key: 122
-      keyCount: 1
-      keyPressedCount: 0
-      pressed: 0
-    - key: 113
-      keyCount: 1
-      keyPressedCount: 0
-      pressed: 0
-    - key: 115
-      keyCount: 1
-      keyPressedCount: 0
-      pressed: 0
-    - key: 100
-      keyCount: 1
-      keyPressedCount: 0
-      pressed: 0
+    keyToPress: []
     zoneEvent: 0
     zoneToTrigger: 0
     interactibleEvent: 0
@@ -44,8 +28,8 @@ MonoBehaviour:
     focusedDummyIndex: 0
     mystEvent: 0
     movementEvent: 0
-  - questEvent: 1
-    stepDescription: Reach this spot
+  - questEvent: 3
+    stepDescription: 
     completed: 0
     UI: {fileID: 0}
     keyToPress: []
@@ -54,17 +38,45 @@ MonoBehaviour:
     interactibleEvent: 0
     focusedInteractible: {fileID: 0}
     interactibleType: 0
-    dummyEvent: 0
-    focusedDummyIndex: 1
+    dummyEvent: 1
+    focusedDummyIndex: 3
     mystEvent: 0
     movementEvent: 0
-  - questEvent: 1
-    stepDescription: Reach this new spot
+  - questEvent: 3
+    stepDescription: 
     completed: 0
     UI: {fileID: 0}
     keyToPress: []
     zoneEvent: 0
-    zoneToTrigger: 1
+    zoneToTrigger: 0
+    interactibleEvent: 0
+    focusedInteractible: {fileID: 0}
+    interactibleType: 0
+    dummyEvent: 1
+    focusedDummyIndex: 4
+    mystEvent: 0
+    movementEvent: 0
+  - questEvent: 3
+    stepDescription: 
+    completed: 0
+    UI: {fileID: 0}
+    keyToPress: []
+    zoneEvent: 0
+    zoneToTrigger: 0
+    interactibleEvent: 0
+    focusedInteractible: {fileID: 0}
+    interactibleType: 0
+    dummyEvent: 1
+    focusedDummyIndex: 5
+    mystEvent: 0
+    movementEvent: 0
+  - questEvent: 1
+    stepDescription: Reach next step
+    completed: 0
+    UI: {fileID: 0}
+    keyToPress: []
+    zoneEvent: 0
+    zoneToTrigger: 4
     interactibleEvent: 0
     focusedInteractible: {fileID: 0}
     interactibleType: 0

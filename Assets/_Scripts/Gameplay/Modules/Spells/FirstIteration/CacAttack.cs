@@ -40,16 +40,16 @@ public class CacAttack : SpellModule
 			linePreview.useWorldSpace = true;
 		}
 	}
-	public override void TryCanalysing ( Vector3 _BaseMousePos )
-	{
-		base.TryCanalysing(_BaseMousePos);
 
+	protected override void Canalyse ( Vector3 _BaseMousePos )
+	{
 		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
 			damageToDeal.damageHealth += 1;
 		else
 			ResetDamage();
 
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+		base.Canalyse(_BaseMousePos);
 	}
 
 	protected override void UpdatePreview ()
@@ -219,17 +219,6 @@ public class CacAttack : SpellModule
 		return _toAdd;
 	}
 
-	protected override void CancelSpell ( bool _isForcedInterrupt )
-	{
-		base.CancelSpell(_isForcedInterrupt);
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
-		resolved = anonciated = startResolution = true;
-		currentTimeCanalised = 0;
-		throwbackTime = 0;
-		willResolve = false;
-		HidePreview(Vector3.zero);
-	}
 
 	void ResetDamage ()
 	{
@@ -282,6 +271,7 @@ public class CacAttack : SpellModule
 		base.ThrowbackEndFeedBack();
 	}
 
+
 	protected override void Update ()
 	{
 		base.Update();
@@ -293,6 +283,8 @@ public class CacAttack : SpellModule
 			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 		}
 	}
+
+
 
 	void TriggerAnimHit ()
 	{
