@@ -221,10 +221,7 @@ public class UiManager : MonoBehaviour
 
         if (id != null)
         {
-            if (GameManager.Instance.networkPlayers.ContainsKey((ushort)id))
-            {
-                bonusLife = GameManager.Instance.networkPlayers[(ushort)id].myPlayerModule.bonusHp;
-            }
+            bonusLife += GameFactory.GetBonusHp((ushort)id);
         }
 
         switch (_champ)
