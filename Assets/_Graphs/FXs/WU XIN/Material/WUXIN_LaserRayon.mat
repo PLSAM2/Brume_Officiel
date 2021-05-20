@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InMistMask
-  m_Shader: {fileID: 4800000, guid: 2f56076987ca56e46876e70cbbf29ac2, type: 3}
+  m_Name: WUXIN_LaserRayon
+  m_Shader: {fileID: 4800000, guid: 8f2fd703a87878e4fbb5b4a801952ba7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 4000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -43,6 +43,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _LaserTexture:
+        m_Texture: {fileID: 2800000, guid: 154c3d6c0a5347846835efffa764453d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,12 +55,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MistMask:
+    - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
+    - _PaintGrunge:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -67,8 +71,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture0:
-        m_Texture: {fileID: 2800000, guid: c97651f5915628041b899b7999094323, type: 3}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 154c3d6c0a5347846835efffa764453d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -91,8 +99,6 @@ Material:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _Blend: 0
-    - _BrumeTexture_Contrast: 1.8
-    - _BrumeTexture_Tiling: 8
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -101,35 +107,41 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Emissive: 2.02
     - _EnvironmentReflections: 1
+    - _Float0: 0
+    - _Float1: 0.486
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0
+    - _Offset: 0.35
     - _Parallax: 0.005
-    - _Parralax_DistancePlane: 0.4
-    - _Parralax_Scale: 0.15
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _Smoothstep: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Step: 0
     - _Surface: 0
+    - _Tiling: 0.3
+    - _TilingPaintGrunge: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BrumeTexture_BottomColor: {r: 0.1712353, g: 0.1450694, b: 0.18867922, a: 0}
-    - _BrumeTexture_Panner: {r: 0.01, g: 0, b: 0, a: 0}
-    - _BrumeTexture_TopColor: {r: 0.48883057, g: 0.6132076, b: 0.6132076, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 1, g: 0, b: 0, a: 0}
+    - _Color1: {r: 0.23215558, g: 0.3490566, b: 0.29414853, a: 1}
+    - _Color2: {r: 0.61489856, g: 0.9245283, b: 0.7833736, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Speed: {r: -4, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7530271646020326226
+--- !u!114 &8069633366711660789
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

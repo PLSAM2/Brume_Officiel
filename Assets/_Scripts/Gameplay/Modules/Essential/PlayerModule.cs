@@ -201,10 +201,12 @@ public class PlayerModule : MonoBehaviour
         }
 
 		Event e = Event.current;
-		if (e.isKey)
+
+		if (Input.anyKeyDown && e.isKey && e.type == EventType.KeyDown)
 		{
 			TutorialManager.Instance.GetKeyPressed(e.keyCode);
 		}
+
 	}
 
 	public virtual void Setup ()
