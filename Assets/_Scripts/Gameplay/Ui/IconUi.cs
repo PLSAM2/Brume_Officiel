@@ -32,8 +32,14 @@ public class IconUi : MonoBehaviour
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible += CantCastFeedback;
 
 		spellLinked = _spellToToolTip;
-
 		icon.sprite = _spellToToolTip.spellIcon;
+
+		ResetIcon();
+		fillAmount.fillAmount = 0;
+		grisage.gameObject.SetActive(false);
+		cooldownCount.text = "";
+		outlineIcon.color = Color.white;
+
 	}
 	private void OnDisable ()
 	{
@@ -122,9 +128,10 @@ public class IconUi : MonoBehaviour
 		myRectTransform.DOKill();
 		myRectTransform.localPosition = basePos;
 		myRectTransform.localScale = Vector3.one;
-		Color _color = new Vector4(255, 16, 16, 0);
 		feedbackCantCast.DOKill();
 		feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
+
+		Color _color = new Vector4(255, 16, 16, 0);
 		feedbackCantCast.color = _color;
 
 		feedbackCanUse.SetActive(false);
