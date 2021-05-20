@@ -639,16 +639,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
     {
         if (isOwner)
         {
-            if (deathFx != null)
-            {
-                FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
-                if (isOwner)
-                {
-                    fow.fowDeath.gameObject.SetActive(true);
-                    fow.fowDeath.GenerateFowStatic();
-                }
-            }
-
             PlayerData p = NetworkManager.Instance.GetLocalPlayer();
             if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
             {
@@ -815,7 +805,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
                 {
                     waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
                     waypointThirdEye.targetVector = transform.position;
-                    waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
+                    waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
                 }
                 else
                 {
