@@ -191,7 +191,9 @@ public class UIPlayerManager : MonoBehaviour
 
 	public void UpdateLife ()
 	{
-		int i = 0;
+        print(myLocalPlayer.liveHealth);
+
+		int i = 1;
 		foreach (UIBarLifePerso img in allBarLife)
 		{
 			if (dummy)
@@ -204,12 +206,11 @@ public class UIPlayerManager : MonoBehaviour
 				{
 					img.CrackLife();
 					img.SetColorLife(grayMat, false);
-					img.HideLife();
 				}
 			}
 			else
 			{
-				if (i < myLocalPlayer.liveHealth)
+				if (i <= myLocalPlayer.liveHealth)
 				{
 					img.SetColorLife(currentColorTeam, true);
 				}
@@ -217,7 +218,6 @@ public class UIPlayerManager : MonoBehaviour
 				{
 					img.CrackLife();
 					img.SetColorLife(grayMat, false);
-					img.HideLife();
 				}
 			}
 

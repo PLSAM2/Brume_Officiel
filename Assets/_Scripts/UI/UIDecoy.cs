@@ -50,7 +50,6 @@ public class UIDecoy : MonoBehaviour
             {
                 img.CrackLife();
                 img.SetColorLife(grayMat, false);
-                img.HideLife();
             }
 
             uiLifeElements.Add(img.gameObject);
