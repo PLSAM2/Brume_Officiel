@@ -71,7 +71,6 @@ public class SpellModule : MonoBehaviour
 			charges = 1;
 			_cooldown = 0;
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
-			SpellAvaible?.Invoke();
 		}
 	}
 	public virtual void Disable ()
@@ -95,24 +94,37 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInputRealeased += TryCanalysing;
 				myPlayerModule.firstSpellInputRealeased += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
+
 				break;
 
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInputRealeased += TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInputRealeased += TryCanalysing;
 				myPlayerModule.leftClickInputRealeased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
 				break;
 
 			case En_SpellInput.SoulSpell:
 				myPlayerModule.soulSpellInput += ShowPreview;
 				myPlayerModule.soulSpellInputReleased += TryCanalysing;
 				myPlayerModule.soulSpellInputReleased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
 				break;
 		}
 	}
@@ -133,6 +145,9 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.firstSpellInputRealeased -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
@@ -140,18 +155,27 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= ShowPreview;
 				myPlayerModule.leftClickInputRealeased -= TryCanalysing;
 				myPlayerModule.leftClickInputRealeased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.SoulSpell:
 				myPlayerModule.soulSpellInput -= ShowPreview;
 				myPlayerModule.soulSpellInputReleased -= TryCanalysing;
 				myPlayerModule.soulSpellInputReleased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
 				break;
 		}
 	}
@@ -233,8 +257,11 @@ public class SpellModule : MonoBehaviour
 	{
 		showingPreview = false;
 		hasPreviewed = false;
+
 		if(canBeCast())
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+		else if(isUsed)
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
 		else
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 	}
@@ -447,6 +474,8 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
+
 		myPlayerModule.spellResolved?.Invoke();
 		myPlayerModule.currentSpellResolved = null;
 		currentTimeCanalised = 0;
@@ -595,13 +624,13 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		charges++;
+		SpellAvaible?.Invoke();
 		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 		UiManager.Instance.CooldownReady(actionLinked);
 	}
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
-		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
 		{

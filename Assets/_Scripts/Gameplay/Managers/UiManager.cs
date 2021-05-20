@@ -73,7 +73,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
 	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
 
-	[Header("Ulti")]
 	[FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
 	[FoldoutGroup("Ulti")] public Material blueColor, grayColor;
 	[FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
@@ -222,10 +221,7 @@ public class UiManager : MonoBehaviour
 
         if (id != null)
         {
-            if (GameManager.Instance.networkPlayers.ContainsKey((ushort)id))
-            {
-                bonusLife = GameManager.Instance.networkPlayers[(ushort)id].myPlayerModule.bonusHp;
-            }
+            bonusLife += GameFactory.GetBonusHp((ushort)id);
         }
 
         switch (_champ)

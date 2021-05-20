@@ -255,6 +255,7 @@ public class TutorialManager : MonoBehaviour
 
     internal void GetKeyPressed(KeyCode keyCode)
     {
+
         List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.KeyPressed);
 
         foreach (QuestStep questS in qs)
@@ -263,7 +264,8 @@ public class TutorialManager : MonoBehaviour
             {
                 if (questS.keyToPress[i].key == keyCode && questS.keyToPress[i].pressed == false)
                 {
-                    questS.keyToPress[i].pressed = true;
+                    questS.keyToPress[i].KeyPress();
+
                     ProgressKeyQuest(questS);
                     if (CheckKeyQuestCompleteState(questS))
                     {

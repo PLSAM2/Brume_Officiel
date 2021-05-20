@@ -66,7 +66,10 @@ public class Decoy : MonoBehaviour, Damageable
 		myFootStep.isDecoy = true;
 		myFootStep.myDecoy = this;
 
-		myUI.Init(myTeam, _tempData.Name, GameManager.Instance.networkPlayers[_tempData.ID].liveHealth, reParameter.maxHealth);
+        int hpMax = reParameter.maxHealth;
+        hpMax += GameFactory.GetBonusHp(_tempData.ID);
+
+        myUI.Init(myTeam, _tempData.Name, GameManager.Instance.networkPlayers[_tempData.ID].liveHealth, hpMax);
 
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam != myTeam)
 		{
@@ -131,9 +134,14 @@ public class Decoy : MonoBehaviour, Damageable
 	public IEnumerator WaitForVisionCheck ()
 	{
 		CheckForBrumeRevelation();
-		yield return new WaitForSeconds(reParameter.delayBetweenDetection);
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.8f);
 		StartCoroutine(WaitForVisionCheck());
 	}
+
 	void CheckForBrumeRevelation ()
 	{
 
