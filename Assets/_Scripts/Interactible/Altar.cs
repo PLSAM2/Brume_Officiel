@@ -146,7 +146,14 @@ public class Altar : Interactible
         base.Captured(_capturingPlayerID);
     }
 
-    
+    public override void UpdateTryCapture(ushort _capturingPlayerID)
+    {
+        GameManager.Instance.OnPlayerDie -= OnPlayerDie;
+
+        base.UpdateTryCapture(_capturingPlayerID);
+    }
+
+
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
@@ -177,6 +184,7 @@ public class Altar : Interactible
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
 
+        GameManager.Instance.OnPlayerDie += OnPlayerDie;
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
@@ -190,6 +198,11 @@ public class Altar : Interactible
         waypointObj.gameObject.SetActive(false);
     }
 
+
+    private void OnPlayerDie(ushort deadP, ushort killer)
+    {
+        UpdateUI();
+    }
 
     public override void UpdateUI()
     {
