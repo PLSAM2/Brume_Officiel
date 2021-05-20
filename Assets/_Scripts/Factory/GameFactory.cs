@@ -49,7 +49,19 @@ public class GameFactory
 		return null;
 	}
 
-	public static Color GetColorTeam ( Team myTeam )
+    public static int GetBonusHp(ushort _id)
+    {
+        int hpBonus = 0;
+
+        if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+        {
+            hpBonus += GameManager.Instance.networkPlayers[_id].myPlayerModule.bonusHp;
+        }
+
+        return hpBonus;
+    }
+
+    public static Color GetColorTeam ( Team myTeam )
 	{
 		switch (myTeam)
 		{

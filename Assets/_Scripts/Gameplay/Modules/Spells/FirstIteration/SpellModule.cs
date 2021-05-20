@@ -94,24 +94,37 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInputRealeased += TryCanalysing;
 				myPlayerModule.firstSpellInputRealeased += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
+
 				break;
 
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInputRealeased += TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInputRealeased += TryCanalysing;
 				myPlayerModule.leftClickInputRealeased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
 				break;
 
 			case En_SpellInput.SoulSpell:
 				myPlayerModule.soulSpellInput += ShowPreview;
 				myPlayerModule.soulSpellInputReleased += TryCanalysing;
 				myPlayerModule.soulSpellInputReleased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
 				break;
 		}
 	}
@@ -132,6 +145,9 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.firstSpellInputRealeased -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
@@ -139,18 +155,27 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= ShowPreview;
 				myPlayerModule.leftClickInputRealeased -= TryCanalysing;
 				myPlayerModule.leftClickInputRealeased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.SoulSpell:
 				myPlayerModule.soulSpellInput -= ShowPreview;
 				myPlayerModule.soulSpellInputReleased -= TryCanalysing;
 				myPlayerModule.soulSpellInputReleased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
 				break;
 		}
 	}

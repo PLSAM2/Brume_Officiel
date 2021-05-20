@@ -39,7 +39,6 @@ public class QuestStep
 
     [ShowIf("questEvent", QuestEvent.MovementEvent)] public MovementEvent movementEvent;
 
-    
     internal void Reset()
     {
         completed = false;
@@ -100,5 +99,17 @@ public enum MovementEvent
 public class PairKeycodeBool
 {
     public KeyCode key;
+    public int keyCount = 1;
+    public int keyPressedCount = 0;
     [HideInInspector] public bool pressed;
+    
+    
+    public void KeyPress()
+    {
+        keyPressedCount++;
+        if (keyPressedCount == keyCount)
+        {
+            pressed = true;
+        }
+    }
 }
