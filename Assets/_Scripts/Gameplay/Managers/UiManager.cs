@@ -72,8 +72,10 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public GameObject reviveUI;
 	[FoldoutGroup("Other Gameplay")] public GameObject feedbackDeath;
 	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
+	[FoldoutGroup("Other Gameplay")]
+	public
 
-	[Header("Ulti")]
+[Header("Ulti")]
 	[FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
 	[FoldoutGroup("Ulti")] public Material blueColor, grayColor;
 	[FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;

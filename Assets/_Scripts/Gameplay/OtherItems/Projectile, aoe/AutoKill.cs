@@ -29,6 +29,7 @@ public class AutoKill : MonoBehaviour
 
 	public virtual void Init ( Team ownerTeam, float _percentageOfLifeTime = 1 )
 	{
+		myLivelifeTime = mylifeTime;
 		myNetworkObject = GetComponent<NetworkedObject>();
 		isOwner = myNetworkObject.GetIsOwner();
 		myteam = ownerTeam;
