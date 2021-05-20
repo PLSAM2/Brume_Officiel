@@ -87,11 +87,12 @@ public class WardModule : SpellModule
 			}
 		}
 
-		InitWardLaunch(TryToFindFreePos(destination, 0));
+		InitWardLaunch(destination);
 	}
 
 	public void InitWardLaunch ( Vector3 destination )
 	{
+		destination = TryToFindFreePos(destination, 0);
 		lastPos = this.transform.position;
 		this.destination = destination;
 		wardObj.SetActive(true);
