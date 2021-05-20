@@ -35,6 +35,8 @@ public class Altar : Interactible
     [SerializeField] Color altarUnlockColor;
     [SerializeField] Color altarEndColor;
 
+    public GameObject redTaken, blueTaken;
+
     void Start()
     {
         base.Init();
@@ -91,10 +93,12 @@ public class Altar : Interactible
 
         if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
+            blueTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
         }
         else
         {
+            redTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
