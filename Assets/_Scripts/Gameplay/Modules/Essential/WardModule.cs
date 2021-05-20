@@ -6,26 +6,18 @@ using UnityEngine;
 public class WardModule : SpellModule
 {
 	[SerializeField] private GameObject wardPrefab;
-	private GameObject wardObj;
-	public float wardSpeed;
 
-	public float distanceMaxBeforeEndTravel = 0.01f;
-	private bool isLaunched = false;
-
-	private Vector3 startPos;
-	private Vector3 destination;
+	public List<Ward> wards = new List<Ward>();
 
 	CirclePreview myRangePreview, myAoePreview;
 	float wardVisionRange;
 
-	Vector3 lastPos = Vector3.zero;
+
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
 
-		wardObj = Instantiate(wardPrefab, Vector3.zero, Quaternion.identity);
-		wardObj.SetActive(false);
 		wardVisionRange = wardPrefab.GetComponent<Ward>().vision.myFieldOfView.viewRadius;
 
 		if (myPlayerModule.mylocalPlayer.isOwner)
@@ -42,84 +34,36 @@ public class WardModule : SpellModule
 
 
 
-	protected override void Update ()
+	protected override void Resolution ()
 	{
-		base.Update();
-		if (isLaunched)
-		{
-			if (Vector3.Distance(wardObj.transform.position, destination) < distanceMaxBeforeEndTravel)
-			{
-				WardLanded();
-				return;
-			}
-
-			lastPos = Vector3.MoveTowards(lastPos, destination, wardSpeed * Time.deltaTime);
-
-			wardObj.transform.position = lastPos;
-		}
-	}
-
-	protected override void Resolution (  )
-	{
-		if (isLaunched)
-		{
-			return;
-		}
-
 		base.Resolution();
 
-		float _distance = Mathf.Clamp(Vector3.Distance(mousePosInputed, transform.position), 0, spell.range);
+		Vector3 destination = TryToFindFreePos(mousePosInputed, 0);
 
-		destination = transform.position + myPlayerModule.directionOfTheMouse() * _distance;
-			//myPlayerModule.ClosestFreePos(Vector3.Normalize(mousePosInputed - transform.position), _distance);
+		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(13, destination, Vector3.zero);
 
-		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-		{
-			_writer.Write(RoomManager.Instance.client.ID); // Player ID
-
-			_writer.Write(destination.x);
-			_writer.Write(destination.y);
-			_writer.Write(destination.z);
-
-			using (Message _message = Message.Create(Tags.LaunchWard, _writer))
-			{
-				RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
-			}
-		}
-
-		InitWardLaunch(destination);
 	}
 
-	public void InitWardLaunch ( Vector3 destination )
-	{
-		lastPos = this.transform.position;
-		this.destination = destination;
-		wardObj.SetActive(true);
-		startPos = (transform.position);
-		wardObj.transform.position = startPos;
-		wardObj.GetComponent<Ward>().InitWardLaunch();
-		isLaunched = true;
-	}
 
-	public void WardLanded ()
-	{
-		isLaunched = false;
+	//public void WardLanded ()
+	//{
+	//	isLaunched = false;
 
-		if (myPlayerModule.mylocalPlayer.isOwner)
-		{
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-			{
-				_writer.Write(RoomManager.Instance.client.ID); // Player ID
+	//	if (myPlayerModule.mylocalPlayer.isOwner)
+	//	{
+	//		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
+	//		{
+	//			_writer.Write(RoomManager.Instance.client.ID); // Player ID
 
-				using (Message _message = Message.Create(Tags.StartWardLifeTime, _writer))
-				{
-					RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
-				}
-			}
-		}
+	//			using (Message _message = Message.Create(Tags.StartWardLifeTime, _writer))
+	//			{
+	//				RoomManager.Instance.client.SendMessage(_message, SendMode.Reliable);
+	//			}
+	//		}
+	//	}
 
-		wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
-	}
+	//	wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
+	//}
 
 	protected override void HidePreview ( Vector3 _posToHide )
 	{
@@ -146,6 +90,48 @@ public class WardModule : SpellModule
 			transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()), 0, spell.range));
 
 		myRangePreview.Init(spell.range, CirclePreview.circleCenter.center, transform.position);
+	}
+
+	Vector3 TryToFindFreePos ( Vector3 _locationToFindFrom, int _iteration )
+	{
+		Collider[] _hits;
+		Vector3 posToCheck = _locationToFindFrom + (transform.position - _locationToFindFrom).normalized * _iteration * .6f;
+
+		_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
+			posToCheck + Vector3.up * 10,
+			.6f,
+			1 << 9);
+
+		Debug.DrawLine(posToCheck + Vector3.down * 10,
+			posToCheck + Vector3.up * 10,
+			Color.red,
+			100);
+
+		if (_hits.Length == 0)
+		{
+			return posToCheck;
+		}
+		else
+		{
+
+			posToCheck = _locationToFindFrom - (transform.position - _locationToFindFrom).normalized * _iteration * .6f;
+			_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
+			posToCheck + Vector3.up * 10,
+			.6f,
+			1 << 9);
+
+			Debug.DrawLine(posToCheck + Vector3.down * 10,
+						posToCheck + Vector3.up * 10,
+						Color.red,
+						100);
+
+			if (_hits.Length == 0)
+			{
+				return posToCheck;
+			}
+			else
+				return TryToFindFreePos(_locationToFindFrom, _iteration + 1);
+		}
 	}
 
 }

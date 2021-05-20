@@ -60,6 +60,12 @@ public class SoulSpellSelector : MonoBehaviour
     public void OnClickSoulSpell()
     {
         currentTimer = 0;
+
+        ward.DisableInteractible();
+        thirdEye.DisableInteractible();
+        invisible.DisableInteractible();
+        decoil.DisableInteractible();
+        speed.DisableInteractible();
     }
 
     public void StartTimer()
