@@ -88,6 +88,8 @@ public class NetworkAnimationController : MonoBehaviour
 
     Vector3 oldPos;
     Vector3 direction;
+    float lerpTurn;
+
     private void DoAnimation()
     {
         Vector3 currentPos;
@@ -129,8 +131,9 @@ public class NetworkAnimationController : MonoBehaviour
             turn = -turn;
         }
 
-        animator.SetFloat("Turn", turn);
+        lerpTurn = Mathf.Lerp(lerpTurn, turn, Time.deltaTime * 10);
 
+        animator.SetFloat("Turn", lerpTurn);
         oldPos = currentPos;
     }
 
