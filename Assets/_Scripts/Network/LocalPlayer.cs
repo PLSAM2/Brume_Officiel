@@ -144,6 +144,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
     {
         Debug();
 
+
         if (!isOwner) { return; }
 
         if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
@@ -190,6 +191,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 1;
             DealDamages(_temp, transform, null, true, true);
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.O) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        {
+            AddHitPoint(1);
         }
 
         if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
