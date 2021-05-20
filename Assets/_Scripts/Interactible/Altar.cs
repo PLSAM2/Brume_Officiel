@@ -58,15 +58,20 @@ public class Altar : Interactible
         //TODO afficher timer altar
         if (waypointObj != null && waypointObj.gameObject.activeSelf)
         {
-            float currentTimeLeft = unlockTime - (Time.fixedTime - currentTime);
-            if (currentTimeLeft > 0)
+            if (currentTime > 0)
             {
-                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTimeLeft) + "s");
+                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTime) + "s");
             }
             else
             {
                 waypointObj.SetUnderText("");
             }
+
+            currentTime -= Time.deltaTime;
+        }
+        else
+        {
+            waypointObj.SetUnderText("");
         }
     }
 
@@ -155,7 +160,7 @@ public class Altar : Interactible
     IEnumerator ActivateAltar()
     {
         mapIcon.sprite = willUnlockSprite;
-        currentTime = Time.fixedTime;
+        currentTime = unlockTime;
 
         yield return new WaitForSeconds(unlockTime);
 
