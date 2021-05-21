@@ -3,6 +3,7 @@ using DarkRift;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
@@ -148,8 +149,6 @@ public class Altar : Interactible
 
     public override void UpdateTryCapture(ushort _capturingPlayerID)
     {
-        GameManager.Instance.OnPlayerDie -= OnPlayerDie;
-
         base.UpdateTryCapture(_capturingPlayerID);
     }
 
@@ -184,7 +183,6 @@ public class Altar : Interactible
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
 
-        GameManager.Instance.OnPlayerDie += OnPlayerDie;
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
@@ -199,8 +197,27 @@ public class Altar : Interactible
     }
 
 
-    private void OnPlayerDie(ushort deadP, ushort killer)
+    public void OnPlayerDie(ushort deadP)
     {
+
+
+        PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            altarUiProgressCol.playerInUIZone.Remove(pm);
+        }
+
+        pm = playerInZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            playerInZone.Remove(pm);
+        }
+
+        playerInZone.RemoveAll(item => item == null);
+        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
+
         UpdateUI();
     }
 
