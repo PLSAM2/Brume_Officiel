@@ -45,13 +45,15 @@ public class CacAttack : SpellModule
 	{
 		base.Canalyse(_BaseMousePos);
 
+		ResetDamage();
+
 		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
 		{
+			print("Boost damage");
 			damageToDeal.damageHealth += 1;
 		}
-		else
-			ResetDamage();
 
+		print(damageToDeal.damageHealth);
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 	}
 
@@ -185,7 +187,7 @@ public class CacAttack : SpellModule
 				if (_playerTouched != null)
 					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
 					{
-						_playerTouched.DealDamages(damageToDeal,transform);
+						_playerTouched.DealDamages(damageToDeal, transform);
 						_ashitEnemy = true;
 					}
 			}
