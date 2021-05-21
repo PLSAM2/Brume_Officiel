@@ -637,6 +637,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     internal void KillPlayerLocaly()
     {
+
         if (deathFx != null)
         {
             FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
