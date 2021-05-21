@@ -13,19 +13,14 @@ MonoBehaviour:
   m_Name: Speed brume AltarDebuff out
   m_EditorClassIdentifier: 
   effect:
-    tick: 0
-    finalLifeTime: 1
-    isConstant: 0
     canBeForcedStop: 1
     forcedKey: 3570
+    finalLifeTime: 1
+    isConstant: 0
     refreshOnApply: 1
     doNotApplyIfExist: 1
-    tickRate: 0.2
-    isDamaging: 1
-    isHealing: 0
-    tickValue: 0
     stateApplied: 4
-    percentageOfTheMovementModifier: 0.3
+    percentageOfTheMovementModifier: 0.4
     decayOfTheModifier:
       serializedVersion: 2
       m_Curve:
@@ -50,9 +45,3 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    optionalDamagesInfos:
-      playerName: 
-      damageHealth: 0
-      statusToApply: []
-      movementToApply: {fileID: 0}
-    hitBeforeProcOptionnalDamages: 0
