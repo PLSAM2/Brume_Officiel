@@ -3,6 +3,7 @@ using DarkRift;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
@@ -146,7 +147,12 @@ public class Altar : Interactible
         base.Captured(_capturingPlayerID);
     }
 
-    
+    public override void UpdateTryCapture(ushort _capturingPlayerID)
+    {
+        base.UpdateTryCapture(_capturingPlayerID);
+    }
+
+
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
@@ -190,6 +196,30 @@ public class Altar : Interactible
         waypointObj.gameObject.SetActive(false);
     }
 
+
+    public void OnPlayerDie(ushort deadP)
+    {
+
+
+        PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            altarUiProgressCol.playerInUIZone.Remove(pm);
+        }
+
+        pm = playerInZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            playerInZone.Remove(pm);
+        }
+
+        playerInZone.RemoveAll(item => item == null);
+        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
+
+        UpdateUI();
+    }
 
     public override void UpdateUI()
     {
