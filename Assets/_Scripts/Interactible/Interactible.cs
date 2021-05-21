@@ -260,7 +260,7 @@ public class Interactible : MonoBehaviour
 
 	}
 
-	public void StartAudio ()
+	protected virtual void StartAudio()
 	{
 		myAudioSource.enabled = true;
 	}
@@ -582,6 +582,8 @@ public class Interactible : MonoBehaviour
 
 	public virtual int GetLocalPlayerCountInZone ()
 	{
+		playerInZone.RemoveAll(item => item == null);
+
 		return playerInZone.Count;
 	}
 

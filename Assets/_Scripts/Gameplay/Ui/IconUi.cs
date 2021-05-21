@@ -54,9 +54,12 @@ public class IconUi : MonoBehaviour
 			case En_IconStep.inCd:
 				outlineIcon.color = Color.black;
 				break;
+
 			case En_IconStep.selectionned:
 				outlineIcon.color = Color.blue;
-				break;
+                UiManager.Instance.currentCdDisplay = 0;
+                break;
+
 			case En_IconStep.ready:
 				outlineIcon.color = Color.white;
 				break;

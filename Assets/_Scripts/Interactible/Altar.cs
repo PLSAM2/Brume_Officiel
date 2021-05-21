@@ -3,6 +3,7 @@ using DarkRift;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
@@ -35,6 +36,8 @@ public class Altar : Interactible
     [SerializeField] Color altarUnlockColor;
     [SerializeField] Color altarEndColor;
 
+    public GameObject redTaken, blueTaken;
+
     void Start()
     {
         base.Init();
@@ -56,15 +59,20 @@ public class Altar : Interactible
         //TODO afficher timer altar
         if (waypointObj != null && waypointObj.gameObject.activeSelf)
         {
-            float currentTimeLeft = unlockTime - (Time.fixedTime - currentTime);
-            if (currentTimeLeft > 0)
+            if (currentTime > 0)
             {
-                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTimeLeft) + "s");
+                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTime) + "s");
             }
             else
             {
                 waypointObj.SetUnderText("");
             }
+
+            currentTime -= Time.deltaTime;
+        }
+        else
+        {
+            waypointObj.SetUnderText("");
         }
     }
 
@@ -91,10 +99,12 @@ public class Altar : Interactible
 
         if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
+            blueTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
         }
         else
         {
+            redTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
@@ -137,7 +147,12 @@ public class Altar : Interactible
         base.Captured(_capturingPlayerID);
     }
 
-    
+    public override void UpdateTryCapture(ushort _capturingPlayerID)
+    {
+        base.UpdateTryCapture(_capturingPlayerID);
+    }
+
+
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
@@ -151,7 +166,7 @@ public class Altar : Interactible
     IEnumerator ActivateAltar()
     {
         mapIcon.sprite = willUnlockSprite;
-        currentTime = Time.fixedTime;
+        currentTime = unlockTime;
 
         yield return new WaitForSeconds(unlockTime);
 
@@ -181,6 +196,30 @@ public class Altar : Interactible
         waypointObj.gameObject.SetActive(false);
     }
 
+
+    public void OnPlayerDie(ushort deadP)
+    {
+
+
+        PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            altarUiProgressCol.playerInUIZone.Remove(pm);
+        }
+
+        pm = playerInZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            playerInZone.Remove(pm);
+        }
+
+        playerInZone.RemoveAll(item => item == null);
+        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
+
+        UpdateUI();
+    }
 
     public override void UpdateUI()
     {

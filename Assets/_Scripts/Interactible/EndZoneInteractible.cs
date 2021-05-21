@@ -55,7 +55,18 @@ public class EndZoneInteractible : Interactible
     }
     protected override void OnVolumeChange(float _value)
     {
-        // pas de son pour l'autel de fin
+        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        {
+            base.OnVolumeChange(_value);
+        }
+    }
+
+    protected override void StartAudio()
+    {
+        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        {
+            base.StartAudio();
+        }
     }
     public override void Unlock()
     {

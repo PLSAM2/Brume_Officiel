@@ -10396,7 +10396,7 @@ RectTransform:
   - {fileID: 7978059866185674842}
   - {fileID: 2316865903996335461}
   - {fileID: 3967603213164753802}
-  - {fileID: 6959753875488805427}
+  - {fileID: 7208407531856895491}
   - {fileID: 9147873449889692125}
   - {fileID: 171212459620102795}
   m_Father: {fileID: 7216825737520828839}
@@ -12122,7 +12122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 302.22}
+  m_AnchoredPosition: {x: 0, y: 368.94}
   m_SizeDelta: {x: 888.37, y: 132.4832}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8242757237372085480
@@ -14319,7 +14319,7 @@ MonoBehaviour:
   endGameText: {fileID: 6341507434396153529}
   endGameScore: {fileID: 2197355468158497375}
   toDisableInEndGame: {fileID: 7069422194467636752}
-  chat: {fileID: 6049347924571870700}
+  chat: {fileID: 6299676958966307292}
   endGameStats: {fileID: 6798677159154620499}
   objectivesAnim: {fileID: 6978413778274787388}
   cameraMinimap: {fileID: 0}
@@ -14357,9 +14357,9 @@ MonoBehaviour:
   outViewRedColor: {r: 0.6226415, g: 0.61383057, b: 0.61383057, a: 1}
   killedColor: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
   teamImgAltar:
-  - {fileID: 848707603024331972}
-  - {fileID: 6292992415261114321}
   - {fileID: 3990039335109799363}
+  - {fileID: 6292992415261114321}
+  - {fileID: 848707603024331972}
   altarContestUI: {fileID: 5163864524012534876}
   altarUIPanel: {fileID: 8226276264656662446}
   mainCam: {fileID: 0}
@@ -14880,7 +14880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1839abb18f1c15944ba556d7050ca2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &976421392843510777
+--- !u!1001 &654034761596772297
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -14910,6 +14910,14 @@ PrefabInstance:
     - target: {fileID: 1914838803012187050, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_Name
       value: Chat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860802110303337837, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 6.399994
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860802110303337837, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7699920025616192491, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -14949,7 +14957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7861861442057601482, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 582.5956
       objectReference: {fileID: 0}
     - target: {fileID: 7861861442057601482, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -14985,11 +14993,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7861861442057601482, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 10
+      value: 1328.1
       objectReference: {fileID: 0}
     - target: {fileID: 7861861442057601482, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 75
+      value: -330.06
       objectReference: {fileID: 0}
     - target: {fileID: 7861861442057601482, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15020,6 +15028,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
     - target: {fileID: 8535831721230869290, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8535831721230869290, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: -6769861065885768685, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
@@ -15027,16 +15039,28 @@ PrefabInstance:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 12800000, guid: 8c230c7a3dbfc564790dc34e7530c4ad, type: 3}
+    - target: {fileID: 8826062744272295369, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -61.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 8826062744272295369, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8826062744272295369, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 33.699997
+      objectReference: {fileID: 0}
     - target: {fileID: 9118564021686442128, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
---- !u!114 &6049347924571870700 stripped
+--- !u!114 &6299676958966307292 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6809279873050068501, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
-  m_PrefabInstance: {fileID: 976421392843510777}
+  m_PrefabInstance: {fileID: 654034761596772297}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -15044,10 +15068,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce911db58ebad32419291650df85418f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6959753875488805427 stripped
+--- !u!224 &7208407531856895491 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7861861442057601482, guid: b29ba18b1558bd54a8a82c406c503d1d, type: 3}
-  m_PrefabInstance: {fileID: 976421392843510777}
+  m_PrefabInstance: {fileID: 654034761596772297}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &986468985018613654
 PrefabInstance:

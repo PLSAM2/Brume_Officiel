@@ -13,7 +13,7 @@ public class SpellModule : MonoBehaviour
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
 	[ReadOnly] public float timeToResolveSpell;
 	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
-	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime);} } }
+	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
 	float _cooldown = 0;
 	public float cooldown
 	{
@@ -151,7 +151,6 @@ public class SpellModule : MonoBehaviour
 				break;
 
 			case En_SpellInput.SecondSpell:
-
 				myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
@@ -258,10 +257,11 @@ public class SpellModule : MonoBehaviour
 		showingPreview = false;
 		hasPreviewed = false;
 
-		if(canBeCast())
-			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
-		else if(isUsed)
+
+		if (isUsed)
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
+		else if (charges > 0)
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 		else
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 	}
@@ -285,7 +285,7 @@ public class SpellModule : MonoBehaviour
 		else
 			SpellNotAvaible?.Invoke();
 	}
-	void Canalyse ( Vector3 _BaseMousePos )
+	protected virtual void Canalyse ( Vector3 _BaseMousePos )
 	{
 		if (isOwner)
 		{
@@ -531,13 +531,10 @@ public class SpellModule : MonoBehaviour
 		{
 			KillSpell();
 		}
-		else
+		else if (showingPreview && myPlayerModule.currentSpellResolved == this.spell)
 		{
-			if (showingPreview)
-			{
-				willResolve = false;
-				HidePreview(Vector3.zero);
-			}
+			willResolve = false;
+			HidePreview(Vector3.zero);
 		}
 	}
 	public virtual void KillSpell ()

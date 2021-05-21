@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using UnityStandardAssets.Cameras;
 using static GameData;
 using static StatFactory;
+using UnityEngine.Events;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -202,6 +203,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
         if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
         {
             transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) && isOwner)
+        {
+            print("Prout");
+            addLife_blue_fx.Play();
         }
     }
 
@@ -630,6 +637,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     internal void KillPlayerLocaly()
     {
+
         if (deathFx != null)
         {
             FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
@@ -829,19 +837,27 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     public void AddHitPoint(int _int)
     {
-        myPlayerModule.bonusHp += 1;
-        liveHealth += 1;
-        myUiPlayerManager.AddLifePoint(1);
+        myPlayerModule.bonusHp += _int;
+        liveHealth += (ushort)_int;
+        myUiPlayerManager.AddLifePoint(_int);
 
         if (myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
         {
-            addLife_blue_fx.Stop();
-            addLife_blue_fx.Play();
             UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+            PlayFxLifeGain(true);
+        }
+        else
+            PlayFxLifeGain(true);
+    }
+
+    public void PlayFxLifeGain(bool inMyTeam)
+	{
+        if (inMyTeam)
+        {
+            addLife_blue_fx.Play();
         }
         else
         {
-            addLife_red_fx.Stop();
             addLife_red_fx.Play();
         }
     }
