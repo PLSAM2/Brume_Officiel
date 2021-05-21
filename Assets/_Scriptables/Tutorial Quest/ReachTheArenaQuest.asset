@@ -10,37 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0907e2b5265b904c9e381fd63055810, type: 3}
-  m_Name: DiscoveringSpellsQuest
+  m_Name: ReachTheArenaQuest
   m_EditorClassIdentifier: 
-  questTitle: Discovering your spells
+  questTitle: Reach the next arena
   questSteps:
-  - questEvent: 0
-    stepDescription: Try dashing using
+  - questEvent: 1
+    stepDescription: Reach the next arena
     completed: 0
     UI: {fileID: 0}
-    keyToPress:
-    - key: 323
-      pressed: 0
+    keyToPress: []
     zoneEvent: 0
-    zoneToTrigger: 0
+    zoneToTrigger: 3
     interactibleEvent: 0
     focusedInteractible: {fileID: 0}
     interactibleType: 0
     dummyEvent: 0
     focusedDummyIndex: 0
-    mystEvent: 0
-    movementEvent: 0
-  - questEvent: 3
-    stepDescription: Eliminate this enemy
-    completed: 0
-    UI: {fileID: 0}
-    keyToPress: []
-    zoneEvent: 0
-    zoneToTrigger: 0
-    interactibleEvent: 0
-    focusedInteractible: {fileID: 0}
-    interactibleType: 0
-    dummyEvent: 1
-    focusedDummyIndex: 1
     mystEvent: 0
     movementEvent: 0

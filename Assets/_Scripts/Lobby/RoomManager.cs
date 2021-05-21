@@ -173,6 +173,12 @@ public class RoomManager : MonoBehaviour
 
     private void EndObjectives(bool isRoundWin = false, bool wuxinKilled = false)
     {
+
+        foreach (KeyInteractiblePair kip in InteractibleObjectsManager.Instance.interactibleList)
+        {
+            kip.interactible.StopCapturing();
+        }
+
         ushort? _wxID = null;
         CameraManager.Instance.endGame = true;
         if (wuxinKilled)
@@ -209,7 +215,7 @@ public class RoomManager : MonoBehaviour
 
     IEnumerator EndGame()
     {
-        Time.timeScale = Time.timeScale / 4;
+        Time.timeScale = 0.25f;
 
         yield return new WaitForSeconds(1);
 

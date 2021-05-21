@@ -260,7 +260,7 @@ public class Interactible : MonoBehaviour
 
 	}
 
-	public void StartAudio ()
+	protected virtual void StartAudio()
 	{
 		myAudioSource.enabled = true;
 	}
