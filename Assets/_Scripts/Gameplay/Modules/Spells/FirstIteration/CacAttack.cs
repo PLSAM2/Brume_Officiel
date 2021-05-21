@@ -43,13 +43,16 @@ public class CacAttack : SpellModule
 
 	protected override void Canalyse ( Vector3 _BaseMousePos )
 	{
+		base.Canalyse(_BaseMousePos);
+
 		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
+		{
 			damageToDeal.damageHealth += 1;
+		}
 		else
 			ResetDamage();
 
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
-		base.Canalyse(_BaseMousePos);
 	}
 
 	protected override void UpdatePreview ()
@@ -182,7 +185,7 @@ public class CacAttack : SpellModule
 				if (_playerTouched != null)
 					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
 					{
-						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform);
+						_playerTouched.DealDamages(damageToDeal,transform);
 						_ashitEnemy = true;
 					}
 			}
@@ -218,7 +221,6 @@ public class CacAttack : SpellModule
 		}
 		return _toAdd;
 	}
-
 
 	void ResetDamage ()
 	{
