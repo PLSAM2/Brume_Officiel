@@ -108,7 +108,7 @@ public class Altar : Interactible
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
-        UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        UiManager.Instance.OnAltarUnlock(this, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
 
         StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
@@ -166,9 +166,19 @@ public class Altar : Interactible
     IEnumerator ActivateAltar()
     {
         mapIcon.sprite = willUnlockSprite;
-        currentTime = unlockTime;
+        
+        if (RoomManager.Instance.roundCount == 1)
+        {
+            currentTime = unlockTime + GameManager.Instance.trainTimer;
+        }
+        else
+        {
+            currentTime = unlockTime;
+        }
 
-        yield return new WaitForSeconds(unlockTime);
+        yield return new WaitForSeconds(currentTime);
+
+
 
         if (interactibleName == "Right") // BERK MAIS OSEF
         {
@@ -178,8 +188,8 @@ public class Altar : Interactible
         Unlock();
     }
 
-	public override void Unlock ()
-	{
+    public override void Unlock()
+    {
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
 
@@ -228,7 +238,7 @@ public class Altar : Interactible
 
         if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
         {
-            return; 
+            return;
         }
 
         if (state != State.Capturable)
@@ -252,7 +262,8 @@ public class Altar : Interactible
             if (playerInZone[0].teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
                 UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
-            } else
+            }
+            else
             {
 
                 UiManager.Instance.SetAltarCaptureUIState(false);

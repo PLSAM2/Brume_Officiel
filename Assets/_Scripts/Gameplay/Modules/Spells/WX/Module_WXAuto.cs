@@ -56,7 +56,7 @@ public class Module_WXAuto : SpellModule
     {
         Vector3 normDirection = (myPlayerModule.mousePos() - this.transform.position).normalized;
 
-        arrowPreview.Init(this.transform.position, this.transform.position + (normDirection * spell.range));
+        arrowPreview.Init(this.transform.position, this.transform.position + (normDirection * spell.range), ArrowPreview.arrowType.Dash);
     }
 
     protected override void Resolution()

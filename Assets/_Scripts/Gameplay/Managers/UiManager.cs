@@ -16,6 +16,8 @@ public class UiManager : MonoBehaviour
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
 	[FoldoutGroup("GlobalUi")] public EndZoneUIGroup endZoneUIGroup;
+	[FoldoutGroup("GlobalUi")] public GameObject trainPanel;
+	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI trainTimer;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
@@ -126,8 +128,8 @@ public class UiManager : MonoBehaviour
 			_instance = this;
 		}
 
-		//disable de base
-		teamWx.color = killedColor;
+        //disable de base
+        teamWx.color = killedColor;
 		teamRe.color = killedColor;
 		teamLeng.color = killedColor;
 
