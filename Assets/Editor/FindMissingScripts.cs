@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 public class FindMissingScripts : EditorWindow
 {
-    [MenuItem("PierLeGrosDoggo/FindMissingScripts")]
+    [MenuItem("Sam le bg/FindMissingScripts")]
     public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(FindMissingScripts));
