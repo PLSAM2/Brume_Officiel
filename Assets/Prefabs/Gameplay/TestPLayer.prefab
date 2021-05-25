@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 6667444453632817538}
   - component: {fileID: 8154408291484997990}
   - component: {fileID: 6020452266926908102}
-  - component: {fileID: 8420393879326114452}
   m_Layer: 8
   m_Name: TestPLayer
   m_TagString: Hide
@@ -54,7 +53,7 @@ Animator:
   m_GameObject: {fileID: -7935494346270426752}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 92beab30f99b07d49adfb1fcea390bbc, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5fe6c273b72cb8c49bb8c8af2d58f1bc, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -76,6 +75,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4705339813984825636}
+  movementLerpSpeed: 1
+  maxDistanceBeforeTP: 3
+  myLocalPlayer: {fileID: 0}
+  speedAnim: 4
 --- !u!114 &1217320960498770133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,15 +95,26 @@ MonoBehaviour:
   isOwner: 0
   distanceRequiredBeforeSync: 0.05
   myPlayerModule: {fileID: 6667444453632817538}
-  myAnimator: {fileID: 4705339813984825636}
-  networkAnimationController: {fileID: -3939077042609495558}
-  circleDirection: {fileID: 3531234986128592076}
+  myAnimController: {fileID: 0}
   respawnTime: 15
-  canvas: {fileID: 6548595031188705954}
-  nameText: {fileID: 2784098647336443950}
-  life: {fileID: 8177495112107496326}
-  myFog: {fileID: 466112710899532364}
-  myFogScript: {fileID: 6020452266926908102}
+  myUiPlayerManager: {fileID: 0}
+  allCharacterSpawned: 0
+  fowPrefab: {fileID: 0}
+  forceOutline: 0
+  objToHide: []
+  mesh: {fileID: 0}
+  isVisible: 0
+  forceShow: 0
+  isTp: 0
+  waypointEnemyPrefab: {fileID: 0}
+  myOutline: {fileID: 0}
+  deathFx: {fileID: 0}
+  waypointAlliePrefab: {fileID: 0}
+  deathPerso: {fileID: 0}
+  deathGlobal: {fileID: 0}
+  addLife_blue_fx: {fileID: 0}
+  addLife_red_fx: {fileID: 0}
+  timeSpotDisplay: 2
 --- !u!114 &8281150123794309746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +133,39 @@ MonoBehaviour:
   dashBlockingLayer:
     serializedVersion: 2
     m_Bits: 512
-  forbidenWalkingState: 28
-  usingStamina: 0
+  chara: {fileID: 0}
+  rotLocked: 0
+  currentForcedMovement:
+    myModule: {fileID: 0}
+    _duration: 0
+    baseDuration: 0
+    speedEvolution:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    strength: 0
+    fakeRange: 0
+  isADummy: 0
 --- !u!114 &6667444453632817538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,32 +180,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstSpellKey: 97
   secondSpellKey: 101
-  thirdSpellKey: 114
-  freeCamera: 32
-  interactKey: 102
-  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
-  teamIndex: 0
-  mainCam: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  isInBrume: 0
-  state: 1
-  allHitTaken: []
-  visionObj: {fileID: 466112710899532364}
-  sonar: {fileID: 1063464875045769676, guid: ae8c8dcd3203aa648a31e4df92bc2b7d, type: 3}
-  brumeLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  mapIcon: {fileID: 7456197301907493091}
+  crouching: 304
+  cancelSpellKey: 306
+  pingKey: 103
+  soulSpellKey: 102
   movementPart: {fileID: 8281150123794309746}
   firstSpell: {fileID: 0}
   secondSpell: {fileID: 0}
-  thirdSpell: {fileID: 0}
   leftClick: {fileID: 0}
-  coll: {fileID: 8154408291484997990}
+  pingModule: {fileID: 0}
+  decoyModule: {fileID: 0}
+  thirdEyeModule: {fileID: 0}
+  invisibilityModule: {fileID: 0}
+  wardModule: {fileID: 0}
+  speedUpModule: {fileID: 0}
+  invulnerabilityModule: {fileID: 0}
+  characterParameters: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
+  teamIndex: 0
+  revelationRangeWhileHidden: 10
+  powerUpParticle1: {fileID: 0}
+  powerUpParticle2: {fileID: 0}
+  skinnedRenderer: []
+  _isInBrume: 0
+  willListenInputs: 1
+  oldState: 1
+  brumeId: 0
+  myColor: {r: 0, g: 0, b: 0, a: 0}
+  allHitTaken: []
+  mapIcon: {fileID: 7456197301907493091}
   mylocalPlayer: {fileID: 0}
   interactiblesClose: []
+  menacedIcon: {fileID: 0}
+  allEffectLive: []
+  allTickLive: []
+  enteringBrumeStatus: {fileID: 0}
+  leavingBrumeStatus: {fileID: 0}
+  cursedByShili: 0
+  wxMark: {fileID: 0}
+  wxMarkRef: {fileID: 0}
+  shaderSpeedTransition: 10
+  timeWaitForHeal: 7.5
+  timeHealTick: 2.5
+  healPerTick: 1
+  timeInBrume: 0
+  bonusHp: 0
+  tutorialListeningInput: 0
+  spellInputedRecorded: 0
+  currentSpellResolved: {fileID: 0}
 --- !u!136 &8154408291484997990
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -195,36 +261,14 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 266752
-  visibleTargets: []
+  visibleFx: []
   meshResolution: 10
   edgeResolveIterations: 3
   edgeDstThreshold: 4
   maskCutawayDst: 0
   viewMeshFilter: {fileID: 466112710899532360}
---- !u!114 &8420393879326114452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: -7935494346270426752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3d3ca1e22e2227439e3f1b135c4b87d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTimeCanalised: 0
-  timeToResolveSpell: 0
-  _charges: 3
-  isUsed: 0
-  spell: {fileID: 11400000, guid: 0f4b2e6cb251dd3448093cfb700cb793, type: 2}
-  actionLinked: 0
-  recordedMousePosOnInput: {x: 0, y: 0, z: 0}
-  myPlayerModule: {fileID: 0}
-  canalisationParticle: {fileID: 8162580461717235990}
-  mylineRender: {fileID: 2550331642934917765}
-  startColorPreview: {r: 1, g: 0, b: 0, a: 1}
-  endColorPreview: {r: 0, g: 0, b: 1, a: 1}
+  myType: 0
+  isStatic: 0
 --- !u!1 &460818029975115248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1140,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1659,7 +1703,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2441,7 +2485,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2837,6 +2881,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &9002311009621452255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3048,7 +3093,7 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6849448395297745578}
-  serializedVersion: 6
+  serializedVersion: 7
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
@@ -6620,19 +6665,20 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
-    serializedVersion: 3
+    serializedVersion: 4
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    plane0: {fileID: 0}
-    plane1: {fileID: 0}
-    plane2: {fileID: 0}
-    plane3: {fileID: 0}
-    plane4: {fileID: 0}
-    plane5: {fileID: 0}
+    m_Planes:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -6806,17 +6852,20 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 0}
-    collisionShape1: {fileID: 0}
-    collisionShape2: {fileID: 0}
-    collisionShape3: {fileID: 0}
-    collisionShape4: {fileID: 0}
-    collisionShape5: {fileID: 0}
+    serializedVersion: 2
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+    colliderQueryMode: 0
     radiusScale: 1
+    primitives:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -7998,6 +8047,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5633175811720171505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8716,7 +8766,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 897d267a2afa70d468cfbe5998dfe556, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
