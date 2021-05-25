@@ -62,7 +62,7 @@ public class HurtingDash : SpellModule
 		if (Physics.Raycast(transform.position, myPlayerModule.directionOfTheMouse(), out _hit, spell.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange, 1 << 9))
 			finalMultiplier = Vector3.Distance(transform.position, _hit.point);
 
-		_myPreview.Init(transform.position, transform.position + myPlayerModule.directionOfTheMouse() * finalMultiplier);
+		_myPreview.Init(transform.position, transform.position + myPlayerModule.directionOfTheMouse() * finalMultiplier, ArrowPreview.arrowType.Dash);
 	}
 
 	protected override void HidePreview ( Vector3 _posToHide )

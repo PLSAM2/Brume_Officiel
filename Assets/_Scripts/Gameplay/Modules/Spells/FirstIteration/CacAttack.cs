@@ -71,12 +71,12 @@ public class CacAttack : SpellModule
 				localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange - .4f,
 				1 << 9))
 			{
-				myPreviewArrow.Init(transform.position, _hit.point, 1, 1);
+				myPreviewArrow.Init(transform.position, _hit.point, ArrowPreview.arrowType.Dash);
 				myPreviewArrow.gameObject.SetActive(true);
 			}
 			else
 			{
-				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange)), 1, 1);
+				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange)), ArrowPreview.arrowType.Dash);
 				//myPreviewArrow[1].gameObject.SetActive(true);
 
 			}
