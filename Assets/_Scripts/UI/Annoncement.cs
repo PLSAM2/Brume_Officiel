@@ -63,8 +63,7 @@ public class Annoncement : MonoBehaviour
 
         if (_killer == myId)
 		{
-            //play son kill todo
-            ShowAnnoncement(("YOU HAVE SLAIN " + result).ToUpper(), null, enemyElimated, _killer, _playerDie);
+            //ShowAnnoncement(("YOU HAVE SLAIN " + result).ToUpper(), null, null, _killer, _playerDie);
         }
         else
         {

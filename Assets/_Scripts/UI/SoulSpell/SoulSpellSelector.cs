@@ -61,11 +61,11 @@ public class SoulSpellSelector : MonoBehaviour
     {
         currentTimer = 0;
 
-        ward.DisableInteractible();
-        thirdEye.DisableInteractible();
-        invisible.DisableInteractible();
-        decoil.DisableInteractible();
-        speed.DisableInteractible();
+        ward.DisableInteractable();
+        thirdEye.DisableInteractable();
+        invisible.DisableInteractable();
+        decoil.DisableInteractable();
+        speed.DisableInteractable();
     }
 
     public void StartTimer()
@@ -119,6 +119,8 @@ public class SoulSpellSelector : MonoBehaviour
             {
                 soulSpell.Hide();
             }
+
+            soulSpell.DisableInteractable();
         }
 
         PlayerPrefs.SetInt("SoulSpell", (int) currentSoulSpell);
