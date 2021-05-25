@@ -282,8 +282,8 @@ public class SpellModule : MonoBehaviour
 		{
 			Canalyse(_BaseMousePos);
 		}
-		else
-			SpellNotAvaible?.Invoke();
+	/*	else
+			SpellNotAvaible?.Invoke();*/
 	}
 	protected virtual void Canalyse ( Vector3 _BaseMousePos )
 	{
@@ -623,7 +623,6 @@ public class SpellModule : MonoBehaviour
 		charges++;
 		SpellAvaible?.Invoke();
 		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
-		UiManager.Instance.CooldownReady(actionLinked);
 	}
 	protected virtual void DecreaseCharge ()
 	{

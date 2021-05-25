@@ -616,69 +616,9 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	public void LinkInputName ( En_SpellInput _input, string _name )
-	{
-		switch (_input)
-		{
-			case En_SpellInput.FirstSpell:
-				firstSpell.SetupInputName(_name);
-				break;
-
-			case En_SpellInput.SecondSpell:
-				secondSpell.SetupInputName(_name);
-				break;
-
-			case En_SpellInput.Click:
-				autoAttackIcon.SetupInputName(_name);
-				break;
-
-			case En_SpellInput.SoulSpell:
-				soulSpellIcon.SetupInputName(_name);
-				break;
-
-		}
-	}
 	internal void SpecJoinGameScene ()
 	{
 		waitingForPlayersPanel.SetActive(false);
-	}
-
-	public void UpdateChargesUi ( int _charges, En_SpellInput _spellInput )
-	{
-		switch (_spellInput)
-		{
-			case En_SpellInput.FirstSpell:
-				firstSpell.UpdatesChargesAmont(_charges);
-				if (_charges > 0)
-					firstSpell.HideIcon(false);
-				else
-					firstSpell.HideIcon(true);
-
-				break;
-			case En_SpellInput.SecondSpell:
-				secondSpell.UpdatesChargesAmont(_charges);
-				if (_charges > 0)
-					secondSpell.HideIcon(false);
-				else
-					secondSpell.HideIcon(true);
-				break;
-
-			case En_SpellInput.Click:
-				autoAttackIcon.UpdatesChargesAmont(_charges);
-				if (_charges > 0)
-					autoAttackIcon.HideIcon(false);
-				else
-					autoAttackIcon.HideIcon(true);
-				break;
-			case En_SpellInput.SoulSpell:
-				soulSpellIcon.UpdatesChargesAmont(_charges);
-				if (_charges > 0)
-					soulSpellIcon.HideIcon(false);
-				else
-					soulSpellIcon.HideIcon(true);
-				break;
-
-		}
 	}
 
 	public void CantCastFeedback ( En_SpellInput _spellInput )
@@ -725,28 +665,6 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	public void CooldownReady ( En_SpellInput _spellInput )
-	{
-		switch (_spellInput)
-		{
-			case En_SpellInput.FirstSpell:
-				firstSpell.CooldownReadyFeedback();
-				break;
-
-			case En_SpellInput.SecondSpell:
-				secondSpell.CooldownReadyFeedback();
-				break;
-
-
-			case En_SpellInput.Click:
-				autoAttackIcon.CooldownReadyFeedback();
-				break;
-
-			case En_SpellInput.SoulSpell:
-				soulSpellIcon.CooldownReadyFeedback();
-				break;
-		}
-	}
 
 	public void StatusUpdate ( En_CharacterState _currentState )
 	{
