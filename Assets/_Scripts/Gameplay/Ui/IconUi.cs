@@ -60,10 +60,9 @@ public class IconUi : MonoBehaviour
 				Color _tempColorBlue = new Vector4(0, 150, 255, 255);
 				outlineIcon.color = _tempColorBlue;
 				icon.color = _tempColorBlue;
-
 				UiManager.Instance.currentCdDisplay = 0;
-				inputIcon.SetActive(false);
 				cooldownCount.gameObject.SetActive(true);
+				feedbackCanUse.SetActive(false);
 				break;
 
 			case En_IconStep.ready:

@@ -123,7 +123,7 @@ public class ModuleProjectileSpell : SpellModule
 			localTrad.fakeRange,
 			1 << 9))
 			{
-				myPreviewArrow[0].Init(transform.position, _hit.point, ArrowPreview.arrowType.Dash);
+				myPreviewArrow[0].Init(transform.position, _hit.point, ArrowPreview.arrowType.Projectile);
 				myPreviewArrow[0].gameObject.SetActive(true);
 
 				/*	if (localTrad.bouncingNumber > 0)
@@ -138,13 +138,13 @@ public class ModuleProjectileSpell : SpellModule
 			}
 			else
 			{
-				myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), ArrowPreview.arrowType.Dash);
+				myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), ArrowPreview.arrowType.Projectile);
 				//myPreviewArrow[1].gameObject.SetActive(true);
 			}
 		}
 		else
 		{
-			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), ArrowPreview.arrowType.Dash);
+			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), ArrowPreview.arrowType.Projectile);
 			//myPreviewArrow[1].gameObject.SetActive(true);
 		}
 
