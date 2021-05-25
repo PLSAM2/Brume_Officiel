@@ -237,11 +237,6 @@ public class PlayerModule : MonoBehaviour
 
 		if (mylocalPlayer.isOwner)
 		{
-			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
-			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, "RC");
-			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
-
-			UiManager.Instance.LinkInputName(En_SpellInput.SoulSpell, soulSpellKey.ToString());
 			spellResolved += BuffInput;
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);

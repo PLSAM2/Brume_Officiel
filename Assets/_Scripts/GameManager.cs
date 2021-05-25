@@ -39,7 +39,7 @@ public class GameManager : SerializedMonoBehaviour
     private bool inOvertime = false;
     private bool isReviving = false;
     public float timer = 0;
-    public float endZoneTimer = 46;
+    public float endZoneTimer = 61;
     private float baseEndZoneTimer = 46;
     public float baseReviveTime = 25;
     private float reviveTimer = 0;
@@ -312,22 +312,23 @@ public class GameManager : SerializedMonoBehaviour
             }
         }
 
-        //if (endZoneStarted)
-        //{
-        //    endZoneTimer -= Time.deltaTime;
+        if (endZoneStarted)
+        {
+            endZoneTimer -= Time.deltaTime;
 
-        //    int remainingSec = SetTimer(endZoneTimer, UiManager.Instance.endZoneTimer.timer);
-        //    UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (endZoneTimer / baseEndZoneTimer);
+            SetTimer(endZoneTimer, UiManager.Instance.endZoneUIGroup.timer);
 
-        //    if (remainingSec <= 0)
-        //    {
-        //        endZoneStarted = false;
-        //        UiManager.Instance.endZoneTimer.endZoneAnim.SetTrigger("Overtime");
+            if (endZoneTimer <= 0)
+            {
+                endZoneStarted = false;
 
-        //        SetTimer(0,UiManager.Instance.endZoneTimer.timer);
-        //    }
+                ((EndZoneInteractible)InteractibleObjectsManager.Instance.interactibleList[3].interactible).TimerElapsed(); ;
 
-        //}
+                UiManager.Instance.endZoneUIGroup.TimerElapsed();
+                SetTimer(0, UiManager.Instance.endZoneUIGroup.timer);
+            }
+
+        }
     }
 
     public void Revive(bool state = false)

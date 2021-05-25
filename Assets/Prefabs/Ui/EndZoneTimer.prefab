@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3190927640630261458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4899188043275417858
 RectTransform:
   m_ObjectHideFlags: 0
@@ -109,8 +109,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 18.304}
-  m_SizeDelta: {x: -459.8224, y: -36.2062}
+  m_AnchoredPosition: {x: 0.000030517578, y: -59.70001}
+  m_SizeDelta: {x: -403.2368, y: -36.2062}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6447690262201030723
 CanvasRenderer:
@@ -142,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 59ac77611d1efa34aa96a12f12811678, type: 2}
-  m_sharedMaterial: {fileID: -3515277035737823639, guid: 59ac77611d1efa34aa96a12f12811678, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
+  m_sharedMaterial: {fileID: -6769861065885768685, guid: b8ef9cd886a88714fa6cf76ae8e964f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -276,8 +276,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OVERTIME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 59ac77611d1efa34aa96a12f12811678, type: 2}
-  m_sharedMaterial: {fileID: -3515277035737823639, guid: 59ac77611d1efa34aa96a12f12811678, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8187d90ed664cae489c99738503f9043, type: 2}
+  m_sharedMaterial: {fileID: 2513269166220241945, guid: 8187d90ed664cae489c99738503f9043, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.4
+  m_fontSize: 44.6
   m_fontSizeBase: 48.99
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -439,7 +439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: {fileID: 1361210893599360437}
   EndZoneText: {fileID: 5648064211466809912}
-  endZoneBarTimer: {fileID: 1637751663909757050}
+  endZoneBar: {fileID: 0}
+  endZoneBarBackground: {fileID: 0}
   endZoneAnim: {fileID: 8812396400291731422}
   endZoneTimerObj: {fileID: 6919990135166585470}
 --- !u!1 &7675444257638493087
@@ -459,7 +460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3980811721371554064
 RectTransform:
   m_ObjectHideFlags: 0
