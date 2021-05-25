@@ -38,26 +38,30 @@ public class AnimEvent : MonoBehaviour
             KillEventAnim obj = Instantiate(killPrefab, parentList).GetComponent<KillEventAnim>();
             obj.killText.text = "KILL x" + killByPlayer[_idKiller];
 
+            print(killByPlayer[_idKiller]);
+
             switch (killByPlayer[_idKiller])
             {
                 case 1:
-                    AudioManager.Instance.Play2DAudio(kill1);
+                    print("call");
+                    AudioManager.Instance.Play2DAudio(kill1, 5);
+                    print("call");
                     break;
 
                 case 2:
-                    AudioManager.Instance.Play2DAudio(kill2);
+                    AudioManager.Instance.Play2DAudio(kill2, 5);
                     break;
 
                 case 3:
-                    AudioManager.Instance.Play2DAudio(kill3);
+                    AudioManager.Instance.Play2DAudio(kill3, 5);
                     break;
 
                 case 4:
-                    AudioManager.Instance.Play2DAudio(kill4);
+                    AudioManager.Instance.Play2DAudio(kill4, 5);
                     break;
 
                 default:
-                    AudioManager.Instance.Play2DAudio(kill5);
+                    AudioManager.Instance.Play2DAudio(kill5, 5);
                     break;
             }
 
