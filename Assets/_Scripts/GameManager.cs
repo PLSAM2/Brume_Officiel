@@ -301,7 +301,9 @@ public class GameManager : SerializedMonoBehaviour
 
                 Transform t = GetSpawnsOfTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam)[0].transform;
 
-                LocalPoolManager.Instance.SpawnNewGenericInLocal(7, t.position, 0 , 1, 3);
+                LocalPoolManager.Instance.SpawnNewGenericInLocal(7, t.position, 0 , 1, 3); // FOW
+
+                NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(14, t.position + new Vector3(0,0.1f,0), new Vector3(-90, 0, 0), 3 - NetworkManager.Instance.GetLocalClient().Client.RoundTripTime.LatestRtt);
                 CameraManager.Instance.SetFollowObj(t);
             }            
             if (reviveTimer <= 0)

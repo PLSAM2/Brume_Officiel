@@ -51,7 +51,7 @@ public class SpellModule : MonoBehaviour
 	[Header("FeedBack Spell ")]
 	public UnityEvent onCanalisation;
 	public UnityEvent onAnnonciation, onResolution, onInterrupt;
-
+	bool ispreviewed =false;
 	//setup
 	#region
 	private void OnEnable ()
@@ -254,16 +254,17 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
+		if(showingPreview)
+		{
+			if (isUsed)
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
+			else if (charges > 0)
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+			else
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
+		}
 		showingPreview = false;
 		hasPreviewed = false;
-
-
-		if (isUsed)
-			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
-		else if (charges > 0)
-			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
-		else
-			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 	}
 	protected virtual void UpdatePreview ()
 	{
@@ -282,8 +283,9 @@ public class SpellModule : MonoBehaviour
 		{
 			Canalyse(_BaseMousePos);
 		}
-	/*	else
-			SpellNotAvaible?.Invoke();*/
+		else
+			UiManager.Instance.CantCastFeedback(actionLinked);
+			/*SpellNotAvaible?.Invoke();*/
 	}
 	protected virtual void Canalyse ( Vector3 _BaseMousePos )
 	{
