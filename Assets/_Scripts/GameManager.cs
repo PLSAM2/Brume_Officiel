@@ -23,7 +23,7 @@ public class GameManager : SerializedMonoBehaviour
 
     // Spawns >>
     [SerializeField] private Dictionary<ushort, List<SpawnPoint>> spawns = new Dictionary<ushort, List<SpawnPoint>>();
-    public List<SpawnPoint> resSpawns = new List<SpawnPoint>();
+    [SerializeField] public Dictionary<Team, List<SpawnPoint>> trainSpawns = new Dictionary<Team, List<SpawnPoint>>();
     // <<
 
     public Dictionary<ushort, LocalPlayer> networkPlayers = new Dictionary<ushort, LocalPlayer>();
@@ -40,8 +40,9 @@ public class GameManager : SerializedMonoBehaviour
     private bool isReviving = false;
     public float timer = 0;
     public float endZoneTimer = 61;
-    private float baseEndZoneTimer = 46;
-    public float baseReviveTime = 25;
+    public float trainTimer = 40;
+    public bool trainTimerStarted = false;
+    public float baseReviveTime = 15;
     private float reviveTimer = 0;
 
     private float overtime = 3;
@@ -164,7 +165,6 @@ public class GameManager : SerializedMonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         timer = 0;
-        baseEndZoneTimer = endZoneTimer;
         baseOvertime = overtime;
 
         SetTimer(timer, UiManager.Instance.timer);
@@ -176,8 +176,14 @@ public class GameManager : SerializedMonoBehaviour
 
         AudioManager.Instance.SetBackgroundMusic(bgMusic);
 
+        if (RoomManager.Instance.roundCount == 1)
+        {
+            trainTimerStarted = true;
+            UiManager.Instance.trainPanel.SetActive(true);
+        }
 
-        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
             GameManager.Instance.playerJoinedAndInit = true;
             GameManager.Instance.PlayerJoinedAndInitInScene();
@@ -286,7 +292,11 @@ public class GameManager : SerializedMonoBehaviour
         //    UiManager.Instance.endZoneTimer.endZoneBarTimer.fillAmount = (overtime / baseOvertime);
         //}
 
-        timer += Time.deltaTime;
+        if (!trainTimerStarted)
+        {
+            timer += Time.deltaTime;
+        }
+
         SetTimer(timer, UiManager.Instance.timer);
 
         if (isReviving)
@@ -330,6 +340,25 @@ public class GameManager : SerializedMonoBehaviour
                 SetTimer(0, UiManager.Instance.endZoneUIGroup.timer);
             }
 
+        }
+        if (trainTimerStarted)
+        {
+            trainTimer -= Time.deltaTime;
+            SetTimer(trainTimer, UiManager.Instance.trainTimer);
+
+            if (trainTimer <= 0)
+            {
+               UiManager.Instance.trainPanel.SetActive(false);
+               trainTimerStarted = false;
+
+                foreach (SpawnPoint spawn in GetSpawnsOfTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam))
+                {
+                    if (spawn.CanSpawn())
+                    {
+                        networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].transform.position = spawn.transform.position;
+                    }
+                }
+            }
         }
     }
 
