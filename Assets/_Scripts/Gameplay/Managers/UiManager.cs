@@ -128,8 +128,8 @@ public class UiManager : MonoBehaviour
 			_instance = this;
 		}
 
-		//disable de base
-		teamWx.color = killedColor;
+        //disable de base
+        teamWx.color = killedColor;
 		teamRe.color = killedColor;
 		teamLeng.color = killedColor;
 

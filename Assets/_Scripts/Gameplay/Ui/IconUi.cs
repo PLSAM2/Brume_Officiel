@@ -52,11 +52,14 @@ public class IconUi : MonoBehaviour
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(false);
 				cooldownCount.gameObject.SetActive(true);
+				Color _tempColorRed = new Vector4(157, 48, 45, 220);
+				icon.color = _tempColorRed;
 				break;
 
 			case En_IconStep.selectionned:
-				Color _tempColor = new Vector4(0, 150, 255, 255);
-				outlineIcon.color = _tempColor;
+				Color _tempColorBlue = new Vector4(0, 150, 255, 255);
+				outlineIcon.color = _tempColorBlue;
+				icon.color = _tempColorBlue;
 
 				UiManager.Instance.currentCdDisplay = 0;
 				inputIcon.SetActive(false);
@@ -65,6 +68,7 @@ public class IconUi : MonoBehaviour
 
 			case En_IconStep.ready:
 				ResetIcon();
+				icon.color = new Vector4(255, 255, 255, 255);
 
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(true);

@@ -12,6 +12,8 @@ public class AnimEvent : MonoBehaviour
 
     public AudioClip kill1, kill2, kill3, kill4, kill5;
 
+    GameObject currentEvent;
+
     private void OnEnable()
     {
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
@@ -24,6 +26,12 @@ public class AnimEvent : MonoBehaviour
 
     public void OnPlayerDie(ushort _idKilled, ushort _idKiller)
     {
+        if(currentEvent != null)
+        {
+            StopAllCoroutines();
+            DestroyImmediate(currentEvent);
+        }
+
         if (killByPlayer.ContainsKey(_idKiller))
         {
             killByPlayer[_idKiller]++;
@@ -38,14 +46,12 @@ public class AnimEvent : MonoBehaviour
             KillEventAnim obj = Instantiate(killPrefab, parentList).GetComponent<KillEventAnim>();
             obj.killText.text = "KILL x" + killByPlayer[_idKiller];
 
-            print(killByPlayer[_idKiller]);
+            currentEvent = obj.gameObject;
 
             switch (killByPlayer[_idKiller])
             {
                 case 1:
-                    print("call");
                     AudioManager.Instance.Play2DAudio(kill1, 5);
-                    print("call");
                     break;
 
                 case 2:
@@ -65,7 +71,13 @@ public class AnimEvent : MonoBehaviour
                     break;
             }
 
-            Destroy(obj.gameObject, 3.1f);
+            StartCoroutine(WaitToDestroy(obj.gameObject));
         }
+    }
+
+    IEnumerator WaitToDestroy(GameObject _obj)
+    {
+        yield return new WaitForSeconds(3.1f);
+        Destroy(_obj);
     }
 }
