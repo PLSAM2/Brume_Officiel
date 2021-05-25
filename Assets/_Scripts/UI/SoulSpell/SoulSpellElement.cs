@@ -28,6 +28,7 @@ public class SoulSpellElement : MonoBehaviour
     public void DisableInteractable()
     {
         myCanvasGroup.interactable = false;
+        myCanvasGroup.blocksRaycasts = false;
     }
 
     private void Start()
