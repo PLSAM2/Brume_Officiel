@@ -16,8 +16,11 @@ public class UiManager : MonoBehaviour
 
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
 	[FoldoutGroup("GlobalUi")] public EndZoneUIGroup endZoneUIGroup;
+	//Train >>
 	[FoldoutGroup("GlobalUi")] public GameObject trainPanel;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI trainTimer;
+	[FoldoutGroup("GlobalUi")] public Animator trainAnimator;
+	//<<
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI allyScore;
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;

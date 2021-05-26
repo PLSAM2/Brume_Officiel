@@ -93,7 +93,8 @@ public enum MystEvent
 
 public enum MovementEvent
 {
-    Walk
+    Walk,
+    WatchCameraBorder
 }
 
 [Serializable]
