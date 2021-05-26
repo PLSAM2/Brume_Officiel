@@ -31,6 +31,8 @@ public class TutorialManager : MonoBehaviour
     public UnityEvent OnQuestStarted;
     public UnityEvent OnQuestEnded;
 
+
+    [SerializeField] private Animator canvasAnimator;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -96,23 +98,31 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
+
         if (ended)
         {
-            OnQuestEnded?.Invoke();
-            actualQuest.OnQuestEnded?.Invoke();
-            foreach (QuestStep steps in actualQuest.questSteps)
-            {
-                steps.Reset();
-            }
-
-            StartNextQuest();
+            canvasAnimator.SetTrigger("Complete");
+            StartCoroutine(WaitForNextQuest());
         }
+    }
+
+
+    IEnumerator WaitForNextQuest()
+    {
+        yield return new WaitForSeconds(2);
+
+        OnQuestEnded?.Invoke();
+        actualQuest.OnQuestEnded?.Invoke();
+        foreach (QuestStep steps in actualQuest.questSteps)
+        {
+            steps.Reset();
+        }
+        StartNextQuest();
     }
 
     public void StartNextQuest()
     {
         step++;
-
         if (tutorialQuests.Count == step)
         {
             EndTutorial();
@@ -123,7 +133,6 @@ public class TutorialManager : MonoBehaviour
             actualQuest = tutorialQuests[step];
 
             actualQuest.OnQuestStarted?.Invoke();
-            QuestStarted();
             InitAllNewQuestEvents();
             InitQuestUi();
         }
@@ -254,6 +263,13 @@ public class TutorialManager : MonoBehaviour
     public void InitQuestUi()
     {
         questTileUiText.text = actualQuest.questTitle;
+
+        for (int i = 0; i < 6; i++)
+        {
+            questStepUIs[i].gameObject.SetActive(false);          
+        }
+
+
         for (int i = 0; i < actualQuest.questSteps.Count; i++)
         {
             questStepUIs[i].Init(actualQuest.questSteps[i]);
@@ -273,11 +289,6 @@ public class TutorialManager : MonoBehaviour
         qs.UI.ProgressKeyQuest(qs);
     }
 
-
-    public void QuestStarted()
-    {
-
-    }
 
 
     // EVENT --- 
