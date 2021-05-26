@@ -123,7 +123,7 @@ public class TutorialManager : MonoBehaviour
             actualQuest = tutorialQuests[step];
 
             actualQuest.OnQuestStarted?.Invoke();
-
+            QuestStarted();
             InitAllNewQuestEvents();
             InitQuestUi();
         }
@@ -273,6 +273,11 @@ public class TutorialManager : MonoBehaviour
         qs.UI.ProgressKeyQuest(qs);
     }
 
+
+    public void QuestStarted()
+    {
+
+    }
 
 
     // EVENT --- 
