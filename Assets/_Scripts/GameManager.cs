@@ -36,7 +36,6 @@ public class GameManager : SerializedMonoBehaviour
     [Header("Timer")]
     private bool timeStart = false;
     private bool endZoneStarted = false;
-    private bool inOvertime = false;
     private bool isReviving = false;
     public float timer = 0;
     public float endZoneTimer = 61;
@@ -101,12 +100,13 @@ public class GameManager : SerializedMonoBehaviour
     public GameObject deadPostProcess;
 
     [HideInInspector] public bool menuOpen = false;
+    [HideInInspector] public bool blockMovement = false;
 
     [Header("Shader")]
     public List<Material> shaderDifMaterial = new List<Material>();
     public string property = "_Out_or_InBrume";
 
-    public AudioClip bgMusic;
+    public AudioClip bgMusic, timerTrain, timerTrainSpawn;
     private bool reviveFeedbackSet = false;
     //debug
     public CanvasGroup UIGroup;
@@ -140,7 +140,6 @@ public class GameManager : SerializedMonoBehaviour
 
     private void OnEnable()
     {
-        OnPlayerGetDamage += OnPlayerTakeDamage;
         OnPlayerRespawn += OnPlayerRespawnId;
     }
 
@@ -149,7 +148,7 @@ public class GameManager : SerializedMonoBehaviour
         OnPlayerRespawn -= OnPlayerRespawnId;
 
         client.MessageReceived -= OnMessageReceive;
-        OnPlayerGetDamage -= OnPlayerTakeDamage;
+
         NetworkManager.Instance.OnPlayerQuit -= PlayerQuitGame;
 
         foreach (Material _mat in materialNeedingTheCamPos)
@@ -284,6 +283,7 @@ public class GameManager : SerializedMonoBehaviour
         globalVolumeAnimator.SetBool("InBrume", false);
     }
 
+    int oldTimerTrain = 0;
     void UpdateTime()
     {
         //if (inOvertime)
@@ -344,7 +344,27 @@ public class GameManager : SerializedMonoBehaviour
         if (trainTimerStarted)
         {
             trainTimer -= Time.deltaTime;
-            SetTimer(trainTimer, UiManager.Instance.trainTimer);
+
+            if(oldTimerTrain != Mathf.RoundToInt(trainTimer))
+            {
+                oldTimerTrain = Mathf.RoundToInt(trainTimer);
+                UiManager.Instance.trainTimer.text = oldTimerTrain.ToString();
+
+                if(oldTimerTrain <= 3)
+                {
+                    blockMovement = true;
+                    UiManager.Instance.trainAnimator.SetTrigger("DoScale");
+                    
+                    if(oldTimerTrain == 0)
+                    {
+                        AudioManager.Instance.Play2DAudio(timerTrainSpawn);
+                    }
+                    else
+                    {
+                        AudioManager.Instance.Play2DAudio(timerTrain);
+                    }
+                }
+            }
 
             if (trainTimer <= 0)
             {
@@ -358,6 +378,8 @@ public class GameManager : SerializedMonoBehaviour
                         networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].transform.position = spawn.transform.position;
                     }
                 }
+
+                blockMovement = false;
             }
         }
     }
@@ -376,8 +398,6 @@ public class GameManager : SerializedMonoBehaviour
         {
             overtime = baseOvertime;
         }
-
-        inOvertime = state;
     }
 
     public int SetTimer(float timer, TextMeshProUGUI text = null)
@@ -398,16 +418,6 @@ public class GameManager : SerializedMonoBehaviour
     private void StartTimerInServer()
     {
         timeStart = true;
-    }
-
-    void OnPlayerTakeDamage(ushort idPlayer, ushort _damage, ushort dealer)
-    {
-        /*
-        if (GameFactory.CheckIfPlayerIsInView(idPlayer))
-        {
-            LocalPoolManager.Instance.SpawnNewTextFeedback(GameManager.Instance.networkPlayers[idPlayer].transform.position + Vector3.up * 1.5f, _damage.ToString(), Color.red, 0.5f);
-        }
-        */
     }
 
     public void QuitGame()
