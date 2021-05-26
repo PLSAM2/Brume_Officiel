@@ -95,11 +95,11 @@ public class WardModule : SpellModule
 	Vector3 TryToFindFreePos ( Vector3 _locationToFindFrom, int _iteration )
 	{
 		Collider[] _hits;
-		Vector3 posToCheck = _locationToFindFrom + (transform.position - _locationToFindFrom).normalized * _iteration * .6f;
+		Vector3 posToCheck = _locationToFindFrom + (transform.position - _locationToFindFrom).normalized * _iteration * .3f;
 
 		_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
 			posToCheck + Vector3.up * 10,
-			.6f,
+			.3f,
 			1 << 9);
 
 		Debug.DrawLine(posToCheck + Vector3.down * 10,
@@ -114,10 +114,10 @@ public class WardModule : SpellModule
 		else
 		{
 
-			posToCheck = _locationToFindFrom - (transform.position - _locationToFindFrom).normalized * _iteration * .6f;
+			posToCheck = _locationToFindFrom - (transform.position - _locationToFindFrom).normalized * _iteration * .3f;
 			_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
 			posToCheck + Vector3.up * 10,
-			.6f,
+			.3f,
 			1 << 9);
 
 			Debug.DrawLine(posToCheck + Vector3.down * 10,

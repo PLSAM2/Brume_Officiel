@@ -528,12 +528,11 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
-
 		if (_isForcedInterrupt && isUsed)
 		{
 			KillSpell();
 		}
-		else if (showingPreview && myPlayerModule.currentSpellResolved == this.spell)
+		else if (showingPreview)
 		{
 			willResolve = false;
 			HidePreview(Vector3.zero);
