@@ -202,7 +202,9 @@ public class PlayerModule : MonoBehaviour
 
 		Event e = Event.current;
 
-		if (Input.anyKeyDown && e.isKey && e.type == EventType.KeyDown)
+		if (Input.anyKeyDown
+			&& (e.isKey) 
+			&& (e.type == EventType.KeyDown))
 		{
 			TutorialManager.Instance.GetKeyPressed(e.keyCode);
 		}
@@ -371,6 +373,18 @@ public class PlayerModule : MonoBehaviour
 
     protected virtual void Update ()
 	{
+
+		if (tutorialListeningInput)
+		{
+            for (int i = 0; i < 6; i++)
+            {
+				if (Input.GetMouseButtonDown(i))
+				{
+					TutorialManager.Instance.GetKeyPressed(i);
+				}
+			}
+		}
+
 
 		TreatEffects();
 		TreatTickEffects();
