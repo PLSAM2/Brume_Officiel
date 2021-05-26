@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,21 +9,22 @@ using UnityEngine.UI;
 public class QuestStepUI : MonoBehaviour
 {
 
-    public TextMeshProUGUI descriptionText;
-    public Image img;
+    public Text descriptionText;
+    public Animator QuestStepUI_Animator;
 
     public void Init(QuestStep qs)
     {
+        QuestStepUI_Animator.SetBool("Complete", false);
         if (qs.questEvent == QuestEvent.KeyPressed)
         {
             ProgressKeyQuest(qs);
+            descriptionText.DOText(descriptionText.text, 0.7f, true, ScrambleMode.Lowercase);
         } else
         {
-            descriptionText.text = qs.stepDescription;
+         
+            descriptionText.DOText(qs.stepDescription, 0.7f, true, ScrambleMode.Lowercase);
         }
 
-        descriptionText.color = Color.white;
-        img.color = Color.white;
         gameObject.SetActive(true);
     }
 
@@ -46,7 +49,8 @@ public class QuestStepUI : MonoBehaviour
 
         }
 
-        descriptionText.text = _temp;
+        descriptionText.text = _temp; 
+
     }
 
 
@@ -75,7 +79,7 @@ public class QuestStepUI : MonoBehaviour
     }
     public void End()
     {
-        descriptionText.color = Color.green;
-        img.color = Color.green;
+        QuestStepUI_Animator.SetBool("Complete", true);
     }
+
 }
