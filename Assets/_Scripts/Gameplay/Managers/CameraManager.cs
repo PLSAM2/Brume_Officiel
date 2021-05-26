@@ -105,10 +105,11 @@ public class CameraManager : MonoBehaviour
 
 		if (_distanceFromCenter > pixelToScrollFrom)
 		{
-            if (listeningCameraInput)
-            {
+			if(_distanceFromCenter > pixelToScrollFrom*1.3f & listeningCameraInput)
+			{ 
 				OnWatchCameraBorder?.Invoke(this);
 			}
+
 			Vector3 _direction = new Vector3( Input.mousePosition.x - pixelSizeScreen.x / 2, 0,( Input.mousePosition.y - pixelSizeScreen.y / 2) * heightMultiplier).normalized;
 			cameraLocker.transform.position = _character.transform.position + _direction * Mathf.Clamp((_distanceFromCenter - pixelToScrollFrom) / maxPixelTraveled, 0, maxDistanceInGameTraveled);
 		}

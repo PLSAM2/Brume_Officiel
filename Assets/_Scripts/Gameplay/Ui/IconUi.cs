@@ -49,11 +49,12 @@ public class IconUi : MonoBehaviour
 		switch (_spellStep)
 		{
 			case En_IconStep.inCd:
+				print("In cd");
+				Color _tempColorRed = new Vector4(157, 48, 45, 255);
+				icon.color = _tempColorRed;
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(false);
 				cooldownCount.gameObject.SetActive(true);
-				Color _tempColorRed = new Vector4(157, 48, 45, 220);
-				icon.color = _tempColorRed;
 				break;
 
 			case En_IconStep.selectionned:
@@ -66,8 +67,9 @@ public class IconUi : MonoBehaviour
 				break;
 
 			case En_IconStep.ready:
+				print("I m ready");
 				ResetIcon();
-				icon.color = new Vector4(255, 255, 255, 255);
+				icon.color = Color.white;
 
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(true);
