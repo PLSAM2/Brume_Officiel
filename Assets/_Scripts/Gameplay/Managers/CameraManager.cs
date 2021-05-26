@@ -30,7 +30,8 @@ public class CameraManager : MonoBehaviour
 	public bool endGame = false;
 	private float cameraShakeTimer = 0;
 	private bool cameraShakeStarted = false;
-
+	[HideInInspector] public Action<CameraManager> OnWatchCameraBorder;
+	[HideInInspector] public bool listeningCameraInput = false;
 	private void Awake ()
 	{
 		if (_instance != null && _instance != this)
@@ -104,6 +105,11 @@ public class CameraManager : MonoBehaviour
 
 		if (_distanceFromCenter > pixelToScrollFrom)
 		{
+			if(_distanceFromCenter > pixelToScrollFrom*1.3f & listeningCameraInput)
+			{ 
+				OnWatchCameraBorder?.Invoke(this);
+			}
+
 			Vector3 _direction = new Vector3( Input.mousePosition.x - pixelSizeScreen.x / 2, 0,( Input.mousePosition.y - pixelSizeScreen.y / 2) * heightMultiplier).normalized;
 			cameraLocker.transform.position = _character.transform.position + _direction * Mathf.Clamp((_distanceFromCenter - pixelToScrollFrom) / maxPixelTraveled, 0, maxDistanceInGameTraveled);
 		}
@@ -195,8 +201,6 @@ public class CameraManager : MonoBehaviour
 
 	private void Update ()
 	{
-
-
 		if (cameraShakeTimer > 0 && cameraShakeStarted)
 		{
 			cameraShakeTimer -= Time.deltaTime;
@@ -243,7 +247,21 @@ public class CameraManager : MonoBehaviour
 		}
 	}
 
-	public void SetFollowObj ( Transform obj )
+    internal void EventTutorial(MovementEvent movementEvent)
+    {
+
+			switch (movementEvent)
+			{
+				case MovementEvent.WatchCameraBorder:
+				listeningCameraInput = true;
+				OnWatchCameraBorder += TutorialManager.Instance.OnWatchCameraBorder;
+					break;
+				default:
+					throw new Exception("not existing event");
+			}
+		}
+
+    public void SetFollowObj ( Transform obj )
 	{
 		myCinemachine.Follow = obj;
 	}

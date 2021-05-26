@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using static GameData;
 
@@ -18,7 +19,6 @@ public class TutorialManager : MonoBehaviour
 
     private int step = 0;
     [Header("REF")]
-    public List<TutorialTriggerZone> tutorialTriggerZones = new List<TutorialTriggerZone>();
     public List<Dummy> dummies = new List<Dummy>();
 
     [Header("UI")]
@@ -27,6 +27,12 @@ public class TutorialManager : MonoBehaviour
     public GameObject tutorialQuestUiPanel;
     public GameObject EndTutorialPanel;
 
+    [Header("Events")]
+    public UnityEvent OnQuestStarted;
+    public UnityEvent OnQuestEnded;
+
+
+    [SerializeField] private Animator canvasAnimator;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -92,28 +98,41 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
+
         if (ended)
         {
-            foreach (QuestStep steps in actualQuest.questSteps)
-            {
-                steps.Reset();
-            }
-
-            StartNextQuest();
+            canvasAnimator.SetTrigger("Complete");
+            StartCoroutine(WaitForNextQuest());
         }
+    }
+
+
+    IEnumerator WaitForNextQuest()
+    {
+        yield return new WaitForSeconds(2);
+
+        OnQuestEnded?.Invoke();
+        actualQuest.OnQuestEnded?.Invoke();
+        foreach (QuestStep steps in actualQuest.questSteps)
+        {
+            steps.Reset();
+        }
+        StartNextQuest();
     }
 
     public void StartNextQuest()
     {
         step++;
-
         if (tutorialQuests.Count == step)
         {
             EndTutorial();
             return;
         } else
         {
+            OnQuestStarted?.Invoke();
             actualQuest = tutorialQuests[step];
+
+            actualQuest.OnQuestStarted?.Invoke();
             InitAllNewQuestEvents();
             InitQuestUi();
         }
@@ -168,7 +187,7 @@ public class TutorialManager : MonoBehaviour
                     GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.tutorialListeningInput = true;
                     break;
                 case QuestEvent.ZoneToTrigger:
-                    tutorialTriggerZones[qs.zoneToTrigger].EventTutorial(qs.zoneEvent);
+                    qs.zoneToTrigger.EventTutorial(qs.zoneEvent);
                     break;
                 case QuestEvent.InteractibleEvent:
 
@@ -200,9 +219,9 @@ public class TutorialManager : MonoBehaviour
 
                     List<Dummy> _tempDummys = new List<Dummy>();
 
-                    if (qs.focusedDummyIndex != 0) 
+                    if (qs.focusedDummy != null) 
                     {
-                        _tempDummys.Add(dummies[qs.focusedDummyIndex - 1]);
+                        _tempDummys.Add(qs.focusedDummy);
                     }
                     else
                     {
@@ -218,7 +237,20 @@ public class TutorialManager : MonoBehaviour
                     GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.EventTutorial(qs.mystEvent);
                     break;
                 case QuestEvent.MovementEvent:
-                    GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.EventTutorial(qs.movementEvent);
+                    switch (qs.movementEvent)
+                    {
+                        case MovementEvent.Walk:
+                            GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.EventTutorial(qs.movementEvent);                 
+                    break;
+                        case MovementEvent.WatchCameraBorder:
+                           CameraManager.Instance.EventTutorial(qs.movementEvent);
+                            break;
+                        default:
+                            break;
+                    }
+
+                        
+
                     break;
                 default:
                     throw new Exception("not existing event");
@@ -231,6 +263,13 @@ public class TutorialManager : MonoBehaviour
     public void InitQuestUi()
     {
         questTileUiText.text = actualQuest.questTitle;
+
+        for (int i = 0; i < 6; i++)
+        {
+            questStepUIs[i].gameObject.SetActive(false);          
+        }
+
+
         for (int i = 0; i < actualQuest.questSteps.Count; i++)
         {
             questStepUIs[i].Init(actualQuest.questSteps[i]);
@@ -249,6 +288,8 @@ public class TutorialManager : MonoBehaviour
     {
         qs.UI.ProgressKeyQuest(qs);
     }
+
+
 
     // EVENT --- 
 
@@ -269,6 +310,7 @@ public class TutorialManager : MonoBehaviour
                     ProgressKeyQuest(questS);
                     if (CheckKeyQuestCompleteState(questS))
                     {
+                       
                         CompleteQuest(questS);
 
                         if (HaveAQuestStepOfThisType(QuestEvent.KeyPressed).Count == 0)
@@ -283,6 +325,35 @@ public class TutorialManager : MonoBehaviour
         }
 
         CheckQuestEnd();
+    }
+
+    internal void GetKeyPressed(int mouse)
+    {
+        KeyCode m = KeyCode.Mouse0;
+
+        if (mouse == 0)
+        {
+           m = KeyCode.Mouse0;
+        } else if(mouse == 1) 
+        {
+            m = KeyCode.Mouse1;
+        } else if(mouse == 2) 
+        {
+            m = KeyCode.Mouse2;
+        } else if(mouse == 3) 
+        {
+            m = KeyCode.Mouse3;
+        } else if(mouse == 4) 
+        {
+            m = KeyCode.Mouse4;
+        } else if(mouse == 5) 
+        {
+            m = KeyCode.Mouse5;
+        } else if(mouse == 6) 
+        {
+            m = KeyCode.Mouse6;
+        }
+        GetKeyPressed(m);
     }
 
     private bool CheckKeyQuestCompleteState(QuestStep questS)
@@ -458,6 +529,23 @@ public class TutorialManager : MonoBehaviour
                 CompleteQuest(questS);
             }
         }
+        CheckQuestEnd();
+    }
+
+    internal void OnWatchCameraBorder(CameraManager obj)
+    {
+        obj.OnWatchCameraBorder -= OnWatchCameraBorder;
+        obj.listeningCameraInput = false;
+        List<QuestStep> qs = HaveAQuestStepOfThisType(QuestEvent.MovementEvent);
+
+        foreach (QuestStep questS in qs)
+        {
+            if (questS.movementEvent == MovementEvent.WatchCameraBorder)
+            {
+                CompleteQuest(questS);
+            }
+        }
+
         CheckQuestEnd();
     }
 
