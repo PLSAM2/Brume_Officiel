@@ -148,6 +148,9 @@ public class NetworkAnimationController : MonoBehaviour
     public void SetTriggerToAnim(string triggerName)
     {
         animator.SetTrigger(triggerName);
+        animator.SetBool("SpellCanalisation0", false);
+        animator.SetBool("SpellCanalisation1", false);
+        animator.SetBool("SpellCanalisation2", false);
     }
 
     public void SetIntToAnim(string triggerName, ushort index)

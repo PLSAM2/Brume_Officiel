@@ -53,7 +53,6 @@ public class CacAttack : SpellModule
 			damageToDeal.damageHealth += 1;
 		}
 
-		print(damageToDeal.damageHealth);
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 	}
 
