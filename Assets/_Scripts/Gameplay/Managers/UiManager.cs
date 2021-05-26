@@ -30,8 +30,9 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 	[FoldoutGroup("GlobalUi")] public EndGameStats endGameStats;
 	[FoldoutGroup("GlobalUi")] public Animator objectivesAnim;
+    [FoldoutGroup("GlobalUi")] public CanvasGroup spellUI;
 
-	[FoldoutGroup("Minimap")] public Camera cameraMinimap;
+    [FoldoutGroup("Minimap")] public Camera cameraMinimap;
 	[FoldoutGroup("Minimap")] public GameObject minimapObj;
 	[FoldoutGroup("Minimap")] public Image minimapKeyHelpImg;
 
