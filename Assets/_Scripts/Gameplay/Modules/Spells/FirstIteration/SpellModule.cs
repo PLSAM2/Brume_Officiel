@@ -283,8 +283,9 @@ public class SpellModule : MonoBehaviour
 		{
 			Canalyse(_BaseMousePos);
 		}
-	/*	else
-			SpellNotAvaible?.Invoke();*/
+		else
+			UiManager.Instance.CantCastFeedback(actionLinked);
+			/*SpellNotAvaible?.Invoke();*/
 	}
 	protected virtual void Canalyse ( Vector3 _BaseMousePos )
 	{

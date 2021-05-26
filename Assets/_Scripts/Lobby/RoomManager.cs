@@ -417,12 +417,26 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
-        foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+        if (roundCount == 1  && !isResurecting)
         {
-            if (spawn.CanSpawn())
+            foreach (SpawnPoint spawn in GameManager.Instance.trainSpawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
             {
-                spawnPos = spawn.transform.position;
+                if (spawn.CanSpawn())
+                {
+                    spawnPos = spawn.transform.position;
+                }
             }
+        } else
+        {
+
+            foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+            {
+                if (spawn.CanSpawn())
+                {
+                    spawnPos = spawn.transform.position;
+                }
+            }
+
         }
 
         //else
@@ -503,6 +517,7 @@ public class RoomManager : MonoBehaviour
     }
     internal void SpawnDelayedPlayer()
     {
+
         foreach (ushort id in delayedPlayerSpawn)
         {
             SpawnPlayerObj(id, false);
