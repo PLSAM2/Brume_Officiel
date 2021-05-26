@@ -71,7 +71,7 @@ public class SoulSpellElement : MonoBehaviour
     public void OnHover()
     {
         AudioManager.Instance.Play2DAudio(hoverSound);
-        transform.DOScale(1.5f, 0.3f);
+        transform.DOScale(1.3f, 0.3f);
         myCanvasGroup.DOFade(1, 0.3f);
 
         myCanvasGroupDescription.DOFade(1, 0.3f);

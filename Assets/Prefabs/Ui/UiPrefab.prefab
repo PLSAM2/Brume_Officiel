@@ -2721,7 +2721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 358.935, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4661702679108899297
@@ -13353,7 +13353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8245477988667449381}
-  - component: {fileID: 4128385993224876873}
+  - component: {fileID: 971932334263059754}
   m_Layer: 5
   m_Name: BackSpell
   m_TagString: Untagged
@@ -13384,32 +13384,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 25}
   m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &4128385993224876873
-MonoBehaviour:
+--- !u!225 &971932334263059754
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8245477988667449380}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 10
-  m_ChildAlignment: 4
-  m_Spacing: 30
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8245477988790477681
 GameObject:
   m_ObjectHideFlags: 0
@@ -14181,7 +14167,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  timer: 25
+  timer: 250
   ward: {fileID: 1077993063925646384}
   decoil: {fileID: 4242427262047547593}
   speed: {fileID: 6722920982754328489}
@@ -14944,6 +14930,7 @@ MonoBehaviour:
   chat: {fileID: 6299676958966307292}
   endGameStats: {fileID: 6798677159154620499}
   objectivesAnim: {fileID: 6978413778274787388}
+  spellUI: {fileID: 971932334263059754}
   cameraMinimap: {fileID: 0}
   minimapObj: {fileID: 3360452887951939121}
   minimapKeyHelpImg: {fileID: 3216492595958750028}
