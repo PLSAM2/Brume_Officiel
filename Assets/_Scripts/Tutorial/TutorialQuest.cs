@@ -8,12 +8,14 @@ using UnityEngine;
 [Serializable]
 public class TutorialQuest 
 {
-    [Title("Tutorial Quest ")]
+    [FoldoutGroup("Quest")]
+    [Title("Tutorial Quest ")] 
     public string questTitle = "";
+    [FoldoutGroup("Quest")]
     [Header("Events")]
     public UnityEvent OnQuestStarted;
-    public UnityEvent OnQuestEnded;
-
+    [FoldoutGroup("Quest")] public UnityEvent OnQuestEnded;
+    [FoldoutGroup("Quest")]
     [Header("Steps")]
     public List<QuestStep> questSteps = new List<QuestStep>();
 }

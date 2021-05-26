@@ -2721,7 +2721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 358.935, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4661702679108899297
@@ -14918,6 +14918,7 @@ MonoBehaviour:
   endZoneUIGroup: {fileID: 1173829810720284700}
   trainPanel: {fileID: 7977783687710481111}
   trainTimer: {fileID: 2043939044438414620}
+  trainAnimator: {fileID: 0}
   allyScore: {fileID: 8245477988411931474}
   ennemyScore: {fileID: 8245477988993095549}
   uiAltarList: {fileID: 7529624364744810643}
@@ -19248,6 +19249,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5651231944485528170, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998055793729725398, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_Maskable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998055793729725398, guid: c9acc05a54f8e5344a1030de1e49a09d, type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
