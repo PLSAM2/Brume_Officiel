@@ -19,7 +19,6 @@ public class TutorialManager : MonoBehaviour
 
     private int step = 0;
     [Header("REF")]
-    public List<TutorialTriggerZone> tutorialTriggerZones = new List<TutorialTriggerZone>();
     public List<Dummy> dummies = new List<Dummy>();
 
     [Header("UI")]
@@ -100,7 +99,7 @@ public class TutorialManager : MonoBehaviour
         if (ended)
         {
             OnQuestEnded?.Invoke();
-
+            actualQuest.OnQuestEnded?.Invoke();
             foreach (QuestStep steps in actualQuest.questSteps)
             {
                 steps.Reset();
@@ -121,8 +120,10 @@ public class TutorialManager : MonoBehaviour
         } else
         {
             OnQuestStarted?.Invoke();
-
             actualQuest = tutorialQuests[step];
+
+            actualQuest.OnQuestStarted?.Invoke();
+
             InitAllNewQuestEvents();
             InitQuestUi();
         }
@@ -177,7 +178,7 @@ public class TutorialManager : MonoBehaviour
                     GameManager.Instance.networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].myPlayerModule.tutorialListeningInput = true;
                     break;
                 case QuestEvent.ZoneToTrigger:
-                    tutorialTriggerZones[qs.zoneToTrigger].EventTutorial(qs.zoneEvent);
+                    qs.zoneToTrigger.EventTutorial(qs.zoneEvent);
                     break;
                 case QuestEvent.InteractibleEvent:
 
@@ -209,9 +210,9 @@ public class TutorialManager : MonoBehaviour
 
                     List<Dummy> _tempDummys = new List<Dummy>();
 
-                    if (qs.focusedDummyIndex != 0) 
+                    if (qs.focusedDummy != null) 
                     {
-                        _tempDummys.Add(dummies[qs.focusedDummyIndex - 1]);
+                        _tempDummys.Add(qs.focusedDummy);
                     }
                     else
                     {
@@ -293,6 +294,7 @@ public class TutorialManager : MonoBehaviour
                     ProgressKeyQuest(questS);
                     if (CheckKeyQuestCompleteState(questS))
                     {
+                       
                         CompleteQuest(questS);
 
                         if (HaveAQuestStepOfThisType(QuestEvent.KeyPressed).Count == 0)
