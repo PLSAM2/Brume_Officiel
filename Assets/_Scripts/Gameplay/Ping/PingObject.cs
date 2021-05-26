@@ -17,6 +17,7 @@ public class PingObject : MonoBehaviour
     {
         Init(networkedObject.GetOwner().playerTeam);
     }
+
     public void Init(Team team)
     {
         if (team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
