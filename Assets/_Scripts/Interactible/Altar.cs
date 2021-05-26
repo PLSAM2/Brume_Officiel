@@ -90,6 +90,10 @@ public class Altar : Interactible
             completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
             completeObj.gameObject.SetActive(true);
         }
+        else
+        {
+            PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
+        }
         base.UpdateCaptured(_capturingPlayerID);
 
 
