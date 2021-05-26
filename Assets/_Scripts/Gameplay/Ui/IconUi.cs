@@ -50,8 +50,8 @@ public class IconUi : MonoBehaviour
 		{
 			case En_IconStep.inCd:
 				print("In cd");
-				Color _tempColorRed = new Vector4(157, 48, 45, 255);
-				icon.color = _tempColorRed;
+				//Color _tempColorRed = new Vector4(157, 48, 45, 255);
+				icon.color = Color.red;
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(false);
 				cooldownCount.gameObject.SetActive(true);
