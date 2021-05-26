@@ -22,7 +22,7 @@ public class ArrowPreview : MonoBehaviour
         currentType = _myType;
 
         arrowImgDash.enabled = (_myType == arrowType.Dash);
-        arrowImgProjectil.enabled = (_myType == arrowType.Projectil);
+        arrowImgProjectil.enabled = (_myType == arrowType.Projectile);
 
         startPos = _newStartPos;
         endPos = _newEndPos;
@@ -54,6 +54,6 @@ public class ArrowPreview : MonoBehaviour
     public enum arrowType
     {
         Dash,
-        Projectil
+        Projectile
     }
 }

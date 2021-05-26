@@ -126,7 +126,7 @@ public class Ward : MonoBehaviour
 	{
 		if (_value == false) { return; }
 
-        if (!_playerSpot.IsInMyTeam(myTeam) && myTeam == GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex)
+        if (!_playerSpot.IsInMyTeam(myTeam))
 		{
             if (statusToApply != null)
 			{

@@ -60,7 +60,8 @@ public enum QuestEvent
     InteractibleEvent,
     DummyEvent,
     MystEvent,
-    MovementEvent
+    MovementEvent,
+    CameraEvent
 }
 
 public enum ZoneEvent
