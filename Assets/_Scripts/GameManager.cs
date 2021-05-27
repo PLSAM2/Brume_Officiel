@@ -432,6 +432,7 @@ public class GameManager : SerializedMonoBehaviour
 
 	public void DelinkEverySpell ()
 	{
+		print(currentLocalPlayer.name);
 		currentLocalPlayer.myPlayerModule.leftClick.DelinkInput();
 		currentLocalPlayer.myPlayerModule.firstSpell.DelinkInput();
 		currentLocalPlayer.myPlayerModule.secondSpell.DelinkInput();
