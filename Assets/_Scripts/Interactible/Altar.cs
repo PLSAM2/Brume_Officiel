@@ -93,6 +93,7 @@ public class Altar : Interactible
         else
         {
             PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
+            PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
         }
         base.UpdateCaptured(_capturingPlayerID);
 
