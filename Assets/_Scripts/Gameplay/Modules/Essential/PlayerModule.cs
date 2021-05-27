@@ -434,13 +434,6 @@ public class PlayerModule : MonoBehaviour
 		}
 		oldState = state;
 
-		if ((state & (En_CharacterState.Stunned | En_CharacterState.Slowed | En_CharacterState.Hidden)) != 0)
-		{
-			mylocalPlayer.myUiPlayerManager.HidePseudo(true);
-		}
-		else
-			mylocalPlayer.myUiPlayerManager.HidePseudo(false);
-
 		if (mylocalPlayer.isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen && !GameManager.Instance.blockMovement)
 		{
 
@@ -495,13 +488,13 @@ public class PlayerModule : MonoBehaviour
 			}
 			#endregion
 			//MEGA TEMP
-			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state);
 
 		}
 		else
 		{
 			// TEMP
-			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state);
 		}
 
 		/*if (isAutoHealing)

@@ -32,10 +32,6 @@ public class Altar : Interactible
     [SerializeField] GameObject waypointAltarPrefab;
     public AltarWaypoint waypointObj;
 
-    [SerializeField] Color altarLockColor;
-    [SerializeField] Color altarUnlockColor;
-    [SerializeField] Color altarEndColor;
-
     public GameObject redTaken, blueTaken;
 
     void Start()
@@ -44,14 +40,12 @@ public class Altar : Interactible
         isInteractable = false;
 
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<AltarWaypoint>();
-        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
         waypointObj.target = transform;
 
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
-
-        waypointObj.SetLockStatut(true);
     }
 
     private void Update()
@@ -61,18 +55,18 @@ public class Altar : Interactible
         {
             if (currentTime > 0)
             {
-                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTime) + "s");
+                waypointObj.SetTimer(Mathf.RoundToInt(currentTime));
             }
             else
             {
-                waypointObj.SetUnderText("");
+                waypointObj.SetTimer(0);
             }
 
             currentTime -= Time.deltaTime;
         }
         else
         {
-            waypointObj.SetUnderText("");
+            waypointObj.SetTimer(0);
         }
     }
 
@@ -99,7 +93,7 @@ public class Altar : Interactible
 
 
         //disable
-        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
 
         if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -201,9 +195,7 @@ public class Altar : Interactible
         mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
-        waypointObj.SetImageColor(altarUnlockColor);
-
-        waypointObj.SetLockStatut(false);
+        waypointObj.SetUnLock();
     }
 
     internal void StarFinalPhase()
