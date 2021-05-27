@@ -1,3 +1,4 @@
+using Cinemachine;
 using DarkRift;
 using System;
 using System.Collections;
@@ -31,6 +32,7 @@ public class TutorialManager : MonoBehaviour
     public UnityEvent OnQuestStarted;
     public UnityEvent OnQuestEnded;
 
+    [SerializeField] CinemachineVirtualCamera cinematicCamera;
 
     [SerializeField] private Animator canvasAnimator;
     private void Awake()
@@ -287,6 +289,25 @@ public class TutorialManager : MonoBehaviour
     public void ProgressKeyQuest(QuestStep qs)
     {
         qs.UI.ProgressKeyQuest(qs);
+    }
+
+    // CAMERA
+    public void CinematicCameraToPos(Transform pos)
+    {
+        GameManager.Instance.blockMovement = true;
+        cinematicCamera.Follow = pos;
+        cinematicCamera.Priority = 20;
+
+        StartCoroutine(WaitCamPos(3 + 1));
+    }
+
+    IEnumerator WaitCamPos(float time)
+    {
+
+        yield return new WaitForSeconds(time);
+
+        cinematicCamera.Priority = 0;
+        GameManager.Instance.blockMovement = false;
     }
 
 

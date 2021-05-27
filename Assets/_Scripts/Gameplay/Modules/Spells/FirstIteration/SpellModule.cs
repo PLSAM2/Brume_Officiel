@@ -83,7 +83,7 @@ public class SpellModule : MonoBehaviour
 
 	//inputs subscribing
 	#region
-	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
+	public virtual void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule.cancelSpell += CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath += HidePreview;
@@ -132,12 +132,12 @@ public class SpellModule : MonoBehaviour
 	{
 		LinkInputs(actionLinked);
 	}
-	protected virtual void DelinkInput ()
+	public virtual void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
 		myPlayerModule.OnSpellTryCanalisation -= TryToKillSpell;
-
+		print("I delink");
 
 		switch (actionLinked)
 		{
@@ -528,12 +528,11 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
-
 		if (_isForcedInterrupt && isUsed)
 		{
 			KillSpell();
 		}
-		else if (showingPreview && myPlayerModule.currentSpellResolved == this.spell)
+		else if (showingPreview)
 		{
 			willResolve = false;
 			HidePreview(Vector3.zero);

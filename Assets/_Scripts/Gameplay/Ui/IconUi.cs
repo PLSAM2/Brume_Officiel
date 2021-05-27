@@ -13,6 +13,7 @@ public class IconUi : MonoBehaviour
 	[TabGroup("IconSpell")] [SerializeField] Image icon, fillAmount, outlineIcon;
 	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount;
 	[TabGroup("IconSpell")] [SerializeField] GameObject inputIcon, feedbackCanUse;
+	[TabGroup("IconSpell")]	public  Color colorUnavaible = new Vector4(157, 48, 45, 255);
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
 	[SerializeField] RectTransform myRectTransform;
@@ -49,8 +50,6 @@ public class IconUi : MonoBehaviour
 		switch (_spellStep)
 		{
 			case En_IconStep.inCd:
-				print("In cd");
-				//Color _tempColorRed = new Vector4(157, 48, 45, 255);
 				icon.color = Color.red;
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(false);
@@ -67,14 +66,11 @@ public class IconUi : MonoBehaviour
 				break;
 
 			case En_IconStep.ready:
-				print("I m ready");
 				ResetIcon();
 				icon.color = Color.white;
-
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(true);
 				cooldownCount.gameObject.SetActive(false);
-
 				fillAmount.fillAmount = 0;
 				cooldownCount.text = "";
 				feedbackCanUse.SetActive(true);

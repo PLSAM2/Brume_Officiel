@@ -28,21 +28,18 @@ public class UIPlayerManager : MonoBehaviour
 	[TabGroup("Buff")] public Image fillAmountBuff;
 	[TabGroup("Buff")] public GameObject wholeBuffUi;
 
-	[Header("Compass Canvas")]
+	/*[Header("Compass Canvas")]
 	[TabGroup("WX Compass")] public GameObject compassCanvas;
 	[TabGroup("WX Compass")] public GameObject pointerObj;
 	[TabGroup("WX Compass")] public Quaternion compassRot;
-	[TabGroup("WX Compass")] public LocalPlayer wxRef;
-	[TabGroup("WX Compass")] public Material blueMat, redMat, grayMat, goldMat;
+	[TabGroup("WX Compass")] public LocalPlayer wxRef;*/
+	[TabGroup("Mats")] public Material blueMat, redMat, grayMat, goldMat;
 
 	[Header("State")]
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
-	[TabGroup("UiState")] public Image fillPart;
-	[TabGroup("UiState")] public GameObject StunIcon, HiddenIcon, CounteringIcon;
-	[TabGroup("UiState")] public GameObject SlowIcon;
-	[TabGroup("UiState")] public GameObject RootIcon;
-	[TabGroup("UiState")] public GameObject SilencedIcon, EmbourbedIcon, Eye_Spot;
+	//	[TabGroup("UiState")] public Image fillPart;
+	[TabGroup("UiState")] public GameObject stunIcon, revealedIcon, slowIcon, hiddenIcon, spedUpIcon, poweredUpIcon, crouchedIcon;
 	[TabGroup("UiState")] [FoldoutGroup("Cast")] public GameObject barCasting;
 	[TabGroup("UiState")] [FoldoutGroup("Cast")] public Image canalisationImage;
 
@@ -56,8 +53,8 @@ public class UIPlayerManager : MonoBehaviour
 	private void Awake ()
 	{
 		canvasRot = canvas.transform.rotation;
-		compassRot = compassCanvas.transform.rotation;
-		compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
+		/*compassRot = compassCanvas.transform.rotation;
+		compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;*/
 	}
 
 	private void OnEnable ()
@@ -186,25 +183,25 @@ public class UIPlayerManager : MonoBehaviour
 	private void LateUpdate ()
 	{
 		canvas.transform.rotation = canvasRot;
-		compassCanvas.transform.rotation = compassRot;
+		//		compassCanvas.transform.rotation = compassRot;
 	}
 
 	public void UpdateLife ()
 	{
-        ushort _lifeHealth = (dummy ? myDummy.liveHealth : myLocalPlayer.liveHealth);
+		ushort _lifeHealth = (dummy ? myDummy.liveHealth : myLocalPlayer.liveHealth);
 
-        int i = 1;
+		int i = 1;
 		foreach (UIBarLifePerso img in allBarLife)
 		{
-            if (i <= _lifeHealth)
-            {
-                img.SetColorLife(currentColorTeam, true);
-            }
-            else
-            {
-                img.SetColorLife(grayMat, false);
-            }
-            i++;
+			if (i <= _lifeHealth)
+			{
+				img.SetColorLife(currentColorTeam, true);
+			}
+			else
+			{
+				img.SetColorLife(grayMat, false);
+			}
+			i++;
 		}
 	}
 
@@ -214,15 +211,15 @@ public class UIPlayerManager : MonoBehaviour
 		statePart.SetActive(_hidePseudo);
 	}
 
-	public void ShowStateIcon ( En_CharacterState _currentState, float actualTime, float baseTime )
+	public void ShowStateIcon ( En_CharacterState _currentState )
 	{
-		RootIcon.SetActive(false);
-		SilencedIcon.SetActive(false);
-		StunIcon.SetActive(false);
-		SlowIcon.SetActive(false);
-		HiddenIcon.SetActive(false);
-		EmbourbedIcon.SetActive(false);
-		CounteringIcon.SetActive(false);
+		stunIcon.SetActive(false);
+		revealedIcon.SetActive(false);
+		slowIcon.SetActive(false);
+		hiddenIcon.SetActive(false);
+		spedUpIcon.SetActive(false);
+		poweredUpIcon.SetActive(false);
+		crouchedIcon.SetActive(false);
 		stateText.text = "";
 
 		if (feedbackCounter != null)
@@ -230,76 +227,79 @@ public class UIPlayerManager : MonoBehaviour
 			feedbackCounter.SetActive(false);
 		}
 		//	fillPart.fillAmount = actualTime / baseTime;f
-
-		if ((_currentState & En_CharacterState.Hidden) != 0)
+		if ((_currentState & En_CharacterState.Root) != 0 && (_currentState & En_CharacterState.Silenced) != 0)
 		{
-			HiddenIcon.SetActive(true);
-			stateText.text = "Hidden";
-			return;
-		}
-		//else if ((_currentState & En_CharacterState.Countering) != 0)
-		//{
-		//    if (feedbackCounter != null)
-		//    {
-		//        feedbackCounter.SetActive(true);
-		//    }
-		//    CounteringIcon.SetActive(true);
-		//    stateText.text = "Countering";
-		//    return;
-		//}
-		else if ((_currentState & En_CharacterState.Embourbed) != 0)
-		{
-			EmbourbedIcon.SetActive(true);
-			stateText.text = "Embourbed";
-			return;
-		}
-		else if ((_currentState & En_CharacterState.Root) != 0 && (_currentState & En_CharacterState.Silenced) != 0)
-		{
-			StunIcon.SetActive(true);
+			HidePseudo(true);
+			stunIcon.SetActive(true);
 			stateText.text = "Stunned";
 			return;
-
 		}
-		else if ((_currentState & En_CharacterState.Silenced) != 0)
+		else if ((_currentState & En_CharacterState.WxMarked) != 0)
 		{
-			SilencedIcon.SetActive(true);
-			stateText.text = "Silenced";
+			HidePseudo(true);
+			revealedIcon.SetActive(true);
+			stateText.text = "Spotted";
 			return;
-
 		}
-		else if ((_currentState & En_CharacterState.Root) != 0)
-		{
-			RootIcon.SetActive(true);
-			stateText.text = "Root";
-			return;
 
+		else if ((_currentState & En_CharacterState.Hidden) != 0)
+		{
+			HidePseudo(true);
+			hiddenIcon.SetActive(true);
+			stateText.text = "Invisible";
+			return;
 		}
 		else if ((_currentState & En_CharacterState.Slowed) != 0)
 		{
-			SlowIcon.SetActive(true);
+			HidePseudo(true);
+			slowIcon.SetActive(true);
 			stateText.text = "Slowed";
 			return;
-
 		}
-
-	}
-
-	public GameObject GetFirstDisabledPointer ()
-	{
-		foreach (Transform t in compassCanvas.gameObject.transform)
+		else if ((_currentState & En_CharacterState.SpedUp) != 0)
 		{
-			if (!t.gameObject.activeInHierarchy)
-			{
-				t.gameObject.SetActive(true);
-				return t.gameObject;
-			}
+			HidePseudo(true);
+			spedUpIcon.SetActive(true);
+			stateText.text = "Sped Up";
+			return;
 		}
+		else if ((_currentState & En_CharacterState.PoweredUp) != 0)
+		{
+			HidePseudo(true);
 
-		GameObject newobj = Instantiate(pointerObj, compassCanvas.transform);
-		newobj.SetActive(true);
+			poweredUpIcon.SetActive(true);
+			stateText.text = "Buffed";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.Crouched) != 0)
+		{
+			HidePseudo(true);
+			crouchedIcon.SetActive(true);
+			stateText.text = "Silent";
+			return;
+		}
+		else
+			HidePseudo(false);
 
-		return newobj;
+
 	}
+
+	/*	public GameObject GetFirstDisabledPointer ()
+		{
+				foreach (Transform t in compassCanvas.gameObject.transform)
+				{
+					if (!t.gameObject.activeInHierarchy)
+					{
+						t.gameObject.SetActive(true);
+						return t.gameObject;
+					}
+				}
+
+			GameObject newobj = Instantiate(pointerObj, compassCanvas.transform);
+			newobj.SetActive(true);
+
+			return newobj;
+		}*/
 
 	public void EnableBuff ( bool _stateOfBuff, string _buffName )
 	{

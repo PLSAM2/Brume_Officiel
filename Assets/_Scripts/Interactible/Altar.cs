@@ -21,7 +21,6 @@ public class Altar : Interactible
 
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
-    [SerializeField] Sprite willUnlockSprite;
 
     [HideInInspector] public float currentTime = 0;
 
@@ -30,13 +29,12 @@ public class Altar : Interactible
     [SerializeField] protected string colorShader = "_Color";
     //wayPoint
     [SerializeField] GameObject waypointAltarPrefab;
-    public AltarWaypoint waypointObj;
-
-    [SerializeField] Color altarLockColor;
-    [SerializeField] Color altarUnlockColor;
-    [SerializeField] Color altarEndColor;
+    [HideInInspector] public AltarWaypoint waypointObj;
 
     public GameObject redTaken, blueTaken;
+
+    [SerializeField] GameObject iconUnlock, iconLock;
+
 
     void Start()
     {
@@ -44,14 +42,15 @@ public class Altar : Interactible
         isInteractable = false;
 
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<AltarWaypoint>();
-        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
         waypointObj.target = transform;
 
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
 
-        waypointObj.SetLockStatut(true);
+        iconUnlock.SetActive(false);
+        iconLock.SetActive(true);
     }
 
     private void Update()
@@ -59,20 +58,21 @@ public class Altar : Interactible
         //TODO afficher timer altar
         if (waypointObj != null && waypointObj.gameObject.activeSelf)
         {
+            print(currentTime);
             if (currentTime > 0)
             {
-                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTime) + "s");
+                waypointObj.SetTimer(Mathf.RoundToInt(currentTime));
             }
             else
             {
-                waypointObj.SetUnderText("");
+                waypointObj.SetTimer(0);
             }
 
             currentTime -= Time.deltaTime;
         }
         else
         {
-            waypointObj.SetUnderText("");
+            waypointObj.SetTimer(0);
         }
     }
 
@@ -90,11 +90,16 @@ public class Altar : Interactible
             completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
             completeObj.gameObject.SetActive(true);
         }
+        else
+        {
+            PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
+            PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
+        }
         base.UpdateCaptured(_capturingPlayerID);
 
 
         //disable
-        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
 
         if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -165,8 +170,6 @@ public class Altar : Interactible
 
     IEnumerator ActivateAltar()
     {
-        mapIcon.sprite = willUnlockSprite;
-        
         if (RoomManager.Instance.roundCount == 1)
         {
             currentTime = unlockTime + GameManager.Instance.trainTimer;
@@ -175,6 +178,8 @@ public class Altar : Interactible
         {
             currentTime = unlockTime;
         }
+
+        print(currentTime);
 
         yield return new WaitForSeconds(currentTime);
 
@@ -193,12 +198,12 @@ public class Altar : Interactible
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
 
-        mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
-        waypointObj.SetImageColor(altarUnlockColor);
+        waypointObj.SetUnLock();
 
-        waypointObj.SetLockStatut(false);
+        iconUnlock.SetActive(true);
+        iconLock.SetActive(false);
     }
 
     internal void StarFinalPhase()
