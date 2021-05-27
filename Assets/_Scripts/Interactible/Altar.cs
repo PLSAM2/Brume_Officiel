@@ -30,9 +30,12 @@ public class Altar : Interactible
     [SerializeField] protected string colorShader = "_Color";
     //wayPoint
     [SerializeField] GameObject waypointAltarPrefab;
-    public AltarWaypoint waypointObj;
+    [HideInInspector] public AltarWaypoint waypointObj;
 
     public GameObject redTaken, blueTaken;
+
+    [SerializeField] GameObject iconUnlock, iconLock;
+
 
     void Start()
     {
@@ -46,6 +49,9 @@ public class Altar : Interactible
 
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
+
+        iconUnlock.SetActive(false);
+        iconLock.SetActive(true);
     }
 
     private void Update()
@@ -196,6 +202,9 @@ public class Altar : Interactible
         base.Unlock();
 
         waypointObj.SetUnLock();
+
+        iconUnlock.SetActive(true);
+        iconLock.SetActive(false);
     }
 
     internal void StarFinalPhase()
