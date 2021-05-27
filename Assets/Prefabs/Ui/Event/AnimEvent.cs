@@ -48,6 +48,8 @@ public class AnimEvent : MonoBehaviour
 
             currentEvent = obj.gameObject;
 
+            AudioManager.Instance.Play2DAudio(kill1, 5);
+            /*
             switch (killByPlayer[_idKiller])
             {
                 case 1:
@@ -69,7 +71,7 @@ public class AnimEvent : MonoBehaviour
                 default:
                     AudioManager.Instance.Play2DAudio(kill5, 5);
                     break;
-            }
+            }*/
 
             StartCoroutine(WaitToDestroy(obj.gameObject));
         }

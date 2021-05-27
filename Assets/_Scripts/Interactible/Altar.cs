@@ -21,7 +21,6 @@ public class Altar : Interactible
 
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
-    [SerializeField] Sprite willUnlockSprite;
 
     [HideInInspector] public float currentTime = 0;
 
@@ -59,6 +58,7 @@ public class Altar : Interactible
         //TODO afficher timer altar
         if (waypointObj != null && waypointObj.gameObject.activeSelf)
         {
+            print(currentTime);
             if (currentTime > 0)
             {
                 waypointObj.SetTimer(Mathf.RoundToInt(currentTime));
@@ -170,8 +170,6 @@ public class Altar : Interactible
 
     IEnumerator ActivateAltar()
     {
-        mapIcon.sprite = willUnlockSprite;
-        
         if (RoomManager.Instance.roundCount == 1)
         {
             currentTime = unlockTime + GameManager.Instance.trainTimer;
@@ -180,6 +178,8 @@ public class Altar : Interactible
         {
             currentTime = unlockTime;
         }
+
+        print(currentTime);
 
         yield return new WaitForSeconds(currentTime);
 
@@ -198,7 +198,6 @@ public class Altar : Interactible
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
 
-        mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
         waypointObj.SetUnLock();
