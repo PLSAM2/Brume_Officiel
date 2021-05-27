@@ -49,6 +49,10 @@ public class Dummy : MonoBehaviour, Damageable
             return;
         }
 
+        AudioManager.Instance.PlayHitAudio();
+
+
+
         DealDamagesLocaly(_damagesToDeal.damageHealth, dealerID);
 
         if (_damagesToDeal.movementToApply != null)
@@ -66,7 +70,9 @@ public class Dummy : MonoBehaviour, Damageable
 
         //SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
 
+
         OnHit?.Invoke(this);
+
         if (damages > 0)
         {
             LocalPoolManager.Instance.SpawnNewImpactDamageFX(
