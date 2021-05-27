@@ -137,7 +137,7 @@ public class SpellModule : MonoBehaviour
 		myPlayerModule.cancelSpell -= CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
 		myPlayerModule.OnSpellTryCanalisation -= TryToKillSpell;
-
+		print("I delink");
 
 		switch (actionLinked)
 		{
