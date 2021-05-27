@@ -669,11 +669,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			GameManager.Instance.ResetCam();
 
-			AudioManager.Instance.Play2DAudio(deathPerso);
+            if(deathPerso != null)
+            {
+                AudioManager.Instance.Play2DAudio(deathPerso);
+            }
 		}
 		else
 		{
-			AudioManager.Instance.Play2DAudio(deathGlobal);
+            if(deathGlobal != null)
+            {
+                AudioManager.Instance.Play2DAudio(deathGlobal);
+            }
 		}
 	}
 
