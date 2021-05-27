@@ -68,11 +68,9 @@ public class IconUi : MonoBehaviour
 			case En_IconStep.ready:
 				ResetIcon();
 				icon.color = Color.white;
-
 				outlineIcon.color = Color.white;
 				inputIcon.SetActive(true);
 				cooldownCount.gameObject.SetActive(false);
-
 				fillAmount.fillAmount = 0;
 				cooldownCount.text = "";
 				feedbackCanUse.SetActive(true);
