@@ -245,7 +245,6 @@ public class UIPlayerManager : MonoBehaviour
 		else if ((_currentState & En_CharacterState.Hidden) != 0)
 		{
 			HidePseudo(true);
-
 			hiddenIcon.SetActive(true);
 			stateText.text = "Invisible";
 			return;
@@ -253,7 +252,6 @@ public class UIPlayerManager : MonoBehaviour
 		else if ((_currentState & En_CharacterState.Slowed) != 0)
 		{
 			HidePseudo(true);
-
 			slowIcon.SetActive(true);
 			stateText.text = "Slowed";
 			return;
@@ -261,8 +259,6 @@ public class UIPlayerManager : MonoBehaviour
 		else if ((_currentState & En_CharacterState.SpedUp) != 0)
 		{
 			HidePseudo(true);
-
-			print("Spedu");
 			spedUpIcon.SetActive(true);
 			stateText.text = "Sped Up";
 			return;
@@ -278,7 +274,6 @@ public class UIPlayerManager : MonoBehaviour
 		else if ((_currentState & En_CharacterState.Crouched) != 0)
 		{
 			HidePseudo(true);
-
 			crouchedIcon.SetActive(true);
 			stateText.text = "Silent";
 			return;
