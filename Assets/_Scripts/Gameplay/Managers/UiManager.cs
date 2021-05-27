@@ -89,9 +89,6 @@ public class UiManager : MonoBehaviour
 	public Transform parentWaypoint;
 
 	private GameObject actualChar;
-	private GameObject actualUnlockedAltar = null;
-	private float radarRangeXDistanceFromZero = 0;
-	private float radarRangeYDistanceFromZero = 0;
 
 	[Header("Spec Mode")]
 	[FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -181,10 +178,6 @@ public class UiManager : MonoBehaviour
 
 	private void Start ()
 	{
-		radarRangeXDistanceFromZero = radarRange.anchorMin.x * Screen.width;
-		radarRangeYDistanceFromZero = radarRange.anchorMin.y * Screen.height;
-
-
 		// A changer >>
 		Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
 
@@ -450,7 +443,6 @@ public class UiManager : MonoBehaviour
 
 	internal void UnlockNewAltar ( Altar altar )
 	{
-		actualUnlockedAltar = altar.gameObject;
 		nextAltarRadarIcon.gameObject.SetActive(true);
 	}
 
