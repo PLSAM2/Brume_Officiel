@@ -417,7 +417,7 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
-        if (roundCount == 1  && !isResurecting)
+        if (roundCount == 1  && !isResurecting && actualRoom.roomType == RoomType.Classic)
         {
             foreach (SpawnPoint spawn in GameManager.Instance.trainSpawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
             {
