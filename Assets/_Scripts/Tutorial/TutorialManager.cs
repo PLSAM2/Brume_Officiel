@@ -64,14 +64,20 @@ public class TutorialManager : MonoBehaviour
         PlayerPrefs.SetInt("SoulSpell", (int)En_SoulSpell.Invisible);
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(En_SoulSpell.Invisible);
         RoomManager.Instance.ImReady();
+
+    }
+    public void StartTutorial()
+    {
+
         UiManager.Instance.StartTutorial();
 
-
+        OnQuestStarted?.Invoke();
         actualQuest = tutorialQuests[step];
+        actualQuest.OnQuestStarted?.Invoke();
         InitAllNewQuestEvents();
         InitQuestUi();
     }
-
+    
     public List<QuestStep> HaveAQuestStepOfThisType(QuestEvent qe)
     {
         List<QuestStep> _temp = new List<QuestStep>();

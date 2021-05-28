@@ -274,6 +274,8 @@ public class GameManager : SerializedMonoBehaviour
 			return;
 		}
 
+
+
 		UiManager.Instance.AllPlayerJoinGameScene();
 		OnAllCharacterSpawned?.Invoke();
 		gameStarted = true;
@@ -285,6 +287,14 @@ public class GameManager : SerializedMonoBehaviour
 				allEnemies.Add(_player);
 			}
 		}
+
+
+		if (RoomManager.Instance.actualRoom.roomType == RoomType.Tutorial)
+		{
+			TutorialManager.Instance.StartTutorial();
+		}
+
+
 	}
 
 	public void ResetCam ()
