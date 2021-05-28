@@ -58,7 +58,6 @@ public class Altar : Interactible
         //TODO afficher timer altar
         if (waypointObj != null && waypointObj.gameObject.activeSelf)
         {
-            print(currentTime);
             if (currentTime > 0)
             {
                 waypointObj.SetTimer(Mathf.RoundToInt(currentTime));
