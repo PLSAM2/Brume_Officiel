@@ -960,7 +960,7 @@ public class PlayerModule : MonoBehaviour
 			isWaitingForHeal = !_isSeen;
 		}*/
 
-	SpellModule SelectionnedSoulSpellModule ()
+	public SpellModule SelectionnedSoulSpellModule ()
 	{
 		switch (currentSoulModule)
 		{

@@ -58,7 +58,6 @@ public class UiManager : MonoBehaviour
 
 	[Header("Team Info")]
 	[FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
-	[FoldoutGroup("TeamInfo")] public Color inViewBlueColor, inViewRedColor, outViewBlueColor, outViewRedColor, killedColor;
 
 	[Header("Altars")]
 	[FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
@@ -90,9 +89,6 @@ public class UiManager : MonoBehaviour
 	public Transform parentWaypoint;
 
 	private GameObject actualChar;
-	private GameObject actualUnlockedAltar = null;
-	private float radarRangeXDistanceFromZero = 0;
-	private float radarRangeYDistanceFromZero = 0;
 
 	[Header("Spec Mode")]
 	[FoldoutGroup("SpecMode")] public SpecMode specMode;
@@ -133,15 +129,15 @@ public class UiManager : MonoBehaviour
 		}
 
         //disable de base
-        teamWx.color = killedColor;
-		teamRe.color = killedColor;
-		teamLeng.color = killedColor;
+        teamWx.enabled = false;
+		teamRe.enabled = false;
+        teamLeng.enabled = false;
 
-		enemyWx.color = killedColor;
-		enemyRe.color = killedColor;
-		enemyLeng.color = killedColor;
+        enemyWx.enabled = false;
+        enemyRe.enabled = false;
+        enemyLeng.enabled = false;
 
-		SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
+        SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
 		SpawnLifeBar(parentLifeRE, reImgLife, Character.Re);
 		SpawnLifeBar(parentLifeLENG, lengImgLife, Character.Leng);
 	}
@@ -167,7 +163,6 @@ public class UiManager : MonoBehaviour
 	private void OnEnable ()
 	{
 		GameManager.Instance.OnPlayerDie += OnPlayerDie;
-		GameManager.Instance.OnPlayerAtViewChange += OnPlayerViewChange;
 		GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerGetHealed += OnPlayerGetHeal;
 		GameManager.Instance.OnPlayerSpawn += OnPlayerSpawn;
@@ -176,7 +171,6 @@ public class UiManager : MonoBehaviour
 	private void OnDisable ()
 	{
 		GameManager.Instance.OnPlayerDie -= OnPlayerDie;
-		GameManager.Instance.OnPlayerAtViewChange -= OnPlayerViewChange;
 		GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerSpawn -= OnPlayerSpawn;
 		GameManager.Instance.OnPlayerGetHealed -= OnPlayerGetHeal;
@@ -184,10 +178,6 @@ public class UiManager : MonoBehaviour
 
 	private void Start ()
 	{
-		radarRangeXDistanceFromZero = radarRange.anchorMin.x * Screen.width;
-		radarRangeYDistanceFromZero = radarRange.anchorMin.y * Screen.height;
-
-
 		// A changer >>
 		Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
 
@@ -248,32 +238,8 @@ public class UiManager : MonoBehaviour
 
     void OnPlayerSpawn ( ushort id )
 	{
-		if (GameFactory.IsOnMyTeam(id))
-		{
-			GetImageOfChamp(id).color = outViewBlueColor;
-		}
-		else
-		{
-			GetImageOfChamp(id).color = outViewRedColor;
-		}
-
-		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-		{
-            ActualiseLife(RoomManager.Instance.actualRoom.playerList[id].playerCharacter);
-
-            if (RoomManager.Instance.actualRoom.playerList[id] == NetworkManager.Instance.GetLocalPlayer())
-			{
-				if (GameFactory.IsOnMyTeam(id))
-				{
-					GetImageOfChamp(id).color = inViewBlueColor;
-				}
-				else
-				{
-					GetImageOfChamp(id).color = inViewRedColor;
-				}
-			}
-		}
-	}
+        GetImageOfChamp(id).enabled = true;
+    }
 
 	void OnPlayerTakeDamage ( ushort id, ushort damage, ushort dealer )
 	{
@@ -304,49 +270,8 @@ public class UiManager : MonoBehaviour
             ActualiseLife(RoomManager.Instance.GetPlayerData(idKilled).playerCharacter);
         }
 
-		GetImageOfChamp(idKilled).color = killedColor;
+		GetImageOfChamp(idKilled).enabled = false;
 	}
-
-	void OnPlayerViewChange ( ushort id, bool isVisible )
-	{
-		//actualise icon and color team
-		if (GameManager.Instance.networkPlayers.ContainsKey(id) && GameManager.Instance.networkPlayers[id] != null)
-		{
-			Color myColor = Color.white;
-
-			switch (isVisible)
-			{
-				case true:
-					if (GameFactory.IsOnMyTeam(id))
-					{
-						myColor = inViewBlueColor;
-					}
-					else
-					{
-						myColor = inViewRedColor;
-					}
-					break;
-
-				case false:
-					if (GameFactory.IsOnMyTeam(id))
-					{
-						myColor = outViewBlueColor;
-					}
-					else
-					{
-						myColor = outViewRedColor;
-					}
-					break;
-			}
-
-			GetImageOfChamp(id).color = myColor;
-		}
-		else
-		{
-			//joueur est mort
-			GetImageOfChamp(id).color = killedColor;
-		}
-    }
 
 	internal void Revive ( bool state )
 	{
@@ -518,7 +443,6 @@ public class UiManager : MonoBehaviour
 
 	internal void UnlockNewAltar ( Altar altar )
 	{
-		actualUnlockedAltar = altar.gameObject;
 		nextAltarRadarIcon.gameObject.SetActive(true);
 	}
 

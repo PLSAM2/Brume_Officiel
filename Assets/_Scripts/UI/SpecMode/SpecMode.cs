@@ -63,7 +63,11 @@ public class SpecMode : MonoBehaviour
             UiManager.Instance.spellUI.alpha = 0;
 
             GameManager.Instance.deadPostProcess.SetActive(true);
-            AudioManager.Instance.Play2DAudio(deathAudio);
+
+            if(deathAudio != null)
+            {
+                AudioManager.Instance.Play2DAudio(deathAudio);
+            }
 
             CameraManager.Instance.isSpectate = true;
 

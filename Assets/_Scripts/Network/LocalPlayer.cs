@@ -376,7 +376,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-		if (InGameNetworkReceiver.Instance.GetEndGame())
+		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intengenbility) != 0)
 		{
 			return;
 		}
@@ -480,42 +480,37 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
 
-		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
-		if ((myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
-			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
+
+		if (damages > 0)
 		{
+			LocalPoolManager.Instance.SpawnNewImpactDamageFX(
+				transform.position + Vector3.up * 1,
+				myPlayerModule.teamIndex
+			);
+		}
 
-			if (damages > 0)
+		if (serverLife != null)
+		{
+			liveHealth = (ushort)serverLife;
+
+			if (isOwner && liveHealth <= 0)
 			{
-				LocalPoolManager.Instance.SpawnNewImpactDamageFX(
-					transform.position + Vector3.up * 1,
-					myPlayerModule.teamIndex
-				);
+				KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
 			}
-
-			if (serverLife != null)
+		}
+		else
+		{
+			if ((int)liveHealth - (int)damages <= 0)
 			{
-				liveHealth = (ushort)serverLife;
-
-				if (isOwner && liveHealth <= 0)
+				if (isOwner)
 				{
 					KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
 				}
 			}
 			else
 			{
-				if ((int)liveHealth - (int)damages <= 0)
-				{
-					if (isOwner)
-					{
-						KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
-					}
-				}
-				else
-				{
-					int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
-					liveHealth = (ushort)_tempHp;
-				}
+				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
+				liveHealth = (ushort)_tempHp;
 			}
 
 
@@ -669,17 +664,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			GameManager.Instance.ResetCam();
 
-            if(deathPerso != null)
-            {
-                AudioManager.Instance.Play2DAudio(deathPerso);
-            }
+			if (deathPerso != null)
+			{
+				AudioManager.Instance.Play2DAudio(deathPerso);
+			}
 		}
 		else
 		{
-            if(deathGlobal != null)
-            {
-                AudioManager.Instance.Play2DAudio(deathGlobal);
-            }
+			if (deathGlobal != null)
+			{
+				AudioManager.Instance.Play2DAudio(deathGlobal);
+			}
 		}
 	}
 
