@@ -376,7 +376,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intengenbility) != 0)
+		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intangenbility) != 0)
 		{
 			return;
 		}
@@ -733,7 +733,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (isNegative(_newStatus))
 		{
-			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intengenbility) == 0)
+			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
 			{
 				myPlayerModule.KillEveryStun();
 				myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus].effect);
