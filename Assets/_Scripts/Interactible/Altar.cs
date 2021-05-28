@@ -3,6 +3,7 @@ using DarkRift;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
@@ -16,10 +17,10 @@ public class Altar : Interactible
     public float unlockTime;
     public AltarBuff altarBuff;
     public ushort ultimateStackGive = 2;
+    public AltarUiProgressCollider altarUiProgressCol;
 
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
-    [SerializeField] Sprite willUnlockSprite;
 
     [HideInInspector] public float currentTime = 0;
 
@@ -28,11 +29,12 @@ public class Altar : Interactible
     [SerializeField] protected string colorShader = "_Color";
     //wayPoint
     [SerializeField] GameObject waypointAltarPrefab;
-    public AltarWaypoint waypointObj;
+    [HideInInspector] public AltarWaypoint waypointObj;
 
-    [SerializeField] Color altarLockColor;
-    [SerializeField] Color altarUnlockColor;
-    [SerializeField] Color altarEndColor;
+    public GameObject redTaken, blueTaken;
+
+    [SerializeField] GameObject iconUnlock, iconLock;
+
 
     void Start()
     {
@@ -40,14 +42,15 @@ public class Altar : Interactible
         isInteractable = false;
 
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<AltarWaypoint>();
-        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
         waypointObj.target = transform;
 
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
 
-        waypointObj.SetLockStatut(true);
+        iconUnlock.SetActive(false);
+        iconLock.SetActive(true);
     }
 
     private void Update()
@@ -55,15 +58,20 @@ public class Altar : Interactible
         //TODO afficher timer altar
         if (waypointObj != null && waypointObj.gameObject.activeSelf)
         {
-            float currentTimeLeft = unlockTime - (Time.fixedTime - currentTime);
-            if (currentTimeLeft > 0)
+            if (currentTime > 0)
             {
-                waypointObj.SetUnderText("Unlock in " + Mathf.RoundToInt(currentTimeLeft) + "s");
+                waypointObj.SetTimer(Mathf.RoundToInt(currentTime));
             }
             else
             {
-                waypointObj.SetUnderText("");
+                waypointObj.SetTimer(0);
             }
+
+            currentTime -= Time.deltaTime;
+        }
+        else
+        {
+            waypointObj.SetTimer(0);
         }
     }
 
@@ -81,23 +89,30 @@ public class Altar : Interactible
             completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
             completeObj.gameObject.SetActive(true);
         }
+        else
+        {
+            PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
+            PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
+        }
         base.UpdateCaptured(_capturingPlayerID);
 
 
         //disable
-        waypointObj.SetImageColor(altarLockColor);
+        waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
 
         if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
+            blueTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
         }
         else
         {
+            redTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
-        UiManager.Instance.OnAltarUnlock(this ,RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        UiManager.Instance.OnAltarUnlock(this, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
 
         StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
@@ -136,7 +151,12 @@ public class Altar : Interactible
         base.Captured(_capturingPlayerID);
     }
 
-    
+    public override void UpdateTryCapture(ushort _capturingPlayerID)
+    {
+        base.UpdateTryCapture(_capturingPlayerID);
+    }
+
+
     public override void SetActiveState(bool value)
     {
         base.SetActiveState(value);
@@ -149,10 +169,20 @@ public class Altar : Interactible
 
     IEnumerator ActivateAltar()
     {
-        mapIcon.sprite = willUnlockSprite;
-        currentTime = Time.fixedTime;
+        if (RoomManager.Instance.roundCount == 1)
+        {
+            currentTime = unlockTime + GameManager.Instance.trainTimer;
+        }
+        else
+        {
+            currentTime = unlockTime;
+        }
 
-        yield return new WaitForSeconds(unlockTime);
+        print(currentTime);
+
+        yield return new WaitForSeconds(currentTime);
+
+
 
         if (interactibleName == "Right") // BERK MAIS OSEF
         {
@@ -162,21 +192,86 @@ public class Altar : Interactible
         Unlock();
     }
 
-	public override void Unlock ()
-	{
+    public override void Unlock()
+    {
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
 
-        mapIcon.sprite = unlockedAltar;
         base.Unlock();
 
-        waypointObj.SetImageColor(altarUnlockColor);
+        waypointObj.SetUnLock();
 
-        waypointObj.SetLockStatut(false);
+        iconUnlock.SetActive(true);
+        iconLock.SetActive(false);
     }
 
     internal void StarFinalPhase()
     {
         waypointObj.gameObject.SetActive(false);
+    }
+
+
+    public void OnPlayerDie(ushort deadP)
+    {
+
+
+        PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            altarUiProgressCol.playerInUIZone.Remove(pm);
+        }
+
+        pm = playerInZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
+
+        if (pm != null)
+        {
+            playerInZone.Remove(pm);
+        }
+
+        playerInZone.RemoveAll(item => item == null);
+        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
+
+        UpdateUI();
+    }
+
+    public override void UpdateUI()
+    {
+        base.UpdateUI();
+
+
+        if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
+        {
+            return;
+        }
+
+        if (state != State.Capturable)
+        {
+            UiManager.Instance.SetAltarCaptureUIState(false);
+            return;
+        }
+
+        if (GetLocalPlayerCountInZone() <= 0)
+        {
+            UiManager.Instance.SetAltarCaptureUIState(false);
+            return;
+        }
+
+        if (IsLocallyContested())
+        {
+            UiManager.Instance.SetAltarCaptureUIState(true, true);
+        }
+        else
+        {
+            if (playerInZone[0].teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            {
+                UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
+            }
+            else
+            {
+
+                UiManager.Instance.SetAltarCaptureUIState(false);
+            }
+        }
     }
 }

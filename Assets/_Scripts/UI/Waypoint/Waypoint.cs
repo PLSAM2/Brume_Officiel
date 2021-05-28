@@ -90,7 +90,7 @@ public class Waypoint : MonoBehaviour
         canvasOut.alpha = 1;
     }
 
-    public void SetUnderText(string _value)
+    public virtual void SetUnderText(string _value)
     {
         distanceTextIn.text = _value;
         distanceTextOut.text = _value;

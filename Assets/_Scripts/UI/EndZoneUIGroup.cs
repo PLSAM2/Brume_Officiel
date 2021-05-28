@@ -7,18 +7,20 @@ using static GameData;
 
 public class EndZoneUIGroup : MonoBehaviour
 {
-	public TextMeshProUGUI timer;
-	public TextMeshProUGUI EndZoneText;
-	public Image endZoneBar;
-	public Image endZoneBarBackground;
-	public Animator endZoneAnim;
-	public GameObject endZoneTimerObj;
+    public TextMeshProUGUI timer;
+    public TextMeshProUGUI EndZoneText;
+    public Image endZoneBar;
+    public Image endZoneBarBackground;
+    public Animator endZoneAnim;
+    public GameObject endZoneTimerObj;
 
-	public void Init(Team team)
-	{
+    public void Init(Team team)
+    {
 
         Color _temp = GameFactory.GetRelativeColor(team);
 
+        UiManager.Instance.objectivesAnim.SetTrigger("EndZone");
+        timer.color = _temp;
         EndZoneText.color = _temp;
         endZoneBar.color = _temp;
         endZoneBarBackground.color = new Color(_temp.r, _temp.g, _temp.b, 0.2f);
@@ -43,13 +45,31 @@ public class EndZoneUIGroup : MonoBehaviour
                 default: throw new System.Exception();
             }
 
-		} else
+        }
+        else
         {
-			EndZoneText.text = "Defend The Center";
-		}
+            EndZoneText.text = "Defend The Center";
+        }
 
-		endZoneTimerObj.SetActive(true);
-	}
+        endZoneTimerObj.SetActive(true);
+    }
 
+
+    public void TimerElapsed()
+    {
+        UiManager.Instance.objectivesAnim.SetTrigger("TimerElapsed");
+
+        Color _temp = GameFactory.GetColorTeam(Team.blue);
+
+        timer.gameObject.SetActive(false);
+
+        timer.color = _temp;
+        EndZoneText.color = _temp;
+        endZoneBar.color = _temp;
+        endZoneBarBackground.color = new Color(_temp.r, _temp.g, _temp.b, 0.2f);
+
+        EndZoneText.text = "Attack The Center";
+
+    }
 
 }

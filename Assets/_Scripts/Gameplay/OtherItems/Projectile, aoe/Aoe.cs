@@ -49,6 +49,7 @@ public class Aoe : AutoKill
 		{
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 			{
+				print("I m powered up");
 				if (damageOnEnable.damageHealth > 0)
 				{
 					damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
@@ -57,7 +58,7 @@ public class Aoe : AutoKill
 				}
 				if (damageOnDisable.damageHealth > 0)
 				{
-					damageOnDisable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 				}
 			}
@@ -89,43 +90,49 @@ public class Aoe : AutoKill
 
 				if (_damageable != null)
 				{
-					float _percentageOfStrength = 1;
-
-					Transform _posOfDealing = transform;
-
-					if (_damages.movementToApply != null)
+					if (!_damageable.IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
 					{
 
-						if (adaptiveRange)
+						float _percentageOfStrength = 1;
+
+						Transform _posOfDealing = transform;
+
+						if (_damages.movementToApply != null)
 						{
-							if (localTrad.rules.isBox)
-							{
-								if (_damages.movementToApply.isGrab)
-									_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
-								else
-									_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 
-							}
-							else
+							if (adaptiveRange)
 							{
-								if (_damages.movementToApply.isGrab)
-									_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
+								if (localTrad.rules.isBox)
+								{
+									if (_damages.movementToApply.isGrab)
+										_percentageOfStrength = Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z / 2;
+									else
+										_percentageOfStrength = (1 - (Mathf.Abs(transform.position.x - _coll.transform.position.x) / localTrad.rules.boxDimension.x + Mathf.Abs(transform.position.z - _coll.transform.position.z) / localTrad.rules.boxDimension.z) / 2);
 
+								}
 								else
-									_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+								{
+									if (_damages.movementToApply.isGrab)
+										_percentageOfStrength = (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius);
+
+									else
+										_percentageOfStrength = (1 - (Vector3.Distance(transform.position, _coll.transform.position) / localTrad.rules.aoeRadius));
+								}
 							}
+
+							if (localTrad.rules.useOwnerPos)
+								_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform;
 						}
 
-						if (localTrad.rules.useOwnerPos)
-							_posOfDealing = GameManager.Instance.networkPlayers[myNetworkObject.GetOwnerID()].transform;
-					}
+						_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 
-					_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
+						if (enemiesTouched().Length > 0 && localTrad.cooldownReductionOnHit > 0)
+							GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceTargetCooldown(localTrad.cooldownReductionOnHit, localTrad.cooldownReducedOnHit);
+					}
 				}
 			}
 
-			if (enemiesTouched().Length > 0 && localTrad.cooldownReductionOnHit > 0)
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceTargetCooldown(localTrad.cooldownReductionOnHit, localTrad.cooldownReducedOnHit);
+			
 		}
 	}
 

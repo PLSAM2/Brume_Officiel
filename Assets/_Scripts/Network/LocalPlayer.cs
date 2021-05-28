@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using UnityStandardAssets.Cameras;
 using static GameData;
 using static StatFactory;
+using UnityEngine.Events;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -76,9 +77,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public AudioClip deathPerso, deathGlobal;
 
-    public GameObject addLife_blue_fx, addLife_red_fx;
+	public ParticleSystem addLife_blue_fx, addLife_red_fx;
 
-    private void Awake ()
+	private void Awake ()
 	{
 		lastPosition = transform.position;
 	}
@@ -124,14 +125,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-        foreach (Altar alt in GameManager.Instance.allAltar)
-        {
-            if (alt.state == State.Captured && IsInMyTeam(alt.capturingTeam) )
-            {
+		foreach (Altar alt in GameManager.Instance.allAltar)
+		{
+			if (alt.state == State.Captured && IsInMyTeam(alt.capturingTeam))
+			{
 				myPlayerModule.bonusHp++;
 
 			}
-        }
+		}
 
 		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
@@ -142,7 +143,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void Update ()
 	{
-        Debug();
+		Debug();
+
 
 		if (!isOwner) { return; }
 
@@ -192,21 +194,33 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			DealDamages(_temp, transform, null, true, true);
 		}
 
+
+		if (Input.GetKeyDown(KeyCode.O) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+		{
+			AddHitPoint(1);
+		}
+
 		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
+		}
+
+		if (Input.GetKeyDown(KeyCode.L) && isOwner)
+		{
+			print("Prout");
+			addLife_blue_fx.Play();
 		}
 	}
 
 	internal void AllCharacterSpawn ()
 	{
 
-		ushort? wxRefId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
+		/*    ushort? wxRefId = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, GameData.Character.WuXin);
 
-		if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
-		{
-			myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
-		}
+        if (wxRefId != null && NetworkManager.Instance.GetLocalPlayer().ID != (ushort)wxRefId)
+          {
+              myUiPlayerManager.wxRef = GameManager.Instance.networkPlayers[(ushort)wxRefId];
+    }*/
 
 		allCharacterSpawned = true;
 	}
@@ -261,19 +275,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void OnDisable ()
 	{
-		if (deathFx != null)
-		{
-			FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
-			if (isOwner)
-			{
-				fow.fowDeath.SetActive(true);
-			}
-		}
-
 		if (myWaypoint != null)
 		{
 			Destroy(myWaypoint.gameObject);
 		}
+
 
 		if (!isOwner)
 			return;
@@ -329,7 +335,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 	}
 
-	public void SendForcedMovement ( ForcedMovement _movement)
+	public void SendForcedMovement ( ForcedMovement _movement )
 	{
 		using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 		{
@@ -370,7 +376,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-		if (InGameNetworkReceiver.Instance.GetEndGame())
+		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intengenbility) != 0)
 		{
 			return;
 		}
@@ -440,7 +446,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			if (_damagesToDeal.movementToApply != null)
 			{
-				if(_damagesToDeal.movementToApply.useForwardOfDealer)
+				if (_damagesToDeal.movementToApply.useForwardOfDealer)
 					SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer.position, _percentageOfTheMovement, _positionOfTheDealer.forward.x, _positionOfTheDealer.forward.z));
 				else
 					SendForcedMovement(_damagesToDeal.movementToApply.MovementToApply(transform.position, _positionOfTheDealer.position, _percentageOfTheMovement));
@@ -455,6 +461,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 	}
+
 
 	public void DealDamagesLocaly ( ushort damages, ushort dealerID, ushort? serverLife = null )
 	{
@@ -473,42 +480,37 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
 
-		//SI JE NE CONTRE PAS ouayant un etat d invulnérabilité
-		if ((myPlayerModule.state & En_CharacterState.Intengenbility) == 0 &&
-			(myPlayerModule.state & En_CharacterState.Invulnerability) == 0)
+
+		if (damages > 0)
 		{
+			LocalPoolManager.Instance.SpawnNewImpactDamageFX(
+				transform.position + Vector3.up * 1,
+				myPlayerModule.teamIndex
+			);
+		}
 
-			if (damages > 0)
+		if (serverLife != null)
+		{
+			liveHealth = (ushort)serverLife;
+
+			if (isOwner && liveHealth <= 0)
 			{
-				LocalPoolManager.Instance.SpawnNewImpactDamageFX(
-					transform.position + Vector3.up * 1,
-					myPlayerModule.teamIndex
-				);
+				KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
 			}
-
-			if (serverLife != null)
+		}
+		else
+		{
+			if ((int)liveHealth - (int)damages <= 0)
 			{
-				liveHealth = (ushort)serverLife;
-
-				if (isOwner && liveHealth <= 0)
+				if (isOwner)
 				{
 					KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
 				}
 			}
 			else
 			{
-				if ((int)liveHealth - (int)damages <= 0)
-				{
-					if (isOwner)
-					{
-						KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
-					}
-				}
-				else
-				{
-					int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
-					liveHealth = (ushort)_tempHp;
-				}
+				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
+				liveHealth = (ushort)_tempHp;
 			}
 
 
@@ -621,26 +623,34 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 
 	[SerializeField] float timeSpotDisplay = 2;
-	public IEnumerator SpotPlayer ()
-	{
-		myUiPlayerManager.Eye_Spot.SetActive(true);
-		yield return new WaitForSeconds(timeSpotDisplay);
-		myUiPlayerManager.Eye_Spot.SetActive(false);
-	}
 
-	public void KillPlayer ( PlayerData killer )
+
+	internal void KillPlayerLocaly ()
 	{
+
 		if (deathFx != null)
 		{
 			FowDeath fow = Instantiate(deathFx, transform.position, transform.rotation).GetComponent<FowDeath>();
 			if (isOwner)
 			{
-				fow.fowDeath.SetActive(true);
+				fow.fowDeath.gameObject.SetActive(true);
+				fow.fowDeath.GenerateFowStatic();
 			}
 		}
+	}
 
+
+	public void KillPlayer ( PlayerData killer )
+	{
 		if (isOwner)
 		{
+			PlayerData p = NetworkManager.Instance.GetLocalPlayer();
+			if (p.playerCharacter == Character.Re || p.playerCharacter == Character.Leng)
+			{
+				GameManager.Instance.Revive(true);
+			}
+
+
 			UiManager.Instance.feedbackDeath.SetActive(true);
 
 			//GameManager.Instance.hiddenEffect.enabled = false;
@@ -649,15 +659,22 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			OnPlayerDeath?.Invoke(transform.position);
 			disableModule.Invoke();
 			InGameNetworkReceiver.Instance.KillCharacter(killer);
+			UiManager.Instance.SetAltarCaptureUIState(false);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOU HAVE BEEN SLAIN </color>");
 
 			GameManager.Instance.ResetCam();
 
-			AudioManager.Instance.Play2DAudio(deathPerso);
+			if (deathPerso != null)
+			{
+				AudioManager.Instance.Play2DAudio(deathPerso);
+			}
 		}
 		else
 		{
-			AudioManager.Instance.Play2DAudio(deathGlobal);
+			if (deathGlobal != null)
+			{
+				AudioManager.Instance.Play2DAudio(deathGlobal);
+			}
 		}
 	}
 
@@ -761,13 +778,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj, Team audioTeam )
 	{
-		if (this.transform.position == obj || isOwner == false)
-		{
-			return;
-		}
-		GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
+		/*   if (this.transform.position == obj || isOwner == false)
+		   {
+			   return;
+		   }
+		   GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
-		_newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);
+		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);*/
 	}
 
 	IEnumerator TimerShowPlayer ( float _time )
@@ -788,7 +805,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
 		{
 			// LES YEUx
-			myUiPlayerManager.Eye_Spot.SetActive(_activate);
+			// myUiPlayerManager.Eye_Spot.SetActive(_activate);
 		}
 		else
 		{
@@ -799,7 +816,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				{
 					waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
 					waypointThirdEye.targetVector = transform.position;
-					waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(GameFactory.GetOtherTeam(myPlayerModule.teamIndex)));
+					waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
 				}
 				else
 				{
@@ -820,16 +837,25 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		liveHealth += (ushort)_int;
 		myUiPlayerManager.AddLifePoint(_int);
 
-        print("call");
+		if (myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+		{
+			UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+			PlayFxLifeGain(true);
+		}
+		else
+			PlayFxLifeGain(true);
+	}
 
-        if(myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
-        {
-            addLife_blue_fx.SetActive(true);
-        }
-        else
-        {
-            addLife_red_fx.SetActive(true);
-        }
+	public void PlayFxLifeGain ( bool inMyTeam )
+	{
+		if (inMyTeam)
+		{
+			addLife_blue_fx.Play();
+		}
+		else
+		{
+			addLife_red_fx.Play();
+		}
 	}
 }
 

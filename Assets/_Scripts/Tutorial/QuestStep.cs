@@ -18,7 +18,7 @@ public class QuestStep
     [ShowIf("questEvent", QuestEvent.KeyPressed)] public List<PairKeycodeBool> keyToPress;
 
     [ShowIf("questEvent", QuestEvent.ZoneToTrigger)] public ZoneEvent zoneEvent;
-    [ShowIf("questEvent", QuestEvent.ZoneToTrigger)] [LabelText("Zone ID ref")] public int zoneToTrigger;
+    [ShowIf("questEvent", QuestEvent.ZoneToTrigger)] [LabelText("Zone ref")] public TutorialTriggerZone zoneToTrigger;
 
     // --------------------------------
 
@@ -29,7 +29,7 @@ public class QuestStep
     // --------------------------------
 
     [ShowIf("questEvent", QuestEvent.DummyEvent)] public DummyEvent dummyEvent;
-    [ShowIf("questEvent", QuestEvent.DummyEvent)] [InfoBox("Optionnal target --> NULL == any Dummy")] public Dummy focusedDummy;
+    [ShowIf("questEvent", QuestEvent.DummyEvent)] [InfoBox("NULL == any Dummy")] public Dummy focusedDummy;
 
     // --------------------------------
 
@@ -39,7 +39,6 @@ public class QuestStep
 
     [ShowIf("questEvent", QuestEvent.MovementEvent)] public MovementEvent movementEvent;
 
-    
     internal void Reset()
     {
         completed = false;
@@ -61,7 +60,8 @@ public enum QuestEvent
     InteractibleEvent,
     DummyEvent,
     MystEvent,
-    MovementEvent
+    MovementEvent,
+    CameraEvent
 }
 
 public enum ZoneEvent
@@ -93,12 +93,25 @@ public enum MystEvent
 
 public enum MovementEvent
 {
-    Walk
+    Walk,
+    WatchCameraBorder
 }
 
 [Serializable]
 public class PairKeycodeBool
 {
     public KeyCode key;
+    public int keyCount = 1;
+    [HideInInspector] public int keyPressedCount = 0;
     [HideInInspector] public bool pressed;
+    
+    
+    public void KeyPress()
+    {
+        keyPressedCount++;
+        if (keyPressedCount == keyCount)
+        {
+            pressed = true;
+        }
+    }
 }

@@ -112,22 +112,18 @@ public class ModuleProjectileSpell : SpellModule
 
 	protected override void UpdatePreview ()
 	{
-		float _baseAngle = transform.forward.y - localTrad.angleToSplit / 2;
-
 		RaycastHit _hit;
-		Vector3 _baseDirection = Quaternion.AngleAxis(_baseAngle, Vector3.up) * myPlayerModule.directionOfTheMouse();
-
 
 		if (!passWalls)
 		{
 			if (Physics.SphereCast(transform.position,
-			localTrad.prefab.collisionSize.x,
+			.5f,
 			transform.forward,
 			out _hit,
 			localTrad.fakeRange,
 			1 << 9))
 			{
-				myPreviewArrow[0].Init(transform.position, _hit.point, localTrad.fakeWidthStart, localTrad.fakeWidthEnd);
+				myPreviewArrow[0].Init(transform.position, _hit.point, ArrowPreview.arrowType.Projectile);
 				myPreviewArrow[0].gameObject.SetActive(true);
 
 				/*	if (localTrad.bouncingNumber > 0)
@@ -142,13 +138,13 @@ public class ModuleProjectileSpell : SpellModule
 			}
 			else
 			{
-				myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), localTrad.fakeWidthStart, localTrad.fakeWidthEnd);
+				myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), ArrowPreview.arrowType.Projectile);
 				//myPreviewArrow[1].gameObject.SetActive(true);
 			}
 		}
 		else
 		{
-			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), localTrad.fakeWidthStart, localTrad.fakeWidthEnd);
+			myPreviewArrow[0].Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.fakeRange)), ArrowPreview.arrowType.Projectile);
 			//myPreviewArrow[1].gameObject.SetActive(true);
 		}
 

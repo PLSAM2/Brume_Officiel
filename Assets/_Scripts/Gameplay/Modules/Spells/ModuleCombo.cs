@@ -109,7 +109,7 @@ public class ModuleCombo : SpellModule
 		return;
 	}
 
-	protected override void LinkInputs ( En_SpellInput _actionLinked )
+	public override void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule.cancelSpell += CancelSpell;
 
@@ -162,7 +162,7 @@ public class ModuleCombo : SpellModule
 
 	}
 
-	protected override void DelinkInput ()
+	public override void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
 		switch (actionLinked)

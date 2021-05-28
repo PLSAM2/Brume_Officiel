@@ -201,10 +201,14 @@ public class PlayerModule : MonoBehaviour
         }
 
 		Event e = Event.current;
-		if (e.isKey)
+
+		if (Input.anyKeyDown
+			&& (e.isKey) 
+			&& (e.type == EventType.KeyDown))
 		{
 			TutorialManager.Instance.GetKeyPressed(e.keyCode);
 		}
+
 	}
 
 	public virtual void Setup ()
@@ -230,14 +234,11 @@ public class PlayerModule : MonoBehaviour
 		else
 			otherTeam = Team.blue;
 
+		lastRecordedPos = transform.position;
+		StartCoroutine(WaitForVisionCheck());
+
 		if (mylocalPlayer.isOwner)
 		{
-
-			UiManager.Instance.LinkInputName(En_SpellInput.Click, "LC");
-			UiManager.Instance.LinkInputName(En_SpellInput.FirstSpell, "RC");
-			UiManager.Instance.LinkInputName(En_SpellInput.SecondSpell, secondSpellKey.ToString());
-
-			UiManager.Instance.LinkInputName(En_SpellInput.SoulSpell, soulSpellKey.ToString());
 			spellResolved += BuffInput;
 			//modulesPArt
 			movementPart.SetupComponent(characterParameters.movementParameters);
@@ -264,7 +265,6 @@ public class PlayerModule : MonoBehaviour
 					skin.material.SetFloat("_OutlinePower", 10);
 				}
 			}
-			StartCoroutine(WaitForVisionCheck());
 		}
 
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
@@ -343,9 +343,14 @@ public class PlayerModule : MonoBehaviour
     public IEnumerator WaitForVisionCheck()
     {
         CheckForBrumeRevelation();
-        yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
-        StartCoroutine(WaitForVisionCheck());
+        yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(.25f);
+		CheckForBrumeRevelation();
+		yield return new WaitForSeconds(characterParameters.delayBetweenDetection);
+		StartCoroutine(WaitForVisionCheck());
     }
+
     void CheckForBrumeRevelation()
     {
 
@@ -363,12 +368,23 @@ public class PlayerModule : MonoBehaviour
                 LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
 
         }
-
         lastRecordedPos = transform.position;
     }
 
     protected virtual void Update ()
 	{
+
+		if (tutorialListeningInput)
+		{
+            for (int i = 0; i < 6; i++)
+            {
+				if (Input.GetMouseButtonDown(i))
+				{
+					TutorialManager.Instance.GetKeyPressed(i);
+				}
+			}
+		}
+
 
 		TreatEffects();
 		TreatTickEffects();
@@ -418,14 +434,7 @@ public class PlayerModule : MonoBehaviour
 		}
 		oldState = state;
 
-		if ((state & (En_CharacterState.Stunned | En_CharacterState.Slowed | En_CharacterState.Hidden)) != 0)
-		{
-			mylocalPlayer.myUiPlayerManager.HidePseudo(true);
-		}
-		else
-			mylocalPlayer.myUiPlayerManager.HidePseudo(false);
-
-		if (mylocalPlayer.isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+		if (mylocalPlayer.isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen && !GameManager.Instance.blockMovement)
 		{
 
 			{
@@ -479,13 +488,13 @@ public class PlayerModule : MonoBehaviour
 			}
 			#endregion
 			//MEGA TEMP
-			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state);
 
 		}
 		else
 		{
 			// TEMP
-			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state, 10, 10);
+			mylocalPlayer.myUiPlayerManager.ShowStateIcon(state);
 		}
 
 		/*if (isAutoHealing)
@@ -603,12 +612,8 @@ public class PlayerModule : MonoBehaviour
 
 	bool ShouldBePinged ()
 	{
-		//marké par la shili donc go ping
-		if (cursedByShili)
-			return true;
-
 		//le perso a pas bougé
-		if (lastRecordedPos == transform.position || isInBrume)
+		if ( Vector3.Distance(transform.position, lastRecordedPos) <= .2f || isInBrume)
 			return false;
 
 		//on choppe le player local
@@ -619,8 +624,8 @@ public class PlayerModule : MonoBehaviour
 			return false;
 
 		//DISTANCE > a la range
-		if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
-			return false;
+		/*if (Vector3.Distance(transform.position, _localPlayer.transform.position) >= _localPlayer.characterParameters.detectionRange)
+			return false;*/
 
 		return true;
 	}
@@ -955,7 +960,7 @@ public class PlayerModule : MonoBehaviour
 			isWaitingForHeal = !_isSeen;
 		}*/
 
-	SpellModule SelectionnedSoulSpellModule ()
+	public SpellModule SelectionnedSoulSpellModule ()
 	{
 		switch (currentSoulModule)
 		{

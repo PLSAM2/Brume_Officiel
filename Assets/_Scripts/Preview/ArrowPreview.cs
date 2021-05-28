@@ -6,25 +6,23 @@ using UnityEngine.UI;
 public class ArrowPreview : MonoBehaviour
 {
     [SerializeField] Transform arrowParent;
-    [SerializeField] SpriteRenderer arrowImg;
-    [SerializeField] Transform endArrow;
+    [SerializeField] SpriteRenderer arrowImgDash;
+    [SerializeField] SpriteRenderer arrowImgProjectil;
+    [SerializeField] Transform endArrowDash, endArrowProjectil;
     [SerializeField] LineRenderer line;
 
     [SerializeField] Transform previewSprite;
 
     Vector3 startPos, endPos;
 
-    public void Init(Vector3 _newStartPos, Vector3 _newEndPos, float _startWidth = 0, float _endWidth = 0)
-    {
-        if(_startWidth != 0)
-        {
-            line.startWidth = _startWidth;
-        }
+    arrowType currentType;
 
-        if (_endWidth != 0)
-        {
-            line.endWidth = _endWidth;
-        }
+    public void Init(Vector3 _newStartPos, Vector3 _newEndPos, arrowType _myType)
+    {
+        currentType = _myType;
+
+        arrowImgDash.enabled = (_myType == arrowType.Dash);
+        arrowImgProjectil.enabled = (_myType == arrowType.Projectile);
 
         startPos = _newStartPos;
         endPos = _newEndPos;
@@ -37,7 +35,8 @@ public class ArrowPreview : MonoBehaviour
 
     public void SetColor(Color _newColor)
     {
-        arrowImg.color = _newColor;
+        arrowImgDash.color = _newColor;
+        arrowImgProjectil.color = _newColor;
     }
 
     void Update()
@@ -46,9 +45,15 @@ public class ArrowPreview : MonoBehaviour
         arrowParent.transform.position = endPos + Vector3.up * 0.1f;
 
         line.SetPosition(0, startPos);
-        line.SetPosition(1, endArrow.position);
+        line.SetPosition(1, (currentType == arrowType.Dash ? endArrowDash.position : endArrowProjectil.position));
 
         arrowParent.LookAt(startPos);
         arrowParent.localEulerAngles = new Vector3(0, arrowParent.localEulerAngles.y, arrowParent.localEulerAngles.z);
+    }
+
+    public enum arrowType
+    {
+        Dash,
+        Projectile
     }
 }

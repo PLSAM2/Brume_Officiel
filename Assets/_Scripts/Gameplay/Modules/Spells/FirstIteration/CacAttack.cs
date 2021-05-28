@@ -40,14 +40,18 @@ public class CacAttack : SpellModule
 			linePreview.useWorldSpace = true;
 		}
 	}
-	public override void TryCanalysing ( Vector3 _BaseMousePos )
+
+	protected override void Canalyse ( Vector3 _BaseMousePos )
 	{
-		base.TryCanalysing(_BaseMousePos);
+		base.Canalyse(_BaseMousePos);
+
+		ResetDamage();
 
 		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
+		{
+			print("Boost damage");
 			damageToDeal.damageHealth += 1;
-		else
-			ResetDamage();
+		}
 
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 	}
@@ -66,12 +70,12 @@ public class CacAttack : SpellModule
 				localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange - .4f,
 				1 << 9))
 			{
-				myPreviewArrow.Init(transform.position, _hit.point, 1, 1);
+				myPreviewArrow.Init(transform.position, _hit.point, ArrowPreview.arrowType.Dash);
 				myPreviewArrow.gameObject.SetActive(true);
 			}
 			else
 			{
-				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange)), 1, 1);
+				myPreviewArrow.Init(transform.position, transform.position + (Vector3.Normalize(myPlayerModule.mousePos() - transform.position) * (localTrad.forcedMovementAppliedBeforeResolution.movementToApply.fakeRange)), ArrowPreview.arrowType.Dash);
 				//myPreviewArrow[1].gameObject.SetActive(true);
 
 			}
@@ -182,7 +186,7 @@ public class CacAttack : SpellModule
 				if (_playerTouched != null)
 					if (!_playerTouched.IsInMyTeam(myPlayerModule.teamIndex))
 					{
-						_playerTouched.DealDamages(localTrad.attackParameters.damagesToDeal, transform);
+						_playerTouched.DealDamages(damageToDeal, transform);
 						_ashitEnemy = true;
 					}
 			}
@@ -217,18 +221,6 @@ public class CacAttack : SpellModule
 			}
 		}
 		return _toAdd;
-	}
-
-	protected override void CancelSpell ( bool _isForcedInterrupt )
-	{
-		base.CancelSpell(_isForcedInterrupt);
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
-		resolved = anonciated = startResolution = true;
-		currentTimeCanalised = 0;
-		throwbackTime = 0;
-		willResolve = false;
-		HidePreview(Vector3.zero);
 	}
 
 	void ResetDamage ()
@@ -282,6 +274,7 @@ public class CacAttack : SpellModule
 		base.ThrowbackEndFeedBack();
 	}
 
+
 	protected override void Update ()
 	{
 		base.Update();
@@ -293,6 +286,8 @@ public class CacAttack : SpellModule
 			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 		}
 	}
+
+
 
 	void TriggerAnimHit ()
 	{

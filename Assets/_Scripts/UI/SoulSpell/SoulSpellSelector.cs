@@ -60,6 +60,12 @@ public class SoulSpellSelector : MonoBehaviour
     public void OnClickSoulSpell()
     {
         currentTimer = 0;
+
+        ward.DisableInteractable();
+        thirdEye.DisableInteractable();
+        invisible.DisableInteractable();
+        decoil.DisableInteractable();
+        speed.DisableInteractable();
     }
 
     public void StartTimer()
@@ -113,6 +119,8 @@ public class SoulSpellSelector : MonoBehaviour
             {
                 soulSpell.Hide();
             }
+
+            soulSpell.DisableInteractable();
         }
 
         PlayerPrefs.SetInt("SoulSpell", (int) currentSoulSpell);
@@ -120,7 +128,6 @@ public class SoulSpellSelector : MonoBehaviour
         GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(currentSoulSpell);
 
         yield return new WaitForSeconds(1);
-
         RoomManager.Instance.ImReady();
     }
 

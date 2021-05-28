@@ -60,8 +60,14 @@ public class SpecMode : MonoBehaviour
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
             isSpec = true;
+            UiManager.Instance.spellUI.alpha = 0;
+
             GameManager.Instance.deadPostProcess.SetActive(true);
-            AudioManager.Instance.Play2DAudio(deathAudio);
+
+            if(deathAudio != null)
+            {
+                AudioManager.Instance.Play2DAudio(deathAudio);
+            }
 
             CameraManager.Instance.isSpectate = true;
 
@@ -96,11 +102,12 @@ public class SpecMode : MonoBehaviour
     {
         if (playerId == NetworkManager.Instance.GetLocalPlayer().ID)
         {
-            print("respawn");
             GameManager.Instance.deadPostProcess.SetActive(false);
             isSpec = false;
             CameraManager.Instance.ResetPlayerFollow();
             SuprrOld();
+
+            UiManager.Instance.spellUI.alpha = 1;
             return;
         }
 

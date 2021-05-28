@@ -49,7 +49,19 @@ public class GameFactory
 		return null;
 	}
 
-	public static Color GetColorTeam ( Team myTeam )
+    public static int GetBonusHp(ushort _id)
+    {
+        int hpBonus = 0;
+
+        if (GameManager.Instance.networkPlayers.ContainsKey(_id))
+        {
+            hpBonus += GameManager.Instance.networkPlayers[_id].myPlayerModule.bonusHp;
+        }
+
+        return hpBonus;
+    }
+
+    public static Color GetColorTeam ( Team myTeam )
 	{
 		switch (myTeam)
 		{
@@ -64,7 +76,22 @@ public class GameFactory
 		}
 	}
 
-	public static string GetColorTeamInHex ( Team myTeam )
+    public static ushort GetLifePlayer(Character _champ)
+    {
+        ushort? id = GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam ,_champ);
+
+        if(id != null)
+        {
+            if(GameManager.Instance.networkPlayers.ContainsKey((ushort)id))
+            {
+                return GameManager.Instance.networkPlayers[(ushort)id].liveHealth;
+            }
+        }
+
+        return 0;
+    }
+
+    public static string GetColorTeamInHex ( Team myTeam )
 	{
 		switch (myTeam)
 		{

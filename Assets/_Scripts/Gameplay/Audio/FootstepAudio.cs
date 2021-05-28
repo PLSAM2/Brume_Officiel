@@ -4,90 +4,130 @@ using UnityEngine;
 
 public class FootstepAudio : MonoBehaviour
 {
-    [SerializeField] PlayerModule myPlayerModule;
-    Vector3 oldPos;
+	[SerializeField] PlayerModule myPlayerModule;
+	Vector3 oldPos;
 
-    [HideInInspector]
-    public bool isDecoy = false;
+	[HideInInspector]
+	public bool isDecoy = false;
 
-    [HideInInspector]
-    public Decoy myDecoy;
+	[HideInInspector]
+	public Decoy myDecoy;
 
-    [SerializeField] AudioClip[] allFootsteps;
+	[SerializeField] AudioClip[] allFootsteps;
 
-    [SerializeField] AudioSource myAudioSource;
+	[SerializeField] AudioSource myAudioSource;
 
-    [SerializeField] float delayAfterSound = 0.2f;
+	[SerializeField] float delayAfterSound = 0.2f;
 
-    bool doSound = true;
+	bool doSound = true;
 
-    private void Start()
-    {
-        ChangeVolume(AudioManager.Instance.currentPlayerVolume);
-    }
 
-    private void OnEnable()
-    {
-        AudioManager.Instance.OnVolumeChange += ChangeVolume;
-    }
+	//icon footstep
+	public bool doFootStepIcon = false;
+	bool isLeftFoot = false;
 
-    private void OnDisable()
-    {
-        AudioManager.Instance.OnVolumeChange -= ChangeVolume;
-    }
+	public Transform posFootLeft, posFootRight;
 
-    private void ChangeVolume(float _volume)
-    {
-        if(myPlayerModule != null && myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-        {
-            myAudioSource.volume = _volume / 4;
-        }
-        else
-        {
-            myAudioSource.volume = _volume;
-        }
-    }
+	private void Start ()
+	{
+		ChangeVolume(AudioManager.Instance.currentPlayerVolume);
 
-    // Update is called once per frame
-    void Update()
-    {
-        float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
-        float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
-        oldPos = transform.position;
+		if (myPlayerModule != null && myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+		{
+			doFootStepIcon = true;
+		}
+	}
 
-        if (myPlayerModule != null && myPlayerModule.state.HasFlag(En_CharacterState.Crouched))
-        {
-            return;
-        }
-        else
-        {
-            if ((velocityX != 0 || velocityZ != 0) && doSound)
-            {
-                doSound = false;
-                StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
-            }
-        }
-    }
+	private void OnEnable ()
+	{
+		AudioManager.Instance.OnVolumeChange += ChangeVolume;
+	}
 
-    IEnumerator WaitEndSound(AudioClip _clip)
-    {
-        if (GameFactory.DoSound(transform.position)) {
+	private void OnDisable ()
+	{
+		AudioManager.Instance.OnVolumeChange -= ChangeVolume;
+	}
 
-            if (!isDecoy)
-            {
-                AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
-            }
-            else
-            {
-                AudioManager.Instance.OnAudioPlayed(this.transform.position, myDecoy.netObj.GetOwnerID(), true, myAudioSource.maxDistance);
-            }
-            myAudioSource.PlayOneShot(_clip);
-        }
+	private void ChangeVolume ( float _volume )
+	{
+		if (myPlayerModule != null && myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		{
+			myAudioSource.volume = _volume / 4;
+		}
+		else
+		{
+			myAudioSource.volume = _volume;
+		}
+	}
 
-        yield return new WaitForSeconds(_clip.length);
+	// Update is called once per frame
+	void Update ()
+	{
+		float velocityX = (transform.position.x - oldPos.x) / Time.deltaTime;
+		float velocityZ = (transform.position.z - oldPos.z) / Time.deltaTime;
+		oldPos = transform.position;
 
-        yield return new WaitForSeconds(delayAfterSound);
+		if (isDecoy && myDecoy.isInBrume)
+		{
+			return;
+		}
 
-        doSound = true;
-    }
+		if (myPlayerModule != null && (myPlayerModule.state.HasFlag(En_CharacterState.Crouched)
+			|| myPlayerModule.state.HasFlag(En_CharacterState.Hidden)
+			|| myPlayerModule.isInBrume))
+		{
+			return;
+		}
+		else
+		{
+			if ((velocityX != 0 || velocityZ != 0) && doSound)
+			{
+				doSound = false;
+				StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
+
+				if (isDecoy && myDecoy.isInBrume)
+				{
+					return;
+				}
+				else if (doFootStepIcon)
+				{
+					if (isLeftFoot)
+					{
+						LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootLeft.position, Random.Range(0, 90), 1, 0.7f);
+					}
+					else
+					{
+						LocalPoolManager.Instance.SpawnNewGenericInLocal(6, posFootRight.position, Random.Range(0, 90), 1, 0.7f);
+					}
+
+					isLeftFoot = !isLeftFoot;
+
+				}
+			}
+		}
+
+		IEnumerator WaitEndSound ( AudioClip _clip )
+		{
+			if (GameFactory.DoSound(transform.position))
+			{
+
+				if (!isDecoy)
+				{
+					AudioManager.Instance.OnAudioPlayed(this.transform.position, myPlayerModule.mylocalPlayer.myPlayerId, true, myAudioSource.maxDistance);
+				}
+				else
+				{
+					AudioManager.Instance.OnAudioPlayed(this.transform.position, myDecoy.netObj.GetOwnerID(), true, myAudioSource.maxDistance);
+				} 
+				myAudioSource.PlayOneShot(_clip);
+			}
+
+			yield return new WaitForSeconds(_clip.length);
+
+			yield return new WaitForSeconds(delayAfterSound);
+
+			doSound = true;
+		}
+	}
+
 }

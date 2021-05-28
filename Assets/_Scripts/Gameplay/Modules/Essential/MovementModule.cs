@@ -126,8 +126,12 @@ public class MovementModule : MonoBehaviour
 
 	public void ForcedMovementTouchObstacle ()
 	{
-		//juste pour caler le callback comme quoi le mouvement est bien fini;
-		myPlayerModule.forcedMovementInterrupted?.Invoke(true);
+        //juste pour caler le callback comme quoi le mouvement est bien fini;
+        if (!isADummy)
+        {
+			myPlayerModule.forcedMovementInterrupted?.Invoke(true);
+		}
+
 		currentForcedMovement.duration = 0;
 	}
 
@@ -175,13 +179,14 @@ public class MovementModule : MonoBehaviour
 		else
 			return;
 	}
+
 	void LookAtMouse ()
 	{
 		if (!rotLocked)
 		{
 			Vector3 _currentMousePos = myPlayerModule.mousePos();
-			transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
-		}
+            transform.LookAt(new Vector3(_currentMousePos.x, transform.position.y, _currentMousePos.z));
+        }
 	}
 
 	public Vector3 FreeLocation ( Vector3 _locationToFindFrom, float maxRange )

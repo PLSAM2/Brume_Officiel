@@ -1,4 +1,5 @@
 using DarkRift;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ public class EndZoneInteractible : Interactible
     Waypoint waypointObj;
     [SerializeField] Animator endZoneAnimator;
     [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
+    public Character[] timerElapsedCharacterList;
 
+    public bool timerElapsed = false;
     protected override void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
@@ -20,10 +23,14 @@ public class EndZoneInteractible : Interactible
     }
     protected override void Capture()
     {
-        if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam || NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        if (!timerElapsed)
         {
-            return;
+            if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam || NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+            {
+                return;
+            }
         }
+
 
         if (playerInZone.FirstOrDefault(x => x.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam) != null)
         {
@@ -44,18 +51,43 @@ public class EndZoneInteractible : Interactible
 
     protected override void PlayerInContestedZoneQuit(PlayerModule p)
     {
-        PlayerData pd = RoomManager.Instance.GetPlayerData(p.mylocalPlayer.myPlayerId);
-
-        if (pd.playerCharacter == Character.WuXin && pd.playerTeam == lastTeamCaptured)
+        if (!timerElapsed)
         {
-            StopCapturing();
+            PlayerData pd = RoomManager.Instance.GetPlayerData(p.mylocalPlayer.myPlayerId);
+
+            if (pd.playerCharacter == Character.WuXin && pd.playerTeam == lastTeamCaptured)
+            {
+                StopCapturing();
+            }
         }
+
 
         base.PlayerInContestedZoneQuit(p);
     }
     protected override void OnVolumeChange(float _value)
     {
-        // pas de son pour l'autel de fin
+        if (!timerElapsed)
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+            {
+                return;
+            }
+        }
+
+        base.OnVolumeChange(_value);
+    }
+
+    protected override void StartAudio()
+    {
+        if (!timerElapsed)
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+            {
+                return;
+            }
+        }
+
+        base.StartAudio();
     }
     public override void Unlock()
     {
@@ -83,5 +115,12 @@ public class EndZoneInteractible : Interactible
             default:
                 break;
         }
+    }
+
+    internal void TimerElapsed()
+    {
+        authorizedCaptureCharacter = timerElapsedCharacterList;
+        CheckOnUnlock = true;
+        timerElapsed = true;
     }
 }

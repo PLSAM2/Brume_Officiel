@@ -41,6 +41,11 @@ public class StatFactory {
             PlayerPrefs.SetInt("TimePlayedLENG", 0);
             PlayerPrefs.SetInt("TimePlayedRE", 0);
         }
+
+        if (!PlayerPrefs.HasKey("CaptureNbr"))
+        {
+            PlayerPrefs.SetInt("CaptureNbr", 0);
+        }
     }
 
     public static int GetTotalNbrGame()
@@ -62,6 +67,10 @@ public class StatFactory {
     public static int GetTotalTimePlayed()
     {
         return PlayerPrefs.GetInt("TimePlayedWX") + PlayerPrefs.GetInt("TimePlayedRE") + PlayerPrefs.GetInt("TimePlayedLENG");
+    }
+    public static int GetCaptureNbr()
+    {
+        return PlayerPrefs.GetInt("CaptureNbr");
     }
 
 

@@ -12,8 +12,8 @@ public class SpellModule : MonoBehaviour
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
 	[ReadOnly] public float timeToResolveSpell;
-	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
-	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { UiManager.Instance.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
+	public float throwbackTime { get => _throwbackTime; set { _throwbackTime = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(_throwbackTime / spell.throwBackDuration, false); } } }
+	public float currentTimeCanalised { get => _currentTimeCanalised; set { _currentTimeCanalised = value; if (myPlayerModule.mylocalPlayer.isOwner) { myPlayerModule.mylocalPlayer.myUiPlayerManager.UpdateCanalisation(currentTimeCanalised / spell.canalisationTime); } } }
 	float _cooldown = 0;
 	public float cooldown
 	{
@@ -51,7 +51,7 @@ public class SpellModule : MonoBehaviour
 	[Header("FeedBack Spell ")]
 	public UnityEvent onCanalisation;
 	public UnityEvent onAnnonciation, onResolution, onInterrupt;
-
+	bool ispreviewed =false;
 	//setup
 	#region
 	private void OnEnable ()
@@ -71,7 +71,6 @@ public class SpellModule : MonoBehaviour
 			charges = 1;
 			_cooldown = 0;
 			UiManager.Instance.SetupIcon(_actionLinked, spell);
-			SpellAvaible?.Invoke();
 		}
 	}
 	public virtual void Disable ()
@@ -84,7 +83,7 @@ public class SpellModule : MonoBehaviour
 
 	//inputs subscribing
 	#region
-	protected virtual void LinkInputs ( En_SpellInput _actionLinked )
+	public virtual void LinkInputs ( En_SpellInput _actionLinked )
 	{
 		myPlayerModule.cancelSpell += CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath += HidePreview;
@@ -95,24 +94,37 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInput += ShowPreview;
 				myPlayerModule.firstSpellInputRealeased += TryCanalysing;
 				myPlayerModule.firstSpellInputRealeased += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
+
 				break;
 
 			case En_SpellInput.SecondSpell:
 				myPlayerModule.secondSpellInput += ShowPreview;
 				myPlayerModule.secondSpellInputRealeased += TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput += ShowPreview;
 				myPlayerModule.leftClickInputRealeased += TryCanalysing;
 				myPlayerModule.leftClickInputRealeased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.soulSpellInput += HidePreview;
 				break;
 
 			case En_SpellInput.SoulSpell:
 				myPlayerModule.soulSpellInput += ShowPreview;
 				myPlayerModule.soulSpellInputReleased += TryCanalysing;
 				myPlayerModule.soulSpellInputReleased += HidePreview;
+				myPlayerModule.firstSpellInput += HidePreview;
+				myPlayerModule.secondSpellInput += HidePreview;
+				myPlayerModule.leftClickInput += HidePreview;
 				break;
 		}
 	}
@@ -120,12 +132,12 @@ public class SpellModule : MonoBehaviour
 	{
 		LinkInputs(actionLinked);
 	}
-	protected virtual void DelinkInput ()
+	public virtual void DelinkInput ()
 	{
 		myPlayerModule.cancelSpell -= CancelSpell;
 		myPlayerModule.mylocalPlayer.OnPlayerDeath -= HidePreview;
 		myPlayerModule.OnSpellTryCanalisation -= TryToKillSpell;
-
+		print("I delink");
 
 		switch (actionLinked)
 		{
@@ -133,25 +145,36 @@ public class SpellModule : MonoBehaviour
 				myPlayerModule.firstSpellInput -= ShowPreview;
 				myPlayerModule.firstSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.firstSpellInputRealeased -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.SecondSpell:
-
 				myPlayerModule.secondSpellInput -= ShowPreview;
 				myPlayerModule.secondSpellInputRealeased -= TryCanalysing;
 				myPlayerModule.secondSpellInputRealeased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.Click:
 				myPlayerModule.leftClickInput -= ShowPreview;
 				myPlayerModule.leftClickInputRealeased -= TryCanalysing;
 				myPlayerModule.leftClickInputRealeased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.soulSpellInput -= HidePreview;
 				break;
 
 			case En_SpellInput.SoulSpell:
 				myPlayerModule.soulSpellInput -= ShowPreview;
 				myPlayerModule.soulSpellInputReleased -= TryCanalysing;
 				myPlayerModule.soulSpellInputReleased -= HidePreview;
+				myPlayerModule.firstSpellInput -= HidePreview;
+				myPlayerModule.secondSpellInput -= HidePreview;
+				myPlayerModule.leftClickInput -= HidePreview;
 				break;
 		}
 	}
@@ -220,6 +243,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
 			willResolve = true;
 			showingPreview = true;
 			UpdatePreview();
@@ -230,6 +254,15 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
+		if(showingPreview)
+		{
+			if (isUsed)
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
+			else if (charges > 0)
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+			else
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
+		}
 		showingPreview = false;
 		hasPreviewed = false;
 	}
@@ -251,12 +284,15 @@ public class SpellModule : MonoBehaviour
 			Canalyse(_BaseMousePos);
 		}
 		else
-			SpellNotAvaible?.Invoke();
+			UiManager.Instance.CantCastFeedback(actionLinked);
+			/*SpellNotAvaible?.Invoke();*/
 	}
-	void Canalyse ( Vector3 _BaseMousePos )
+	protected virtual void Canalyse ( Vector3 _BaseMousePos )
 	{
 		if (isOwner)
 		{
+			myPlayerModule.mylocalPlayer.myUiPlayerManager.HideCanalisationBar(true);
+
 			myPlayerModule.currentSpellResolved = spell;
 			timeToResolveSpell = FinalCanalisationTime();
 
@@ -438,11 +474,17 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void Interrupt ( bool _isInterrupte = false )
 	{
-		myPlayerModule.mylocalPlayer.SendRotation();
 		isUsed = false;
-		throwbackTime = 0;
-		FeedbackSpellStep(En_SpellStep.Interrupt);
 
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
+
+		myPlayerModule.spellResolved?.Invoke();
+		myPlayerModule.currentSpellResolved = null;
+		currentTimeCanalised = 0;
+		throwbackTime = 0;
+		myPlayerModule.mylocalPlayer.myUiPlayerManager.HideCanalisationBar(false);
+
+		//status applied
 		if (spell.statusToApplyOnCanalisation.Count > 0)
 			foreach (Sc_Status _statusToRemove in spell.statusToApplyOnCanalisation)
 				myPlayerModule.StopStatus(_statusToRemove.effect.forcedKey);
@@ -459,15 +501,17 @@ public class SpellModule : MonoBehaviour
 			myPlayerModule.rotationLock(false);
 		if (spell.lockPosOnCanalisation || spell.LockPosOnAnonciation)
 			myPlayerModule.RemoveState(En_CharacterState.Root);
+
 		myPlayerModule.RemoveState(En_CharacterState.Canalysing);
 
 		ApplyEffectAtTheEnd();
 
+		//feedbacks
+		FeedbackSpellStep(En_SpellStep.Interrupt);
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
 		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		myPlayerModule.mylocalPlayer.SendRotation();
 
-		myPlayerModule.spellResolved?.Invoke();
-		myPlayerModule.currentSpellResolved = null;
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{
@@ -485,21 +529,19 @@ public class SpellModule : MonoBehaviour
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
 		if (_isForcedInterrupt && isUsed)
-			KillSpell();
-		else
 		{
-			if (showingPreview)
-			{
-				willResolve = false;
-				HidePreview(Vector3.zero);
-			}
+			KillSpell();
+		}
+		else if (showingPreview)
+		{
+			willResolve = false;
+			HidePreview(Vector3.zero);
 		}
 	}
 	public virtual void KillSpell ()
 	{
 		willResolve = false;
-		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Interrupt);
 		Interrupt();
 	}
 	void TryToKillSpell ( Sc_Spell _spell )
@@ -580,7 +622,8 @@ public class SpellModule : MonoBehaviour
 	protected virtual void AddCharge ()
 	{
 		charges++;
-		UiManager.Instance.CooldownReady(actionLinked);
+		SpellAvaible?.Invoke();
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 	}
 	protected virtual void DecreaseCharge ()
 	{

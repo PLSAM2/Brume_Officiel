@@ -153,12 +153,12 @@ public class RoomManager : MonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == winningTeam)
         {
             UiManager.Instance.EndGamePanel(true, winningTeam, wuxinKilled);
-            EndObjectives(true);
+            EndObjectives(true, wuxinKilled);
         }
         else
         {
             UiManager.Instance.EndGamePanel(false, winningTeam, wuxinKilled);
-            EndObjectives(false);
+            EndObjectives(false, wuxinKilled);
         }
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
@@ -171,34 +171,51 @@ public class RoomManager : MonoBehaviour
         return actualRoom.playerList.ContainsKey(playerID);
     }
 
-    private void EndObjectives(bool isRoundWin = false)
+    private void EndObjectives(bool isRoundWin = false, bool wuxinKilled = false)
     {
+
+        foreach (KeyInteractiblePair kip in InteractibleObjectsManager.Instance.interactibleList)
+        {
+            kip.interactible.StopCapturing();
+        }
+
         ushort? _wxID = null;
-
-        if (isRoundWin)
+        CameraManager.Instance.endGame = true;
+        if (wuxinKilled)
         {
-            _wxID = GameFactory.GetPlayerCharacterInEnemyTeam(Character.WuXin);
-        }
-        else
-        {
-            _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
-        }
-
-        if (_wxID != null)
-        {
-            if (GameManager.Instance.networkPlayers.ContainsKey((ushort)_wxID))
+            if (isRoundWin)
             {
-                LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
-                _wx.myPlayerModule.willListenInputs = false;
-                _wx.ForceDealDamages(_wx.liveHealth);
+                _wxID = GameFactory.GetPlayerCharacterInEnemyTeam(Character.WuXin);
+            }
+            else
+            {
+                _wxID = GameFactory.GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam, Character.WuXin);
             }
 
-        }
+            if (_wxID != null)
+            {
+                if (GameManager.Instance.networkPlayers.ContainsKey((ushort)_wxID))
+                {
+
+                    LocalPlayer _wx = GameManager.Instance.networkPlayers[(ushort)_wxID];
+                    CameraManager.Instance.SetFollowObj(_wx.transform);
+                    LocalPoolManager.Instance.SpawnNewGenericInLocal(7, _wx.transform.position, 0, 1);
+                    _wx.myPlayerModule.willListenInputs = false;
+                    _wx.ForceDealDamages(_wx.liveHealth);
+                }
+            }
+          
+        } else { 
+
+            CameraManager.Instance.SetFollowObj(InteractibleObjectsManager.Instance.interactibleList[3].interactible.transform);
+            LocalPoolManager.Instance.SpawnNewGenericInLocal(7, InteractibleObjectsManager.Instance.interactibleList[3].interactible.transform.position, 0, 1);
+        }     
+        
     }
 
     IEnumerator EndGame()
     {
-        Time.timeScale = Time.timeScale / 4;
+        Time.timeScale = 0.25f;
 
         yield return new WaitForSeconds(1);
 
@@ -358,7 +375,6 @@ public class RoomManager : MonoBehaviour
                 if (NetworkManager.Instance.GetLocalPlayer().ID == player.ID)
                 {
                     NetworkManager.Instance.GetLocalPlayer().IsHost = true;
-                    NetworkManager.Instance.GetLocalPlayer().IsHost = true;
                 }
             }
         }
@@ -401,12 +417,26 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
-        foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+        if (roundCount == 1  && !isResurecting && actualRoom.roomType == RoomType.Classic)
         {
-            if (spawn.CanSpawn())
+            foreach (SpawnPoint spawn in GameManager.Instance.trainSpawns[RoomManager.Instance.actualRoom.playerList[id].playerTeam])
             {
-                spawnPos = spawn.transform.position;
+                if (spawn.CanSpawn())
+                {
+                    spawnPos = spawn.transform.position;
+                }
             }
+        } else
+        {
+
+            foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
+            {
+                if (spawn.CanSpawn())
+                {
+                    spawnPos = spawn.transform.position;
+                }
+            }
+
         }
 
         //else
@@ -487,6 +517,7 @@ public class RoomManager : MonoBehaviour
     }
     internal void SpawnDelayedPlayer()
     {
+
         foreach (ushort id in delayedPlayerSpawn)
         {
             SpawnPlayerObj(id, false);
@@ -515,6 +546,7 @@ public class RoomManager : MonoBehaviour
                 client.SendMessage(_message, SendMode.Reliable);
             }
         }
+
     }
 
     public void UpdatePointDisplay()

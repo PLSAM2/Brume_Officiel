@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f6c76585fe2941bd2e42b2b574259, type: 3}
   m_Name: Sc_Spell_Re_RightClick
   m_EditorClassIdentifier: 
-  range: 16
+  range: 11
   cooldown: 5
   numberOfCharge: 1
   forbiddenState: 32
@@ -31,7 +31,7 @@ MonoBehaviour:
   statusToApplyOnResolution: []
   statusToApplyAtTheEnd: []
   throwBackDuration: 0
-  spellIcon: {fileID: 21300000, guid: 902eaae87e8088949a61cb7ea9399096, type: 3}
+  spellIcon: {fileID: 21300000, guid: b1b95ebc01aeaea4798670e3ef23c5a2, type: 3}
   spellName: Bouncing Spark
   spellDescription: Re shoots a projectile that bounces off walls, dealing 1 damage.
     If said projectile hits, Re gains a short burst of movement speed.
@@ -78,7 +78,7 @@ MonoBehaviour:
   salveInfos:
     NumberOfSalve: 1
     numberOfShotInSalve: 1
-    timeToReachMaxRange: 1
+    timeToReachMaxRange: 0.81
     timeToResolveTheSalve: 0
   angleToSplit: 0
   destroyProjectiles: 0
@@ -90,5 +90,5 @@ MonoBehaviour:
   diesOnPlayerTouch: 0
   diesOnWallTrigger: 0
   forcePrefabApparition: 0
-  statusToApplyOnHit: {fileID: 0}
+  statusToApplyOnHit: {fileID: 11400000, guid: a571a83a68b56be41884d54038808a44, type: 2}
   cooldownReduction: 0

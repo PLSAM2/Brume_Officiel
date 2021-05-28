@@ -6,11 +6,14 @@ using DG.Tweening;
 using TMPro;
 using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
+using System;
 
 public class IconUi : MonoBehaviour
 {
-	[TabGroup("IconSpell")] [SerializeField] Image icon, outline, fillAmount, feedbackCantCast, outlineIcon, grisage;
-	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount, input;
+	[TabGroup("IconSpell")] [SerializeField] Image icon, fillAmount, outlineIcon;
+	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount;
+	[TabGroup("IconSpell")] [SerializeField] GameObject inputIcon, feedbackCanUse;
+	[TabGroup("IconSpell")]	public  Color colorUnavaible = new Vector4(157, 48, 45, 255);
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
 	[SerializeField] RectTransform myRectTransform;
@@ -18,8 +21,6 @@ public class IconUi : MonoBehaviour
 	En_SpellInput inputLinked;
 	Sc_Spell spellLinked;
 	float lastCD = 0;
-	public GameObject feedbackCanUse;
-
 	float cdDisplay = 0.35f;
 
 	public void SetupIcon ( En_SpellInput _inputLinked, Sc_Spell _spellToToolTip )
@@ -27,82 +28,104 @@ public class IconUi : MonoBehaviour
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
 
 		inputLinked = _inputLinked;
-		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible += CooldownReadyFeedback;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible += CantCastFeedback;
 
 		spellLinked = _spellToToolTip;
-
 		icon.sprite = _spellToToolTip.spellIcon;
+
+		ResetIcon();
+		fillAmount.fillAmount = 0;
+		cooldownCount.text = "";
+		outlineIcon.color = Color.white;
+
+		UpdateSpellStep(En_IconStep.ready);
 	}
 	private void OnDisable ()
 	{
-		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellAvaible -= CooldownReadyFeedback;
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
 	}
 
+	public void UpdateSpellStep ( En_IconStep _spellStep )
+	{
+		switch (_spellStep)
+		{
+			case En_IconStep.inCd:
+				icon.color = Color.red;
+				outlineIcon.color = Color.white;
+				inputIcon.SetActive(false);
+				cooldownCount.gameObject.SetActive(true);
+				break;
+
+			case En_IconStep.selectionned:
+				Color _tempColorBlue = new Vector4(0, 150, 255, 255);
+				outlineIcon.color = _tempColorBlue;
+				icon.color = _tempColorBlue;
+				UiManager.Instance.currentCdDisplay = 0;
+				cooldownCount.gameObject.SetActive(true);
+				feedbackCanUse.SetActive(false);
+				break;
+
+			case En_IconStep.ready:
+				ResetIcon();
+				icon.color = Color.white;
+				outlineIcon.color = Color.white;
+				inputIcon.SetActive(true);
+				cooldownCount.gameObject.SetActive(false);
+				fillAmount.fillAmount = 0;
+				cooldownCount.text = "";
+				feedbackCanUse.SetActive(true);
+				break;
+		}
+	}
 
 	public void UpdateCooldown ( float _cooldownRemaining, float _completeCd )
 	{
-	lastCD = (_cooldownRemaining < 0) ? 0 : Mathf.CeilToInt(_completeCd - _cooldownRemaining);
+		if (_completeCd - _cooldownRemaining > 1)
+			lastCD = Mathf.Round(_completeCd - _cooldownRemaining);
+		else
+		{
+			lastCD = Mathf.Round(_completeCd * 10 - _cooldownRemaining * 10);
+			lastCD /= 10;
+		}
+
 
 		if (_cooldownRemaining > 0 && _cooldownRemaining != _completeCd)
 		{
-			grisage.gameObject.SetActive(true);
 			fillAmount.fillAmount = (_completeCd - _cooldownRemaining) / _completeCd;
-			cooldownCount.text = Mathf.CeilToInt(_completeCd - _cooldownRemaining).ToString();
-			outlineIcon.color = Color.black;
+
+			if (_completeCd - _cooldownRemaining > 1)
+				cooldownCount.text = lastCD.ToString();
+			else
+				cooldownCount.text = lastCD.ToString();
+
 		}
 		else
 		{
 			cooldownCount.text = "";
 		}
-	} 
-	public void UpdatesChargesAmont ( int _numberOfCharges )
-	{
-		//chargesSpot.text = _numberOfCharges.ToString();
 	}
+
 	public void CantCastFeedback ()
 	{
 		ResetIcon();
-
-		//Color _color = new Vector4(0, 0, 0, 255);
-		//feedbackCantCast.color = _color;
 		myRectTransform.DOShakeAnchorPos(.5f, 4, 20, 90, false, false).OnComplete(() => myRectTransform.localPosition = basePos);
-		myRectTransform.localScale = new Vector3(.7f, .7f, .7f);
-		myRectTransform.DOScale(new Vector3(1f, 1f, 1), .75f);
-        //feedbackCantCast.DOColor(new Vector4(255, 16, 16, 55), .5f).OnComplete(() => feedbackCantCast.DOColor(_color, .5f)).OnComplete(() => feedbackCantCast.DOColor(new Vector4(255, 16, 16, 0), .5f));
+		myRectTransform.localScale = new Vector3(1.7f, 1.7f, 1.7f);
+		myRectTransform.DOScale(new Vector3(2f, 2f, 2), .75f);
 
+		if (UiManager.Instance.currentCdDisplay >= cdDisplay)
+		{
+			UiManager.Instance.currentCdDisplay = 0;
 
-        if(UiManager.Instance.currentCdDisplay >= cdDisplay)
-        {
-            UiManager.Instance.currentCdDisplay = 0;
-            UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
-        }
+			UiManager.Instance.SpawnCDFeedback(spellLinked.spellIcon, lastCD);
+		}
 	}
 
-	public void CooldownReadyFeedback ()
-	{
-		ResetIcon();
-		fillAmount.fillAmount = 0;
-		grisage.gameObject.SetActive(false);
-		cooldownCount.text = "";
-		outlineIcon.color = Color.white;
-		//myRectTransform.DOScale(new Vector3(1f, 2.8f, 1f), .15f).OnComplete(() => myRectTransform.DOScale(Vector3.one, .15f));
-
-
-        feedbackCanUse.SetActive(true);
-	}
 	public void ResetIcon ()
 	{
-			myRectTransform.DOKill();
-			myRectTransform.localPosition = basePos;
-			myRectTransform.localScale = Vector3.one;
-			Color _color = new Vector4(255, 16, 16, 0);
-			feedbackCantCast.DOKill();
-			feedbackCantCast.rectTransform.localScale = new Vector3(1, 1, 1);
-			feedbackCantCast.color = _color;
-
-			feedbackCanUse.SetActive(false);
+		myRectTransform.DOKill();
+		myRectTransform.localPosition = basePos;
+		myRectTransform.localScale = new Vector3(2,2,2);
+		feedbackCanUse.SetActive(false);
 	}
 
 	public void HideIcon ( bool _hiding )
@@ -120,11 +143,6 @@ public class IconUi : MonoBehaviour
 		}
 	}
 
-	public void SetupInputName ( string _name )
-	{
-		input.text = _name;
-	}
-
 	public void ShowTooltip ()
 	{
 		UiManager.Instance.wholeTooltip.SetActive(true);
@@ -137,4 +155,9 @@ public class IconUi : MonoBehaviour
 	{
 		UiManager.Instance.wholeTooltip.SetActive(false);
 	}
+}
+
+public enum En_IconStep
+{
+	inCd, ready, selectionned
 }

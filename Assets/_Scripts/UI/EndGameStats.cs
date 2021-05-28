@@ -192,6 +192,7 @@ public class EndGameStats : MonoBehaviour
         {
             int numberOfKiLL = 0;
             int numberOfDamage = 0;
+            int numberOfCapture = PlayerPrefs.GetInt("currentCapture");
 
             if (StatManager.Instance.killPlayer.ContainsKey(p.Key))
             {
@@ -203,7 +204,7 @@ public class EndGameStats : MonoBehaviour
                 numberOfDamage = StatManager.Instance.damagePlayer[p.Key];
             }
 
-            GetChampStat(p.Value).Init(p.Value.Name, p.Value.playerTeam, numberOfKiLL, numberOfDamage);
+            GetChampStat(p.Value).Init(p.Value.Name, p.Value.playerTeam, numberOfKiLL, numberOfDamage, numberOfCapture);
         }
 
         if (!wxBlue.isSet)
