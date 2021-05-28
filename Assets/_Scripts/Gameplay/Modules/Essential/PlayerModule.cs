@@ -391,9 +391,9 @@ public class PlayerModule : MonoBehaviour
 
 		if (oldState != state)
 		{
-			if ((state & En_CharacterState.Intengenbility) != 0)
+			if ((state & En_CharacterState.Intangenbility) != 0)
 				gameObject.layer = 16;
-			else if ((oldState & En_CharacterState.Intengenbility) != 0)
+			else if ((oldState & En_CharacterState.Intangenbility) != 0)
 				ResetLayer();
 
 			if (oldState.HasFlag(En_CharacterState.Crouched) != state.HasFlag(En_CharacterState.Crouched))
@@ -1023,7 +1023,7 @@ public enum En_CharacterState
 	WxMarked = 1 << 8,
 	Hidden = 1 << 9,
 	Invulnerability = 1 << 10,
-	Intengenbility = 1 << 11,
+	Intangenbility = 1 << 11,
 	PoweredUp = 1 << 12,
 	ForcedMovement = 1 << 13,
 	StopInterpolate = 1 << 14,

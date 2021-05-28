@@ -13,7 +13,6 @@ public class EndZoneInteractible : Interactible
     Waypoint waypointObj;
     [SerializeField] Animator endZoneAnimator;
     [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
-    public Character[] timerElapsedCharacterList;
 
     public bool timerElapsed = false;
     protected override void Init()
@@ -23,9 +22,14 @@ public class EndZoneInteractible : Interactible
     }
     protected override void Capture()
     {
+        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+        {
+            return;
+        }
+
         if (!timerElapsed)
         {
-            if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam || NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
+            if (lastTeamCaptured != NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
                 return;
             }
@@ -44,6 +48,19 @@ public class EndZoneInteractible : Interactible
     {
         if (state == State.Capturable)
         {
+            if (capturingPlayerModule != null)
+            {
+                Color t = GameFactory.GetRelativeColor(capturingPlayerModule.teamIndex);
+                UiManager.Instance.endZoneUIGroup.endZoneBar.color = t;
+                UiManager.Instance.endZoneUIGroup.EndZoneText.color = t;
+
+
+
+                t.a = UiManager.Instance.endZoneUIGroup.endZoneBarBackground.color.a;
+                UiManager.Instance.endZoneUIGroup.endZoneBarBackground.color = t;
+            }
+
+
             UiManager.Instance.endZoneUIGroup.endZoneBar.fillAmount = (timer / interactTime);
         }
 
@@ -51,27 +68,34 @@ public class EndZoneInteractible : Interactible
 
     protected override void PlayerInContestedZoneQuit(PlayerModule p)
     {
-        if (!timerElapsed)
-        {
-            PlayerData pd = RoomManager.Instance.GetPlayerData(p.mylocalPlayer.myPlayerId);
 
-            if (pd.playerCharacter == Character.WuXin && pd.playerTeam == lastTeamCaptured)
+        PlayerData pd = RoomManager.Instance.GetPlayerData(p.mylocalPlayer.myPlayerId);
+
+
+        if (pd.playerCharacter != Character.WuXin)
+        {
+            return;
+        }
+
+        if (timerElapsed)
+        {
+            StopCapturing();
+        }
+        else
+        {
+            if (pd.playerTeam == lastTeamCaptured)
             {
                 StopCapturing();
             }
         }
 
-
         base.PlayerInContestedZoneQuit(p);
     }
     protected override void OnVolumeChange(float _value)
     {
-        if (!timerElapsed)
+        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
-            if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
-            {
-                return;
-            }
+            return;
         }
 
         base.OnVolumeChange(_value);
@@ -79,13 +103,11 @@ public class EndZoneInteractible : Interactible
 
     protected override void StartAudio()
     {
-        if (!timerElapsed)
+        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
-            if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
-            {
-                return;
-            }
+            return;
         }
+
 
         base.StartAudio();
     }
@@ -119,7 +141,6 @@ public class EndZoneInteractible : Interactible
 
     internal void TimerElapsed()
     {
-        authorizedCaptureCharacter = timerElapsedCharacterList;
         CheckOnUnlock = true;
         timerElapsed = true;
     }

@@ -27,7 +27,7 @@ public class JumpModule : SpellModule
 	{
 		if(canStartCanalisation() && willResolve)
 		{
-			myPlayerModule.AddState(En_CharacterState.Intengenbility);
+			myPlayerModule.AddState(En_CharacterState.Intangenbility);
 			myPlayerModule.AddState(En_CharacterState.Root);
 			myPlayerModule.AddState(En_CharacterState.StopInterpolate);
 			jumpPosStart = transform.position;
@@ -48,7 +48,7 @@ public class JumpModule : SpellModule
 
 	protected override void ResolveSpell ()
 	{
-		myPlayerModule.RemoveState(En_CharacterState.Intengenbility);
+		myPlayerModule.RemoveState(En_CharacterState.Intangenbility);
 		myPlayerModule.RemoveState(En_CharacterState.Root);
 		base.ResolveSpell();
 	}
