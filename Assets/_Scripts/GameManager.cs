@@ -314,7 +314,7 @@ public class GameManager : SerializedMonoBehaviour
                 LocalPoolManager.Instance.SpawnNewGenericInLocal(7, t.position, 0 , 1, 3); // FOW
 
                 NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(14, t.position + new Vector3(0,0.1f,0), new Vector3(-90, 0, 0), 3 - NetworkManager.Instance.GetLocalClient().Client.RoundTripTime.LatestRtt);
-                CameraManager.Instance.SetFollowObj(t);
+                CameraManager.Instance.CameraTraveling(t);
             }            
             if (reviveTimer <= 0)
             {
@@ -366,7 +366,7 @@ public class GameManager : SerializedMonoBehaviour
                 }
             }
 
-            if (trainTimer <= 0)
+            if (trainTimer <= 0 && RoomManager.Instance.actualRoom.roomType == RoomType.Classic)
             {
                UiManager.Instance.trainPanel.SetActive(false);
                trainTimerStarted = false;
