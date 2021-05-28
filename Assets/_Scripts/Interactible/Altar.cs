@@ -82,17 +82,17 @@ public class Altar : Interactible
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
+        PlayerData capturePlayer = RoomManager.Instance.GetPlayerData(_capturingPlayerID);
 
         if (NetworkManager.Instance.GetLocalPlayer().ID != _capturingPlayerID)
         {
             anim.SetTrigger("Captured");
-            completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
+            completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(capturePlayer.playerTeam));
             completeObj.gameObject.SetActive(true);
         }
         else
         {
-            //PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
-            //PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
+            PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
         }
         base.UpdateCaptured(_capturingPlayerID);
 
@@ -101,7 +101,7 @@ public class Altar : Interactible
         waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
 
-        if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             blueTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
@@ -112,9 +112,13 @@ public class Altar : Interactible
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
-        UiManager.Instance.OnAltarUnlock(this, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
-        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
+
+        iconUnlock.color = GameFactory.GetRelativeColor(capturePlayer.playerTeam);
+
+        StatManager.Instance.AddCapture(capturePlayer.playerTeam);
     }
 
     public override void Captured(ushort _capturingPlayerID)
@@ -149,8 +153,6 @@ public class Altar : Interactible
 
 
         base.Captured(_capturingPlayerID);
-
-        iconUnlock.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
 
     public override void UpdateTryCapture(ushort _capturingPlayerID)

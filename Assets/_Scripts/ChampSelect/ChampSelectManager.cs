@@ -59,7 +59,6 @@ public class ChampSelectManager : SerializedMonoBehaviour
         PlayerPrefs.SetInt("currentKill", 0);
         PlayerPrefs.SetInt("currentDamage", 0);
         PlayerPrefs.SetInt("currentDeath", 0);
-        PlayerPrefs.SetInt("currentCapture", 0);
     }
 
     private void Start()

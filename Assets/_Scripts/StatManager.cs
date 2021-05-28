@@ -91,6 +91,18 @@ public class StatManager : MonoBehaviour
         }
     }
 
+    public int GetNumberOfCapture(Team _team)
+    {
+        if (captureTeam.ContainsKey(_team))
+        {
+            return captureTeam[_team];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     public void AddAltarEvent(state _altarState, string _altarPos, Team myTeam = Team.none)
     {
         if (InGameNetworkReceiver.Instance.GetEndGame())
