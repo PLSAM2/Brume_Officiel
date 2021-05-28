@@ -58,7 +58,7 @@ public class Aoe : AutoKill
 				}
 				if (damageOnDisable.damageHealth > 0)
 				{
-					damageOnDisable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 				}
 			}
