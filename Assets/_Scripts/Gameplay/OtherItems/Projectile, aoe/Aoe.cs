@@ -49,6 +49,7 @@ public class Aoe : AutoKill
 		{
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 			{
+				print("I m powered up");
 				if (damageOnEnable.damageHealth > 0)
 				{
 					damageOnEnable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
@@ -57,7 +58,7 @@ public class Aoe : AutoKill
 				}
 				if (damageOnDisable.damageHealth > 0)
 				{
-					damageOnDisable.damageHealth = (ushort)(localTrad.rules.damagesToDealOnImpact.damageHealth + 1);
+					damageOnDisable.damageHealth = (ushort)(localTrad.rules.finalDamages.damageHealth + 1);
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 				}
 			}

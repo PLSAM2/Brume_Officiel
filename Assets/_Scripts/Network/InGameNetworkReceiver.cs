@@ -217,7 +217,7 @@ public class InGameNetworkReceiver : MonoBehaviour
 
     private void SpotPlayer(object sender, MessageReceivedEventArgs e)
     {
-        StartCoroutine(GameManager.Instance.currentLocalPlayer.SpotPlayer());
+   //     StartCoroutine(GameManager.Instance.currentLocalPlayer.SpotPlayer());
     }
 
     private void DynamicWallState(object sender, MessageReceivedEventArgs e)
@@ -451,6 +451,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             return;
         }
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())

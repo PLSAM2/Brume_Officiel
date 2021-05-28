@@ -8,13 +8,50 @@ using UnityEngine.UI;
 
 public class AltarWaypoint : Waypoint
 {
-    public List<GameObject> lockObj = new List<GameObject>();
+    [SerializeField] private TextMeshProUGUI timerALtarIn;
+    [SerializeField] private TextMeshProUGUI timerALtarOut;
 
-    public void SetLockStatut(bool _value)
+    [SerializeField] private Animator aninTimerALtarIn;
+    [SerializeField] private Animator aninTimerALtarOut;
+
+    [SerializeField] private Color lockColor;
+
+    public void SetTimer(int _value)
     {
-        foreach(GameObject obj in lockObj)
+        if (0 == _value)
         {
-            obj.SetActive(_value);
+            timerALtarIn.text = "";
+            timerALtarOut.text = "";
+            return;
         }
+
+        if (timerALtarIn.text != _value.ToString())
+        {
+            timerALtarIn.text = _value.ToString();
+            timerALtarOut.text = _value.ToString();
+
+            //anim
+            if(_value <= 5)
+            {
+                aninTimerALtarIn.SetTrigger("DoColor");
+                aninTimerALtarOut.SetTrigger("DoColor");
+            }
+            else
+            {
+                aninTimerALtarIn.SetTrigger("DoScale");
+                aninTimerALtarOut.SetTrigger("DoScale");
+            }
+        }
+    }
+
+    public void SetLock()
+    {
+        SetImageColor(lockColor);
+    }
+
+    public void SetUnLock()
+    {
+        SetImageColor(Color.white);
+        SetUnderText("");
     }
 }

@@ -855,7 +855,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3206967552854313362}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0109757995, y: 0.0109757995, z: 0.0073171994}
   m_Children:
@@ -871,7 +871,7 @@ RectTransform:
   - {fileID: 1256374376643309186}
   m_Father: {fileID: 2018274824535757923}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0.1}
@@ -1898,6 +1898,14 @@ PrefabInstance:
     - target: {fileID: 4991894283064448377, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217569935694539521, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_text
+      value: Pseudo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217569935694539521, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5536610918040755446, guid: ae7d2a3eea9cb094ea84ba5ab631df3b, type: 3}
       propertyPath: directionWx

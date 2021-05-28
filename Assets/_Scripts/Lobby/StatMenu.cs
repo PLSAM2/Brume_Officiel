@@ -20,6 +20,7 @@ public class StatMenu : MonoBehaviour
     public TextMeshProUGUI winLocal;
     public TextMeshProUGUI killLocal;
     public TextMeshProUGUI damageLocal;
+    public TextMeshProUGUI captureNbr;
 
     //WX
     public TextMeshProUGUI timePlayedWX;
@@ -113,7 +114,7 @@ public class StatMenu : MonoBehaviour
 
         killLocal.text = StatFactory.GetTotalNbrKill().ToString();
         damageLocal.text = StatFactory.GetTotalNbrDamage().ToString();
-
+        captureNbr.text = StatFactory.GetCaptureNbr().ToString();
 
         DisplayStat(Character.WuXin, timePlayedWX, gameWX, winWX, killWX, damagesWX);
         DisplayStat(Character.Re, timePlayedRE, gameRE, winRE, killRE, damagesRE);
