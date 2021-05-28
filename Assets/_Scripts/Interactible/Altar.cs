@@ -33,7 +33,7 @@ public class Altar : Interactible
 
     public GameObject redTaken, blueTaken;
 
-    [SerializeField] GameObject iconUnlock, iconLock;
+    [SerializeField] SpriteRenderer iconUnlock, iconLock;
 
 
     void Start()
@@ -49,8 +49,8 @@ public class Altar : Interactible
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
 
-        iconUnlock.SetActive(false);
-        iconLock.SetActive(true);
+        iconUnlock.gameObject.SetActive(false);
+        iconLock.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -91,8 +91,8 @@ public class Altar : Interactible
         }
         else
         {
-            PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
-            PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
+            //PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
+            //PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
         }
         base.UpdateCaptured(_capturingPlayerID);
 
@@ -149,6 +149,8 @@ public class Altar : Interactible
 
 
         base.Captured(_capturingPlayerID);
+
+        iconUnlock.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
     }
 
     public override void UpdateTryCapture(ushort _capturingPlayerID)
@@ -181,7 +183,6 @@ public class Altar : Interactible
         yield return new WaitForSeconds(currentTime);
 
 
-
         if (interactibleName == "Right") // BERK MAIS OSEF
         {
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
@@ -199,8 +200,8 @@ public class Altar : Interactible
 
         waypointObj.SetUnLock();
 
-        iconUnlock.SetActive(true);
-        iconLock.SetActive(false);
+        iconUnlock.gameObject.SetActive(true);
+        iconLock.gameObject.SetActive(false);
     }
 
     internal void StarFinalPhase()
@@ -211,8 +212,6 @@ public class Altar : Interactible
 
     public void OnPlayerDie(ushort deadP)
     {
-
-
         PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
 
         if (pm != null)
