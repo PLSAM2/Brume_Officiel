@@ -28,11 +28,10 @@ public class UIPlayerManager : MonoBehaviour
 	[TabGroup("Buff")] public Image fillAmountBuff;
 	[TabGroup("Buff")] public GameObject wholeBuffUi;
 
-	/*[Header("Compass Canvas")]
+	[Header("Compass Canvas")]
 	[TabGroup("WX Compass")] public GameObject compassCanvas;
 	[TabGroup("WX Compass")] public GameObject pointerObj;
-	[TabGroup("WX Compass")] public Quaternion compassRot;
-	[TabGroup("WX Compass")] public LocalPlayer wxRef;*/
+
 	[TabGroup("Mats")] public Material blueMat, redMat, grayMat, goldMat;
 
 	[Header("State")]
@@ -297,7 +296,7 @@ public class UIPlayerManager : MonoBehaviour
 
 	}
 
-	/*	public GameObject GetFirstDisabledPointer ()
+		public GameObject GetFirstDisabledPointer ()
 		{
 				foreach (Transform t in compassCanvas.gameObject.transform)
 				{
@@ -312,7 +311,7 @@ public class UIPlayerManager : MonoBehaviour
 			newobj.SetActive(true);
 
 			return newobj;
-		}*/
+		}
 
 	public void EnableBuff ( bool _stateOfBuff, string _buffName )
 	{

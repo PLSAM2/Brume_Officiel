@@ -6,11 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityStandardAssets.Cameras;
 using static GameData;
 using static StatFactory;
-using UnityEngine.Events;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -136,9 +133,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
-		//OnRespawn(respawned);
+        //OnRespawn(respawned);
 
-		OnInitFinish?.Invoke();
+        OnInitFinish?.Invoke();
 	}
 
 	private void Update ()
@@ -223,7 +220,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
     }*/
 
 		allCharacterSpawned = true;
-	}
+
+        UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+    }
 
 	void SpawnFow ()
 	{
@@ -776,13 +775,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj, Team audioTeam )
 	{
-		/*   if (this.transform.position == obj || isOwner == false)
+		  if (this.transform.position == obj || isOwner == false)
 		   {
 			   return;
 		   }
 		   GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
-		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);*/
+		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);
 	}
 
 	IEnumerator TimerShowPlayer ( float _time )

@@ -33,11 +33,9 @@ public class CompassPointer : MonoBehaviour
     }
 
     public void InitNewTargetOneTime(Transform character, Vector3 target, Team audioTeam)
-    {
-
-            SetColor(audioTeam);
+    {     
+        SetColor(audioTeam);
         
-
         pointerMat.gameObject.transform.localScale = imageBaseSize;
         this.character = character;
         this.targetPos = target;
@@ -45,7 +43,6 @@ public class CompassPointer : MonoBehaviour
         baseTimer = timer = Mathf.Clamp(Mathf.Abs((maxDistance - minDistance) / (distance - minDistance)) + minLifeTime, minLifeTime, maxLifeTime);
         isOneTime = true;
         SetByDistance(distance);
-
     }
 
     private void SetColor(Team audioTeam)
