@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4049553470385796806
+--- !u!114 &-8121298903440146440
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RE_StunDeflagration
-  m_Shader: {fileID: 4800000, guid: c9ef70e7ad53a1744974933b2673e2e1, type: 3}
+  m_Name: LENG_FrontDash2
+  m_Shader: {fileID: 4800000, guid: c9ec01a41f4a13a41b12cf2413666f17, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,6 +32,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AnisoColorTexture:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AnisoNoise1:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AnisoNoise2:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -68,6 +80,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PaintGrunge:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -77,7 +93,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 8ac2e35e2365c2b41807694ef7980e2a, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample1:
@@ -85,15 +101,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
-        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
-        m_Texture: {fileID: 2800000, guid: a150fd5627988274aae0c550c4989e2a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample4:
-        m_Texture: {fileID: 2800000, guid: a61778d50b6394348b9f8089e2c6e1fd, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -113,8 +125,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 0.7
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _BackFinalSmoothstep: 0.1
+    - _BackFinalStep: 2.22
+    - _BackSmoothstep: 1
+    - _BackStep: 0.33
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -125,11 +142,18 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float0: 2
-    - _Float1: 1.5
-    - _Float2: -0.323
-    - _Float3: 0.04
-    - _Float4: 1.4
+    - _Float0: 0.3
+    - _Float1: 2.01
+    - _Float2: 1
+    - _Float3: 0.1
+    - _Float6: 1
+    - _Float7: -0.11
+    - _Float8: 0.1
+    - _Float9: 0.46
+    - _FrontFinalSmoothstep: 0.1
+    - _FrontFinalStep: 1.08
+    - _FrontSmoothstep: 1
+    - _FrontStep: 0.45
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -146,12 +170,21 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - _AnisoColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _AnisoColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _AnisoColorTile: {r: 2.29, g: 1, b: 0, a: 0}
+    - _BackNoisePanner: {r: 0, g: 1, b: 0, a: 0}
+    - _BackNoiseTiling: {r: -0.74, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.23584896, g: 0.23584896, b: 0.23584896, a: 0}
-    - _Color1: {r: 0.9960785, g: 0.82745105, b: 0.3254902, a: 0}
+    - _Color0: {r: 0.10377359, g: 0.10377359, b: 0.10377359, a: 0}
+    - _Color1: {r: 0.8805625, g: 0.75800997, b: 0.9622642, a: 1}
+    - _Color2: {r: 0.48950848, g: 0.26900142, b: 0.6132076, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FrontNoisePanner: {r: 0, g: 1, b: 0, a: 0}
+    - _FrontNoiseTiling: {r: 1.21, g: 1, b: 0, a: 0}
+    - _PaintGrungeColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Vector0: {r: 3.83, g: 1, b: 0, a: 0}
-    - _Vector1: {r: 6, g: 2, b: 0, a: 0}
+    - _Vector0: {r: 1.21, g: 1, b: 0, a: 0}
+    - _Vector2: {r: 0.2, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
