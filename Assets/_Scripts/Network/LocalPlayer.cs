@@ -6,11 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityStandardAssets.Cameras;
 using static GameData;
 using static StatFactory;
-using UnityEngine.Events;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -136,9 +133,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
-		//OnRespawn(respawned);
+        //OnRespawn(respawned);
 
-		OnInitFinish?.Invoke();
+        OnInitFinish?.Invoke();
 	}
 
 	private void Update ()
@@ -223,7 +220,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
     }*/
 
 		allCharacterSpawned = true;
-	}
+
+        UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+    }
 
 	void SpawnFow ()
 	{
@@ -376,7 +375,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intengenbility) != 0)
+		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intangenbility) != 0)
 		{
 			return;
 		}
@@ -733,7 +732,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (isNegative(_newStatus))
 		{
-			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intengenbility) == 0)
+			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
 			{
 				myPlayerModule.KillEveryStun();
 				myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus].effect);
