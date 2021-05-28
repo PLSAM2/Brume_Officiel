@@ -776,13 +776,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj, Team audioTeam )
 	{
-		/*   if (this.transform.position == obj || isOwner == false)
+		  if (this.transform.position == obj || isOwner == false)
 		   {
 			   return;
 		   }
 		   GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
-		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);*/
+		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);
 	}
 
 	IEnumerator TimerShowPlayer ( float _time )
