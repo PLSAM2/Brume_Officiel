@@ -178,7 +178,6 @@ public class Altar : Interactible
             currentTime = unlockTime;
         }
 
-        print(currentTime);
 
         yield return new WaitForSeconds(currentTime);
 
