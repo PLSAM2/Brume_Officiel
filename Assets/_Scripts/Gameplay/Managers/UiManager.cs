@@ -79,7 +79,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Other Gameplay")] public RectTransform damageTakenFeedback;
 
 	[FoldoutGroup("Ulti")] public GameObject prefabLifeBar;
-	[FoldoutGroup("Ulti")] public Material blueColor, grayColor;
+	[FoldoutGroup("Ulti")] public Material blueColor, damageColor;
 	[FoldoutGroup("Ulti")] public Transform parentLifeWX, parentLifeRE, parentLifeLENG;
 	[FoldoutGroup("Ulti")] public TextMeshProUGUI curentUlti;
 	List<Image> wxImgLife = new List<Image>();
@@ -147,8 +147,10 @@ public class UiManager : MonoBehaviour
         for (int i = 0; i < GameFactory.GetMaxLifeOfPlayer(champ); i++)
 		{
 			Image img = Instantiate(prefabLifeBar, parent).GetComponent<Image>();
-			img.material = grayColor;
-			listImg.Add(img);
+			img.material = damageColor;
+
+            img.fillAmount = 0;
+            listImg.Add(img);
 		}
 	}
 
@@ -295,10 +297,12 @@ public class UiManager : MonoBehaviour
             if (i <= numberLife)
             {
                 img.material = blueColor;
+                img.fillAmount = 1;
             }
             else
             {
-                img.material = grayColor;
+                img.material = damageColor;
+                img.fillAmount = 0;
             }
             imgs.Add(img);
         }

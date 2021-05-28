@@ -6,11 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityStandardAssets.Cameras;
 using static GameData;
 using static StatFactory;
-using UnityEngine.Events;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -136,9 +133,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
-		//OnRespawn(respawned);
+        //OnRespawn(respawned);
 
-		OnInitFinish?.Invoke();
+        OnInitFinish?.Invoke();
 	}
 
 	private void Update ()
@@ -223,7 +220,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
     }*/
 
 		allCharacterSpawned = true;
-	}
+
+        UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+    }
 
 	void SpawnFow ()
 	{
