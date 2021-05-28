@@ -517,6 +517,7 @@ public class SpellModule : MonoBehaviour
 	{
 		onInterrupt?.Invoke();
 	}
+
 	protected virtual void ApplyEffectAtTheEnd ()
 	{
 		if (spell.statusToApplyAtTheEnd.Count > 0)

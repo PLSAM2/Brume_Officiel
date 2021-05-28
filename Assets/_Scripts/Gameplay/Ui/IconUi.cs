@@ -51,7 +51,7 @@ public class IconUi : MonoBehaviour
 		{
 			case En_IconStep.inCd:
 				icon.color = Color.red;
-				outlineIcon.color = Color.white;
+				outlineIcon.color = Color.gray;
 				inputIcon.SetActive(false);
 				cooldownCount.gameObject.SetActive(true);
 				break;
