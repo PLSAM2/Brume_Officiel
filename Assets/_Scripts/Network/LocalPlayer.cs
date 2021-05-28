@@ -467,7 +467,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
-			return;
+            return;
 		}
 
 		if (damages > 0)
@@ -512,12 +512,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
 				liveHealth = (ushort)_tempHp;
 			}
-
-
-
-			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
 		}
-	}
+
+        GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
+    }
 
 	/// <summary>
 	/// DO NOT use this until YOU KNOW what you do :)

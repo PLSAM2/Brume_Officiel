@@ -40,10 +40,6 @@ public class UIPingModule : MonoBehaviour
         //    TryChoosePos();
         //}
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            Desactivate();
-        }
 
         //if (Input.GetMouseButton(0))
         //{
@@ -97,13 +93,17 @@ public class UIPingModule : MonoBehaviour
     {
         Ping();
 
+        CancelPing();
+    }
+
+    public void CancelPing()
+    {
         activated = false;
         radialMenu.SetActive(false);
         locked = false;
         xOffset = 0;
         yOffset = 0;
     }
-
     public void OnEnterCenter()
     {
         onCenter = true;
