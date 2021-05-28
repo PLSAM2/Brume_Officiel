@@ -451,6 +451,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             return;
         }
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
