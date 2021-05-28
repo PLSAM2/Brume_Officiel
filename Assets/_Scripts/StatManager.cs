@@ -12,6 +12,7 @@ public class StatManager : MonoBehaviour
 {
     public Dictionary<ushort, ushort> damagePlayer = new Dictionary<ushort, ushort>();
     public Dictionary<ushort, ushort> killPlayer = new Dictionary<ushort, ushort>();
+    public Dictionary<Team, ushort> captureTeam = new Dictionary<Team, ushort>();
 
     public Dictionary<statEvent, float> timeLineEvent = new Dictionary<statEvent, float>();
 
@@ -154,6 +155,18 @@ public class StatManager : MonoBehaviour
         string output = JsonConvert.SerializeObject(allGames, Formatting.Indented);
 
         File.WriteAllText(Application.persistentDataPath + "/Games/allGames.json", output);
+    }
+
+    public void AddCapture(Team _team)
+    {
+        if (captureTeam.ContainsKey(_team))
+        {
+            captureTeam[_team]++;
+        }
+        else
+        {
+            captureTeam.Add(_team, 1);
+        }
     }
 }
 
