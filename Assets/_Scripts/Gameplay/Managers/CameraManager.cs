@@ -22,6 +22,7 @@ public class CameraManager : MonoBehaviour
 
 	public Transform playerToFollow;
 	[SerializeField] CinemachineVirtualCamera myCinemachine;
+	[SerializeField] CinemachineVirtualCamera travelingCamera;
 	CinemachineBasicMultiChannelPerlin myCinemachinePerlin;
 	[SerializeField] LayerMask groundlayer;
 	float screenEdgeBorderHeight, screenEdgeBorderWidth;
@@ -284,7 +285,20 @@ public class CameraManager : MonoBehaviour
 
 	// <<
 
+	public void CameraTraveling(Transform pos)
+    {
+		travelingCamera.Follow = pos;
+		travelingCamera.Priority = 20;
 
 
+		StartCoroutine(WaitEndTraveling(pos));
+    }
+
+	IEnumerator WaitEndTraveling(Transform pos)
+    {
+		yield return new WaitForSeconds(2.5f);
+		SetFollowObj(pos);
+		travelingCamera.Priority = 0;
+	}
 
 }
