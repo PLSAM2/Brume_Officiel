@@ -33,7 +33,7 @@ public class Altar : Interactible
 
     public GameObject redTaken, blueTaken;
 
-    [SerializeField] GameObject iconUnlock, iconLock;
+    [SerializeField] SpriteRenderer iconUnlock, iconLock;
 
 
     void Start()
@@ -49,8 +49,8 @@ public class Altar : Interactible
         completeObj.material.SetColor(colorShader, Color.white);
         GameManager.Instance.allAltar.Add(this);
 
-        iconUnlock.SetActive(false);
-        iconLock.SetActive(true);
+        iconUnlock.gameObject.SetActive(false);
+        iconLock.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -82,17 +82,17 @@ public class Altar : Interactible
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
+        PlayerData capturePlayer = RoomManager.Instance.GetPlayerData(_capturingPlayerID);
 
         if (NetworkManager.Instance.GetLocalPlayer().ID != _capturingPlayerID)
         {
             anim.SetTrigger("Captured");
-            completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
+            completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(capturePlayer.playerTeam));
             completeObj.gameObject.SetActive(true);
         }
         else
         {
             PlayerPrefs.SetInt("CaptureNbr", PlayerPrefs.GetInt("CaptureNbr") + 1);
-            PlayerPrefs.SetInt("currentCapture", PlayerPrefs.GetInt("currentCapture") + 1);
         }
         base.UpdateCaptured(_capturingPlayerID);
 
@@ -101,7 +101,7 @@ public class Altar : Interactible
         waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
 
-        if (RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             blueTaken.SetActive(true);
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
@@ -112,9 +112,13 @@ public class Altar : Interactible
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
-        UiManager.Instance.OnAltarUnlock(this, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
-        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam);
+        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
+
+        iconUnlock.color = GameFactory.GetRelativeColor(capturePlayer.playerTeam);
+
+        StatManager.Instance.AddCapture(capturePlayer.playerTeam);
     }
 
     public override void Captured(ushort _capturingPlayerID)
@@ -178,10 +182,7 @@ public class Altar : Interactible
             currentTime = unlockTime;
         }
 
-        print(currentTime);
-
         yield return new WaitForSeconds(currentTime);
-
 
 
         if (interactibleName == "Right") // BERK MAIS OSEF
@@ -201,8 +202,8 @@ public class Altar : Interactible
 
         waypointObj.SetUnLock();
 
-        iconUnlock.SetActive(true);
-        iconLock.SetActive(false);
+        iconUnlock.gameObject.SetActive(true);
+        iconLock.gameObject.SetActive(false);
     }
 
     internal void StarFinalPhase()
@@ -213,8 +214,6 @@ public class Altar : Interactible
 
     public void OnPlayerDie(ushort deadP)
     {
-
-
         PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
 
         if (pm != null)

@@ -120,6 +120,8 @@ public class GameManager : SerializedMonoBehaviour
 	public Sc_CharacterParameters reParameter;
 	public Sc_CharacterParameters lengParameter;
 
+    public GameObject freeCam;
+
 	private void Awake ()
 	{
 		if (_instance != null && _instance != this)
@@ -218,7 +220,15 @@ public class GameManager : SerializedMonoBehaviour
 		{
 			UIGroup.alpha = (UIGroup.alpha == 0) ? 1 : 0;
 		}
-	}
+
+        //debug
+        if (Input.GetKeyDown(KeyCode.M) && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        {
+            UIGroup.alpha = (UIGroup.alpha == 0) ? 1 : 0;
+            freeCam.SetActive(!freeCam.activeSelf);
+            blockMovement = !blockMovement;
+        }
+    }
 
 	void OnMessageReceive ( object _sender, MessageReceivedEventArgs _e )
 	{
@@ -264,6 +274,8 @@ public class GameManager : SerializedMonoBehaviour
 			return;
 		}
 
+
+
 		UiManager.Instance.AllPlayerJoinGameScene();
 		OnAllCharacterSpawned?.Invoke();
 		gameStarted = true;
@@ -275,6 +287,14 @@ public class GameManager : SerializedMonoBehaviour
 				allEnemies.Add(_player);
 			}
 		}
+
+
+		if (RoomManager.Instance.actualRoom.roomType == RoomType.Tutorial)
+		{
+			TutorialManager.Instance.StartTutorial();
+		}
+
+
 	}
 
 	public void ResetCam ()

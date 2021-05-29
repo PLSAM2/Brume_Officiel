@@ -192,7 +192,7 @@ public class EndGameStats : MonoBehaviour
         {
             int numberOfKiLL = 0;
             int numberOfDamage = 0;
-            int numberOfCapture = PlayerPrefs.GetInt("currentCapture");
+            int numberOfCapture = StatManager.Instance.GetNumberOfCapture(p.Value.playerTeam);
 
             if (StatManager.Instance.killPlayer.ContainsKey(p.Key))
             {

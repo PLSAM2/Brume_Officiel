@@ -28,18 +28,17 @@ public class UIPlayerManager : MonoBehaviour
 	[TabGroup("Buff")] public Image fillAmountBuff;
 	[TabGroup("Buff")] public GameObject wholeBuffUi;
 
-	/*[Header("Compass Canvas")]
+	[Header("Compass Canvas")]
 	[TabGroup("WX Compass")] public GameObject compassCanvas;
 	[TabGroup("WX Compass")] public GameObject pointerObj;
-	[TabGroup("WX Compass")] public Quaternion compassRot;
-	[TabGroup("WX Compass")] public LocalPlayer wxRef;*/
+
 	[TabGroup("Mats")] public Material blueMat, redMat, grayMat, goldMat;
 
 	[Header("State")]
 	[TabGroup("UiState")] public GameObject statePart;
 	[TabGroup("UiState")] public TextMeshProUGUI stateText;
 	//	[TabGroup("UiState")] public Image fillPart;
-	[TabGroup("UiState")] public GameObject stunIcon, revealedIcon, slowIcon, hiddenIcon, spedUpIcon, poweredUpIcon, crouchedIcon;
+	[TabGroup("UiState")] public GameObject stunIcon, revealedIcon, intangibleIcon, invulnerableIcon, slowIcon, hiddenIcon, spedUpIcon, poweredUpIcon, crouchedIcon;
 	[TabGroup("UiState")] [FoldoutGroup("Cast")] public GameObject barCasting;
 	[TabGroup("UiState")] [FoldoutGroup("Cast")] public Image canalisationImage;
 
@@ -83,7 +82,7 @@ public class UIPlayerManager : MonoBehaviour
 
 	void OnStateChange ()
 	{
-		if (myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Intengenbility))
+		if (myLocalPlayer.myPlayerModule.state.HasFlag(En_CharacterState.Intangenbility))
 		{
 			myCanvasGroup.alpha = 0.3f;
 		}
@@ -231,14 +230,14 @@ public class UIPlayerManager : MonoBehaviour
 		{
 			HidePseudo(true);
 			stunIcon.SetActive(true);
-			stateText.text = "Stunned";
+			stateText.text = "STUNNED";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.WxMarked) != 0)
 		{
 			HidePseudo(true);
 			revealedIcon.SetActive(true);
-			stateText.text = "Spotted";
+			stateText.text = "SPOTTED";
 			return;
 		}
 
@@ -246,36 +245,49 @@ public class UIPlayerManager : MonoBehaviour
 		{
 			HidePseudo(true);
 			hiddenIcon.SetActive(true);
-			stateText.text = "Invisible";
+			stateText.text = "INVISIBLE";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.Intangenbility) != 0)
+		{
+			HidePseudo(true);
+			intangibleIcon.SetActive(true);
+			stateText.text = "INTANGENBILITY";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.Invulnerability) != 0)
+		{
+			HidePseudo(true);
+			invulnerableIcon.SetActive(true);
+			stateText.text = "INVULNERABILITY";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.Slowed) != 0)
 		{
 			HidePseudo(true);
 			slowIcon.SetActive(true);
-			stateText.text = "Slowed";
+			stateText.text = "SLOWED";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.SpedUp) != 0)
 		{
 			HidePseudo(true);
 			spedUpIcon.SetActive(true);
-			stateText.text = "Sped Up";
-			return;
-		}
-		else if ((_currentState & En_CharacterState.PoweredUp) != 0)
-		{
-			HidePseudo(true);
-
-			poweredUpIcon.SetActive(true);
-			stateText.text = "Buffed";
+			stateText.text = "SPEED UP";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.Crouched) != 0)
 		{
 			HidePseudo(true);
 			crouchedIcon.SetActive(true);
-			stateText.text = "Silent";
+			stateText.text = "STEALTHY";
+			return;
+		}
+		else if ((_currentState & En_CharacterState.PoweredUp) != 0)
+		{
+			HidePseudo(true);
+			poweredUpIcon.SetActive(true);
+			stateText.text = "BUFFED";
 			return;
 		}
 		else
@@ -284,7 +296,7 @@ public class UIPlayerManager : MonoBehaviour
 
 	}
 
-	/*	public GameObject GetFirstDisabledPointer ()
+		public GameObject GetFirstDisabledPointer ()
 		{
 				foreach (Transform t in compassCanvas.gameObject.transform)
 				{
@@ -299,7 +311,7 @@ public class UIPlayerManager : MonoBehaviour
 			newobj.SetActive(true);
 
 			return newobj;
-		}*/
+		}
 
 	public void EnableBuff ( bool _stateOfBuff, string _buffName )
 	{

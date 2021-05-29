@@ -6,11 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityStandardAssets.Cameras;
 using static GameData;
 using static StatFactory;
-using UnityEngine.Events;
 
 public class LocalPlayer : MonoBehaviour, Damageable
 {
@@ -136,9 +133,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		liveHealth = (ushort)(myPlayerModule.characterParameters.maxHealth + myPlayerModule.bonusHp);
 
-		//OnRespawn(respawned);
+        //OnRespawn(respawned);
 
-		OnInitFinish?.Invoke();
+        OnInitFinish?.Invoke();
 	}
 
 	private void Update ()
@@ -223,7 +220,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
     }*/
 
 		allCharacterSpawned = true;
-	}
+
+        UiManager.Instance.ActualiseLife(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
+    }
 
 	void SpawnFow ()
 	{
@@ -376,7 +375,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	/// <param name="ignoreTickStatus"> Must have ignoreStatusAndEffect false to work</param>
 	public void DealDamages ( DamagesInfos _damagesToDeal, Transform _positionOfTheDealer, ushort? dealerID = null, bool ignoreStatusAndEffect = false, bool ignoreTickStatus = false, float _percentageOfTheMovement = 1 )
 	{
-		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intengenbility) != 0)
+		if (InGameNetworkReceiver.Instance.GetEndGame() || (myPlayerModule.state & En_CharacterState.Invulnerability) != 0 && (myPlayerModule.state & En_CharacterState.Intangenbility) != 0)
 		{
 			return;
 		}
@@ -467,7 +466,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (InGameNetworkReceiver.Instance.GetEndGame())
 		{
-			return;
+            return;
 		}
 
 		if (damages > 0)
@@ -512,12 +511,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
 				liveHealth = (ushort)_tempHp;
 			}
-
-
-
-			GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
 		}
-	}
+
+        GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
+    }
 
 	/// <summary>
 	/// DO NOT use this until YOU KNOW what you do :)
@@ -735,7 +732,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		if (isNegative(_newStatus))
 		{
-			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intengenbility) == 0)
+			if ((myPlayerModule.state & En_CharacterState.Invulnerability) == 0 || (myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
 			{
 				myPlayerModule.KillEveryStun();
 				myPlayerModule.AddStatus(NetworkObjectsManager.Instance.networkedObjectsList.allStatusOfTheGame[_newStatus].effect);
@@ -778,13 +775,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 	private void OnAudioPlay ( Vector3 obj, Team audioTeam )
 	{
-		/*   if (this.transform.position == obj || isOwner == false)
+		  if (this.transform.position == obj || isOwner == false)
 		   {
 			   return;
 		   }
 		   GameObject _newPointer = myUiPlayerManager.GetFirstDisabledPointer();
 
-		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);*/
+		   _newPointer.GetComponent<CompassPointer>().InitNewTargetOneTime(this.transform, obj, audioTeam);
 	}
 
 	IEnumerator TimerShowPlayer ( float _time )

@@ -260,7 +260,7 @@ public class CacAttack : SpellModule
 		base.ResolutionFeedBack();
 	}
 
-	public override void ThrowbackEndFeedBack ()
+	public void HideLaser()
 	{
 		if (lineLaser != null)
 		{
@@ -270,10 +270,7 @@ public class CacAttack : SpellModule
 			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 			isLaser = false;
 		}
-
-		base.ThrowbackEndFeedBack();
 	}
-
 
 	protected override void Update ()
 	{

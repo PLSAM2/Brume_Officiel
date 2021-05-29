@@ -451,6 +451,7 @@ public class InGameNetworkReceiver : MonoBehaviour
         {
             return;
         }
+
         using (Message message = e.GetMessage())
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -610,7 +611,7 @@ public class InGameNetworkReceiver : MonoBehaviour
                 _newForcedMovement.strength = _strength;
 
                 PlayerModule _character = GameManager.Instance.currentLocalPlayer.myPlayerModule;
-                if ((_character.state & En_CharacterState.Invulnerability) == 0 && (_character.state & En_CharacterState.Intengenbility) == 0)
+                if ((_character.state & En_CharacterState.Invulnerability) == 0 && (_character.state & En_CharacterState.Intangenbility) == 0)
                 {
                     GameManager.Instance.currentLocalPlayer.myPlayerModule.KillEveryStun();
                     GameManager.Instance.currentLocalPlayer.OnForcedMovementReceived(_newForcedMovement);
