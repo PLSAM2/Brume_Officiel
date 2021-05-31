@@ -318,7 +318,13 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
         AutoKill _autoKill = _tempObject.GetComponent<AutoKill>();
 
         if (_autoKill != null)
-            _autoKill.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex);
+        {
+            if (GameManager.Instance.networkPlayers[_ownerID] != null)
+            {
+                _autoKill.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex);
+            }
+        }
+
 
         _tempObject.SetActive(true);
     }
