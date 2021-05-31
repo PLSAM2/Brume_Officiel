@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8121298903440146440
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -7,18 +20,30 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InMistMask
-  m_Shader: {fileID: 4800000, guid: 2f56076987ca56e46876e70cbbf29ac2, type: 3}
+  m_Name: RE_FrontDash
+  m_Shader: {fileID: 4800000, guid: c9ec01a41f4a13a41b12cf2413666f17, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 4000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AnisoColorTexture:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AnisoNoise1:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AnisoNoise2:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,12 +76,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MistMask:
-        m_Texture: {fileID: 2800000, guid: 639afe0e9b78ad342894d94fcbcf5acd, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PaintGrunge:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -67,8 +92,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture0:
-        m_Texture: {fileID: 2800000, guid: c97651f5915628041b899b7999094323, type: 3}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -88,11 +125,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _BackFinalSmoothstep: 0.1
+    - _BackFinalStep: 0.19
+    - _BackSmoothstep: 1.14
+    - _BackStep: 0.41
     - _Blend: 0
-    - _BrumeTexture_Contrast: 1.8
-    - _BrumeTexture_Tiling: 8
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -102,15 +142,24 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _Float0: 0.3
+    - _Float1: 2.01
+    - _Float2: 1
+    - _Float3: 0.1
+    - _Float6: 1
+    - _Float7: -0.11
+    - _Float8: 0.1
+    - _Float9: 0.46
+    - _FrontFinalSmoothstep: 0.1
+    - _FrontFinalStep: 1.08
+    - _FrontSmoothstep: 1
+    - _FrontStep: 0.45
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0
     - _Parallax: 0.005
-    - _Parralax_DistancePlane: 0.4
-    - _Parralax_Scale: 0.15
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -121,24 +170,21 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - _AnisoColor1: {r: 1, g: 0.7436737, b: 0.2971698, a: 1}
+    - _AnisoColor2: {r: 1, g: 0.91484755, b: 0.6745283, a: 1}
+    - _AnisoColorTile: {r: 2.29, g: 1, b: 0, a: 0}
+    - _BackNoisePanner: {r: 0, g: 1, b: 0, a: 0}
+    - _BackNoiseTiling: {r: 0.41, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BrumeTexture_BottomColor: {r: 0.1712353, g: 0.1450694, b: 0.18867922, a: 0}
-    - _BrumeTexture_Panner: {r: 0.01, g: 0, b: 0, a: 0}
-    - _BrumeTexture_TopColor: {r: 0.48883057, g: 0.6132076, b: 0.6132076, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.10377359, g: 0.10377359, b: 0.10377359, a: 0}
+    - _Color1: {r: 0.8805625, g: 0.75800997, b: 0.9622642, a: 1}
+    - _Color2: {r: 0.48950848, g: 0.26900142, b: 0.6132076, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FrontNoisePanner: {r: 0, g: 1, b: 0, a: 0}
+    - _FrontNoiseTiling: {r: 0.4, g: 1, b: 0, a: 0}
+    - _PaintGrungeColor: {r: 0.10377356, g: 0.10377356, b: 0.10377356, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector0: {r: 1.21, g: 1, b: 0, a: 0}
+    - _Vector2: {r: 0.2, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7530271646020326226
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4

@@ -39,14 +39,21 @@ public class UIAltarList : MonoBehaviour
         {
             case 1:
                 altarBlueImg.color = GameFactory.GetColorTeam(Team.blue);
-                //altarBlueAnim.SetTrigger("Gain");
+                altarBlueAnim.SetTrigger("Gain");
 
                 //Play sound
                 break;
 
             case 2:
                 altarCenterImg.color = GameFactory.GetColorTeam(Team.blue);
-                //altarCenterAnim.SetTrigger("Gain");
+                altarCenterAnim.SetTrigger("Gain");
+
+                //Play sound
+                break;
+
+            case 3:
+                altarRedImg.color = GameFactory.GetColorTeam(Team.blue);
+                altarCenterAnim.SetTrigger("Gain");
 
                 //Play sound
                 break;
@@ -61,14 +68,21 @@ public class UIAltarList : MonoBehaviour
         {
             case 1:
                 altarRedImg.color = GameFactory.GetColorTeam(Team.red);
-                //altarRedAnim.SetTrigger("Gain");
+                altarRedAnim.SetTrigger("Gain");
 
                 //Play sound
                 break;
 
             case 2:
                 altarCenterImg.color = GameFactory.GetColorTeam(Team.red);
-               // altarCenterAnim.SetTrigger("Gain");
+                altarCenterAnim.SetTrigger("Gain");
+
+                //Play sound
+                break;
+
+            case 3:
+                altarBlueImg.color = GameFactory.GetColorTeam(Team.blue);
+                altarBlueAnim.SetTrigger("Gain");
 
                 //Play sound
                 break;
