@@ -17,7 +17,7 @@ public class CacAttack : SpellModule
 
 	[SerializeField] bool useAnonciation = false;
 	[ShowIf("useAnonciation")] public Transform firstFx, secondFx;
-	[ShowIf("useAnonciation")] public LineRenderer lineLaser, linePreview;
+	[ShowIf("useAnonciation")] public LineRenderer[] lineLaser, linePreview;
 	bool hasHit = false;
 	public UnityEvent playerHit;
 
@@ -36,8 +36,11 @@ public class CacAttack : SpellModule
 
 		if (useAnonciation)
 		{
-			lineLaser.useWorldSpace = true;
-			linePreview.useWorldSpace = true;
+			foreach (LineRenderer _rend in lineLaser)
+				_rend.useWorldSpace = true;
+
+			foreach (LineRenderer _rend in linePreview)
+				_rend.useWorldSpace = true;
 		}
 	}
 
@@ -49,7 +52,6 @@ public class CacAttack : SpellModule
 
 		if ((myPlayerModule.state & En_CharacterState.PoweredUp) != 0)
 		{
-			print("Boost damage");
 			damageToDeal.damageHealth += 1;
 		}
 
@@ -204,7 +206,11 @@ public class CacAttack : SpellModule
 	{
 		List<GameObject> _toAdd = new List<GameObject>();
 
-		RaycastHit[] _allhits = (Physics.BoxCastAll(transform.position, new Vector3(localTrad.attackParameters.widthToAttackFrom, 1, .1f), transform.forward, transform.rotation, spell.range, 1 << 8));
+		Vector3 bonusY = Vector3.zero;
+		if (isLaser)
+			bonusY = Vector3.up;
+
+		RaycastHit[] _allhits = (Physics.BoxCastAll(transform.position+ bonusY, new Vector3(localTrad.attackParameters.widthToAttackFrom, 1, .1f), transform.forward, transform.rotation, spell.range, 1 << 8));
 
 		float distance = 100;
 		RaycastHit _hit;
@@ -232,12 +238,14 @@ public class CacAttack : SpellModule
 
 	public override void StartCanalysingFeedBack ()
 	{
-		if (lineLaser != null)
+		if (lineLaser.Length > 0)
 		{
-			linePreview.gameObject.SetActive(true);
-
-			linePreview.SetPosition(0, transform.position);
-			linePreview.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
+			foreach (LineRenderer _renderer in lineLaser)
+			{
+				_renderer.gameObject.SetActive(true);
+				_renderer.SetPosition(0, transform.position);
+				_renderer.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
+			}
 			isLaser = true;
 		}
 
@@ -246,28 +254,38 @@ public class CacAttack : SpellModule
 
 	public override void ResolutionFeedBack ()
 	{
-		if (lineLaser != null)
+		if (linePreview.Length > 0)
 		{
-			linePreview.gameObject.SetActive(false);
-			lineLaser.gameObject.SetActive(true);
+			foreach (LineRenderer _renderer in linePreview)
+			{
+				_renderer.gameObject.SetActive(true);
+				_renderer.SetPosition(0, transform.position);
+				_renderer.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
+			}
 
-			lineLaser.SetPosition(0, transform.position + Vector3.up);
-			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
-
+			foreach (LineRenderer _rendererPreview in lineLaser)
+			{
+				_rendererPreview.gameObject.SetActive(false);
+			}
 		}
 
 
 		base.ResolutionFeedBack();
 	}
 
-	public void HideLaser()
+	public void HideLaser ()
 	{
-		if (lineLaser != null)
+		if (lineLaser.Length > 0)
 		{
-			lineLaser.gameObject.SetActive(false);
+			foreach (LineRenderer _renderer in linePreview)
+			{
+				_renderer.gameObject.SetActive(false);
+			}
+			foreach (LineRenderer _renderer in lineLaser)
+			{
+				_renderer.gameObject.SetActive(false);
+			}
 
-			lineLaser.SetPosition(0, transform.position + Vector3.up);
-			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 			isLaser = false;
 		}
 	}
@@ -277,10 +295,17 @@ public class CacAttack : SpellModule
 		base.Update();
 		if (isLaser)
 		{
-			linePreview.SetPosition(0, transform.position);
-			linePreview.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
-			lineLaser.SetPosition(0, transform.position);
-			lineLaser.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+			foreach (LineRenderer _renderer in linePreview)
+			{
+				_renderer.SetPosition(0, transform.position);
+				_renderer.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+			}
+
+			foreach (LineRenderer _renderer in lineLaser)
+			{
+				_renderer.SetPosition(0, transform.position);
+				_renderer.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
+			}
 		}
 	}
 
