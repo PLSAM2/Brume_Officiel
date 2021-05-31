@@ -545,42 +545,6 @@ Transform:
   m_Father: {fileID: 3893967535221112491}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1367845199546169793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b658b7e1e3d393f4383d298f33889ebf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allFootsteps:
-  - {fileID: 8300000, guid: 59ec7c8226e1a5b42be0aa3e485beb1d, type: 3}
-  - {fileID: 8300000, guid: bc05ab80c0070a947a09920cc18198d6, type: 3}
-  - {fileID: 8300000, guid: 1b08c05ee5a3638429466bf255e75597, type: 3}
-  - {fileID: 8300000, guid: 2b14555734376cc44b20f611f4e3b22c, type: 3}
-  myAudioSource: {fileID: 3662524041050484425}
-  delayAfterSound: 0.2
-  doFootStep: 0
---- !u!114 &9172870239595824471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27948769369624699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementPart: {fileID: 7156413905369074569}
-  myUiPlayerManager: {fileID: 5636706075888952581}
-  characterParameters: {fileID: 11400000, guid: 9c1f1637845fa504d8056cf3634b96cc, type: 2}
-  regenOnDeath: 1
 --- !u!82 &3662524041050484425
 AudioSource:
   m_ObjectHideFlags: 0
@@ -601,10 +565,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 10
   MaxDistance: 22
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -713,6 +677,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1367845199546169793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b658b7e1e3d393f4383d298f33889ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allFootsteps:
+  - {fileID: 8300000, guid: 59ec7c8226e1a5b42be0aa3e485beb1d, type: 3}
+  - {fileID: 8300000, guid: bc05ab80c0070a947a09920cc18198d6, type: 3}
+  - {fileID: 8300000, guid: 1b08c05ee5a3638429466bf255e75597, type: 3}
+  - {fileID: 8300000, guid: 2b14555734376cc44b20f611f4e3b22c, type: 3}
+  myAudioSource: {fileID: 3662524041050484425}
+  delayAfterSound: 0.2
+  doFootStep: 0
+--- !u!114 &9172870239595824471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27948769369624699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementPart: {fileID: 7156413905369074569}
+  myUiPlayerManager: {fileID: 5636706075888952581}
+  characterParameters: {fileID: 11400000, guid: 9c1f1637845fa504d8056cf3634b96cc, type: 2}
+  regenOnDeath: 1
 --- !u!1 &1415180894654934618
 GameObject:
   m_ObjectHideFlags: 0
