@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using PixelPlay.OffScreenIndicator;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,10 +12,12 @@ public class Waypoint : MonoBehaviour
     [SerializeField] private GameObject indicatorOut;
     [SerializeField] private GameObject indicatorIn;
 
-    [SerializeField] private Transform posIconIn;
-    [SerializeField] private Transform posIconOut;
-    [SerializeField] private Transform iconIn;
-    [SerializeField] private Transform iconOut;
+    public bool dynamicIcon = false;
+
+    [ShowIf("dynamicIcon")] [SerializeField] private Transform posIconIn;
+    [ShowIf("dynamicIcon")] [SerializeField] private Transform posIconOut;
+    [ShowIf("dynamicIcon")] [SerializeField] private Transform iconIn;
+    [ShowIf("dynamicIcon")] [SerializeField] private Transform iconOut;
 
     [SerializeField] private List<Image> images = new List<Image>();
 
@@ -27,7 +30,7 @@ public class Waypoint : MonoBehaviour
     [HideInInspector] public Transform target;
     [HideInInspector] public Vector3 targetVector;
 
-    [SerializeField] private GameObject arrow;
+    [ShowIf("dynamicIcon")] [SerializeField] private GameObject arrow;
 
     public bool displayIn = true;
     public bool displayOut = true;
@@ -42,8 +45,8 @@ public class Waypoint : MonoBehaviour
 
     RectTransform posCenter;
 
-    [SerializeField] private CanvasGroup canvasIn;
-    [SerializeField] private CanvasGroup canvasOut;
+    [ShowIf("dynamicIcon")] [SerializeField] private CanvasGroup canvasIn;
+    [ShowIf("dynamicIcon")] [SerializeField] private CanvasGroup canvasOut;
 
     private void Start()
     {
