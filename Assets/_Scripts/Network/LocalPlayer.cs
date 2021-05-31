@@ -204,7 +204,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (Input.GetKeyDown(KeyCode.L) && isOwner)
 		{
-			print("Prout");
 			addLife_blue_fx.Play();
 		}
 	}
