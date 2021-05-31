@@ -27,7 +27,7 @@ public class Waypoint : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameTextIn;
     [SerializeField] private TextMeshProUGUI nameTextOut;
 
-    [HideInInspector] public Transform target;
+    public Transform target;
     [HideInInspector] public Vector3 targetVector;
 
     [ShowIf("dynamicIcon")] [SerializeField] private GameObject arrow;
