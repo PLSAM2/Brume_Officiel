@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static GameData;
 using static StatFactory;
 
@@ -25,8 +26,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	[Header("UI")]
 	[TabGroup("Ui")] public UIPlayerManager myUiPlayerManager;
+    [TabGroup("Ui")] public SpriteRenderer iconColorPerso;
+    [TabGroup("Ui")] public Color colorMyPlayer;
 
-	[TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
+    [TabGroup("MultiGameplayParameters")] private ushort _liveHealth;
 
 	[ReadOnly]
 	public ushort liveHealth
@@ -102,7 +105,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
 			UiManager.Instance.feedbackDeath.SetActive(false);
-		}
+
+            iconColorPerso.color = colorMyPlayer;
+        }
 		else
 		{
 			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -204,7 +209,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (Input.GetKeyDown(KeyCode.L) && isOwner)
 		{
-			print("Prout");
 			addLife_blue_fx.Play();
 		}
 	}

@@ -252,14 +252,14 @@ public class UIPlayerManager : MonoBehaviour
 		{
 			HidePseudo(true);
 			intangibleIcon.SetActive(true);
-			stateText.text = "INTANGENBILITY";
+			stateText.text = "UNTOUCHABLE";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.Invulnerability) != 0)
 		{
 			HidePseudo(true);
 			invulnerableIcon.SetActive(true);
-			stateText.text = "INVULNERABILITY";
+			stateText.text = "INVULNERABLE";
 			return;
 		}
 		else if ((_currentState & En_CharacterState.Slowed) != 0)
