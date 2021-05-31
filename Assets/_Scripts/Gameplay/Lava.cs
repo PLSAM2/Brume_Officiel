@@ -12,7 +12,7 @@ public class Lava : MonoBehaviour
     [SerializeField] Transform obj;
     [SerializeField] float sizeMax = 16;
 
-    [SerializeField] MeshCollider collider;
+    [SerializeField] MeshCollider LavaCollider;
 
     [SerializeField] float cdDamage = 0.5f;
     bool canDamage = false;
@@ -28,7 +28,7 @@ public class Lava : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnCD);
 
-        collider.enabled = true;
+        LavaCollider.enabled = true;
         canDamage = true;
 
         float timeCounter = 0;
