@@ -73,8 +73,6 @@ public class GameManager : SerializedMonoBehaviour
 	public GameObject brumeSoul;
 	public Dictionary<ushort, BrumeSoul> brumeSouls = new Dictionary<ushort, BrumeSoul>();
 
-	public SpawnDynamicWalls dynamicWalls;
-
 	[HideInInspector] public bool playerJoinedAndInit = false; //spawnpurpose
 	public List<LocalPlayer> allEnemies = new List<LocalPlayer>();
 
@@ -121,6 +119,8 @@ public class GameManager : SerializedMonoBehaviour
 	public Sc_CharacterParameters lengParameter;
 
     public GameObject freeCam;
+
+    public GameObject fowDebug;
 
 	private void Awake ()
 	{
@@ -227,6 +227,8 @@ public class GameManager : SerializedMonoBehaviour
             UIGroup.alpha = (UIGroup.alpha == 0) ? 1 : 0;
             freeCam.SetActive(!freeCam.activeSelf);
             blockMovement = !blockMovement;
+
+            fowDebug.SetActive(freeCam.activeSelf);
         }
     }
 

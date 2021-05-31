@@ -19,7 +19,6 @@ public class EndZoneUIGroup : MonoBehaviour
 
         Color _temp = GameFactory.GetRelativeColor(team);
 
-        UiManager.Instance.objectivesAnim.SetTrigger("EndZone");
         timer.color = _temp;
         EndZoneText.color = _temp;
         endZoneBar.color = _temp;
@@ -57,7 +56,6 @@ public class EndZoneUIGroup : MonoBehaviour
 
     public void TimerElapsed()
     {
-        UiManager.Instance.objectivesAnim.SetTrigger("TimerElapsed");
 
         Color _temp = GameFactory.GetColorTeam(Team.blue);
 

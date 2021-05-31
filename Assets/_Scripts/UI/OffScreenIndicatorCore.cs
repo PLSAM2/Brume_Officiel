@@ -12,7 +12,8 @@ namespace PixelPlay.OffScreenIndicator
 
         public static bool IsTargetVisible(Vector3 screenPosition)
         {
-            bool isTargetVisible = screenPosition.z > 0 && screenPosition.x > 0 && screenPosition.x < Screen.width && screenPosition.y > 0 && screenPosition.y < Screen.height;
+            //bool isTargetVisible = screenPosition.z > 0 && screenPosition.x > 0 && screenPosition.x < Screen.width && screenPosition.y > 0 && screenPosition.y < Screen.height;
+              bool isTargetVisible = screenPosition.z > 0 && screenPosition.x > (Screen.width * 0.1f) && screenPosition.x < (Screen.width - Screen.width * 0.1f) && screenPosition.y > (Screen.height * 0.1f) && screenPosition.y < (Screen.height - Screen.height * 0.1f);
             return isTargetVisible;
         }
 

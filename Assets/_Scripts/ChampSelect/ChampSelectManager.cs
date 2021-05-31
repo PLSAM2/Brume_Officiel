@@ -139,6 +139,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
             return;
         }
 
+
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
             writer.Write((ushort)character);

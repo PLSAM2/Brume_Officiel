@@ -31,6 +31,7 @@ public class UIPlayerManager : MonoBehaviour
 	[Header("Compass Canvas")]
 	[TabGroup("WX Compass")] public GameObject compassCanvas;
 	[TabGroup("WX Compass")] public GameObject pointerObj;
+	[TabGroup("WX Compass")] public Quaternion compassRot;
 
 	[TabGroup("Mats")] public Material blueMat, redMat, grayMat, goldMat;
 
@@ -52,8 +53,8 @@ public class UIPlayerManager : MonoBehaviour
 	private void Awake ()
 	{
 		canvasRot = canvas.transform.rotation;
-		/*compassRot = compassCanvas.transform.rotation;
-		compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;*/
+		compassRot = compassCanvas.transform.rotation;
+		compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
 	}
 
 	private void OnEnable ()
@@ -182,7 +183,7 @@ public class UIPlayerManager : MonoBehaviour
 	private void LateUpdate ()
 	{
 		canvas.transform.rotation = canvasRot;
-		//		compassCanvas.transform.rotation = compassRot;
+		compassCanvas.transform.rotation = compassRot;
 	}
 
 	public void UpdateLife ()
