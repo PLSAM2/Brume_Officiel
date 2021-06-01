@@ -31,7 +31,7 @@ public class ChatMessageControl : MonoBehaviour
         this.sender = sender;
         string name = GameFactory.GetNameAddChamp(sender);
 
-        messageText.text = "<color=white>[" + (int)Math.Floor(GameManager.Instance.timer / 60) + ":" + ((int)GameManager.Instance.timer % 60).ToString("D2") + "] </color>" + name + messageContent;
+        messageText.text = /* "<color=white>[" + (int)Math.Floor(GameManager.Instance.timer / 60) + ":" + ((int)GameManager.Instance.timer % 60).ToString("D2") + "] </color>" + */ name + messageContent;
 
         StartCoroutine(HideThis());
     }
@@ -39,7 +39,7 @@ public class ChatMessageControl : MonoBehaviour
     public void InitNewServerMessage(string messageContent)
     {
         this.sender = sender;
-        messageText.text = "<color=white>[" + (int)Math.Floor(GameManager.Instance.timer / 60) + ":" + ((int)GameManager.Instance.timer % 60).ToString("D2") + "] </color>" + "SERVER : " + messageContent;
+        messageText.text = /* "<color=white>[" + (int)Math.Floor(GameManager.Instance.timer / 60) + ":" + ((int)GameManager.Instance.timer % 60).ToString("D2") + "] </color>" + */ "SERVER : " + messageContent;
 
         StartCoroutine(HideThis());
     }
