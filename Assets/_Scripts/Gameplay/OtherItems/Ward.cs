@@ -117,7 +117,11 @@ public class Ward : MonoBehaviour
 			GameManager.Instance.allWard.Remove(this);
 
 			vision.myFieldOfView.OnPlayerEnterInFow -= OnPlayerSpotted;
-			myWaypoint.gameObject.SetActive(false);
+
+            if(myWaypoint != null)
+            {
+                myWaypoint.gameObject.SetActive(false);
+            }
 		}
 
 	}
