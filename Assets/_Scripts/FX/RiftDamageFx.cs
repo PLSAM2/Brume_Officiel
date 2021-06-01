@@ -56,7 +56,7 @@ public class RiftDamageFx : MonoBehaviour
             startPos += 1 / currentSize;
         }
 
-        GameFactory.DoScreenShack(0.15f, 0.15f, transform.position);
+        GameFactory.DoScreenShake(0.15f, 0.15f, transform.position);
     }
 
     void SupprOld()
