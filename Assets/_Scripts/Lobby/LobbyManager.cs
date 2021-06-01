@@ -369,7 +369,7 @@ public class LobbyManager : MonoBehaviour
         print("Room " + RoomManager.Instance.actualRoom.ID + " Quit");
         RoomManager.Instance.actualRoom = null;
         RoomManager.Instance.ResetActualGame();
-        NetworkManager.Instance.GetLocalPlayer().IsHost = false;
+        NetworkManager.Instance.GetLocalPlayer().ResetGameData();
         DisplayMainMenu();
 
     }
