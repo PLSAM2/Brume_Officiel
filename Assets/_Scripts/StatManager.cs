@@ -18,6 +18,8 @@ public class StatManager : MonoBehaviour
 
     public float endGameTime = 0;
 
+    public bool isVictory = false;
+
     private static StatManager _instance;
     public static StatManager Instance { get { return _instance; } }
     private void Awake()

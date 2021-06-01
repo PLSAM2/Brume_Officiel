@@ -34,6 +34,12 @@ public class EndGameStats : MonoBehaviour
     //color altar
     [SerializeField] Color altarAWAKEN, altarUNSEALED;
 
+    //score
+    public GameObject blueWinPanel;
+    public GameObject redWinPanel;
+
+    public TextMeshProUGUI blueScore;
+    public TextMeshProUGUI redScore;
 
     public void Init()
     {
@@ -45,6 +51,12 @@ public class EndGameStats : MonoBehaviour
         StatManager.Instance.endGameTime = GameManager.Instance.timer;
 
         endTime.text = (int)Math.Floor(StatManager.Instance.endGameTime / 60) + ":" + ((int) StatManager.Instance.endGameTime % 60).ToString("D2");
+
+        blueWinPanel.SetActive(StatManager.Instance.isVictory);
+        redWinPanel.SetActive(!StatManager.Instance.isVictory);
+
+        blueScore.text = RoomManager.Instance.actualRoom.scores[GameFactory.GetRelativeTeam(Team.blue)].ToString();
+        redScore.text = RoomManager.Instance.actualRoom.scores[GameFactory.GetRelativeTeam(Team.red)].ToString();
 
         StartCoroutine(DisplayTimeline());
     }

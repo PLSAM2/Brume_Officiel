@@ -147,6 +147,8 @@ public class FieldOfView : MonoBehaviour
         bool isEnemyInView = false;
 		foreach (Transform player in visibleTargets)
 		{
+            if(player == null) { continue; }
+
 			if (!GameManager.Instance.visiblePlayer.ContainsKey(player))
 			{
 				//print("add");
@@ -177,6 +179,8 @@ public class FieldOfView : MonoBehaviour
 
 		foreach (Transform enemy in oldVisibleTargets)
 		{
+            if(enemy == null) { continue; }
+
 			if (!visibleTargets.Contains(enemy))
 			{
 				//print("remove");

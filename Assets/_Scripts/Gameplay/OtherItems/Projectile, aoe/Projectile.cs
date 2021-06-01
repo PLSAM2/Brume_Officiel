@@ -125,7 +125,7 @@ public class Projectile : AutoKill
 			else
 			{
 				LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
-				GameFactory.DoScreenShack(0.15f, 0.15f, transform.position);
+				GameFactory.DoScreenShake(0.15f, 0.15f, transform.position);
 
 				bouncingNumberLive--;
 				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
@@ -219,7 +219,7 @@ public class Projectile : AutoKill
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
-			GameFactory.DoScreenShack(0.15f, 0.15f, transform.position);
+			GameFactory.DoScreenShake(0.15f, 0.15f, transform.position);
 
 			if (hitSound)
 			{
