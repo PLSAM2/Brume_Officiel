@@ -75,6 +75,29 @@ public class Altar : Interactible
         }
     }
 
+    protected override void VisualCaptureProgress()
+    {
+        if (isViewed && reloading == false)
+        {
+            fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
+
+            if (altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
+            {
+                if (capturingTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    UiManager.Instance.altarCaptureProgressBar.gameObject.SetActive(true);
+                    UiManager.Instance.altarCaptureProgressBar.fillAmount = (timer / interactTime);
+                }
+                else
+                {
+                    UiManager.Instance.altarCaptureProgressBar.gameObject.SetActive(false);
+                }
+
+            }
+
+        }
+    }
+
     public override void TryCapture(Team team, PlayerModule capturingPlayer)
     {
         base.TryCapture(team, capturingPlayer);
@@ -143,7 +166,8 @@ public class Altar : Interactible
                NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
             }
         }
-*/
+        */
+
         if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
         {
             GameManager.Instance.numberOfAltarControled++;
@@ -171,6 +195,8 @@ public class Altar : Interactible
         }
     }
 
+
+    public bool annonceUnlock = true;
     IEnumerator ActivateAltar()
     {
         if (RoomManager.Instance.roundCount == 1)
@@ -185,11 +211,12 @@ public class Altar : Interactible
         yield return new WaitForSeconds(currentTime);
 
 
-        if (interactibleName == "Right") // BERK MAIS OSEF
+        if (interactibleName == "Right" && annonceUnlock) // BERK MAIS OSEF
         {
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
             StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
         }
+
         Unlock();
     }
 
@@ -238,7 +265,7 @@ public class Altar : Interactible
     {
         base.UpdateUI();
 
-
+        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
         if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
         {
             return;

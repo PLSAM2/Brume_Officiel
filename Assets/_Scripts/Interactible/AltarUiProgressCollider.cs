@@ -24,6 +24,8 @@ public class AltarUiProgressCollider : MonoBehaviour
 
             if (!_pModule.mylocalPlayer.isOwner)
             {
+                playerInUIZone.RemoveAll(item => item == null);
+
                 if (!IsplayerInUIZoneContainLocalPlayer())
                 {
                     return;
@@ -67,7 +69,7 @@ public class AltarUiProgressCollider : MonoBehaviour
 
     public virtual bool IsplayerInUIZoneContainLocalPlayer()
     {
-        playerInUIZone.RemoveAll(item => item == null);
+
 
         return playerInUIZone.Contains(GameFactory.GetActualPlayerFollow().myPlayerModule);
     }

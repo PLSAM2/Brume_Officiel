@@ -1,20 +1,16 @@
-﻿using Cinemachine;
-using DarkRift;
+﻿using DarkRift;
 using DarkRift.Client;
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.Rendering;
 using static FieldOfView;
 using static GameData;
+using DG.Tweening;
 
 public class GameManager : SerializedMonoBehaviour
 {
@@ -121,6 +117,8 @@ public class GameManager : SerializedMonoBehaviour
     public GameObject freeCam;
 
     public GameObject fowDebug;
+
+    public Volume damageVolume;
 
     private void Awake()
     {
@@ -229,6 +227,30 @@ public class GameManager : SerializedMonoBehaviour
             blockMovement = !blockMovement;
 
             fowDebug.SetActive(freeCam.activeSelf);
+        }
+
+        //DamageEffect
+        LocalPlayer currentLocalPlayer = GameFactory.GetActualPlayerFollow();
+        if(currentLocalPlayer != null)
+        {
+            switch (currentLocalPlayer.liveHealth)
+            {
+                case 1:
+                    damageVolume.weight = 1;
+                    break;
+
+                case 2:
+                    damageVolume.weight = 0.5f;
+                    break;
+
+                default:
+                    damageVolume.weight = 0;
+                    break;
+            }
+        }
+        else
+        {
+            damageVolume.weight = 0;
         }
     }
 

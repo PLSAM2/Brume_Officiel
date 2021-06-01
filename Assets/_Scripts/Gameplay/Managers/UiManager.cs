@@ -62,6 +62,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
 	[FoldoutGroup("Altars")] [SerializeField] private Animator altarContestUI;
     [FoldoutGroup("Altars")] [SerializeField] private GameObject altarUIPanel;
+    [FoldoutGroup("Altars")] public Image altarCaptureProgressBar;
 
     [Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
