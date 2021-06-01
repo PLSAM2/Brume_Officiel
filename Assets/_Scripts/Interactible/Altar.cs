@@ -75,6 +75,29 @@ public class Altar : Interactible
         }
     }
 
+    protected override void VisualCaptureProgress()
+    {
+        if (isViewed && reloading == false)
+        {
+            fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
+
+            if (altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
+            {
+                if (capturingTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+                {
+                    UiManager.Instance.altarCaptureProgressBar.gameObject.SetActive(true);
+                    UiManager.Instance.altarCaptureProgressBar.fillAmount = (timer / interactTime);
+                }
+                else
+                {
+                    UiManager.Instance.altarCaptureProgressBar.gameObject.SetActive(false);
+                }
+
+            }
+
+        }
+    }
+
     public override void TryCapture(Team team, PlayerModule capturingPlayer)
     {
         base.TryCapture(team, capturingPlayer);
@@ -242,7 +265,7 @@ public class Altar : Interactible
     {
         base.UpdateUI();
 
-
+        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
         if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
         {
             return;
