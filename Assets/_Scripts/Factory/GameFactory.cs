@@ -27,8 +27,13 @@ public class GameFactory
 		return name;
 	}
 
-	public static void DoScreenShack ( float _time, float _strength, Vector3 _pos, float distance = 7 )
+	public static void DoScreenShake ( float _time, float _strength, Vector3 _pos, float distance = 7 )
 	{
+        if (GameFactory.GetActualPlayerFollow() == null)
+        {
+            return;
+        }
+
 		Transform player = GameFactory.GetActualPlayerFollow().transform;
 
 		if (player != null && Vector3.Distance(player.position, _pos) < distance)
@@ -257,18 +262,35 @@ public class GameFactory
 	{
 		try
 		{
-			if (GameManager.Instance.currentLocalPlayer != null && !GameManager.Instance.currentLocalPlayer.isTp)
+			if (GameManager.Instance.currentLocalPlayer != null)
 			{
 				return GameManager.Instance.currentLocalPlayer;
 			}
 			else
 			{
-				return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+                if (!GameManager.Instance.networkPlayers.ContainsKey(UiManager.Instance.specMode.playerSpected))
+                {
+
+                }
+
+                return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
 			}
 		}
 		catch
 		{
-			return null;
+            Debug.Log("<color=green>OBZFBHBVFIZBF</color>");
+
+            if (GameManager.Instance.currentLocalPlayer != null)
+            {
+                Debug.Log(GameManager.Instance.currentLocalPlayer);
+            }
+            else
+            {
+                Debug.Log(UiManager.Instance.specMode.playerSpected);
+                Debug.Log(GameManager.Instance.networkPlayers.ContainsKey(UiManager.Instance.specMode.playerSpected));
+            }
+
+            return null;
 		}
 	}
 
@@ -392,7 +414,12 @@ public class GameFactory
 
 	public static bool DoSound ( Vector3 pos )
 	{
-        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        if (GameFactory.GetActualPlayerFollow() == null)
+        {
+            return false;
+        }
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator || GameFactory.GetActualPlayerFollow() == null)
 		{
 			return false;
 		}

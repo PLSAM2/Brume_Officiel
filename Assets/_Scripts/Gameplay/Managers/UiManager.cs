@@ -38,11 +38,6 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Minimap")] public GameObject minimapObj;
 	[FoldoutGroup("Minimap")] public Image minimapKeyHelpImg;
 
-	[FoldoutGroup("GeneralMessage")] [SerializeField] private Text generalMessage;
-	[FoldoutGroup("GeneralMessage")] [SerializeField] private TextMeshProUGUI generalPoints;
-	[FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalMessageAnim;
-	[FoldoutGroup("GeneralMessage")] [SerializeField] private Animator generalPointsAnim;
-
 	[FoldoutGroup("GeneralMessage")] [SerializeField] private GameObject waitingForPlayersPanel;
 
 	[Header("GamePlayPart")]
@@ -62,6 +57,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
 	[FoldoutGroup("Altars")] [SerializeField] private Animator altarContestUI;
     [FoldoutGroup("Altars")] [SerializeField] private GameObject altarUIPanel;
+    [FoldoutGroup("Altars")] public Image altarCaptureProgressBar;
 
     [Header("Other Gameplay")]
 	[FoldoutGroup("Other Gameplay")] public Camera mainCam;
@@ -638,22 +634,6 @@ public class UiManager : MonoBehaviour
 			hiddenIcon.gameObject.SetActive(false);
 	}
 
-	public void DisplayGeneralPoints ( Team team, int value )
-	{
-		generalPoints.text = "+" + value;
-
-		if (team == Team.blue)
-		{
-			generalPoints.color = Color.blue;
-		}
-		else if (team == Team.red)
-		{
-			generalPoints.color = Color.red;
-		}
-
-		generalPointsAnim.Play("GenPoints");
-	}
-
 	public void OpenSpecMode ()
 	{
 		specMode.gameObject.SetActive(true);
@@ -670,7 +650,9 @@ public class UiManager : MonoBehaviour
 	}
 	public void EndGamePanel ( bool victory = false, Team team = Team.none, bool wuxinKilled = false )
 	{
-		if (victory)
+        StatManager.Instance.isVictory = victory;
+
+        if (victory)
 		{
 			AudioManager.Instance.Play2DAudio(VictoryAudio);
 		}

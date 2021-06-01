@@ -120,11 +120,12 @@ public class Projectile : AutoKill
 			{
 				hasTouched = true;
 				Destroy(true);
+				print("_coll "+ _coll.gameObject.name);
 			}
 			else
 			{
 				LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
-				GameFactory.DoScreenShack(0.15f, 0.15f, transform.position);
+				GameFactory.DoScreenShake(0.15f, 0.15f, transform.position);
 
 				bouncingNumberLive--;
 				myLivelifeTime = mylifeTime * localTrad.velocityKeptOnBounce;
@@ -169,7 +170,6 @@ public class Projectile : AutoKill
 	void OnTriggerEnter ( Collider _coll )
 	{
 		Damageable _damageableHit = _coll.gameObject.GetComponent<Damageable>();
-
 		if (_damageableHit != null)
 		{
 			if (!_damageableHit.IsInMyTeam(myteam))
@@ -219,7 +219,7 @@ public class Projectile : AutoKill
 		{
 			LocalPoolManager.Instance.SpawnNewImpactFX(transform.position, Quaternion.LookRotation(startPos - transform.position, transform.right), myteam);
 
-			GameFactory.DoScreenShack(0.15f, 0.15f, transform.position);
+			GameFactory.DoScreenShake(0.15f, 0.15f, transform.position);
 
 			if (hitSound)
 			{
