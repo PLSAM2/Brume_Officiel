@@ -29,6 +29,11 @@ public class GameFactory
 
 	public static void DoScreenShack ( float _time, float _strength, Vector3 _pos, float distance = 7 )
 	{
+        if (GameFactory.GetActualPlayerFollow())
+        {
+
+        }
+
 		Transform player = GameFactory.GetActualPlayerFollow().transform;
 
 		if (player != null && Vector3.Distance(player.position, _pos) < distance)
@@ -263,7 +268,10 @@ public class GameFactory
 			}
 			else
 			{
-				return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
+                Debug.Log(UiManager.Instance.specMode.playerSpected);
+                Debug.Log(GameManager.Instance.networkPlayers.ContainsKey(UiManager.Instance.specMode.playerSpected));
+
+                return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
 			}
 		}
 		catch
@@ -392,7 +400,7 @@ public class GameFactory
 
 	public static bool DoSound ( Vector3 pos )
 	{
-        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator || GameFactory.GetActualPlayerFollow() == null)
 		{
 			return false;
 		}

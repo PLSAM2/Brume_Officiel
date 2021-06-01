@@ -319,6 +319,10 @@ public class NetworkObjectsManager : SerializedMonoBehaviour
 
         if (_autoKill != null)
         {
+            print(GameManager.Instance);
+            print(GameManager.Instance.networkPlayers);
+            print(GameManager.Instance.networkPlayers.ContainsKey(_ownerID));
+
             if (GameManager.Instance.networkPlayers[_ownerID] != null)
             {
                 _autoKill.Init(GameManager.Instance.networkPlayers[_ownerID].myPlayerModule.teamIndex);
