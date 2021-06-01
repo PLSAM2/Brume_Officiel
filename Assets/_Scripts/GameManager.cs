@@ -473,13 +473,13 @@ public class GameManager : SerializedMonoBehaviour
                 currentLocalPlayer.myPlayerModule.leftClick.LinkInputs(En_SpellInput.Click);
                 break;
             case (2):
-                currentLocalPlayer.myPlayerModule.leftClick.LinkInputs(En_SpellInput.FirstSpell);
+                currentLocalPlayer.myPlayerModule.firstSpell.LinkInputs(En_SpellInput.FirstSpell);
                 break;
             case (3):
-                currentLocalPlayer.myPlayerModule.leftClick.LinkInputs(En_SpellInput.SecondSpell);
+                currentLocalPlayer.myPlayerModule.secondSpell.LinkInputs(En_SpellInput.SecondSpell);
                 break;
             case (4):
-                currentLocalPlayer.myPlayerModule.leftClick.LinkInputs(En_SpellInput.SoulSpell);
+                currentLocalPlayer.myPlayerModule.SelectionnedSoulSpellModule().LinkInputs(En_SpellInput.SoulSpell);
                 break;
 
         }
