@@ -230,7 +230,7 @@ public class GameManager : SerializedMonoBehaviour
         }
 
         //DamageEffect
-        LocalPlayer currentLocalPlayer = GameFactory.GetLocalPlayerObj();
+        LocalPlayer currentLocalPlayer = GameFactory.GetActualPlayerFollow();
         if(currentLocalPlayer != null)
         {
             switch (currentLocalPlayer.liveHealth)
