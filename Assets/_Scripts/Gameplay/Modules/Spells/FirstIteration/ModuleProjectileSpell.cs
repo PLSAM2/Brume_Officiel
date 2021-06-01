@@ -59,7 +59,7 @@ public class ModuleProjectileSpell : SpellModule
 	protected virtual Vector3 PosToInstantiate ()
 	{
 		Vector3 _temp = transform.forward * .1f + transform.position;
-		_temp.y = 0;
+		//_temp.y = 0;
 		return _temp;
 	}
 

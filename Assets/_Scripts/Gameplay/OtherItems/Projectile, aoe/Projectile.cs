@@ -120,6 +120,7 @@ public class Projectile : AutoKill
 			{
 				hasTouched = true;
 				Destroy(true);
+				print("_coll "+ _coll.gameObject.name);
 			}
 			else
 			{
@@ -169,7 +170,6 @@ public class Projectile : AutoKill
 	void OnTriggerEnter ( Collider _coll )
 	{
 		Damageable _damageableHit = _coll.gameObject.GetComponent<Damageable>();
-
 		if (_damageableHit != null)
 		{
 			if (!_damageableHit.IsInMyTeam(myteam))
