@@ -27,11 +27,11 @@ public class GameFactory
 		return name;
 	}
 
-	public static void DoScreenShack ( float _time, float _strength, Vector3 _pos, float distance = 7 )
+	public static void DoScreenShake ( float _time, float _strength, Vector3 _pos, float distance = 7 )
 	{
-        if (GameFactory.GetActualPlayerFollow())
+        if (GameFactory.GetActualPlayerFollow() == null)
         {
-
+            return;
         }
 
 		Transform player = GameFactory.GetActualPlayerFollow().transform;
@@ -268,6 +268,11 @@ public class GameFactory
 			}
 			else
 			{
+                if (!GameManager.Instance.networkPlayers.ContainsKey(UiManager.Instance.specMode.playerSpected))
+                {
+
+                }
+
                 return GameManager.Instance.networkPlayers[UiManager.Instance.specMode.playerSpected];
 			}
 		}
@@ -409,6 +414,11 @@ public class GameFactory
 
 	public static bool DoSound ( Vector3 pos )
 	{
+        if (GameFactory.GetActualPlayerFollow() == null)
+        {
+            return false;
+        }
+
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator || GameFactory.GetActualPlayerFollow() == null)
 		{
 			return false;

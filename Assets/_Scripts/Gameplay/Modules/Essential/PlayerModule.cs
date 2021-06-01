@@ -407,7 +407,6 @@ public class PlayerModule : MonoBehaviour
 			}
 			else if ((state & En_CharacterState.WxMarked) != 0 && (oldState & En_CharacterState.WxMarked) == 0)
 			{
-				print("i m marked" + name);
 				mylocalPlayer.MarkThirdEye(true);
 			}
 
