@@ -10,14 +10,25 @@ using static GameData;
 
 public class TrainingManager : MonoBehaviour
 {
-    UnityClient client;
 
+    private static TrainingManager _instance;
+    public static TrainingManager Instance { get { return _instance; } }
+
+    UnityClient client;
+    public GameObject canvas;
     public List<Image> charImageFeedback = new List<Image>();
 
-    public Color pickedCharColor;
-    public Color unpickedCharColor;
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
         client = NetworkManager.Instance.GetLocalClient();
         client.MessageReceived += OnMessageReceive;
     }
@@ -65,9 +76,10 @@ public class TrainingManager : MonoBehaviour
 
         for (int i = 0; i < charImageFeedback.Count; i++)
         {
-            charImageFeedback[i].color = unpickedCharColor;
+            charImageFeedback[i].gameObject.SetActive(false);
         }
-        charImageFeedback[x].color = pickedCharColor;
+
+        charImageFeedback[x].gameObject.SetActive(true);
 
 
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
@@ -84,6 +96,10 @@ public class TrainingManager : MonoBehaviour
         ushort _id = NetworkManager.Instance.GetLocalPlayer().ID;
 
         InGameNetworkReceiver.Instance.SupprPlayer(_id);
+
+
+        PlayerPrefs.SetInt("SoulSpell", (int)En_SoulSpell.Ward);
+        GameManager.Instance.currentLocalPlayer.myPlayerModule.InitSoulSpell(En_SoulSpell.Ward);
         RoomManager.Instance.SpawnPlayerObj(_id, true);
     }
 }

@@ -10,6 +10,10 @@ public class Sc_Aoe : ScriptableObject
 	public AoeParameters rules;
 	public float  cooldownReductionOnHit;
 	public En_SpellInput  cooldownReducedOnHit;
+
+	[TabGroup("Feedbacks")] public bool screenShake = false;
+	[TabGroup("Feedbacks")] [ShowIf("screenShake")] public float intensity = 0.1f;
+	[TabGroup("Feedbacks")] [ShowIf("screenShake")] public float duration = 0.1f;
 }
 
 [System.Serializable]
@@ -23,5 +27,7 @@ public class AoeParameters
 	[Tooltip("De base c est une sphère")] public bool isBox;
 	[HideIf("isBox")] public float aoeRadius;
 	[ShowIf("isBox")] public Vector3 boxDimension;
+
+
 }
 
