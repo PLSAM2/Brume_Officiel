@@ -160,11 +160,9 @@ public class Interactible : MonoBehaviour
 				}
 			}
 		}
-		if (Decapturing)
-		{
-			VisualCaptureProgress();
-		}
 
+
+			VisualCaptureProgress();
 	}
 
 
