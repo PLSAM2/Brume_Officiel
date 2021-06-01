@@ -166,7 +166,8 @@ public class Altar : Interactible
                NetworkManager.Instance.GetLocalClient().SendMessage(message, SendMode.Reliable);
             }
         }
-*/
+        */
+
         if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
         {
             GameManager.Instance.numberOfAltarControled++;
@@ -194,6 +195,8 @@ public class Altar : Interactible
         }
     }
 
+
+    public bool annonceUnlock = true;
     IEnumerator ActivateAltar()
     {
         if (RoomManager.Instance.roundCount == 1)
@@ -208,11 +211,12 @@ public class Altar : Interactible
         yield return new WaitForSeconds(currentTime);
 
 
-        if (interactibleName == "Right") // BERK MAIS OSEF
+        if (interactibleName == "Right" && annonceUnlock) // BERK MAIS OSEF
         {
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
             StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
         }
+
         Unlock();
     }
 

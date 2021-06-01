@@ -43,7 +43,6 @@ public class JumpModule : SpellModule
 	{
 		base.AnonceSpell(_toAnnounce);
 		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), jumpPosEnd, transform.eulerAngles, 1);
-		LocalPoolManager.Instance.SpawnNewAOEInNetwork(myPlayerModule.mylocalPlayer.myPlayerId, jumpPosEnd, impactRadius, spell.anonciationTime);
 	}
 
 	protected override void ResolveSpell ()

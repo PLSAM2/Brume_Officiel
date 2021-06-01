@@ -2811,6 +2811,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2567327465501801704, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
+      propertyPath: weight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2987726342178364770, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -2859,10 +2863,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
-    - target: {fileID: 8260940336020749452, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
 --- !u!95 &387658375 stripped
@@ -2880,6 +2880,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8260940336020749452, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
   m_PrefabInstance: {fileID: 387658374}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &387658378 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2567327465501801704, guid: 38eb4344a8de14740bb3b8245d469660, type: 3}
+  m_PrefabInstance: {fileID: 387658374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &394252077
 Mesh:
   m_ObjectHideFlags: 0
@@ -6451,7 +6462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 358.935
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -13880,9 +13891,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 72056c92463b3534d88fb6a200c56ead, type: 2}
   - {fileID: 2100000, guid: b3e8bc530cf9178459193bda8a466ce7, type: 2}
   - {fileID: 2100000, guid: 64b42e7a5f911c24ba47817d79c6898d, type: 2}
-  - {fileID: 2100000, guid: 2e52bb95147226847bd9f7bad0602547, type: 2}
   - {fileID: 2100000, guid: 616626472ce5e7441a27eb7b76e38d31, type: 2}
-  - {fileID: 2100000, guid: 92d379777779bbd458b38614697f2082, type: 2}
   - {fileID: 2100000, guid: c142863a4a0bbeb488f6ab76837b7797, type: 2}
   - {fileID: 2100000, guid: 87a811caed9a41c43b1ae850ea2e7822, type: 2}
   - {fileID: 2100000, guid: 9cf618090b8625444ad1cd694b8e017e, type: 2}
@@ -13933,6 +13942,7 @@ MonoBehaviour:
   lengParameter: {fileID: 11400000, guid: 8d3507b9945a3c04f8a8e7f53487b4e1, type: 2}
   freeCam: {fileID: 784659122}
   fowDebug: {fileID: 318198513264719847}
+  damageVolume: {fileID: 387658378}
 --- !u!4 &1480906706
 Transform:
   m_ObjectHideFlags: 0
