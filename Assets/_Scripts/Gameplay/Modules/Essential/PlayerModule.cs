@@ -26,7 +26,7 @@ public class PlayerModule : MonoBehaviour
 	[TabGroup("GameplayInfos")] public float revelationRangeWhileHidden = 10;
 	[TabGroup("FeedbacksState")] [SerializeField] ParticleSystem powerUpParticle1, powerUpParticle2;
 	[TabGroup("FeedbacksState")] public List<SkinnedMeshRenderer> skinnedRenderer = new List<SkinnedMeshRenderer>();
-	Team otherTeam;
+
 	[HideInInspector] public bool _isInBrume;
 	En_CharacterState _state = En_CharacterState.Clear;
 	public En_CharacterState state
@@ -227,12 +227,6 @@ public class PlayerModule : MonoBehaviour
 
 		_state = En_CharacterState.Clear;
 		oldState = state;
-
-
-		if (teamIndex == Team.blue)
-			otherTeam = Team.red;
-		else
-			otherTeam = Team.blue;
 
 		lastRecordedPos = transform.position;
 		StartCoroutine(WaitForVisionCheck());
