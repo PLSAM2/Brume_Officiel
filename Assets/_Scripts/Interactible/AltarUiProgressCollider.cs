@@ -69,11 +69,6 @@ public class AltarUiProgressCollider : MonoBehaviour
 
     public virtual bool IsplayerInUIZoneContainLocalPlayer()
     {
-
-
         return playerInUIZone.Contains(GameFactory.GetActualPlayerFollow().myPlayerModule);
     }
-
-
-
 }
