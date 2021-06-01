@@ -13,6 +13,7 @@ public class EndZoneInteractible : Interactible
     Waypoint waypointObj;
     [SerializeField] Animator endZoneAnimator;
     [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
+    public SpriteRenderer endZoneMapIcon;
 
     public bool timerElapsed = false;
     protected override void Init()
@@ -48,13 +49,13 @@ public class EndZoneInteractible : Interactible
     {
         if (state == State.Capturable)
         {
-            if (capturingPlayerModule != null)
+            if (capturingPlayerModule != null && timerElapsed)
             {
                 Color t = GameFactory.GetRelativeColor(capturingPlayerModule.teamIndex);
                 UiManager.Instance.endZoneUIGroup.endZoneBar.color = t;
                 UiManager.Instance.endZoneUIGroup.EndZoneText.color = t;
 
-
+                waypointObj.SetImageColor(t);
 
                 t.a = UiManager.Instance.endZoneUIGroup.endZoneBarBackground.color.a;
                 UiManager.Instance.endZoneUIGroup.endZoneBarBackground.color = t;
@@ -114,6 +115,7 @@ public class EndZoneInteractible : Interactible
     public override void Unlock()
     {
         endZoneAnimator.SetTrigger("Unlock");
+        endZoneMapIcon.gameObject.SetActive(true);
         UiManager.Instance.myAnnoncement.ShowAnnoncement((interactibleName + " Started").ToUpper());
 
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
@@ -125,22 +127,26 @@ public class EndZoneInteractible : Interactible
 
     protected override void SetColorByState()
     {
-        switch (state)
+        if (timerElapsed)
         {
-            case State.Locked:
-                break;
-            case State.Capturable:
-                SetColor(GameFactory.GetRelativeColor(lastTeamCaptured));
-                break;
-            case State.Captured:
-                break;
-            default:
-                break;
+            switch (state)
+            {
+                case State.Capturable:
+                    SetColor(GameFactory.GetRelativeColor(lastTeamCaptured));
+                    break;
+                default:
+                    break;
+            }
+        } else
+        {
+            SetColor(GameFactory.GetRelativeColor(lastTeamCaptured));
         }
+
     }
 
     internal void TimerElapsed()
     {
+        waypointObj.SetImageColor(GameFactory.GetRelativeColor(lastTeamCaptured));
         CheckOnUnlock = true;
         timerElapsed = true;
     }

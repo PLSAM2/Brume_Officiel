@@ -126,6 +126,8 @@ public class Aoe : AutoKill
 
 						_damageable.DealDamages(_damages, _posOfDealing, GameManager.Instance.currentLocalPlayer.myPlayerId, false, false, _percentageOfStrength);
 
+
+
 						if (enemiesTouched().Length > 0 && localTrad.cooldownReductionOnHit > 0)
 							GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceTargetCooldown(localTrad.cooldownReductionOnHit, localTrad.cooldownReducedOnHit);
 					}
@@ -220,6 +222,11 @@ public class Aoe : AutoKill
 			asDealtFinal = true;
 			if (localTrad.rules.finalDamages.isUsable)
 			{
+				if (localTrad.screenShake)
+				{
+					CameraManager.Instance.SetNewCameraShake(localTrad.duration, localTrad.intensity);
+				}
+
 				DealDamagesInRange(damageOnDisable);
 				if (procSound != null)
 					AudioManager.Instance.Play3DAudio(procSound, transform.position, myNetworkObject.GetItemID(), false);
