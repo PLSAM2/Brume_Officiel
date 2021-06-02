@@ -297,22 +297,22 @@ public class UIPlayerManager : MonoBehaviour
 
 	}
 
-		public GameObject GetFirstDisabledPointer ()
-		{
-				foreach (Transform t in compassCanvas.gameObject.transform)
-				{
-					if (!t.gameObject.activeInHierarchy)
-					{
-						t.gameObject.SetActive(true);
-						return t.gameObject;
-					}
-				}
+    public GameObject GetFirstDisabledPointer()
+    {
+        foreach (Transform t in compassCanvas.gameObject.transform)
+        {
+            if (!t.gameObject.activeInHierarchy)
+            {
+                t.gameObject.SetActive(true);
+                return t.gameObject;
+            }
+        }
 
-			GameObject newobj = Instantiate(pointerObj, compassCanvas.transform);
-			newobj.SetActive(true);
+        GameObject newobj = Instantiate(pointerObj, compassCanvas.transform);
+        newobj.SetActive(true);
 
-			return newobj;
-		}
+        return newobj;
+    }
 
 	public void EnableBuff ( bool _stateOfBuff, string _buffName )
 	{

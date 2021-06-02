@@ -194,14 +194,13 @@ public class MovementModule : MonoBehaviour
 		Collider[] _hits;
 		_locationToFindFrom.y = 0;
 
-		_hits = Physics.OverlapCapsule(_locationToFindFrom + Vector3.down * 10, _locationToFindFrom + Vector3.up * 10, chara.radius, dashBlockingLayer);
+		_hits = Physics.OverlapCapsule(_locationToFindFrom + Vector3.down * 10, _locationToFindFrom + Vector3.up * 10, chara.radius, LayerMask.GetMask("Environment"));
 		if (_hits.Length > 0)
 		{
 			return TryToFindFreePos(_locationToFindFrom, 1);
 		}
 		else
 		{
-			Debug.DrawLine(_locationToFindFrom + Vector3.down * 10, _locationToFindFrom + Vector3.up * 10, Color.red, 1000);
 			return _locationToFindFrom;
 		}
 	}
