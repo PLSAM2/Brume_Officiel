@@ -6,6 +6,8 @@ public class DummyFootstepAudio : MonoBehaviour
 {
 	Vector3 oldPos;
 
+	[SerializeField] Dummy dummy;
+
 	[SerializeField] AudioClip[] allFootsteps;
 
 	[SerializeField] AudioSource myAudioSource;
@@ -64,8 +66,9 @@ public class DummyFootstepAudio : MonoBehaviour
 		{
 			if (GameFactory.DoSound(transform.position))
 			{
-                AudioManager.Instance.OnAudioPlayed(this.transform.position, 0, true, myAudioSource.maxDistance);
+                AudioManager.Instance.OnAudioPlayed(this.transform.position, 0, true, myAudioSource.maxDistance, dummy);
                 myAudioSource.PlayOneShot(_clip);
+
 			}
 
 			yield return new WaitForSeconds(_clip.length);
