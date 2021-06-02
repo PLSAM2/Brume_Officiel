@@ -507,7 +507,11 @@ public class TutorialManager : MonoBehaviour
         {
             if (questS.dummyEvent == DummyEvent.Kill)
             {
-                CompleteQuest(questS);
+                if (questS.focusedDummy != null && questS.focusedDummy == dummy)
+                {
+                    CompleteQuest(questS);
+                }
+
             }
         }
         CheckQuestEnd();
