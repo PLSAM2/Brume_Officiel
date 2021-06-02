@@ -100,6 +100,7 @@ public class Altar : Interactible
 
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
+
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
         PlayerData capturePlayer = RoomManager.Instance.GetPlayerData(_capturingPlayerID);
 
