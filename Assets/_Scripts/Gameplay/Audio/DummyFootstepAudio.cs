@@ -58,11 +58,6 @@ public class DummyFootstepAudio : MonoBehaviour
             doSound = false;
             StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
             //LocalPoolManager.Instance.SpawnNewGenericInLocal(6, transform.position, Random.Range(0, 90), 1, 0.7f);
-
-            if(GameFactory.GetActualPlayerFollow() != null && GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume)
-            {
-
-            }
         }
 
         IEnumerator WaitEndSound ( AudioClip _clip )
@@ -96,6 +91,11 @@ public class DummyFootstepAudio : MonoBehaviour
     {
 
         if (GameManager.Instance.currentLocalPlayer == null)
+        {
+            return;
+        }
+
+        if (GameFactory.GetActualPlayerFollow() != null && !GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume)
         {
             return;
         }
