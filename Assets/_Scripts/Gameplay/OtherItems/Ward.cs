@@ -55,10 +55,11 @@ public class Ward : MonoBehaviour
 		else
 		{
             vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
+            vision.myFieldOfView.EnemySeen += OnEnnemyInChange;
 
 
 
-			vision.gameObject.SetActive(true);
+            vision.gameObject.SetActive(true);
 			vision.Init();
 
 			// isInBrume = IsInBrume();
@@ -91,12 +92,6 @@ public class Ward : MonoBehaviour
 			//myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
 		}
 	}
-
-	public void PingWard ()
-	{
-		myWaypoint.gameObject.SetActive(true);
-
-	}
 	
 	public Fow GetFow ()
 	{
@@ -117,8 +112,9 @@ public class Ward : MonoBehaviour
 			GameManager.Instance.allWard.Remove(this);
 
 			vision.myFieldOfView.OnPlayerEnterInFow -= OnPlayerSpotted;
+            vision.myFieldOfView.EnemySeen -= OnEnnemyInChange;
 
-            if(myWaypoint != null)
+            if (myWaypoint != null)
             {
                 myWaypoint.gameObject.SetActive(false);
             }
@@ -140,12 +136,12 @@ public class Ward : MonoBehaviour
 				_temp.statusToApply = _toApply.ToArray();
 				_playerSpot.DealDamages(_temp, transform);
 			}
+
 			//ping
 			if (!hasTriggered)
 			{
                 if (!hasTriggered)
 				{
-                    PingWard();
 					hasTriggered = true;
 				}
 
@@ -153,4 +149,12 @@ public class Ward : MonoBehaviour
 			}
 		}
 	}
+
+    void OnEnnemyInChange(bool _value)
+    {
+        if (_value == true) { return; }
+
+        hasTriggered = false;
+        myWaypoint.gameObject.SetActive(false);
+    }
 }
