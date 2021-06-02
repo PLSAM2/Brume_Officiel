@@ -272,7 +272,7 @@ public class TutorialManager : MonoBehaviour
     {
         questTileUiText.text = actualQuest.questTitle;
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 3; i++)
         {
             questStepUIs[i].gameObject.SetActive(false);          
         }
@@ -507,7 +507,11 @@ public class TutorialManager : MonoBehaviour
         {
             if (questS.dummyEvent == DummyEvent.Kill)
             {
-                CompleteQuest(questS);
+                if (questS.focusedDummy != null && questS.focusedDummy == dummy)
+                {
+                    CompleteQuest(questS);
+                }
+
             }
         }
         CheckQuestEnd();

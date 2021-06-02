@@ -6512,22 +6512,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5379d9b7b09722d43806031520b38307, type: 3}
 --- !u!1 &867103973 stripped
@@ -12714,6 +12698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endGameTime: 0
+  isVictory: 0
 --- !u!4 &1432510266
 Transform:
   m_ObjectHideFlags: 0
@@ -13931,7 +13916,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a9486fa035c776e43834df0fd497e5d4, type: 2}
   - {fileID: 2100000, guid: f39ab728142956c4482dfdf0ce7e2ccf, type: 2}
   property: _Out_or_InBrume
-  bgMusic: {fileID: 8300000, guid: bf416ae7766d14b49881b4c3f2126f97, type: 3}
+  bgMusic: {fileID: 8300000, guid: c71d01b49c487fb40b610a347abf802e, type: 3}
   timerTrain: {fileID: 8300000, guid: f62241dd9e23bf041ba308a766e7c977, type: 3}
   timerTrainSpawn: {fileID: 8300000, guid: 2f51a5aac946d584d970b51586fae1fc, type: 3}
   UIGroup: {fileID: 867103978}
