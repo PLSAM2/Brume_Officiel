@@ -53,21 +53,26 @@ namespace UnityEngine.Rendering.Universal
         /// <inheritdoc/>
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            if (SceneManager.GetActiveScene().name != "NewGame" || !Application.isPlaying)
+            if (!Application.isPlaying)
             {
                 return;
             }
 
-            //fog
-            SendShaderValue();
+            if(SceneManager.GetActiveScene().name == "NewGame" ||
+                SceneManager.GetActiveScene().name == "Training" ||
+                SceneManager.GetActiveScene().name == "Tutorial")
+            {
+                //fog
+                SendShaderValue();
 
-            CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
+                CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
 
-            Blit(cmd, _source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
-            Blit(cmd, destination, _source);
+                Blit(cmd, _source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
+                Blit(cmd, destination, _source);
 
-            context.ExecuteCommandBuffer(cmd);
-            CommandBufferPool.Release(cmd);
+                context.ExecuteCommandBuffer(cmd);
+                CommandBufferPool.Release(cmd);
+            }
         }
 
         /// <inheritdoc/>
