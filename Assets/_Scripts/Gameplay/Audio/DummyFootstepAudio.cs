@@ -24,6 +24,11 @@ public class DummyFootstepAudio : MonoBehaviour
 	private void OnEnable ()
 	{
 		AudioManager.Instance.OnVolumeChange += ChangeVolume;
+
+        if (doFootStep)
+        {
+            StartCoroutine(WaitForVisionCheck());
+        }
 	}
 
 	private void OnDisable ()
@@ -75,5 +80,27 @@ public class DummyFootstepAudio : MonoBehaviour
 			doSound = true;
 		}
 	}
+
+    public IEnumerator WaitForVisionCheck()
+    {
+        CheckForBrumeRevelation();
+        yield return new WaitForSeconds(.25f);
+        CheckForBrumeRevelation();
+        yield return new WaitForSeconds(.25f);
+        CheckForBrumeRevelation();
+        yield return new WaitForSeconds(.8f);
+        StartCoroutine(WaitForVisionCheck());
+    }
+
+    void CheckForBrumeRevelation()
+    {
+
+        if (GameManager.Instance.currentLocalPlayer == null)
+        {
+            return;
+        }
+
+        LocalPoolManager.Instance.SpawnNewGenericInLocal(2, transform.position + Vector3.up * 0.1f, 90, 1);
+    }
 
 }
