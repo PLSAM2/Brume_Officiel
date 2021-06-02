@@ -86,7 +86,7 @@ public class Altar : Interactible
                 if (capturingTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
                 {
                     UiManager.Instance.altarCaptureProgressBar.gameObject.SetActive(true);
-                    UiManager.Instance.altarCaptureProgressBar.fillAmount = (timer / interactTime);
+                    UiManager.Instance.altarCaptureProgressBar.fillAmount = Mathf.Lerp(UiManager.Instance.altarCaptureProgressBar.fillAmount, timer / interactTime, Time.deltaTime * 2); // parce que fuck le réseau
                 }
                 else
                 {
@@ -98,10 +98,6 @@ public class Altar : Interactible
         }
     }
 
-    public override void TryCapture(Team team, PlayerModule capturingPlayer)
-    {
-        base.TryCapture(team, capturingPlayer);
-    }
     public override void UpdateCaptured(ushort _capturingPlayerID)
     {
         // Recu par tout les clients quand l'altar à finis d'être capturé par la personne le prenant
