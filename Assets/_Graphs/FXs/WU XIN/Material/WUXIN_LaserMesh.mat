@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7768949945563924284
+--- !u!114 &-7525116566818440590
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LENG_Hair
-  m_Shader: {fileID: 4800000, guid: 4c5c0dbd08cafa64c9493bad502e3642, type: 3}
+  m_Name: WUXIN_LaserMesh
+  m_Shader: {fileID: 4800000, guid: 7192039bec38ed64bb675355c3a335bd, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -68,14 +68,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Noise_Texture:
-        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Noise_Texture1:
-        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -88,11 +80,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture0:
-        m_Texture: {fileID: 2800000, guid: d8bbde0cef50ad74797e0c0d6d71da13, type: 3}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TopTexture0:
+    - _TextureSample3:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -121,15 +117,19 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float0: -0.78
-    - _Float1: -3.34
-    - _Float2: 2.06
+    - _Float0: 1
+    - _Float1: 0.01
+    - _Float13: 1.6
+    - _Float14: 0
+    - _Float2: 0
+    - _Float3: 1
+    - _Float4: 5
+    - _Float5: 1
+    - _Float6: 1.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Noise_Contrast: -0.93
-    - _Noise_Contrast1: -0.93
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -144,12 +144,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.40850836, g: 0.6415094, b: 0.5327756, a: 1}
+    - _Color1: {r: 0.6156863, g: 0.9254903, b: 0.7843138, a: 1}
+    - _Color2: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Noise_Speed: {r: 0.5, g: 0, b: 0, a: 0}
-    - _Noise_Speed1: {r: 0.5, g: -0.5, b: 0, a: 0}
-    - _Noise_Tiling: {r: 0.8, g: 0.8, b: 0, a: 0}
-    - _Noise_Tiling1: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Vector0: {r: 0.36, g: 1.76, b: 0, a: 0}
-    - _Vector1: {r: 0, g: 1, b: 0, a: 0}
+    - _Vector0: {r: 1, g: 3, b: 0, a: 0}
+    - _Vector1: {r: 0, g: 0, b: 0, a: 0}
+    - _Vector8: {r: 2, g: 4, b: 0, a: 0}
   m_BuildTextureStacks: []
