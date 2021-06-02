@@ -16,6 +16,8 @@ public class DummyFootstepAudio : MonoBehaviour
 
     public bool doFootStep = false;
 
+    [SerializeField] Dummy myDummy;
+
 	private void Start ()
 	{
 		ChangeVolume(AudioManager.Instance.currentPlayerVolume);
