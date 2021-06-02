@@ -35,7 +35,7 @@ public class FieldOfView : MonoBehaviour
 	Coroutine refreshCoroutine;
 
 	public Action<LocalPlayer, bool> OnPlayerEnterInFow;
-	public Action<bool> EnemySeen;
+    public Action<bool> EnemySeen;
 
     bool enemyIsSeen = false;
     private void Start()
