@@ -278,18 +278,6 @@ public class GameFactory
 		}
 		catch
 		{
-            Debug.Log("<color=green>OBZFBHBVFIZBF</color>");
-
-            if (GameManager.Instance.currentLocalPlayer != null)
-            {
-                Debug.Log(GameManager.Instance.currentLocalPlayer);
-            }
-            else
-            {
-                Debug.Log(UiManager.Instance.specMode.playerSpected);
-                Debug.Log(GameManager.Instance.networkPlayers.ContainsKey(UiManager.Instance.specMode.playerSpected));
-            }
-
             return null;
 		}
 	}
