@@ -191,7 +191,7 @@ public class UiManager : MonoBehaviour
 			endGameScore.Init(redTeamScore, blueTeamScore);
 		}
 
-		StartCoroutine("tempCoroutine");
+		StartCoroutine(tempCoroutine());
 	}
 
 	public void DisplaySoulSpell ()
@@ -303,22 +303,6 @@ public class UiManager : MonoBehaviour
         }
 	}
 
-	List<Image> GetListImageOfTeamChamp ( ushort id )
-	{
-		switch (RoomManager.Instance.actualRoom.playerList[id].playerCharacter)
-		{
-			case Character.WuXin:
-				return wxImgLife;
-
-			case Character.Re:
-				return reImgLife;
-
-			case Character.Leng:
-				return lengImgLife;
-		}
-		return null;
-	}
-
 	Image GetImageOfChamp ( ushort id )
 	{
 		if (RoomManager.Instance.actualRoom.playerList[id].playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -421,9 +405,9 @@ public class UiManager : MonoBehaviour
 	{
 		yield return new WaitForSeconds(.5f);
 		cameraMinimap.Render();
-		StartCoroutine("tempCoroutine");
-
+		StartCoroutine(tempCoroutine());
 	}
+
 	private void FixedUpdate ()
 	{
 		if (actualChar == null && GameFactory.GetLocalPlayerObj() != null)
@@ -650,6 +634,8 @@ public class UiManager : MonoBehaviour
 	}
 	public void EndGamePanel ( bool victory = false, Team team = Team.none, bool wuxinKilled = false )
 	{
+        GameManager.Instance.blockMovement = true;
+
         StatManager.Instance.isVictory = victory;
 
         if (victory)
