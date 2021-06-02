@@ -6,6 +6,8 @@ public class DummyFootstepAudio : MonoBehaviour
 {
 	Vector3 oldPos;
 
+	[SerializeField] Dummy dummy;
+
 	[SerializeField] AudioClip[] allFootsteps;
 
 	[SerializeField] AudioSource myAudioSource;
@@ -58,19 +60,15 @@ public class DummyFootstepAudio : MonoBehaviour
             doSound = false;
             StartCoroutine(WaitEndSound(allFootsteps[Random.Range(0, allFootsteps.Length)]));
             //LocalPoolManager.Instance.SpawnNewGenericInLocal(6, transform.position, Random.Range(0, 90), 1, 0.7f);
-
-            if(GameFactory.GetActualPlayerFollow() != null && GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume)
-            {
-
-            }
         }
 
         IEnumerator WaitEndSound ( AudioClip _clip )
 		{
 			if (GameFactory.DoSound(transform.position))
 			{
-                AudioManager.Instance.OnAudioPlayed(this.transform.position, 0, true, myAudioSource.maxDistance);
+                AudioManager.Instance.OnAudioPlayed(this.transform.position, 0, true, myAudioSource.maxDistance, dummy);
                 myAudioSource.PlayOneShot(_clip);
+
 			}
 
 			yield return new WaitForSeconds(_clip.length);
@@ -96,6 +94,11 @@ public class DummyFootstepAudio : MonoBehaviour
     {
 
         if (GameManager.Instance.currentLocalPlayer == null)
+        {
+            return;
+        }
+
+        if (GameFactory.GetActualPlayerFollow() != null && !GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume)
         {
             return;
         }
