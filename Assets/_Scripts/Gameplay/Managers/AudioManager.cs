@@ -269,23 +269,37 @@ public class AudioManager : SerializedMonoBehaviour
         allAudioElement[_audio] = false;
     }
 
-    public void OnAudioPlayed(Vector3 pos, ushort id, bool isPlayer, float audioDistance)
+    public void OnAudioPlayed(Vector3 pos, ushort id, bool isPlayer, float audioDistance, Dummy Dummy = null)
     {
+
+        if (Dummy != null)
+        {
+            print("here");
+            if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
+            {
+                print("here1");
+                OnAudioPlay?.Invoke(pos,GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam));
+                return;
+            }
+        }
+
 
         Team audioTeam = Team.none;
         if (isPlayer)
         {
-            if (GameManager.Instance.networkPlayers.ContainsKey(id))
-            {
-                if (GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform) || 
-                    id == NetworkManager.Instance.GetLocalPlayer().ID )
+                if (GameManager.Instance.networkPlayers.ContainsKey(id))
                 {
-                    return;
+                    if (GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform) ||
+                        id == NetworkManager.Instance.GetLocalPlayer().ID)
+                    {
+                        return;
+                    }
+
+                    audioTeam = RoomManager.Instance.GetPlayerData(id).playerTeam;
+
                 }
-
-                audioTeam = RoomManager.Instance.GetPlayerData(id).playerTeam;
-
-            } else { return; }
+                else { return; }
+           
 
         } else
         {
