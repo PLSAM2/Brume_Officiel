@@ -61,7 +61,7 @@ public class SoulSpellElement : MonoBehaviour
 
     public void UnSelect()
     {
-        transform.DOScale(1, 0.3f);
+        transform.DOScale(0.8f, 0.3f);
         selected = false;
 
         myAnimator.SetBool("Selected", false);
@@ -71,7 +71,7 @@ public class SoulSpellElement : MonoBehaviour
     public void OnHover()
     {
         AudioManager.Instance.Play2DAudio(hoverSound);
-        transform.DOScale(1.3f, 0.3f);
+        transform.DOScale(1f, 0.3f);
         myCanvasGroup.DOFade(1, 0.3f);
 
         myCanvasGroupDescription.DOFade(1, 0.3f);
@@ -81,7 +81,7 @@ public class SoulSpellElement : MonoBehaviour
     {
         if (!selected)
         {
-            transform.DOScale(1, 0.3f);
+            transform.DOScale(0.8f, 0.3f);
             myCanvasGroup.DOFade(0.2f, 0.3f);
             myCanvasGroupDescription.DOFade(0, 0.3f);
         }

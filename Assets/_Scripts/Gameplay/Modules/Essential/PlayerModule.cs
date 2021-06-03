@@ -70,7 +70,6 @@ public class PlayerModule : MonoBehaviour
 	bool isCrouched
 	{ get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
 	[TabGroup("Debugging")] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
-	private LayerMask brumeLayer;
 	[TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
 	[HideInInspector] public LocalPlayer mylocalPlayer;
 	//interactibles
@@ -83,22 +82,15 @@ public class PlayerModule : MonoBehaviour
 	[Header("Altar Buff/Debuff")]
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status enteringBrumeStatus;
 	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status leavingBrumeStatus;
-	private bool isAltarSpeedBuffActive = false;
 	[HideInInspector] public bool cursedByShili = false;
 	[Header("Cursed")]
 	[TabGroup("GameplayInfos")] [SerializeField] public GameObject wxMark;
-	[TabGroup("GameplayInfos")] [SerializeField] private Sc_Status wxMarkRef;
 	[TabGroup("GameplayInfos")] [SerializeField] float shaderSpeedTransition = 10;
 	[TabGroup("GameplayInfos")] float shaderTransitionValue = 1;
 	[Header("AutoHeal")]
 	[TabGroup("GameplayInfos")] public float timeWaitForHeal = 7.5f;
-	[TabGroup("GameplayInfos")] float currentTimeTowait = 10;
-	[TabGroup("GameplayInfos")] private float timerWaitForHeal = 0;
-	[TabGroup("GameplayInfos")] private bool isWaitingForHeal = false;
 	[TabGroup("GameplayInfos")] public float timeHealTick = 2.5f;
 	[TabGroup("GameplayInfos")] public ushort healPerTick = 1;
-	[TabGroup("GameplayInfos")] private float healTimer = 0;
-	[TabGroup("GameplayInfos")] private bool isAutoHealing = false;
 	[TabGroup("GameplayInfos")] public float timeInBrume;
 
 	[HideInInspector] public int bonusHp;
@@ -815,7 +807,6 @@ public class PlayerModule : MonoBehaviour
 	// Altars buff
 	public void ApplySpeedBuffInServer ()
 	{
-		isAltarSpeedBuffActive = true;
 		if (isInBrume)
 		{
 			mylocalPlayer.SendStatus(enteringBrumeStatus);
