@@ -1,0 +1,2093 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1456435090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1456435091}
+  - component: {fileID: 1456435092}
+  m_Layer: 0
+  m_Name: TutorialManager Pier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1456435091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456435090}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 92.035805, y: 12.228956, z: 119.34189}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7665097578000775789}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1456435092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456435090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6023f3870f0b5374a97e59dc03b8ff4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialQuests:
+  - questTitle: First Step
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6618895848636945479}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 793835725}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: DelinkEverySpell
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 0
+      stepDescription: Press ZQSD to move around.
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress:
+      - key: 122
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      - key: 113
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      - key: 115
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      - key: 100
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Looking Around
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6618895848636945479}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 793835725}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: DelinkEverySpell
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 5
+      stepDescription: Move your mouse to the border of the screen to look around
+        in the arena
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 1
+  - questTitle: Basic Communication
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 0
+      stepDescription: Ping the door using the middle mouse button
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress:
+      - key: 325
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: First Move
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 793835725}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 6618895848636945479}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 1456435092}
+          m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
+          m_MethodName: CinematicCameraToPos
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7496807807072872213}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 793835725}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 6618895848636945479}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    questSteps:
+    - questEvent: 1
+      stepDescription: Reach the indicated destination
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 7865491701931343365}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: YOUHOU LA BRUME
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 21774111}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    questSteps:
+    - questEvent: 4
+      stepDescription: Enter the myst
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Enter the arena
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 21774111}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1985825128404637748}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 1456435092}
+          m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
+          m_MethodName: CinematicCameraToPos
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8936766080791453182}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1985825128404637748}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 21774111}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    questSteps:
+    - questEvent: 1
+      stepDescription: Enter the arena ahead
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 8619256756661436942}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: First attack
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LinkTargetSpell
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 0
+      stepDescription: Press left click of the mouse to preview your primary attack,
+        realease to launch
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress:
+      - key: 323
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Controling the momentum
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 0
+      stepDescription: Preview your primary attack and cancel the spell by pressing
+        left control
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress:
+      - key: 323
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      - key: 306
+        keyCount: 1
+        keyPressedCount: 0
+        pressed: 0
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: First blood
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8646501285666299196}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 3
+      stepDescription: Use your primary attack to kill the dummy, hitting the dummy
+        reduce its cooldown
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 1
+      focusedDummy: {fileID: 635382172993849360}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Second Skill
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: DelinkEverySpell
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LinkTargetSpell
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 8646501285980377054}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 3
+      stepDescription: Use your right click to use your second ability, aim for the
+        dummy.
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 635382172678789874}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Practice range
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8646501285770886933}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LinkTargetSpell
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 3
+      stepDescription: Kill the left dummy
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 1
+      focusedDummy: {fileID: 635382172888853049}
+      mystEvent: 0
+      movementEvent: 0
+    - questEvent: 3
+      stepDescription: Kill the Right dummy
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 1
+      focusedDummy: {fileID: 635382172678789874}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Explore the arena
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1956321009}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 3299124993722431919}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 8646501286129142342}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1956321009}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    questSteps:
+    - questEvent: 1
+      stepDescription: Reach the next waypoint
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 8619256756661436941}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Discover myst Power
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 4
+      stepDescription: Enter the Myst
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Master the myst
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1456435092}
+          m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
+          m_MethodName: CinematicCameraToPos
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8801059198928480165}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 3
+      stepDescription: Kill the dummy
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 1
+      focusedDummy: {fileID: 635382172531597162}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: OUE L EXPLORATION OUE
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 221078086}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1403357255}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 221078086}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 1403357255}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    questSteps:
+    - questEvent: 1
+      stepDescription: Enter the next destination
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 1403357257}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Cooling off
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
+          m_MethodName: DisplayNewMessage
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Stepping on the heal pickup let you capture it.
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 2
+      stepDescription: Capture the heal pickup
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 295033303872792023}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Last Skill
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LinkTargetSpell
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
+          m_MethodName: DisplayNewMessage
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Use your space key to use your third key, aim for the
+              waypoint to go throught the wall
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    questSteps:
+    - questEvent: 1
+      stepDescription: Reach the waypoint
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 40605580}
+      interactibleEvent: 0
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  - questTitle: Final Capture
+    OnQuestStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
+          m_MethodName: DisplayNewMessage
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Stay on the altar to capture it
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
+    questSteps:
+    - questEvent: 2
+      stepDescription: Capture the altar
+      completed: 0
+      UI: {fileID: 0}
+      keyToPress: []
+      zoneEvent: 0
+      zoneToTrigger: {fileID: 0}
+      interactibleEvent: 2
+      focusedInteractible: {fileID: 0}
+      interactibleType: 0
+      dummyEvent: 0
+      focusedDummy: {fileID: 0}
+      mystEvent: 0
+      movementEvent: 0
+  dummies: []
+  questStepUIs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  questTileUiText: {fileID: 0}
+  tutorialQuestUiPanel: {fileID: 0}
+  EndTutorialPanel: {fileID: 0}
+  OnQuestStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnQuestEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  cinematicCamera: {fileID: 0}
+  canvasAnimator: {fileID: 0}
+--- !u!1 &5234871411224874902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7665097578000775789}
+  m_Layer: 0
+  m_Name: MapTutoPierre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7665097578000775789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234871411224874902}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -82.64, y: -2, z: -96.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8824087889943367153}
+  - {fileID: 7917575859958467720}
+  - {fileID: 931224112266118094}
+  - {fileID: 1387264293826964445}
+  - {fileID: 7623242833064110318}
+  - {fileID: 1456435091}
+  - {fileID: 51621803}
+  - {fileID: 386209367}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &542326051398510590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 542326052197363635, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052197363636, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052197363637, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052690706120, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052690706122, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052690706125, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052828564677, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052828564678, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 542326052828564679, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1904965373771147994, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361922008337675604, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673406540556398382, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228273577890249035, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_Name
+      value: QuestRoom_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.040000916
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.010000229
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+--- !u!114 &1403357257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 542326052197363639, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+  m_PrefabInstance: {fileID: 542326051398510590}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403357255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efdf764c618f8d499928dced3c127ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1403357255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 542326052197363641, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+  m_PrefabInstance: {fileID: 542326051398510590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635382172531597162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1105614001805523092, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+  m_PrefabInstance: {fileID: 542326051398510590}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646501286129142342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8801059198928480165 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9053675737971458139, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+  m_PrefabInstance: {fileID: 542326051398510590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8646501286129142342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8104282162840464824, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+  m_PrefabInstance: {fileID: 542326051398510590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7623242833064110318 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7948158846421716752, guid: 42a3fce508691ed4685fb7b1dcb15cc4, type: 3}
+  m_PrefabInstance: {fileID: 542326051398510590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1329232866712299249
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 1329232865057196920, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232865057196922, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232865097081504, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232865097081505, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232865097081506, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866197222225, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866197222227, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866197222254, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866525332664, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866525332665, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866525332666, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866747527521, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866747527548, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866747527551, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 68.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 27.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329232866763770203, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+      propertyPath: m_Name
+      value: QuestRoom_5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+--- !u!114 &40605580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1329232866747527549, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+  m_PrefabInstance: {fileID: 1329232866712299249}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efdf764c618f8d499928dced3c127ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &295033303872792023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1615183706049626918, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+  m_PrefabInstance: {fileID: 1329232866712299249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &221078086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1329232866525332663, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+  m_PrefabInstance: {fileID: 1329232866712299249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &51621803 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1329232866763770202, guid: d5aadcaaf80eb7f43b49d3ad9f85e334, type: 3}
+  m_PrefabInstance: {fileID: 1329232866712299249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2179325721735251773
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.629999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.969999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227134036924189389, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+      propertyPath: m_Name
+      value: Spawn
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+--- !u!4 &8824087889943367153 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7227134036924189388, guid: 781369597a3b40d48b1c3424bd130c7f, type: 3}
+  m_PrefabInstance: {fileID: 2179325721735251773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2750305172192596754
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 259497665020744787, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110632769345279313, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750305172205448240, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750305172205448243, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750305172205448246, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449532511585175223, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278109508028990614, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333421329508762584, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716494464303942457, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278529465421888163, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023663296610917727, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Name
+      value: QuestRoom_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254976396902986993, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380431580108503411, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616444946590310556, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320134294418966437, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165518524374464563, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+--- !u!4 &8936766080791453182 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6498358489170054892, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+  m_PrefabInstance: {fileID: 2750305172192596754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &931224112266118094 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3082525507767701724, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+  m_PrefabInstance: {fileID: 2750305172192596754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1985825128404637748 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4441704362580888358, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+  m_PrefabInstance: {fileID: 2750305172192596754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8619256756661436942 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5888117455263715612, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+  m_PrefabInstance: {fileID: 2750305172192596754}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985825128404637748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efdf764c618f8d499928dced3c127ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &21774111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2750305172205448205, guid: 1f224ac9cd27a3741a1bcd362c1ef5e0, type: 3}
+  m_PrefabInstance: {fileID: 2750305172192596754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3352547814581018521
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547814832343503, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Name
+      value: QuestRoom_6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816385815107, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816385815109, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816387088066, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816387088067, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816387088068, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816453480754, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816453480755, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352547816453480756, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+--- !u!4 &386209367 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3352547814832343502, guid: c0aff6f543ad317469c53a7d5cd28e39, type: 3}
+  m_PrefabInstance: {fileID: 3352547814581018521}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3536525038227033824
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 1325643846378229304, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341296776593523723, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Name
+      value: QuestRoom_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706783951517697937, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817180074731207276, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357151793447084439, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 43.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 23.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3369302552718026598, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536525036407429140, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536525036407429141, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536525036407429143, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937002199758908052, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215007452256356204, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023560711440632674, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6305256598776664128, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156171899304441196, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957333816266747288, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+--- !u!1 &1956321009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3536525036407429137, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635382172678789874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4162758104253895698, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646501285980377054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8646501285666299196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5110118636368237532, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8619256756661436941 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5082737220364586221, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3299124993722431919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efdf764c618f8d499928dced3c127ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3299124993722431919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2079706981995394895, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1387264293826964445 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2473830031427609917, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635382172993849360 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4162758104072980208, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646501285666299196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8646501285980377054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5110118636188434750, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635382172888853049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4162758103909786841, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646501285770886933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8646501285770886933 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5110118636532068853, guid: 38bee191b316bb740ade99f677709fbf, type: 3}
+  m_PrefabInstance: {fileID: 3536525038227033824}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6706795566132261039
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7665097578000775789}
+    m_Modifications:
+    - target: {fileID: 3052527429536116108, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3627264640751111426, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355986967474569754, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779428490877415895, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5144840730558712484, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5722476701188271550, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092816354694261596, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706795566781335648, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706795566781335677, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706795566781335679, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7326285287266916865, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8925595584727685555, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+      propertyPath: m_Name
+      value: QuestRoom_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+--- !u!1 &6618895848636945479 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 488739224416838888, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+  m_PrefabInstance: {fileID: 6706795566132261039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7865491701931343365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3473546412990140074, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+  m_PrefabInstance: {fileID: 6706795566132261039}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618895848636945479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efdf764c618f8d499928dced3c127ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &7496807807072872213 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3826179465055983546, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+  m_PrefabInstance: {fileID: 6706795566132261039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &793835725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6706795566781335650, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+  m_PrefabInstance: {fileID: 6706795566132261039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7917575859958467720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3527358934588472359, guid: b580b58136850824c8fe9a47783016d6, type: 3}
+  m_PrefabInstance: {fileID: 6706795566132261039}
+  m_PrefabAsset: {fileID: 0}
