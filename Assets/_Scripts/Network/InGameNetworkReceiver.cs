@@ -45,6 +45,8 @@ public class InGameNetworkReceiver : MonoBehaviour
     {
         SendSpawnChamp();
 
+        isEndGame = false;
+
         //  numberOfPlayerToSpawn = RoomManager.Instance.actualRoom.playerList.Count;
     }
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
