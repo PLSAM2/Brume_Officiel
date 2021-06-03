@@ -8,8 +8,6 @@ public class EnemySam : MonoBehaviour
     int life = 50;
     int maxLife = 50;
 
-    float currentDamageBar = 1;
-
     [SerializeField] Image lifeBar;
     [SerializeField] Image damageBar;
 
