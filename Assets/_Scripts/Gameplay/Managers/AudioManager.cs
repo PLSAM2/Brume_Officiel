@@ -274,10 +274,10 @@ public class AudioManager : SerializedMonoBehaviour
 
         if (Dummy != null)
         {
-            print("here");
+
             if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
             {
-                print("here1");
+
                 OnAudioPlay?.Invoke(pos,GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam));
                 return;
             }
