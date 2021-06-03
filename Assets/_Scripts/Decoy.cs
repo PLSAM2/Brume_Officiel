@@ -105,8 +105,16 @@ public class Decoy : MonoBehaviour, Damageable
 	void Update ()
 	{
 		charac.Move(transform.forward * reParameter.movementParameters.movementSpeed * Time.deltaTime);
-		enemyMesh.SetBool("IsMoving", true);
-		alliedMesh.SetBool("IsMoving", true);
+
+        if (enemyMesh.gameObject.activeSelf)
+        {
+            enemyMesh.SetBool("IsMoving", true);
+        }
+
+        if (alliedMesh.gameObject.activeSelf)
+        {
+            alliedMesh.SetBool("IsMoving", true);
+        }
 
 		//test in brume
 		RaycastHit hit;

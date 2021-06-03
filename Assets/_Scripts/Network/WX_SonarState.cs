@@ -154,6 +154,11 @@ public class WX_SonarState : MonoBehaviour
 
     void OnPlayerGetDamage(ushort id, ushort damage, ushort dealer)
     {
+        if(GameFactory.GetActualPlayerFollow() == null)
+        {
+            return;
+        }
+
         if (RoomManager.Instance.GetPlayerData(GameFactory.GetActualPlayerFollow().myPlayerId).playerTeam != RoomManager.Instance.GetPlayerData(id).playerTeam)
         {
             return;

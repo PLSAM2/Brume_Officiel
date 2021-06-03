@@ -193,7 +193,7 @@ public class CacAttack : SpellModule
 					}
 			}
 
-			if (_ashitEnemy)
+			if (_ashitEnemy && lineLaser.Length > 0)
 			{
 				TriggerAnimHit();
 
