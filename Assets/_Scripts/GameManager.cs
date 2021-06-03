@@ -120,6 +120,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public Volume damageVolume;
 
+    public bool doFow = false;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

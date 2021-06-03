@@ -62,6 +62,8 @@ namespace UnityEngine.Rendering.Universal
                 SceneManager.GetActiveScene().name == "Training" ||
                 SceneManager.GetActiveScene().name == "Tutorial")
             {
+                if (!GameManager.Instance.doFow) { return; }
+
                 //fog
                 SendShaderValue();
 
