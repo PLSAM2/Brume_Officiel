@@ -7834,6 +7834,14 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4810724116745147943, guid: 71e49426b0e05a944b74800b283921dd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164117369100430474, guid: 71e49426b0e05a944b74800b283921dd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9172870239595824471, guid: 71e49426b0e05a944b74800b283921dd, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -7887,6 +7895,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstPoint: {fileID: 8619256756661436971}
   secondPoint: {fileID: 8619256756661436970}
+--- !u!114 &1777707723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9172870239595824471, guid: 71e49426b0e05a944b74800b283921dd, type: 3}
+  m_PrefabInstance: {fileID: 1777707718}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777707719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1812973995
 Mesh:
   m_ObjectHideFlags: 0
@@ -9576,6 +9595,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5807781233031169814, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5807781233031169814, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5807781233031169814, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5807781233031169814, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6179126371326761898, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: target
       value: 
@@ -9680,6 +9715,22 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 8619256756661436941}
+    - target: {fileID: 8950241784233964167, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950241784233964167, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950241784233964167, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950241784233964167, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
 --- !u!95 &3307278826756728048 stripped
@@ -10175,7 +10226,7 @@ PrefabInstance:
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[13].questSteps.Array.data[0].focusedDummy
       value: 
-      objectReference: {fileID: 8619256756661436939}
+      objectReference: {fileID: 1777707723}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[2].questSteps.Array.data[0].zoneToTrigger
       value: 
@@ -16762,17 +16813,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6023f3870f0b5374a97e59dc03b8ff4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8619256756661436939 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 635382172531597162, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
-  m_PrefabInstance: {fileID: 8619256756661436936}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8619256756661436943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e2a85f711b6fb408218db75970f5f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &8619256756661436940 stripped
