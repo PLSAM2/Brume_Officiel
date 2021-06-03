@@ -220,6 +220,9 @@ public class UIPlayerManager : MonoBehaviour
 		spedUpIcon.SetActive(false);
 		poweredUpIcon.SetActive(false);
 		crouchedIcon.SetActive(false);
+		intangibleIcon.SetActive(false);
+		invulnerableIcon.SetActive(false);
+
 		stateText.text = "";
 
 		if (feedbackCounter != null)

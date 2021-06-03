@@ -17,7 +17,10 @@ public class CacAttack : SpellModule
 
 	[SerializeField] bool useAnonciation = false;
 	[ShowIf("useAnonciation")] public Transform firstFx, secondFx;
-	[ShowIf("useAnonciation")] public LineRenderer[] lineLaser, linePreview;
+	[ShowIf("useAnonciation")] public LineRenderer[] linePreview;
+	[ShowIf("useAnonciation")] public MeshRenderer materialsLaser;
+	[ShowIf("useAnonciation")] public ParticleSystemRenderer materialLaserParticle;
+	[ShowIf("useAnonciation")] public Transform objectToPutAtTop;
 	bool hasHit = false;
 	public UnityEvent playerHit;
 
@@ -36,8 +39,6 @@ public class CacAttack : SpellModule
 
 		if (useAnonciation)
 		{
-			foreach (LineRenderer _rend in lineLaser)
-				_rend.useWorldSpace = true;
 
 			foreach (LineRenderer _rend in linePreview)
 				_rend.useWorldSpace = true;
@@ -193,7 +194,7 @@ public class CacAttack : SpellModule
 					}
 			}
 
-			if (_ashitEnemy && lineLaser.Length > 0)
+			if (_ashitEnemy && linePreview.Length == 0)
 			{
 				TriggerAnimHit();
 
@@ -238,14 +239,15 @@ public class CacAttack : SpellModule
 
 	public override void StartCanalysingFeedBack ()
 	{
-		if (lineLaser.Length > 0)
+		if (linePreview.Length > 0)
 		{
-			foreach (LineRenderer _renderer in lineLaser)
+			foreach (LineRenderer _renderer in linePreview)
 			{
 				_renderer.gameObject.SetActive(true);
 				_renderer.SetPosition(0, transform.position);
 				_renderer.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
 			}
+			
 			isLaser = true;
 		}
 
@@ -256,17 +258,25 @@ public class CacAttack : SpellModule
 	{
 		if (linePreview.Length > 0)
 		{
+			materialLaserParticle.gameObject.SetActive(true);
+			materialsLaser.gameObject.SetActive(true);
+			objectToPutAtTop.gameObject.SetActive(true);
+
 			foreach (LineRenderer _renderer in linePreview)
 			{
-				_renderer.gameObject.SetActive(true);
-				_renderer.SetPosition(0, transform.position);
-				_renderer.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
+				_renderer.gameObject.SetActive(false);
+			//	_renderer.SetPosition(0, transform.position);
+			//	_renderer.SetPosition(1, transform.position + transform.forward * maxRangeOfTheSpell());
 			}
 
-			foreach (LineRenderer _rendererPreview in lineLaser)
-			{
-				_rendererPreview.gameObject.SetActive(false);
-			}
+			float _temp = maxRangeOfTheSpell();
+			float _toSet = _temp / spell.range;
+			print(_toSet);
+			materialLaserParticle.material.SetFloat("_PercentageOfFill", _toSet);
+			materialsLaser.material.SetFloat("_PercentageOfFill", _toSet);
+
+			objectToPutAtTop.gameObject.SetActive(true);
+			objectToPutAtTop.transform.localPosition = new Vector3(objectToPutAtTop.transform.localPosition.x, objectToPutAtTop.transform.localPosition.y, maxRangeOfTheSpell());
 		}
 
 
@@ -275,17 +285,13 @@ public class CacAttack : SpellModule
 
 	public void HideLaser ()
 	{
-		if (lineLaser.Length > 0)
+		if (linePreview.Length > 0)
 		{
 			foreach (LineRenderer _renderer in linePreview)
 			{
 				_renderer.gameObject.SetActive(false);
 			}
-			foreach (LineRenderer _renderer in lineLaser)
-			{
-				_renderer.gameObject.SetActive(false);
-			}
-
+	
 			isLaser = false;
 		}
 	}
@@ -301,11 +307,6 @@ public class CacAttack : SpellModule
 				_renderer.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
 			}
 
-			foreach (LineRenderer _renderer in lineLaser)
-			{
-				_renderer.SetPosition(0, transform.position);
-				_renderer.SetPosition(1, transform.position + Vector3.up + transform.forward * maxRangeOfTheSpell());
-			}
 		}
 	}
 
