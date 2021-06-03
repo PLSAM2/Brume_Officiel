@@ -428,6 +428,7 @@ public class RoomManager : MonoBehaviour
             }
         } else
         {
+            GameManager.Instance.doFow = true;
 
             foreach (SpawnPoint spawn in GameManager.Instance.GetSpawnsOfTeam(RoomManager.Instance.actualRoom.playerList[id].playerTeam))
             {
