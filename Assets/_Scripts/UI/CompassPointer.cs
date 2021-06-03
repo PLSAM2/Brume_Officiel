@@ -43,7 +43,6 @@ public class CompassPointer : MonoBehaviour
         baseTimer = timer = Mathf.Clamp(Mathf.Abs((maxDistance - minDistance) / (distance - minDistance)) + minLifeTime, minLifeTime, maxLifeTime);
         isOneTime = true;
         SetByDistance(distance);
-        print("a");
     }
 
     private void SetColor(Team audioTeam)
