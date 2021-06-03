@@ -72,7 +72,7 @@ public class Ward : MonoBehaviour
 
 
 			bool isView = false;
-			if (GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
+			if (GameFactory.GetActualPlayerFollow() != null && GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
 			{
 				if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule, this) || isInBrume == false)
 				{
@@ -124,7 +124,7 @@ public class Ward : MonoBehaviour
 
 	void OnPlayerSpotted ( LocalPlayer _playerSpot, bool _value )
 	{
-		if (_value == false) { return; }
+		if (_value == false || _playerSpot == null) { return; }
 
         if (!_playerSpot.IsInMyTeam(myTeam))
 		{

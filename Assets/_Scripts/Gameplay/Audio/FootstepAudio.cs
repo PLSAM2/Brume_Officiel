@@ -32,7 +32,7 @@ public class FootstepAudio : MonoBehaviour
 	{
 		ChangeVolume(AudioManager.Instance.currentPlayerVolume);
 
-		if (myPlayerModule != null && myPlayerModule.teamIndex == GameFactory.GetActualPlayerFollow().myPlayerModule.teamIndex)
+		if (myPlayerModule != null && myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
 			doFootStepIcon = true;
 		}
