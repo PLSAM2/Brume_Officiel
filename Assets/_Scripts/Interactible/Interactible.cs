@@ -255,6 +255,7 @@ public class Interactible : MonoBehaviour
 			SetColor(GameFactory.GetRelativeColor(capturingTeam));
 		}
 
+		Capture();
 	}
 
 	protected virtual void StartAudio()
