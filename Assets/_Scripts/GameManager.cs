@@ -418,14 +418,16 @@ public class GameManager : SerializedMonoBehaviour
 
             if (trainTimer <= 0)
             {
+                doFow = true;
+
                 UiManager.Instance.trainPanel.SetActive(false);
                 trainTimerStarted = false;
-
                 foreach (SpawnPoint spawn in GetSpawnsOfTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam))
                 {
                     if (spawn.CanSpawn())
                     {
                         networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].transform.position = spawn.transform.position;
+
                     }
                 }
 
