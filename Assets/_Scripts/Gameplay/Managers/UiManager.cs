@@ -206,7 +206,8 @@ public class UiManager : MonoBehaviour
 		gameUI.alpha = 0;
 	}
 
-    public void ActualiseLife(Character _champ)
+
+	public void ActualiseLife(Character _champ)
     {
         int bonusLife = 0;
 
@@ -532,6 +533,11 @@ public class UiManager : MonoBehaviour
 	internal void SpecJoinGameScene ()
 	{
 		waitingForPlayersPanel.SetActive(false);
+
+		soulSpellSelector.gameObject.SetActive(false);
+		soulSpellSelector.SpecAssignement();
+		blurVolume.SetActive(false);
+		gameUI.alpha = 1;
 	}
 
 	public void CantCastFeedback ( En_SpellInput _spellInput )
