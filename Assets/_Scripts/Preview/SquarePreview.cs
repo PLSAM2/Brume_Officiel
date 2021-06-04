@@ -6,38 +6,38 @@ using UnityEngine.UI;
 public class SquarePreview : MonoBehaviour
 {
     [SerializeField] GameObject myObjCenter;
-    [SerializeField] Image myImgCenter;
 
     [SerializeField] GameObject myObjBorder;
-    [SerializeField] Image myImgBorder;
+
+    [SerializeField] GameObject borderWX;
+    [SerializeField] Transform borderWXStartPos, borderWXEnd, borderWXEndPos;
+    [SerializeField] LineRenderer borderWXLine;
 
     public void Init(float _newLenght, float _newWidth, float _newRotation, squareCenter _newCenter, Vector3 _newPos)
     {
-        Image currentSquare = myImgBorder;
-        GameObject currentObj = myObjBorder;
-
         if (_newCenter == squareCenter.center) {
-            currentSquare = myImgCenter;
-            currentObj = myObjCenter;
-
             myObjBorder.SetActive(false);
             myObjCenter.SetActive(true);
+            borderWX.SetActive(false);
+
+            myObjCenter.transform.localScale = new Vector3(_newWidth, _newLenght, 1);
+            transform.eulerAngles = new Vector3(0, _newRotation, 0);
         }
         else{
             myObjBorder.SetActive(true);
             myObjCenter.SetActive(false);
+
+            borderWX.SetActive(true);
+
+            borderWXEnd.localPosition = new Vector3(0,0, _newLenght);
+
+            transform.eulerAngles = new Vector3(0, _newRotation, 0);
+
+            borderWXLine.SetPosition(0, borderWXStartPos.position);
+            borderWXLine.SetPosition(1, borderWXEndPos.position);
         }
 
-        currentObj.transform.localScale = new Vector3(_newWidth, _newLenght, 1);
-        transform.eulerAngles = new Vector3(0, _newRotation, 0);
-
         transform.localPosition = _newPos + Vector3.up * 0.1f;
-    }
-
-    public void SetColor(Color _newColor)
-    {
-        myImgCenter.color = _newColor;
-        myImgBorder.color = _newColor;
     }
 
     public enum squareCenter

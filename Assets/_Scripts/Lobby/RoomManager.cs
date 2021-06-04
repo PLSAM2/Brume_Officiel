@@ -528,7 +528,14 @@ public class RoomManager : MonoBehaviour
 
         if (actualRoom.roomType == RoomType.Classic || actualRoom.roomType == RoomType.Training)
         {
-            UiManager.Instance.DisplaySoulSpell();
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+            {
+                UiManager.Instance.SpecJoinGameScene();
+            } else
+            {
+                UiManager.Instance.DisplaySoulSpell();
+            }
+
         } else
         {
             TutorialManager.Instance.PlayerSpawned();

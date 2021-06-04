@@ -271,7 +271,7 @@ public class CacAttack : SpellModule
 
 			float _temp = maxRangeOfTheSpell();
 			float _toSet = _temp / spell.range;
-			print(_toSet);
+
 			materialLaserParticle.material.SetFloat("_PercentageOfFill", _toSet);
 			materialsLaser.material.SetFloat("_PercentageOfFill", _toSet);
 
