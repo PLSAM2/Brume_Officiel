@@ -276,7 +276,7 @@ public class CacAttack : SpellModule
 			materialsLaser.material.SetFloat("_PercentageOfFill", _toSet);
 
 			objectToPutAtTop.gameObject.SetActive(true);
-			objectToPutAtTop.transform.localPosition = new Vector3(objectToPutAtTop.transform.localPosition.x, objectToPutAtTop.transform.localPosition.y, maxRangeOfTheSpell());
+			objectToPutAtTop.transform.localPosition = new Vector3(objectToPutAtTop.transform.localPosition.x, objectToPutAtTop.transform.localPosition.y, maxRangeOfTheSpell()+.5f);
 		}
 
 
