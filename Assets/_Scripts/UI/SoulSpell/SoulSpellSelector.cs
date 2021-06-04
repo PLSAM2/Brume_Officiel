@@ -163,4 +163,10 @@ public class SoulSpellSelector : MonoBehaviour
 
         return 0;
     }
+
+    internal void SpecAssignement()
+    {
+        PlayerPrefs.SetInt("SoulSpell", (int)En_SoulSpell.Invisible);
+        RoomManager.Instance.ImReady();
+    }
 }
