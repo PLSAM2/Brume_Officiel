@@ -15,6 +15,9 @@ public class RoomPanelControl : SerializedMonoBehaviour
     public GameObject playerListObj;
     public GameObject startGameButton;
     public GameObject readyButton;
+    public GameObject joinSpecButton;
+    public GameObject Swap;
+    public GameObject JoinTeam;
     public Dictionary<ushort, PlayerListObj> PlayerObjDict = new Dictionary<ushort, PlayerListObj>();
 
     public void InitRoom(RoomData roomData)
@@ -125,6 +128,9 @@ public class RoomPanelControl : SerializedMonoBehaviour
             case Team.spectator:
                 LobbyManager.Instance.ChangeTeam(Team.red);
                 readyButton.SetActive(true);
+                joinSpecButton.SetActive(true);
+                Swap.SetActive(true);
+                JoinTeam.SetActive(false);
                 break;
             default:
                 print("Error");
@@ -142,6 +148,9 @@ public class RoomPanelControl : SerializedMonoBehaviour
         {
             LobbyManager.Instance.ChangeTeam(Team.spectator);
             readyButton.SetActive(false);
+            joinSpecButton.SetActive(false);
+            Swap.SetActive(false);
+            JoinTeam.SetActive(true);
             LobbyManager.Instance.SetReady(true);
         }
 
