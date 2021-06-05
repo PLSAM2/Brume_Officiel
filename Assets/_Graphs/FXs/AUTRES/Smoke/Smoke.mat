@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1940254690000465735
+--- !u!114 &-2492224137075164123
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,18 +20,22 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WUXIN_PreviewLaser 1
-  m_Shader: {fileID: 4800000, guid: 273a6b9ff954e16468b6c014c0b57c7f, type: 3}
+  m_Name: Smoke
+  m_Shader: {fileID: 4800000, guid: 80a7eb1d90cf01f469d6e103cb027a61, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3200
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AnisotropicNoiseBlurRotate:
+        m_Texture: {fileID: 2800000, guid: b7b6180d660771e4ca7b20e22b7a8c51, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,10 +60,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _LaserTexture:
-        m_Texture: {fileID: 2800000, guid: eef67405fd89b88409265da2b4e81402, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -68,15 +68,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NoiseTexture:
-        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _PaintGrunge:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -88,8 +80,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _WuxinLaser:
-        m_Texture: {fileID: 2800000, guid: 65ff838d10dd29e488c9f00bbce8dfe3, type: 3}
+    - _TextureSample3:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 2800000, guid: 88d75bbfdb8a26849988713b4599646a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _blurclouds:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -105,7 +105,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Alpha: 1
+    - _Alpha: 0.26
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _Blend: 0
@@ -117,41 +117,40 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Emissive: 1
     - _EnvironmentReflections: 1
-    - _Float0: 0.27
-    - _Float1: 0.34
-    - _Float3: 0.5
-    - _Float4: 0.1
+    - _Float0: 0.23
+    - _Float1: 1
+    - _Float13: 1.09
+    - _Float14: 1.5
+    - _Float15: 0
+    - _Float2: 0.1
+    - _Float3: 0.1
+    - _Float4: 0.04
+    - _Float8: 0.37
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _NoiseContrast: -0.93
     - _OcclusionStrength: 1
-    - _Offset: 0.35
     - _Parallax: 0.005
+    - _PercentageOfFill: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _Smoothstep: 0.1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Step: 0
     - _Surface: 0
-    - _Tiling: 0.27
-    - _TilingPaintGrunge: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.15094337, g: 0.14453539, b: 0.14453539, a: 0}
-    - _Color1: {r: 0, g: 0, b: 0, a: 0}
-    - _Color2: {r: 0.46662515, g: 0.9245283, b: 0.68788856, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0}
+    - _Color3: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PannerSpeed: {r: -0.5, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Vector0: {r: 0.3, g: 0, b: 0, a: 0}
+    - _Vector8: {r: 2, g: 2, b: 0, a: 0}
+    - _Vector9: {r: 2, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
