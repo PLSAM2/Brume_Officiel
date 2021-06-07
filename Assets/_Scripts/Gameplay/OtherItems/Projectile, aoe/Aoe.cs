@@ -44,7 +44,14 @@ public class Aoe : AutoKill
 	{
 		base.Init(ownerTeam, _LifePercentage);
 
+
 		ResetDamage();
+
+		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+		{
+			return;
+		}
+
 		if (GameManager.Instance.gameStarted)
 		{
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)

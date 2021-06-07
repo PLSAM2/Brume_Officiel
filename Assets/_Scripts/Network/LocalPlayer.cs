@@ -272,8 +272,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-		if (!IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
-			GameManager.Instance.allEnemies.Remove(this);
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam != Team.spectator)
+        {
+			if (!IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
+				GameManager.Instance.allEnemies.Remove(this);
+		}
+
+
 	}
 
 	private void OnDisable ()
@@ -797,6 +802,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public bool IsInMyTeam ( Team _indexTested )
 	{
+
 		return myPlayerModule.teamIndex == _indexTested;
 	}
 
