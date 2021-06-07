@@ -252,11 +252,17 @@ public class PlayerModule : MonoBehaviour
 				}
 			}
 		}
-
-		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+		{
 			mapIcon.gameObject.SetActive(true);
-		else
-			mapIcon.gameObject.SetActive(false);
+		} else
+		{
+			if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(teamIndex))
+				mapIcon.gameObject.SetActive(true);
+			else
+				mapIcon.gameObject.SetActive(false);
+		}
+
 
 		ResetLayer();
 	}

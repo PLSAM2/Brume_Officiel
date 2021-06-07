@@ -14,7 +14,9 @@ public class UiManager : MonoBehaviour
 	private static UiManager _instance;
 	public static UiManager Instance { get { return _instance; } }
 
-	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
+
+
+    [FoldoutGroup("GlobalUi")] public TextMeshProUGUI timer;
 	[FoldoutGroup("GlobalUi")] public EndZoneUIGroup endZoneUIGroup;
 	//Train >>
 	[FoldoutGroup("GlobalUi")] public GameObject trainPanel;
@@ -87,6 +89,7 @@ public class UiManager : MonoBehaviour
 
 	[Header("Spec Mode")]
 	[FoldoutGroup("SpecMode")] public SpecMode specMode;
+	[FoldoutGroup("SpecMode")] public List<GameObject> ToDisableAsSpectatorMode = new List<GameObject>();
 
 	[Header("Misc")]
 	[FoldoutGroup("Misc")] public GameObject DebuggerPanel;
@@ -532,8 +535,13 @@ public class UiManager : MonoBehaviour
 
 	internal void SpecJoinGameScene ()
 	{
-		waitingForPlayersPanel.SetActive(false);
 
+        foreach (GameObject item in ToDisableAsSpectatorMode)
+        {
+			item.SetActive(false);
+		}
+
+		waitingForPlayersPanel.SetActive(false);
 		soulSpellSelector.gameObject.SetActive(false);
 		soulSpellSelector.SpecAssignement();
 		blurVolume.SetActive(false);

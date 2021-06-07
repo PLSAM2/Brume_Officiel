@@ -53,7 +53,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	[Header("Fog")]
 	[TabGroup("Vision")] public GameObject fowPrefab;
-	Fow myFow;
+	[HideInInspector] public Fow myFow;
 	[TabGroup("Vision")] public bool forceOutline = false;
 
 	[TabGroup("Vision")] public List<GameObject> objToHide = new List<GameObject>();
@@ -110,17 +110,19 @@ public class LocalPlayer : MonoBehaviour, Damageable
         }
 		else
 		{
-			if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-			{
-				SpawnFow();
+            SpawnFow();
 
+            if (myPlayerModule.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+			{
 				myWaypoint = Instantiate(waypointAlliePrefab, UiManager.Instance.parentWaypoint).GetComponent<AllieWaypoint>();
 				myWaypoint.target = transform;
 				myWaypoint.Init(RoomManager.Instance.GetPlayerData(myPlayerId).playerCharacter);
 			}
 			else
 			{
-				foreach (GameObject obj in objToHide)
+                myFow.gameObject.SetActive(false);
+
+                foreach (GameObject obj in objToHide)
 				{
 					obj.SetActive(false);
 				}
@@ -272,8 +274,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 		}
 
-		if (!IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
-			GameManager.Instance.allEnemies.Remove(this);
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam != Team.spectator)
+        {
+			if (!IsInMyTeam(GameManager.Instance.currentLocalPlayer.myPlayerModule.teamIndex))
+				GameManager.Instance.allEnemies.Remove(this);
+		}
+
 	}
 
 	private void OnDisable ()
@@ -810,21 +816,24 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 		else
 		{
-            if (_activate)
-            {
-                waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
-                waypointThirdEye.targetVector = transform.position;
-                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
-            }
-            else
-            {
-                if (waypointThirdEye)
-                {
-                    Destroy(waypointThirdEye.gameObject);
-                }
-            }
-
-            forceOutline = _activate;
+			WxController _temp = GameManager.Instance.currentLocalPlayer.GetComponent<WxController>();
+			if (_temp != null)
+			{
+				if (_activate)
+				{
+					waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
+					waypointThirdEye.targetVector = transform.position;
+					waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
+				}
+				else
+				{
+					if (waypointThirdEye)
+					{
+						Destroy(waypointThirdEye.gameObject);
+					}
+				}
+			}
+			forceOutline = _activate;
 		}
 
 	}

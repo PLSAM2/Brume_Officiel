@@ -42,6 +42,10 @@ public class IconUi : MonoBehaviour
 	}
 	private void OnDisable ()
 	{
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+			return;
+        }
 		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
 	}
 
