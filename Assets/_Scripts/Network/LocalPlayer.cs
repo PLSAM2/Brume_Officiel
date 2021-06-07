@@ -803,7 +803,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public bool IsInMyTeam ( Team _indexTested )
 	{
-
 		return myPlayerModule.teamIndex == _indexTested;
 	}
 
