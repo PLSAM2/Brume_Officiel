@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8242315176510507219}
   - component: {fileID: 5592933752519401707}
   m_Layer: 0
-  m_Name: Particle System (11)
+  m_Name: CercleWoosh1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456551921298169137}
-  m_LocalRotation: {x: 0.27059805, y: 0.6532815, z: 0.6532815, w: 0.27059805}
-  m_LocalPosition: {x: 0, y: -0.168, z: 0}
+  m_LocalRotation: {x: 0.27059805, y: -0.27059805, z: 0.6532815, w: 0.6532815}
+  m_LocalPosition: {x: 0, y: 0, z: -0.16800082}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5247475631282080582}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: -45, y: 90, z: 90}
+  m_Father: {fileID: 3308002424088916103}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 90}
 --- !u!198 &8242315176510507219
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4826,7 +4826,7 @@ GameObject:
   - component: {fileID: 4510336849771560026}
   - component: {fileID: 6965248803070297162}
   m_Layer: 0
-  m_Name: Particle System (10)
+  m_Name: CercleWoosh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4839,12 +4839,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332802209319352941}
-  m_LocalRotation: {x: -0.7034458, y: -0.54822475, z: -0.071860895, w: 0.44659793}
-  m_LocalPosition: {x: 0, y: -0.168, z: 0}
+  m_LocalRotation: {x: -0.18161885, y: -0.33684015, z: -0.43846676, w: 0.81320375}
+  m_LocalPosition: {x: 0, y: 0, z: -0.16800082}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5247475631282080582}
-  m_RootOrder: 3
+  m_Father: {fileID: 3308002424088916103}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -45, y: -146.666, z: 90}
 --- !u!198 &4510336849771560026
 ParticleSystem:
@@ -9658,9 +9658,6 @@ Transform:
   - {fileID: 2123807084134626264}
   - {fileID: 3308002424088916103}
   - {fileID: 3333787436549889669}
-  - {fileID: 3521938946529852955}
-  - {fileID: 2179105623283773597}
-  - {fileID: 1644153734296177118}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9676,7 +9673,7 @@ GameObject:
   - component: {fileID: 6034765776796926514}
   - component: {fileID: 8230809907030296456}
   m_Layer: 0
-  m_Name: Particle System (4)
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9692,7 +9689,10 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3521938946529852955}
+  - {fileID: 2179105623283773597}
+  - {fileID: 1644153734296177118}
   m_Father: {fileID: 5247475631282080582}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -14534,7 +14534,7 @@ GameObject:
   - component: {fileID: 8277958030158942765}
   - component: {fileID: 8950066877928090642}
   m_Layer: 0
-  m_Name: Particle System (5)
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19392,12 +19392,12 @@ GameObject:
   - component: {fileID: 3677015602850299113}
   - component: {fileID: 6836949781747388973}
   m_Layer: 0
-  m_Name: Particle System (9)
+  m_Name: CercleSol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2123807084134626264
 Transform:
   m_ObjectHideFlags: 0
@@ -19405,13 +19405,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7446184413509923052}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.168, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5247475631282080582}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!198 &3677015602850299113
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -20126,7 +20126,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.6
+      value: 0.4
       mode: 0
       spread: 0
       speed:
@@ -24206,7 +24206,7 @@ GameObject:
   - component: {fileID: 3944388131205596654}
   - component: {fileID: 8619999911080167148}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Prout de shrek
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24219,12 +24219,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8295541387950149260}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5247475631282080582}
-  m_RootOrder: 5
+  m_Father: {fileID: 3308002424088916103}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &3944388131205596654
 ParticleSystem:
@@ -25059,7 +25059,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 4
       minScalar: 10
       maxCurve:
         serializedVersion: 2
