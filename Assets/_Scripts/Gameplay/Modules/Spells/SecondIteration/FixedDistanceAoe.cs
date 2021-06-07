@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FixedDistanceAoe : SpellModule
 {
@@ -10,7 +11,6 @@ public class FixedDistanceAoe : SpellModule
 	public bool spawnOnPos = false;
 	public float radius;
 	public Vector3 previewSquare;
-	public GameObject preview;
 
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
@@ -88,6 +88,12 @@ public class FixedDistanceAoe : SpellModule
 			else
 				myCirclePreview.gameObject.SetActive(true);
 		}
+	}
+
+	public void DoOpacity (ParticleSystemRenderer _particleToLerp)
+	{
+		_particleToLerp.material.SetFloat("_Opacity", 0);
+		_particleToLerp.material.DOFloat(1, "_Opacity", .3f);
 	}
 }
 
