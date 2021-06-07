@@ -152,12 +152,64 @@ MonoBehaviour:
   OnApparition:
     m_PersistentCalls:
       m_Calls: []
+  OnPrewarm:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 319896842692929282}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 319896842023951916}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnProck:
     m_PersistentCalls:
       m_Calls: []
   OnDisparition:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 319896842692929282}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 319896842023951916}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  timeToPrewarm: 0.4
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7585203636023131242, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7585203636023131242, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -228,6 +280,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.y.scalar
       value: 1
       objectReference: {fileID: 0}
@@ -249,11 +305,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 1.25
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.atime1
-      value: 45875
+      value: 13493
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.atime2
@@ -269,7 +325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.y.maxCurve.m_Curve.Array.data[0].time
-      value: 0.67238617
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.y.maxCurve.m_Curve.Array.data[1].time
@@ -285,11 +341,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.y.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 3.0523741
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].time
-      value: 0.67238617
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].time
@@ -301,7 +357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.y.maxCurve.m_Curve.Array.data[1].outSlope
-      value: 3.0523741
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].value
+      value: 0.004562378
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
@@ -317,7 +377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 3.0523741
+      value: 0.9954376
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].inSlope
@@ -333,7 +393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outSlope
-      value: 3.0523741
+      value: 0.9954376
       objectReference: {fileID: 0}
     - target: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].outSlope
@@ -360,6 +420,10 @@ PrefabInstance:
       value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 7700709003666484616, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700709003666484616, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 0.5
       objectReference: {fileID: 0}
@@ -380,5 +444,15 @@ PrefabInstance:
 --- !u!4 &570520052078655200 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7585203636023131242, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
+  m_PrefabInstance: {fileID: 7975569766058969738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &319896842692929282 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7700709003666484616, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
+  m_PrefabInstance: {fileID: 7975569766058969738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &319896842023951916 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7700709001932117158, guid: 44bae1696c90eda4fba47c5741aaa76f, type: 3}
   m_PrefabInstance: {fileID: 7975569766058969738}
   m_PrefabAsset: {fileID: 0}

@@ -13,7 +13,8 @@ public class Aoe : AutoKill
 	public bool adaptiveRange = true;
 	DamagesInfos damageOnEnable, damageOnDisable;
 	[SerializeField] AudioClip procSound;
-	public UnityEvent OnApparition, OnProck, OnDisparition;
+	public UnityEvent OnApparition, OnPrewarm,OnProck, OnDisparition;
+	public float timeToPrewarm;
 
 	protected override void Awake ()
 	{
@@ -211,9 +212,9 @@ public class Aoe : AutoKill
 		return _allhits;
 	}
 
-	protected override void FixedUpdate ()
+	protected override void Update ()
 	{
-		base.FixedUpdate();
+		base.Update();
 		if (myLivelifeTime <= localTrad.rules.timeBeforeFinalDisparition &&
 			localTrad.rules.timeBeforeFinalDisparition != 0 &&
 				!asDealtFinal)
@@ -237,6 +238,9 @@ public class Aoe : AutoKill
 			if (localTrad.rules.finalAlly.isUsable)
 				DealBuffInRange(localTrad.rules.finalAlly);
 		}
+
+		if (myLivelifeTime >= timeToPrewarm)
+			OnPrewarm?.Invoke();
 	}
 
 	private void OnDrawGizmosSelected ()
