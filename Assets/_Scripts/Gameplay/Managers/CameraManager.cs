@@ -33,6 +33,9 @@ public class CameraManager : MonoBehaviour
 	private bool cameraShakeStarted = false;
 	[HideInInspector] public Action<CameraManager> OnWatchCameraBorder;
 	[HideInInspector] public bool listeningCameraInput = false;
+
+	//public Animator anim;
+
 	private void Awake ()
 	{
 		if (_instance != null && _instance != this)
@@ -214,6 +217,7 @@ public class CameraManager : MonoBehaviour
 			}
 		}
 		LerpCameraPos();
+		//TriggerDezoom();
 	}
 
 	private void LateUpdate ()
@@ -300,5 +304,11 @@ public class CameraManager : MonoBehaviour
 		SetFollowObj(pos);
 		travelingCamera.Priority = 0;
 	}
+
+	/*private void TriggerDezoom()
+    {
+		if (Input.GetKeyDown(KeyCode.J))
+			anim.SetTrigger("triggerDezoom");
+    }*/
 
 }
