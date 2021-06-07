@@ -84,9 +84,4 @@ public class UltPickup : Interactible
 		}
 	}
 
-	protected override void Capture ()
-	{
-		base.Capture();
-		captureFx.transform.localPosition = Vector3.up * maxHeight * Mathf.Clamp(timer / (interactTime / 2), 0, 1);
-	}
 }

@@ -73,9 +73,9 @@ public class AutoKill : MonoBehaviour
 		}
 	}
 
-	protected virtual void FixedUpdate ()
+	protected virtual void Update ()
 	{
-		myLivelifeTime -= Time.fixedDeltaTime;
+		myLivelifeTime -= Time.deltaTime;
 
 		if (myLivelifeTime <= 0)
 		{
