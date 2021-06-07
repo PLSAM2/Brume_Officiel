@@ -41,13 +41,18 @@ public class Projectile : AutoKill
 		ResetDamages();
 
 		base.Init(ownerTeam, _lifePercentage);
+
 		if (GameManager.Instance.gameStarted)
 		{
-			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner && localTrad.damagesToDeal.damageHealth > 0)
-			{
-				_tempDamage.damageHealth += 1;
-				GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam != Team.spectator)
+            {
+				if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner && localTrad.damagesToDeal.damageHealth > 0)
+				{
+					_tempDamage.damageHealth += 1;
+					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
+				}
 			}
+
 		}
 
 		startPos = transform.position;
