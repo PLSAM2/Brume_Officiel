@@ -21,21 +21,21 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Feuillage
-  m_Shader: {fileID: 4800000, guid: ee2f43d03bf509245b370bc8d427f725, type: 3}
-  m_ShaderKeywords: _CUSTOMNORMAL_ON _CUSTOMWORLDSPACENORMAL_ON _FRESNELSTEP_ON _INKSPLATTER_ON
-    _MOVINGGRAIN_ON _MOVINGPAPER_ON _OPACITYTEXTURE_ON _RIMLIGHT_CUSTOMNORMAL_ON
-    _WINDVERTEXDISPLACEMENT_ON
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2501
-  stringTagMap: {}
-  disabledShaderPasses: []
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 480012c87a486204d8e092e90be15c72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -71,7 +71,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 480012c87a486204d8e092e90be15c72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -147,7 +147,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _AlphaCutoff: 0.5
     - _AnimatedGrunge: 1
     - _AnimatedGrungeMultiply: 1.58
@@ -162,7 +162,7 @@ Material:
     - _ColorNoise_Contrast: 0.5
     - _ColorNoise_Power: 1.5
     - _ColorNoise_Tiling: 1
-    - _Cull: 2
+    - _Cull: 0
     - _CustomAlphaMask: 1
     - _CustomOpacityMask: 0
     - _CustomRimLight: 0
@@ -170,7 +170,7 @@ Material:
     - _CustomRimLight_Texture: 0
     - _CutOff: 0.004
     - _CutOff_OutBrume: 0.02
-    - _Cutoff: 0.5
+    - _Cutoff: 0.659
     - _DebugGrayscale: 0
     - _DepthFade: 0
     - _DepthFade_ClampMax: 0.8
@@ -183,7 +183,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DrippingNoise_Tiling: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EnvironmentReflections: 1
     - _Float29: 2
     - _Float30: 3
@@ -223,7 +223,7 @@ Material:
     - _ShadowDrippingNoise_Transition: 1
     - _ShadowInBrumeGrunge_Contrast: -30
     - _ShadowInBrumeGrunge_Tiling: 4
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _Specular: 0
     - _SpecularHighlights: 1
@@ -232,10 +232,10 @@ Material:
     - _SpecularTexture: 0
     - _Specular_Multiplier: 1
     - _SpeculartStepMin: 0
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _StepAttenuation: -0.07
     - _StepShadow: 0.07
-    - _Surface: 0
+    - _Surface: 1
     - _TerrainBlending: 0
     - _TerrainBlending_BlendThickness: 0.6
     - _TerrainBlending_Falloff: 30
@@ -256,9 +256,9 @@ Material:
     - _Wind_Texture_Contrast: 0.5
     - _Wind_Texture_Tiling: 0
     - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorShadow: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
     - _CustomRimLight_Color: {r: 1, g: 1, b: 1, a: 0}

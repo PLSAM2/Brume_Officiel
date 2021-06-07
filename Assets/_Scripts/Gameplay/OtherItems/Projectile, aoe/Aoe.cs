@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class Aoe : AutoKill
 {
@@ -12,6 +13,7 @@ public class Aoe : AutoKill
 	public bool adaptiveRange = true;
 	DamagesInfos damageOnEnable, damageOnDisable;
 	[SerializeField] AudioClip procSound;
+	public UnityEvent OnApparition, OnProck, OnDisparition;
 
 	protected override void Awake ()
 	{
@@ -43,16 +45,9 @@ public class Aoe : AutoKill
 	public override void Init ( GameData.Team ownerTeam, float _LifePercentage )
 	{
 		base.Init(ownerTeam, _LifePercentage);
-
-
+		OnApparition?.Invoke();
 		ResetDamage();
-
-		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
-		{
-			return;
-		}
-
-		if (GameManager.Instance.gameStarted)
+		/*if (GameManager.Instance.gameStarted)
 		{
 			if ((GameManager.Instance.currentLocalPlayer.myPlayerModule.state & En_CharacterState.PoweredUp) != 0 && isOwner)
 			{
@@ -69,8 +64,8 @@ public class Aoe : AutoKill
 					GameManager.Instance.currentLocalPlayer.myPlayerModule.RemoveState(En_CharacterState.PoweredUp);
 				}
 			}
-		}
-
+	}
+		*/
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnImpact.isUsable)
@@ -81,8 +76,6 @@ public class Aoe : AutoKill
 		}
 
 		//ResetDamage();
-
-
 	}
 
 	protected void DealDamagesInRange ( DamagesInfos _damages )
@@ -141,7 +134,7 @@ public class Aoe : AutoKill
 				}
 			}
 
-			
+
 		}
 	}
 
@@ -227,6 +220,8 @@ public class Aoe : AutoKill
 		{
 			StopAllCoroutines();
 			asDealtFinal = true;
+			OnProck?.Invoke();
+
 			if (localTrad.rules.finalDamages.isUsable)
 			{
 				if (localTrad.screenShake)
@@ -254,6 +249,7 @@ public class Aoe : AutoKill
 
 	public override void Destroy ( bool _spawnAoe = false )
 	{
+		OnDisparition?.Invoke();
 		StopAllCoroutines();
 		base.Destroy();
 	}
@@ -268,5 +264,15 @@ public class Aoe : AutoKill
 	{
 		base.OnDisable();
 		StopAllCoroutines();
+	}
+
+	public void LerpParameter(MeshRenderer _renderer)
+	{
+		print(_renderer.material.GetFloat("_FillAmount"));
+
+		_renderer.material.SetFloat( "_FillAmount", 0.35f);
+		print(_renderer.material.GetFloat("_FillAmount"));
+
+		_renderer.material.DOFloat(1, "_FillAmount",.65f);
 	}
 }
