@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
 
 public class SpecMode : MonoBehaviour
 {
@@ -214,6 +215,18 @@ public class SpecMode : MonoBehaviour
         if (GameManager.Instance.networkPlayers[id].myPlayerModule.isInBrume)
         {
             GameFactory.GetBrumeById(GameManager.Instance.networkPlayers[id].myPlayerModule.brumeId).ForceEnter(GameManager.Instance.networkPlayers[id].myPlayerModule);
+        }
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator) // IF spectator
+        {
+            foreach(KeyValuePair<ushort, LocalPlayer> p in GameManager.Instance.networkPlayers)
+            {
+                if(p.Value != null)
+                {
+                    p.Value.myFow.gameObject.SetActive(RoomManager.Instance.GetPlayerData(p.Key).playerTeam == RoomManager.Instance.GetPlayerData(id).playerTeam);
+                }
+            }
         }
     }
 }
