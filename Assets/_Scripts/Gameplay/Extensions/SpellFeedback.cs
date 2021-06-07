@@ -34,6 +34,12 @@ public class SpellFeedback : MonoBehaviour
 
 	public void ShowPreview ( Transform _objectToShow )
 	{
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+			_objectToShow.GetChild(1).gameObject.SetActive(true);
+			return;
+		}
+
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
 			_objectToShow.GetChild(0).gameObject.SetActive(true);
 		else
@@ -42,6 +48,14 @@ public class SpellFeedback : MonoBehaviour
 
 	public void HidePreview ( Transform _objectToShow )
 	{
+
+		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+		{
+			_objectToShow.GetChild(1).gameObject.SetActive(false);
+			return;
+		}
+
+
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(myPlayerModule.teamIndex))
 			_objectToShow.GetChild(0).gameObject.SetActive(false);
 		else
