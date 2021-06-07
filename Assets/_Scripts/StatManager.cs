@@ -134,7 +134,8 @@ public class StatManager : MonoBehaviour
             PlayerPrefs.SetInt("currentDamage", PlayerPrefs.GetInt("currentDamage") + damagePlayer[NetworkManager.Instance.GetLocalPlayer().ID]);
         }
 
-        if(GameManager.Instance.currentLocalPlayer != null)
+
+        if (GameManager.Instance.currentLocalPlayer != null)
         {
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Time, (int)Math.Floor(GameManager.Instance.timer / 60));
         }
@@ -142,6 +143,11 @@ public class StatManager : MonoBehaviour
 
     void OnGameFinish()
     {
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            return;
+        }
+
         OnRoundFinish();
 
         int yourScore = RoomManager.Instance.actualRoom.scores[NetworkManager.Instance.GetLocalPlayer().playerTeam];
