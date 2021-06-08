@@ -290,6 +290,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (isOwner)
 		{
+			myPlayerModule.mylocalPlayer.SendRotation();
 			myPlayerModule.mylocalPlayer.myUiPlayerManager.HideCanalisationBar(true);
 
 			myPlayerModule.currentSpellResolved = spell;
@@ -341,6 +342,7 @@ public class SpellModule : MonoBehaviour
 	{
 		Canalyse(_BaseMousePos);
 	}
+
 	protected virtual void ApplyCanalisationEffect ()
 	{
 		myPlayerModule.AddState(En_CharacterState.Canalysing);
