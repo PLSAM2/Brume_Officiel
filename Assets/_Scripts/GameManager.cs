@@ -283,7 +283,11 @@ public class GameManager : SerializedMonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().ID != p.ID)
         {
             UiManager.Instance.chat.DisplayMessage(GameFactory.GetNameAddChamp(p) + " left the game");
-            Destroy(networkPlayers[p.ID].gameObject);
+
+            if(networkPlayers.ContainsKey(p.ID) && networkPlayers[p.ID] != null)
+            {
+                Destroy(networkPlayers[p.ID].gameObject);
+            }
         }
 
         networkPlayers.Remove(p.ID);
