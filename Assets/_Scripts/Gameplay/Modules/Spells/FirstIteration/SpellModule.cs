@@ -51,7 +51,7 @@ public class SpellModule : MonoBehaviour
 	[Header("FeedBack Spell ")]
 	public UnityEvent onCanalisation;
 	public UnityEvent onAnnonciation, onResolution, onInterrupt;
-	bool ispreviewed =false;
+	bool ispreviewed = false;
 	//setup
 	#region
 	private void OnEnable ()
@@ -222,6 +222,7 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void DecreaseCooldown ()
 	{
+
 		if (charges < spell.numberOfCharge)
 		{
 			if (cooldown <= spell.cooldown)
@@ -253,11 +254,9 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
-		if(showingPreview)
+		if (showingPreview)
 		{
-			if (isUsed)
-				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
-			else if (charges > 0)
+			if (charges > 0)
 				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 			else
 				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
@@ -284,7 +283,7 @@ public class SpellModule : MonoBehaviour
 		}
 		else
 			UiManager.Instance.CantCastFeedback(actionLinked);
-			/*SpellNotAvaible?.Invoke();*/
+		/*SpellNotAvaible?.Invoke();*/
 	}
 	protected virtual void Canalyse ( Vector3 _BaseMousePos )
 	{
@@ -477,7 +476,6 @@ public class SpellModule : MonoBehaviour
 	{
 		isUsed = false;
 
-		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		myPlayerModule.spellResolved?.Invoke();
 		myPlayerModule.currentSpellResolved = null;
@@ -630,10 +628,10 @@ public class SpellModule : MonoBehaviour
 	protected virtual void DecreaseCharge ()
 	{
 		charges -= 1;
+		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
 		{
-			print(spell.stacksUsed);
 			RoomManager.Instance.TryUseUltStacks(spell.stacksUsed);
 		}
 	}

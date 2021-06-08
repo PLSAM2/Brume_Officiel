@@ -61,7 +61,7 @@ public class IconUi : MonoBehaviour
 				break;
 
 			case En_IconStep.selectionned:
-				Color _tempColorBlue = new Vector4(0, 150, 255, 255);
+				Color _tempColorBlue = new Vector4(0, 100, 180, 255);
 				outlineIcon.color = _tempColorBlue;
 				icon.color = _tempColorBlue;
 				UiManager.Instance.currentCdDisplay = 0;
