@@ -17,7 +17,7 @@ public class Ward : MonoBehaviour
 
 	public Fow vision;
 	[SerializeField] private LayerMask brumeLayer;
-	private Team myTeam;
+	public Team myTeam;
 	bool hasTriggered = false;
 
 	public bool isInBrume = false;
@@ -48,15 +48,14 @@ public class Ward : MonoBehaviour
 	{
 		myTeam = _team;
 
-		if (_team != NetworkManager.Instance.GetLocalPlayer().playerTeam)
+		if (_team != NetworkManager.Instance.GetLocalPlayer().playerTeam && NetworkManager.Instance.GetLocalPlayer().playerTeam != Team.spectator)
 		{
 			this.gameObject.SetActive(false);
 		}
-		else
+		else if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator || _team == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
-            vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
+			vision.myFieldOfView.OnPlayerEnterInFow += OnPlayerSpotted;
             vision.myFieldOfView.EnemySeen += OnEnnemyInChange;
-
 
 
             vision.gameObject.SetActive(true);
