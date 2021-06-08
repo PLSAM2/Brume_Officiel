@@ -89,6 +89,16 @@ public class SpecMode : MonoBehaviour
                 ChangeSpecPlayer(playerSpected);
             }
         }
+
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            SpectatorList();
+            TryToSpec();
+        }
+
+
     }
 
     IEnumerator WaitToDisplaySpecMode()
@@ -121,6 +131,14 @@ public class SpecMode : MonoBehaviour
                 TryToSpec();
             }
         }
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            SpectatorList();
+            TryToSpec();
+        }
+
     }
 
     void SuprrOld()
