@@ -23,6 +23,9 @@ public class CameraManager : MonoBehaviour
     public Transform playerToFollow;
     [SerializeField] CinemachineVirtualCamera myCinemachine;
     [SerializeField] CinemachineVirtualCamera travelingCamera;
+    [SerializeField] GameObject specCam;
+    public Dictionary<ushort, CinemachineVirtualCamera> specCams = new Dictionary<ushort, CinemachineVirtualCamera>();
+    [SerializeField] CinemachineBrain cinemachineBrain;
     CinemachineBasicMultiChannelPerlin myCinemachinePerlin;
     [SerializeField] LayerMask groundlayer;
     float screenEdgeBorderHeight, screenEdgeBorderWidth;
@@ -31,6 +34,16 @@ public class CameraManager : MonoBehaviour
     public bool endGame = false;
     private float cameraShakeTimer = 0;
     private bool cameraShakeStarted = false;
+
+    private float cameraTravelTimer = 0;
+    private bool cameraTravelStarted = false;
+
+    private float cameraSpecTimer = 0;
+    private bool cameraSpecStarted = false;
+
+    private Transform cameraTravelNextPos;
+    private Transform cameraSpecNextPos;
+
     [HideInInspector] public Action<CameraManager> OnWatchCameraBorder;
     [HideInInspector] public bool listeningCameraInput = false;
     private void Awake()
@@ -65,6 +78,12 @@ public class CameraManager : MonoBehaviour
         myCinemachine.Follow = _go.transform;
         myCinemachinePerlin = myCinemachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         OnResolutionChanged();
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            cinemachineBrain.m_DefaultBlend.m_Time = 1.5f;
+        }
 
         /*screenEdgeBorderHeight = Screen.height * percentageOfTheScreenToScrollFromHeight;
 		screenEdgeBorderWidth = Screen.width * percentageOfTheScreenToScrollFromWidth;*/
@@ -214,6 +233,38 @@ public class CameraManager : MonoBehaviour
                 cameraShakeTimer = 0;
             }
         }
+
+        if (cameraTravelTimer > 0 && cameraTravelStarted)
+        {
+            cameraTravelTimer -= Time.deltaTime;
+
+            if (cameraTravelTimer < 0)
+            {
+                travelingCamera.Priority = 0;
+                SetFollowObj(cameraTravelNextPos);
+                cameraTravelStarted = false;
+            }
+        }
+
+        if (cameraSpecTimer > 0 && cameraSpecStarted)
+        {
+            cameraSpecTimer -= Time.deltaTime;
+
+            if (cameraSpecTimer < 0)
+            {
+
+                foreach (CinemachineVirtualCamera cam in specCams.Values)
+                {
+                    cam.Priority = 0;
+                }
+                SetFollowObj(cameraSpecNextPos);
+                travelingCamera.Priority = 0;
+                cameraSpecStarted = false;
+            }
+        }
+
+
+
         LerpCameraPos();
     }
 
@@ -265,7 +316,9 @@ public class CameraManager : MonoBehaviour
 
     public void SetFollowObj(Transform obj)
     {
+        print("yo");
         myCinemachine.Follow = obj;
+
     }
 
     public void ResetPlayerFollow()
@@ -291,14 +344,39 @@ public class CameraManager : MonoBehaviour
         travelingCamera.Follow = pos;
         travelingCamera.Priority = 20;
 
-        StartCoroutine(WaitEndTraveling(pos));
+        cameraTravelStarted = true;
+        cameraTravelTimer = cinemachineBrain.m_DefaultBlend.m_Time;
+        cameraTravelNextPos = pos;
+
+
     }
 
-    IEnumerator WaitEndTraveling(Transform pos)
+    public void AddCameraSpecToPlayers(ushort id, LocalPlayer lp)
     {
-        yield return new WaitForSeconds(2.5f);
-        SetFollowObj(pos);
-        travelingCamera.Priority = 0;
+
+        if (specCams.ContainsKey(id))
+        {
+            return;
+        }
+
+        CinemachineVirtualCamera CVC = Instantiate(specCam).GetComponent<CinemachineVirtualCamera>();
+        CVC.Follow = lp.transform;
+        specCams.Add(id, CVC);
+    }
+
+    public void CameraTravelingToSpecPLayer(ushort targetedID, Transform pos)
+    {
+        foreach (CinemachineVirtualCamera cam in specCams.Values)
+        {
+            cam.Priority = 0;
+        }
+
+
+        specCams[targetedID].Priority = 20;
+
+        cameraSpecNextPos = pos;
+        cameraSpecTimer = cinemachineBrain.m_DefaultBlend.m_Time;
+        cameraSpecStarted = true;
     }
 
 }

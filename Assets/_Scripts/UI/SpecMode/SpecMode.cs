@@ -208,7 +208,7 @@ public class SpecMode : MonoBehaviour
 
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
-            CameraManager.Instance.CameraTraveling(GameManager.Instance.networkPlayers[id].transform, GameManager.Instance.networkPlayers[id]);
+            CameraManager.Instance.CameraTravelingToSpecPLayer(id, GameManager.Instance.networkPlayers[id].transform);
         } else
         {
             CameraManager.Instance.SetFollowObj(GameManager.Instance.networkPlayers[id].transform);
