@@ -1,4 +1,5 @@
-﻿using DarkRift;
+﻿using Cinemachine;
+using DarkRift;
 using DarkRift.Client.Unity;
 using Sirenix.OdinInspector;
 using System;
@@ -71,7 +72,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("Vision")] public QuickOutline myOutline;
 
 	public GameObject deathFx;
-
 	public GameObject waypointAlliePrefab;
 	AllieWaypoint myWaypoint;
 
@@ -89,7 +89,14 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-		myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
+			myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
+
+
+		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+		{
+			CameraManager.Instance.AddCameraSpecToPlayers(myPlayerId, this);
+
+		}
 
 		if (isOwner)
 		{
@@ -261,6 +268,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	private void OnDestroy ()
 	{
+
+		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+		{
+			if (CameraManager.Instance.specCams.ContainsKey(myPlayerId))
+			{
+				CameraManager.Instance.specCams.Remove(myPlayerId);
+			}
+		}
+
+
 		if (myFow != null)
 		{
 			Destroy(myFow.gameObject);
