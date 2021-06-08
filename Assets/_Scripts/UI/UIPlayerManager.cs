@@ -122,14 +122,24 @@ public class UIPlayerManager : MonoBehaviour
 		}
 		nameText.text = RoomManager.Instance.actualRoom.playerList[myLocalPlayer.myPlayerId].Name;
 
-		currentColorTeam = redMat;
-		if (GameFactory.GetRelativeTeam(myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
-		{
-			currentColorTeam = blueMat;
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+			currentColorTeam = redMat;
+
+			if (myLocalPlayer.myPlayerModule.teamIndex == Team.blue)
+			{
+				currentColorTeam = blueMat;
+			}
+		} else
+        {
+			currentColorTeam = redMat;
+			if (GameFactory.GetRelativeTeam(myLocalPlayer.myPlayerModule.teamIndex) == Team.blue)
+			{
+				currentColorTeam = blueMat;
+			}
 		}
 
 		nameText.material = currentColorTeam;
-
 		SpawnLifeBar();
 
 		if (myLocalPlayer.isOwner)

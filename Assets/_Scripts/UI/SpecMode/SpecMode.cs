@@ -89,6 +89,16 @@ public class SpecMode : MonoBehaviour
                 ChangeSpecPlayer(playerSpected);
             }
         }
+
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            SpectatorList();
+            TryToSpec();
+        }
+
+
     }
 
     IEnumerator WaitToDisplaySpecMode()
@@ -121,6 +131,14 @@ public class SpecMode : MonoBehaviour
                 TryToSpec();
             }
         }
+
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            SpectatorList();
+            TryToSpec();
+        }
+
     }
 
     void SuprrOld()
@@ -205,7 +223,15 @@ public class SpecMode : MonoBehaviour
         }
 
         playerSpected = id;
-        CameraManager.Instance.SetFollowObj(GameManager.Instance.networkPlayers[id].transform);
+
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            CameraManager.Instance.CameraTravelingToSpecPLayer(id, GameManager.Instance.networkPlayers[id].transform);
+        } else
+        {
+            CameraManager.Instance.SetFollowObj(GameManager.Instance.networkPlayers[id].transform);
+        }
+
 
         foreach (SpecPlayerElement player in listPlayer)
         {
@@ -224,6 +250,19 @@ public class SpecMode : MonoBehaviour
             {
                 if(p.Value != null)
                 {
+                    foreach (Ward w in GameManager.Instance.allWard)
+                    {
+                        if (w.myTeam == RoomManager.Instance.GetPlayerData(id).playerTeam)
+                        {
+                            w.GetMesh().SetActive(true);
+                            w.GetFow().gameObject.SetActive(true);
+                        }  else
+                        {
+                            w.GetMesh().SetActive(false);
+                            w.GetFow().gameObject.SetActive(false);
+                        }
+                    }
+
                     p.Value.myFow.gameObject.SetActive(RoomManager.Instance.GetPlayerData(p.Key).playerTeam == RoomManager.Instance.GetPlayerData(id).playerTeam);
                 }
             }
