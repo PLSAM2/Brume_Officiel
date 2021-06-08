@@ -272,10 +272,7 @@ public class Aoe : AutoKill
 
 	public void LerpParameter(MeshRenderer _renderer)
 	{
-		print(_renderer.material.GetFloat("_FillAmount"));
-
 		_renderer.material.SetFloat( "_FillAmount", 0.35f);
-		print(_renderer.material.GetFloat("_FillAmount"));
 
 		_renderer.material.DOFloat(1, "_FillAmount",.65f);
 	}

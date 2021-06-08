@@ -316,9 +316,7 @@ public class CameraManager : MonoBehaviour
 
     public void SetFollowObj(Transform obj)
     {
-        print("yo");
         myCinemachine.Follow = obj;
-
     }
 
     public void ResetPlayerFollow()
