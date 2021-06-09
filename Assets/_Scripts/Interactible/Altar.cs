@@ -21,7 +21,8 @@ public class Altar : Interactible
 
     [SerializeField] AudioClip unlockAltarSfx;
     [SerializeField] AudioClip capturedAltarSfx;
-
+    [SerializeField] AudioClip unlockAltarVoice;
+    [SerializeField] AudioClip capturedAltarVoice;
     [HideInInspector] public float currentTime = 0;
 
     [SerializeField] protected MeshRenderer completeObj;
@@ -132,6 +133,7 @@ public class Altar : Interactible
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
         }
 
+        AudioManager.Instance.Play2DAudio(capturedAltarVoice);
         UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
         StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
@@ -211,6 +213,7 @@ public class Altar : Interactible
         if (interactibleName == "Right" && annonceUnlock) // BERK MAIS OSEF
         {
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
+            AudioManager.Instance.Play2DAudio(unlockAltarVoice);
             StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
         }
 

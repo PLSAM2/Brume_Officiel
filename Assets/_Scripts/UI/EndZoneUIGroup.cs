@@ -13,7 +13,7 @@ public class EndZoneUIGroup : MonoBehaviour
     public Image endZoneBarBackground;
     public Animator endZoneAnim;
     public GameObject endZoneTimerObj;
-
+    [SerializeField] AudioClip attackEndZone, defendEndZone;
     public void Init(Team team)
     {
 
@@ -43,10 +43,11 @@ public class EndZoneUIGroup : MonoBehaviour
                     return;
                 default: throw new System.Exception();
             }
-
+            AudioManager.Instance.Play2DAudio(attackEndZone);
         }
         else
         {
+            AudioManager.Instance.Play2DAudio(defendEndZone);
             EndZoneText.text = "Defend The Center";
         }
 
@@ -56,6 +57,30 @@ public class EndZoneUIGroup : MonoBehaviour
 
     public void TimerElapsed()
     {
+        if (EndZoneText.text == "Defend The Center")  // BERK
+        {
+            switch (NetworkManager.Instance.GetLocalPlayer().playerCharacter)
+            {
+                case Character.none:
+                    return;
+                case Character.WuXin:
+                    EndZoneText.text = "Attack The Center";
+                    break;
+                case Character.Re:
+                    EndZoneText.text = "Defend WuXin";
+                    break;
+                case Character.Leng:
+                    EndZoneText.text = "Defend WuXin";
+                    break;
+                case Character.test:
+                    return;
+                default: throw new System.Exception();
+            }
+
+
+            AudioManager.Instance.Play2DAudio(attackEndZone);
+        }
+
 
         Color _temp = GameFactory.GetColorTeam(Team.blue);
 
@@ -66,7 +91,8 @@ public class EndZoneUIGroup : MonoBehaviour
         endZoneBar.color = _temp;
         endZoneBarBackground.color = new Color(_temp.r, _temp.g, _temp.b, 0.2f);
 
-        EndZoneText.text = "Attack The Center";
+
+
 
     }
 
