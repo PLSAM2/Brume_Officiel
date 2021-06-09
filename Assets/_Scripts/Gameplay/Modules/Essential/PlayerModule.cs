@@ -239,26 +239,7 @@ public class PlayerModule : MonoBehaviour
             wardModule.SetupComponent(En_SpellInput.SoulSpell);
 
 
-            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
-            {
-                if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.blue)
-                {
-                    foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-                    {
-                        skin.material.SetFloat("_OutlinePower", 0);
-                    }
-                }
-                else
-                {
-                    foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-                    {
-                        skin.material.SetFloat("_OutlinePower", 10);
-                    }
-                }
 
-            }
-            else
-            {
 
                 if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
                 {
@@ -273,12 +254,7 @@ public class PlayerModule : MonoBehaviour
                     {
                         skin.material.SetFloat("_OutlinePower", 10);
                     }
-                }
-
-
-            }
-
-
+                }            
         }
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
@@ -292,8 +268,26 @@ public class PlayerModule : MonoBehaviour
                 mapIcon.gameObject.SetActive(false);
         }
 
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.blue)
+            {
+                foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+                {
+                    skin.material.SetFloat("_OutlinePower", 0);
+                }
+            }
+            else
+            {
+                foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+                {
+                    skin.material.SetFloat("_OutlinePower", 10);
+                }
+            }
 
-        ResetLayer();
+        }
+
+            ResetLayer();
     }
 
     public void GetDamageFx()
@@ -530,7 +524,14 @@ public class PlayerModule : MonoBehaviour
     }
     protected virtual void FixedUpdate()
     {
-
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            if (this.mylocalPlayer == GameFactory.GetActualPlayerFollow())
+            {
+                CheckBrumeShader();
+            }
+            return;
+        }
 
         if (mylocalPlayer.isOwner)
         {
@@ -539,6 +540,7 @@ public class PlayerModule : MonoBehaviour
     }
     public void CheckBrumeShader()
     {
+
         if (_isInBrume)
         {
             if (shaderTransitionValue > 0.99f)
