@@ -156,7 +156,7 @@ MonoBehaviour:
   myTeam: 0
   isInBrume: 0
   brumeId: 0
-  mesh: {fileID: 7803431669020177590}
+  mesh: {fileID: 6221691319270815876}
   rangePreview: {fileID: 7007959671686254117}
   prefabWaypoint: {fileID: 150680, guid: ee52903ff55943c4bbda0fb8b2357e99, type: 3}
 --- !u!114 &9041222391492538948
@@ -380,11 +380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c6dc2456227844388047856574dce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7803431669020177590 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4491483482166061936, guid: e5177c7700e6b12499c0fb1d20dc9233, type: 3}
-  m_PrefabInstance: {fileID: 5917641589361074118}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8094227161319850422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460,8 +455,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5100122020337504493, guid: 79e8f44931aff154c9f2563d13b7a84e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79e8f44931aff154c9f2563d13b7a84e, type: 3}
+--- !u!1 &6221691319270815876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2739204512027605298, guid: 79e8f44931aff154c9f2563d13b7a84e, type: 3}
+  m_PrefabInstance: {fileID: 8094227161319850422}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8885793227901978916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 793994091898767506, guid: 79e8f44931aff154c9f2563d13b7a84e, type: 3}
