@@ -277,7 +277,6 @@ public class TutorialManager : MonoBehaviour
             questStepUIs[i].gameObject.SetActive(false);          
         }
 
-
         for (int i = 0; i < actualQuest.questSteps.Count; i++)
         {
             questStepUIs[i].Init(actualQuest.questSteps[i]);

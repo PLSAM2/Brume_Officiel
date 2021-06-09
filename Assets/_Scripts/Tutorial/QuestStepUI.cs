@@ -9,10 +9,12 @@ using UnityEngine.UI;
 public class QuestStepUI : MonoBehaviour
 {
 
-    public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI objectifText;
     public Animator QuestStepUI_Animator;
 
     public List<GameObject> descriptionQuest = new List<GameObject>();
+
+    public TextMeshProUGUI descriptionText;
 
     public void Init(QuestStep qs)
     {
@@ -20,11 +22,11 @@ public class QuestStepUI : MonoBehaviour
         if (qs.questEvent == QuestEvent.KeyPressed)
         {
             ProgressKeyQuest(qs);
-            descriptionText.text = descriptionText.text;
+            objectifText.text = objectifText.text;
         } else
         {
 
-            descriptionText.text = qs.stepDescription;
+            objectifText.text = qs.stepDescription;
             //descriptionText.DOText(qs.stepDescription, 0.7f, true, ScrambleMode.Lowercase);
         }
 
@@ -32,54 +34,29 @@ public class QuestStepUI : MonoBehaviour
     }
 
 
+    public void SetDescription(string _text)
+    {
+        descriptionText.text = _text;
+    }
+
     public void ProgressKeyQuest(QuestStep qs) {
-
-        string _temp = "";
-
-        _temp += qs.stepDescription;
 
         foreach (PairKeycodeBool pair in qs.keyToPress)
         {
-            string keyName = TransformKeyName(pair.key);
+            pair.myKeyObj.myAnimator.SetBool("Idle", true);
 
-            if (pair.pressed)
+            foreach(Image img in pair.myKeyObj.myColorImg)
             {
-                _temp += " <color=green> " + keyName + "</color>";
-            } else
-            {
-                _temp += " <color=white> " + keyName + "</color>";
+                img.color = Color.green;
             }
 
+            foreach (TextMeshProUGUI text in pair.myKeyObj.myColorText)
+            {
+                text.color = Color.green;
+            }
         }
-
-        descriptionText.text = _temp; 
-
     }
 
-
-    public string TransformKeyName(KeyCode key)
-    {
-        string _temp = "";
-
-        switch (key)
-        {
-            case KeyCode.Mouse0:
-                _temp = "Left-Click";
-                break;
-            case KeyCode.Mouse1:
-                _temp = "Right-Click";
-                break;
-            case KeyCode.Mouse2:
-                _temp = "Middle-Click";
-                break;
-            default:
-                _temp = key.ToString();
-                break;
-        }
-
-
-        return _temp;
-    }
     public void End()
     {
         QuestStepUI_Animator.SetBool("Complete", true);

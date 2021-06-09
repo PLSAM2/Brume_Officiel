@@ -103,6 +103,7 @@ public class PairKeycodeBool
 {
     public KeyCode key;
     public int keyCount = 1;
+    public KeyTuto myKeyObj;
     [HideInInspector] public int keyPressedCount = 0;
     [HideInInspector] public bool pressed;
     
