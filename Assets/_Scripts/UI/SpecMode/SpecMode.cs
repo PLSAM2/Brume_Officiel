@@ -95,7 +95,12 @@ public class SpecMode : MonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
         {
             SpectatorList();
-            TryToSpec();
+
+            if (playerId == playerSpected)
+            {
+                TryToSpec();
+            }
+
         }
 
 
@@ -136,7 +141,6 @@ public class SpecMode : MonoBehaviour
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
         {
             SpectatorList();
-            TryToSpec();
         }
 
     }

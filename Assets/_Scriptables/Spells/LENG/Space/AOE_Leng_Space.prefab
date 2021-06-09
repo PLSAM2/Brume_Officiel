@@ -181,6 +181,19 @@ MonoBehaviour:
   localTrad: {fileID: 11400000, guid: 16da40bbd1b20764fb53600d0bedff29, type: 2}
   adaptiveRange: 0
   procSound: {fileID: 8300000, guid: 33e95493f71deb94f98e59855531cb2f, type: 3}
+  OnApparition:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPrewarm:
+    m_PersistentCalls:
+      m_Calls: []
+  OnProck:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDisparition:
+    m_PersistentCalls:
+      m_Calls: []
+  timeToPrewarm: 0
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +415,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1968642071642084285, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642071642084285, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -484,6 +501,10 @@ PrefabInstance:
     - target: {fileID: 1968642072582387598, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: m_Name
       value: VFX_LengJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642072582387598, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1968642072582387598, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: m_IsActive
