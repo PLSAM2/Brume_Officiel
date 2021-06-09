@@ -162,8 +162,10 @@ public class Projectile : AutoKill
 
 
 
-	private void Update ()
+	protected override void Update ()
 	{
+		base.Update();	
+
 		myRb.velocity = transform.forward * speed * localTrad._curveSpeed.Evaluate((mylifeTime - myLivelifeTime) / mylifeTime);
 
 		if (localTrad.isScalable)
