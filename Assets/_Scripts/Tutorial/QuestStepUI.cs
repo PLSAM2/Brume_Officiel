@@ -43,6 +43,8 @@ public class QuestStepUI : MonoBehaviour
 
         foreach (PairKeycodeBool pair in qs.keyToPress)
         {
+            if (!pair.pressed) { continue; }
+
             pair.myKeyObj.myAnimator.SetBool("Idle", true);
 
             foreach(Image img in pair.myKeyObj.myColorImg)
