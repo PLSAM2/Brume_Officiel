@@ -41,7 +41,12 @@ public class AnimEvent : MonoBehaviour
             killByPlayer.Add(_idKiller, 1);
         }
 
-        if(_idKiller == GameFactory.GetActualPlayerFollow().myPlayerId)
+        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+        {
+            return;
+        }
+
+        if(GameFactory.GetActualPlayerFollow() != null && _idKiller == GameFactory.GetActualPlayerFollow().myPlayerId)
         {
             KillEventAnim obj = Instantiate(killPrefab, parentList).GetComponent<KillEventAnim>();
             obj.killText.text = "KILL x" + killByPlayer[_idKiller];

@@ -9,8 +9,10 @@ using UnityEngine.UI;
 public class QuestStepUI : MonoBehaviour
 {
 
-    public Text descriptionText;
+    public TextMeshProUGUI descriptionText;
     public Animator QuestStepUI_Animator;
+
+    public List<GameObject> descriptionQuest = new List<GameObject>();
 
     public void Init(QuestStep qs)
     {
@@ -18,11 +20,12 @@ public class QuestStepUI : MonoBehaviour
         if (qs.questEvent == QuestEvent.KeyPressed)
         {
             ProgressKeyQuest(qs);
-            descriptionText.DOText(descriptionText.text, 0.7f, true, ScrambleMode.Lowercase);
+            descriptionText.text = descriptionText.text;
         } else
         {
-         
-            descriptionText.DOText(qs.stepDescription, 0.7f, true, ScrambleMode.Lowercase);
+
+            descriptionText.text = qs.stepDescription;
+            //descriptionText.DOText(qs.stepDescription, 0.7f, true, ScrambleMode.Lowercase);
         }
 
         gameObject.SetActive(true);

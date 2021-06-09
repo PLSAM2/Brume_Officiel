@@ -152,12 +152,16 @@ MonoBehaviour:
   OnApparition:
     m_PersistentCalls:
       m_Calls: []
+  OnPrewarm:
+    m_PersistentCalls:
+      m_Calls: []
   OnProck:
     m_PersistentCalls:
       m_Calls: []
   OnDisparition:
     m_PersistentCalls:
       m_Calls: []
+  timeToPrewarm: 0
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1177869533447667988, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1177869533447667988, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -317,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2408629129421621358, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2923929598929901805, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: m_LocalScale.x
@@ -397,7 +401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101379786043652950, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3347596866234644676, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: m_Mesh
@@ -417,7 +421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4238674034905185602, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 0.25
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 7663605016587493690, guid: f46a2c1097cb7f34ea902675e687f7f0, type: 3}
       propertyPath: m_IsActive
