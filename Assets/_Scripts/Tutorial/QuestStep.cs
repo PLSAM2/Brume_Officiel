@@ -11,6 +11,7 @@ public class QuestStep
     [Title("Quest Step ")]
     public QuestEvent questEvent;
     public string stepDescription = "";
+    public int indexQuest = 0;
 
    [HideInInspector] public bool completed = false;
    [HideInInspector] public QuestStepUI UI;
