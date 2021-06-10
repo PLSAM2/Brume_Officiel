@@ -34,7 +34,7 @@ public class Ward : MonoBehaviour
 	{
 		myWaypoint = Instantiate(prefabWaypoint, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
 		myWaypoint.target = transform;
-		myWaypoint.SetImageColor(GameFactory.GetColorTeam(Team.red));
+		//myWaypoint.SetImageColor(GameFactory.GetColorTeam(Team.red));
 		myWaypoint.gameObject.SetActive(false);
 	}
 
