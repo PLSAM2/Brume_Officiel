@@ -35,6 +35,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera cinematicCamera;
 
     [SerializeField] private Animator canvasAnimator;
+
+    [SerializeField] private UpdateCanvas updaterCanvas;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -144,6 +147,8 @@ public class TutorialManager : MonoBehaviour
             InitAllNewQuestEvents();
             InitQuestUi();
         }
+
+        updaterCanvas.ResetCanvas();
     }
 
 
