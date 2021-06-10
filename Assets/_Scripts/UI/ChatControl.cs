@@ -92,7 +92,7 @@ public class ChatControl : MonoBehaviour
             newMessageControl.InitNewMessage(RoomManager.Instance.GetPlayerData(_id), _message);
         }
 
-        //LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)newMessage.transform);
+       // LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)newMessage.transform);
 
         //if pas en train de l utiliser //TODO
         myScrollbar.value = 0;
