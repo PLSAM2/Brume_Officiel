@@ -7,7 +7,7 @@ public class UpdateCanvas : MonoBehaviour
 {
     public RectTransform quest;
 
-    void Update()
+    public void ResetCanvas()
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate(quest);
     }
