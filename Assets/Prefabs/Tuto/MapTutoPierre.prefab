@@ -221,7 +221,7 @@ MonoBehaviour:
           m_CallState: 2
     questSteps:
     - questEvent: 0
-      stepDescription: Move around
+      stepDescription: Move around pls
       indexQuest: 0
       completed: 0
       UI: {fileID: 0}
@@ -1396,18 +1396,6 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
           m_Arguments:
@@ -1418,18 +1406,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: QuestStepUI, Assembly-CSharp
-          m_MethodName: SetDescription
-          m_Mode: 5
+        - m_Target: {fileID: 295033303872792023}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Hold the shift key while moving to sneak, while sneaking
-              your character don't make noise or echoes
-            m_BoolArgument: 1
+            m_StringArgument: 
+            m_BoolArgument: 0
           m_CallState: 2
     OnQuestEnded:
       m_PersistentCalls:
@@ -1471,12 +1458,17 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     questSteps:
-    - questEvent: 5
+    - questEvent: 0
       stepDescription: Try sneaking
       indexQuest: 0
       completed: 0
       UI: {fileID: 0}
-      keyToPress: []
+      keyToPress:
+      - key: 304
+        keyCount: 1
+        myKeyObj: {fileID: 0}
+        keyPressedCount: 0
+        pressed: 0
       zoneEvent: 0
       zoneToTrigger: {fileID: 0}
       interactibleEvent: 0
@@ -1505,33 +1497,33 @@ MonoBehaviour:
     OnQuestStarted:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
-          m_MethodName: DisplayNewMessage
-          m_Mode: 5
+        - m_Target: {fileID: 221078086}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: Stepping on the heal pickup let you capture it.
-            m_BoolArgument: 0
+            m_BoolArgument: 1
           m_CallState: 2
-    OnQuestEnded:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
-          m_MethodName: HideMessage
-          m_Mode: 1
+        - m_Target: {fileID: 295033303872792023}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 0
+            m_BoolArgument: 1
           m_CallState: 2
+    OnQuestEnded:
+      m_PersistentCalls:
+        m_Calls: []
     questSteps:
     - questEvent: 2
       stepDescription: Capture the heal pickup
@@ -1577,19 +1569,6 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
         - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
-          m_MethodName: DisplayNewMessage
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Use your space key to use your third skill, aim for
-              the waypoint to go throught the wall
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
@@ -1602,6 +1581,18 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
         - m_Target: {fileID: 40605578}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
@@ -1628,10 +1619,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
-          m_MethodName: HideMessage
-          m_Mode: 1
+        - m_Target: {fileID: 40605578}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1640,7 +1631,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 40605578}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
@@ -1671,34 +1662,10 @@ MonoBehaviour:
   - questTitle: Final Capture
     OnQuestStarted:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
-          m_MethodName: DisplayNewMessage
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Stay on the altar to capture it
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     OnQuestEnded:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MessageManager, Assembly-CSharp
-          m_MethodName: HideMessage
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     questSteps:
     - questEvent: 2
       stepDescription: Capture the altar
@@ -1724,12 +1691,37 @@ MonoBehaviour:
   EndTutorialPanel: {fileID: 0}
   OnQuestStarted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UpdateCanvas, Assembly-CSharp
+        m_MethodName: ResetCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnQuestEnded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UpdateCanvas, Assembly-CSharp
+        m_MethodName: ResetCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   cinematicCamera: {fileID: 0}
   canvasAnimator: {fileID: 0}
+  updaterCanvas: {fileID: 0}
 --- !u!1 &1471100489
 GameObject:
   m_ObjectHideFlags: 0
