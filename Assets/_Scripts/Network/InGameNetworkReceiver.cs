@@ -403,12 +403,6 @@ public class InGameNetworkReceiver : MonoBehaviour
                 ushort id = reader.ReadUInt16();
                 ushort killerId = reader.ReadUInt16();
 
-
-                foreach (Altar alt in GameManager.Instance.allAltar)
-                {
-                    alt.OnPlayerDie(id);
-                }
-
                 GameManager.Instance.networkPlayers[id].KillPlayerLocaly();
                 SupprPlayer(id);
                 PlayerData p = NetworkManager.Instance.GetLocalPlayer();
