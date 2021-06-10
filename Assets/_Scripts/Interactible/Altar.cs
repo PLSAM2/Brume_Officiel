@@ -147,8 +147,8 @@ public class Altar : Interactible
         StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
 
         iconUnlock.color = GameFactory.GetRelativeColor(capturePlayer.playerTeam);
-        if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
-            onCaptureMesh.material.SetColor();
+      //  if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+           // onCaptureMesh.material.SetColor("_ColorBase1", );
             StatManager.Instance.AddCapture(capturePlayer.playerTeam);
     }
 
