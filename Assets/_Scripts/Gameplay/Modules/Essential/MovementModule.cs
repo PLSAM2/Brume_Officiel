@@ -372,7 +372,7 @@ public class MovementModule : MonoBehaviour
 			return true;
 	}
 
-	float LiveMoveSpeed ()
+	public float LiveMoveSpeed ()
 	{
 		float _worstMalus = 0;
 		float _allBonuses = 0;
