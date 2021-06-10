@@ -36,11 +36,11 @@ public class EndZoneInteractible : Interactible
             }
         }
 
-
-        if (playerInZone.FirstOrDefault(x => x.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam) != null)
+        if (playerInZone.Count > 0 && playerInZone.ElementAt(0).Value != null && playerInZone.ElementAt(0).Value.teamIndex != NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
             return;
         }
+
 
         base.Capture();
     }

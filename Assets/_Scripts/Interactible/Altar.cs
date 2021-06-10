@@ -40,6 +40,8 @@ public class Altar : Interactible
     void Start()
     {
         base.Init();
+
+        GameManager.Instance.OnPlayerDie += OnPlayerDie;
         isInteractable = false;
 
         waypointObj = Instantiate(waypointAltarPrefab, UiManager.Instance.parentWaypoint).GetComponent<AltarWaypoint>();
@@ -52,6 +54,11 @@ public class Altar : Interactible
 
         iconUnlock.gameObject.SetActive(false);
         iconLock.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPlayerDie -= OnPlayerDie;
     }
 
     private void Update()
@@ -239,25 +246,20 @@ public class Altar : Interactible
     }
 
 
-    public void OnPlayerDie(ushort deadP)
+    public void OnPlayerDie(ushort deadP, ushort killer)
     {
-        PlayerModule pm = altarUiProgressCol.playerInUIZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
-
-        if (pm != null)
+        if (altarUiProgressCol.playersInUIZone.ContainsKey(deadP))
         {
-            altarUiProgressCol.playerInUIZone.Remove(pm);
+            if (altarUiProgressCol.playersInUIZone[deadP] != null)
+            {
+               altarUiProgressCol.playersInUIZone.Remove(deadP);
+            }
         }
 
-        pm = playerInZone.Where(x => x.mylocalPlayer.myPlayerId == deadP).FirstOrDefault();
-
-        if (pm != null)
+        if (playerInZone.ContainsKey(deadP))
         {
-            playerInZone.Remove(pm);
+            playerInZone.Remove(deadP);
         }
-
-        playerInZone.RemoveAll(item => item == null);
-        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
-
         UpdateUI();
     }
 
@@ -265,7 +267,6 @@ public class Altar : Interactible
     {
         base.UpdateUI();
 
-        altarUiProgressCol.playerInUIZone.RemoveAll(item => item == null);
         if (!altarUiProgressCol.IsplayerInUIZoneContainLocalPlayer())
         {
             return;
@@ -289,7 +290,7 @@ public class Altar : Interactible
         }
         else
         {
-            if (playerInZone[0].teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            if (playerInZone.ElementAt(0).Value.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
                 UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
             }
