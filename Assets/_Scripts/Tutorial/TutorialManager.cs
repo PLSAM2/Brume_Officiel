@@ -147,8 +147,6 @@ public class TutorialManager : MonoBehaviour
             InitAllNewQuestEvents();
             InitQuestUi();
         }
-
-        updaterCanvas.ResetCanvas();
     }
 
 
@@ -269,6 +267,7 @@ public class TutorialManager : MonoBehaviour
                     throw new Exception("not existing event");
             }
         }
+        //updaterCanvas.ResetCanvas();
     }
 
 
@@ -287,6 +286,8 @@ public class TutorialManager : MonoBehaviour
             questStepUIs[i].Init(actualQuest.questSteps[i]);
             actualQuest.questSteps[i].UI = questStepUIs[i];
         }
+
+        //updaterCanvas.ResetCanvas();
     }
 
 
@@ -295,7 +296,10 @@ public class TutorialManager : MonoBehaviour
         qs.completed = true;
 
         qs.UI.End();
+
+        //updaterCanvas.ResetCanvas();
     }
+
     public void ProgressKeyQuest(QuestStep qs)
     {
         qs.UI.ProgressKeyQuest(qs);
