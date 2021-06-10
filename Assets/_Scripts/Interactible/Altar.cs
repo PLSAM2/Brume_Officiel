@@ -35,7 +35,8 @@ public class Altar : Interactible
     public GameObject redTaken, blueTaken;
 
     [SerializeField] SpriteRenderer iconUnlock, iconLock;
-
+    public ParticleSystem particleCapture;
+    public MeshRenderer onCaptureMesh;
 
     void Start()
     {
@@ -146,8 +147,9 @@ public class Altar : Interactible
         StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
 
         iconUnlock.color = GameFactory.GetRelativeColor(capturePlayer.playerTeam);
-
-        StatManager.Instance.AddCapture(capturePlayer.playerTeam);
+        if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+            onCaptureMesh.material.SetColor();
+            StatManager.Instance.AddCapture(capturePlayer.playerTeam);
     }
 
     public override void Captured(ushort _capturingPlayerID)
