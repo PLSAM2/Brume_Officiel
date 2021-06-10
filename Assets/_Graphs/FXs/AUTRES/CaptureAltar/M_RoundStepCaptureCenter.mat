@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_RoundStepCapture
+  m_Name: M_RoundStepCaptureCenter
   m_Shader: {fileID: 4800000, guid: dc00d3480b942af4f8c4a8afe90994fe, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTrailTex:
+        m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -71,6 +75,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: e5a550f36f9e197469edeff80b3ab853, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _blurclouds:
+        m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -86,7 +98,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
-    - _Apparition: 1
+    - _Apparition: 0
     - _Apparition1: 0.211
     - _Blend: 0
     - _BumpScale: 1
@@ -99,7 +111,13 @@ Material:
     - _DstBlend: 0
     - _EmissivIntensity: 3
     - _EmissivIntensity1: 1
+    - _EmissiveIntensityMax: 0.8
+    - _EmissiveIntensityMin: 0.5
     - _EnvironmentReflections: 1
+    - _Float2: 4
+    - _Float3: 0
+    - _Float4: 0.1
+    - _Float5: 2
     - _FresnelIntensityAlbedo: 1
     - _FresnelStrenght: 2.46
     - _FresnelStrenght1: 1
@@ -109,7 +127,8 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0
+    - _Opacity: 1
+    - _Opacity1: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -131,13 +150,16 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
-    - _ColorBase1: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBase2: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBase1: {r: 1, g: 0.25, b: 0.25, a: 1}
+    - _ColorBase2: {r: 1, g: 0, b: 0, a: 1}
     - _ColorPincipale: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Vector0: {r: 0.97, g: 6.5, b: 0, a: 0}
-    - _VitessePanner: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Vector1: {r: 1.5, g: 10, b: 0, a: 0}
+    - _Vector3: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Vector4: {r: 1, g: 1, b: 0, a: 0}
+    - _VitessePanner: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3135740513727207990
 MonoBehaviour:
