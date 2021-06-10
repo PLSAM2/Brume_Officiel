@@ -312,7 +312,7 @@ public class Altar : Interactible
                 UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
 
                 var _emission = particleCapturingAlly.emission;
-                _emission.rateOverTime = playerInZone.Count * 10;
+                _emission.rateOverTime = playerInZone.Count * 5;
 
                 var _emission1 = particleCapturingEnemy.emission;
                 _emission1.rateOverTime = 0;
@@ -326,7 +326,7 @@ public class Altar : Interactible
                 _emission.rateOverTime =0;
 
                 var _emission1 = particleCapturingEnemy.emission;
-                _emission1.rateOverTime = playerInZone.Count * 10;
+                _emission1.rateOverTime = playerInZone.Count * 5;
             }
         }
     }
