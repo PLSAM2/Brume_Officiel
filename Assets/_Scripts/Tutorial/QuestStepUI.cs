@@ -12,8 +12,6 @@ public class QuestStepUI : MonoBehaviour
     public TextMeshProUGUI objectifText;
     public Animator QuestStepUI_Animator;
 
-    public List<GameObject> descriptionQuest = new List<GameObject>();
-
     public TextMeshProUGUI descriptionText;
 
     public void Init(QuestStep qs)
