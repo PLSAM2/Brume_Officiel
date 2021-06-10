@@ -46,7 +46,7 @@ public class Interactible : MonoBehaviour
 	protected bool paused = false;
 
 	[TabGroup("InteractiblePart")]
-	protected List<PlayerModule> playerInZone = new List<PlayerModule>();
+	protected Dictionary<ushort, PlayerModule> playerInZone = new Dictionary<ushort, PlayerModule>();
 
 	[Header("Color")]
 	[TabGroup("InteractiblePart")]
@@ -202,6 +202,7 @@ public class Interactible : MonoBehaviour
 
 	public virtual void ProgressInServer ( float progress )
 	{
+		print("Server - " + timer + " -- interactTime " + " \\ " + progress);
 		timer = progress * interactTime; // 0 --> interactTime 
 		fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
 	}
@@ -443,9 +444,9 @@ public class Interactible : MonoBehaviour
 			}
 
 
-			if (!playerInZone.Contains(_pModule))
+			if (!playerInZone.ContainsKey(_pModule.mylocalPlayer.myPlayerId))
 			{
-				playerInZone.Add(_pModule);
+				playerInZone.Add(_pModule.mylocalPlayer.myPlayerId, _pModule);
 
 				UpdateUI();
 
@@ -479,9 +480,9 @@ public class Interactible : MonoBehaviour
 				return;
 			}
 
-			if (playerInZone.Contains(_pModule))
+			if (playerInZone.ContainsKey(_pModule.mylocalPlayer.myPlayerId))
 			{
-				playerInZone.Remove(_pModule);
+				playerInZone.Remove(_pModule.mylocalPlayer.myPlayerId);
 				PlayerInContestedZoneQuit(_pModule);
 			}
 
@@ -526,9 +527,9 @@ public class Interactible : MonoBehaviour
 				{
 					return;
 				}
-				if (!playerInZone.Contains(_pModule))
+				if (!playerInZone.ContainsKey(_pModule.mylocalPlayer.myPlayerId))
 				{
-					playerInZone.Add(_pModule);
+					playerInZone.Add(_pModule.mylocalPlayer.myPlayerId, _pModule);
 				}
 
 				UpdateUI();
@@ -558,9 +559,9 @@ public class Interactible : MonoBehaviour
 		bool containRed = false;
 		bool containblue = false;
 
-		foreach (PlayerModule pm in playerInZone)
+		foreach (KeyValuePair<ushort, PlayerModule> pm in playerInZone)
 		{
-			if (pm.teamIndex == Team.red)
+			if (pm.Value.teamIndex == Team.red)
 			{
 				containRed = true;
 			}
@@ -580,8 +581,6 @@ public class Interactible : MonoBehaviour
 
 	public virtual int GetLocalPlayerCountInZone ()
 	{
-		playerInZone.RemoveAll(item => item == null);
-
 		return playerInZone.Count;
 	}
 

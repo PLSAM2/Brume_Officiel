@@ -5,7 +5,7 @@ using UnityEngine;
 public class AltarUiProgressCollider : MonoBehaviour
 {
     public Altar parentAltar;
-    public List<PlayerModule> playerInUIZone = new List<PlayerModule>();
+    public Dictionary<ushort,  PlayerModule> playersInUIZone = new Dictionary<ushort, PlayerModule>();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,15 +17,13 @@ public class AltarUiProgressCollider : MonoBehaviour
             {
                 return;
             }
-            if (!playerInUIZone.Contains(_pModule))
+            if (!playersInUIZone.ContainsKey(_pModule.mylocalPlayer.myPlayerId))
             {
-               playerInUIZone.Add(_pModule);
+               playersInUIZone.Add(_pModule.mylocalPlayer.myPlayerId, _pModule);
             }
 
             if (!_pModule.mylocalPlayer.isOwner)
             {
-                playerInUIZone.RemoveAll(item => item == null);
-
                 if (!IsplayerInUIZoneContainLocalPlayer())
                 {
                     return;
@@ -48,9 +46,9 @@ public class AltarUiProgressCollider : MonoBehaviour
                 return;
             }
 
-            if (playerInUIZone.Contains(_pModule))
+            if (playersInUIZone.ContainsKey(_pModule.mylocalPlayer.myPlayerId))
             {
-                playerInUIZone.Remove(_pModule);
+                playersInUIZone.Remove(_pModule.mylocalPlayer.myPlayerId);
             }
 
 
@@ -71,7 +69,7 @@ public class AltarUiProgressCollider : MonoBehaviour
     {
         if (GameFactory.GetActualPlayerFollow() != null)
         {
-            return playerInUIZone.Contains(GameFactory.GetActualPlayerFollow().myPlayerModule);
+            return playersInUIZone.ContainsKey(GameFactory.GetActualPlayerFollow().myPlayerId);
         } else
         {
             return false;
