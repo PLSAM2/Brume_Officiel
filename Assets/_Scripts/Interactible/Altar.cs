@@ -37,7 +37,7 @@ public class Altar : Interactible
     [SerializeField] SpriteRenderer iconUnlock, iconLock;
     public ParticleSystem particleCapturingAlly, particleCapturingEnemy, onEnemyCapture, onAllyCapture;
     public MeshRenderer onCaptureMesh, centerMesh;
-
+    public GameObject[] allBraseros;
     void Start()
     {
         base.Init();
@@ -55,6 +55,8 @@ public class Altar : Interactible
 
         iconUnlock.gameObject.SetActive(false);
         iconLock.gameObject.SetActive(true);
+        foreach (GameObject _obj in allBraseros)
+            _obj.SetActive(false);
     }
 
     private void OnDisable()
@@ -180,6 +182,8 @@ public class Altar : Interactible
         completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
         completeObj.gameObject.SetActive(true);
 
+        foreach (GameObject _obj in allBraseros)
+            _obj.SetActive(false);
         /*
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
@@ -254,6 +258,8 @@ public class Altar : Interactible
     {
         fillImg.gameObject.SetActive(true);
         fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
+        foreach (GameObject _obj in allBraseros)
+            _obj.SetActive(true);
 
         base.Unlock();
 
