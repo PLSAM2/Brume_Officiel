@@ -14,17 +14,18 @@ public class ChampSelectManager : SerializedMonoBehaviour
 {
     private static ChampSelectManager _instance;
     public static ChampSelectManager Instance { get { return _instance; } }
+    [Header("Ref")]
+    public List<PlayerTeamElement> playerElement = new List<PlayerTeamElement>();
 
-    public List<PlayerTeamElement> redTeamPlayerElement = new List<PlayerTeamElement>();
-    public List<PlayerTeamElement> blueTeamPlayerElement = new List<PlayerTeamElement>();
-
-    public List<PlayerTeamElement> charactersElement = new List<PlayerTeamElement>();
+    public List<ChampionSlot> charactersElement = new List<ChampionSlot>();
+    public List<GameObject> charactersPanel = new List<GameObject>();
 
     public GameObject startButton;
+    public GameObject selectButton;
     public Text roundText;
 
-    private Dictionary<ushort, PlayerTeamElement> linkPlayerCharacterListObj = new Dictionary<ushort, PlayerTeamElement>(); // character 
-    private Dictionary<ushort, PlayerTeamElement> linkPlayerTeamPlayerElement = new Dictionary<ushort, PlayerTeamElement>(); // player list
+    private Dictionary<ushort, ChampionSlot> linkPlayerCharacterListObj = new Dictionary<ushort, ChampionSlot>(); // character 
+    private Dictionary<ushort, PlayerTeamElement> linkPlayerElement = new Dictionary<ushort, PlayerTeamElement>(); // player list
 
     [Header("Swap")]
     public GameObject characterSwapPanelReceiver;
@@ -33,6 +34,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
     public TextMeshProUGUI characterSwapPanelSenderText;
     private ushort askingSwapPlayerId = 0;
 
+    public Character pickChar = Character.none;
 
     private void Awake()
     {
@@ -70,34 +72,21 @@ public class ChampSelectManager : SerializedMonoBehaviour
     {
         roundText.text = "Round : " + RoomManager.Instance.roundCount;
 
-
-        int redTeamCounter = 0;
-        int blueTeamCounter = 0;
+        int playerCount = 0;
 
         foreach (PlayerData p in RoomManager.Instance.actualRoom.playerList.Values)
         {
-            PlayerTeamElement _teamElement = null;
-
-            switch (p.playerTeam)
+            if (p.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
-                case Team.none:
-                    return;
-                case Team.red:
-                    _teamElement = redTeamPlayerElement[redTeamCounter];
-                    redTeamCounter++;
-                    break;
-                case Team.blue:
-                    _teamElement = blueTeamPlayerElement[blueTeamCounter];
+                PlayerTeamElement _teamElement = null;
 
-                    blueTeamCounter++;
-                    break;
-                case Team.spectator:
-                    continue;
-                default: throw new Exception("NO TEAM");
+                _teamElement = playerElement[playerCount];
+                playerCount++;
+
+                _teamElement.SetStatut(PlayerTeamElement.ChampSelectStatut.pick);
+                linkPlayerElement.Add(p.ID, _teamElement);
+                _teamElement.Init(p);
             }
-            _teamElement.SetStatut(PlayerTeamElement.ChampSelectStatut.pick);
-            linkPlayerTeamPlayerElement.Add(p.ID, _teamElement);
-            _teamElement.Init(p);
         }
     }
 
@@ -132,9 +121,42 @@ public class ChampSelectManager : SerializedMonoBehaviour
     }
 
 
-    public void PickCharacter(GameData.Character character)
+
+    public void PickCharacter(GameData.Character character, ChampionSlot cs)
     {
-        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        int characterToInt = ((int)character / 10) - 1; // meh
+
+        foreach (GameObject item in charactersPanel)
+        {
+            item.SetActive(false);
+        }
+
+        charactersPanel[characterToInt].SetActive(true);
+
+        foreach (ChampionSlot item in charactersElement)
+        {
+            if (cs == item)
+            {
+                continue;
+            }
+            item.UnPick();
+        }
+        selectButton.SetActive(true);
+
+        foreach (PlayerData pd in RoomManager.Instance.actualRoom.playerList.Values)
+        {
+            if (pd.playerCharacter == character)
+            {
+                selectButton.SetActive(true);
+            }
+        }
+
+        pickChar = character;
+    }
+
+    public void SelectChar()
+    {
+        if (pickChar == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
             return;
         }
@@ -142,13 +164,12 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
-            writer.Write((ushort)character);
+            writer.Write((ushort)pickChar);
 
             using (Message message = Message.Create(Tags.SetCharacter, writer))
                 RoomManager.Instance.client.SendMessage(message, SendMode.Reliable);
         }
     }
-
 
     private void PickCharacterInServer(object sender, MessageReceivedEventArgs e)
     {
@@ -166,7 +187,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
         SetCharacter(_playerID, _character);
 
-        linkPlayerTeamPlayerElement[_playerID].SetStatut(PlayerTeamElement.ChampSelectStatut.confirme);
+
 
         if (_playerID == askingSwapPlayerId)
         {
@@ -217,8 +238,6 @@ public class ChampSelectManager : SerializedMonoBehaviour
                     characterSwapPanelSenderText.text = "Asking " + RoomManager.Instance.GetPlayerData(_targetedID).Name + " to swap";
                 }
 
-                linkPlayerCharacterListObj[_playerID].SetSwapIcon(true);
-                linkPlayerCharacterListObj[_targetedID].SetSwapIcon(true);
             }
         }
     }
@@ -269,10 +288,10 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public void StopSwap()
     {
-        foreach (PlayerTeamElement charList in linkPlayerCharacterListObj.Values)
-        {
-            charList.SetSwapIcon(false);
-        }
+        //foreach (ChampionSlot charList in linkPlayerCharacterListObj.Values)
+        //{
+        //    charList.SetSwapIcon(false);
+        //}
 
         characterSwapPanelSender.SetActive(false);
         characterSwapPanelReceiver.SetActive(false);
@@ -285,13 +304,13 @@ public class ChampSelectManager : SerializedMonoBehaviour
     private void SetCharacter(ushort playerID, Character character, bool swap = false)
     {
         PlayerData player = RoomManager.Instance.actualRoom.playerList[playerID];
-        int characterToInt = ((int)character / 10) - 1; // DE GEU LA SSE, a refaire
+        int characterToInt = ((int)character / 10) - 1; // meh
 
-        PlayerTeamElement _characterObj;
-
+        ChampionSlot _characterSlot;
+        PlayerTeamElement _playerTeamElement;
         if (player.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
         {
-            _characterObj = charactersElement[characterToInt];
+            _characterSlot = charactersElement[characterToInt];
 
             if (linkPlayerCharacterListObj.ContainsKey(playerID))
             {
@@ -301,8 +320,22 @@ public class ChampSelectManager : SerializedMonoBehaviour
                 }
                 linkPlayerCharacterListObj.Remove(playerID);
             }
-            _characterObj.Init(player, true);
-            linkPlayerCharacterListObj.Add(playerID, _characterObj);
+
+
+
+            _playerTeamElement = linkPlayerElement[playerID];
+
+            _playerTeamElement.SetStatut(PlayerTeamElement.ChampSelectStatut.ready);
+            _playerTeamElement.PickCharacter(character);
+
+            if (character == pickChar)
+            {
+                selectButton.SetActive(false);
+            }
+
+
+            _characterSlot.Pick(playerID);
+            linkPlayerCharacterListObj.Add(playerID, _characterSlot);
         }
 
         player.playerCharacter = character;
@@ -364,10 +397,10 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     private void OnPlayerQuit(PlayerData obj)
     {
-        if (linkPlayerTeamPlayerElement.ContainsKey(obj.ID))
+        if (linkPlayerElement.ContainsKey(obj.ID))
         {
-            linkPlayerTeamPlayerElement[obj.ID].OnPlayerLeave();
-            linkPlayerTeamPlayerElement.Remove(obj.ID);
+            linkPlayerElement[obj.ID].OnPlayerLeave();
+            linkPlayerElement.Remove(obj.ID);
         }
 
         if (linkPlayerCharacterListObj.ContainsKey(obj.ID))
