@@ -34,10 +34,16 @@ Shader "Blend"
 
 			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
 			ZTest LEqual
-			ZWrite Off
+			ZWrite On
 			Offset 0 , 0
 			ColorMask RGBA
-			
+			Stencil
+			{
+				Ref 255
+				Pass Keep
+				Fail Keep
+				ZFail Keep
+			}
 
 			HLSLPROGRAM
 			#define ASE_SRP_VERSION 999999
@@ -63,9 +69,9 @@ Shader "Blend"
 			sampler2D _TextureSample0;
 			sampler2D _TextureSample1;
 			CBUFFER_START( UnityPerMaterial )
-			half4 _TextureSample0_ST;
-			half4 _TextureSample1_ST;
-			half _Float0;
+			float4 _TextureSample0_ST;
+			float4 _TextureSample1_ST;
+			float _Float0;
 			CBUFFER_END
 
 
@@ -166,17 +172,17 @@ Shader "Blend"
 }
 /*ASEBEGIN
 Version=18707
--904;0;903;1019;826.0087;106.4006;1;True;False
+-1920;0;1920;1019;1334.509;103.4006;1;True;False
 Node;AmplifyShaderEditor.SamplerNode;33;-797.0338,361.6586;Inherit;True;Property;_TextureSample1;Texture Sample 1;1;0;Create;True;0;0;False;0;False;-1;None;e2073a1d62f900544b9a185ba7e1b40e;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;85;-601.6987,219.3748;Inherit;False;Property;_Float0;Float 0;2;0;Create;True;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;5;-800.9677,8.156021;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;False;-1;None;f70359441594a954aab89915b3d39ffd;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.CustomExpressionNode;82;-392.0055,139.0126;Float;False;if (ColIn[0] < CutOff) discard@ return ColIn@;4;False;2;True;ColIn;FLOAT4;0,0,0,0;In;;Inherit;False;True;CutOff;FLOAT;0;In;;Inherit;False;AlphaClip;True;False;0;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;86;-166.6196,46.07208;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;81;0,0;Float;False;True;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;14;Blend;cf964e524c8e69742b1d21fbe2ebcc4a;True;Unlit;0;0;Unlit;3;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;0;True;2;5;False;-1;10;False;-1;3;1;False;-1;10;False;-1;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;2;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;0;Hidden/InternalErrorShader;0;0;Standard;1;Vertex Position;1;0;1;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;81;0,0;Float;False;True;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;14;Blend;cf964e524c8e69742b1d21fbe2ebcc4a;True;Unlit;0;0;Unlit;3;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;0;True;2;5;False;-1;10;False;-1;3;1;False;-1;10;False;-1;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;True;True;255;False;-1;255;False;-1;255;False;-1;0;False;-1;1;False;-1;1;False;-1;1;False;-1;0;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;0;Hidden/InternalErrorShader;0;0;Standard;1;Vertex Position;1;0;1;True;False;;False;0
 WireConnection;82;0;33;1
 WireConnection;82;1;85;0
 WireConnection;86;0;5;0
 WireConnection;86;1;82;0
 WireConnection;81;1;86;0
 ASEEND*/
-//CHKSM=ED6713D7287A2A63B4BCF1F00B2FFA740144C6AE
+//CHKSM=BD232D906D4E6F5F712F3BFFC22281EE7583DDE9
