@@ -455,13 +455,16 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-			using (DarkRiftWriter _writer = DarkRiftWriter.Create())
-			{
-				_writer.Write(myPlayerId);
-				_writer.Write(_finalDamage);
-				using (Message _message = Message.Create(Tags.Damages, _writer))
+            if (IsDead() == false)
+            {
+				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
-					currentClient.SendMessage(_message, SendMode.Reliable);
+					_writer.Write(myPlayerId);
+					_writer.Write(_finalDamage);
+					using (Message _message = Message.Create(Tags.Damages, _writer))
+					{
+						currentClient.SendMessage(_message, SendMode.Reliable);
+					}
 				}
 			}
 
@@ -528,6 +531,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			if ((int)liveHealth - (int)damages <= 0)
 			{
+				liveHealth = (ushort)0;
 				if (isOwner)
 				{
 					KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
@@ -541,6 +545,18 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		}
 
         GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
+    }
+
+
+	public bool IsDead()
+    {
+        if ((int)liveHealth <= 0)
+        {
+			return true;
+        } else
+        {
+			return false;
+        }
     }
 
 	/// <summary>

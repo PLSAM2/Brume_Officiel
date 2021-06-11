@@ -56,9 +56,10 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("TeamInfo")] public Image enemyRe, enemyWx, enemyLeng, teamRe, teamWx, teamLeng;
 
 	[Header("Altars")]
-	[FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
-	[FoldoutGroup("Altars")] [SerializeField] private Animator altarContestUI;
     [FoldoutGroup("Altars")] [SerializeField] private GameObject altarUIPanel;
+    [FoldoutGroup("Altars")] [SerializeField] private List<Animator> teamImgAltar = new List<Animator>();
+	[FoldoutGroup("Altars")] [SerializeField] private Animator altarContestUIBlue, altarContestUIRed;
+    [FoldoutGroup("Altars")] [SerializeField] private GameObject altarVersusPanel, altarSoloPanel;
     [FoldoutGroup("Altars")] public Image altarCaptureProgressBar;
 
     [Header("Other Gameplay")]
@@ -464,11 +465,13 @@ public class UiManager : MonoBehaviour
             teamImgAltar[1].SetBool("IsIn", false); teamImgAltar[1].gameObject.SetActive(false);
             teamImgAltar[2].SetBool("IsIn", false); teamImgAltar[2].gameObject.SetActive(false);
 
-            altarContestUI.gameObject.SetActive(true); altarContestUI.SetBool("IsIn", true);
+            altarVersusPanel.gameObject.SetActive(true); altarContestUIBlue.SetBool("IsIn", true); altarContestUIRed.SetBool("IsIn", true);
+            altarSoloPanel.gameObject.SetActive(false);
 
         } else
         {
-            altarContestUI.gameObject.SetActive(false);
+            altarVersusPanel.gameObject.SetActive(false);
+            altarSoloPanel.gameObject.SetActive(true);
 
             teamImgAltar[0].SetBool("IsIn", playercount >= 1);
             teamImgAltar[1].gameObject.SetActive(true); teamImgAltar[1].SetBool("IsIn", playercount >= 2);

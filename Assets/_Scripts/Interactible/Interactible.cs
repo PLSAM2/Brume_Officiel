@@ -202,7 +202,6 @@ public class Interactible : MonoBehaviour
 
 	public virtual void ProgressInServer ( float progress )
 	{
-		print("Server - " + timer + " -- interactTime " + " \\ " + progress);
 		timer = progress * interactTime; // 0 --> interactTime 
 		fillImg.material.SetFloat(progressShaderName, 1 - captureCurve.Evaluate((timer / interactTime)));
 	}
@@ -469,7 +468,7 @@ public class Interactible : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerExit ( Collider other )
+	protected virtual void OnTriggerExit ( Collider other )
 	{
 		if (GameFactory.IsInLayer(other.gameObject.layer, playerLayer))
 		{
