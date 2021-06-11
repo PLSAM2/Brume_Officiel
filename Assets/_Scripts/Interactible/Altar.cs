@@ -84,7 +84,22 @@ public class Altar : Interactible
         }
     }
 
-    protected override void VisualCaptureProgress()
+	protected override void OnTriggerExit ( Collider other )
+	{
+		base.OnTriggerExit(other);
+
+        if(playerInZone.Count ==0)
+		{
+            var _emission = particleCapturingAlly.emission;
+            _emission.rateOverTime = 0;
+
+            var _emission1 = particleCapturingEnemy.emission;
+            _emission1.rateOverTime = 0;
+        }
+
+	}
+
+	protected override void VisualCaptureProgress()
     {
         if (isViewed && reloading == false)
         {
