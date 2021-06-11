@@ -468,7 +468,7 @@ public class Interactible : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerExit ( Collider other )
+	protected virtual void OnTriggerExit ( Collider other )
 	{
 		if (GameFactory.IsInLayer(other.gameObject.layer, playerLayer))
 		{

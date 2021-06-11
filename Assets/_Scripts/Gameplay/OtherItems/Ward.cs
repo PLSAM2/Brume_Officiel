@@ -83,7 +83,9 @@ public class Ward : MonoBehaviour
 				}
 			}
 
-			GetMesh().SetActive(isView);
+
+			GetMesh().SetActive(myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
+
 			//vision.gameObject.SetActive(isView);
 
 			rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
