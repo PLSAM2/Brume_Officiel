@@ -35,7 +35,8 @@ public class Altar : Interactible
     public GameObject redTaken, blueTaken;
 
     [SerializeField] SpriteRenderer iconUnlock, iconLock;
-
+    public ParticleSystem particleCapturingAlly, particleCapturingEnemy, onEnemyCapture, onAllyCapture;
+    public MeshRenderer onCaptureMesh, centerMesh;
 
     void Start()
     {
@@ -83,7 +84,22 @@ public class Altar : Interactible
         }
     }
 
-    protected override void VisualCaptureProgress()
+	protected override void OnTriggerExit ( Collider other )
+	{
+		base.OnTriggerExit(other);
+
+        if(playerInZone.Count ==0)
+		{
+            var _emission = particleCapturingAlly.emission;
+            _emission.rateOverTime = 0;
+
+            var _emission1 = particleCapturingEnemy.emission;
+            _emission1.rateOverTime = 0;
+        }
+
+	}
+
+	protected override void VisualCaptureProgress()
     {
         if (isViewed && reloading == false)
         {
@@ -124,7 +140,8 @@ public class Altar : Interactible
         }
         base.UpdateCaptured(_capturingPlayerID);
 
-
+        onCaptureMesh.material.SetColor("_ColorBase1", GameFactory.GetColorTeam(capturePlayer.playerTeam));
+        onCaptureMesh.material.SetColor("_ColorBase2", GameFactory.GetSecondaryColorTeam(capturePlayer.playerTeam));
         //disable
         waypointObj.SetLock();
         waypointObj.gameObject.SetActive(false);
@@ -146,7 +163,6 @@ public class Altar : Interactible
         StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
 
         iconUnlock.color = GameFactory.GetRelativeColor(capturePlayer.playerTeam);
-
         StatManager.Instance.AddCapture(capturePlayer.playerTeam);
     }
 
@@ -156,6 +172,9 @@ public class Altar : Interactible
         {
             altarBuff.InitBuff(capturingPlayerModule);
         }
+
+        particleCapturingEnemy.Stop();
+        particleCapturingAlly.Stop();
 
         anim.SetTrigger("Captured");
         completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
@@ -177,9 +196,13 @@ public class Altar : Interactible
         if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
         {
             GameManager.Instance.numberOfAltarControled++;
+            onAllyCapture.Play();
         }
         else
+        {
             GameManager.Instance.numberOfAltarControledByEnemy++;
+            onEnemyCapture.Play();
+        }
 
 
         base.Captured(_capturingPlayerID);
@@ -287,17 +310,38 @@ public class Altar : Interactible
         if (IsLocallyContested())
         {
             UiManager.Instance.SetAltarCaptureUIState(true, true);
+
+            var _emission = particleCapturingAlly.emission;
+            _emission.rateOverTime = 0;
+
+            var _emission1 = particleCapturingEnemy.emission;
+            _emission1.rateOverTime = 0;
+
         }
         else
         {
+            centerMesh.material.SetColor("_CapturingTeamColor", GameFactory.GetColorTeam(playerInZone.ElementAt(0).Value.teamIndex));
+
             if (playerInZone.ElementAt(0).Value.teamIndex == NetworkManager.Instance.GetLocalPlayer().playerTeam)
             {
                 UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
+
+                var _emission = particleCapturingAlly.emission;
+                _emission.rateOverTime = playerInZone.Count * 5;
+
+                var _emission1 = particleCapturingEnemy.emission;
+                _emission1.rateOverTime = 0;
             }
             else
             {
-
                 UiManager.Instance.SetAltarCaptureUIState(false);
+
+
+                var _emission = particleCapturingAlly.emission;
+                _emission.rateOverTime =0;
+
+                var _emission1 = particleCapturingEnemy.emission;
+                _emission1.rateOverTime = playerInZone.Count * 5;
             }
         }
     }

@@ -81,7 +81,15 @@ public class GameFactory
 		}
 	}
 
-    public static ushort GetLifePlayer(Character _champ)
+	public static Color GetSecondaryColorTeam ( Team myTeam )
+	{
+		if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+			return new Color(.4f, .64f, .91f, 1f);
+		else
+			return new Color(.87f, .4f, .36f, 1f);
+	}
+
+	public static ushort GetLifePlayer(Character _champ)
     {
         ushort? id = GetPlayerCharacterInTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam ,_champ);
 
