@@ -27,8 +27,6 @@ public class EndGameStats : MonoBehaviour
     public GameObject altarEventPrefab;
     public GameObject killEventPrefab;
 
-    public TextMeshProUGUI endTime;
-
     public TextMeshProUGUI countText;
 
     //color altar
@@ -49,8 +47,6 @@ public class EndGameStats : MonoBehaviour
         SetChampStat();
 
         StatManager.Instance.endGameTime = GameManager.Instance.timer;
-
-        endTime.text = (int)Math.Floor(StatManager.Instance.endGameTime / 60) + ":" + ((int) StatManager.Instance.endGameTime % 60).ToString("D2");
 
         blueWinPanel.SetActive(StatManager.Instance.isVictory);
         redWinPanel.SetActive(!StatManager.Instance.isVictory);
@@ -128,61 +124,11 @@ public class EndGameStats : MonoBehaviour
 
     public void NewPlayerWantToSkip(ushort count, ushort _playerID)
     {
-		countText.text = count + "/" + Math.Ceiling((float)(RoomManager.Instance.actualRoom.playerList.Count) / 2);
-
-        if (!RoomManager.Instance.PlayerExist(_playerID))
+		countText.text = "SKIP (" + count + "/" + Math.Ceiling((float)(RoomManager.Instance.actualRoom.playerList.Count) / 2) + ")";
+        
+        if(_playerID == NetworkManager.Instance.GetLocalPlayer().ID)
         {
-            return;
-        }
-
-        switch (GameFactory.GetRelativeTeam(RoomManager.Instance.GetPlayerData(_playerID).playerTeam))
-        {
-            case Team.none:
-                return;
-            case Team.blue:
-                switch (RoomManager.Instance.GetPlayerData(_playerID).playerCharacter)
-                {
-                    case Character.none:
-                        return;
-                    case Character.WuXin:
-                        wxBlue.SetSkip();
-                        break;
-                    case Character.Re:
-                        reBlue.SetSkip();
-                        break;
-                    case Character.Leng:
-                        lengBlue.SetSkip();
-                        break;
-                    case Character.test:
-                        return;
-                    default: throw new Exception("Not existing");
-                }
-
-                break;
-            case Team.red:
-                switch (RoomManager.Instance.GetPlayerData(_playerID).playerCharacter)
-                {
-                    case Character.none:
-                        return;
-                    case Character.WuXin:
-                        wxRed.SetSkip();
-                        break;
-                    case Character.Re:
-                        reRed.SetSkip();
-                        break;
-                    case Character.Leng:
-                        lengRed.SetSkip();
-                        break;
-                    case Character.test:
-                        return;
-                    default: throw new Exception("Not existing");
-                }
-
-
-                break;
-            case Team.spectator:
-                return;
-            default: throw new Exception("Not existing");
+            countText.color = Color.green;
         }
     }
 

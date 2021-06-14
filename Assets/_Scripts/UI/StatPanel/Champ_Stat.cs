@@ -13,11 +13,9 @@ public class Champ_Stat : MonoBehaviour
     public TextMeshProUGUI damage;
     public TextMeshProUGUI capture;
 
-    public GameObject deathPanel;
-    public GameObject iconDeath;
-    public GameObject skip;
-
     public bool isSet = false;
+
+    public CanvasGroup group;
 
     public void Init(string _myUsername, Team _team, int _numberOfKill, int _numberOfDamage, int _capture)
     {
@@ -30,21 +28,9 @@ public class Champ_Stat : MonoBehaviour
         capture.text = _capture.ToString();
     }
 
-    public void SetSkip(bool state = true)
-    {
-        skip.SetActive(state);
-    }
-
-    public void Kill()
-    {
-        iconDeath.SetActive(true);
-        deathPanel.SetActive(true);
-    }
-
     public void SetPlayerOut()
     {
-        iconDeath.SetActive(false);
-        deathPanel.SetActive(true);
+        group.alpha = 0;
 
         username.text = "";
         kill.text = "";
