@@ -36,6 +36,8 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public Character pickChar = Character.none;
 
+    public GameObject wxImg, reImg, lengImg;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -150,6 +152,10 @@ public class ChampSelectManager : SerializedMonoBehaviour
                 selectButton.SetActive(true);
             }
         }
+
+        wxImg.SetActive(character == Character.WuXin);
+        reImg.SetActive(character == Character.Re);
+        lengImg.SetActive(character == Character.Leng);
 
         pickChar = character;
     }
