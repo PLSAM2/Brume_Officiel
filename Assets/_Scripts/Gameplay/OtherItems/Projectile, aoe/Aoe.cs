@@ -15,6 +15,7 @@ public class Aoe : AutoKill
 	[SerializeField] AudioClip procSound;
 	public UnityEvent OnApparition, OnPrewarm,OnProck, OnDisparition;
 	public float timeToPrewarm;
+	public GameObject objectToSpawnOnBuff;
 
 	protected override void Awake ()
 	{
@@ -151,6 +152,8 @@ public class Aoe : AutoKill
 
 				if (_damageable != null && _damageable.IsInMyTeam(myteam))
 				{
+					NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(objectToSpawnOnBuff), _coll.transform.position, transform.eulerAngles, 1);
+
 					float _percentageOfStrength = 1;
 					if (_buff.movementToApply != null)
 					{
