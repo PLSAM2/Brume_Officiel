@@ -13,7 +13,7 @@ public class IconUi : MonoBehaviour
 	[TabGroup("IconSpell")] [SerializeField] Image icon, fillAmount, outlineIcon;
 	[TabGroup("IconSpell")] [SerializeField] TextMeshProUGUI cooldownCount;
 	[TabGroup("IconSpell")] [SerializeField] GameObject inputIcon, feedbackCanUse;
-	[TabGroup("IconSpell")]	public  Color colorUnavaible = new Vector4(157, 48, 45, 255);
+	[TabGroup("IconSpell")] public Color colorUnavaible = new Vector4(157, 48, 45, 255);
 	[HideInInspector] public bool isMoving = false;
 	bool ishiding;
 	[SerializeField] RectTransform myRectTransform;
@@ -28,7 +28,6 @@ public class IconUi : MonoBehaviour
 		basePos = new Vector2(myRectTransform.localPosition.x, myRectTransform.localPosition.y);
 
 		inputLinked = _inputLinked;
-		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible += CantCastFeedback;
 
 		spellLinked = _spellToToolTip;
 		icon.sprite = _spellToToolTip.spellIcon;
@@ -42,14 +41,13 @@ public class IconUi : MonoBehaviour
 	}
 	private void OnDisable ()
 	{
-        if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
-        {
+		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == GameData.Team.spectator)
+		{
 			return;
-        }
-		GameManager.Instance.currentLocalPlayer.myPlayerModule.ModuleLinkedToInput(inputLinked).SpellNotAvaible -= CantCastFeedback;
+		}
 	}
 
-	public void UpdateSpellStep ( En_IconStep _spellStep )
+	public void UpdateSpellStep ( En_IconStep _spellStep, bool _isCanceled = false )
 	{
 		switch (_spellStep)
 		{
@@ -77,7 +75,8 @@ public class IconUi : MonoBehaviour
 				cooldownCount.gameObject.SetActive(false);
 				fillAmount.fillAmount = 0;
 				cooldownCount.text = "";
-				feedbackCanUse.SetActive(true);
+				if (!_isCanceled)
+					feedbackCanUse.SetActive(true);
 				break;
 		}
 	}
@@ -128,7 +127,7 @@ public class IconUi : MonoBehaviour
 	{
 		myRectTransform.DOKill();
 		myRectTransform.localPosition = basePos;
-		myRectTransform.localScale = new Vector3(2,2,2);
+		myRectTransform.localScale = new Vector3(2, 2, 2);
 		feedbackCanUse.SetActive(false);
 	}
 
