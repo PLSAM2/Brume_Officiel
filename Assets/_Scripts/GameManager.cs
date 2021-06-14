@@ -318,7 +318,6 @@ public class GameManager : SerializedMonoBehaviour
             }
         }
 
-
         if (RoomManager.Instance.actualRoom.roomType == RoomType.Tutorial)
         {
             TutorialManager.Instance.StartTutorial();
@@ -336,7 +335,6 @@ public class GameManager : SerializedMonoBehaviour
         defaultCam.gameObject.SetActive(true);
         globalVolumeAnimator.SetBool("InBrume", false);
     }
-
     int oldTimerTrain = 0;
     void UpdateTime()
     {
@@ -443,7 +441,6 @@ public class GameManager : SerializedMonoBehaviour
             }
         }
     }
-
     public void Revive(bool state = false)
     {
         reviveFeedbackSet = false;
@@ -451,7 +448,6 @@ public class GameManager : SerializedMonoBehaviour
         reviveTimer = baseReviveTime;
         isReviving = state;
     }
-
     public void SetOvertimeTimerState(bool state)
     {
         if (state)
@@ -459,7 +455,6 @@ public class GameManager : SerializedMonoBehaviour
             overtime = baseOvertime;
         }
     }
-
     public int SetTimer(float timer, TextMeshProUGUI text = null)
     {
         int secondRemaining = (int)timer % 60;
@@ -474,12 +469,10 @@ public class GameManager : SerializedMonoBehaviour
         UiManager.Instance.endZoneUIGroup.Init(team);
         endZoneStarted = true;
     }
-
     private void StartTimerInServer()
     {
         timeStart = true;
     }
-
     public void QuitGame()
     {
         if (GameFactory.GetLocalPlayerObj() != null)
@@ -489,16 +482,13 @@ public class GameManager : SerializedMonoBehaviour
 
         RoomManager.Instance.QuitGame();
     }
-
     public void DelinkEverySpell()
     {
-        print(currentLocalPlayer.name);
         currentLocalPlayer.myPlayerModule.leftClick.DelinkInput();
         currentLocalPlayer.myPlayerModule.firstSpell.DelinkInput();
         currentLocalPlayer.myPlayerModule.secondSpell.DelinkInput();
         currentLocalPlayer.myPlayerModule.SelectionnedSoulSpellModule().DelinkInput();
     }
-
     public void LinkTargetSpell(int _index)
     {
         switch (_index)
@@ -518,7 +508,6 @@ public class GameManager : SerializedMonoBehaviour
 
         }
     }
-
     #region DEPRECATED
 
     //internal void SpawnBrumeSoul(ushort brumeId)

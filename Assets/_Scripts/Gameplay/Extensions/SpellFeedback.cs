@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
+
 public class SpellFeedback : MonoBehaviour
 {
 
@@ -13,6 +15,8 @@ public class SpellFeedback : MonoBehaviour
 	public LineRenderer[] allLinePreviewForCac;
 	bool showLaser = false;
 	public float laserMaxLength = 8f;
+
+    public UnityEvent OnInvisibleStart, OnInvisibleEnd;
 
 	public void PlaySound ( AudioClip _audioToPlay )
 	{
@@ -73,15 +77,20 @@ public class SpellFeedback : MonoBehaviour
 		}
 
 		if (_isGhosting)
+        {
+            OnInvisibleStart?.Invoke();
             foreach (SkinnedMeshRenderer skin in myPlayerModule.skinnedRenderer)
             {
                 skin.material = wuxinGhostMaterial;
             }
-		else
+        }else
+        {
+            OnInvisibleEnd?.Invoke();
             foreach (SkinnedMeshRenderer skin in myPlayerModule.skinnedRenderer)
             {
                 skin.material = baseMaterial;
             }
+        }
 	}
 
     public void SpawnFXInvisible()

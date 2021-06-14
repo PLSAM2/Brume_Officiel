@@ -100,7 +100,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-			GameManager.Instance.ResetCam();
+            UiManager.Instance.SetAltarCaptureUIState(false);
+
+            GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
 			SpawnFow();
@@ -455,8 +457,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (_damagesToDeal.damageHealth > 0)
 		{
-            if (IsDead() == false)
-            {
 				using (DarkRiftWriter _writer = DarkRiftWriter.Create())
 				{
 					_writer.Write(myPlayerId);
@@ -466,7 +466,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 						currentClient.SendMessage(_message, SendMode.Reliable);
 					}
 				}
-			}
 
 			StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Damage, (int)_damagesToDeal.damageHealth);
 		}
@@ -547,17 +546,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
         GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
     }
 
-
-	public bool IsDead()
-    {
-        if ((int)liveHealth <= 0)
-        {
-			return true;
-        } else
-        {
-			return false;
-        }
-    }
 
 	/// <summary>
 	/// DO NOT use this until YOU KNOW what you do :)
