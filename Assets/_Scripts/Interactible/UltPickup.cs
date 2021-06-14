@@ -21,7 +21,7 @@ public class UltPickup : Interactible
 
 	private void Start ()
 	{
-		ActualiseMesh();
+		idle.SetActive(true);
 	}
 
 	public override void TryCapture ( GameData.Team team, PlayerModule capturingPlayer )
@@ -54,13 +54,14 @@ public class UltPickup : Interactible
 
 		//  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
 		timer = 0;
-		ActualiseMesh();
+		idle.SetActive(false);
+		onCapture.SetActive(true);
 	}
 
 	public override void Unlock ()
 	{
 		base.Unlock();
-		ActualiseMesh();
+		StartCoroutine(waitForIdle());
 	}
 	protected override void UpdateMapIcon ()
 	{
@@ -72,19 +73,16 @@ public class UltPickup : Interactible
 		switch (state)
 		{
 			case State.Locked:
-				onCapture.SetActive(false);
-				onReaparition.SetActive(false);
+		
 				break;
 
 			case State.Capturable:
-				StartCoroutine(waitForIdle());
 				//myAnimator.SetBool("IsActive", true);
 				break;
 
 			case State.Captured:
 				//myAnimator.SetBool("IsActive", false);
-				idle.SetActive(false);
-				onCapture.SetActive(true);
+		
 				break;
 		}
 	}
