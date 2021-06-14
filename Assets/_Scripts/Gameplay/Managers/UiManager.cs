@@ -27,10 +27,9 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI ennemyScore;
 	[FoldoutGroup("GlobalUi")] public UIAltarList uiAltarList;
 	[FoldoutGroup("GlobalUi")] public GameObject echapMenu;
-	[FoldoutGroup("GlobalUi")] public GameObject victoryPanel;
-	[FoldoutGroup("GlobalUi")] public GameObject loosePanel;
-	[FoldoutGroup("GlobalUi")] public TextMeshProUGUI endGameText;
-	[FoldoutGroup("GlobalUi")] public EndGameScore endGameScore;
+	[FoldoutGroup("GlobalUi")] public EndPanel endPanel;
+
+
 	[FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 	[FoldoutGroup("GlobalUi")] public EndGameStats endGameStats;
@@ -100,7 +99,7 @@ public class UiManager : MonoBehaviour
 	[Header("Annoncement")]
 	[FoldoutGroup("Annoncement")] public Annoncement myAnnoncement;
 
-	[SerializeField] AudioClip VictoryAudio, DefeatAudio;
+
 
 	public Animator hitWXPanel;
 
@@ -179,21 +178,7 @@ public class UiManager : MonoBehaviour
 
 	private void Start ()
 	{
-		// A changer >>
-		Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
 
-		string redTeamScore = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
-		string blueTeamScore = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
-
-
-		if (team == Team.blue)
-		{
-			endGameScore.Init(blueTeamScore, redTeamScore);
-		}
-		else if (team == Team.red)
-		{
-			endGameScore.Init(redTeamScore, blueTeamScore);
-		}
 
 		StartCoroutine(tempCoroutine());
 	}
@@ -655,29 +640,7 @@ public class UiManager : MonoBehaviour
 
         StatManager.Instance.isVictory = victory;
 
-        if (victory)
-		{
-			AudioManager.Instance.Play2DAudio(VictoryAudio);
-		}
-		else
-		{
-			AudioManager.Instance.Play2DAudio(DefeatAudio);
-		}
-
-		if (wuxinKilled)
-		{
-			endGameText.text = "Wu Xin Killed";
-		}
-		else
-		{
-			endGameText.text = "End Zone captured";
-		}
-
-		victoryPanel.SetActive(victory);
-		loosePanel.SetActive(!victory);
-		endGameText.gameObject.SetActive(true);
-		endGameScore.gameObject.SetActive(true);
-		endGameScore.EndGame(team);
+		endPanel.Appear(victory, team, wuxinKilled);
 
 		toDisableInEndGame.SetActive(false);
 	}
