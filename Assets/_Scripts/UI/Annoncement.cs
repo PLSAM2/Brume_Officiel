@@ -45,6 +45,11 @@ public class Annoncement : MonoBehaviour
 
     void OnPlayerDie(ushort _playerDie, ushort _killer)
     {
+        if(RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter == Character.WuXin)
+        {
+            return;
+        }
+
         ushort myId = NetworkManager.Instance.GetLocalPlayer().ID;
 
         AudioClip voice = allyEliminated;
