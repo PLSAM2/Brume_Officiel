@@ -254,7 +254,7 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
-		if (showingPreview)
+		if (showingPreview && myPlayerModule.currentSpellResolved && myPlayerModule.mylocalPlayer.isOwner)
 		{
 			if (charges > 0)
 				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
