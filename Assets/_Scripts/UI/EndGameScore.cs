@@ -12,10 +12,25 @@ public class EndGameScore : MonoBehaviour
     public TextMeshProUGUI enemyText;
     public TextMeshProUGUI newenemyText;
 
-    public void Init(string allyScoreText, string enemyScoreText)
+    public void Init()
     {
-        allyText.text = allyScoreText;
-        enemyText.text = enemyScoreText;
+        Team team = NetworkManager.Instance.GetLocalPlayer().playerTeam;
+
+        string redTeamScore = RoomManager.Instance.actualRoom.scores[Team.red].ToString();
+        string blueTeamScore = RoomManager.Instance.actualRoom.scores[Team.blue].ToString();
+
+        if (team == Team.blue)
+        {
+            allyText.text = blueTeamScore;
+            enemyText.text = redTeamScore;
+        }
+        else if (team == Team.red)
+        {
+            allyText.text = redTeamScore;
+            enemyText.text = blueTeamScore;
+        }
+
+
     }
 
     public void EndGame(Team team)

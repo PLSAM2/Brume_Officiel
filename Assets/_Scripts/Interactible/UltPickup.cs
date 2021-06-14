@@ -10,8 +10,9 @@ public class UltPickup : Interactible
 	public ushort hitPointGiven = 1;
 	public float brumeExplorationGain = .4f;
 	public Sc_Status appliedBonus;
-	public Transform captureFx;
 	public float maxHeight = 8;
+
+	public GameObject onCapture, onReaparition, idle;
 	protected override void Init ()
 	{
 		fillImg.material.SetFloat(progressShaderName, 1);
@@ -71,17 +72,29 @@ public class UltPickup : Interactible
 		switch (state)
 		{
 			case State.Locked:
-				myAnimator.SetBool("IsActive", false);
+				onCapture.SetActive(false);
+				onReaparition.SetActive(false);
 				break;
 
 			case State.Capturable:
-				myAnimator.SetBool("IsActive", true);
+				StartCoroutine(waitForIdle());
+				//myAnimator.SetBool("IsActive", true);
 				break;
 
 			case State.Captured:
-				myAnimator.SetBool("IsActive", false);
+				//myAnimator.SetBool("IsActive", false);
+				idle.SetActive(false);
+				onCapture.SetActive(true);
 				break;
 		}
+	}
+
+	IEnumerator waitForIdle()
+	{
+		onReaparition.SetActive(true);
+		yield return new WaitForSeconds(1.2f);
+		onReaparition.SetActive(false);
+		idle.SetActive(true);
 	}
 
 }
