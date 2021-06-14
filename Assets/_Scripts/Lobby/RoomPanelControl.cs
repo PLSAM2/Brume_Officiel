@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static GameData;
 
 public class RoomPanelControl : SerializedMonoBehaviour
@@ -12,9 +13,13 @@ public class RoomPanelControl : SerializedMonoBehaviour
     public GameObject redPlayerList;
     public GameObject bluePlayerList;
     public GameObject specPlayerList;
-    public GameObject playerListObj;
+    public GameObject playerListObjBlue;
+    public GameObject playerListObjRed;
+    public GameObject playerListObjSpec;
     public GameObject startGameButton;
-    public GameObject readyButton;
+    public GameObject readyButtonObj;
+    public Image readyButtonImg;
+    public Color cantReadyColor;
     public GameObject joinSpecButton;
     public GameObject Swap;
     public GameObject JoinTeam;
@@ -50,24 +55,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
     {
         startGameButton.SetActive(false);
 
-        GameObject _PlayerListObj;
-
-        switch (player.playerTeam)
-        {
-            case Team.none:
-                return;
-            case Team.red:
-                _PlayerListObj = Instantiate(playerListObj, redPlayerList.transform);
-                break;
-            case Team.blue:
-                _PlayerListObj = Instantiate(playerListObj, bluePlayerList.transform);
-                break;
-            case Team.spectator:
-                _PlayerListObj = Instantiate(playerListObj, specPlayerList.transform);
-                break;
-            default:
-                return;
-        }
+        GameObject _PlayerListObj = GetNewPlayerListObj(player.playerTeam);
 
         PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
 
@@ -80,6 +68,30 @@ public class RoomPanelControl : SerializedMonoBehaviour
         {
             SetHost(player, true);
         }
+    }
+
+    public GameObject GetNewPlayerListObj(Team team)
+    {
+        GameObject _PlayerListObj;
+
+        switch (team)
+        {
+            case Team.none:
+                return null;
+            case Team.red:
+                _PlayerListObj = Instantiate(playerListObjRed, redPlayerList.transform);
+                break;
+            case Team.blue:
+                _PlayerListObj = Instantiate(playerListObjBlue, bluePlayerList.transform);
+                break;
+            case Team.spectator:
+                _PlayerListObj = Instantiate(playerListObjSpec, specPlayerList.transform);
+                break;
+            default:
+                return null;
+        }
+
+        return _PlayerListObj;
     }
 
     public void RemovePlayer(PlayerData player)
@@ -96,6 +108,13 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
     public void ChangeTeam(ushort playerID, Team team)
     {
+        GameObject _PlayerListObj = GetNewPlayerListObj(team);
+
+        Destroy(PlayerObjDict[playerID].gameObject);
+
+        PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
+        PlayerObjDict[playerID] = obj;
+
         switch (team)
         {
             case Team.red:
@@ -127,7 +146,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
                 break;
             case Team.spectator:
                 LobbyManager.Instance.ChangeTeam(Team.red);
-                readyButton.SetActive(true);
+                readyButtonObj.SetActive(true);
                 joinSpecButton.SetActive(true);
                 Swap.SetActive(true);
                 JoinTeam.SetActive(false);
@@ -147,7 +166,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
         else
         {
             LobbyManager.Instance.ChangeTeam(Team.spectator);
-            readyButton.SetActive(false);
+            readyButtonObj.SetActive(false);
             joinSpecButton.SetActive(false);
             Swap.SetActive(false);
             JoinTeam.SetActive(true);
@@ -159,7 +178,16 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
     public void SetReady(ushort playerID, bool value)
     {
-        PlayerObjDict[playerID].readyImg.SetActive(value);
+        if (value)
+        {
+            readyButtonImg.color = cantReadyColor;
+            PlayerObjDict[playerID].readyImg.color = GameFactory.GetRelativeColor(RoomManager.Instance.actualRoom.playerList[playerID].playerTeam);
+        } else
+        {
+            readyButtonImg.color = Color.white;
+            PlayerObjDict[playerID].readyImg.color = Color.white;
+        }
+
 
 
         if (NetworkManager.Instance.GetLocalPlayer().IsHost)
@@ -176,8 +204,9 @@ public class RoomPanelControl : SerializedMonoBehaviour
             }
 
             if (onlySpec)
-            {
-                startGameButton.SetActive(false);
+            {           
+                    startGameButton.SetActive(false);
+                    PlayerObjDict[playerID].readyImg.color = Color.white;
                 return;
             }
 
