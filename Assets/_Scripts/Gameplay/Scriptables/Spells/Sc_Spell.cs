@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Video;
 
 [InlineEditor]
 [CreateAssetMenu(fileName = "NewSpell", menuName = "CreateCuston/NewSpell/BaseSpell")]
@@ -43,5 +44,6 @@ public class Sc_Spell : ScriptableObject
 	[TabGroup("Ui")] public string spellName = "MyNameIsStan";
 	[TextArea(15, 20)]
 	[TabGroup("Ui")] public string spellDescription = "My Description";
+    [TabGroup("Ui")] public VideoClip myVideoSpell;
 
 }

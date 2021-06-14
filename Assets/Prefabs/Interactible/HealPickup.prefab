@@ -31,25 +31,6 @@ Transform:
   m_Father: {fileID: 3677994218200260316}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6577912601663304553
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818386164131816602}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 08b2e18aee1079540a13ebd51c8ccc66, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3427705364763527798
 GameObject:
   m_ObjectHideFlags: 0
@@ -4848,13 +4829,15 @@ MonoBehaviour:
   serverReloadTime: 45
   CheckOnUnlock: 0
   lastTeamCaptured: 0
-  myAnimator: {fileID: 6577912601663304553}
+  myAnimator: {fileID: 0}
   ultimateStackGive: 0
   hitPointGiven: 1
   brumeExplorationGain: 0.4
   appliedBonus: {fileID: 11400000, guid: 7fc4236aa68f09b498e51bba820aef58, type: 2}
-  captureFx: {fileID: 0}
   maxHeight: 3
+  onCapture: {fileID: 8479210886154179520}
+  onReaparition: {fileID: 8584521572514888343}
+  idle: {fileID: 8990938229167167172}
 --- !u!54 &3002980123255836689
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9827,11 +9810,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
---- !u!1 &1818386164131816602 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1979846387117802721, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
-  m_PrefabInstance: {fileID: 163791333665841275}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1330783150980185632 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1166998965356273243, guid: 0f27d3b29da06874ea31b0ca670718ee, type: 3}
@@ -9849,6 +9827,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1330783150980185632}
     m_Modifications:
+    - target: {fileID: 1128724580931639974, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2123807084134626264, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -9869,9 +9851,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2579885469637762578, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579885469637762578, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2700496140612698937, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].time
+      value: 0.9979248
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].inSlope
+      value: -2.0444393
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].inWeight
+      value: 0.07833429
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915463771932523713, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].outSlope
+      value: -2.0444393
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414460334146629049, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414460334146629049, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3677015602850299113, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893478875181327580, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 5247475631282080582, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: m_RootOrder
@@ -9917,9 +9955,100 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5315801530795721562, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5773524939541766267, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: m_Name
       value: PickUp
       objectReference: {fileID: 0}
+    - target: {fileID: 5773524939541766267, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350643739544136076, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6451750492790128501, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559305255551620642, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6881677844992607130, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446184413509923052, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: lengthInSec
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].inSlope
+      value: 1.1412911
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].inWeight
+      value: 0.07201648
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].outSlope
+      value: 1.1412911
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438696874255104268, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438696874255104268, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8591823460939266818, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944729316699427571, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944729316699427571, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+--- !u!1 &8479210886154179520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6451750492790128501, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+  m_PrefabInstance: {fileID: 3180963570832420021}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8584521572514888343 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6559305255551620642, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+  m_PrefabInstance: {fileID: 3180963570832420021}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8990938229167167172 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5828563010503948913, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+  m_PrefabInstance: {fileID: 3180963570832420021}
+  m_PrefabAsset: {fileID: 0}

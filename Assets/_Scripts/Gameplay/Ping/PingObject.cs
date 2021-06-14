@@ -35,7 +35,7 @@ public class PingObject : MonoBehaviour
             waypointObj = Instantiate(waypointPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
             waypointObj.target = transform;
 
-            AudioManager.Instance.Play2DAudio(audioClip);
+            AudioManager.Instance.Play2DAudio(audioClip, 0.5f);
 
             StartCoroutine(AutoKillTime());
         }

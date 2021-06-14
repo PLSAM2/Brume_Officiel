@@ -209,10 +209,6 @@ public class ModuleCombo : SpellModule
 		}
 	}
 
-	protected override void DecreaseCharge ()
-	{
-		return;
-	}
 
 	protected override void ApplyCanalisationEffect ()
 	{

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerListObj : MonoBehaviour
 {
     public TextMeshProUGUI playerName;
     public GameObject host;
-    public GameObject readyImg;
+    public Image readyImg;
 }

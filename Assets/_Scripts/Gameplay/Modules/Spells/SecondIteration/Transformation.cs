@@ -77,14 +77,6 @@ public class Transformation : SpellModule
 			myPreview.Init(aoeToInstantiate.localTrad.rules.aoeRadius, CirclePreview.circleCenter.center, transform.position);
 	}
 
-	protected override void AddCharge ()
-	{
-		print("I had charge");
-		ResolveSpell();
-		Interrupt();
-		return;
-	}
-
 	public override bool CanDeacreaseCooldown ()
 	{
 		return asTransformed;
