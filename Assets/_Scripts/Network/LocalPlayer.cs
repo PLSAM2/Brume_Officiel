@@ -100,7 +100,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		if (isOwner)
 		{
-			GameManager.Instance.ResetCam();
+            UiManager.Instance.SetAltarCaptureUIState(false);
+
+            GameManager.Instance.ResetCam();
 			myPlayerModule.enabled = true;
 
 			SpawnFow();
