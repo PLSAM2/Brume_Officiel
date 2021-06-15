@@ -40,7 +40,7 @@ public class Annoncement : MonoBehaviour
         }
 
         NewAltarAnnoncement(("ALTARS AWAKENS").ToUpper(), allWaypoint, altarsAnnonced, null);
-        StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, "");
+        //StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, "");
     }
 
     void OnPlayerDie(ushort _playerDie, ushort _killer)

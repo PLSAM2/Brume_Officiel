@@ -39,12 +39,12 @@ public class JumpModule : SpellModule
 		base.TryCanalysing(_toAnnounce);
 	}
 
-	protected override void AnonceSpell ( Vector3 _toAnnounce )
+	protected override void Canalyse ( Vector3 _BaseMousePos )
 	{
-		base.AnonceSpell(_toAnnounce);
+		base.Canalyse(_BaseMousePos);
 		NetworkObjectsManager.Instance.NetworkAutoKillInstantiate(NetworkObjectsManager.Instance.GetPoolID(aoeToSpawnOnImpact.gameObject), jumpPosEnd, transform.eulerAngles, 1);
-	}
 
+	}
 	protected override void ResolveSpell ()
 	{
 		myPlayerModule.RemoveState(En_CharacterState.Intangenbility);

@@ -16,7 +16,7 @@ public class UltPickup : Interactible
 	protected override void Init ()
 	{
 		fillImg.material.SetFloat(progressShaderName, 1);
-		fillImg.material.SetFloat(opacityZoneAlphaShader, 0.2f);
+		fillImg.material.SetFloat(opacityZoneAlphaShader, 1f);
 	}
 
 	private void Start ()

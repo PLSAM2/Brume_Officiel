@@ -14,7 +14,7 @@ public class ModuleProjectileSpell : SpellModule
 	List<ArrowPreview> myPreviewArrow;
 	public bool passWalls = false;
 
-	protected  void FixedUpdate ()
+	protected void FixedUpdate ()
 	{
 		if (shooting == true)
 		{
@@ -163,11 +163,7 @@ public class ModuleProjectileSpell : SpellModule
 	protected override void CancelSpell ( bool _isForcedInterrupt )
 	{
 		base.CancelSpell(_isForcedInterrupt);
-		if (shooting == true)
-		{
-			shooting = false;
-			DecreaseCharge();
-		}
+		shooting = false;
 	}
 
 	#endregion

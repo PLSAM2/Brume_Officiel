@@ -105,20 +105,14 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    public void AddAltarEvent(state _altarState, string _altarPos, Team myTeam = Team.none)
+    public void AddAltarEvent(Team myTeam)
     {
         if (InGameNetworkReceiver.Instance.GetEndGame())
         {
             return;
         }
 
-        altarEvent newAltarEvent = new altarEvent(_altarState, _altarPos);
-
-        if(myTeam != Team.none)
-        {
-            newAltarEvent.myTeam = myTeam;
-        }
-
+        altarEvent newAltarEvent = new altarEvent(myTeam);
         timeLineEvent.Add(newAltarEvent, GameManager.Instance.timer);
     }
 
@@ -216,22 +210,12 @@ public class killEvent : statEvent
 
 public class altarEvent : statEvent
 {
-    public state myState;
-    public string altarPos;
     public Team myTeam;
 
-    public altarEvent(state _myState, string _altarPos)
+    public altarEvent(Team newTeam)
     {
         myTypeEvent = type.altar;
-        myState = _myState;
-        altarPos = _altarPos;
-    }
-
-    public enum state
-    {
-        AWAKENS,
-        UNSEALED,
-        CLEANSED
+        myTeam = newTeam;
     }
 }
 

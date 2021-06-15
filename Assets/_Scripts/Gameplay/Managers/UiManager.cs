@@ -138,7 +138,9 @@ public class UiManager : MonoBehaviour
         SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
 		SpawnLifeBar(parentLifeRE, reImgLife, Character.Re);
 		SpawnLifeBar(parentLifeLENG, lengImgLife, Character.Leng);
-	}
+
+        endGameStats.gameObject.SetActive(false);
+    }
 
 
 
@@ -569,24 +571,24 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	public void UpdateSpellIconState ( En_SpellInput _spellInput, En_IconStep _step )
+	public void UpdateSpellIconState ( En_SpellInput _spellInput, En_IconStep _step, bool _isCanceled = false )
 	{
 		switch (_spellInput)
 		{
 			case En_SpellInput.FirstSpell:
-				firstSpell.UpdateSpellStep(_step);
+				firstSpell.UpdateSpellStep(_step, _isCanceled);
 				break;
 
 			case En_SpellInput.SecondSpell:
-				secondSpell.UpdateSpellStep(_step);
+				secondSpell.UpdateSpellStep(_step, _isCanceled);
 				break;
 
 			case En_SpellInput.Click:
-				autoAttackIcon.UpdateSpellStep(_step);
+				autoAttackIcon.UpdateSpellStep(_step, _isCanceled);
 				break;
 
 			case En_SpellInput.SoulSpell:
-				soulSpellIcon.UpdateSpellStep(_step);
+				soulSpellIcon.UpdateSpellStep(_step, _isCanceled);
 				break;
 		}
 	}
@@ -658,7 +660,10 @@ public class UiManager : MonoBehaviour
 
 	public void InitEndGameStats ()
 	{
-		endGameStats.gameObject.SetActive(true);
+        endPanel.gameObject.SetActive(false);
+        blurVolume.SetActive(true);
+
+        endGameStats.gameObject.SetActive(true);
 		endGameStats.Init();
 	}
 

@@ -44,9 +44,9 @@ public class SpellModule : MonoBehaviour
 	protected bool isOwner = false;
 	[HideInInspector] public bool hasPreviewed;
 	protected Vector3 mousePosInputed;
-
+	bool isCanceled = false;
 	//public Action<int> ChargeUpdate;
-	public Action SpellAvaible, SpellNotAvaible;
+	public Action SpellAvaible;
 
 	[Header("FeedBack Spell ")]
 	public UnityEvent onCanalisation;
@@ -254,10 +254,11 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void HidePreview ( Vector3 _posToHide )
 	{
-		if (showingPreview && myPlayerModule.currentSpellResolved && myPlayerModule.mylocalPlayer.isOwner)
+		if (showingPreview && myPlayerModule.mylocalPlayer.isOwner)
 		{
+			isCanceled = true;
 			if (charges > 0)
-				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready, true);
 			else
 				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 		}
@@ -281,7 +282,7 @@ public class SpellModule : MonoBehaviour
 		{
 			Canalyse(_BaseMousePos);
 		}
-		else
+		else if (isCanceled)
 			UiManager.Instance.CantCastFeedback(actionLinked);
 		/*SpellNotAvaible?.Invoke();*/
 	}
@@ -289,6 +290,7 @@ public class SpellModule : MonoBehaviour
 	{
 		if (isOwner)
 		{
+			isCanceled = false;
 			myPlayerModule.mylocalPlayer.SendRotation();
 			myPlayerModule.mylocalPlayer.myUiPlayerManager.HideCanalisationBar(true);
 
@@ -305,6 +307,7 @@ public class SpellModule : MonoBehaviour
 			mousePosInputed = _BaseMousePos;
 
 			ApplyCanalisationEffect();
+
 			DecreaseCharge();
 
 		}
@@ -528,6 +531,7 @@ public class SpellModule : MonoBehaviour
 
 	protected virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
+		isCanceled = true;
 		if (_isForcedInterrupt && isUsed)
 		{
 			KillSpell();
@@ -542,7 +546,7 @@ public class SpellModule : MonoBehaviour
 	{
 		willResolve = false;
 		myPlayerModule.mylocalPlayer.UpdateSpellStep(actionLinked, En_SpellStep.Interrupt);
-		Interrupt();
+		Interrupt(true);
 	}
 	void TryToKillSpell ( Sc_Spell _spell )
 	{
@@ -627,7 +631,7 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void DecreaseCharge ()
 	{
-		charges -= 1;
+		charges = 0 ;
 		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
@@ -637,7 +641,7 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual bool CanDeacreaseCooldown ()
 	{
-		return charges < spell.numberOfCharge && !isUsed;
+		return charges == 0 && !isUsed;
 	}
 	protected virtual Sc_ForcedMovement ForcedMovementToApplyOnRealisation ()
 	{ return spell.forcedMovementAppliedBeforeResolution; }
