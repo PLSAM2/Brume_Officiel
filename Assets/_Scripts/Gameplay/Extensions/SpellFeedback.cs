@@ -33,7 +33,7 @@ public class SpellFeedback : MonoBehaviour
 	}
 	public void ShakeScreen ( float _shakingStrength )
 	{
-		GameFactory.DoScreenShake(shakingTime, _shakingStrength, transform.position, heardDistance);
+		GameFactory.DoScreenShake(shakingTime, _shakingStrength, transform.position, 8);
 	}
 
 	public void ShowPreview ( Transform _objectToShow )

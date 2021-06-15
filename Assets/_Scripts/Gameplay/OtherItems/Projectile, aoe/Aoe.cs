@@ -16,7 +16,7 @@ public class Aoe : AutoKill
 	public UnityEvent OnApparition, OnPrewarm,OnProck, OnDisparition;
 	public float timeToPrewarm;
 	public GameObject objectToSpawnOnBuff;
-
+	bool hasPrewarmed=false;
 	protected override void Awake ()
 	{
 		allyLayer = LayerMask.GetMask("CharacterIntengible") | LayerMask.GetMask("AlliedCharacter");
@@ -32,6 +32,7 @@ public class Aoe : AutoKill
 		ResetDamage();
 
 	}
+
 
 	void ResetDamage ()
 	{
@@ -68,6 +69,7 @@ public class Aoe : AutoKill
 			}
 	}
 		*/
+		hasPrewarmed = false;
 		if (isOwner)
 		{
 			if (localTrad.rules.damagesToDealOnImpact.isUsable)
@@ -242,8 +244,13 @@ public class Aoe : AutoKill
 				DealBuffInRange(localTrad.rules.finalAlly);
 		}
 
-		if (myLivelifeTime >= timeToPrewarm)
+		if (myLivelifeTime <= timeToPrewarm && !hasPrewarmed)
+		{
+			print(myLivelifeTime);
+			hasPrewarmed = true;
 			OnPrewarm?.Invoke();
+
+		}
 	}
 
 	private void OnDrawGizmosSelected ()
