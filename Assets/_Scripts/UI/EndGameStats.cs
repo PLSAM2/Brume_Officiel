@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameData;
 using DG.Tweening;
+using static altarEvent;
 
 public class EndGameStats : MonoBehaviour
 {
@@ -29,9 +30,6 @@ public class EndGameStats : MonoBehaviour
 
     public TextMeshProUGUI countText;
 
-    //color altar
-    [SerializeField] Color altarAWAKEN, altarUNSEALED;
-
     //score
     public GameObject blueWinPanel;
     public GameObject redWinPanel;
@@ -41,7 +39,7 @@ public class EndGameStats : MonoBehaviour
 
     public void Init()
     {
-		countText.text = 0 + "/" + Math.Ceiling((float)(RoomManager.Instance.actualRoom.playerList.Count) / 2);
+		countText.text = "SKIP (0/" + Math.Ceiling((float)(RoomManager.Instance.actualRoom.playerList.Count) / 2) + ")";
 
         //set stat
         SetChampStat();
@@ -76,36 +74,17 @@ public class EndGameStats : MonoBehaviour
                     objEvent = Instantiate(killEventPrefab, transform);
 
                     KillEvent_Stat _killEvent = objEvent.GetComponent<KillEvent_Stat>();
-                    _killEvent.username.text = RoomManager.Instance.GetPlayerData(((killEvent) _event.Key).idPlayer).Name;
-                    _killEvent.username.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerTeam);
+                    _killEvent.SetInMyTeam(
+                        RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).playerTeam 
+                        == NetworkManager.Instance.GetLocalPlayer().playerTeam);
 
-                    _killEvent.icon.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerTeam);
-
-                    _killEvent.perso.text = "(" + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idPlayer).playerCharacter + ")";
-
-                    _killEvent.killer.text = "By " + RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).Name;
-                    _killEvent.killer.color = GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(((killEvent)_event.Key).idKiller).playerTeam);
                     break;
 
                 case statEvent.type.altar:
                     objEvent = Instantiate(altarEventPrefab, transform);
 
                     AltarEvent_Stat _altarEvent = objEvent.GetComponent<AltarEvent_Stat>();
-                    _altarEvent.text.text = "Altar " + ((altarEvent)_event.Key).altarPos + " " + ((altarEvent)_event.Key).myState.ToString();
-
-                    Color colorAltar = altarAWAKEN;
-                    switch (((altarEvent)_event.Key).myState)
-                    {
-                        case altarEvent.state.UNSEALED:
-                            colorAltar = altarUNSEALED;
-                            break;
-
-                        case altarEvent.state.CLEANSED:
-                            colorAltar = GameFactory.GetRelativeColor(((altarEvent)_event.Key).myTeam);
-                            break;
-                    }
-                    _altarEvent.text.color = colorAltar;
-                    _altarEvent.icon.color = colorAltar;
+                    _altarEvent.SetInMyTeam(((altarEvent)_event.Key).myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
                     break;
             }
 

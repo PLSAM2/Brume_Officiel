@@ -7,18 +7,11 @@ using UnityEngine.UI;
 
 public class AltarEvent_Stat : MonoBehaviour
 {
-    public Image icon;
-    public TextMeshProUGUI text;
+    public GameObject red, blue;
 
-    public CanvasGroup canvasGroup;
-
-    public void Hide()
+    public void SetInMyTeam(bool _value)
     {
-        canvasGroup.alpha = 0;
-    }
-
-    public void Show()
-    {
-        canvasGroup.alpha = 1;
+        blue.SetActive(_value == true);
+        red.SetActive(_value == false);
     }
 }
