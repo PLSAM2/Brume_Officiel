@@ -162,7 +162,7 @@ public class Altar : Interactible
         AudioManager.Instance.Play2DAudio(capturedAltarVoice);
         UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
-        StatManager.Instance.AddAltarEvent(altarEvent.state.CLEANSED, interactibleName, capturePlayer.playerTeam);
+        StatManager.Instance.AddAltarEvent(capturePlayer.playerTeam);
 
         iconUnlock.color = GameFactory.GetRelativeColor(capturePlayer.playerTeam);
         StatManager.Instance.AddCapture(capturePlayer.playerTeam);
@@ -248,7 +248,7 @@ public class Altar : Interactible
         {
             UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
             AudioManager.Instance.Play2DAudio(unlockAltarVoice);
-            StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
+            //StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
         }
 
         Unlock();

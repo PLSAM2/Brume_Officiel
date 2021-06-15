@@ -21,7 +21,6 @@ public class Champ_Stat : MonoBehaviour
     {
         isSet = true;
         username.text = _myUsername.ToString();
-        username.color = GameFactory.GetRelativeColor(_team);
 
         kill.text = _numberOfKill.ToString();
         damage.text = _numberOfDamage.ToString();
