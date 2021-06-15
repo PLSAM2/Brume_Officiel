@@ -138,7 +138,9 @@ public class UiManager : MonoBehaviour
         SpawnLifeBar(parentLifeWX, wxImgLife, Character.WuXin);
 		SpawnLifeBar(parentLifeRE, reImgLife, Character.Re);
 		SpawnLifeBar(parentLifeLENG, lengImgLife, Character.Leng);
-	}
+
+        endGameStats.gameObject.SetActive(false);
+    }
 
 	void SpawnLifeBar ( Transform parent, List<Image> listImg, Character champ )
 	{
@@ -647,7 +649,10 @@ public class UiManager : MonoBehaviour
 
 	public void InitEndGameStats ()
 	{
-		endGameStats.gameObject.SetActive(true);
+        endPanel.gameObject.SetActive(false);
+        blurVolume.SetActive(true);
+
+        endGameStats.gameObject.SetActive(true);
 		endGameStats.Init();
 	}
 

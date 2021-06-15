@@ -6,32 +6,11 @@ using UnityEngine.UI;
 
 public class KillEvent_Stat : MonoBehaviour
 {
-    public TextMeshProUGUI username;
-    public TextMeshProUGUI perso;
-    public TextMeshProUGUI killer;
-    public Image icon;
+    public GameObject red, blue;
 
-    private void Start()
+    public void SetInMyTeam(bool _value)
     {
-        StartCoroutine(WaitToDisable());
-    }
-
-    IEnumerator WaitToDisable()
-    {
-        Show();
-
-        yield return new WaitForSeconds(2);
-
-        Hide();
-    }
-
-    public void Hide()
-    {
-        killer.gameObject.SetActive(false);
-    }
-
-    public void Show()
-    {
-        killer.gameObject.SetActive(true);
+        blue.SetActive(_value == true);
+        red.SetActive(_value == false);
     }
 }
