@@ -56,8 +56,15 @@ public class Waypoint : MonoBehaviour
         indicatorIn.SetActive(false);
         indicatorOut.SetActive(false);
 
-        nameTextIn.gameObject.SetActive(displayNameIn);
-        nameTextOut.gameObject.SetActive(displayNameOut);
+        if(nameTextIn != null)
+        {
+            nameTextIn.gameObject.SetActive(displayNameIn);
+        }
+
+        if (nameTextOut != null)
+        {
+            nameTextOut.gameObject.SetActive(displayNameOut);
+        }
     }
 
     public void ActiveAnnonciation(RectTransform _posCenter)
@@ -154,7 +161,14 @@ public class Waypoint : MonoBehaviour
 
     public void SetTextRotation(Quaternion rotation)
     {
-        distanceTextIn.rectTransform.rotation = rotation;
-        distanceTextOut.rectTransform.rotation = rotation;
+        if (nameTextIn != null)
+        {
+            distanceTextIn.rectTransform.rotation = rotation;
+        }
+
+        if (nameTextOut != null)
+        {
+            distanceTextOut.rectTransform.rotation = rotation;
+        }
     }
 }
