@@ -19,7 +19,6 @@ public class EndZoneInteractible : Interactible
     protected override void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
-        fillImg.material.SetFloat(opacityZoneAlphaShader, 0f);
     }
     protected override void Capture()
     {

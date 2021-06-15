@@ -101,7 +101,6 @@ public class Interactible : MonoBehaviour
     protected virtual void Init()
     {
         fillImg.material.SetFloat(progressShaderName, 1);
-        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
     }
 
     private void OnEnable()
@@ -349,15 +348,11 @@ public class Interactible : MonoBehaviour
 
         if (showReload)
         {
-            fillImg.material.SetFloat(opacityZoneAlphaShader, 0);
             reloadTimer = 0;
             reloading = true;
             SetColor(Color.black);
         }
-        else
-        {
-            fillImg.material.SetFloat(opacityZoneAlphaShader, 1);
-        }
+
 
         UpdateMapIcon();
 
@@ -390,7 +385,6 @@ public class Interactible : MonoBehaviour
         }
 
         fillImg.material.SetFloat(progressShaderName, 1);
-        fillImg.material.SetFloat(opacityZoneAlphaShader, 0.1f);
         state = State.Capturable;
 
         CheckOnUnlock = true;

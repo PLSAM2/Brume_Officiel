@@ -257,7 +257,6 @@ public class Altar : Interactible
 	public override void Unlock ()
 	{
 		fillImg.gameObject.SetActive(true);
-		fillImg.material.SetFloat(opacityZoneAlphaShader, 1f);
 		foreach (GameObject _obj in allBraseros)
 			_obj.SetActive(true);
 
