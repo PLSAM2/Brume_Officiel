@@ -88,7 +88,10 @@ public class EndGameStats : MonoBehaviour
                     break;
             }
 
-            objEvent.transform.position = posSlider.position;
+            if(objEvent != null)
+            {
+                objEvent.transform.position = posSlider.position;
+            }
 
             //todo play sound
             //todo shaking

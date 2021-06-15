@@ -38,6 +38,8 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public GameObject wxImg, reImg, lengImg;
 
+    public List<Parallax> allParallax = new List<Parallax>();
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -63,6 +65,11 @@ public class ChampSelectManager : SerializedMonoBehaviour
         PlayerPrefs.SetInt("currentKill", 0);
         PlayerPrefs.SetInt("currentDamage", 0);
         PlayerPrefs.SetInt("currentDeath", 0);
+
+        foreach(Parallax myParallax in allParallax)
+        {
+            myParallax.enabled = false;
+        }
     }
 
     private void Start()
@@ -158,6 +165,11 @@ public class ChampSelectManager : SerializedMonoBehaviour
         lengImg.SetActive(character == Character.Leng);
 
         pickChar = character;
+
+        foreach (Parallax myParallax in allParallax)
+        {
+            myParallax.enabled = true;
+        }
     }
 
     public void SelectChar()
