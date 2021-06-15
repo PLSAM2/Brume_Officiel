@@ -51,6 +51,8 @@ public class ChampSelectManager : SerializedMonoBehaviour
             _instance = this;
         }
 
+        selectButton.SetActive(false);
+
         if (RoomManager.Instance == null)
         {
             Debug.LogError("NO ROOM MANAGER");
@@ -133,6 +135,8 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public void PickCharacter(GameData.Character character, ChampionSlot cs)
     {
+        if(pickChar == character) { return; }
+
         int characterToInt = ((int)character / 10) - 1; // meh
 
         foreach (GameObject item in charactersPanel)
@@ -150,6 +154,8 @@ public class ChampSelectManager : SerializedMonoBehaviour
             }
             item.UnPick();
         }
+        selectButton.SetActive(false);
+
         selectButton.SetActive(true);
 
         foreach (PlayerData pd in RoomManager.Instance.actualRoom.playerList.Values)

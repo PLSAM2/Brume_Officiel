@@ -89,7 +89,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-			myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
+		myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
 
 
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
@@ -111,7 +111,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+			//myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
 			UiManager.Instance.feedbackDeath.SetActive(false);
 
@@ -200,20 +200,20 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	void Debug ()
 	{
-		//if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
-		//{
-		//	DamagesInfos _temp = new DamagesInfos();
-		//	_temp.damageHealth = 1;
-		//	DealDamages(_temp, transform, null, true, true);
-		//}
+        if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        {
+            DamagesInfos _temp = new DamagesInfos();
+            _temp.damageHealth = 1;
+            DealDamages(_temp, transform, null, true, true);
+        }
 
 
-		//if (Input.GetKeyDown(KeyCode.O) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
-		//{
-		//	AddHitPoint(1);
-		//}
+        //if (Input.GetKeyDown(KeyCode.O) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        //{
+        //	AddHitPoint(1);
+        //}
 
-		if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
 		}
@@ -841,7 +841,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
             {
                 waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
                 waypointThirdEye.targetVector = transform.position;
-                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
+                //waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
             }
             else
             {

@@ -246,7 +246,6 @@ public class Aoe : AutoKill
 
 		if (myLivelifeTime <= timeToPrewarm && !hasPrewarmed)
 		{
-			print(myLivelifeTime);
 			hasPrewarmed = true;
 			OnPrewarm?.Invoke();
 
