@@ -180,15 +180,20 @@ public class RoomPanelControl : SerializedMonoBehaviour
     {
         if (value)
         {
-            readyButtonImg.color = cantReadyColor;
             PlayerObjDict[playerID].readyImg.color = GameFactory.GetRelativeColor(RoomManager.Instance.actualRoom.playerList[playerID].playerTeam);
         } else
         {
-            readyButtonImg.color = Color.white;
             PlayerObjDict[playerID].readyImg.color = Color.white;
         }
 
-
+        if (value && playerID == NetworkManager.Instance.GetLocalPlayer().ID)
+        {
+            readyButtonImg.color = cantReadyColor;
+        }
+        else
+        {
+            readyButtonImg.color = Color.white;
+        }
 
         if (NetworkManager.Instance.GetLocalPlayer().IsHost)
         {
