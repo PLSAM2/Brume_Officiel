@@ -19,6 +19,8 @@ public class Fx : MonoBehaviour
 
         foreach (GameObject obj in objToHide)
         {
+            if(obj == null) { continue; }
+
             obj.SetActive(display);
         }
 
