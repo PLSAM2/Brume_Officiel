@@ -142,7 +142,9 @@ public class UiManager : MonoBehaviour
         endGameStats.gameObject.SetActive(false);
     }
 
-	void SpawnLifeBar ( Transform parent, List<Image> listImg, Character champ )
+
+
+    void SpawnLifeBar ( Transform parent, List<Image> listImg, Character champ )
 	{
         for (int i = 0; i < GameFactory.GetMaxLifeOfPlayer(champ); i++)
 		{
@@ -164,6 +166,7 @@ public class UiManager : MonoBehaviour
 
 	private void OnEnable ()
 	{
+		GameManager.Instance.OnPlayerRespawn += OnPlayerRespawn;
 		GameManager.Instance.OnPlayerDie += OnPlayerDie;
 		GameManager.Instance.OnPlayerGetDamage += OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerGetHealed += OnPlayerGetHeal;
@@ -172,6 +175,7 @@ public class UiManager : MonoBehaviour
 
 	private void OnDisable ()
 	{
+		GameManager.Instance.OnPlayerRespawn -= OnPlayerRespawn;
 		GameManager.Instance.OnPlayerDie -= OnPlayerDie;
 		GameManager.Instance.OnPlayerGetDamage -= OnPlayerTakeDamage;
 		GameManager.Instance.OnPlayerSpawn -= OnPlayerSpawn;
@@ -465,6 +469,13 @@ public class UiManager : MonoBehaviour
             teamImgAltar[2].gameObject.SetActive(true); teamImgAltar[2].SetBool("IsIn", playercount >= 3);
         }
     }
+
+	private void OnPlayerRespawn(ushort obj)
+	{
+		SetAltarCaptureUIState(false);
+	}
+
+
 	public void SetEchapMenuState ()
 	{
 		if (!echapMenu.activeSelf)
