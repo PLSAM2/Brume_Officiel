@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class UltPickup : Interactible
 {
-	[SerializeField] Animator myAnimator;
 	public ushort ultimateStackGive = 1;
 	public ushort hitPointGiven = 1;
 	public float brumeExplorationGain = .4f;
@@ -66,25 +65,6 @@ public class UltPickup : Interactible
 	protected override void UpdateMapIcon ()
 	{
 		return;
-	}
-
-	void ActualiseMesh ()
-	{
-		switch (state)
-		{
-			case State.Locked:
-		
-				break;
-
-			case State.Capturable:
-				//myAnimator.SetBool("IsActive", true);
-				break;
-
-			case State.Captured:
-				//myAnimator.SetBool("IsActive", false);
-		
-				break;
-		}
 	}
 
 	IEnumerator waitForIdle()
