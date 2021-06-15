@@ -50,7 +50,7 @@ public class Altar : Interactible
 		waypointObj.gameObject.SetActive(false);
 		waypointObj.target = transform;
 
-		completeObj.material.SetColor(colorShader, Color.white);
+	//	completeObj.material.SetColor(colorShader, Color.white);
 		GameManager.Instance.allAltar.Add(this);
 
 		iconUnlock.gameObject.SetActive(false);
