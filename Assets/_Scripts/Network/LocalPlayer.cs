@@ -841,7 +841,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
             {
                 waypointThirdEye = Instantiate(waypointEnemyPrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
                 waypointThirdEye.targetVector = transform.position;
-                waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
+                //waypointThirdEye.SetImageColor(GameFactory.GetColorTeam(Team.red));
             }
             else
             {
