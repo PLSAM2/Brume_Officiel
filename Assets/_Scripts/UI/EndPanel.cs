@@ -14,8 +14,10 @@ public class EndPanel : MonoBehaviour
 	public EndGameScore endGameScore;
 
 	private Team team;
+	private bool victory;
 
-    private void Start()
+
+	private void Start()
     {
 		endGameScore.Init();
 
@@ -23,17 +25,16 @@ public class EndPanel : MonoBehaviour
     public void Appear(bool victory, Team team, bool wuxinKilled = false)
 	{
 		this.team = team;
+		this.victory = victory;
 		endPanel.SetActive(true);
 
 		endPanelAnimator.SetTrigger("Appear");
 
         if (victory)
 		{
-			AudioManager.Instance.Play2DAudio(VictoryAudio);
 			endPanelText.text = "VICTORY";
         } else
 		{
-			AudioManager.Instance.Play2DAudio(DefeatAudio);
 			endPanelText.text = "DEFEAT";
         }
 
@@ -51,7 +52,17 @@ public class EndPanel : MonoBehaviour
 
 	}
 
-
+	public void TextAppear()
+    {
+		if (victory)
+		{
+			AudioManager.Instance.Play2DAudio(VictoryAudio);
+		}
+		else
+		{
+			AudioManager.Instance.Play2DAudio(DefeatAudio);
+		}
+	}
 	public void EndGameScore()
     {
 		endGameScore.EndGame(team);
