@@ -12,6 +12,8 @@ public class UltPickup : Interactible
 	public float maxHeight = 8;
 
 	public GameObject onCapture, onReaparition, idle;
+
+    public GameObject fxSpawn, fxDeSpawn;
 	protected override void Init ()
 	{
 		fillImg.material.SetFloat(progressShaderName, 1);
@@ -55,13 +57,20 @@ public class UltPickup : Interactible
 		timer = 0;
 		idle.SetActive(false);
 		onCapture.SetActive(true);
-	}
+
+        fxSpawn.SetActive(false);
+        fxDeSpawn.SetActive(true);
+    }
 
 	public override void Unlock ()
 	{
 		base.Unlock();
 		StartCoroutine(waitForIdle());
-	}
+
+        fxSpawn.SetActive(true);
+        fxDeSpawn.SetActive(false);
+    }
+
 	protected override void UpdateMapIcon ()
 	{
 		return;
