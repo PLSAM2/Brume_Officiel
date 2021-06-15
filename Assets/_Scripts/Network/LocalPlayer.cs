@@ -89,7 +89,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		currentClient = newClient;
 		myPlayerModule.teamIndex = RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam;
 
-			myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
+		myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
 
 
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
@@ -111,7 +111,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
 
-			//	myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
+			//myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
 			UiManager.Instance.feedbackDeath.SetActive(false);
 

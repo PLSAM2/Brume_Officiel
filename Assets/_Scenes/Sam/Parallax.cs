@@ -30,7 +30,7 @@ public class Parallax : MonoBehaviour
         }
         else
         {
-            transform.eulerAngles = new Vector3(pos.y * modifierY, pos.x * modifier, 0);
+            transform.localEulerAngles = new Vector3(pos.y * modifierY, pos.x * modifier, 0);
         }
     }
 }
