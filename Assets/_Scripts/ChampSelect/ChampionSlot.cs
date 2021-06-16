@@ -12,9 +12,13 @@ public class ChampionSlot : MonoBehaviour
     public AudioClip pickSound;
 
     public GameObject keyLock;
+
+    public GameObject selectFx;
+
     public void SelectCharacter()
     {
         animator.SetBool("Picked", true);
+
 
         ChampSelectManager.Instance.PickCharacter(character, this);
     }
@@ -33,10 +37,13 @@ public class ChampionSlot : MonoBehaviour
     {
         if (NetworkManager.Instance.GetLocalPlayer().ID == playerID)
         {
-            AudioManager.Instance.Play2DAudio(pickSound);
+            AudioManager.Instance.Play2DCharacterAudio(pickSound);
         }
 
         keyLock.SetActive(true);
+
+        selectFx.SetActive(false);
+        selectFx.SetActive(true);
     }
 
     internal void UnPick()

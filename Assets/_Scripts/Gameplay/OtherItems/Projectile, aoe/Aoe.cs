@@ -17,6 +17,8 @@ public class Aoe : AutoKill
 	public float timeToPrewarm;
 	public GameObject objectToSpawnOnBuff;
 	bool hasPrewarmed=false;
+
+
 	protected override void Awake ()
 	{
 		allyLayer = LayerMask.GetMask("CharacterIntengible") | LayerMask.GetMask("AlliedCharacter");
@@ -230,7 +232,7 @@ public class Aoe : AutoKill
 
 			if (localTrad.rules.finalDamages.isUsable)
 			{
-				if (localTrad.screenShake)
+				if (localTrad.screenShake && Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) <=8)
 				{
 					CameraManager.Instance.SetNewCameraShake(localTrad.duration, localTrad.intensity);
 				}

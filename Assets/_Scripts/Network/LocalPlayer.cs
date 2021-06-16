@@ -75,8 +75,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	public GameObject waypointAlliePrefab;
 	AllieWaypoint myWaypoint;
 
-	public AudioClip deathPerso, deathGlobal;
-
+	[TabGroup("Sound")] public AudioClip deathPerso, deathGlobal, killSomeone;
+	[TabGroup("Sound")] public List<AudioClip> characterHitSound = new List<AudioClip>();
 	public ParticleSystem addLife_blue_fx, addLife_red_fx;
 
 	private void Awake ()
@@ -110,6 +110,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			CameraManager.Instance.SetParent(transform);
 
 			AudioManager.Instance.OnAudioPlay += OnAudioPlay;
+			GameManager.Instance.OnPlayerDie += OnPlayerDie;
 
 			//myFow.myFieldOfView.EnemySeen += myPlayerModule.WaitForHeal;
 
@@ -154,7 +155,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
         OnInitFinish?.Invoke();
 	}
 
-	private void Update ()
+    private void Update ()
 	{
 		Debug();
 
@@ -538,6 +539,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			}
 			else
 			{
+                if (isOwner)
+				{
+					if (characterHitSound.Count > 0)
+					{
+
+						AudioClip randomizeClip = characterHitSound[UnityEngine.Random.Range(0, characterHitSound.Count)];
+						StartCoroutine(WaitForVoiceHit(randomizeClip));
+					}
+
+                }
+
 				int _tempHp = (int)Mathf.Clamp((int)liveHealth - (int)damages, 0, 1000);
 				liveHealth = (ushort)_tempHp;
 			}
@@ -546,6 +558,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
         GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
     }
 
+	IEnumerator WaitForVoiceHit(AudioClip randomizeClip)
+    {
+		yield return new WaitForSeconds(0.4f);
+
+		AudioManager.Instance.Play2DCharacterAudio(randomizeClip);
+	}
 
 	/// <summary>
 	/// DO NOT use this until YOU KNOW what you do :)
@@ -881,6 +899,21 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			addLife_red_fx.Play();
 		}
 	}
+
+
+	private void OnPlayerDie(ushort killed, ushort killer)
+	{
+        if (myPlayerId == killer)
+        {
+            if (killSomeone != null)
+            {
+				AudioManager.Instance.Play2DCharacterAudio(killSomeone);
+			}
+
+        }
+	}
+
+
 }
 
 public interface Damageable
