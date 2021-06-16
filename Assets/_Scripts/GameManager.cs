@@ -508,6 +508,19 @@ public class GameManager : SerializedMonoBehaviour
 
         }
     }
+
+    public bool HaveCapturedAnAltar(Team t)
+    {
+        foreach (Altar a in allAltar)
+        {
+            if (a.state == State.Captured && a.capturingTeam == t)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
     #region DEPRECATED
 
     //internal void SpawnBrumeSoul(ushort brumeId)

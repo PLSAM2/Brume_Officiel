@@ -160,8 +160,11 @@ public class Altar : Interactible
 			redTaken.SetActive(true);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
 		}
+        if (!GameManager.Instance.HaveCapturedAnAltar(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam))
+        {
+			AudioManager.Instance.Play2DAudio(capturedAltarVoice);
+		}
 
-		AudioManager.Instance.Play2DAudio(capturedAltarVoice);
 		UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
 		StatManager.Instance.AddAltarEvent(capturePlayer.playerTeam);
