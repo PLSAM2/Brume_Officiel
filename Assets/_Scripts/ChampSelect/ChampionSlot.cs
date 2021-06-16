@@ -9,10 +9,13 @@ public class ChampionSlot : MonoBehaviour
     public Character character;
     public Animator animator;
 
+    public AudioClip pickSound;
+
     public GameObject keyLock;
     public void SelectCharacter()
     {
         animator.SetBool("Picked", true);
+
         ChampSelectManager.Instance.PickCharacter(character, this);
     }
 
@@ -28,6 +31,11 @@ public class ChampionSlot : MonoBehaviour
 
     internal void Pick(ushort playerID)
     {
+        if (NetworkManager.Instance.GetLocalPlayer().ID == playerID)
+        {
+            AudioManager.Instance.Play2DAudio(pickSound);
+        }
+
         keyLock.SetActive(true);
     }
 
