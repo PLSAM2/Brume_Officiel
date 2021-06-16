@@ -14,10 +14,14 @@ public class PropertiesSetter : MonoBehaviour
 
     public bool refresh = false;
 
+    Image myImage;
+
     private void Start()
     {
-        GetComponent<Image>().material = Instantiate<Material>(myMat);
-        currentMat = GetComponent<Image>().material;
+        myImage = GetComponent<Image>();
+
+        myImage.material = Instantiate<Material>(myMat);
+        currentMat = myImage.material;
     }
 
     void Update()
@@ -26,8 +30,8 @@ public class PropertiesSetter : MonoBehaviour
         {
             refresh = false;
 
-            GetComponent<Image>().material = Instantiate<Material>(myMat);
-            currentMat = GetComponent<Image>().material;
+            myImage.material = Instantiate<Material>(myMat);
+            currentMat = myImage.material;
         }
 
         value = Mathf.Clamp(value, 0, 1);
