@@ -135,7 +135,16 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public void PickCharacter(GameData.Character character, ChampionSlot cs)
     {
-        if(pickChar == character) { return; }
+        if(pickChar == character) {
+
+            return; }
+
+        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            selectButton.SetActive(false);
+            return;
+        }
+
 
         int characterToInt = ((int)character / 10) - 1; // meh
 
