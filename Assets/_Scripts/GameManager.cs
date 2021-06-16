@@ -122,6 +122,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public bool doFow = false;
 
+    public GameObject statCamera;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -407,6 +409,10 @@ public class GameManager : SerializedMonoBehaviour
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
 
+                    _currentLocalPlayer.myPlayerModule.cancelSpell?.Invoke(false);
+                    _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+                    _currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
+
                     if (oldTimerTrain == 0)
                     {
                         AudioManager.Instance.Play2DAudio(timerTrainSpawn);
@@ -421,6 +427,8 @@ public class GameManager : SerializedMonoBehaviour
             if (trainTimer <= 0)
             {
                 doFow = true;
+
+
 
                 UiManager.Instance.trainPanel.SetActive(false);
                 trainTimerStarted = false;
