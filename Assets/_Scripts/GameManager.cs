@@ -409,13 +409,16 @@ public class GameManager : SerializedMonoBehaviour
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
 
-                    _currentLocalPlayer.myPlayerModule.cancelSpell?.Invoke(false);
-                    _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
-                    _currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
+                  
 
                     if (oldTimerTrain == 0)
                     {
                         AudioManager.Instance.Play2DAudio(timerTrainSpawn);
+
+                        _currentLocalPlayer.myPlayerModule.cancelSpell?.Invoke(false);
+                        if ((_currentLocalPlayer.myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
+                            _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+                        _currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
                     }
                     else
                     {
