@@ -531,7 +531,7 @@ public class SpellModule : MonoBehaviour
 	#endregion
 
 
-	protected virtual void CancelSpell ( bool _isForcedInterrupt )
+	public virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
 		isCanceled = true;
 		if (_isForcedInterrupt && isUsed)

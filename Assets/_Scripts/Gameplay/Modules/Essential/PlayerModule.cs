@@ -140,7 +140,6 @@ public class PlayerModule : MonoBehaviour
     public Action<Sc_Spell> OnSpellTryCanalisation;
     [HideInInspector] public Sc_Spell currentSpellResolved;
 
-
     #endregion
     void Awake()
     {
@@ -999,6 +998,15 @@ public class PlayerModule : MonoBehaviour
         return wardModule;
     }
 
+    public SpellModule CurrentSpellResolved ()
+    {
+        if (currentSpellResolved == leftClick.spell)
+            return leftClick;
+        else if (currentSpellResolved == firstSpell.spell)
+            return firstSpell;
+        else
+            return secondSpell;
+    }
 
     public void EventTutorial(MystEvent mystEvent)
     {
