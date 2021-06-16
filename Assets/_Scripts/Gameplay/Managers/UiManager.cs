@@ -99,8 +99,6 @@ public class UiManager : MonoBehaviour
 	[Header("Annoncement")]
 	[FoldoutGroup("Annoncement")] public Annoncement myAnnoncement;
 
-
-
 	public Animator hitWXPanel;
 
 	public SoulSpellSelector soulSpellSelector;
@@ -473,6 +471,11 @@ public class UiManager : MonoBehaviour
 	private void OnPlayerRespawn(ushort obj)
 	{
 		SetAltarCaptureUIState(false);
+
+        if(RoomManager.Instance.GetPlayerData(obj).playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
+        {
+            ActualiseLife(RoomManager.Instance.GetPlayerData(obj).playerCharacter);
+        }
 	}
 
 
