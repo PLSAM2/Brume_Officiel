@@ -194,6 +194,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   timeToPrewarm: 0
+  objectToSpawnOnBuff: {fileID: 0}
 --- !u!114 &9188923623546187145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1968642071642084272, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 9
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 1968642071642084272, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.atime1
@@ -413,6 +414,26 @@ PrefabInstance:
     - target: {fileID: 1968642071642084274, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642071642084274, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642071642084274, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642071642084274, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642071642084274, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968642071642084274, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 1968642071642084285, guid: 3d207cf38fa90f44b970461f27f32cd6, type: 3}
       propertyPath: m_Layer
