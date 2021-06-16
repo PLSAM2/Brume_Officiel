@@ -205,7 +205,9 @@ public class SpecMode : MonoBehaviour
 
     public void ChangeSpecPlayer(ushort id)
     {
-        foreach(GameObject obj in GameManager.Instance.networkPlayers[id].objToHide)
+        if (!GameManager.Instance.networkPlayers.ContainsKey(id)) { return; }
+
+        foreach (GameObject obj in GameManager.Instance.networkPlayers[id].objToHide)
         {
             obj.SetActive(true);
         }

@@ -6,4 +6,6 @@ using static GameData;
 
 public class YinController : PlayerModule
 {
+
+    
 }

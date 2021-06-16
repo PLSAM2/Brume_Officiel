@@ -160,7 +160,7 @@ public class ModuleProjectileSpell : SpellModule
 				_prev.gameObject.SetActive(true);
 	}
 
-	protected override void CancelSpell ( bool _isForcedInterrupt )
+	public override void CancelSpell ( bool _isForcedInterrupt )
 	{
 		base.CancelSpell(_isForcedInterrupt);
 		shooting = false;
