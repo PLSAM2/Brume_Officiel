@@ -404,7 +404,7 @@ public class GameManager : SerializedMonoBehaviour
                 oldTimerTrain = Mathf.RoundToInt(trainTimer);
                 UiManager.Instance.trainTimer.text = oldTimerTrain.ToString();
 
-                if (oldTimerTrain <= 3)
+                if (oldTimerTrain <= 5)
                 {
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
