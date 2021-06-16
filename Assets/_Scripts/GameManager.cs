@@ -122,6 +122,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public bool doFow = false;
 
+    public GameObject statCamera;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
