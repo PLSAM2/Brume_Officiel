@@ -156,6 +156,10 @@ public class Ward : MonoBehaviour
         if (_value == true) { return; }
 
         hasTriggered = false;
-        myWaypoint.gameObject.SetActive(false);
+
+        if(myWaypoint != null)
+        {
+            myWaypoint.gameObject.SetActive(false);
+        }
     }
 }
