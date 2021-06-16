@@ -38,7 +38,7 @@ public class PingModule : SpellModule
         }
     }
 
-    protected override void CancelSpell(bool _isForcedInterrupt)
+    public override void CancelSpell(bool _isForcedInterrupt)
     {
 
         UiManager.Instance.uIPingModule.CancelPing();
