@@ -17,6 +17,7 @@ public class AudioManager : SerializedMonoBehaviour
     [SerializeField] GameObject prefabAudioSource;
 
     Dictionary<AudioElement, bool> allAudioElement = new Dictionary<AudioElement, bool>(); // true = utilisé // false = libre
+    bool playingCharVoice = false;
 
     public float currentPlayerVolume = 0.2f;
     public float currentMusicVolume = 0.2f;
@@ -88,6 +89,7 @@ public class AudioManager : SerializedMonoBehaviour
         }
 
     }
+
 
     void OnMasterVolumeChange(float _value)
     {
@@ -165,7 +167,7 @@ public class AudioManager : SerializedMonoBehaviour
                 float _posZ = reader.ReadSingle();
 
                 ushort _idObj = reader.ReadUInt16();
-                bool _isPlayer= reader.ReadBoolean();
+                bool _isPlayer = reader.ReadBoolean();
 
                 Play3DAudio(networkAudio[_idSound], new Vector3(_posX, _posY, _posZ), _idObj, _isPlayer);
             }
@@ -175,9 +177,34 @@ public class AudioManager : SerializedMonoBehaviour
     public AudioElement Play2DAudio(AudioClip _clip, float _volume = 1)
     {
         AudioElement _myAudioElement = GetFreeAudioElement();
+
+
+
         _myAudioElement.Init(_clip, 0, _volume);
 
         return _myAudioElement;
+    }
+
+    public AudioElement Play2DCharacterAudio(AudioClip _clip, float _volume = 1)
+    {
+        AudioElement _myAudioElement = GetFreeAudioElement();
+
+        if (!playingCharVoice)
+        {
+            StartCoroutine(WaitForCharacterVoice(_clip.length));
+            _myAudioElement.Init(_clip, 0, _volume);
+        }
+
+        return _myAudioElement;
+    }
+
+    IEnumerator WaitForCharacterVoice(float time)
+    {
+        playingCharVoice = true;
+
+        yield return new WaitForSeconds(time);
+
+        playingCharVoice = false;
     }
 
     public void PlayHitAudio()
@@ -187,7 +214,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     public void Play3DAudioInNetwork(AudioClip _clip, Vector3 _position, ushort id, bool isPlayer = false)
     {
-        if(_clip == null) { return; }
+        if (_clip == null) { return; }
         ushort _id = GetIndexOfList(_clip);
         if (_id == 0) { return; }
 
@@ -214,11 +241,11 @@ public class AudioManager : SerializedMonoBehaviour
     ushort GetIndexOfList(AudioClip _clip)
     {
         int i = 0;
-        foreach(AudioClip clip in networkAudio)
+        foreach (AudioClip clip in networkAudio)
         {
-            if(clip == _clip)
+            if (clip == _clip)
             {
-                return (ushort) i;
+                return (ushort)i;
             }
             i++;
         }
@@ -278,7 +305,7 @@ public class AudioManager : SerializedMonoBehaviour
             if (Vector3.Distance(pos, GameFactory.GetLocalPlayerObj().transform.position) < audioDistance)
             {
 
-                OnAudioPlay?.Invoke(pos,GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam));
+                OnAudioPlay?.Invoke(pos, GameFactory.GetOtherTeam(NetworkManager.Instance.GetLocalPlayer().playerTeam));
                 return;
             }
         }
@@ -287,21 +314,22 @@ public class AudioManager : SerializedMonoBehaviour
         Team audioTeam = Team.none;
         if (isPlayer)
         {
-                if (GameManager.Instance.networkPlayers.ContainsKey(id))
+            if (GameManager.Instance.networkPlayers.ContainsKey(id))
+            {
+                if (GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform) ||
+                    id == NetworkManager.Instance.GetLocalPlayer().ID)
                 {
-                    if (GameManager.Instance.visiblePlayer.ContainsKey(GameManager.Instance.networkPlayers[id].transform) ||
-                        id == NetworkManager.Instance.GetLocalPlayer().ID)
-                    {
-                        return;
-                    }
-
-                    audioTeam = RoomManager.Instance.GetPlayerData(id).playerTeam;
-
+                    return;
                 }
-                else { return; }
-           
 
-        } else
+                audioTeam = RoomManager.Instance.GetPlayerData(id).playerTeam;
+
+            }
+            else { return; }
+
+
+        }
+        else
         {
             if (NetworkObjectsManager.Instance.instantiatedObjectsList.ContainsKey(id))
             {
@@ -317,7 +345,7 @@ public class AudioManager : SerializedMonoBehaviour
             else { return; }
         }
 
-        audioDistance = Mathf.Clamp(audioDistance - 2 , 0, float.MaxValue);
+        audioDistance = Mathf.Clamp(audioDistance - 2, 0, float.MaxValue);
 
         if (GameFactory.GetLocalPlayerObj() != null)
         {
@@ -330,7 +358,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     AudioElement GetFreeAudioElement()
     {
-        foreach(KeyValuePair<AudioElement, bool> element in allAudioElement)
+        foreach (KeyValuePair<AudioElement, bool> element in allAudioElement)
         {
             if (!element.Value)
             {
