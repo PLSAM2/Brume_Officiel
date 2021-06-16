@@ -11,6 +11,7 @@ using UnityEngine.Rendering;
 using static FieldOfView;
 using static GameData;
 using DG.Tweening;
+using System.Collections;
 
 public class GameManager : SerializedMonoBehaviour
 {
@@ -101,6 +102,7 @@ public class GameManager : SerializedMonoBehaviour
     public string property = "_Out_or_InBrume";
 
     public AudioClip bgMusic, timerTrain, timerTrainSpawn;
+    public Dictionary<Character, AudioClip> deathSounds = new Dictionary<Character, AudioClip>();
     private bool reviveFeedbackSet = false;
     //debug
     public CanvasGroup UIGroup;
@@ -144,7 +146,23 @@ public class GameManager : SerializedMonoBehaviour
 
     private void OnEnable()
     {
+        OnPlayerDie += OnAPlayerDie;
         OnPlayerRespawn += OnPlayerRespawnId;
+    }
+
+    private void OnAPlayerDie(ushort killed, ushort killer)
+    {
+        if (NetworkManager.Instance.GetLocalPlayer().ID == killed && NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin)
+        {
+            StartCoroutine(PlayDeathSoundLater());
+        }
+    }
+
+    IEnumerator PlayDeathSoundLater()
+    {
+        yield return new WaitForSeconds(1);
+
+        AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
     }
 
     private void OnDisable()
@@ -235,7 +253,7 @@ public class GameManager : SerializedMonoBehaviour
 
         //DamageEffect
         LocalPlayer currentLocalPlayer = GameFactory.GetActualPlayerFollow();
-        if(currentLocalPlayer != null)
+        if (currentLocalPlayer != null)
         {
             switch (currentLocalPlayer.liveHealth)
             {
@@ -286,7 +304,7 @@ public class GameManager : SerializedMonoBehaviour
         {
             UiManager.Instance.chat.DisplayMessage(GameFactory.GetNameAddChamp(p) + " left the game");
 
-            if(networkPlayers.ContainsKey(p.ID) && networkPlayers[p.ID] != null)
+            if (networkPlayers.ContainsKey(p.ID) && networkPlayers[p.ID] != null)
             {
                 Destroy(networkPlayers[p.ID].gameObject);
             }
@@ -409,7 +427,7 @@ public class GameManager : SerializedMonoBehaviour
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
 
-                  
+
 
                     if (oldTimerTrain == 0)
                     {
