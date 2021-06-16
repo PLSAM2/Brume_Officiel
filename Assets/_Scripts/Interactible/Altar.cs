@@ -35,7 +35,7 @@ public class Altar : Interactible
 	public GameObject redTaken, blueTaken;
 
 	[SerializeField] SpriteRenderer iconUnlock, iconLock;
-	public ParticleSystem particleCapturingAlly, particleCapturingEnemy, onEnemyCapture, onAllyCapture;
+	public ParticleSystem particleCapturingAlly, particleCapturingEnemy;
 	public MeshRenderer onCaptureMesh, centerMesh;
 	public GameObject[] allBraseros;
 	void Start ()
@@ -148,6 +148,8 @@ public class Altar : Interactible
 		waypointObj.SetLock();
 		waypointObj.gameObject.SetActive(false);
 
+        print("test");
+
 		if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
 			blueTaken.SetActive(true);
@@ -158,8 +160,11 @@ public class Altar : Interactible
 			redTaken.SetActive(true);
 			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
 		}
+        if (!GameManager.Instance.HaveCapturedAnAltar(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam))
+        {
+			AudioManager.Instance.Play2DAudio(capturedAltarVoice);
+		}
 
-		AudioManager.Instance.Play2DAudio(capturedAltarVoice);
 		UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
 		StatManager.Instance.AddAltarEvent(capturePlayer.playerTeam);
@@ -200,12 +205,10 @@ public class Altar : Interactible
 		if (GameManager.Instance.currentLocalPlayer.IsInMyTeam(capturingPlayerModule.teamIndex))
 		{
 			GameManager.Instance.numberOfAltarControled++;
-			onAllyCapture.gameObject.SetActive(true);
 		}
 		else
 		{
 			GameManager.Instance.numberOfAltarControledByEnemy++;
-			onEnemyCapture.gameObject.SetActive(true);
 		}
 
 
@@ -257,7 +260,6 @@ public class Altar : Interactible
 	public override void Unlock ()
 	{
 		fillImg.gameObject.SetActive(true);
-		fillImg.material.SetFloat(opacityZoneAlphaShader, 1f);
 		foreach (GameObject _obj in allBraseros)
 			_obj.SetActive(true);
 
@@ -332,12 +334,8 @@ public class Altar : Interactible
 			{
 				UiManager.Instance.SetAltarCaptureUIState(true, false, GetLocalPlayerCountInZone());
 
-				onAllyCapture.gameObject.SetActive(true);
-
 				var _emission = particleCapturingAlly.emission;
 				_emission.rateOverTime = playerInZone.Count * 5;
-
-				onEnemyCapture.gameObject.SetActive(false);
 
 				var _emission1 = particleCapturingEnemy.emission;
 				_emission1.rateOverTime = 0;
@@ -346,13 +344,8 @@ public class Altar : Interactible
 			{
 				UiManager.Instance.SetAltarCaptureUIState(false);
 
-				onAllyCapture.gameObject.SetActive(false);
-
-
 				var _emission = particleCapturingAlly.emission;
 				_emission.rateOverTime = 0;
-
-				onEnemyCapture.gameObject.SetActive(true);
 
 				var _emission1 = particleCapturingEnemy.emission;
 				_emission1.rateOverTime = playerInZone.Count * 5;
