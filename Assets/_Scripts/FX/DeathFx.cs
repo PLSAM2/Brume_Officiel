@@ -7,6 +7,7 @@ public class DeathFx : MonoBehaviour
     public float timeToDestroy = 3;
 
     public AudioClip myFxSound;
+    public AudioClip deathVoice;
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +18,11 @@ public class DeathFx : MonoBehaviour
         }
 
         Destroy(gameObject, timeToDestroy);
+    }
+
+
+    public void PlayDeathVoiceLine()
+    {
+        AudioManager.Instance.Play2DCharacterAudio(deathVoice);
     }
 }

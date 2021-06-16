@@ -33,7 +33,7 @@ public class ChampionSlot : MonoBehaviour
     {
         if (NetworkManager.Instance.GetLocalPlayer().ID == playerID)
         {
-            AudioManager.Instance.Play2DAudio(pickSound);
+            AudioManager.Instance.Play2DCharacterAudio(pickSound);
         }
 
         keyLock.SetActive(true);
