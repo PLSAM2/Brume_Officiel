@@ -663,6 +663,9 @@ public class UiManager : MonoBehaviour
 
 	public void InitEndGameStats ()
 	{
+        GameManager.Instance.statCamera.SetActive(true);
+        specMode.gameObject.SetActive(false);
+
         endPanel.gameObject.SetActive(false);
         blurVolume.SetActive(true);
 

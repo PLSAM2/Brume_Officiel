@@ -517,6 +517,8 @@ public class SpellModule : MonoBehaviour
 	}
 	public virtual void ThrowbackEndFeedBack ()
 	{
+		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");	
 		onInterrupt?.Invoke();
 	}
 
@@ -529,7 +531,7 @@ public class SpellModule : MonoBehaviour
 	#endregion
 
 
-	protected virtual void CancelSpell ( bool _isForcedInterrupt )
+	public virtual void CancelSpell ( bool _isForcedInterrupt )
 	{
 		isCanceled = true;
 		if (_isForcedInterrupt && isUsed)
