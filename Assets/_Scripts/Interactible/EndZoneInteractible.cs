@@ -113,7 +113,6 @@ public class EndZoneInteractible : Interactible
     }
     public override void Unlock()
     {
-        endZoneAnimator.SetTrigger("Unlock");
         endZoneMapIcon.gameObject.SetActive(true);
         UiManager.Instance.myAnnoncement.ShowAnnoncement((interactibleName + " Started").ToUpper());
 
@@ -122,6 +121,11 @@ public class EndZoneInteractible : Interactible
         waypointObj.SetImageColor(Color.red);
 
         base.Unlock();
+    }
+
+    public override void UpdateCaptured(ushort _capturingPlayerID)
+    {
+        endZoneAnimator.SetTrigger("Captured");
     }
 
     protected override void SetColorByState()
