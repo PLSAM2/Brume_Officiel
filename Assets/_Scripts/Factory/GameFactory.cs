@@ -459,4 +459,5 @@ public class GameFactory
 	{
 		return min + (input - inputMin) * (max - min) / (inputMax - inputMin);
 	}
+
 }
