@@ -540,12 +540,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 			else
 			{
                 if (isOwner)
-                {
-                    if (characterHitSound.Count > 0)
+				{
+					if (characterHitSound.Count > 0)
 					{
-						AudioClip randomizeClip = characterHitSound[UnityEngine.Random.Range(0, characterHitSound.Count)];
 
-						AudioManager.Instance.Play2DCharacterAudio(randomizeClip);
+						AudioClip randomizeClip = characterHitSound[UnityEngine.Random.Range(0, characterHitSound.Count)];
+						StartCoroutine(WaitForVoiceHit(randomizeClip));
 					}
 
                 }
@@ -558,6 +558,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
         GameManager.Instance.OnPlayerGetDamage?.Invoke(myPlayerId, damages, dealerID);
     }
 
+	IEnumerator WaitForVoiceHit(AudioClip randomizeClip)
+    {
+		yield return new WaitForSeconds(0.4f);
+
+		AudioManager.Instance.Play2DCharacterAudio(randomizeClip);
+	}
 
 	/// <summary>
 	/// DO NOT use this until YOU KNOW what you do :)
