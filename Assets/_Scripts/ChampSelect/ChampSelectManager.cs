@@ -179,7 +179,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
         }
         selectButton.SetActive(true);
 
-        selectButtonText.text = "Select";
+        selectButtonText.text = "SELECT";
 
         foreach (PlayerData pd in RoomManager.Instance.actualRoom.playerList.Values)
         {
@@ -187,7 +187,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
             if (pd.playerCharacter == character)
             {
-                selectButtonText.text = "Ask for swap";
+                selectButtonText.text = "ASK FOR SWAP";
                 break;
             }
         }
