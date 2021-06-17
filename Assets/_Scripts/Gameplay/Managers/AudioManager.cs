@@ -22,17 +22,18 @@ public class AudioManager : SerializedMonoBehaviour
     public float currentPlayerVolume = 0.2f;
     public float currentMusicVolume = 0.2f;
 
-    public Action<float> OnVolumeChange;
+    [HideInInspector] public Action<float> OnVolumeChange;
+    [HideInInspector] public Action<Vector3, Team> OnAudioPlay;
 
-    public Action<Vector3, Team> OnAudioPlay;
-
-    [SerializeField] AudioSource backGroundMusic;
+    [SerializeField] AudioSource backGroundMusic, backGroundMusicInBrume;
 
     public List<AudioClip> networkAudio = new List<AudioClip>();
 
     UnityClient client;
 
     public AudioClip spotSound, hitAudio;
+
+    bool isFade = false;
 
     bool init = false;
     private void Awake()
@@ -95,15 +96,45 @@ public class AudioManager : SerializedMonoBehaviour
     {
         currentPlayerVolume = _value;
         backGroundMusic.volume = currentPlayerVolume * currentMusicVolume;
+        backGroundMusicInBrume.volume = currentPlayerVolume * currentMusicVolume;
     }
 
     public void SetBackgroundMusic(AudioClip _audio)
     {
         StartCoroutine(FadeNewSound(_audio));
     }
+    public void SetBackgroundMusicInBrume(AudioClip _audio)
+    {
+        backGroundMusicInBrume.volume = 0;
+        backGroundMusicInBrume.clip = _audio;
+        backGroundMusicInBrume.Play();
+    }
+
+    private void Update()
+    {
+        if (isFade) { return; }
+
+       LocalPlayer myActualPlayer = GameFactory.GetActualPlayerFollow();
+
+        if(myActualPlayer != null)
+        {
+            if (myActualPlayer.myPlayerModule.isInBrume)
+            {
+                backGroundMusicInBrume.volume = Mathf.Lerp(backGroundMusicInBrume.volume, currentMusicVolume * currentPlayerVolume, Time.deltaTime * 5);
+                backGroundMusic.volume = Mathf.Lerp(backGroundMusic.volume, 0, Time.deltaTime * 5);
+            }
+            else
+            {
+                backGroundMusicInBrume.volume = Mathf.Lerp(backGroundMusicInBrume.volume, 0, Time.deltaTime * 5);
+                backGroundMusic.volume = Mathf.Lerp(backGroundMusic.volume, currentMusicVolume * currentPlayerVolume, Time.deltaTime * 5);
+            }
+        }
+    }
 
     IEnumerator FadeNewSound(AudioClip _audio)
     {
+        isFade = true;
+
         var t = 0f;
         while (t < 1)
         {
@@ -124,6 +155,8 @@ public class AudioManager : SerializedMonoBehaviour
             backGroundMusic.volume = t * (currentMusicVolume * currentPlayerVolume);
             yield return null;
         }
+
+        isFade = false;
     }
 
     private void OnMessageReceive(object sender, MessageReceivedEventArgs e)
