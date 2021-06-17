@@ -31,8 +31,8 @@ public class PlayerTeamElement : MonoBehaviour
 
     public void SetStatut(ChampSelectStatut myStatut)
     {
-        //iconPick.SetActive(myStatut == ChampSelectStatut.pick);
-        //iconReady.SetActive(myStatut == ChampSelectStatut.ready);
+        iconPick.SetActive(myStatut == ChampSelectStatut.pick);
+        iconReady.SetActive(myStatut == ChampSelectStatut.ready);
     }
 
     public void OnPlayerLeave()

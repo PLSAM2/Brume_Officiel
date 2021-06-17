@@ -51,7 +51,6 @@ public class GameManager : SerializedMonoBehaviour
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
     public List<Ward> allWard = new List<Ward>();
-    public List<VisionTower> allTower = new List<VisionTower>();
     public List<Altar> allAltar = new List<Altar>();
 
     public List<Brume> allBrume = new List<Brume>();
@@ -87,7 +86,6 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action OnGameFinish;
 
     [HideInInspector] public Action<Ward> OnWardTeamSpawn;
-    [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
     public int numberOfAltarControled, numberOfAltarControledByEnemy = 0;
@@ -101,7 +99,7 @@ public class GameManager : SerializedMonoBehaviour
     public List<Material> shaderDifMaterial = new List<Material>();
     public string property = "_Out_or_InBrume";
 
-    public AudioClip bgMusic, timerTrain, timerTrainSpawn;
+    public AudioClip bgMusic, bgMusicInBrume, timerTrain, timerTrainSpawn;
     public Dictionary<Character, AudioClip> deathSounds = new Dictionary<Character, AudioClip>();
     private bool reviveFeedbackSet = false;
     //debug
@@ -196,6 +194,7 @@ public class GameManager : SerializedMonoBehaviour
         UiManager.Instance.chat.DisplayMessage("Round : " + RoomManager.Instance.roundCount);
 
         AudioManager.Instance.SetBackgroundMusic(bgMusic);
+        AudioManager.Instance.SetBackgroundMusicInBrume(bgMusicInBrume);
 
         if (RoomManager.Instance.roundCount == 1)
         {
@@ -340,7 +339,7 @@ public class GameManager : SerializedMonoBehaviour
 
         if (RoomManager.Instance.actualRoom.roomType == RoomType.Tutorial)
         {
-            TutorialManager.Instance.StartTutorial();
+            TutorialManager.Instance.Tutorial();
         }
         else if (RoomManager.Instance.actualRoom.roomType == RoomType.Training)
         {

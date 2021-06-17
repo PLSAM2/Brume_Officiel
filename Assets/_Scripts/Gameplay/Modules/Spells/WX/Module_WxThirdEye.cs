@@ -16,7 +16,6 @@ public class Module_WxThirdEye : SpellModule
 	public override void SetupComponent ( En_SpellInput _actionLinked )
 	{
 		base.SetupComponent(_actionLinked);
-		GameManager.Instance.OnTowerTeamCaptured += OnTowerCaptured;
 		GameManager.Instance.OnWardTeamSpawn += OnWardSpawn;
 		localTrad = (Sc_ThirdEye)spell;
 
@@ -34,7 +33,6 @@ public class Module_WxThirdEye : SpellModule
 	private void OnDisable ()
 	{
 	//	Interrupt();
-		GameManager.Instance.OnTowerTeamCaptured -= OnTowerCaptured;
 		GameManager.Instance.OnWardTeamSpawn -= OnWardSpawn;
 	}
 	protected override void ResolveSpell ()
@@ -86,14 +84,6 @@ public class Module_WxThirdEye : SpellModule
 	void ForceInterrupt ( Vector3 _temp )
 	{
 		Interrupt(true);
-	}
-
-	void OnTowerCaptured ( VisionTower _tower )
-	{
-		if (isUsed)
-		{
-			_tower.vision.gameObject.SetActive(false);
-		}
 	}
 
 	void OnWardSpawn ( Ward _ward )
@@ -255,27 +245,6 @@ public class Module_WxThirdEye : SpellModule
 			else
 			{
 				ward.GetFow().gameObject.SetActive(false);
-			}
-		}
-		//tower
-		foreach (VisionTower tower in GameManager.Instance.allTower)
-		{
-			if (tower == null) { continue; }
-
-			if (_ShowGlobalVision)
-			{
-				if (myPlayerModule.isInBrume)
-				{
-					tower.vision.gameObject.SetActive(false);
-				}
-				else
-				{
-					tower.vision.gameObject.SetActive(true);
-				}
-			}
-			else
-			{
-				tower.vision.gameObject.SetActive(false);
 			}
 		}
 

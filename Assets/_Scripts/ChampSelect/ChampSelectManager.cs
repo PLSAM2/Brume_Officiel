@@ -22,6 +22,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
     public GameObject startButton;
     public GameObject selectButton;
+    public TextMeshProUGUI selectButtonText;
     public Text roundText;
 
     private Dictionary<ushort, ChampionSlot> linkPlayerCharacterListObj = new Dictionary<ushort, ChampionSlot>(); // character 
@@ -142,6 +143,19 @@ public class ChampSelectManager : SerializedMonoBehaviour
         if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
             selectButton.SetActive(false);
+
+            foreach (GameObject item in charactersPanel)
+            {
+                item.SetActive(false);
+            }
+            foreach (ChampionSlot item in charactersElement)
+            {
+                if (cs == item)
+                {
+                    continue;
+                }
+                item.UnPick();
+            }
             return;
         }
 
@@ -163,15 +177,18 @@ public class ChampSelectManager : SerializedMonoBehaviour
             }
             item.UnPick();
         }
-        selectButton.SetActive(false);
-
         selectButton.SetActive(true);
+
+        selectButtonText.text = "SELECT";
 
         foreach (PlayerData pd in RoomManager.Instance.actualRoom.playerList.Values)
         {
+
+
             if (pd.playerCharacter == character)
             {
-                selectButton.SetActive(true);
+                selectButtonText.text = "ASK FOR SWAP";
+                break;
             }
         }
 

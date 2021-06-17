@@ -51,8 +51,7 @@ public class VisionTower : Interactible
             vision.gameObject.SetActive(true);
             vision.Init();
 
-            GameManager.Instance.allTower.Add(this);
-            GameManager.Instance.OnTowerTeamCaptured?.Invoke(this);
+            //GameManager.Instance.allTower.Add(this);
         }
         else
         {
