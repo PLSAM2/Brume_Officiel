@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerListObj : MonoBehaviour
 {
     public TextMeshProUGUI playerName;
+    public PlayerData player;
     public GameObject host;
     public Image readyImg;
 }
