@@ -21,6 +21,8 @@ public class Settings : MonoBehaviour
 
         UpdateText(myTextMasterVolume, mySliderMasterVolume.value);
         UpdateText(myTextMusicVolume, mySliderMusicVolume.value);
+
+        qualitySelected[QualitySettings.GetQualityLevel() - 1].SetActive(true);
     }
 
     public void Close()
@@ -50,8 +52,17 @@ public class Settings : MonoBehaviour
         _text.text = Mathf.RoundToInt(percentVolume) + "%";
     }
 
+
+    public List<GameObject> qualitySelected = new List<GameObject>();
     public void ChangeQuality(int quality)
     {
+        foreach(GameObject obj in qualitySelected)
+        {
+            obj.SetActive(false);
+        }
+
+        qualitySelected[quality - 1].SetActive(true);
+
         switch (quality)
         {
             case 0:
