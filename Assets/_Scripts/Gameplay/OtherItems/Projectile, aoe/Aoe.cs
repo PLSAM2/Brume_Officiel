@@ -232,7 +232,9 @@ public class Aoe : AutoKill
 
 			if (localTrad.rules.finalDamages.isUsable)
 			{
-				if (localTrad.screenShake && Vector3.Distance(GameManager.Instance.currentLocalPlayer.transform.position, transform.position) <=8)
+                LocalPlayer player = GameFactory.GetActualPlayerFollow();
+
+                if (player != null && localTrad.screenShake && Vector3.Distance(player.transform.position, transform.position) <=8)
 				{
 					CameraManager.Instance.SetNewCameraShake(localTrad.duration, localTrad.intensity);
 				}
