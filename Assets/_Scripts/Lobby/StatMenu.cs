@@ -123,16 +123,16 @@ public class StatMenu : MonoBehaviour
 
     void DisplayStat(Character _charac, TextMeshProUGUI _time, TextMeshProUGUI _game, TextMeshProUGUI _win, TextMeshProUGUI _kill, TextMeshProUGUI _damage)
     {
-        _time.text = StatFactory.GetIntStat(_charac, statType.Time) + "<size=20> MIN</size>\n<size=25>Time played</size>";
+        _time.text = StatFactory.GetIntStat(_charac, statType.Time) + " MIN";
         _game.text = StatFactory.GetIntStat(_charac, statType.Game).ToString();
 
         if(StatFactory.GetIntStat(_charac, statType.Game) == 0)
         {
-            _win.text = "0<size=20>%</size>";
+            _win.text = "0%";
         }
         else
         {
-            _win.text = Mathf.RoundToInt(StatFactory.GetIntStat(_charac, statType.Win) / (float)StatFactory.GetIntStat(_charac, statType.Game) * 100) + "<size=20>%</size>";
+            _win.text = Mathf.RoundToInt(StatFactory.GetIntStat(_charac, statType.Win) / (float)StatFactory.GetIntStat(_charac, statType.Game) * 100) + "%";
         }
 
         _kill.text = StatFactory.GetIntStat(_charac, statType.Kill).ToString();
