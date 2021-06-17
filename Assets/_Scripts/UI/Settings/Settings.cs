@@ -25,6 +25,14 @@ public class Settings : MonoBehaviour
         qualitySelected[QualitySettings.GetQualityLevel() - 1].SetActive(true);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.UnloadSceneAsync("Settings");
+        }
+    }
+
     public void Close()
     {
         SceneManager.UnloadSceneAsync("Settings");
