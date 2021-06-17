@@ -330,6 +330,7 @@ public class UiManager : MonoBehaviour
 		return null;
 	}
 
+    bool settingOpen = false;
 	private void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -340,6 +341,11 @@ public class UiManager : MonoBehaviour
             }
             else
             {
+                if (settingOpen) {
+                    settingOpen = false;
+                    return;
+                }
+
                 SetEchapMenuState();
             }
         }
@@ -647,7 +653,8 @@ public class UiManager : MonoBehaviour
 
 	public void OpenSettings ()
 	{
-		SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
+        settingOpen = true;
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
 	}
 	public void EndGamePanel ( bool victory = false, Team team = Team.none, bool wuxinKilled = false )
 	{

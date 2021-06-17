@@ -29,7 +29,7 @@ public class Settings : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.UnloadSceneAsync("Settings");
+            Close();
         }
     }
 
