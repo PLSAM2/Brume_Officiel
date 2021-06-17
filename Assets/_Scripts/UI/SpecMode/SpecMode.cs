@@ -265,11 +265,9 @@ public class SpecMode : MonoBehaviour
                     {
                         if (w.myTeam == RoomManager.Instance.GetPlayerData(id).playerTeam)
                         {
-                            w.GetMesh().SetActive(true);
                             w.GetFow().gameObject.SetActive(true);
                         }  else
                         {
-                            w.GetMesh().SetActive(false);
                             w.GetFow().gameObject.SetActive(false);
                         }
                     }

@@ -51,7 +51,6 @@ public class GameManager : SerializedMonoBehaviour
     public Dictionary<Transform, fowType> visiblePlayer = new Dictionary<Transform, fowType>();
 
     public List<Ward> allWard = new List<Ward>();
-    public List<VisionTower> allTower = new List<VisionTower>();
     public List<Altar> allAltar = new List<Altar>();
 
     public List<Brume> allBrume = new List<Brume>();
@@ -87,7 +86,6 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Action OnGameFinish;
 
     [HideInInspector] public Action<Ward> OnWardTeamSpawn;
-    [HideInInspector] public Action<VisionTower> OnTowerTeamCaptured;
 
     [HideInInspector] public Action<ushort, bool> OnInteractibleViewChange;
     public int numberOfAltarControled, numberOfAltarControledByEnemy = 0;
@@ -340,7 +338,7 @@ public class GameManager : SerializedMonoBehaviour
 
         if (RoomManager.Instance.actualRoom.roomType == RoomType.Tutorial)
         {
-            TutorialManager.Instance.StartTutorial();
+            TutorialManager.Instance.Tutorial();
         }
         else if (RoomManager.Instance.actualRoom.roomType == RoomType.Training)
         {

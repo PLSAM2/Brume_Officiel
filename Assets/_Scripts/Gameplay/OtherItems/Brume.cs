@@ -65,7 +65,6 @@ public class Brume : MonoBehaviour
         }
     }
 
-
     public void ForceEnter(PlayerModule player)
     {
         ShowHideMesh(player, false);
@@ -91,46 +90,7 @@ public class Brume : MonoBehaviour
     public void ShowHideMesh(PlayerModule _module, bool _value)
     {
         GameManager.Instance.globalVolumeAnimator.SetBool("InBrume", !_value);
-        SetWardFow(_module);
-
-        SetTowerFow(_value);
 
         isShow = _value;
-    }
-
-    void SetWardFow(PlayerModule _player)
-    {
-        GameManager.Instance.allWard.RemoveAll(x => x == null);
-
-        foreach (Ward ward in GameManager.Instance.allWard)
-        {
-            if(ward == null) { continue; }
-            bool fogValue = false;
-
-            if (_player.isInBrume == ward.isInBrume)
-            {
-                if (GameFactory.PlayerWardAreOnSameBrume(_player, ward) || _player.isInBrume == false)
-                {
-                    fogValue = true;
-                }
-                else
-                {
-                    fogValue = false;
-                }
-            }
-
-            ward.GetMesh().SetActive(fogValue);
-        }
-    }
-
-    void SetTowerFow(bool value)
-    {
-        GameManager.Instance.allTower.RemoveAll(x => x == null);
-
-        foreach (VisionTower tower in GameManager.Instance.allTower)
-        {
-            if (tower == null) { continue; }
-            tower.vision.gameObject.SetActive(value);
-        }
     }
 }
