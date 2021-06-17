@@ -59,6 +59,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
 
         PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
 
+        obj.player = player;
         obj.playerName.text = player.Name;
         PlayerObjDict.Add(player.ID, obj);
 
@@ -113,7 +114,24 @@ public class RoomPanelControl : SerializedMonoBehaviour
         Destroy(PlayerObjDict[playerID].gameObject);
 
         PlayerListObj obj = _PlayerListObj.GetComponent<PlayerListObj>();
+        obj.player = RoomManager.Instance.GetPlayerData(playerID);
         PlayerObjDict[playerID] = obj;
+
+        obj.playerName.text = obj.player.Name;
+        obj.host.SetActive(obj.player.IsHost);
+
+        if (NetworkManager.Instance.GetLocalPlayer().ID == playerID)
+        {
+            foreach (PlayerListObj item in PlayerObjDict.Values)
+            {
+                if (item.player.IsReady)
+                {
+                    item.readyImg.color = GameFactory.GetRelativeColor(item.player.playerTeam);
+                }
+
+            }
+
+        }
 
         switch (team)
         {
@@ -130,6 +148,9 @@ public class RoomPanelControl : SerializedMonoBehaviour
                 print("Error");
                 break;
         }
+
+
+
     }
 
     public void SwapTeam()
