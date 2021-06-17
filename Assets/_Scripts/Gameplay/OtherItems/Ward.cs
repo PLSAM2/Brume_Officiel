@@ -12,11 +12,9 @@ public class Ward : MonoBehaviour
 	public NetworkedObject networkedObject;
 
 	[TabGroup("Tweakable")]
-	[SerializeField] private float lifeTime = 32;
 	public Sc_Status statusToApply;
 
 	public Fow vision;
-	[SerializeField] private LayerMask brumeLayer;
 	public Team myTeam;
 	bool hasTriggered = false;
 
@@ -40,7 +38,7 @@ public class Ward : MonoBehaviour
 
     private void OnEnable ()
 	{
-		GetMesh().SetActive(false);
+        mesh.SetActive(false);
 		Landed(networkedObject.GetOwner().playerTeam);
 	}
 
@@ -61,47 +59,22 @@ public class Ward : MonoBehaviour
             vision.gameObject.SetActive(true);
 			vision.Init();
 
-			// isInBrume = IsInBrume();
-
 			hasTriggered = false;
 
 
 			GameManager.Instance.allWard.Add(this);
 			GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
 
-
-			bool isView = false;
-			if (GameFactory.GetActualPlayerFollow() != null && GameFactory.GetActualPlayerFollow().myPlayerModule.isInBrume == this.isInBrume)
-			{
-				if (GameFactory.PlayerWardAreOnSameBrume(GameFactory.GetActualPlayerFollow().myPlayerModule, this) || isInBrume == false)
-				{
-					isView = true;
-				}
-				else
-				{
-					isView = false;
-				}
-			}
-
-
-			GetMesh().SetActive(myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
-
-			//vision.gameObject.SetActive(isView);
+            mesh.SetActive(myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
+            print(myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
 
 			rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
-
-			//myWaypoint.SetImageColor(GameFactory.GetColorTeam(_team));
 		}
 	}
 	
 	public Fow GetFow ()
 	{
 		return vision;
-	}
-
-	public GameObject GetMesh ()
-	{
-		return mesh;
 	}
 
 	private void OnDisable ()
