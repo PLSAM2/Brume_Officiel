@@ -868,6 +868,32 @@ MonoBehaviour:
     - Name: OnInteractibleViewChange
       Entry: 6
       Data: 
+    - Name: deathSounds
+      Entry: 7
+      Data: 13|System.Collections.Generic.Dictionary`2[[GameData+Character, Assembly-CSharp],[UnityEngine.AudioClip,
+        UnityEngine.AudioModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 14|System.Collections.Generic.EnumEqualityComparer`1[[GameData+Character,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   client: {fileID: 0}
   timer: 0
   endZoneTimer: 31
@@ -3855,11 +3881,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 605353611280531581, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 605353611280531581, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 605353611280531581, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMin.y
@@ -3909,13 +3935,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4934394743966160427, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5892933810154250149, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.00024414062
       objectReference: {fileID: 0}
     - target: {fileID: 7190002651193314338, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7216825737520828839, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_Pivot.x
@@ -4001,21 +4031,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7773718568602981733, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 355.31
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 50.8755
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -4023,7 +4057,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798855016601351545, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25.43775
       objectReference: {fileID: 0}
     - target: {fileID: 8245477988252969713, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_IsActive
@@ -4039,19 +4073,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8976934705541041207, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8976934705541041207, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8976934705541041207, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -11.2773
       objectReference: {fileID: 0}
     - target: {fileID: 9218809290354146190, guid: 5379d9b7b09722d43806031520b38307, type: 3}
       propertyPath: m_Name
       value: UiPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218809290354146190, guid: 5379d9b7b09722d43806031520b38307, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5379d9b7b09722d43806031520b38307, type: 3}
