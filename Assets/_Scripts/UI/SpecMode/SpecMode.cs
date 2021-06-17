@@ -100,10 +100,7 @@ public class SpecMode : MonoBehaviour
             {
                 TryToSpec();
             }
-
         }
-
-
     }
 
     IEnumerator WaitToDisplaySpecMode()
