@@ -16,10 +16,12 @@ public class PlayerTeamElement : MonoBehaviour
     [SerializeField] GameObject iconSwap;
     [SerializeField] GameObject iconPick;
     [SerializeField] GameObject iconReady;
+
+    [SerializeField] GameObject selectedFx;
+
     public void Init(PlayerData myPlayerdata)
     {
         myUsername.text = myPlayerdata.Name;
-
 
         if (NetworkManager.Instance.GetLocalPlayer().ID == myPlayerdata.ID)
         {
@@ -67,6 +69,9 @@ public class PlayerTeamElement : MonoBehaviour
                 Debug.LogError("Char not existing");
                 break;
         }
+
+        selectedFx.gameObject.SetActive(false);
+        selectedFx.gameObject.SetActive(true);
     }
     public void SetSwapIcon(bool value)
     {
