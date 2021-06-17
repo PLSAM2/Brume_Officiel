@@ -6,9 +6,7 @@ using UnityEngine.UI;
 
 public class LabelStatElement : MonoBehaviour
 {
-    public TextMeshProUGUI textLabel;
-    public Image backImg;
-    public GameObject line;
+    public GameObject selected;
 
     public bool isActive = false;
 
@@ -17,19 +15,13 @@ public class LabelStatElement : MonoBehaviour
         if (isActive) { return; }
 
         isActive = true;
-        backImg.gameObject.SetActive(true);
-        line.SetActive(true);
-        textLabel.fontSize = 48;
-        textLabel.color = Color.white;
+        selected.SetActive(true);
     }
 
     public void Disable()
     {
         isActive = false;
 
-        backImg.gameObject.SetActive(false);
-        line.SetActive(false);
-        textLabel.fontSize = 35;
-        textLabel.color = Color.black;
+        selected.SetActive(false);
     }
 }

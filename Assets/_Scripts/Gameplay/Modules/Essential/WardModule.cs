@@ -32,7 +32,11 @@ public class WardModule : SpellModule
 		}
 	}
 
-
+	protected override void Canalyse ( Vector3 _BaseMousePos )
+	{
+		base.Canalyse(_BaseMousePos);
+		mousePosInputed = transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(transform.position, myPlayerModule.mousePos()),0,spell.range);
+	}
 
 	protected override void Resolution ()
 	{
@@ -95,11 +99,11 @@ public class WardModule : SpellModule
 	Vector3 TryToFindFreePos ( Vector3 _locationToFindFrom, int _iteration )
 	{
 		Collider[] _hits;
-		Vector3 posToCheck = _locationToFindFrom + (transform.position - _locationToFindFrom).normalized * _iteration * .3f;
+		Vector3 posToCheck = _locationToFindFrom + (transform.position - _locationToFindFrom).normalized * _iteration * .1f;
 
 		_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
 			posToCheck + Vector3.up * 10,
-			.3f,
+			.1f,
 			1 << 9);
 
 		Debug.DrawLine(posToCheck + Vector3.down * 10,
@@ -114,10 +118,10 @@ public class WardModule : SpellModule
 		else
 		{
 
-			posToCheck = _locationToFindFrom - (transform.position - _locationToFindFrom).normalized * _iteration * .3f;
+			posToCheck = _locationToFindFrom - (transform.position - _locationToFindFrom).normalized * _iteration * .1f;
 			_hits = Physics.OverlapCapsule(posToCheck + Vector3.down * 10,
 			posToCheck + Vector3.up * 10,
-			.3f,
+			.1f,
 			1 << 9);
 
 			Debug.DrawLine(posToCheck + Vector3.down * 10,
