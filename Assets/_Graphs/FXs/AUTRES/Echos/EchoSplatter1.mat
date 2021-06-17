@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6992943456268759274
+--- !u!114 &-7898952813638579887
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EchoBase
+  m_Name: EchoSplatter1
   m_Shader: {fileID: 4800000, guid: 797d17a1ffb5b6c40a4cd65a570ebece, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -52,24 +52,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Echo:
-        m_Texture: {fileID: 2800000, guid: be1bc2ffb2265374e9f2da28a25e0e3d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EchoMask:
-        m_Texture: {fileID: 2800000, guid: 8df861b98deba704ba73083d6309f394, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EchoMaskBase:
-        m_Texture: {fileID: 2800000, guid: 7ab61cc98b9c9024091b90387f3cca1e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EchoMaskBaseGradient:
-        m_Texture: {fileID: 2800000, guid: eafd06e39bc1d944e90fe6da67b509ae, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EchoRipple2:
-        m_Texture: {fileID: 2800000, guid: 4b82364a8e032c940a2f710bcab86f00, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2a8ff8876de8c0649b4096767e78b3ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -92,24 +76,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _PolarNoise:
-        m_Texture: {fileID: 2800000, guid: 014a075727d9cc8419f70d6a7e895da0, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TestAdditive:
-        m_Texture: {fileID: 2800000, guid: be1bc2ffb2265374e9f2da28a25e0e3d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _blurclouds1:
         m_Texture: {fileID: 2800000, guid: 1cb5d7a8b79999d4b8356e740bbf6667, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
-        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -137,10 +109,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Float0: 0
-    - _Float1: 0.3
     - _Float2: 0
-    - _Float3: 1
     - _Float5: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
