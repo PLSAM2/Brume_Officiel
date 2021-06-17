@@ -330,20 +330,25 @@ public class UiManager : MonoBehaviour
 		return null;
 	}
 
+    bool settingOpen = false;
 	private void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			if (chat.isFocus)
-			{
-				chat.UnFocus();
-			}
-			else
-			{
-				SetEchapMenuState();
-			}
-		}
+            if (chat.isFocus)
+            {
+                chat.UnFocus();
+            }
+            else
+            {
+                if (settingOpen) {
+                    settingOpen = false;
+                    return;
+                }
 
+                SetEchapMenuState();
+            }
+        }
 
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
@@ -648,7 +653,8 @@ public class UiManager : MonoBehaviour
 
 	public void OpenSettings ()
 	{
-		SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
+        settingOpen = true;
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
 	}
 	public void EndGamePanel ( bool victory = false, Team team = Team.none, bool wuxinKilled = false )
 	{
