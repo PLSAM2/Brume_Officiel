@@ -66,7 +66,6 @@ public class Ward : MonoBehaviour
 			GameManager.Instance.OnWardTeamSpawn?.Invoke(this);
 
             mesh.SetActive(myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
-            print(myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam);
 
 			rangePreview.localScale = new Vector3(vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius, vision.myFieldOfView.viewRadius);
 		}
