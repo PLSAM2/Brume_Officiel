@@ -340,7 +340,7 @@ public class GameManager : SerializedMonoBehaviour
 
         if (RoomManager.Instance.actualRoom.roomType == RoomType.Tutorial)
         {
-            TutorialManager.Instance.StartTutorial();
+            TutorialManager.Instance.Tutorial();
         }
         else if (RoomManager.Instance.actualRoom.roomType == RoomType.Training)
         {
