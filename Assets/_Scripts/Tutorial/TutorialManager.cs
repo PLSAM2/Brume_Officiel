@@ -35,6 +35,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera cinematicCamera;
 
     [SerializeField] private Animator canvasAnimator;
+    [SerializeField] private Animator cameraAnimator;
+    [SerializeField] private List<GameObject> objectToHideDuringStart = new List<GameObject>();
 
     [SerializeField] private UpdateCanvas updaterCanvas;
 
@@ -69,6 +71,38 @@ public class TutorialManager : MonoBehaviour
         RoomManager.Instance.ImReady();
 
     }
+
+    public void Tutorial()
+    {
+        
+        canvasAnimator.SetTrigger("Start");
+        cameraAnimator.SetTrigger("Start");
+        StartCoroutine(TutorialStartAnimation());
+    }
+
+    IEnumerator TutorialStartAnimation()
+    {
+
+        foreach (GameObject go in objectToHideDuringStart)
+        {
+            go.SetActive(false);
+        }
+
+        GameManager.Instance.blockMovement = true;
+        yield return new WaitForSeconds(17.5f);
+
+        tutorialQuestUiPanel.SetActive(true);
+        GameManager.Instance.blockMovement = false;
+        StartTutorial();
+
+        foreach (GameObject go in objectToHideDuringStart)
+        {
+            go.SetActive(true);
+        }
+
+
+    }
+
     public void StartTutorial()
     {
 
