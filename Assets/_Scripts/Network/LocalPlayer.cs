@@ -573,7 +573,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
     {
 		yield return new WaitForSeconds(0.4f);
 
-		AudioManager.Instance.Play2DCharacterAudio(randomizeClip, 2);
+		AudioManager.Instance.Play2DCharacterAudio(randomizeClip, 3);
 	}
 
 	/// <summary>
