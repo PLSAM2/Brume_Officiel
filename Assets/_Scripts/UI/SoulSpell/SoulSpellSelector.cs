@@ -51,7 +51,7 @@ public class SoulSpellSelector : MonoBehaviour
                 StartCoroutine(OnTimerFinish());
                 startTimer = false;
 
-                timerText.text = "Waiting player ...";
+                timerText.text = "Waiting for players ...";
                 fillImgTimer.fillAmount = 0;
             }
         }

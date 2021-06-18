@@ -148,22 +148,22 @@ public class Altar : Interactible
 		waypointObj.SetLock();
 		waypointObj.gameObject.SetActive(false);
 
-        print("test");
-
 		if (capturePlayer.playerTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
 		{
 			blueTaken.SetActive(true);
-			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx);
+			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.blue) + ">YOUR TEAM </color>", capturedAltarSfx, capturedAltarVoice);
 		}
 		else
 		{
 			redTaken.SetActive(true);
-			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx);
+			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTAR CLEANSED BY " + "<color=" + GameFactory.GetColorTeamInHex(Team.red) + ">ENEMY TEAM </color>", capturedAltarSfx, capturedAltarVoice);
 		}
+
+        /*
         if (!GameManager.Instance.HaveCapturedAnAltar(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam))
         {
 			AudioManager.Instance.Play2DAudio(capturedAltarVoice);
-		}
+		}*/
 
 		UiManager.Instance.OnAltarUnlock(this, capturePlayer.playerTeam);
 
@@ -231,9 +231,9 @@ public class Altar : Interactible
 		}
 	}
 
+    public bool annoncementUnlock = false;
 
-	public bool annonceUnlock = true;
-	IEnumerator ActivateAltar ()
+    IEnumerator ActivateAltar ()
 	{
 		if (RoomManager.Instance.roundCount == 1)
 		{
@@ -247,10 +247,10 @@ public class Altar : Interactible
 		yield return new WaitForSeconds(currentTime);
 
 
-		if (interactibleName == "Right" && annonceUnlock) // BERK MAIS OSEF
+		if (annoncementUnlock) // BERK MAIS OSEF
 		{
-			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx);
-			AudioManager.Instance.Play2DAudio(unlockAltarVoice);
+			UiManager.Instance.myAnnoncement.ShowAnnoncement("ALTARS UNSEALED", unlockAltarSfx, unlockAltarVoice);
+			//AudioManager.Instance.Play2DAudio(unlockAltarVoice);
 			//StatManager.Instance.AddAltarEvent(altarEvent.state.UNSEALED, "");
 		}
 

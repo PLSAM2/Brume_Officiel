@@ -188,6 +188,10 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialQuestUiPanel.SetActive(false);
         EndTutorialPanel.SetActive(true);
+        foreach (GameObject go in objectToHideDuringStart)
+        {
+            go.SetActive(false);
+        }
 
         foreach (TutorialQuest tq in tutorialQuests)
         {
