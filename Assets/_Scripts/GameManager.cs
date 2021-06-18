@@ -126,7 +126,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Awake()
     {
-        gameReallyStarted = false;
+        gameReallyStarted = true;
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -427,6 +427,7 @@ public class GameManager : SerializedMonoBehaviour
 
                 if (oldTimerTrain <= 5)
                 {
+                    gameReallyStarted = false;
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
 
