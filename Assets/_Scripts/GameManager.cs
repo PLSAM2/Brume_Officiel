@@ -18,6 +18,8 @@ public class GameManager : SerializedMonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
     public bool gameReallyStarted;
+    public bool gameReallyReallyStarted = false;
+
     // Spawns >>
     [SerializeField] private Dictionary<ushort, List<SpawnPoint>> spawns = new Dictionary<ushort, List<SpawnPoint>>();
     [SerializeField] public Dictionary<Team, List<SpawnPoint>> trainSpawns = new Dictionary<Team, List<SpawnPoint>>();
@@ -346,8 +348,6 @@ public class GameManager : SerializedMonoBehaviour
         {
             TrainingManager.Instance.canvas.SetActive(true);
         }
-
-
     }
 
     public void ResetCam()
@@ -470,7 +470,10 @@ public class GameManager : SerializedMonoBehaviour
                     }
                 }
 
+                gameReallyReallyStarted = true;
                 blockMovement = false;
+
+                UiManager.Instance.myAnnoncement.OnEndAnnoncement();
             }
         }
     }
