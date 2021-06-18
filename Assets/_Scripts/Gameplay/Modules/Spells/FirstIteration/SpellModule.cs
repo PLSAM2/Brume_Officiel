@@ -518,8 +518,9 @@ public class SpellModule : MonoBehaviour
 	public virtual void ThrowbackEndFeedBack ()
 	{
 		myPlayerModule.mylocalPlayer.myAnimController.SetTriggerToAnim("Interrupt");
-		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");	
-		onInterrupt?.Invoke();
+		myPlayerModule.mylocalPlayer.myAnimController.SyncTrigger("Interrupt");
+		if (GameManager.Instance.gameReallyStarted == true)
+			onInterrupt?.Invoke();
 	}
 
 	protected virtual void ApplyEffectAtTheEnd ()
@@ -633,7 +634,7 @@ public class SpellModule : MonoBehaviour
 	}
 	protected virtual void DecreaseCharge ()
 	{
-		charges = 0 ;
+		charges = 0;
 		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
