@@ -39,7 +39,7 @@ public class AutoKill : MonoBehaviour
 			DisplayMesh();
 		}
 
-		if (spawnSound)
+		if (spawnSound != null)
 		{
 			AudioManager.Instance.Play3DAudio(spawnSound, transform.position, myNetworkObject.GetItemID(), false);
 		}

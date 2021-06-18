@@ -30,7 +30,7 @@ public class UiManager : MonoBehaviour
 	[FoldoutGroup("GlobalUi")] public EndPanel endPanel;
 
 
-	[FoldoutGroup("GlobalUi")] public GameObject toDisableInEndGame;
+	[FoldoutGroup("GlobalUi")] public List<GameObject> toDisableInEndGame = new List<GameObject>();
 	[FoldoutGroup("GlobalUi")] public ChatControl chat;
 	[FoldoutGroup("GlobalUi")] public EndGameStats endGameStats;
     [FoldoutGroup("GlobalUi")] public CanvasGroup spellUI;
@@ -664,7 +664,11 @@ public class UiManager : MonoBehaviour
 
 		endPanel.Appear(victory, team, wuxinKilled);
 
-		toDisableInEndGame.SetActive(false);
+        foreach (GameObject item in toDisableInEndGame)
+        {
+			item.SetActive(false);
+
+		}
 	}
 
 	public void InitEndGameStats ()
