@@ -53,6 +53,8 @@ public class UIPlayerManager : MonoBehaviour
 	private void Awake ()
 	{
 		canvasRot = canvas.transform.rotation;
+        print(canvasRot);
+
 		compassRot = compassCanvas.transform.rotation;
 		compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
 	}
@@ -192,7 +194,7 @@ public class UIPlayerManager : MonoBehaviour
 
 	private void LateUpdate ()
 	{
-		canvas.transform.rotation = canvasRot;
+		canvas.transform.eulerAngles = new Vector3(45, 0, 0);
 		compassCanvas.transform.rotation = compassRot;
 	}
 

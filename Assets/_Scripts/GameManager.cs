@@ -354,7 +354,10 @@ public class GameManager : SerializedMonoBehaviour
         defaultCam.gameObject.SetActive(true);
         globalVolumeAnimator.SetBool("InBrume", false);
     }
+
     int oldTimerTrain = 0;
+    public bool isRespawning = false;
+
     void UpdateTime()
     {
         //if (inOvertime)
