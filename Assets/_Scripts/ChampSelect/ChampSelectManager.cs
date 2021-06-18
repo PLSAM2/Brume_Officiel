@@ -142,6 +142,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
         if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
+            pickChar = character;
             selectButton.SetActive(false);
 
             foreach (GameObject item in charactersPanel)
