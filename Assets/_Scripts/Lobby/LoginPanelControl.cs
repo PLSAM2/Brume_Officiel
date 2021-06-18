@@ -156,15 +156,21 @@ public class LoginPanelControl : MonoBehaviour
         }
         else
         {
-            if (PlayerPrefs.GetString("PlayerName") != null && PlayerPrefs.GetString("PlayerName") != "")
-            {
-                Login(PlayerPrefs.GetString("PlayerName"));
-            }
-            else
-            {
-                nameChangePanel.SetActive(true);
+            nameChangePanel.SetActive(true);
+            loadingImg.SetActive(false);
+            connectionStateLogin.gameObject.SetActive(false);
+            loadingTxt.gameObject.SetActive(false);
+
+
+            //if (PlayerPrefs.GetString("PlayerName") != null && PlayerPrefs.GetString("PlayerName") != "")
+            //{
+            //    Login(PlayerPrefs.GetString("PlayerName"));
+            //}
+            //else
+            //{
+            nameChangePanel.SetActive(true);
                 loginBtn.interactable = true;
-            }
+            //}
         }
     }
 
@@ -203,6 +209,20 @@ public class LoginPanelControl : MonoBehaviour
         }
     }
 
+
+    public void Restart()
+    {
+        nameChangePanel.SetActive(true);
+        loadingImg.SetActive(false);
+        connectionStateLogin.gameObject.SetActive(false);
+        loadingTxt.gameObject.SetActive(false);
+
+        foreach (GameObject go in connectButtons)
+        {
+            go.SetActive(false);
+        }
+    }
+
     public void Login(string name = "")
     {
         if (name == "")
@@ -216,6 +236,8 @@ public class LoginPanelControl : MonoBehaviour
         this.gameObject.SetActive(false);
         LobbyManager.Instance.DisplayMainMenu();
     }
+
+
 
 
 }
