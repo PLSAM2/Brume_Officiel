@@ -425,7 +425,12 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
-		AudioManager.Instance.PlayHitAudio();
+		if (_damagesToDeal.statusToApply == null)
+			AudioManager.Instance.PlayHitAudio();
+
+		if (_damagesToDeal.statusToApply != null )
+			if((_damagesToDeal.statusToApply[0].effect.stateApplied & En_CharacterState.Slowed) !=0 || (_damagesToDeal.statusToApply[0].effect.stateApplied & En_CharacterState.Stunned) != 0 || (_damagesToDeal.statusToApply[0].effect.stateApplied & En_CharacterState.WxMarked) != 0 || _damagesToDeal.damageHealth > 0)
+				AudioManager.Instance.PlayHitAudio();
 
 		/* if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
 		 {
