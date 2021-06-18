@@ -892,6 +892,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   gameReallyStarted: 0
+  gameReallyReallyStarted: 0
   client: {fileID: 0}
   timer: 0
   endZoneTimer: 31
@@ -970,7 +971,7 @@ MonoBehaviour:
   timerTrain: {fileID: 0}
   timerTrainSpawn: {fileID: 0}
   UIGroup: {fileID: 1310658222}
-  _mistMat: {fileID: 2100000, guid: 26be7d56251d5bc4abe9f544517584a5, type: 2}
+  _mistMat: {fileID: 2100000, guid: 634e6dc6ffea1f246bd55b3390f6d6d3, type: 2}
   haveChoiceSoulSpell: 0
   wxParameter: {fileID: 11400000, guid: 1b1fdb5540e87de4faad4355e129fea6, type: 2}
   reParameter: {fileID: 11400000, guid: 3e9becc83fd69ec439b708b903f398da, type: 2}
@@ -2261,6 +2262,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
+      propertyPath: mistMatPlane
+      value: 
+      objectReference: {fileID: 2100000, guid: 634e6dc6ffea1f246bd55b3390f6d6d3, type: 2}
     - target: {fileID: 11400000, guid: 85b56ff2b22070f4094f15f383d9ca29, type: 3}
       propertyPath: inBrumeColor.b
       value: 0.5098344
@@ -8186,6 +8191,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.74
       objectReference: {fileID: 0}
+    - target: {fileID: 2447264533699370768, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: myTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 4427f55c147304f4881f0c796db1cd03, type: 3}
     - target: {fileID: 2459084186478982948, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: objToHide.Array.data[0]
       value: 
@@ -8218,6 +8227,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4043723586136342036, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 634e6dc6ffea1f246bd55b3390f6d6d3, type: 2}
     - target: {fileID: 4089095492628998830, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -8266,6 +8279,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1831080558}
+    - target: {fileID: 7420073361955456547, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: myTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 91c609c4c8ae8f94d91f10934203caa0, type: 3}
     - target: {fileID: 7448761655113766955, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_Mesh
       value: 
