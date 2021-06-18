@@ -157,7 +157,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     private void Update ()
 	{
-		Debug();
+		//Debug();
 
 
 		if (!isOwner) { return; }
