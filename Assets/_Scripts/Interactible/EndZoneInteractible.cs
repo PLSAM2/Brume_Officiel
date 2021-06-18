@@ -14,6 +14,8 @@ public class EndZoneInteractible : Interactible
     [SerializeField] Animator endZoneAnimator;
     [SerializeField] AudioClip altarBottomAscencion, altarRightAscencion, altarLeftAscencion;
     public SpriteRenderer endZoneMapIcon;
+    public GameObject[] braserosStart, barserosFire;
+
 
     public bool timerElapsed = false;
     protected override void Init()
@@ -119,7 +121,7 @@ public class EndZoneInteractible : Interactible
         waypointObj = Instantiate(waypointEndZonePrefab, UiManager.Instance.parentWaypoint).GetComponent<Waypoint>();
         waypointObj.target = transform;
         waypointObj.SetImageColor(Color.red);
-
+        StartCoroutine("StartFire");
         base.Unlock();
     }
 
@@ -146,11 +148,26 @@ public class EndZoneInteractible : Interactible
         }
 
     }
-
+     IEnumerator StartFire()
+	{
+        foreach (GameObject _gam in braserosStart)
+            _gam.SetActive(true);
+        yield return new WaitForSeconds(.4f);
+        foreach (GameObject _gam in barserosFire)
+            _gam.SetActive(true);
+    }
     internal void TimerElapsed()
     {
         waypointObj.SetImageColor(GameFactory.GetRelativeColor(lastTeamCaptured));
         CheckOnUnlock = true;
         timerElapsed = true;
+    }
+
+	private void Start ()
+	{
+        foreach (GameObject _gam in braserosStart)
+            _gam.SetActive(false);
+        foreach (GameObject _gam in barserosFire)
+            _gam.SetActive(false);
     }
 }

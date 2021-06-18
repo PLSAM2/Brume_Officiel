@@ -37,7 +37,7 @@ public class Altar : Interactible
 	[SerializeField] SpriteRenderer iconUnlock, iconLock;
 	public ParticleSystem particleCapturingAlly, particleCapturingEnemy;
 	public MeshRenderer onCaptureMesh, centerMesh;
-	public GameObject[] allBraseros;
+	public GameObject[] allBraseros, allBraserosStart;
 	void Start ()
 	{
 		base.Init();
@@ -55,6 +55,8 @@ public class Altar : Interactible
 
 		iconUnlock.gameObject.SetActive(false);
 		iconLock.gameObject.SetActive(true);
+		foreach (GameObject _obj in allBraserosStart)
+			_obj.SetActive(false);
 		foreach (GameObject _obj in allBraseros)
 			_obj.SetActive(false);
 	}
@@ -187,6 +189,9 @@ public class Altar : Interactible
 		completeObj.material.SetColor(colorShader, GameFactory.GetRelativeColor(RoomManager.Instance.GetPlayerData(_capturingPlayerID).playerTeam));
 		completeObj.gameObject.SetActive(true);
 
+
+		foreach (GameObject _obj in allBraserosStart)
+			_obj.SetActive(false);
 		foreach (GameObject _obj in allBraseros)
 			_obj.SetActive(false);
 		/*
@@ -260,8 +265,8 @@ public class Altar : Interactible
 	public override void Unlock ()
 	{
 		fillImg.gameObject.SetActive(true);
-		foreach (GameObject _obj in allBraseros)
-			_obj.SetActive(true);
+
+		StartCoroutine("WaitforFireStart");
 
 		base.Unlock();
 
@@ -269,6 +274,15 @@ public class Altar : Interactible
 
 		iconUnlock.gameObject.SetActive(true);
 		iconLock.gameObject.SetActive(false);
+	}
+
+	IEnumerator WaitforFireStart()
+	{
+		foreach (GameObject _obj in allBraserosStart)
+			_obj.SetActive(true);
+		yield return new WaitForSeconds(.4f);
+		foreach (GameObject _obj in allBraseros)
+			_obj.SetActive(true);
 	}
 
 	internal void StarFinalPhase ()
