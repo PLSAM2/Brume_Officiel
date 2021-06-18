@@ -14,6 +14,9 @@ public class UltPickup : Interactible
 	public GameObject onCapture, onReaparition, idle;
 
     public GameObject fxSpawn, fxDeSpawn;
+
+    public AudioClip takePickUp;
+
 	protected override void Init ()
 	{
 		fillImg.material.SetFloat(progressShaderName, 1);
@@ -49,7 +52,9 @@ public class UltPickup : Interactible
 		//GameManager.Instance.currentLocalPlayer.AddHitPoint(hitPointGiven);
 		base.Captured(_capturingPlayerID);
 
+        AudioManager.Instance.Play2DAudio(takePickUp);
 	}
+
 	public override void UpdateCaptured ( ushort _capturingPlayerID )
 	{
 		base.UpdateCaptured(_capturingPlayerID);
