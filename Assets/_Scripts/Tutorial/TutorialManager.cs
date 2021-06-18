@@ -74,7 +74,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Tutorial()
     {
-        
+
         canvasAnimator.SetTrigger("Start");
         cameraAnimator.SetTrigger("Start");
         StartCoroutine(TutorialStartAnimation());
@@ -186,8 +186,8 @@ public class TutorialManager : MonoBehaviour
 
     public void EndTutorial()
     {
+        canvasAnimator.SetTrigger("End");
         tutorialQuestUiPanel.SetActive(false);
-        EndTutorialPanel.SetActive(true);
         foreach (GameObject go in objectToHideDuringStart)
         {
             go.SetActive(false);
@@ -200,8 +200,15 @@ public class TutorialManager : MonoBehaviour
                 qs.Reset();
             }
         }
+        StartCoroutine(EndTuto());
 
         step = 0;
+    }
+
+    IEnumerator EndTuto()
+    {
+        yield return new WaitForSeconds(73);
+        EndTutorialPanel.SetActive(true);
     }
 
     public void StartTraining()

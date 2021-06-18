@@ -240,19 +240,9 @@ public class PlayerModule : MonoBehaviour
 
             if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
             {
-                if (teamIndex == Team.blue)
+                foreach (SkinnedMeshRenderer skin in skinnedRenderer)
                 {
-                    foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-                    {
-                        skin.material.SetFloat("_OutlinePower", 0);
-                    }
-                }
-                else
-                {
-                    foreach (SkinnedMeshRenderer skin in skinnedRenderer)
-                    {
-                        skin.material.SetFloat("_OutlinePower", 10);
-                    }
+                    skin.material.SetFloat("_OutlinePower", 0);
                 }
             }
             else

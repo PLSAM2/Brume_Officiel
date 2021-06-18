@@ -233,7 +233,8 @@ public class LoginPanelControl : MonoBehaviour
         LobbyManager.Instance.CheckName(ref name);
         LobbyManager.Instance.ChangeName(name);
 
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);       
+        //LobbyManager.Instance.StartPrivateRoom(false);
         LobbyManager.Instance.DisplayMainMenu();
     }
 
