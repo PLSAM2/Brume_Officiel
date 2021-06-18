@@ -140,36 +140,22 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
             return; }
 
-        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
-        {
-            pickChar = character;
-            selectButton.SetActive(false);
-
-            foreach (GameObject item in charactersPanel)
-            {
-                item.SetActive(false);
-            }
-            foreach (ChampionSlot item in charactersElement)
-            {
-                if (cs == item)
-                {
-                    continue;
-                }
-                item.UnPick();
-            }
-            return;
-        }
-
-
         int characterToInt = ((int)character / 10) - 1; // meh
+
+
+
+        wxImg.SetActive(character == Character.WuXin);
+        reImg.SetActive(character == Character.Re);
+        lengImg.SetActive(character == Character.Leng);
+
+        pickChar = character;
+
 
         foreach (GameObject item in charactersPanel)
         {
             item.SetActive(false);
         }
-
         charactersPanel[characterToInt].SetActive(true);
-
         foreach (ChampionSlot item in charactersElement)
         {
             if (cs == item)
@@ -178,6 +164,22 @@ public class ChampSelectManager : SerializedMonoBehaviour
             }
             item.UnPick();
         }
+
+
+        foreach (Parallax myParallax in allParallax)
+        {
+            myParallax.enabled = true;
+        }
+
+        if (character == NetworkManager.Instance.GetLocalPlayer().playerCharacter || NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+        {
+            selectButton.SetActive(false);
+
+            return;
+        }
+
+
+
         selectButton.SetActive(true);
 
         selectButtonText.text = "SELECT";
@@ -191,16 +193,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
             }
         }
 
-        wxImg.SetActive(character == Character.WuXin);
-        reImg.SetActive(character == Character.Re);
-        lengImg.SetActive(character == Character.Leng);
 
-        pickChar = character;
-
-        foreach (Parallax myParallax in allParallax)
-        {
-            myParallax.enabled = true;
-        }
     }
 
     public void SelectChar()
