@@ -891,6 +891,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  gameReallyStarted: 0
   client: {fileID: 0}
   timer: 0
   endZoneTimer: 31
@@ -6361,6 +6362,10 @@ PrefabInstance:
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 301384788192577807, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 650665536535191227, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6379,19 +6384,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 840176100665954178, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 840176100665954178, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 840176100665954178, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 223.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 840176100665954178, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -24.43495
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183687865135070355, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1240677198442601291, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_Color.b
@@ -6425,6 +6434,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 8619256756661436948}
+    - target: {fileID: 1420630830779254419, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1534186462939482441, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6895,15 +6908,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4161173727213836853, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4161173727213836853, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4161173727213836853, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 48.8699
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4161173727213836853, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6911,7 +6924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4161173727213836853, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -78.30485
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4292186820665829877, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7019,15 +7032,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5231511155870854692, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5231511155870854692, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5231511155870854692, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 48.8699
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5231511155870854692, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7035,7 +7048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5231511155870854692, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -24.43495
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5645606034732083889, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_Sprite
@@ -7401,6 +7414,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8603017980015460187, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8703641255880135689, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -7411,19 +7428,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8830887543263181715, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8830887543263181715, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8830887543263181715, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 223.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8830887543263181715, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -24.43495
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8873916634859844682, guid: b21be5d98c0f08d41a5b4fbf9cbdce58, type: 3}
       propertyPath: m_IsActive
