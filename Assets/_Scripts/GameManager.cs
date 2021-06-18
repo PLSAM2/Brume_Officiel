@@ -17,7 +17,7 @@ public class GameManager : SerializedMonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
-
+    public bool gameReallyStarted;
     // Spawns >>
     [SerializeField] private Dictionary<ushort, List<SpawnPoint>> spawns = new Dictionary<ushort, List<SpawnPoint>>();
     [SerializeField] public Dictionary<Team, List<SpawnPoint>> trainSpawns = new Dictionary<Team, List<SpawnPoint>>();
@@ -126,6 +126,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void Awake()
     {
+        gameReallyStarted = false;
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -463,7 +464,7 @@ public class GameManager : SerializedMonoBehaviour
                         if (spawn.CanSpawn())
                         {
                             networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].transform.position = spawn.transform.position;
-
+                            gameReallyStarted = true;
                         }
                     }
                 }
