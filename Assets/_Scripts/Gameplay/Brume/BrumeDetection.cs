@@ -43,6 +43,8 @@ public class BrumeDetection : MonoBehaviour
 
                     GameManager.Instance._mistMat.SetTexture("_MistMask", currentBrume.myTexture);
                     GameManager.Instance.OnLocalPlayerStateBrume?.Invoke(true);
+
+                    print("passage");
                 }
             }
         }
