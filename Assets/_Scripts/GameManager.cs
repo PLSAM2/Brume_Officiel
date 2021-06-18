@@ -465,11 +465,11 @@ public class GameManager : SerializedMonoBehaviour
                         if (spawn.CanSpawn())
                         {
                             networkPlayers[NetworkManager.Instance.GetLocalPlayer().ID].transform.position = spawn.transform.position;
-                            gameReallyStarted = true;
                         }
                     }
                 }
 
+                gameReallyStarted = true;
                 gameReallyReallyStarted = true;
                 blockMovement = false;
 
