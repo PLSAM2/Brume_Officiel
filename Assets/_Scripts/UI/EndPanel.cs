@@ -30,7 +30,7 @@ public class EndPanel : MonoBehaviour
 
         if (lastRound)
         {
-			endPanelAnimator.SetTrigger("Appear");
+			endPanelAnimator.SetTrigger("LastRound");
 		} else
         {
 			endPanelAnimator.SetTrigger("Appear");
