@@ -425,7 +425,9 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myPlayerModule.allHitTaken.Add(_damagesToDeal);
 
-		AudioManager.Instance.PlayHitAudio();
+		if( _damagesToDeal.statusToApply.Length >0)
+			if( (_damagesToDeal.statusToApply[0].effect.stateApplied & En_CharacterState.Slowed) !=0 || (_damagesToDeal.statusToApply[0].effect.stateApplied & En_CharacterState.Stunned) != 0 || (_damagesToDeal.statusToApply[0].effect.stateApplied & En_CharacterState.WxMarked) != 0 || _damagesToDeal.damageHealth > 0 )
+				AudioManager.Instance.PlayHitAudio();
 
 		/* if ((myPlayerModule.state & _damagesToDeal.stateNeeded) != 0)
 		 {
@@ -573,7 +575,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
     {
 		yield return new WaitForSeconds(0.4f);
 
-		AudioManager.Instance.Play2DCharacterAudio(randomizeClip, 2);
+		AudioManager.Instance.Play2DCharacterAudio(randomizeClip, 3);
 	}
 
 	/// <summary>
