@@ -276,12 +276,12 @@ public class RoomManager : MonoBehaviour
         {
             StatFactory.AddIntStat(NetworkManager.Instance.GetLocalPlayer().playerCharacter, statType.Win);
 
-            UiManager.Instance.EndGamePanel(true, winningTeam, wuxinKilled);
+            UiManager.Instance.EndGamePanel(true, winningTeam, wuxinKilled, true);
             EndObjectives(true);
         }
         else
         {
-            UiManager.Instance.EndGamePanel(false, winningTeam, wuxinKilled);
+            UiManager.Instance.EndGamePanel(false, winningTeam, wuxinKilled, true);
             EndObjectives(false);
         }
 
