@@ -53,7 +53,6 @@ public class UIPlayerManager : MonoBehaviour
 	private void Awake ()
 	{
 		canvasRot = canvas.transform.rotation;
-        print(canvasRot);
 
 		compassRot = compassCanvas.transform.rotation;
 		compassCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
