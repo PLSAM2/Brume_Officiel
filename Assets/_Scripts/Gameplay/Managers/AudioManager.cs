@@ -19,8 +19,8 @@ public class AudioManager : SerializedMonoBehaviour
     Dictionary<AudioElement, bool> allAudioElement = new Dictionary<AudioElement, bool>(); // true = utilisé // false = libre
     bool playingCharVoice = false;
 
-    public float currentPlayerVolume = 0.2f;
-    public float currentMusicVolume = 0.2f;
+    public float currentPlayerVolume = 0.65f;
+    public float currentMusicVolume = 0.40f;
 
     [HideInInspector] public Action<float> OnVolumeChange;
     [HideInInspector] public Action<Vector3, Team> OnAudioPlay;
