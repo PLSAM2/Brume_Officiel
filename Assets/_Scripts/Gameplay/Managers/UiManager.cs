@@ -369,10 +369,6 @@ public class UiManager : MonoBehaviour
 			}
 		}
 
-		if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F2))
-		{
-			DebuggerPanel.SetActive(!DebuggerPanel.activeInHierarchy);
-		}
 		if (Input.GetKeyDown(KeyCode.Tab))
 		{
 			minimapObj.SetActive(true);
