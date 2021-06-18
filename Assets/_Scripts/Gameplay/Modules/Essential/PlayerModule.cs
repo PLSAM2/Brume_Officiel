@@ -238,8 +238,25 @@ public class PlayerModule : MonoBehaviour
             wardModule.SetupComponent(En_SpellInput.SoulSpell);
 
 
-
-
+            if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
+            {
+                if (teamIndex == Team.blue)
+                {
+                    foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+                    {
+                        skin.material.SetFloat("_OutlinePower", 0);
+                    }
+                }
+                else
+                {
+                    foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+                    {
+                        skin.material.SetFloat("_OutlinePower", 10);
+                    }
+                }
+            }
+            else
+            {
                 if (NetworkManager.Instance.GetLocalPlayer().playerTeam == teamIndex)
                 {
                     foreach (SkinnedMeshRenderer skin in skinnedRenderer)
@@ -253,7 +270,10 @@ public class PlayerModule : MonoBehaviour
                     {
                         skin.material.SetFloat("_OutlinePower", 10);
                     }
-                }            
+                }
+            }
+
+
         }
         if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
         {
@@ -286,7 +306,7 @@ public class PlayerModule : MonoBehaviour
 
         }
 
-            ResetLayer();
+        ResetLayer();
     }
 
     public void GetDamageFx()
@@ -998,7 +1018,7 @@ public class PlayerModule : MonoBehaviour
         return wardModule;
     }
 
-    public SpellModule CurrentSpellResolved ()
+    public SpellModule CurrentSpellResolved()
     {
         if (currentSpellResolved == leftClick.spell)
             return leftClick;

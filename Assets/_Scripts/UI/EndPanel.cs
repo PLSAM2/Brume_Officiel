@@ -22,13 +22,20 @@ public class EndPanel : MonoBehaviour
 		endGameScore.Init();
 
 	}
-    public void Appear(bool victory, Team team, bool wuxinKilled = false)
+    public void Appear(bool victory, Team team, bool wuxinKilled = false, bool lastRound = false)
 	{
 		this.team = team;
 		this.victory = victory;
 		endPanel.SetActive(true);
 
-		endPanelAnimator.SetTrigger("Appear");
+        if (lastRound)
+        {
+			endPanelAnimator.SetTrigger("Appear");
+		} else
+        {
+			endPanelAnimator.SetTrigger("Appear");
+		}
+
 
         if (victory)
 		{
