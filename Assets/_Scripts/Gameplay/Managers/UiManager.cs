@@ -656,13 +656,15 @@ public class UiManager : MonoBehaviour
         settingOpen = true;
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
 	}
-	public void EndGamePanel ( bool victory = false, Team team = Team.none, bool wuxinKilled = false )
+	public void EndGamePanel ( bool victory = false, Team team = Team.none, bool wuxinKilled = false, bool lastRound = false)
 	{
         GameManager.Instance.blockMovement = true;
 
         StatManager.Instance.isVictory = victory;
 
-		endPanel.Appear(victory, team, wuxinKilled);
+			endPanel.Appear(victory, team, wuxinKilled, lastRound);
+
+
 
         foreach (GameObject item in toDisableInEndGame)
         {
