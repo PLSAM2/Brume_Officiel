@@ -63,6 +63,7 @@ public class Annoncement : MonoBehaviour
         {
             result += GameFactory.GetColorTeamInHex(Team.blue) + ">";
             voice = enemyElimated;
+            print("ennemy");
         }
         result += RoomManager.Instance.GetPlayerData(_playerDie).playerCharacter.ToString();
 
@@ -72,6 +73,7 @@ public class Annoncement : MonoBehaviour
         }
         else
         {
+            print("annonce");
             ShowAnnoncement((result + " HAS BEEN KILLED</color>").ToUpper(), null, voice, _killer, _playerDie);
         }
     }
