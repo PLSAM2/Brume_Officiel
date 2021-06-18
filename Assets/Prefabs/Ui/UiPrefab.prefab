@@ -7363,7 +7363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -10367,7 +10367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -11434,7 +11434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -12742,8 +12742,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -28.100098, y: -28.900146}
-  m_SizeDelta: {x: 45, y: 45}
+  m_AnchoredPosition: {x: -17.5134, y: -17.3511}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3543115360959323800
 CanvasRenderer:
@@ -12796,7 +12796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -14436,11 +14436,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_text
-      value: SKIP
+      value: SKIP (1/2)
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_fontSize
-      value: 29.37
+      value: 25.95
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_fontColor.b
@@ -14455,16 +14455,40 @@ PrefabInstance:
       value: 0.8679245
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_fontSizeBase
-      value: 29.37
+      value: 26.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078577044020, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4292730333
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078577044023, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -53.064
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078577044023, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -1.9653
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078577044023, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.5896
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078577044023, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.9827
       objectReference: {fileID: 0}
     - target: {fileID: 2003721078633558946, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_Pivot.x
@@ -14569,6 +14593,10 @@ PrefabInstance:
     - target: {fileID: 2003721078633558973, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_Name
       value: Skip
+      objectReference: {fileID: 0}
+    - target: {fileID: 2003721078633558973, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7752659873325319458, guid: fc6540e2358dd3642b1339e31bde783b, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
