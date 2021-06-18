@@ -77,7 +77,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	[TabGroup("Sound")] public AudioClip deathPerso, deathGlobal, killSomeone;
 	[TabGroup("Sound")] public List<AudioClip> characterHitSound = new List<AudioClip>();
-	public ParticleSystem addLife_blue_fx, addLife_red_fx;
+	public ParticleSystem[] addLifeFx;
 
 	private void Awake ()
 	{
@@ -157,7 +157,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     private void Update ()
 	{
-		Debug();
+		//Debug();
 
 
 		if (!isOwner) { return; }
@@ -906,13 +906,10 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	public void PlayFxLifeGain ( bool inMyTeam )
 	{
-		if (inMyTeam)
+		foreach(ParticleSystem _part in addLifeFx)
 		{
-			addLife_blue_fx.Play();
-		}
-		else
-		{
-			addLife_red_fx.Play();
+			_part.Stop();
+			_part.Play();
 		}
 	}
 
