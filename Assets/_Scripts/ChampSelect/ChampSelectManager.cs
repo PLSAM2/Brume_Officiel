@@ -183,9 +183,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
 
         foreach (PlayerData pd in RoomManager.Instance.actualRoom.playerList.Values)
         {
-
-
-            if (pd.playerCharacter == character)
+            if (pd.playerCharacter == character && NetworkManager.Instance.GetLocalPlayer().playerTeam == pd.playerTeam)
             {
                 selectButtonText.text = "ASK FOR SWAP";
                 break;

@@ -522,6 +522,17 @@ public class LocalPlayer : MonoBehaviour, Damageable
 		{
 			liveHealth = (ushort)serverLife;
 
+			if (isOwner)
+			{
+				if (characterHitSound.Count > 0)
+				{
+
+					AudioClip randomizeClip = characterHitSound[UnityEngine.Random.Range(0, characterHitSound.Count)];
+					StartCoroutine(WaitForVoiceHit(randomizeClip));
+				}
+
+			}
+
 			if (isOwner && liveHealth <= 0)
 			{
 				KillPlayer(RoomManager.Instance.GetPlayerData(dealerID));
@@ -562,7 +573,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
     {
 		yield return new WaitForSeconds(0.4f);
 
-		AudioManager.Instance.Play2DCharacterAudio(randomizeClip);
+		AudioManager.Instance.Play2DCharacterAudio(randomizeClip, 2);
 	}
 
 	/// <summary>

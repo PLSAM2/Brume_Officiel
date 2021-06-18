@@ -9,6 +9,7 @@ using static GameData;
 public class RoomPanelControl : SerializedMonoBehaviour
 {
     public TextMeshProUGUI roomName;
+    public TextMeshProUGUI spectatorsCount;
 
     public GameObject redPlayerList;
     public GameObject bluePlayerList;
@@ -29,6 +30,10 @@ public class RoomPanelControl : SerializedMonoBehaviour
     {
         roomName.text = roomData.Name;
         startGameButton.SetActive(false);
+        readyButtonObj.SetActive(true);
+        joinSpecButton.SetActive(true);
+        Swap.SetActive(true);
+        JoinTeam.SetActive(false);
 
         foreach (Transform item in bluePlayerList.transform)
         {
@@ -48,7 +53,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
         {
             AddPlayer(p.Value);
         }
-
+        UpdateSpecCountText();
     }
 
     public void AddPlayer(PlayerData player)
@@ -149,7 +154,7 @@ public class RoomPanelControl : SerializedMonoBehaviour
                 break;
         }
 
-
+        UpdateSpecCountText();
 
     }
 
@@ -176,6 +181,8 @@ public class RoomPanelControl : SerializedMonoBehaviour
                 print("Error");
                 break;
         }
+
+        UpdateSpecCountText();
     }
 
     public void JoinSpectator()
@@ -194,7 +201,22 @@ public class RoomPanelControl : SerializedMonoBehaviour
             LobbyManager.Instance.SetReady(true);
         }
 
+        UpdateSpecCountText();
+    }
 
+    public void UpdateSpecCountText()
+    {
+
+        int c = 0;
+        foreach (PlayerData  pl in RoomManager.Instance.actualRoom.playerList.Values)
+        {
+            if (pl.playerTeam == Team.spectator)
+            {
+                c++;
+            }
+        }
+
+        spectatorsCount.text = "SPECTATORS " + "(" + c + "/2)";
     }
 
     public void SetReady(ushort playerID, bool value)
