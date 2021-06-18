@@ -80,7 +80,7 @@ public class Annoncement : MonoBehaviour
 
     public void NewAltarAnnoncement(string _value, List<Waypoint> _waypoints, AudioClip sfx = null, AudioClip voice = null) {
 
-        if (!IsAnnoncing)
+        if (!IsAnnoncing && GameManager.Instance.gameReallyReallyStarted)
         {
             IsAnnoncing = true;
 
