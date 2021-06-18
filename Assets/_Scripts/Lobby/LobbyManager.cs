@@ -22,6 +22,7 @@ public class LobbyManager : MonoBehaviour
     private UnityClient client;
     [SerializeField] private InputField nameInputField;
     [SerializeField] private GameObject loginMenu;
+    [SerializeField] private LoginPanelControl loginMenuControl;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject roomPanel;
     [SerializeField] private GameObject roomListPanel;
@@ -64,6 +65,20 @@ public class LobbyManager : MonoBehaviour
     {
         NetworkManager.Instance.OnPlayerQuit -= PlayerQuitActualRoom;
         client.MessageReceived -= MessageReceived;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            loginMenu.SetActive(true);
+            loginMenuControl.Restart();
+
+            mainMenu.SetActive(false);
+            roomPanel.SetActive(false);
+            roomListPanel.SetActive(false);
+            statMenu.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
