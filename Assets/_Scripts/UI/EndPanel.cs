@@ -29,21 +29,32 @@ public class EndPanel : MonoBehaviour
 		endPanel.SetActive(true);
 
         if (lastRound)
-        {
+		{
+			if (victory)
+			{
+				endPanelText.text = "GAME WIN";
+			}
+			else
+			{
+				endPanelText.text = "GAME LOST";
+			}
+
 			endPanelAnimator.SetTrigger("LastRound");
 		} else
-        {
+		{
+			if (victory)
+			{
+				endPanelText.text = "VICTORY";
+			}
+			else
+			{
+				endPanelText.text = "DEFEAT";
+			}
+
 			endPanelAnimator.SetTrigger("Appear");
 		}
 
 
-        if (victory)
-		{
-			endPanelText.text = "VICTORY";
-        } else
-		{
-			endPanelText.text = "DEFEAT";
-        }
 
 		if (wuxinKilled)
 		{
