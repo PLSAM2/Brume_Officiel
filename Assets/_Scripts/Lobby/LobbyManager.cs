@@ -69,7 +69,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F1))
         {
             loginMenu.SetActive(true);
             loginMenuControl.Restart();
