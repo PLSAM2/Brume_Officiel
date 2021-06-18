@@ -61,8 +61,10 @@ public class TutorialManager : MonoBehaviour
                 qs.Reset();
             }
         }
-    }
 
+        AudioManager.Instance.gameObject.SetActive(true);
+
+    }
 
     public void PlayerSpawned()
     {
@@ -186,6 +188,7 @@ public class TutorialManager : MonoBehaviour
 
     public void EndTutorial()
     {
+        AudioManager.Instance.gameObject.SetActive(false);
         canvasAnimator.SetTrigger("End");
         tutorialQuestUiPanel.SetActive(false);
         foreach (GameObject go in objectToHideDuringStart)
@@ -209,6 +212,7 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(73);
         EndTutorialPanel.SetActive(true);
+        AudioManager.Instance.gameObject.SetActive(false);
     }
 
     public void StartTraining()
