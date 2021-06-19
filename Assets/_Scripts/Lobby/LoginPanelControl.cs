@@ -235,7 +235,7 @@ public class LoginPanelControl : MonoBehaviour
 
         this.gameObject.SetActive(false);       
         LobbyManager.Instance.StartPrivateRoom(false);
-        //LobbyManager.Instance.DisplayMainMenu();
+       // LobbyManager.Instance.DisplayMainMenu();
     }
 
 
