@@ -943,7 +943,19 @@ MonoBehaviour:
       m_Calls: []
   onResolution:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 26609771420290937}
+        m_TargetAssemblyTypeName: SpellFeedback, Assembly-CSharp
+        m_MethodName: PlaySpellAudio
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onInterrupt:
     m_PersistentCalls:
       m_Calls:
@@ -999,7 +1011,19 @@ MonoBehaviour:
       m_Calls: []
   onResolution:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 26609771420290937}
+        m_TargetAssemblyTypeName: SpellFeedback, Assembly-CSharp
+        m_MethodName: PlaySpellAudio
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onInterrupt:
     m_PersistentCalls:
       m_Calls: []
@@ -13608,6 +13632,26 @@ PrefabInstance:
       propertyPath: wuxinGhostMaterial
       value: 
       objectReference: {fileID: 2100000, guid: f4d8c14baab2c62439b2f8ff102130e4, type: 2}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsLC.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsRC.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsRC.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 97c619af554dd054bb2fea73e24318ee, type: 3}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsSPACE.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsSPACE.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: c5996f1185f554a4d9f7fb05d9c7ee3b, type: 3}
     - target: {fileID: 1663134441667752579, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -13862,11 +13906,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3370625706476944904, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3415494623564729405, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3415494623564729405, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: m_LocalScale.x

@@ -5238,6 +5238,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8711536735008271794}
+        m_TargetAssemblyTypeName: SpellFeedback, Assembly-CSharp
+        m_MethodName: PlaySpellAudio
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onInterrupt:
     m_PersistentCalls:
       m_Calls:
@@ -5553,6 +5565,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8711536735008271794}
+        m_TargetAssemblyTypeName: SpellFeedback, Assembly-CSharp
+        m_MethodName: PlaySpellAudio
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12330,6 +12354,26 @@ PrefabInstance:
       propertyPath: wuxinGhostMaterial
       value: 
       objectReference: {fileID: 2100000, guid: f4d8c14baab2c62439b2f8ff102130e4, type: 2}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsLC.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsRC.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsRC.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a8096cd27ea100348b40eae958dc68d5, type: 3}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsSPACE.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
+      propertyPath: audioSpellsSPACE.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c6bc5e9e2e7ea6448ea7ca88c923d76, type: 3}
     - target: {fileID: 1288794600618468994, guid: 05a9d029f0d562e4cb764d3eb6b7fdfc, type: 3}
       propertyPath: OnInvisibleEnd.m_PersistentCalls.m_Calls.Array.size
       value: 1
