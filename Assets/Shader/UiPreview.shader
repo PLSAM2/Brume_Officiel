@@ -6,7 +6,7 @@ Shader "UiPreview"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		[ASEBegin]_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		[ASEBegin]_MainTex("_MainTex", 2D) = "white" {}
 		[ASEEnd]_Color0("Color 0", Color) = (0,0,0,0)
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
@@ -195,7 +195,7 @@ Shader "UiPreview"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color0;
-			float4 _TextureSample0_ST;
+			float4 _MainTex_ST;
 			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
 				float _TessValue;
@@ -205,7 +205,7 @@ Shader "UiPreview"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _TextureSample0;
+			sampler2D _MainTex;
 
 
 						
@@ -353,8 +353,8 @@ Shader "UiPreview"
 						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
 					#endif
 				#endif
-				float2 uv_TextureSample0 = IN.ase_texcoord3.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
-				float4 tex2DNode6 = tex2D( _TextureSample0, uv_TextureSample0 );
+				float2 uv_MainTex = IN.ase_texcoord3.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode6 = tex2D( _MainTex, uv_MainTex );
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
@@ -435,7 +435,7 @@ Shader "UiPreview"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color0;
-			float4 _TextureSample0_ST;
+			float4 _MainTex_ST;
 			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
 				float _TessValue;
@@ -445,7 +445,7 @@ Shader "UiPreview"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _TextureSample0;
+			sampler2D _MainTex;
 
 
 			
@@ -605,8 +605,8 @@ Shader "UiPreview"
 					#endif
 				#endif
 
-				float2 uv_TextureSample0 = IN.ase_texcoord2.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
-				float4 tex2DNode6 = tex2D( _TextureSample0, uv_TextureSample0 );
+				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode6 = tex2D( _MainTex, uv_MainTex );
 				
 				float Alpha = ( tex2DNode6.r * IN.ase_color.a );
 				float AlphaClipThreshold = 0.5;
@@ -683,7 +683,7 @@ Shader "UiPreview"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color0;
-			float4 _TextureSample0_ST;
+			float4 _MainTex_ST;
 			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
 				float _TessValue;
@@ -693,7 +693,7 @@ Shader "UiPreview"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _TextureSample0;
+			sampler2D _MainTex;
 
 
 			
@@ -840,8 +840,8 @@ Shader "UiPreview"
 					#endif
 				#endif
 
-				float2 uv_TextureSample0 = IN.ase_texcoord2.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
-				float4 tex2DNode6 = tex2D( _TextureSample0, uv_TextureSample0 );
+				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode6 = tex2D( _MainTex, uv_MainTex );
 				
 				float Alpha = ( tex2DNode6.r * IN.ase_color.a );
 				float AlphaClipThreshold = 0.5;
@@ -866,11 +866,11 @@ Shader "UiPreview"
 }
 /*ASEBEGIN
 Version=18707
-1920;0;1920;1019;1961.812;801.0129;1.767373;True;False
-Node;AmplifyShaderEditor.SamplerNode;6;-797.9774,-7.564072;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;False;-1;None;d4dd2b04a16cd674fa0ea589b75d2810;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+327;73;1090;622;1198.461;325.7698;1;True;False
 Node;AmplifyShaderEditor.VertexColorNode;16;-414.6259,183.6945;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;6;-797.9774,-7.564072;Inherit;True;Property;_MainTex;_MainTex;0;0;Create;True;0;0;False;0;False;-1;None;bcbc17735b106494da75776479f0ad11;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;14;-309.6259,-176.3055;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;13;-569.6259,-294.3055;Inherit;False;Property;_Color0;Color 0;1;0;Create;True;0;0;False;0;False;0,0,0,0;0.470588,1,0.9176471,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;13;-569.6259,-294.3055;Inherit;False;Property;_Color0;Color 0;1;0;Create;True;0;0;False;0;False;0,0,0,0;0.4705881,1,0.9176471,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;15;-256.6259,72.69446;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
@@ -884,4 +884,4 @@ WireConnection;15;1;16;4
 WireConnection;9;2;14;0
 WireConnection;9;3;15;0
 ASEEND*/
-//CHKSM=98E2D707703C16DD95451D32EFCBD242A42B657F
+//CHKSM=23D6B87608377801F19B64B1D6726792721332B6
