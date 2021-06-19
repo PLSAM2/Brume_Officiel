@@ -1,15 +1,29 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadingGameScene : MonoBehaviour
+public class LoadingGameScene : SerializedMonoBehaviour
 {
     public Image progressBar;
     public float fakeLoadingTime = 3;
-
+    public Dictionary<GameObject, List<GameObject>> camerasWithAssets = new Dictionary<GameObject, List<GameObject>>();
     public string scene;
+
+
+    private void Awake()
+    {
+        int r = UnityEngine.Random.Range(0, camerasWithAssets.Count);
+
+        foreach (GameObject item in camerasWithAssets.ElementAt(r).Value)
+        {
+            item.SetActive(true);
+        }
+        camerasWithAssets.ElementAt(r).Key.SetActive(true);
+    }
 
     void Start()
     {
