@@ -8745,12 +8745,52 @@ PrefabInstance:
       value: First steps
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[1].questTitle
+      value: Camera Movement
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[3].questTitle
+      value: Next step
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[4].questTitle
-      value: First mist
+      value: The mist
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[5].questTitle
       value: Going further
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[6].questTitle
+      value: Fighting
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[7].questTitle
+      value: Skill cancelling
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[9].questTitle
+      value: Second skill
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[10].questTitle
+      value: More enemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[11].questTitle
+      value: Going further
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[12].questTitle
+      value: Detecting enemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].questTitle
+      value: Echoes
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[14].questTitle
+      value: Silent walk
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -8766,7 +8806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[1].questSteps.Array.data[0].stepDescription
-      value: Move your cursor on the border of the screen to loke around
+      value: Look Around
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[2].questSteps.Array.data[0].stepDescription
@@ -8782,6 +8822,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[5].questSteps.Array.data[0].stepDescription
+      value: Reach the point
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[10].questSteps.Array.data[1].stepDescription
+      value: Kill the right dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[11].questSteps.Array.data[0].stepDescription
+      value: Reach the next point
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[12].questSteps.Array.data[0].stepDescription
+      value: Reach the mist
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[14].questSteps.Array.data[0].stepDescription
+      value: Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[14].questSteps.Array.data[1].stepDescription
       value: Reach the point
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
@@ -9030,11 +9090,28 @@ PrefabInstance:
       objectReference: {fileID: 3307278826756728072}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[1].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_StringArgument
-      value: Move your cursor on the border of the screen to loke around
+      value: Look Around
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[4].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_StringArgument
       value: Entering the mist reduces your range of vision.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[8].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: Your dash hurts enemies, use it to kill the dummy!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[9].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
+      value: Your second skill is a projectile, hit the dummy with it!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: A running character makes noise. It is represented by the sonar in front
+        of your character.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_StringArgument
+      value: In the mist, you can see echoes of other players.
       objectReference: {fileID: 0}
     - target: {fileID: 1486664073, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_LocalPosition.x
