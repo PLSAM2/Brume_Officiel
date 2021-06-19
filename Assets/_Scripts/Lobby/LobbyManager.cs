@@ -18,7 +18,7 @@ public class LobbyManager : MonoBehaviour
     public RoomPanelControl roomPanelControl;
     public RoomListPanelControl roomListPanelControl;
     public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
-
+    public bool startTutorial = true;
     private UnityClient client;
     [SerializeField] private InputField nameInputField;
     [SerializeField] private GameObject loginMenu;
