@@ -14,6 +14,8 @@ public class QuestStepUI : MonoBehaviour
 
     public TextMeshProUGUI descriptionText;
 
+    public Image myIconImg;
+
     public void Init(QuestStep qs)
     {
        QuestStepUI_Animator.SetBool("Complete", false);
@@ -37,6 +39,11 @@ public class QuestStepUI : MonoBehaviour
     public void SetDescription(string _text)
     {
         descriptionText.text = _text;
+    }
+
+    public void SetIcon(Sprite _icon)
+    {
+        myIconImg.sprite = _icon;
     }
 
     public void ProgressKeyQuest(QuestStep qs) {
