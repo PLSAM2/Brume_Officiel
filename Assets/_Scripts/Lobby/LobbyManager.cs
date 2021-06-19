@@ -9,15 +9,18 @@ using UnityEngine.UI;
 using TMPro;
 using static GameData;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
+using System.Linq;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : SerializedMonoBehaviour
 {
     private static LobbyManager _instance;
     public static LobbyManager Instance { get { return _instance; } }
 
     public RoomPanelControl roomPanelControl;
     public RoomListPanelControl roomListPanelControl;
-    public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
+    public Dictionary<GameObject, List<GameObject>> camerasWithAssets = new Dictionary<GameObject, List<GameObject>>();
+    [HideInInspector] public Dictionary<ushort, RoomData> rooms = new Dictionary<ushort, RoomData>();
     public bool startTutorial = true;
     private UnityClient client;
     [SerializeField] private InputField nameInputField;
@@ -42,6 +45,15 @@ public class LobbyManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        int r = UnityEngine.Random.Range(0, camerasWithAssets.Count);
+
+        foreach (GameObject item in camerasWithAssets.ElementAt(r).Value)
+        {
+            item.SetActive(true);
+        }
+        camerasWithAssets.ElementAt(r).Key.SetActive(true);
+
     }
 
     private void Start()
@@ -524,7 +536,8 @@ public class LobbyManager : MonoBehaviour
             if (_temp == RoomType.Training)
             {
                 writer.Write((ushort)Character.WuXin);
-            } else
+            }
+            else
             {
                 writer.Write((ushort)Character.Re);
             }
