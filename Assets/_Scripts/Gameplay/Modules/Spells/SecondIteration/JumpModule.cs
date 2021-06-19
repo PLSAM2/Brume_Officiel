@@ -25,7 +25,7 @@ public class JumpModule : SpellModule
 
 	public override void TryCanalysing ( Vector3 _toAnnounce )
 	{
-		if(canStartCanalisation() && willResolve)
+		if (canStartCanalisation() && willResolve)
 		{
 			myPlayerModule.AddState(En_CharacterState.Intangenbility);
 			myPlayerModule.AddState(En_CharacterState.Root);
@@ -33,9 +33,9 @@ public class JumpModule : SpellModule
 			jumpPosStart = transform.position;
 			jumpPosEnd = transform.position + myPlayerModule.directionOfTheMouse() * Mathf.Clamp(Vector3.Distance(myPlayerModule.mousePos(), transform.position), 0, spell.range);
 			jumpPosEnd.y = 0;
-			jumpPosEnd = myPlayerModule.movementPart.FreeLocation(jumpPosEnd,Vector3.Distance(jumpPosEnd, transform.position));
+			jumpPosEnd = myPlayerModule.movementPart.FreeLocation(jumpPosEnd, Vector3.Distance(jumpPosEnd, transform.position));
 		}
-	
+
 		base.TryCanalysing(_toAnnounce);
 	}
 
@@ -88,17 +88,11 @@ public class JumpModule : SpellModule
 	protected override void Update ()
 	{
 		base.Update();
-		if(anonciated & !resolved)
+		if (anonciated & !resolved)
 		{
 			Vector3 _posToSet = jumpPosStart + (jumpPosEnd - jumpPosStart) * progressionCurve.Evaluate((currentTimeCanalised - (spell.canalisationTime - spell.anonciationTime)) / spell.anonciationTime);
 
-			transform.position = Vector3.Lerp(transform.position, new Vector3(_posToSet.x, 0, _posToSet.z), Time.deltaTime * 10) ;
+			transform.position = Vector3.Lerp(transform.position, new Vector3(_posToSet.x, 0, _posToSet.z), Time.deltaTime * 10);
 		}
-	}
-
-	public override void ThrowbackEndFeedBack ()
-	{
-		myPlayerModule.mylocalPlayer.myAnimController.animator.gameObject.transform.localPosition = Vector3.zero;
-		base.ThrowbackEndFeedBack();
 	}
 }
