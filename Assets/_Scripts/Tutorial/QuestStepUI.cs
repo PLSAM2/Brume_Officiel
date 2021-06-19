@@ -16,11 +16,13 @@ public class QuestStepUI : MonoBehaviour
 
     public void Init(QuestStep qs)
     {
-        QuestStepUI_Animator.SetBool("Complete", false);
+       QuestStepUI_Animator.SetBool("Complete", false);
         if (qs.questEvent == QuestEvent.KeyPressed)
         {
-            ProgressKeyQuest(qs);
-            objectifText.text = objectifText.text;
+
+            ProgressKeyQuest(qs); print(objectifText.text);
+            ProgressKeyQuest(qs); print(qs.stepDescription);
+            objectifText.text = qs.stepDescription;
         } else
         {
 

@@ -210,9 +210,10 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator EndTuto()
     {
+        AudioManager.Instance.gameObject.SetActive(true);
         yield return new WaitForSeconds(73);
-        EndTutorialPanel.SetActive(true);
-        AudioManager.Instance.gameObject.SetActive(false);
+        ReturnToMenu();
+
     }
 
     public void StartTraining()
