@@ -71,7 +71,7 @@ public class PlayerModule : MonoBehaviour
     { get => _isCrouched; set { _isCrouched = value; if (_isCrouched) { AddState(En_CharacterState.Crouched); } else { RemoveState(En_CharacterState.Crouched); } } }
     [TabGroup("Debugging")] public List<DamagesInfos> allHitTaken = new List<DamagesInfos>();
     [TabGroup("GameplayInfos")] [SerializeField] SpriteRenderer mapIcon;
-    [HideInInspector] public LocalPlayer mylocalPlayer;
+    public LocalPlayer mylocalPlayer;
     //interactibles
     [HideInInspector] public List<Interactible> interactiblesClose = new List<Interactible>();
     [TabGroup("GameplayInfos")] public Image menacedIcon;

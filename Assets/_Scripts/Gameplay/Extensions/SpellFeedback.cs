@@ -135,6 +135,43 @@ public class SpellFeedback : MonoBehaviour
 
 
 	}
+
+    public void PlaySpellAudio(SpellSound _mySpell)
+    {
+        AudioClip mySpellAudio = GetAudioClip(_mySpell);
+
+        if (myPlayerModule.mylocalPlayer.isOwner)
+        {
+            AudioManager.Instance.Play2DCharacterAudio(mySpellAudio);
+        }
+        else
+        {
+            LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
+            if(actualPlayer == null) { return; }
+
+            if(Vector3.Distance(transform.position, actualPlayer.transform.position) <= 30)
+            {
+                if(Random.Range(0, 2) == 0)
+                {
+                    AudioManager.Instance.Play2DCharacterAudio(mySpellAudio);
+                }
+            }
+        }
+    }
+
+    public Dictionary<SpellSound, List<AudioClip>> audioSpells = new Dictionary<SpellSound, List<AudioClip>>();
+
+    AudioClip GetAudioClip(SpellSound _mySpell)
+    {
+        return audioSpells[_mySpell][(Random.Range(0, audioSpells[_mySpell].Count))];
+    }
+
+    public enum SpellSound
+    {
+        LeftClick,
+        RightClick,
+        Space
+    }
 }
 
 

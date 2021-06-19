@@ -118,6 +118,7 @@ public class Projectile : AutoKill
 	void OnCollisionEnter ( Collision _coll )
 	{
 		Damageable _temp = _coll.gameObject.GetComponent<Damageable>();
+		print(_coll.collider.name);	
 
 		if (_temp == null)
 		{
