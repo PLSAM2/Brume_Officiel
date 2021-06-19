@@ -157,7 +157,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
     private void Update ()
 	{
-		//Debug();
+		Debug();
 
 
 		if (!isOwner) { return; }
@@ -201,7 +201,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	void Debug ()
 	{
-        if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
         {
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 1;
@@ -214,10 +214,11 @@ public class LocalPlayer : MonoBehaviour, Damageable
         //	AddHitPoint(1);
         //}
 
+        /*
         if (Input.GetKeyDown(KeyCode.P) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			transform.position = (GameManager.Instance.GetSpawnsOfTeam(GameFactory.GetOtherTeam(RoomManager.Instance.actualRoom.playerList[myPlayerId].playerTeam)))[0].transform.position;
-		}
+		}*/
 
 		//if (Input.GetKeyDown(KeyCode.L) && isOwner)
 		//{
