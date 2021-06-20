@@ -136,34 +136,49 @@ public class SpellFeedback : MonoBehaviour
 
 	}
 
-    public void PlaySpellAudio(SpellSound _mySpell)
+    public void PlaySpellAudio(int _mySpell)
     {
-        AudioClip mySpellAudio = GetAudioClip(_mySpell);
+        AudioClip mySpellAudio = GetAudioClip((SpellSound) _mySpell);
 
         if (myPlayerModule.mylocalPlayer.isOwner)
         {
-            AudioManager.Instance.Play2DCharacterAudio(mySpellAudio);
+            AudioManager.Instance.Play2DCharacterAudio(mySpellAudio, 5);
         }
         else
         {
             LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
-            if(actualPlayer == null) { return; }
+            if (actualPlayer == null) { return; }
 
-            if(Vector3.Distance(transform.position, actualPlayer.transform.position) <= 30)
+            if (Vector3.Distance(transform.position, actualPlayer.transform.position) <= 15 && GameManager.Instance.visiblePlayer.ContainsKey(myPlayerModule.transform))
             {
-                if(Random.Range(0, 2) == 0)
+                if (Random.Range(0, 2) == 0)
                 {
-                    AudioManager.Instance.Play2DCharacterAudio(mySpellAudio);
+                    AudioManager.Instance.Play2DCharacterAudio(mySpellAudio, 5);
                 }
             }
         }
     }
 
-    public Dictionary<SpellSound, List<AudioClip>> audioSpells = new Dictionary<SpellSound, List<AudioClip>>();
+    public List<AudioClip> audioSpellsLC = new List<AudioClip>();
+    public List<AudioClip> audioSpellsRC = new List<AudioClip>();
+    public List<AudioClip> audioSpellsSPACE = new List<AudioClip>();
+
 
     AudioClip GetAudioClip(SpellSound _mySpell)
     {
-        return audioSpells[_mySpell][(Random.Range(0, audioSpells[_mySpell].Count))];
+        switch (_mySpell)
+        {
+            case SpellSound.LeftClick:
+                return audioSpellsLC[(Random.Range(0, audioSpellsLC.Count))];
+
+            case SpellSound.RightClick:
+                return audioSpellsRC[(Random.Range(0, audioSpellsRC.Count))];
+
+            case SpellSound.Space:
+                return audioSpellsSPACE[(Random.Range(0, audioSpellsSPACE.Count))];
+        }
+
+        return null;
     }
 
     public enum SpellSound
