@@ -4216,7 +4216,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-413206
+  m_Name: pb_Mesh-653226
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12017,7 +12017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestEnded.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestEnded.m_PersistentCalls.m_Calls.Array.size
@@ -12054,6 +12054,10 @@ PrefabInstance:
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestStarted.m_PersistentCalls.m_Calls.Array.size
@@ -12286,7 +12290,7 @@ PrefabInstance:
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 3307278826756728067}
+      objectReference: {fileID: 204436297}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 6
@@ -12295,6 +12299,10 @@ PrefabInstance:
       propertyPath: tutorialQuests.Array.data[13].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3307278826756728057}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -12528,6 +12536,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3307278826756728051}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_Target
+      value: 
+      objectReference: {fileID: 204436297}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 3307278826756728066}
@@ -12661,7 +12673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
+      value: StopCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
@@ -12709,6 +12721,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
@@ -12788,6 +12804,10 @@ PrefabInstance:
       value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
+      value: StopCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
       value: SetActive
       objectReference: {fileID: 0}
@@ -12857,7 +12877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: GameManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
@@ -12924,8 +12944,16 @@ PrefabInstance:
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[12].OnQuestEnded.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
@@ -13002,6 +13030,10 @@ PrefabInstance:
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[14].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_BoolArgument
@@ -13089,6 +13121,10 @@ PrefabInstance:
       value: In the mist, you can see echoes of other players.
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[15].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
       value: You just took 1 damage, take the pickup ahead to heal.
       objectReference: {fileID: 0}
@@ -13170,6 +13206,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: tutorialQuests.Array.data[12].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
+      propertyPath: tutorialQuests.Array.data[13].OnQuestStarted.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1456435092, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
@@ -21322,11 +21362,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 634e6dc6ffea1f246bd55b3390f6d6d3, type: 2}
     - target: {fileID: 2272190152378203942, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 39.5
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 2272190152378203942, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.9
+      value: 18.7
       objectReference: {fileID: 0}
     - target: {fileID: 2294135525119830406, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_Mesh
@@ -21826,7 +21866,7 @@ PrefabInstance:
       objectReference: {fileID: 495420615}
     - target: {fileID: 5393762280898358610, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5735342544542249870, guid: 53e8669679507214aaf9b2e423a290db, type: 3}
       propertyPath: m_Mesh

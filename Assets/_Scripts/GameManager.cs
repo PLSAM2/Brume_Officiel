@@ -557,6 +557,12 @@ public class GameManager : SerializedMonoBehaviour
 
         return false;
     }
+
+    public void StopCharacter(bool _isStopped)
+	{
+        blockMovement = !_isStopped;
+        print(blockMovement);
+    }
     #region DEPRECATED
 
     //internal void SpawnBrumeSoul(ushort brumeId)
