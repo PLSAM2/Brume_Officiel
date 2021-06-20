@@ -153,7 +153,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void OnAPlayerDie(ushort killed, ushort killer)
     {
-        if (NetworkManager.Instance.GetLocalPlayer().ID == killed && NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin)
+        if (NetworkManager.Instance.GetLocalPlayer().ID == killed && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
             StartCoroutine(PlayDeathSoundLater());
         }
