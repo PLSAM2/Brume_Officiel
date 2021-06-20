@@ -210,11 +210,12 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator EndTuto()
     {
-        AudioManager.Instance.gameObject.SetActive(true);
         yield return new WaitForSeconds(73);
+        AudioManager.Instance.gameObject.SetActive(true);
         ReturnToMenu();
 
     }
+
 
     public void StartTraining()
     {
@@ -233,9 +234,10 @@ public class TutorialManager : MonoBehaviour
         SceneManager.LoadScene(RoomManager.Instance.loadingTrainingScene);
     }
 
+
     public void ReturnToMenu()
     {
-        SceneManager.LoadScene(RoomManager.Instance.menuScene);
+        GameManager.Instance.QuitGame();
     }
 
     public void InitAllNewQuestEvents()
