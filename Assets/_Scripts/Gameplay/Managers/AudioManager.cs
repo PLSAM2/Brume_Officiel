@@ -415,4 +415,10 @@ public class AudioManager : SerializedMonoBehaviour
 
         backGroundMusic.volume = currentPlayerVolume * currentMusicVolume;
     }
+
+    public void TutorialCutSound(bool value)
+    {
+        backGroundMusic.enabled = value;
+        backGroundMusicInBrume.enabled = value;
+    }
 }
