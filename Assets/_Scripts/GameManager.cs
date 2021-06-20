@@ -435,7 +435,8 @@ public class GameManager : SerializedMonoBehaviour
                     gameReallyStarted = false;
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
-
+                    if ((_currentLocalPlayer.myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
+                        _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
 
 
                     if (oldTimerTrain == 0)
