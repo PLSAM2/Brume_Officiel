@@ -153,7 +153,7 @@ public class GameManager : SerializedMonoBehaviour
 
     private void OnAPlayerDie(ushort killed, ushort killer)
     {
-        if (NetworkManager.Instance.GetLocalPlayer().ID == killed && NetworkManager.Instance.GetLocalPlayer().playerCharacter == Character.WuXin)
+        if (NetworkManager.Instance.GetLocalPlayer().ID == killed && NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
             StartCoroutine(PlayDeathSoundLater());
         }
@@ -163,7 +163,10 @@ public class GameManager : SerializedMonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
+        if (deathSounds.ContainsKey(NetworkManager.Instance.GetLocalPlayer().playerCharacter))
+        {
+            AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
+        }
     }
 
     private void OnDisable()
@@ -435,7 +438,8 @@ public class GameManager : SerializedMonoBehaviour
                     gameReallyStarted = false;
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
-
+                    if ((_currentLocalPlayer.myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
+                        _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
 
 
                     if (oldTimerTrain == 0)
