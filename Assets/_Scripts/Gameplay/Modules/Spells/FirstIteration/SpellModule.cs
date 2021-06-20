@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class SpellModule : MonoBehaviour
 {
-	[HideInInspector] public PlayerModule myPlayerModule;
+	public PlayerModule myPlayerModule;
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
 	[ReadOnly] public float timeToResolveSpell;
