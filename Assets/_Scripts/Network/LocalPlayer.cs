@@ -91,6 +91,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 		myOutline.SetColor(GameFactory.GetRelativeColor(myPlayerModule.teamIndex));
 
+		GameManager.Instance.currentLocalPlayer = this;
+
 
 		if (NetworkManager.Instance.GetLocalPlayer().playerTeam == Team.spectator)
 		{

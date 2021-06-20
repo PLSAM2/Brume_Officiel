@@ -163,10 +163,7 @@ public class GameManager : SerializedMonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        if (deathSounds.ContainsKey(NetworkManager.Instance.GetLocalPlayer().playerCharacter))
-        {
-            AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
-        }
+        AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
     }
 
     private void OnDisable()
@@ -438,7 +435,7 @@ public class GameManager : SerializedMonoBehaviour
                     gameReallyStarted = false;
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
-                    if ((_currentLocalPlayer.myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
+                    if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
                         _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
 
 
@@ -447,8 +444,9 @@ public class GameManager : SerializedMonoBehaviour
                         AudioManager.Instance.Play2DAudio(timerTrainSpawn);
 
                         _currentLocalPlayer.myPlayerModule.cancelSpell?.Invoke(false);
-                        if ((_currentLocalPlayer.myPlayerModule.state & En_CharacterState.Intangenbility) == 0)
+                        if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
                             _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+
                         _currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
                     }
                     else

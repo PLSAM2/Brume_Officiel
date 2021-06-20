@@ -575,24 +575,24 @@ public class UiManager : MonoBehaviour
 		}
 	}
 
-	public void UpdateSpellIconState ( En_SpellInput _spellInput, En_IconStep _step, bool _isCanceled = false )
+	public void UpdateSpellIconState ( En_SpellInput _spellInput, En_IconStep _step )
 	{
 		switch (_spellInput)
 		{
 			case En_SpellInput.FirstSpell:
-				firstSpell.UpdateSpellStep(_step, _isCanceled);
+				firstSpell.UpdateSpellStep(_step);
 				break;
 
 			case En_SpellInput.SecondSpell:
-				secondSpell.UpdateSpellStep(_step, _isCanceled);
+				secondSpell.UpdateSpellStep(_step);
 				break;
 
 			case En_SpellInput.Click:
-				autoAttackIcon.UpdateSpellStep(_step, _isCanceled);
+				autoAttackIcon.UpdateSpellStep(_step);
 				break;
 
 			case En_SpellInput.SoulSpell:
-				soulSpellIcon.UpdateSpellStep(_step, _isCanceled);
+				soulSpellIcon.UpdateSpellStep(_step);
 				break;
 		}
 	}
