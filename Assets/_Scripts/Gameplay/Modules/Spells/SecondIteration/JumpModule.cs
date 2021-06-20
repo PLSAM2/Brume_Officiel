@@ -55,6 +55,8 @@ public class JumpModule : SpellModule
 	public override void Interrupt ( bool isInterrupted = false )
 	{
 		myPlayerModule.RemoveState(En_CharacterState.StopInterpolate);
+		myPlayerModule.RemoveState(En_CharacterState.Intangenbility);
+		myPlayerModule.RemoveState(En_CharacterState.Root);
 		base.Interrupt();
 	}
 
@@ -94,5 +96,10 @@ public class JumpModule : SpellModule
 
 			transform.position = Vector3.Lerp(transform.position, new Vector3(_posToSet.x, 0, _posToSet.z), Time.deltaTime * 10);
 		}
+	}
+
+	public override void KillSpell()
+	{
+		return;
 	}
 }
