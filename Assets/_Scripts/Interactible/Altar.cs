@@ -24,8 +24,9 @@ public class Altar : Interactible
 	[SerializeField] AudioClip unlockAltarVoice;
 	[SerializeField] AudioClip capturedAltarVoice;
 	[HideInInspector] public float currentTime = 0;
+    [HideInInspector] public float timerWaypoint = 0;
 
-	[SerializeField] protected MeshRenderer completeObj;
+    [SerializeField] protected MeshRenderer completeObj;
 	[SerializeField] protected Animator anim;
 	[SerializeField] protected string colorShader = "_Color";
 	//wayPoint
@@ -38,6 +39,7 @@ public class Altar : Interactible
 	public ParticleSystem particleCapturingAlly, particleCapturingEnemy;
 	public MeshRenderer onCaptureMesh, centerMesh;
 	public GameObject[] allBraseros, allBraserosStart;
+
 	void Start ()
 	{
 		base.Init();
@@ -71,16 +73,16 @@ public class Altar : Interactible
 		//TODO afficher timer altar
 		if (waypointObj != null && waypointObj.gameObject.activeSelf)
 		{
-			if (currentTime > 0)
+			if (timerWaypoint > 0)
 			{
-				waypointObj.SetTimer(Mathf.RoundToInt(currentTime));
+				waypointObj.SetTimer(Mathf.RoundToInt(timerWaypoint));
 			}
 			else
 			{
 				waypointObj.SetTimer(0);
 			}
 
-			currentTime -= Time.deltaTime;
+            timerWaypoint -= Time.deltaTime;
 		}
 		else
 		{
@@ -253,7 +255,9 @@ public class Altar : Interactible
 			currentTime = unlockTime;
 		}
 
-		yield return new WaitForSeconds(currentTime);
+        timerWaypoint = unlockTime;
+
+        yield return new WaitForSeconds(currentTime);
 
 
 		if (annoncementUnlock) // BERK MAIS OSEF

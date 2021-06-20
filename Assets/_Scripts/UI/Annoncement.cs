@@ -22,16 +22,15 @@ public class Annoncement : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnPlayerDie += OnPlayerDie;
-        GameManager.Instance.OnAllCharacterSpawned += OnAllPlayerSpawn;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnPlayerDie -= OnPlayerDie;
-        GameManager.Instance.OnAllCharacterSpawned -= OnAllPlayerSpawn;
     }
 
-    void OnAllPlayerSpawn()
+
+    public void StartAnnonceAltar()
     {
         List<Waypoint> allWaypoint = new List<Waypoint>();
         foreach (Altar a in GameManager.Instance.allAltar)
@@ -80,7 +79,7 @@ public class Annoncement : MonoBehaviour
 
     public void NewAltarAnnoncement(string _value, List<Waypoint> _waypoints, AudioClip sfx = null, AudioClip voice = null) {
 
-        if (!IsAnnoncing && GameManager.Instance.gameReallyReallyStarted)
+        if (!IsAnnoncing)
         {
             IsAnnoncing = true;
 
