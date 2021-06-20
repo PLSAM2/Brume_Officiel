@@ -163,7 +163,10 @@ public class GameManager : SerializedMonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
+        if (deathSounds.ContainsKey(NetworkManager.Instance.GetLocalPlayer().playerCharacter))
+        {
+            AudioManager.Instance.Play2DCharacterAudio(deathSounds[NetworkManager.Instance.GetLocalPlayer().playerCharacter]);
+        }
     }
 
     private void OnDisable()
