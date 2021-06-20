@@ -159,7 +159,6 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	{
 		Debug();
 
-
 		if (!isOwner) { return; }
 
 		if (Vector3.Distance(lastPosition, transform.position) > 0.1f)
@@ -201,7 +200,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 
 	void Debug ()
 	{
-        if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
+        if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
         {
             DamagesInfos _temp = new DamagesInfos();
             _temp.damageHealth = 1;
