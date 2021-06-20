@@ -156,7 +156,7 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator WaitForNextQuest()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.2f);
 
         OnQuestEnded?.Invoke();
         actualQuest.OnQuestEnded?.Invoke();
