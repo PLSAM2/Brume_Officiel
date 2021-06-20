@@ -177,6 +177,12 @@ public class Altar : Interactible
 
 	public override void Captured ( ushort _capturingPlayerID )
 	{
+		StopAllCoroutines();
+		foreach (GameObject _obj in allBraserosStart)
+			_obj.SetActive(false);
+		foreach (GameObject _obj in allBraseros)
+			_obj.SetActive(false);
+
 		if (altarBuff != null)
 		{
 			altarBuff.InitBuff(capturingPlayerModule);
@@ -190,10 +196,8 @@ public class Altar : Interactible
 		completeObj.gameObject.SetActive(true);
 
 
-		foreach (GameObject _obj in allBraserosStart)
-			_obj.SetActive(false);
-		foreach (GameObject _obj in allBraseros)
-			_obj.SetActive(false);
+
+
 		/*
         using (DarkRiftWriter writer = DarkRiftWriter.Create())
         {
