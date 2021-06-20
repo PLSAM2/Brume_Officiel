@@ -188,7 +188,7 @@ public class ChampSelectManager : SerializedMonoBehaviour
         {
             if (pd.playerCharacter == character && NetworkManager.Instance.GetLocalPlayer().playerTeam == pd.playerTeam)
             {
-                selectButtonText.text = "ASK FOR SWAP";
+                selectButtonText.text = "ASK TO SWAP";
                 break;
             }
         }
