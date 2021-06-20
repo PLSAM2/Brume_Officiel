@@ -142,7 +142,7 @@ public class SpellFeedback : MonoBehaviour
 
         if (myPlayerModule.mylocalPlayer.isOwner)
         {
-            AudioManager.Instance.Play2DCharacterAudio(mySpellAudio, 5);
+            AudioManager.Instance.Play2DCharacterAudio(mySpellAudio);
         }
         else
         {
@@ -153,7 +153,7 @@ public class SpellFeedback : MonoBehaviour
             {
                 if (Random.Range(0, 2) == 0)
                 {
-                    AudioManager.Instance.Play2DCharacterAudio(mySpellAudio, 5);
+                    AudioManager.Instance.Play2DCharacterAudio(mySpellAudio);
                 }
             }
         }
