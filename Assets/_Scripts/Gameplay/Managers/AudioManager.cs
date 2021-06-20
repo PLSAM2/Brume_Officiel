@@ -225,7 +225,7 @@ public class AudioManager : SerializedMonoBehaviour
         if (!playingCharVoice)
         {
             StartCoroutine(WaitForCharacterVoice(_clip.length));
-            _myAudioElement.Init(_clip, 0, _volume);
+            _myAudioElement.Init(_clip, 0, _volume*2);
         }
 
         return _myAudioElement;
