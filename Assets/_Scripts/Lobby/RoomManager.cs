@@ -213,11 +213,11 @@ public class RoomManager : MonoBehaviour
         
     }
 
-    IEnumerator EndGame()
+    IEnumerator EndGame(float time = 1)
     {
         Time.timeScale = 0.25f;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(time);
 
         Time.timeScale = 1;
 
@@ -287,7 +287,7 @@ public class RoomManager : MonoBehaviour
 
         InGameNetworkReceiver.Instance.SetEndGame(true);
 
-        StartCoroutine(EndGame());
+        StartCoroutine(EndGame(2.5f));
 
     }
 
