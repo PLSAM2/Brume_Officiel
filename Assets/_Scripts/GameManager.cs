@@ -437,6 +437,7 @@ public class GameManager : SerializedMonoBehaviour
                     if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
                     {
                         _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+                        _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
                     }
 
                     gameReallyStarted = false;

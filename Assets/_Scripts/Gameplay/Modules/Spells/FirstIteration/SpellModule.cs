@@ -253,7 +253,7 @@ public class SpellModule : MonoBehaviour
 		else
 			return;
 	}
-	protected virtual void HidePreview ( Vector3 _posToHide )
+	public virtual void HidePreview ( Vector3 _posToHide )
 	{
 		if (showingPreview && myPlayerModule.mylocalPlayer.isOwner)
 		{

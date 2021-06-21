@@ -80,7 +80,7 @@ public class JumpModule : SpellModule
 		base.ShowPreview(mousePos);
 	}
 
-	protected override void HidePreview ( Vector3 _posToHide )
+	public override void HidePreview ( Vector3 _posToHide )
 	{
 		myPreviewRange.gameObject.SetActive(false);
 		myPreviewImpact.gameObject.SetActive(false);
