@@ -81,6 +81,25 @@ public class GameFactory
 		}
 	}
 
+	public static Color GetColorTeam2(Team myTeam)
+	{
+		switch (myTeam)
+		{
+			case Team.red:
+				return new Color(1f, 0.4386f, 0.4386f, 1f);
+
+			case Team.blue:
+				return new Color(0.34f, 0.58f, 0.83f, 1f);
+
+			default:
+				return new Color(1, 1, 1f, 1f);
+		}
+	}
+
+
+
+
+
 	public static Color GetSecondaryColorTeam ( Team myTeam )
 	{
 		if (myTeam == NetworkManager.Instance.GetLocalPlayer().playerTeam)
@@ -132,6 +151,22 @@ public class GameFactory
 		return GetColorTeam(Team.red);
 
 	}
+
+	public static Color GetRelativeColor2(Team playerTeam)
+	{
+		if (NetworkManager.Instance.GetLocalPlayer() != null)
+		{
+			if (NetworkManager.Instance.GetLocalPlayer().playerTeam == playerTeam)
+			{
+				return GetColorTeam2(Team.blue);
+			}
+		}
+
+		return GetColorTeam2(Team.red);
+
+	}
+
+
 	public static Team GetRelativeTeam ( Team playerTeam )
 	{
 		if (NetworkManager.Instance.GetLocalPlayer() != null)
