@@ -56,7 +56,7 @@ public class Transformation : SpellModule
 		}
 	}
 
-	protected override void HidePreview ( Vector3 _posToHide )
+	public override void HidePreview ( Vector3 _posToHide )
 	{
 		if (myPreview != null)
 			myPreview.gameObject.SetActive(false);

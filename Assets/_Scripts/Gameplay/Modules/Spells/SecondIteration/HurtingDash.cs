@@ -65,7 +65,7 @@ public class HurtingDash : SpellModule
 		_myPreview.Init(transform.position, transform.position + myPlayerModule.directionOfTheMouse() * finalMultiplier, ArrowPreview.arrowType.Dash);
 	}
 
-	protected override void HidePreview ( Vector3 _posToHide )
+	public override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
 		_myPreview.gameObject.SetActive(false);

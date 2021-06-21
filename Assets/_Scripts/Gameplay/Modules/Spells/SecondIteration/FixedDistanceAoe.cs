@@ -63,7 +63,7 @@ public class FixedDistanceAoe : SpellModule
 			myCirclePreview.Init(radius, CirclePreview.circleCenter.center, transform.position);
 	}
 
-	protected override void HidePreview ( Vector3 _posToHide )
+	public override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
 

@@ -126,7 +126,7 @@ public class Module_Spit : SpellModule
 			}
 	}
 
-	protected override void HidePreview ( Vector3 _posToHide )
+	public override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
 

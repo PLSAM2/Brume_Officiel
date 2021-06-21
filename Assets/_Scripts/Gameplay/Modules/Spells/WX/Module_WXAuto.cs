@@ -41,7 +41,7 @@ public class Module_WXAuto : SpellModule
         base.TryCanalysing(_BaseMousePos);
     }
 
-    protected override void HidePreview( Vector3 _posToHide )
+    public override void HidePreview( Vector3 _posToHide )
     {
         base.HidePreview(_posToHide);
         arrowPreview.gameObject.SetActive(false);

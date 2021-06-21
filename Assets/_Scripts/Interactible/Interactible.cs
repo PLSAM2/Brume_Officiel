@@ -268,7 +268,7 @@ public class Interactible : MonoBehaviour
 
         if (isViewed)
         {
-            SetColor(GameFactory.GetRelativeColor(capturingTeam));
+            SetColor(GameFactory.GetRelativeColor(capturingTeam), GameFactory.GetRelativeColor2(capturingTeam));
         }
 
         Capture();
@@ -418,7 +418,7 @@ public class Interactible : MonoBehaviour
                 {
                     if (capturingTeam != Team.none)
                     {
-                        SetColor(GameFactory.GetRelativeColor(capturingTeam));
+                        SetColor(GameFactory.GetRelativeColor(capturingTeam), GameFactory.GetRelativeColor2(capturingTeam));
                     }
                 }
 
@@ -426,7 +426,7 @@ public class Interactible : MonoBehaviour
             case State.Captured:
                 if (capturingTeam != Team.none)
                 {
-                    SetColor(GameFactory.GetRelativeColor(capturingTeam));
+                    SetColor(GameFactory.GetRelativeColor(capturingTeam), GameFactory.GetRelativeColor2(capturingTeam));
                 }
                 break;
             default:
@@ -434,10 +434,16 @@ public class Interactible : MonoBehaviour
         }
     }
 
-    protected void SetColor(Color color)
+    protected void SetColor(Color color1, Color? color2 = null)
     {
-        fillImg.material.SetColor("_ColorBase2", new Color(color.r, color.g, color.b, 1));
-        fillImg.material.SetColor("_ColorBase1", new Color(color.r, color.g, color.b, 1));
+        if (color2 == null)
+        {
+            color2 = color1;
+        }
+        Color c = (Color)color2;
+
+        fillImg.material.SetColor(color2Shader, new Color(color1.r, color1.g, color1.b, 1));
+        fillImg.material.SetColor(color1Shader, new Color(c.r, c.g, c.b, 1));
     }
 
 

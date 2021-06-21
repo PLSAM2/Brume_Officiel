@@ -69,7 +69,7 @@ public class WardModule : SpellModule
 	//	wardObj.GetComponent<Ward>().Landed(GetComponent<PlayerModule>().teamIndex);
 	//}
 
-	protected override void HidePreview ( Vector3 _posToHide )
+	public override void HidePreview ( Vector3 _posToHide )
 	{
 		base.HidePreview(_posToHide);
 
