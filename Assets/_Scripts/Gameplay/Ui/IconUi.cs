@@ -47,7 +47,7 @@ public class IconUi : MonoBehaviour
 		}
 	}
 
-	public void UpdateSpellStep ( En_IconStep _spellStep, bool _isCanceled = false )
+	public void UpdateSpellStep ( En_IconStep _spellStep)
 	{
 		switch (_spellStep)
 		{
@@ -75,8 +75,7 @@ public class IconUi : MonoBehaviour
 				cooldownCount.gameObject.SetActive(false);
 				fillAmount.fillAmount = 0;
 				cooldownCount.text = "";
-				if (!_isCanceled)
-					feedbackCanUse.SetActive(true);
+				feedbackCanUse.SetActive(true);
 				break;
 		}
 	}

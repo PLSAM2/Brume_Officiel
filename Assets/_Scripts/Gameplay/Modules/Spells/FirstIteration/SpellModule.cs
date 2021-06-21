@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class SpellModule : MonoBehaviour
 {
-	[HideInInspector] public PlayerModule myPlayerModule;
+	public PlayerModule myPlayerModule;
 
 	float _currentTimeCanalised = 0, _throwbackTime = 0;
 	[ReadOnly] public float timeToResolveSpell;
@@ -243,7 +243,8 @@ public class SpellModule : MonoBehaviour
 	{
 		if (canBeCast())
 		{
-			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
+			if (myPlayerModule.mylocalPlayer.isOwner)
+				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.selectionned);
 			willResolve = true;
 			showingPreview = true;
 			UpdatePreview();
@@ -258,8 +259,12 @@ public class SpellModule : MonoBehaviour
 		{
 			isCanceled = true;
 			if (charges > 0)
-				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready, true);
+			{
+				if (myPlayerModule.mylocalPlayer.isOwner)
+					UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+			}
 			else
+			if (myPlayerModule.mylocalPlayer.isOwner)
 				UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 		}
 		showingPreview = false;
@@ -630,12 +635,15 @@ public class SpellModule : MonoBehaviour
 	{
 		charges++;
 		SpellAvaible?.Invoke();
-		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
+		if (myPlayerModule.mylocalPlayer.isOwner)
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 	}
 	protected virtual void DecreaseCharge ()
 	{
 		charges = 0;
-		UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
+
+		if (myPlayerModule.mylocalPlayer.isOwner)
+			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.inCd);
 
 		if (spell.useUltStacks)
 		{
