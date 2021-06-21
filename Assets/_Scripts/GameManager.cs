@@ -432,12 +432,14 @@ public class GameManager : SerializedMonoBehaviour
 
                 if (oldTimerTrain <= 5)
                 {
-                    gameReallyStarted = false;
                     blockMovement = true;
                     UiManager.Instance.trainAnimator.SetTrigger("DoScale");
                     if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
+                    {
                         _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+                    }
 
+                    gameReallyStarted = false;
 
                     if (oldTimerTrain == 0)
                     {
@@ -445,7 +447,9 @@ public class GameManager : SerializedMonoBehaviour
 
                         _currentLocalPlayer.myPlayerModule.cancelSpell?.Invoke(false);
                         if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
-                            _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+                        {
+                             _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
+                        }
 
                         _currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
                     }
