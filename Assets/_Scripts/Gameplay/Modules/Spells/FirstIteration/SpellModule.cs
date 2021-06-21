@@ -635,6 +635,7 @@ public class SpellModule : MonoBehaviour
 	{
 		charges++;
 		SpellAvaible?.Invoke();
+		print(GameManager.Instance.currentLocalPlayer);
 		if (myPlayerModule.mylocalPlayer.isOwner)
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 	}

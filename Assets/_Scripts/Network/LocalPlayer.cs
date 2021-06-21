@@ -82,6 +82,8 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	private void Awake ()
 	{
 		lastPosition = transform.position;
+		if(isOwner)
+			GameManager.Instance.currentLocalPlayer = this;
 	}
 
 	public void Init ( UnityClient newClient, bool respawned = false )

@@ -204,6 +204,8 @@ public class PlayerModule : MonoBehaviour
 
     public virtual void Setup()
     {
+        mylocalPlayer = GetComponent<LocalPlayer>();
+
         if (firstSpell != null)
             firstSpell.SetupComponent(En_SpellInput.FirstSpell);
         if (secondSpell != null)

@@ -437,8 +437,8 @@ public class GameManager : SerializedMonoBehaviour
                     if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
                     {
                         _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
-                        _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
                     }
+                    _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().HidePreview(Vector3.zero);
 
                     gameReallyStarted = false;
 
@@ -447,11 +447,6 @@ public class GameManager : SerializedMonoBehaviour
                         AudioManager.Instance.Play2DAudio(timerTrainSpawn);
 
                         _currentLocalPlayer.myPlayerModule.cancelSpell?.Invoke(false);
-                        if ((currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Spell_Leng_Space" && currentLocalPlayer.myPlayerModule.currentSpellResolved.name != "Sc_Spell_Re_Space"))
-                        {
-                             _currentLocalPlayer.myPlayerModule.CurrentSpellResolved().Interrupt();
-                        }
-
                         _currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
                     }
                     else

@@ -37,6 +37,7 @@ public class Annoncement : MonoBehaviour
         {
             allWaypoint.Add(a.waypointObj);
         }
+       GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
 
         NewAltarAnnoncement(("ALTARS AWAKENS").ToUpper(), allWaypoint, altarsAnnonced, null);
         //StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, "");
