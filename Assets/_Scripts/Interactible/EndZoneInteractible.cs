@@ -93,23 +93,22 @@ public class EndZoneInteractible : Interactible
 
         base.PlayerInContestedZoneQuit(p);
     }
-    protected override void OnVolumeChange(float _value)
-    {
-        if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
-        {
-            return;
-        }
 
-        base.OnVolumeChange(_value);
-    }
 
     protected override void StartAudio()
     {
+
         if (NetworkManager.Instance.GetLocalPlayer().playerCharacter != Character.WuXin)
         {
+            myAudioSource.enabled = false;
             return;
         }
+        if (capturingPlayerModule.teamIndex != lastTeamCaptured && timerElapsed == false)
+        {
 
+            myAudioSource.enabled = false;
+            return;
+        }
 
         base.StartAudio();
     }

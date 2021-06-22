@@ -72,9 +72,9 @@ public class Interactible : MonoBehaviour
     [TabGroup("InteractiblePart")]
     [SerializeField] Sprite iconNeutral, iconRed, iconBlue;
 
-    [Header("Audio")]
+    [Header("Audio")] 
 
-    [TabGroup("InteractiblePart")] [SerializeField] AudioSource myAudioSource;
+    [TabGroup("InteractiblePart")] public AudioSource myAudioSource;
     [TabGroup("InteractiblePart")] public string interactibleName = "";
     [TabGroup("InteractiblePart")] public bool showReload = false;
     [TabGroup("InteractiblePart")] [ShowIf("showReload")] public float serverReloadTime;
