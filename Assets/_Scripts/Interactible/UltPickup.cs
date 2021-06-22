@@ -43,16 +43,17 @@ public class UltPickup : Interactible
 	}
 	public override void Captured ( ushort _capturingPlayerID )
 	{
-		//GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
-		//	GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
-		StopAllCoroutines();
 		GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
 		if (appliedBonus != null)
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
-		//GameManager.Instance.currentLocalPlayer.AddHitPoint(hitPointGiven);
 		base.Captured(_capturingPlayerID);
 
-        AudioManager.Instance.Play2DAudio(takePickUp);
+		StopAllCoroutines();
+		onReaparition.SetActive(false);
+		idle.SetActive(false);
+		fxSpawn.SetActive(false);
+
+		AudioManager.Instance.Play2DAudio(takePickUp);
 	}
 
 	public override void UpdateCaptured ( ushort _capturingPlayerID )
