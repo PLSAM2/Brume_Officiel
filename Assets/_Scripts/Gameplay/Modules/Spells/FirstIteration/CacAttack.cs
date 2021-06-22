@@ -116,7 +116,7 @@ public class CacAttack : SpellModule
 		base.ShowPreview(mousePos);
 	}
 
-	protected override void HidePreview ( Vector3 _temp )
+	public override void HidePreview ( Vector3 _temp )
 	{
 		base.HidePreview(_temp);
 		if (localTrad.forcedMovementAppliedBeforeResolution != null)

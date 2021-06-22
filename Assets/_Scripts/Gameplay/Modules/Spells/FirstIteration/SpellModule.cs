@@ -253,7 +253,7 @@ public class SpellModule : MonoBehaviour
 		else
 			return;
 	}
-	protected virtual void HidePreview ( Vector3 _posToHide )
+	public virtual void HidePreview ( Vector3 _posToHide )
 	{
 		if (showingPreview && myPlayerModule.mylocalPlayer.isOwner)
 		{
@@ -635,11 +635,7 @@ public class SpellModule : MonoBehaviour
 	{
 		charges++;
 		SpellAvaible?.Invoke();
-
-        if (myPlayerModule == null)
-        {
-			return;
-        }
+		print(GameManager.Instance.currentLocalPlayer);
 		if (myPlayerModule.mylocalPlayer.isOwner)
 			UiManager.Instance.UpdateSpellIconState(actionLinked, En_IconStep.ready);
 	}
