@@ -13,7 +13,7 @@ public class UltPickup : Interactible
 
 	public GameObject onCapture, onReaparition, idle;
 
-    public GameObject fxSpawn, fxDeSpawn;
+    public GameObject fxSpawn, circleCapture;
 
     public AudioClip takePickUp;
 
@@ -52,6 +52,9 @@ public class UltPickup : Interactible
 		onReaparition.SetActive(false);
 		idle.SetActive(false);
 		fxSpawn.SetActive(false);
+		onCapture.SetActive(true);
+		circleCapture.SetActive(true);
+		fxSpawn.SetActive(false);
 
 		AudioManager.Instance.Play2DAudio(takePickUp);
 	}
@@ -62,20 +65,15 @@ public class UltPickup : Interactible
 
 		//  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
 		timer = 0;
-		idle.SetActive(false);
-		onCapture.SetActive(true);
-
-        fxSpawn.SetActive(false);
-        fxDeSpawn.SetActive(true);
     }
 
 	public override void Unlock ()
 	{
 		base.Unlock();
-		StartCoroutine(waitForIdle());
-
-        fxSpawn.SetActive(true);
-        fxDeSpawn.SetActive(false);
+		StartCoroutine("waitForIdle");
+		fxSpawn.SetActive(true);
+		onCapture.SetActive(false);
+        circleCapture.SetActive(false);
     }
 
 	protected override void UpdateMapIcon ()
