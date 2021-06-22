@@ -17,7 +17,7 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	[TabGroup("MultiGameplayParameters")] public bool isOwner = false;
 	[TabGroup("MultiGameplayParameters")] public float distanceRequiredBeforeSync = 0.1f;
 
-	[HideInInspector] public PlayerModule myPlayerModule;
+	 public PlayerModule myPlayerModule;
 
 	[TabGroup("MultiGameplayParameters")] public NetworkAnimationController myAnimController;
 
