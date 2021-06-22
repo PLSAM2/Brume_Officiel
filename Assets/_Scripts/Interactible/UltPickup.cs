@@ -71,10 +71,7 @@ public class UltPickup : Interactible
 	{
 		base.Unlock();
 		StartCoroutine("waitForIdle");
-		fxSpawn.SetActive(true);
-		onCapture.SetActive(false);
-        circleCapture.SetActive(false);
-    }
+	}
 
 	protected override void UpdateMapIcon ()
 	{
@@ -84,6 +81,10 @@ public class UltPickup : Interactible
 	IEnumerator waitForIdle()
 	{
 		onReaparition.SetActive(true);
+		idle.SetActive(false);
+		fxSpawn.SetActive(true);
+		onCapture.SetActive(false);
+		circleCapture.SetActive(false);
 		yield return new WaitForSeconds(1.2f);
 		onReaparition.SetActive(false);
 		idle.SetActive(true);
