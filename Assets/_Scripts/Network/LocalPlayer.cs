@@ -204,13 +204,13 @@ public class LocalPlayer : MonoBehaviour, Damageable
 	}
 
 	void Debug ()
-	{
+	{/*
 		if (Input.GetKeyDown(KeyCode.K) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)
 		{
 			DamagesInfos _temp = new DamagesInfos();
 			_temp.damageHealth = 1;
 			DealDamages(_temp, transform, null, true, true);
-		}
+		}*/
 
 
 		//if (Input.GetKeyDown(KeyCode.O) && isOwner && !UiManager.Instance.chat.isFocus && !GameManager.Instance.menuOpen)

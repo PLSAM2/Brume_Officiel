@@ -13,9 +13,9 @@ public class UltPickup : Interactible
 
 	public GameObject onCapture, onReaparition, idle;
 
-    public GameObject fxSpawn, circleCapture;
+	public GameObject fxSpawn, circleCapture;
 
-    public AudioClip takePickUp;
+	public AudioClip takePickUp;
 
 	protected override void Init ()
 	{
@@ -48,13 +48,7 @@ public class UltPickup : Interactible
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
 		base.Captured(_capturingPlayerID);
 
-		StopAllCoroutines();
-		onReaparition.SetActive(false);
-		idle.SetActive(false);
-		fxSpawn.SetActive(false);
-		onCapture.SetActive(true);
-		circleCapture.SetActive(true);
-		fxSpawn.SetActive(false);
+	
 
 		AudioManager.Instance.Play2DAudio(takePickUp);
 	}
@@ -63,9 +57,17 @@ public class UltPickup : Interactible
 	{
 		base.UpdateCaptured(_capturingPlayerID);
 
+		onReaparition.SetActive(false);
+		idle.SetActive(false);
+		onCapture.SetActive(true);
+
+		circleCapture.SetActive(false);
+		circleCapture.SetActive(true);
+
+		fxSpawn.SetActive(false);
 		//  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
 		timer = 0;
-    }
+	}
 
 	public override void Unlock ()
 	{
@@ -78,16 +80,22 @@ public class UltPickup : Interactible
 		return;
 	}
 
-	IEnumerator waitForIdle()
+	IEnumerator waitForIdle ()
 	{
-		onReaparition.SetActive(true);
-		idle.SetActive(false);
-		fxSpawn.SetActive(true);
-		onCapture.SetActive(false);
-		circleCapture.SetActive(false);
+		if (state == State.Capturable)
+		{
+			onReaparition.SetActive(true);
+			idle.SetActive(false);
+			fxSpawn.SetActive(true);
+			onCapture.SetActive(false);
+			circleCapture.SetActive(false);
+		}
 		yield return new WaitForSeconds(1.2f);
-		onReaparition.SetActive(false);
-		idle.SetActive(true);
+		if (state == State.Capturable)
+		{
+			onReaparition.SetActive(false);
+			idle.SetActive(true);
+		}
 	}
 
 }

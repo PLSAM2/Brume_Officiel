@@ -39,7 +39,7 @@ public class Annoncement : MonoBehaviour
         }
        GameManager.Instance.currentLocalPlayer.myPlayerModule.reduceAllCooldown(30);
 
-        NewAltarAnnoncement(("ALTARS AWAKENS").ToUpper(), allWaypoint, altarsAnnonced, null);
+        NewAltarAnnoncement(("ALTARS AWAKEN").ToUpper(), allWaypoint, altarsAnnonced, null);
         //StatManager.Instance.AddAltarEvent(altarEvent.state.AWAKENS, "");
     }
 
