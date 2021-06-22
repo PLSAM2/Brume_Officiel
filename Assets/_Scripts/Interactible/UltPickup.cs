@@ -13,7 +13,7 @@ public class UltPickup : Interactible
 
 	public GameObject onCapture, onReaparition, idle;
 
-    public GameObject fxSpawn, fxDeSpawn;
+    public GameObject fxSpawn, circleCapture;
 
     public AudioClip takePickUp;
 
@@ -43,16 +43,20 @@ public class UltPickup : Interactible
 	}
 	public override void Captured ( ushort _capturingPlayerID )
 	{
-		//GameManager.Instance.currentLocalPlayer.myPlayerModule.inBrumeValue += brumeExplorationGain;
-		//	GameManager.Instance.currentLocalPlayer.myPlayerModule.AddState(En_CharacterState.PoweredUp);
-		StopAllCoroutines();
 		GameManager.Instance.currentLocalPlayer.HealPlayer(hitPointGiven);
 		if (appliedBonus != null)
 			GameManager.Instance.currentLocalPlayer.myPlayerModule.AddStatus(appliedBonus.effect);
-		//GameManager.Instance.currentLocalPlayer.AddHitPoint(hitPointGiven);
 		base.Captured(_capturingPlayerID);
 
-        AudioManager.Instance.Play2DAudio(takePickUp);
+		StopAllCoroutines();
+		onReaparition.SetActive(false);
+		idle.SetActive(false);
+		fxSpawn.SetActive(false);
+		onCapture.SetActive(true);
+		circleCapture.SetActive(true);
+		fxSpawn.SetActive(false);
+
+		AudioManager.Instance.Play2DAudio(takePickUp);
 	}
 
 	public override void UpdateCaptured ( ushort _capturingPlayerID )
@@ -61,21 +65,13 @@ public class UltPickup : Interactible
 
 		//  GameManager.Instance.networkPlayers[_capturingPlayerID].AddHitPoint(hitPointGiven);
 		timer = 0;
-		idle.SetActive(false);
-		onCapture.SetActive(true);
-
-        fxSpawn.SetActive(false);
-        fxDeSpawn.SetActive(true);
     }
 
 	public override void Unlock ()
 	{
 		base.Unlock();
-		StartCoroutine(waitForIdle());
-
-        fxSpawn.SetActive(true);
-        fxDeSpawn.SetActive(false);
-    }
+		StartCoroutine("waitForIdle");
+	}
 
 	protected override void UpdateMapIcon ()
 	{
@@ -85,6 +81,10 @@ public class UltPickup : Interactible
 	IEnumerator waitForIdle()
 	{
 		onReaparition.SetActive(true);
+		idle.SetActive(false);
+		fxSpawn.SetActive(true);
+		onCapture.SetActive(false);
+		circleCapture.SetActive(false);
 		yield return new WaitForSeconds(1.2f);
 		onReaparition.SetActive(false);
 		idle.SetActive(true);

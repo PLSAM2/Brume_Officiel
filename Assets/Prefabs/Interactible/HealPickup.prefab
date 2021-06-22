@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3256185278440745717
 Transform:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3427705364763527798}
   m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.31}
+  m_LocalPosition: {x: 0, y: 0, z: 1.12}
   m_LocalScale: {x: 0.23333329, y: 0.23333332, z: 0.35}
   m_Children: []
   m_Father: {fileID: 1330783150980185632}
@@ -4838,7 +4838,7 @@ MonoBehaviour:
   onReaparition: {fileID: 8584521572514888343}
   idle: {fileID: 8990938229167167172}
   fxSpawn: {fileID: 3427705364763527798}
-  fxDeSpawn: {fileID: 9153038321157755575}
+  circleCapture: {fileID: 9153038321157755575}
   takePickUp: {fileID: 8300000, guid: 50b0038a77eb14346a83a8de13b23474, type: 3}
 --- !u!54 &3002980123255836689
 Rigidbody:
@@ -5051,7 +5051,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2392432418543568418
 Transform:
   m_ObjectHideFlags: 0
@@ -5060,7 +5060,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9153038321157755575}
   m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.31}
+  m_LocalPosition: {x: 0, y: 0, z: 1.12}
   m_LocalScale: {x: 0.23333329, y: 0.23333332, z: 0.35}
   m_Children: []
   m_Father: {fileID: 1330783150980185632}
@@ -9830,6 +9830,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 1330783150980185632}
     m_Modifications:
     - target: {fileID: 1128724580931639974, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128724580931639974, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128724580931639974, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 1.2
       objectReference: {fileID: 0}
@@ -9910,6 +9918,14 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4893478875181327580, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893478875181327580, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893478875181327580, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 1.2
       objectReference: {fileID: 0}
@@ -9958,6 +9974,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5315801530795721562, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315801530795721562, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315801530795721562, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 1.2
       objectReference: {fileID: 0}
@@ -9994,6 +10018,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847795308507415332, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: lengthInSec
       value: 1.2
       objectReference: {fileID: 0}
@@ -10022,6 +10050,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8438696874255104268, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8591823460939266818, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8591823460939266818, guid: 48033abf8dfbb05478daacee122683b0, type: 3}
       propertyPath: prewarm
       value: 0
       objectReference: {fileID: 0}

@@ -331,6 +331,25 @@ public class PlayerModule : MonoBehaviour
         }
     }
 
+    public void ResetColorPerso()
+    {
+        foreach (SkinnedMeshRenderer skin in skinnedRenderer)
+        {
+            LocalPlayer actualPlayer = GameFactory.GetActualPlayerFollow();
+
+            if (actualPlayer == null) { break; }
+
+            if (GameFactory.GetActualPlayerFollow().IsInMyTeam(teamIndex))
+            {
+                skin.material.SetFloat("_HitRed", 0);
+            }
+            else
+            {
+                skin.material.SetFloat("_HitWhite", 0);
+            }
+        }
+    }
+
     public void InitSoulSpell(En_SoulSpell _mySoulSpell)
     {
         currentSoulModule = _mySoulSpell;
